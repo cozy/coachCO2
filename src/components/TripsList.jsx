@@ -1,10 +1,13 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
+import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
+import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 import { isQueryLoading, useQuery } from 'cozy-client'
 
 import { buildGeoJSONQuery } from 'src/queries/queries'
 import GeoCard from 'src/components/GeoCard'
+import TripItem from 'src/components/TripItem'
 import { transformTimeSeriesToTrips } from './trips'
 
 export const TripsList = ({ accountId }) => {
@@ -23,20 +26,24 @@ export const TripsList = ({ accountId }) => {
     }
   }, [data])
 
-  return isLoading ? (
-    <Spinner size="xxlarge" className="u-flex u-flex-justify-center" />
-  ) : (
+  if (isLoading) {
+    return <Spinner size="xxlarge" className="u-flex u-flex-justify-center" />
+  }
+  console.log('trips : ', trips)
+
+  return (
     <>
-      {trips.map((trip, i) => {
-        return (
-          <div key={i}>
-            <GeoCard accountId={accountId} trip={trip} loading={isLoading} />
-          </div>
-        )
-      })}
+      <Divider />
+      <List>
+        {trips.map((trip, i) => {
+          return <TripItem key={i} trip={trip} />
+        })}
+      </List>
     </>
   )
 }
+
+// <GeoCard accountId={accountId} trip={trip} loading={isLoading} />
 
 TripsList.propTypes = {
   accountId: PropTypes.string.isRequired

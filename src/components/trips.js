@@ -53,6 +53,16 @@ export const getFormattedDuration = trip => {
   return distanceInWords(endDate, startDate)
 }
 
+export const formatDistance = trip => {
+  let unit = 'm'
+  let distance = trip.properties.distance
+  if (distance > 1000) {
+    unit = 'km'
+    distance = distance / 1000
+  }
+  return `${Math.round(distance)} ${unit}`
+}
+
 export const getModes = trip => {
   return uniq(
     flatten(
