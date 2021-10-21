@@ -80,3 +80,8 @@ export const getModes = trip => {
       .filter(Boolean)
   )
 }
+
+export const getMainMode = trip => {
+  // TODO get main mode
+  return getModes(trip)[0]
+}

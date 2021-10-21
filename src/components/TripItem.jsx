@@ -5,12 +5,13 @@ import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
 import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 import ListItemIcon from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemIcon'
 import ListItemSecondaryAction from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemSecondaryAction'
-import Icon from 'cozy-ui/transpiled/react/Icon'
 import CarIcon from 'cozy-ui/transpiled/react/Icons/Car'
 import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Icon from 'cozy-ui/transpiled/react/Icon'
 
+import MainModeIcon from 'src/components/MainModeIcon'
 import GeoCard from 'src/components/GeoCard'
 import {
   getEndPlaceDisplayName,
@@ -47,7 +48,7 @@ export const TripItem = ({ trip }) => {
       ></Dialog>
       <ListItem button onClick={toggleOpenMap}>
         <ListItemIcon>
-          <Icon icon={CarIcon} width="32" height="32" />
+          <MainModeIcon trip={trip} />
         </ListItemIcon>
         <ListItemText primary={endPlace} secondary={tripDetails} />
         <ListItemSecondaryAction>
@@ -58,7 +59,7 @@ export const TripItem = ({ trip }) => {
     </>
   )
 }
-
+//<Icon icon={CarIcon} color="orange" />
 TripItem.propTypes = {
   trip: PropTypes.object.isRequired
 }
