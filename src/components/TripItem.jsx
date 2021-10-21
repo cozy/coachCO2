@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
@@ -19,6 +19,7 @@ import {
 
 export const TripItem = ({ trip }) => {
   const { t } = useI18n()
+  const [shouldOpenMap, setShouldOpenMap] = useState(false)
 
   const endPlace = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
@@ -30,14 +31,19 @@ export const TripItem = ({ trip }) => {
     return `${duration} · ${tModes}`
   }, [duration, modes, t])
 
-  const openMap = () => {
-     // TODO: open GeoCard in dialog
-    // return <GeoCard trip={trip} loading={false} /> 
+  const toggleOpenMap = () => {
+    setShouldOpenMap(true)
   }
 
   return (
     <>
-      <ListItem button onClick={() => openMap()}>
+      <Dialog
+        title="Nice trip"
+        open={shouldOpenMap}
+        onClose={null}
+        content={<GeoCard trip={trip} loading={false} />}
+      ></Dialog>
+      <ListItem button onClick={toggleOpenMap}>
         <ListItemIcon>
           <Icon icon={CarIcon} width="32" height="32" />
         </ListItemIcon>

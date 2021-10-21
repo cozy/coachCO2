@@ -6,7 +6,6 @@ import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 import { isQueryLoading, useQuery } from 'cozy-client'
 
 import { buildGeoJSONQuery } from 'src/queries/queries'
-import GeoCard from 'src/components/GeoCard'
 import TripItem from 'src/components/TripItem'
 import { transformTimeSeriesToTrips } from './trips'
 
@@ -42,8 +41,6 @@ export const TripsList = ({ accountId }) => {
     </>
   )
 }
-
-// <GeoCard accountId={accountId} trip={trip} loading={isLoading} />
 
 TripsList.propTypes = {
   accountId: PropTypes.string.isRequired
