@@ -1,0 +1,18 @@
+{
+  "nav": {
+    "trips": "Trips",
+    "settings": "Settings"
+  },
+  "trips": {
+    "title": "Last trips",
+    "modes": {
+      "AIR_OR_HSR": "Plane",
+      "BICYCLING": "Bike",
+      "CAR": "Car",
+      "SUBWAY": "Subway",
+      "TRAIN": "Train",
+      "UNKNOWN": "",
+      "WALKING": "Walking"
+    }
+  }
+}

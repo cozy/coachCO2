@@ -1,0 +1,20 @@
+{
+  "nav": {
+    "trips": "Déplacements",
+    "settings": "Paramètres"
+  },
+  "datacards": {
+    "trips": {
+      "title": "Derniers trajets",
+      "modes": {
+        "AIR_OR_HSR": "Avion",
+        "BICYCLING": "Vélo",
+        "CAR": "Voiture",
+        "SUBWAY": "Métro",
+        "TRAIN": "Train",
+        "UNKNOWN": "",
+        "WALKING": "Marche"
+      }
+    }
+  }
+}
