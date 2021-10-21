@@ -5,7 +5,6 @@ import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
 import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 import ListItemIcon from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemIcon'
 import ListItemSecondaryAction from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemSecondaryAction'
-import CarIcon from 'cozy-ui/transpiled/react/Icons/Car'
 import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -59,7 +58,6 @@ export const TripItem = ({ trip }) => {
     </>
   )
 }
-//<Icon icon={CarIcon} color="orange" />
 TripItem.propTypes = {
   trip: PropTypes.object.isRequired
 }

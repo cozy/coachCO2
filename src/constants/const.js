@@ -8,4 +8,3 @@ export const SUBWAY_MODE = 'SUBWAY'
 export const TRAIN_MODE = 'TRAIN'
 export const WALKING_MODE = 'WALKING'
 export const UNKNOWN_MODE = 'UNKNOWN'
-

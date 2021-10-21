@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 
 import Icon from 'cozy-ui/transpiled/react/Icon'
 
-import BikeIcon from 'src/assets/icons/icon-bike.svg'
-import CarIcon from 'src/assets/icons/icon-car.svg'
-import PlaneIcone from 'src/assets/icons/icon-plane.svg'
-import SubwayIcon from 'src/assets/icons/icon-subway.svg'
-import TrainIcon from 'src/assets/icons/icon-train.svg'
-import WalkIcon from 'src/assets/icons/icon-walk.svg'
+import BikeIcon from 'src/assets/icons/avatar-bike.svg'
+import CarIcon from 'src/assets/icons/avatar-car.svg'
+import PlaneIcone from 'src/assets/icons/avatar-plane.svg'
+import SubwayIcon from 'src/assets/icons/avatar-subway.svg'
+import TrainIcon from 'src/assets/icons/avatar-train.svg'
+import WalkIcon from 'src/assets/icons/avatar-walk.svg'
 import UnknownIcon from 'src/assets/icons/icon-question-mark.svg'
 
 import {
