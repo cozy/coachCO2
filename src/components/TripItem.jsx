@@ -1,11 +1,13 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
 import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 import ListItemIcon from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemIcon'
+import ListItemSecondaryAction from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemSecondaryAction'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import CarIcon from 'cozy-ui/transpiled/react/Icons/Car'
+import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
@@ -28,19 +30,19 @@ export const TripItem = ({ trip }) => {
 
   const tripDetails = useMemo(() => {
     const tModes = modes.map(m => t(`trips.modes.${m}`)).join(', ')
-    return `${duration} · ${tModes}`
-  }, [duration, modes, t])
+    return `${duration} · ${tModes} · ${distance}`
+  }, [duration, modes, t, distance])
 
-  const toggleOpenMap = () => {
-    setShouldOpenMap(true)
-  }
+  const toggleOpenMap = useCallback(() => {
+    setShouldOpenMap(!shouldOpenMap)
+  }, [setShouldOpenMap, shouldOpenMap])
 
   return (
     <>
       <Dialog
         title="Nice trip"
         open={shouldOpenMap}
-        onClose={null}
+        onClose={toggleOpenMap}
         content={<GeoCard trip={trip} loading={false} />}
       ></Dialog>
       <ListItem button onClick={toggleOpenMap}>
@@ -48,7 +50,9 @@ export const TripItem = ({ trip }) => {
           <Icon icon={CarIcon} width="32" height="32" />
         </ListItemIcon>
         <ListItemText primary={endPlace} secondary={tripDetails} />
-        <ListItemText primary={distance} />
+        <ListItemSecondaryAction>
+          <Icon icon={RightIcon} color="var(--secondaryTextColor)" />
+        </ListItemSecondaryAction>
       </ListItem>
       <Divider variant="inset" />
     </>
