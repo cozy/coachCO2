@@ -18,8 +18,7 @@ describe('Sidebar component', () => {
     const { container, getByText } = setup()
 
     expect(container).toBeDefined()
-    expect(getByText('Todos'))
-    expect(getByText('Hello 1'))
-    expect(getByText('Hello 2'))
+    expect(getByText('Trips'))
+    expect(getByText('Settings'))
   })
 })

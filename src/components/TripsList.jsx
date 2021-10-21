@@ -28,8 +28,6 @@ export const TripsList = ({ accountId }) => {
   if (isLoading) {
     return <Spinner size="xxlarge" className="u-flex u-flex-justify-center" />
   }
-  console.log('trips : ', trips)
-
   return (
     <>
       <Divider />
