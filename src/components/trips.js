@@ -5,6 +5,8 @@ import flatten from 'lodash/flatten'
 import uniq from 'lodash/uniq'
 import distanceInWords from 'date-fns/distance_in_words'
 
+import { UNKNOWN_MODE } from 'src/constants/const'
+
 export const collectFeaturesByOid = geojson => {
   const res = {}
   for (let item of geojson) {
@@ -82,8 +84,39 @@ export const getModes = trip => {
 }
 
 export const getMainMode = trip => {
-  // TODO get main mode
-  return getModes(trip)[0]
+  const sectionsInfo = getSectionsInfo(trip)
+
+  if (sectionsInfo.lengtth < 1) {
+    return UNKNOWN_MODE
+  }
+
+  let mainSection = sectionsInfo[0]
+  for (let i = 1; i < sectionsInfo.length; i++) {
+    if (sectionsInfo[i].distance > mainSection.distance) {
+      mainSection = sectionsInfo[i]
+    }
+  }
+  return mainSection.mode
+}
+
+export const getSectionsInfo = trip => {
+  return flatten(
+    trip.features.map(feature => {
+      if (feature.features) {
+        return feature.features.map(feature => {
+          return {
+            mode: get(feature, 'properties.sensed_mode').split(
+              'PredictedModeTypes.'
+            )[1],
+            distance: get(feature, 'properties.distance'),
+            duration: get(feature, 'properties.duration'),
+            startDate: get(feature, 'properties.start_fmt_time'),
+            endDate: get(feature, 'properties.end_fmt_time')
+          }
+        })
+      }
+    })
+  ).filter(Boolean)
 }
 
 export const getStartDate = trip => {
