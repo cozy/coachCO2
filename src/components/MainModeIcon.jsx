@@ -49,7 +49,7 @@ const MainModeIcon = ({ trip }) => {
 }
 
 MainModeIcon.propTypes = {
-  mode: PropTypes.string.isRequired
+  trip: PropTypes.object.isRequired
 }
 
 export default MainModeIcon

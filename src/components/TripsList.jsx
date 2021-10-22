@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
-import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
+import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
 import { isQueryLoading, useQuery } from 'cozy-client'
 
 import { buildGeoJSONQuery } from 'src/queries/queries'
@@ -11,11 +11,11 @@ import { transformTimeSeriesToTrips } from './trips'
 
 export const TripsList = ({ accountId }) => {
   const tripsQuery = buildGeoJSONQuery(accountId)
-  const { data, ...tripsQueryRes } = useQuery(
+  const { data, ...tripsQueryResult } = useQuery(
     tripsQuery.definition,
     tripsQuery.options
   )
-  const isLoading = isQueryLoading(tripsQueryRes)
+  const isLoading = isQueryLoading(tripsQueryResult)
 
   const trips = useMemo(() => {
     if (!data || !data.length) {
@@ -30,11 +30,13 @@ export const TripsList = ({ accountId }) => {
   }
   return (
     <>
-      <Divider />
       <List>
         {trips.map((trip, i) => {
           return <TripItem key={i} trip={trip} />
         })}
+        {tripsQueryResult.hasMore && (
+          <LoadMore fetchMore={tripsQueryResult.fetchMore} />
+        )}
       </List>
     </>
   )
