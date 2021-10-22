@@ -4,6 +4,7 @@ import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
 import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 import ListItemIcon from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemIcon'
+import ListSubheader from 'cozy-ui/transpiled/react/MuiCozyTheme/ListSubheader'
 import ListItemSecondaryAction from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemSecondaryAction'
 import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
@@ -16,17 +17,19 @@ import {
   getEndPlaceDisplayName,
   getFormattedDuration,
   getModes,
-  formatDistance
+  formatDistance,
+  getStartDate
 } from './trips'
 
-export const TripItem = ({ trip }) => {
-  const { t } = useI18n()
+export const TripItem = ({ trip, withDateHeader }) => {
+  const { f, t } = useI18n()
   const [shouldOpenMap, setShouldOpenMap] = useState(false)
 
   const endPlace = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
   const modes = useMemo(() => getModes(trip), [trip])
   const distance = useMemo(() => formatDistance(trip), [trip])
+  const day = useMemo(() => f(getStartDate(trip), 'dddd DD MMMM'), [f, trip])
 
   const tripDetails = useMemo(() => {
     const tModes = modes.map(m => t(`trips.modes.${m}`)).join(', ')
@@ -45,6 +48,7 @@ export const TripItem = ({ trip }) => {
         onClose={toggleOpenMap}
         content={<GeoCard trip={trip} loading={false} />}
       ></Dialog>
+      {withDateHeader ? <ListSubheader>{day}</ListSubheader> : null}
       <ListItem button onClick={toggleOpenMap}>
         <ListItemIcon>
           <MainModeIcon trip={trip} />
@@ -59,7 +63,8 @@ export const TripItem = ({ trip }) => {
   )
 }
 TripItem.propTypes = {
-  trip: PropTypes.object.isRequired
+  trip: PropTypes.object.isRequired,
+  withHeader: PropTypes.bool.isRequired
 }
 
 export default TripItem

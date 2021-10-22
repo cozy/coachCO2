@@ -8,7 +8,7 @@ export const buildGeoJSONQuery = accountId => ({
     })
     .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
     .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
-    .limitBy(100),
+    .limitBy(50),
   options: {
     as: `${DOCTYPE_GEOJSON}/sourceAccount/${accountId}`,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(30 & 1000)

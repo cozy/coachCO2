@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
+import isSameDay from 'date-fns/is_same_day'
+
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
@@ -7,7 +9,7 @@ import { isQueryLoading, useQuery } from 'cozy-client'
 
 import { buildGeoJSONQuery } from 'src/queries/queries'
 import TripItem from 'src/components/TripItem'
-import { transformTimeSeriesToTrips } from './trips'
+import { transformTimeSeriesToTrips, getStartDate } from './trips'
 
 export const TripsList = ({ accountId }) => {
   const tripsQuery = buildGeoJSONQuery(accountId)
@@ -15,7 +17,9 @@ export const TripsList = ({ accountId }) => {
     tripsQuery.definition,
     tripsQuery.options
   )
-  const isLoading = isQueryLoading(tripsQueryResult)
+
+  const isLoading =
+    isQueryLoading(tripsQueryResult) && !tripsQueryResult.lastUpdate
 
   const trips = useMemo(() => {
     if (!data || !data.length) {
@@ -32,7 +36,12 @@ export const TripsList = ({ accountId }) => {
     <>
       <List>
         {trips.map((trip, i) => {
-          return <TripItem key={i} trip={trip} />
+          const withDateHeader =
+            i === 0 ||
+            !isSameDay(getStartDate(trip), getStartDate(trips[i - 1]))
+          return (
+            <TripItem key={i} trip={trip} withDateHeader={withDateHeader} />
+          )
         })}
         {tripsQueryResult.hasMore && (
           <LoadMore fetchMore={tripsQueryResult.fetchMore} />

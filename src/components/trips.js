@@ -85,3 +85,7 @@ export const getMainMode = trip => {
   // TODO get main mode
   return getModes(trip)[0]
 }
+
+export const getStartDate = trip => {
+  return new Date(trip.properties.start_fmt_time)
+}
