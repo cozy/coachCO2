@@ -4,7 +4,6 @@
     "settings": "Settings"
   },
   "trips": {
-    "title": "Last trips",
     "modes": {
       "AIR_OR_HSR": "Plane",
       "BICYCLING": "Bike",

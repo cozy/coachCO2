@@ -43,7 +43,7 @@ export const TripItem = ({ trip, withDateHeader }) => {
   return (
     <>
       <Dialog
-        title="Nice trip"
+        title={endPlace}
         open={shouldOpenMap}
         onClose={toggleOpenMap}
         content={<GeoCard trip={trip} loading={false} />}
