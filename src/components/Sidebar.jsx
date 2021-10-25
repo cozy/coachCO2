@@ -9,8 +9,8 @@ import Nav, {
   NavText,
   NavLink
 } from 'cozy-ui/transpiled/react/Nav'
-
-import BulletPoint from 'src/assets/icons/icon-bullet-point.svg'
+import CategoriesIcon from 'cozy-ui/transpiled/react/Icons/Categories'
+import SettingIcon from 'cozy-ui/transpiled/react/Icons/Setting'
 
 const Sidebar = () => {
   const { t } = useI18n()
@@ -24,7 +24,7 @@ const Sidebar = () => {
             className={NavLink.className}
             activeClassName={NavLink.activeClassName}
           >
-            <NavIcon icon={BulletPoint} />
+            <NavIcon icon={CategoriesIcon} />
             <NavText>{t('nav.trips')}</NavText>
           </RouterLink>
         </NavItem>
@@ -34,7 +34,7 @@ const Sidebar = () => {
             className={NavLink.className}
             activeClassName={NavLink.activeClassName}
           >
-            <NavIcon icon={BulletPoint} />
+            <NavIcon icon={SettingIcon} />
             <NavText>{t('nav.settings')}</NavText>
           </RouterLink>
         </NavItem>
