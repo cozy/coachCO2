@@ -10,7 +10,6 @@ import Skeleton from '@material-ui/lab/Skeleton'
 import isSameDay from 'date-fns/is_same_day'
 import isSameYear from 'date-fns/is_same_year'
 
-import Card from 'cozy-ui/transpiled/react/Card'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import ClockIcon from 'cozy-ui/transpiled/react/Icons/Clock'
 import CompassIcon from 'cozy-ui/transpiled/react/Icons/Compass'
@@ -39,7 +38,7 @@ const setupMap = node => {
 }
 
 const mapStyle = {
-  height: 300
+  height: 500
 }
 
 const POMEGRANATE = '#FF0017'
@@ -97,7 +96,7 @@ const TripInfoSlideRaw = ({ trip, loading }) => {
   const duration = useMemo(() => trip && getFormattedDuration(trip), [trip])
   const modes = useMemo(() => trip && getModes(trip), [trip])
   return (
-    <Stack spacing="xs">
+    <Stack spacing="s">
       <Media>
         <Img>
           <Icon icon={FlagIcon} color="var(--emerald)" className="u-mr-half" />
@@ -165,27 +164,16 @@ const getSwiperTitle = (trip, format) => {
   }
 }
 
-const TripSwiperTitle = ({ trip }) => {
-  const { f } = useI18n()
-  const message = useMemo(() => trip && getSwiperTitle(trip, f), [f, trip])
-  return <Typography variant="subtitle1">{message}</Typography>
-}
-
 const TripInfoSlide = memo(TripInfoSlideRaw)
 
 const GeoDataCard = ({ trip, loading }) => {
-  const { t } = useI18n()
+  const { f } = useI18n()
 
   return (
-    <Card className="u-ph-0 u-pb-0 u-ov-hidden">
+    <>
       <div className="u-ph-1 u-mb-half">
-        <Typography variant="h5">{t('trips.title')}</Typography>
+        <Typography variant="subtitle1">{getSwiperTitle(trip, f)}</Typography>
       </div>
-      <Media>
-        <Bd className="u-ta-center">
-          {trip ? <TripSwiperTitle trip={trip} /> : <Skeleton />}
-        </Bd>
-      </Media>
       <Media className="u-ph-1 u-mb-1">
         <Bd>
           <Box ml={1} mr={1}>
@@ -202,7 +190,7 @@ const GeoDataCard = ({ trip, loading }) => {
       ) : (
         <TripsMap trip={trip} />
       )}
-    </Card>
+    </>
   )
 }
 
