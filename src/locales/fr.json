@@ -3,6 +3,13 @@
     "trips": "Déplacements",
     "settings": "Paramètres"
   },
+  "account": {
+    "notFound": "Aucun compte trouvé"
+  },
+  "devices": {
+    "select": "Sélectionnez un appareil",
+    "label": "Appareils"
+  },
   "trips": {
     "modes": {
       "AIR_OR_HSR": "Avion",
@@ -14,5 +21,6 @@
       "WALKING": "Marche",
       "BUS": "Bus"
     }
-  }
+  },
+  "loadMore": "Charger plus de trajets"
 }

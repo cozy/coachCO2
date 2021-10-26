@@ -64,7 +64,7 @@ export const TripItem = ({ trip, withDateHeader }) => {
 }
 TripItem.propTypes = {
   trip: PropTypes.object.isRequired,
-  withHeader: PropTypes.bool.isRequired
+  withDateHeader: PropTypes.bool.isRequired
 }
 
 export default TripItem
