@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 
 import BikeIcon from 'src/assets/icons/avatar-bike.svg'
+import BusIcon from 'src/assets/icons/avatar-bus.svg'
 import CarIcon from 'src/assets/icons/avatar-car.svg'
 import PlaneIcone from 'src/assets/icons/avatar-plane.svg'
 import SubwayIcon from 'src/assets/icons/avatar-subway.svg'
@@ -14,6 +15,7 @@ import UnknownIcon from 'src/assets/icons/icon-question-mark.svg'
 import {
   AIR_MODE,
   BICYCLING_MODE,
+  BUS_MODE,
   CAR_MODE,
   SUBWAY_MODE,
   TRAIN_MODE,
@@ -33,6 +35,8 @@ const MainModeIcon = ({ trip }) => {
         return BikeIcon
       case CAR_MODE:
         return CarIcon
+      case BUS_MODE:
+        return BusIcon
       case SUBWAY_MODE:
         return SubwayIcon
       case TRAIN_MODE:
