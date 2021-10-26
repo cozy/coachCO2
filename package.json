@@ -1,6 +1,6 @@
 {
   "name": "coachco2",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "scripts": {
     "lint": "yarn lint:js && yarn lint:styles",
     "lint:js": "cs lint '{src,test}/**/*.{js,jsx}'",
