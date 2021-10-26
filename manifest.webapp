@@ -5,10 +5,10 @@
   "categories": [],
   "version": "0.1.0",
   "licence": "AGPL-3.0",
-  "editor": "",
-  "source": "https://github.com/paultranvan/coachco2.git@build",
+  "editor": "Cozy Cloud",
+  "source": "https://github.com/cozy/coachco2.git@build",
   "developer": {
-    "name": "paultranvan",
+    "name": "cozy",
     "url": ""
   },
   "routes": {
