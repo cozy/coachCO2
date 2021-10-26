@@ -3,6 +3,13 @@
     "trips": "Trips",
     "settings": "Settings"
   },
+  "account": {
+    "notFound": "No account found"
+  },
+  "devices": {
+    "select": "Select a device",
+    "label": "Devices"
+  },
   "trips": {
     "modes": {
       "AIR_OR_HSR": "Plane",
@@ -14,5 +21,6 @@
       "WALKING": "Walking",
       "BUS": "Bus"
     }
-  }
+  },
+  "loadMore": "Load more trips"
 }

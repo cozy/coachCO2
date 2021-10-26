@@ -5,6 +5,7 @@ import isSameDay from 'date-fns/is_same_day'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { isQueryLoading, useQuery } from 'cozy-client'
 
 import { buildGeoJSONQuery } from 'src/queries/queries'
@@ -12,6 +13,8 @@ import TripItem from 'src/components/TripItem'
 import { transformTimeSeriesToTrips, getStartDate } from './trips'
 
 export const TripsList = ({ accountId }) => {
+  const { t } = useI18n()
+
   const tripsQuery = buildGeoJSONQuery(accountId)
   const { data, ...tripsQueryResult } = useQuery(
     tripsQuery.definition,
@@ -44,7 +47,10 @@ export const TripsList = ({ accountId }) => {
           )
         })}
         {tripsQueryResult.hasMore && (
-          <LoadMore fetchMore={tripsQueryResult.fetchMore} />
+          <LoadMore
+            label={t('loadMore')}
+            fetchMore={tripsQueryResult.fetchMore}
+          />
         )}
       </List>
     </>
