@@ -3,12 +3,12 @@
   "slug": "coachco2",
   "icon": "icon.svg",
   "categories": [],
-  "version": "0.1.0",
+  "version": "0.3.0",
   "licence": "AGPL-3.0",
-  "editor": "",
-  "source": "https://github.com/paultranvan/coachco2.git@build",
+  "editor": "Cozy Cloud",
+  "source": "https://github.com/cozy/coachCO2.git@build",
   "developer": {
-    "name": "paultranvan",
+    "name": "cozy",
     "url": ""
   },
   "routes": {
