@@ -13,7 +13,7 @@
     "watch:browser": "cs watch --browser",
     "watch:mobile": "cs watch --mobile",
     "start": "cs start --browser",
-    "deploy": "git-directory-deploy --directory build/ --branch ${DEPLOY_BRANCH:-build} --repo=${DEPLOY_REPOSITORY:-https://$GITHUB_TOKEN@github.com/paultranvan/coachco2.git}",
+    "deploy": "git-directory-deploy --directory build/ --branch ${DEPLOY_BRANCH:-build} --repo=${DEPLOY_REPOSITORY:-https://$GITHUB_TOKEN@github.com/cozy/coachco2.git}",
     "test": "cs test --verbose --coverage",
     "cozyPublish": "git fetch origin ${DEPLOY_BRANCH:-build}:${DEPLOY_BRANCH:-build} && cs publish --token $REGISTRY_TOKEN --build-commit $(git rev-parse ${DEPLOY_BRANCH:-build})",
     "stack:docker:dev": "cs stackDocker",
@@ -21,15 +21,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/paultranvan/coachco2.git"
+    "url": "git+https://github.com/cozy/coachco2.git"
   },
   "author": "",
   "contributors": [],
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/paultranvan/coachco2/issues"
+    "url": "https://github.com/cozy/coachco2/issues"
   },
-  "homepage": "https://github.com/paultranvan/coachco2#readme",
+  "homepage": "https://github.com/cozy/coachco2#README",
   "devDependencies": {
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@testing-library/react": "11.2.7",
