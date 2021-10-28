@@ -12,4 +12,4 @@ const AccountProvider = ({ children }) => {
   )
 }
 
-export default React.memo(AccountProvider)
+export default AccountProvider
