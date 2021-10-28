@@ -1,15 +1,17 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useContext } from 'react'
 import SelectBox from 'cozy-ui/transpiled/react/SelectBox'
 import Label from 'cozy-ui/transpiled/react/Label'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { useQuery } from 'cozy-client'
 
+import { AccountContext } from 'src/components/AccountProvider'
 import { buildAccountQuery } from 'src/queries/queries'
 
 export const Settings = () => {
   const { t } = useI18n()
+  const { setSelectedAccount } = useContext(AccountContext)
 
-  const accountQuery = buildAccountQuery({ limit: null })
+  const accountQuery = buildAccountQuery()
   const { data } = useQuery(accountQuery.definition, accountQuery.options)
 
   const accounts = useMemo(() => {
@@ -17,7 +19,8 @@ export const Settings = () => {
       return []
     }
     return data.map(account => ({
-      label: account.auth.login
+      label: account.auth.login,
+      _id: account._id
     }))
   }, [data])
 
@@ -28,7 +31,7 @@ export const Settings = () => {
         options={accounts}
         label={t('devices.label')}
         placeholder={t('devices.select')}
-        // TODO onchange
+        onChange={account => setSelectedAccount(account)}
       />
     </>
   )

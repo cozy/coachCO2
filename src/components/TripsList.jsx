@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import isSameDay from 'date-fns/is_same_day'
 
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
+import Typography from 'cozy-ui/transpiled/react/Typography'
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -12,10 +13,10 @@ import { buildGeoJSONQuery } from 'src/queries/queries'
 import TripItem from 'src/components/TripItem'
 import { transformTimeSeriesToTrips, getStartDate } from './trips'
 
-export const TripsList = ({ accountId }) => {
+export const TripsList = ({ account }) => {
   const { t } = useI18n()
 
-  const tripsQuery = buildGeoJSONQuery(accountId)
+  const tripsQuery = buildGeoJSONQuery(account._id)
   const { data, ...tripsQueryResult } = useQuery(
     tripsQuery.definition,
     tripsQuery.options
@@ -37,6 +38,9 @@ export const TripsList = ({ accountId }) => {
   }
   return (
     <>
+      <Typography variant="h5" className="u-mb-half">
+        {t('trips.from') + ' ' + account.label}
+      </Typography>
       <List>
         {trips.map((trip, i) => {
           const withDateHeader =
@@ -58,7 +62,7 @@ export const TripsList = ({ accountId }) => {
 }
 
 TripsList.propTypes = {
-  accountId: PropTypes.string.isRequired
+  account: PropTypes.object.isRequired
 }
 
 export default TripsList
