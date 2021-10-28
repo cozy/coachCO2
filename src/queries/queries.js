@@ -15,15 +15,16 @@ export const buildGeoJSONQuery = accountId => ({
   }
 })
 
-export const buildAccountQuery = ({ limit = 1 }) => ({
+export const buildAccountQuery = () => ({
   definition: Q(DOCTYPE_ACCOUNTS)
     .where({
       account_type: 'tracemob'
     })
+    .select(['auth.login'])
     .indexFields(['account_type'])
-    .limitBy(limit),
+    .limitBy(100),
   options: {
-    as: `${DOCTYPE_ACCOUNTS}/account_type/limit-${limit}`,
+    as: `${DOCTYPE_ACCOUNTS}/account_type`,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(30 * 1000)
   }
 })

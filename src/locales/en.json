@@ -11,6 +11,7 @@
     "label": "Devices"
   },
   "trips": {
+    "from": "Trips from",
     "modes": {
       "AIR_OR_HSR": "Plane",
       "BICYCLING": "Bike",
