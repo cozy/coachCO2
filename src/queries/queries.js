@@ -11,7 +11,7 @@ export const buildGeoJSONQuery = accountId => ({
     .limitBy(50),
   options: {
     as: `${DOCTYPE_GEOJSON}/sourceAccount/${accountId}`,
-    fetchPolicy: CozyClient.fetchPolicies.olderThan(30 & 1000)
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(30 * 1000)
   }
 })
 
@@ -23,7 +23,7 @@ export const buildAccountQuery = ({ limit = 1 }) => ({
     .indexFields(['account_type'])
     .limitBy(limit),
   options: {
-    as: `${DOCTYPE_ACCOUNTS}/account_type`,
-    fetchPolicy: CozyClient.fetchPolicies.olderThan(30 & 1000)
+    as: `${DOCTYPE_ACCOUNTS}/account_type/limit-${limit}`,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(30 * 1000)
   }
 })
