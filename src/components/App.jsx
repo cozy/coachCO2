@@ -62,4 +62,4 @@ const App = () => {
   No need to use it anywhere else, it sould work for all
   child components
 */
-export default hot(module)(App)
+export default hot(module)(React.memo(App))
