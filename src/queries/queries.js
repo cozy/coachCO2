@@ -1,6 +1,8 @@
 import CozyClient, { Q } from 'cozy-client'
 import { DOCTYPE_GEOJSON, DOCTYPE_ACCOUNTS } from 'src/constants/const'
 
+const older30s = 30 * 1000
+
 export const buildGeoJSONQuery = accountId => ({
   definition: Q(DOCTYPE_GEOJSON)
     .where({
@@ -11,7 +13,7 @@ export const buildGeoJSONQuery = accountId => ({
     .limitBy(50),
   options: {
     as: `${DOCTYPE_GEOJSON}/sourceAccount/${accountId}`,
-    fetchPolicy: CozyClient.fetchPolicies.olderThan(30 * 1000)
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
 
@@ -25,6 +27,6 @@ export const buildAccountQuery = () => ({
     .limitBy(100),
   options: {
     as: `${DOCTYPE_ACCOUNTS}/account_type`,
-    fetchPolicy: CozyClient.fetchPolicies.olderThan(30 * 1000)
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
