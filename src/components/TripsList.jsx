@@ -7,7 +7,7 @@ import Typography from 'cozy-ui/transpiled/react/Typography'
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import { isQueryLoading, useQuery } from 'cozy-client'
+import { isQueryLoading, useQuery, hasQueryBeenLoaded } from 'cozy-client'
 
 import { buildGeoJSONQuery } from 'src/queries/queries'
 import TripItem from 'src/components/TripItem'
@@ -23,8 +23,7 @@ export const TripsList = ({ account }) => {
   )
 
   const isLoading =
-    isQueryLoading(tripsQueryResult) && !tripsQueryResult.lastUpdate
-
+    isQueryLoading(tripsQueryResult) && !hasQueryBeenLoaded(tripsQueryResult)
   const trips = useMemo(() => {
     if (!data || !data.length) {
       return []
