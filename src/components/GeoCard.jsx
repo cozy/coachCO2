@@ -38,7 +38,7 @@ const setupMap = node => {
 }
 
 const mapStyle = {
-  height: 500
+  height: 400
 }
 
 const POMEGRANATE = '#FF0017'
