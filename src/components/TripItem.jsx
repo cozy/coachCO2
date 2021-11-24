@@ -5,11 +5,11 @@ import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
 import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 import ListItemIcon from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemIcon'
 import ListSubheader from 'cozy-ui/transpiled/react/MuiCozyTheme/ListSubheader'
-import ListItemSecondaryAction from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemSecondaryAction'
 import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
+import Typography from 'cozy-ui/transpiled/react/Typography'
 
 import MainModeIcon from 'src/components/MainModeIcon'
 import GeoCard from 'src/components/GeoCard'
@@ -18,7 +18,8 @@ import {
   getFormattedDuration,
   getModes,
   formatDistance,
-  getStartDate
+  getStartDate,
+  computeCO2Trip
 } from './trips'
 
 export const TripItem = ({ trip, withDateHeader }) => {
@@ -30,6 +31,11 @@ export const TripItem = ({ trip, withDateHeader }) => {
   const modes = useMemo(() => getModes(trip), [trip])
   const distance = useMemo(() => formatDistance(trip), [trip])
   const day = useMemo(() => f(getStartDate(trip), 'dddd DD MMMM'), [f, trip])
+
+  const CO2 = useMemo(() => {
+    const CO2Trip = computeCO2Trip(trip)
+    return Math.round(CO2Trip * 100) / 100
+  }, [trip])
 
   const tripDetails = useMemo(() => {
     const tModes = modes.map(m => t(`trips.modes.${m}`)).join(', ')
@@ -54,9 +60,8 @@ export const TripItem = ({ trip, withDateHeader }) => {
           <MainModeIcon trip={trip} />
         </ListItemIcon>
         <ListItemText primary={endPlace} secondary={tripDetails} />
-        <ListItemSecondaryAction>
-          <Icon icon={RightIcon} color="var(--secondaryTextColor)" />
-        </ListItemSecondaryAction>
+        <Typography variant="h6">{CO2} kg</Typography>
+        <Icon icon={RightIcon} color="var(--secondaryTextColor)" />
       </ListItem>
       <Divider variant="inset" />
     </>
