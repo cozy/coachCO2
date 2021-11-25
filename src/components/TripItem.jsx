@@ -52,7 +52,7 @@ export const TripItem = ({ trip, withDateHeader }) => {
         title={endPlace}
         open={shouldOpenMap}
         onClose={toggleOpenMap}
-        content={<GeoCard trip={trip} loading={false} />}
+        content={<GeoCard trip={trip} CO2={CO2} loading={false} />}
       ></Dialog>
       {withDateHeader ? <ListSubheader>{day}</ListSubheader> : null}
       <ListItem button onClick={toggleOpenMap}>
