@@ -39,7 +39,7 @@ export const TripItem = ({ trip, withDateHeader }) => {
 
   const tripDetails = useMemo(() => {
     const tModes = modes.map(m => t(`trips.modes.${m}`)).join(', ')
-    return `${duration} · ${tModes} · ${distance}`
+    return `${duration} · ${distance} · ${tModes} `
   }, [duration, modes, t, distance])
 
   const toggleOpenMap = useCallback(() => {
@@ -60,8 +60,10 @@ export const TripItem = ({ trip, withDateHeader }) => {
           <MainModeIcon trip={trip} />
         </ListItemIcon>
         <ListItemText primary={endPlace} secondary={tripDetails} />
-        <Typography variant="h6">{CO2} kg</Typography>
-        <Icon icon={RightIcon} color="var(--secondaryTextColor)" />
+        <Typography className="u-mh-half" variant="h6">
+          {CO2} kg
+        </Typography>
+        <Icon icon={RightIcon} className="u-coolGrey" />
       </ListItem>
       <Divider variant="inset" />
     </>
