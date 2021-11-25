@@ -20,7 +20,7 @@ import {
   formatDistance,
   getStartDate,
   computeCO2Trip
-} from './trips'
+} from 'src/lib/trips'
 
 export const TripItem = ({ trip, withDateHeader }) => {
   const { f, t } = useI18n()

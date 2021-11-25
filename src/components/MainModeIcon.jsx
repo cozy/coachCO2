@@ -22,7 +22,7 @@ import {
   WALKING_MODE,
   UNKNOWN_MODE
 } from 'src/constants/const'
-import { getMainMode } from './trips'
+import { getMainMode } from 'src/lib/trips'
 
 const MainModeIcon = ({ trip }) => {
   const mainMode = useMemo(() => getMainMode(trip), [trip])

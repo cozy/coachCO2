@@ -24,7 +24,7 @@ import {
   getEndPlaceDisplayName,
   getFormattedDuration,
   getModes
-} from './trips'
+} from 'src/lib/trips'
 
 const setupMap = node => {
   const map = L.map(node).setView([51.505, -0.09], 13)
