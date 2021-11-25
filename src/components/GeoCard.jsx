@@ -91,7 +91,7 @@ const MiddleDot = () => {
 
 const infoIconStyle = { marginRight: '0.3125rem' }
 
-const TripInfoSlideRaw = ({ trip, loading }) => {
+const TripInfoSlideRaw = ({ trip, CO2, loading }) => {
   const { t } = useI18n()
   const duration = useMemo(() => trip && getFormattedDuration(trip), [trip])
   const modes = useMemo(() => trip && getModes(trip), [trip])
@@ -139,6 +139,8 @@ const TripInfoSlideRaw = ({ trip, loading }) => {
             {formatDistance(t, trip.properties.distance)}
             <MiddleDot />
             {modes.map(m => t(`trips.modes.${m}`)).join(', ')}
+            <MiddleDot />
+            {CO2 + ' kg CO2'}
           </Typography>
         )}
       </div>
@@ -166,7 +168,7 @@ const getSwiperTitle = (trip, format) => {
 
 const TripInfoSlide = memo(TripInfoSlideRaw)
 
-const GeoDataCard = ({ trip, loading }) => {
+const GeoDataCard = ({ trip, CO2, loading }) => {
   const { f } = useI18n()
 
   return (
@@ -180,7 +182,7 @@ const GeoDataCard = ({ trip, loading }) => {
             {loading ? (
               <TripInfoSlide loading />
             ) : (
-              <TripInfoSlide key={trip.id} trip={trip} />
+              <TripInfoSlide key={trip.id} trip={trip} CO2={CO2} />
             )}
           </Box>
         </Bd>
@@ -196,6 +198,7 @@ const GeoDataCard = ({ trip, loading }) => {
 
 GeoDataCard.propTypes = {
   trip: PropTypes.object.isRequired,
+  CO2: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired
 }
 
