@@ -18,7 +18,7 @@
       "CAR": "Voiture",
       "SUBWAY": "Métro",
       "TRAIN": "Train",
-      "UNKNOWN": "",
+      "UNKNOWN": "Non reconnu",
       "WALKING": "Marche",
       "BUS": "Bus"
     }

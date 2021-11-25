@@ -18,7 +18,7 @@
       "CAR": "Car",
       "SUBWAY": "Subway",
       "TRAIN": "Train",
-      "UNKNOWN": "",
+      "UNKNOWN": "Unknown",
       "WALKING": "Walking",
       "BUS": "Bus"
     }
