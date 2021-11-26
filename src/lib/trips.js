@@ -124,6 +124,11 @@ export const getStartDate = trip => {
   return new Date(trip.properties.start_fmt_time)
 }
 
+/**
+ * Get the average speed in km/h from an array of m/s values
+ * @param {Array} speeds - The speed values, in m/s
+ * @returns {number} The average speed, given in km/s
+ */
 const averageSpeedKmH = speeds => {
   const avgSpeed = speeds.reduce((a, b) => a + b, 0) / speeds.length
   // The speed is given in m/s
