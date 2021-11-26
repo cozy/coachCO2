@@ -18,10 +18,9 @@ import {
   getFormattedDuration,
   getModes,
   formatDistance,
-  getStartDate,
-  computeCO2Trip
+  getStartDate
 } from 'src/lib/trips'
-import { computeCaloriesTrip } from 'src/lib/metrics'
+import { computeCaloriesTrip, computeCO2Trip } from 'src/lib/metrics'
 
 export const TripItem = ({ trip, withDateHeader }) => {
   const { f, t } = useI18n()
