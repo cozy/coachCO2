@@ -124,10 +124,11 @@ export const getSectionsInfo = trip => {
             mode: get(feature, 'properties.sensed_mode').split(
               'PredictedModeTypes.'
             )[1],
-            distance: get(feature, 'properties.distance'),
-            duration: get(feature, 'properties.duration'),
+            distance: get(feature, 'properties.distance'), // in meters
+            duration: get(feature, 'properties.duration'), // in seconds
             startDate: get(feature, 'properties.start_fmt_time'),
-            endDate: get(feature, 'properties.end_fmt_time')
+            endDate: get(feature, 'properties.end_fmt_time'),
+            averageSpeed: averageSpeedKmH(get(feature, 'properties.speeds')) // in km/h
           }
         })
       }
@@ -187,4 +188,10 @@ export const computeCO2Trip = trip => {
     }
   }
   return totalCO2
+}
+
+const averageSpeedKmH = speeds => {
+  const avgSpeed = speeds.reduce((a, b) => a + b, 0) / speeds.length
+  // The speed is given in m/s
+  return avgSpeed * 3.6
 }

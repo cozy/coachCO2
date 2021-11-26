@@ -87,3 +87,49 @@ export const CAR_AVERAGE_CO2_KG_PER_KM = 0.192
 // https://www.bilans-ges.ademe.fr/en/basecarbone/donnees-consulter/liste-element/categorie/493
 // Note the manufacture is not included to remain consistent with other values
 export const CAR_ELECTRIC_CO2_KG_PER_KM = 0.0198
+
+/**
+ * Calories-related constants
+ *
+ * The calorie expenses is computed through the Metabolic Equivalent of Task (MET).
+ * MET is an estimation of the energy cost of a physical activity.
+ * Finding the correct MET can be challenging as it can depends on different factors,
+ * such as speed, elevation, weight carrying, etc.
+ * That is why many MET exist, listed here: https://sites.google.com/site/compendiumofphysicalactivities/home?authuser=0
+ * WARNING: as we do not have elevation data, we only rely on speed-based MET, even though this can
+ * be misleading, as a biker goes slower in climbing but also produces more energy.
+ *
+ * NOTE: MET also depends on the person physiology. See this formula to adapt the MET:
+ *   https://github.com/e-mission/e-mission-phone/blob/5d964cbef72732fe4f2e9987d39c32c61d536433/www/js/metrics-factory.js#L102
+ *
+ */
+
+/**
+ * Default weight to compute calories.
+ * In France, in 2020, the average weights are the following:
+ *   - Women: 67.3kg
+ *   - Men: 81.2kg
+ *   => Average: 74.25kg
+ * Source Obepi Roche 2020: https://www.sciencespo.fr/chaire-sante/sites/sciencespo.fr.chaire-sante/files/Enquete_OBEPI_2021.pdf
+ */
+export const DEFAULT_WEIGHT_KG = 74.25
+
+// https://sites.google.com/site/compendiumofphysicalactivities/Activity-Categories/walking?authuser=0
+export const MET_WALKING_SLOW = 2
+export const MET_WALKING_MEDIUM = 3.5
+export const MET_WALKING_FAST = 5
+export const MET_WALKING_VERY_FAST = 7
+
+export const SLOW_WALKING_MAX_SPEED = 3
+export const MEDIUM_WALKING_MAX_SPEED = 5
+export const FAST_WALKING_MAX_SPEED = 6.5
+
+// https://sites.google.com/site/compendiumofphysicalactivities/Activity-Categories/bicycling?authuser=0
+export const MET_BICYCLING_SLOW = 5.8
+export const MET_BICYCLING_MEDIUM = 8.0
+export const MET_BICYCLING_FAST = 10
+export const MET_BICYCLING_VERY_FAST = 15.8
+
+export const SLOW_BICYCLING_MAX_SPEED = 15
+export const SLOW_BICYCLING_MAX_MEDIUM = 22.4
+export const SLOW_BICYCLING_MAX_FAST = 25.6
