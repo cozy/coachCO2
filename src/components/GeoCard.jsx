@@ -91,7 +91,7 @@ const MiddleDot = () => {
 
 const infoIconStyle = { marginRight: '0.3125rem' }
 
-const TripInfoSlideRaw = ({ trip, CO2, loading }) => {
+const TripInfoSlideRaw = ({ trip, CO2, calories, loading }) => {
   const { t } = useI18n()
   const duration = useMemo(() => trip && getFormattedDuration(trip), [trip])
   const modes = useMemo(() => trip && getModes(trip), [trip])
@@ -141,6 +141,8 @@ const TripInfoSlideRaw = ({ trip, CO2, loading }) => {
             {modes.map(m => t(`trips.modes.${m}`)).join(', ')}
             <MiddleDot />
             {CO2 + ' kg CO2'}
+            <MiddleDot />
+            {calories + ' Kcal'}
           </Typography>
         )}
       </div>
@@ -168,7 +170,7 @@ const getSwiperTitle = (trip, format) => {
 
 const TripInfoSlide = memo(TripInfoSlideRaw)
 
-const GeoDataCard = ({ trip, CO2, loading }) => {
+const GeoDataCard = ({ trip, CO2, calories, loading }) => {
   const { f } = useI18n()
 
   return (
@@ -182,7 +184,12 @@ const GeoDataCard = ({ trip, CO2, loading }) => {
             {loading ? (
               <TripInfoSlide loading />
             ) : (
-              <TripInfoSlide key={trip.id} trip={trip} CO2={CO2} />
+              <TripInfoSlide
+                key={trip.id}
+                CO2={CO2}
+                calories={calories}
+                trip={trip}
+              />
             )}
           </Box>
         </Bd>
@@ -199,6 +206,7 @@ const GeoDataCard = ({ trip, CO2, loading }) => {
 GeoDataCard.propTypes = {
   trip: PropTypes.object.isRequired,
   CO2: PropTypes.number.isRequired,
+  calories: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired
 }
 

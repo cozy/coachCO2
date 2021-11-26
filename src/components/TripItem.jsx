@@ -21,6 +21,7 @@ import {
   getStartDate,
   computeCO2Trip
 } from 'src/lib/trips'
+import { computeCaloriesTrip } from 'src/lib/metrics'
 
 export const TripItem = ({ trip, withDateHeader }) => {
   const { f, t } = useI18n()
@@ -35,6 +36,11 @@ export const TripItem = ({ trip, withDateHeader }) => {
   const CO2 = useMemo(() => {
     const CO2Trip = computeCO2Trip(trip)
     return Math.round(CO2Trip * 100) / 100
+  }, [trip])
+
+  const calories = useMemo(() => {
+    const caloriesTrip = computeCaloriesTrip(trip)
+    return Math.round(caloriesTrip * 100) / 100
   }, [trip])
 
   const tripDetails = useMemo(() => {
@@ -52,7 +58,9 @@ export const TripItem = ({ trip, withDateHeader }) => {
         title={endPlace}
         open={shouldOpenMap}
         onClose={toggleOpenMap}
-        content={<GeoCard trip={trip} CO2={CO2} loading={false} />}
+        content={
+          <GeoCard trip={trip} CO2={CO2} calories={calories} loading={false} />
+        }
       ></Dialog>
       {withDateHeader ? <ListSubheader>{day}</ListSubheader> : null}
       <ListItem button onClick={toggleOpenMap}>
