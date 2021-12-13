@@ -21,7 +21,11 @@
       "UNKNOWN": "Non reconnu",
       "WALKING": "Marche",
       "BUS": "Bus"
-    }
+    },
+    "duration": "Durée",
+    "distance": "Distance",
+    "calories": "Calories",
+    "co2": "CO2"
   },
   "loadMore": "Charger plus de trajets"
 }

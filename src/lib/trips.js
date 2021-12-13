@@ -6,6 +6,7 @@ import uniq from 'lodash/uniq'
 import distanceInWords from 'date-fns/distance_in_words'
 
 import { UNKNOWN_MODE } from 'src/constants/const'
+import { computeCaloriesTrip, computeCO2Trip } from 'src/lib/metrics'
 
 export const collectFeaturesByOid = geojson => {
   const res = {}
@@ -143,4 +144,14 @@ const averageSpeedKmH = speeds => {
   const avgSpeed = speeds.reduce((a, b) => a + b, 0) / speeds.length
   // The speed is given in m/s
   return avgSpeed * 3.6
+}
+
+export const formatCalories = trip => {
+  const caloriesTrip = computeCaloriesTrip(trip)
+  return `${Math.round(caloriesTrip)} kcal`
+}
+
+export const formatCO2 = trip => {
+  const CO2Trip = computeCO2Trip(trip)
+  return `${Math.round(CO2Trip)} kg`
 }
