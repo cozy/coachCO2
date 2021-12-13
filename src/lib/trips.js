@@ -4,6 +4,8 @@ import keyBy from 'lodash/keyBy'
 import flatten from 'lodash/flatten'
 import uniq from 'lodash/uniq'
 import distanceInWords from 'date-fns/distance_in_words'
+import format from 'date-fns/format'
+import humanizeDuration from 'humanize-duration'
 
 import { UNKNOWN_MODE } from 'src/constants/const'
 import { computeCaloriesTrip, computeCO2Trip } from 'src/lib/metrics'
@@ -131,8 +133,43 @@ export const getSectionsInfo = trip => {
   ).filter(Boolean)
 }
 
+export const getSectionsFormatedInfo = trip => {
+  const sections = getSectionsInfo(trip)
+
+  return sections.map(section => {
+    return {
+      ...section,
+      distance: `${formatDistance(section.distance)}`,
+      duration: `${humanizeDuration(section.duration * 1000, {
+        delimiter: ' ',
+        largest: 2,
+        round: true,
+        units: ['h', 'm'],
+        language: 'shortEn',
+        languages: {
+          shortEn: {
+            h: () => 'h',
+            m: () => 'min',
+            s: () => 'sec',
+            ms: () => 'ms'
+          }
+        }
+      })}`,
+      averageSpeed: `${Math.round(section.averageSpeed)} km/h`
+    }
+  })
+}
+
 export const getStartDate = trip => {
   return new Date(trip.properties.start_fmt_time)
+}
+
+export const getEndDate = trip => {
+  return new Date(trip.properties.end_fmt_time)
+}
+
+export const getTime = date => {
+  return format(date, 'HH[h]mm')
 }
 
 /**
