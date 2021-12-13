@@ -4,7 +4,6 @@ import keyBy from 'lodash/keyBy'
 import flatten from 'lodash/flatten'
 import uniq from 'lodash/uniq'
 import distanceInWords from 'date-fns/distance_in_words'
-import format from 'date-fns/format'
 import humanizeDuration from 'humanize-duration'
 
 import { UNKNOWN_MODE } from 'src/constants/const'
@@ -168,8 +167,11 @@ export const getEndDate = trip => {
   return new Date(trip.properties.end_fmt_time)
 }
 
-export const getTime = date => {
-  return format(date, 'HH[h]mm')
+export const formatDate = ({ f, lang, date }) => {
+  if (lang === 'fr') {
+    return f(date, 'HH[h]mm')
+  }
+  return f(date, 'HH:mm')
 }
 
 /**
