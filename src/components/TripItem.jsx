@@ -17,7 +17,7 @@ import {
   getEndPlaceDisplayName,
   getFormattedDuration,
   getModes,
-  formatDistance,
+  formatTripDistance,
   getStartDate
 } from 'src/lib/trips'
 import { computeCaloriesTrip, computeCO2Trip } from 'src/lib/metrics'
@@ -29,7 +29,7 @@ export const TripItem = ({ trip, withDateHeader }) => {
   const endPlace = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
   const modes = useMemo(() => getModes(trip), [trip])
-  const distance = useMemo(() => formatDistance(trip), [trip])
+  const distance = useMemo(() => formatTripDistance(trip), [trip])
   const day = useMemo(() => f(getStartDate(trip), 'dddd DD MMMM'), [f, trip])
 
   const CO2 = useMemo(() => {

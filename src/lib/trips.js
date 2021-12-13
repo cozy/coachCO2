@@ -55,14 +55,18 @@ export const getFormattedDuration = trip => {
   return distanceInWords(endDate, startDate)
 }
 
-export const formatDistance = trip => {
+const formatDistance = distance => {
   let unit = 'm'
-  let distance = trip.properties.distance
+  let formatedDistance = distance
   if (distance > 1000) {
     unit = 'km'
-    distance = distance / 1000
+    formatedDistance = distance / 1000
   }
-  return `${Math.round(distance)} ${unit}`
+  return `${Math.round(formatedDistance)} ${unit}`
+}
+
+export const formatTripDistance = trip => {
+  return formatDistance(trip.properties.distance)
 }
 
 export const getModes = trip => {
@@ -127,7 +131,7 @@ export const getStartDate = trip => {
 /**
  * Get the average speed in km/h from an array of m/s values
  * @param {Array} speeds - The speed values, in m/s
- * @returns {number} The average speed, given in km/s
+ * @returns {number} The average speed, given in km/h
  */
 const averageSpeedKmH = speeds => {
   const avgSpeed = speeds.reduce((a, b) => a + b, 0) / speeds.length
