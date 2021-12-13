@@ -24,6 +24,7 @@ export const TripsList = ({ account }) => {
 
   const isLoading =
     isQueryLoading(tripsQueryResult) && !hasQueryBeenLoaded(tripsQueryResult)
+
   const trips = useMemo(() => {
     if (!data || !data.length) {
       return []
@@ -35,6 +36,7 @@ export const TripsList = ({ account }) => {
   if (isLoading) {
     return <Spinner size="xxlarge" className="u-flex u-flex-justify-center" />
   }
+
   return (
     <>
       <Typography variant="h5" className="u-mb-half">
