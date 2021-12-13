@@ -15,6 +15,7 @@ import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import Sidebar from 'src/components/Sidebar'
 import TripAccount from 'src/components/TripAccount'
+import TripView from 'src/components/Trip'
 import Settings from 'src/components/Settings'
 
 const App = () => {
@@ -42,6 +43,7 @@ const App = () => {
             })}
           >
             <Switch>
+              <Route path="/trip/:geojsonId" component={TripView} />
               <Route path="/trips" component={TripAccount} />
               <Route path="/settings" component={Settings} />
               <Redirect from="/" to="/trips" />

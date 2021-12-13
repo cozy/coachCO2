@@ -37,9 +37,15 @@ export const transformSingleTimeSeriesToTrips = singleTimeseries => {
   })
 }
 
+// TODO: optimize to avoid multiple map
 export const transformTimeSeriesToTrips = geojsonTimeseries => {
   const allSeries = flatten(geojsonTimeseries.map(g => g.series))
-  return allSeries.map(transformSingleTimeSeriesToTrips)
+  const allSeriesWithGeojsonId = allSeries.map((s, i) => ({
+    ...s,
+    geojsonId: geojsonTimeseries[i]._id
+  }))
+
+  return allSeriesWithGeojsonId.map(transformSingleTimeSeriesToTrips)
 }
 
 export const getStartPlaceDisplayName = trip => {

@@ -30,3 +30,11 @@ export const buildAccountQuery = () => ({
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
+
+export const buildGeojsonQuery = geojsonId => ({
+  definition: Q(DOCTYPE_GEOJSON).getById(geojsonId),
+  options: {
+    as: `${DOCTYPE_GEOJSON}/${geojsonId}`,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+  }
+})
