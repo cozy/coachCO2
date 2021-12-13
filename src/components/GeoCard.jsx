@@ -142,7 +142,7 @@ const TripInfoSlideRaw = ({ trip, CO2, calories, loading }) => {
             <MiddleDot />
             {CO2 + ' kg CO2'}
             <MiddleDot />
-            {calories + ' Kcal'}
+            {calories + ' kcal'}
           </Typography>
         )}
       </div>

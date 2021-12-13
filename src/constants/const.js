@@ -11,7 +11,7 @@ export const UNKNOWN_MODE = 'UNKNOWN'
 export const BUS_MODE = 'BUS'
 
 /**
- * Transporation CO2 constants, given in Kg per Km.
+ * Transporation CO2 constants, given in kg per km.
  * All values come from ADEME: https://www.bilans-ges.ademe.fr/
  * Be careful: most of those values are only relevant in France and are always an approximation.
  * It is most of the time an average value, as many factors can impact the carbon emission.
