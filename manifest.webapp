@@ -1,6 +1,6 @@
 {
   "name": "Coach CO2",
-  "slug": "app",
+  "slug": "coachco2",
   "icon": "icon.svg",
   "categories": [],
   "version": "0.3.0",
@@ -44,5 +44,13 @@
       "description": "Required to display geojson timeseries",
       "type": "io.cozy.timeseries.geojson"
     }
-  }
+  },
+  "locales": {
+    "en": {},
+    "fr": {}
+  },
+  "langs": [
+    "en",
+    "fr"
+  ]
 }
