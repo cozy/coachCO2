@@ -1,0 +1,48 @@
+{
+  "name": "Coach CO2",
+  "slug": "app",
+  "icon": "icon.svg",
+  "categories": [],
+  "version": "0.3.0",
+  "licence": "AGPL-3.0",
+  "editor": "Cozy Cloud",
+  "source": "https://github.com/cozy/coachCO2.git@build",
+  "developer": {
+    "name": "cozy",
+    "url": ""
+  },
+  "routes": {
+    "/": {
+      "folder": "/",
+      "index": "index.html",
+      "public": false
+    }
+  },
+  "permissions": {
+    "apps": {
+      "description": "Required by the cozy-bar to display the icons of the apps",
+      "type": "io.cozy.apps",
+      "verbs": [
+        "GET"
+      ]
+    },
+    "settings": {
+      "description": "Required by the cozy-bar to display Claudy and know which applications are coming soon",
+      "type": "io.cozy.settings",
+      "verbs": [
+        "GET"
+      ]
+    },
+    "accounts": {
+      "description": "Required to get konnector account",
+      "type": "io.cozy.accounts",
+      "verbs": [
+        "GET"
+      ]
+    },
+    "geojson-timeseries": {
+      "description": "Required to display geojson timeseries",
+      "type": "io.cozy.timeseries.geojson"
+    }
+  }
+}
