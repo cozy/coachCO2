@@ -132,8 +132,9 @@ export const getSectionsInfo = trip => {
   ).filter(Boolean)
 }
 
-export const getSectionsFormatedInfo = trip => {
+export const getSectionsFormatedInfo = (trip, lang) => {
   const sections = getSectionsInfo(trip)
+  const language = ['fr', 'en'].includes(lang) ? lang : 'en'
 
   return sections.map(section => {
     return {
@@ -144,9 +145,17 @@ export const getSectionsFormatedInfo = trip => {
         largest: 2,
         round: true,
         units: ['h', 'm'],
-        language: 'shortEn',
+        language,
         languages: {
-          shortEn: {
+          fr: {
+            d: () => 'j',
+            h: () => 'h',
+            m: () => 'min',
+            s: () => 's',
+            ms: () => 'ms'
+          },
+          en: {
+            d: () => 'd',
             h: () => 'h',
             m: () => 'min',
             s: () => 'sec',

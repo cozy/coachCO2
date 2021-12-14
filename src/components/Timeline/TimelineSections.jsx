@@ -8,7 +8,10 @@ import { pickModeIcon } from 'src/components/helpers'
 
 const TimelineSections = ({ trip }) => {
   const { t, f, lang } = useI18n()
-  const formatedSections = useMemo(() => getSectionsFormatedInfo(trip), [trip])
+  const formatedSections = useMemo(() => getSectionsFormatedInfo(trip, lang), [
+    lang,
+    trip
+  ])
 
   return formatedSections.map((section, index) => (
     <TimelineIcon
