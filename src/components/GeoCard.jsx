@@ -1,199 +1,81 @@
-import React, { useEffect, useRef, useMemo, memo } from 'react'
+import React, { useEffect, useRef, useMemo } from 'react'
 import PropTypes from 'prop-types'
-
+import Skeleton from '@material-ui/lab/Skeleton'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-import Box from '@material-ui/core/Box'
-import Skeleton from '@material-ui/lab/Skeleton'
+import { useTheme } from '@material-ui/core/styles'
 
-import isSameDay from 'date-fns/is_same_day'
-import isSameYear from 'date-fns/is_same_year'
+import './styles.styl'
 
-import Icon from 'cozy-ui/transpiled/react/Icon'
-import ClockIcon from 'cozy-ui/transpiled/react/Icons/Clock'
-import CompassIcon from 'cozy-ui/transpiled/react/Icons/Compass'
-import { Media, Bd, Img } from 'cozy-ui/transpiled/react/Media'
-import Typography from 'cozy-ui/transpiled/react/Typography'
-import FlagIcon from 'cozy-ui/transpiled/react/Icons/Flag'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import Stack from 'cozy-ui/transpiled/react/Stack'
-
-import {
-  getStartPlaceDisplayName,
-  getEndPlaceDisplayName,
-  getFormattedDuration,
-  getModes
-} from 'src/lib/trips'
-
+// use http://leaflet-extras.github.io/leaflet-providers/preview/ to choose a tileLayer
 const setupMap = node => {
   const map = L.map(node).setView([51.505, -0.09], 13)
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map)
+  L.tileLayer(
+    'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    }
+  ).addTo(map)
 
   return map
 }
 
-const mapStyle = {
-  height: 400
-}
+const makeGeoJsonOptions = theme => ({
+  style: feature => {
+    return {
+      weight: feature.properties.feature_type === 'section' ? 5 : 2,
+      color: theme.palette.primary.main
+    }
+  },
+  pointToLayer: (feature, latlng) => {
+    return L.marker(latlng, {
+      icon: L.divIcon({
+        html: `<div></div>`,
+        iconSize: [12, 12],
+        className: `cozy-leaflet-markers ${
+          feature.properties.feature_type === 'end_place'
+            ? 'cozy-leaflet-markers-end'
+            : 'cozy-leaflet-markers-start'
+        }`
+      })
+    })
+  }
+})
 
-const POMEGRANATE = '#FF0017'
-const EMERALD = '#00D35A'
-const SLATE_GREY = '#313640'
-
-const geojsonMarkerOptions = {
-  radius: 6,
-  color: SLATE_GREY,
-  weight: 1,
-  opacity: 1,
-  fillOpacity: 0.8
-}
-
-const pointToLayer = (feature, latlng) => {
-  return L.circleMarker(latlng, {
-    ...geojsonMarkerOptions,
-    fillColor:
-      feature.properties.feature_type == 'end_place' ? POMEGRANATE : EMERALD
-  })
-}
-
-const geojsonOptions = { pointToLayer }
+const makeMapStyles = ({ toolbarHeight }) => ({
+  mapContainer: {
+    height: `calc(100vh - ${toolbarHeight}px - var(--sidebarHeight) - env(safe-area-inset-bottom))`
+  }
+})
 
 const TripsMap = ({ trip }) => {
   const nodeRef = useRef()
+  const toolbarHeight = document.getElementById('coz-bar').offsetHeight
+  const styles = useMemo(() => makeMapStyles({ toolbarHeight }), [
+    toolbarHeight
+  ])
+  const theme = useTheme()
+
   useEffect(() => {
     const map = setupMap(nodeRef.current)
-    const feature = L.geoJSON(trip, geojsonOptions)
+    const feature = L.geoJSON(trip, makeGeoJsonOptions(theme))
     map.fitBounds(feature.getBounds())
     map.addLayer(feature)
-  }, [trip])
+  }, [theme, trip])
 
-  return <div style={mapStyle} ref={nodeRef} />
-}
-
-const formatDistance = (t, argDistance) => {
-  let unit = 'm'
-  let distance = argDistance
-  if (distance > 1000) {
-    unit = 'km'
-    distance = distance / 1000
-  }
-  return `${Math.round(distance)} ${unit}`
-}
-
-const MiddleDot = () => {
-  return <span className="u-mh-half">·</span>
-}
-
-const infoIconStyle = { marginRight: '0.3125rem' }
-
-const TripInfoSlideRaw = ({ trip, CO2, calories, loading }) => {
-  const { t } = useI18n()
-  const duration = useMemo(() => trip && getFormattedDuration(trip), [trip])
-  const modes = useMemo(() => trip && getModes(trip), [trip])
   return (
-    <Stack spacing="s">
-      <Media>
-        <Img>
-          <Icon icon={FlagIcon} color="var(--emerald)" className="u-mr-half" />
-        </Img>
-        <Bd>
-          {loading ? (
-            <Skeleton height={16} className="u-pv-half" />
-          ) : (
-            <Typography variant="body1">
-              {getStartPlaceDisplayName(trip)}
-            </Typography>
-          )}
-        </Bd>
-      </Media>
-      <Media>
-        <Img>
-          <Icon
-            icon={FlagIcon}
-            color="var(--pomegranate)"
-            className="u-mr-half"
-          />
-        </Img>
-        <Bd>
-          {loading ? (
-            <Skeleton height={20.5} className="u-pv-half" />
-          ) : (
-            <Typography variant="body1">
-              {getEndPlaceDisplayName(trip)}
-            </Typography>
-          )}
-        </Bd>
-      </Media>
-      <div>
-        {loading ? null : (
-          <Typography variant="body2" color="textSecondary">
-            <Icon style={infoIconStyle} icon={ClockIcon} size={10} />
-            {duration}
-            <MiddleDot />
-            <Icon style={infoIconStyle} icon={CompassIcon} size={10} />
-            {formatDistance(t, trip.properties.distance)}
-            <MiddleDot />
-            {modes.map(m => t(`trips.modes.${m}`)).join(', ')}
-            <MiddleDot />
-            {CO2 + ' kg CO2'}
-            <MiddleDot />
-            {calories + ' kcal'}
-          </Typography>
-        )}
-      </div>
-    </Stack>
+    <div className="u-w-100 u-pos-fixed" style={styles.mapContainer}>
+      <div className="u-h-100" ref={nodeRef} />
+    </div>
   )
 }
 
-const getSwiperTitle = (trip, format) => {
-  const now = new Date()
-  const startDate = new Date(trip.properties.start_fmt_time)
-  const endDate = new Date(trip.properties.end_fmt_time)
-  if (isSameDay(startDate, endDate)) {
-    const yearToken = isSameYear(startDate, now) ? '' : ' YYYY'
-    return `${format(startDate, `ddd D MMM${yearToken}, HH:mm`)} - ${format(
-      endDate,
-      'HH:mm'
-    )}`
-  } else {
-    return `${format(startDate, 'D MMM YYYY, HH:mm')} - ${format(
-      endDate,
-      'D MM YYYY, HH:mm'
-    )}`
-  }
-}
-
-const TripInfoSlide = memo(TripInfoSlideRaw)
-
-const GeoDataCard = ({ trip, CO2, calories, loading }) => {
-  const { f } = useI18n()
-
+const GeoDataCard = ({ trip, loading }) => {
   return (
     <>
-      <div className="u-ph-1 u-mb-half">
-        <Typography variant="subtitle1">{getSwiperTitle(trip, f)}</Typography>
-      </div>
-      <Media className="u-ph-1 u-mb-1">
-        <Bd>
-          <Box ml={1} mr={1}>
-            {loading ? (
-              <TripInfoSlide loading />
-            ) : (
-              <TripInfoSlide
-                key={trip.id}
-                CO2={CO2}
-                calories={calories}
-                trip={trip}
-              />
-            )}
-          </Box>
-        </Bd>
-      </Media>
       {loading ? (
         <Skeleton variant="rect" width="100%" height={300} />
       ) : (
@@ -205,8 +87,6 @@ const GeoDataCard = ({ trip, CO2, calories, loading }) => {
 
 GeoDataCard.propTypes = {
   trip: PropTypes.object.isRequired,
-  CO2: PropTypes.number.isRequired,
-  calories: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired
 }
 

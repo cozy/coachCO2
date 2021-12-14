@@ -1,11 +1,23 @@
 /* global cozy */
+
 import React from 'react'
-import { Route, Switch, Redirect, HashRouter } from 'react-router-dom'
+import {
+  Route,
+  Switch,
+  Redirect,
+  HashRouter,
+  useLocation
+} from 'react-router-dom'
+
 import { hot } from 'react-hot-loader'
 import cx from 'classnames'
 
 import { useClient } from 'cozy-client'
-import { Layout, Main, Content } from 'cozy-ui/transpiled/react/Layout'
+import {
+  Layout,
+  Main,
+  Content as UiContent
+} from 'cozy-ui/transpiled/react/Layout'
 import Sprite from 'cozy-ui/transpiled/react/Icon/Sprite'
 import Alerter from 'cozy-ui/transpiled/react/Alerter'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -17,6 +29,24 @@ import Sidebar from 'src/components/Sidebar'
 import TripAccount from 'src/components/TripAccount'
 import TripView from 'src/components/Trip'
 import Settings from 'src/components/Settings'
+
+const Content = ({ children }) => {
+  const { isMobile } = useBreakpoints()
+  const { pathname } = useLocation()
+
+  const isFullPage = pathname.startsWith('/trip/')
+
+  return (
+    <UiContent
+      className={cx({
+        'u-mh-half u-mv-1': isMobile && !isFullPage,
+        'u-mh-2 u-mv-1': !isMobile
+      })}
+    >
+      {children}
+    </UiContent>
+  )
+}
 
 const App = () => {
   const { t } = useI18n()
@@ -36,12 +66,7 @@ const App = () => {
         )}
         <Sidebar />
         <Main>
-          <Content
-            className={cx({
-              'u-mh-half u-mv-1': isMobile,
-              'u-mh-2 u-mv-1': !isMobile
-            })}
-          >
+          <Content>
             <Switch>
               <Route path="/trip/:geojsonId" component={TripView} />
               <Route path="/trips" component={TripAccount} />
