@@ -3,7 +3,7 @@ import { DOCTYPE_GEOJSON, DOCTYPE_ACCOUNTS } from 'src/constants/const'
 
 const older30s = 30 * 1000
 
-export const buildGeoJSONQuery = accountId => ({
+export const buildGeoJSONQueryByAccountId = accountId => ({
   definition: Q(DOCTYPE_GEOJSON)
     .where({
       'cozyMetadata.sourceAccount': accountId
@@ -27,6 +27,14 @@ export const buildAccountQuery = () => ({
     .limitBy(100),
   options: {
     as: `${DOCTYPE_ACCOUNTS}/account_type`,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+  }
+})
+
+export const buildGeoJSONQueryById = geojsonId => ({
+  definition: Q(DOCTYPE_GEOJSON).getById(geojsonId),
+  options: {
+    as: `${DOCTYPE_GEOJSON}/${geojsonId}`,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })

@@ -1,4 +1,3 @@
-import { computeCO2Trip, computeCaloriesTrip, caloriesFormula } from './metrics'
 import {
   CAR_AVERAGE_CO2_KG_PER_KM,
   BUS_MEDIUM_AGGLOMERATION_CO2_KG_PER_KM,
@@ -16,65 +15,31 @@ import {
   MET_BICYCLING_FAST,
   MET_BICYCLING_VERY_FAST
 } from 'src/constants/const'
-
-const createTripFromTemplate = (
+import {
+  createTripFromTemplate,
   tripTemplate,
-  { mode, distance, startDate, endDate, duration, speeds }
-) => {
-  const trip = { ...tripTemplate }
-  const tripSpeeds = speeds || [1]
-  trip.features[0].features[0] = {
-    properties: {
-      sensed_mode: `PredictedModeTypes.${mode}`,
-      distance,
-      start_fmt_time: startDate,
-      end_fmt_time: endDate,
-      duration,
-      speeds: tripSpeeds
-    }
-  }
-  return trip
-}
+  makeBicycleTrip,
+  makeWalkingTrip,
+  makeCarTrip
+} from 'test/mockTrip'
+import { computeCO2Trip, computeCaloriesTrip, caloriesFormula } from './metrics'
 
-const tripTemplate = {
-  features: [
-    {
-      features: []
-    }
-  ]
-}
-
-describe('CO2', () => {
+describe('computeCO2Trip', () => {
   it('should correctly compute the bicycling CO2', () => {
-    const trip = createTripFromTemplate(tripTemplate, {
-      mode: 'BICYCLING',
-      distance: 2456,
-      startDate: '2021-01-01T08:00:00',
-      endDate: '2021-01-01T08:10:00'
-    })
-    const CO2 = computeCO2Trip(trip)
+    const CO2 = computeCO2Trip(makeBicycleTrip())
     expect(CO2).toEqual(0)
   })
+
   it('should correctly compute the walking CO2', () => {
-    const trip = createTripFromTemplate(tripTemplate, {
-      mode: 'WALKING',
-      distance: 563,
-      startDate: '2021-01-01T08:11:00',
-      endDate: '2021-01-01T08:20:00'
-    })
-    const CO2 = computeCO2Trip(trip)
+    const CO2 = computeCO2Trip(makeWalkingTrip())
     expect(CO2).toEqual(0)
   })
+
   it('should correctly compute the car CO2', () => {
-    const trip = createTripFromTemplate(tripTemplate, {
-      mode: 'CAR',
-      distance: 14789,
-      startDate: '2021-01-01T08:30:00',
-      endDate: '2021-01-01T09:00:00'
-    })
-    const CO2 = computeCO2Trip(trip)
+    const CO2 = computeCO2Trip(makeCarTrip())
     expect(CO2).toEqual((14789 / 1000) * CAR_AVERAGE_CO2_KG_PER_KM)
   })
+
   it('should correctly compute the bus CO2', () => {
     const trip = createTripFromTemplate(tripTemplate, {
       mode: 'BUS',
@@ -85,6 +50,7 @@ describe('CO2', () => {
     const CO2 = computeCO2Trip(trip)
     expect(CO2).toEqual((5645 / 1000) * BUS_MEDIUM_AGGLOMERATION_CO2_KG_PER_KM)
   })
+
   it('should correctly compute the subway CO2', () => {
     const trip = createTripFromTemplate(tripTemplate, {
       mode: 'SUBWAY',
@@ -97,6 +63,7 @@ describe('CO2', () => {
       (2145 / 1000) * SUBWAY_TRAM_TROLLEYBUS_MEDIUM_AGGLOMERATION_CO2_KG_PER_KM
     )
   })
+
   it('should correctly compute the train CO2', () => {
     const trip = createTripFromTemplate(tripTemplate, {
       mode: 'TRAIN',
@@ -107,6 +74,7 @@ describe('CO2', () => {
     const CO2 = computeCO2Trip(trip)
     expect(CO2).toEqual((76654 / 1000) * TRAIN_HIGHLINE_CO2_KG_PER_KM)
   })
+
   it('should correctly compute the plane CO2', () => {
     const shortTrip = createTripFromTemplate(tripTemplate, {
       mode: 'AIR_OR_HSR',
@@ -137,7 +105,7 @@ describe('CO2', () => {
   })
 })
 
-describe('Calories', () => {
+describe('computeCaloriesTrip', () => {
   it('should correctly compute walking calories', () => {
     const startDate = new Date('2021-01-01T09:00:00')
     const endDate = new Date('2021-01-01T10:00:00')

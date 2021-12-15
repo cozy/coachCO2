@@ -9,14 +9,14 @@ import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { isQueryLoading, useQuery, hasQueryBeenLoaded } from 'cozy-client'
 
-import { buildGeoJSONQuery } from 'src/queries/queries'
+import { buildGeoJSONQueryByAccountId } from 'src/queries/queries'
 import TripItem from 'src/components/TripItem'
 import { transformTimeSeriesToTrips, getStartDate } from 'src/lib/trips'
 
 export const TripsList = ({ account }) => {
   const { t } = useI18n()
 
-  const tripsQuery = buildGeoJSONQuery(account._id)
+  const tripsQuery = buildGeoJSONQueryByAccountId(account._id)
   const { data, ...tripsQueryResult } = useQuery(
     tripsQuery.definition,
     tripsQuery.options
@@ -24,6 +24,7 @@ export const TripsList = ({ account }) => {
 
   const isLoading =
     isQueryLoading(tripsQueryResult) && !hasQueryBeenLoaded(tripsQueryResult)
+
   const trips = useMemo(() => {
     if (!data || !data.length) {
       return []
@@ -35,6 +36,7 @@ export const TripsList = ({ account }) => {
   if (isLoading) {
     return <Spinner size="xxlarge" className="u-flex u-flex-justify-center" />
   }
+
   return (
     <>
       <Typography variant="h5" className="u-mb-half">

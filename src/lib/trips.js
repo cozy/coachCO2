@@ -4,8 +4,10 @@ import keyBy from 'lodash/keyBy'
 import flatten from 'lodash/flatten'
 import uniq from 'lodash/uniq'
 import distanceInWords from 'date-fns/distance_in_words'
+import humanizeDuration from 'humanize-duration'
 
 import { UNKNOWN_MODE } from 'src/constants/const'
+import { computeCaloriesTrip, computeCO2Trip } from 'src/lib/metrics'
 
 export const collectFeaturesByOid = geojson => {
   const res = {}
@@ -37,9 +39,15 @@ export const transformSingleTimeSeriesToTrips = singleTimeseries => {
   })
 }
 
+// TODO: optimize to avoid multiple map
 export const transformTimeSeriesToTrips = geojsonTimeseries => {
   const allSeries = flatten(geojsonTimeseries.map(g => g.series))
-  return allSeries.map(transformSingleTimeSeriesToTrips)
+  const allSeriesWithGeojsonId = allSeries.map((s, i) => ({
+    ...s,
+    geojsonId: geojsonTimeseries[i]._id
+  }))
+
+  return allSeriesWithGeojsonId.map(transformSingleTimeSeriesToTrips)
 }
 
 export const getStartPlaceDisplayName = trip => {
@@ -55,14 +63,18 @@ export const getFormattedDuration = trip => {
   return distanceInWords(endDate, startDate)
 }
 
-export const formatDistance = trip => {
+const formatDistance = distance => {
   let unit = 'm'
-  let distance = trip.properties.distance
+  let formatedDistance = distance
   if (distance > 1000) {
     unit = 'km'
-    distance = distance / 1000
+    formatedDistance = distance / 1000
   }
-  return `${Math.round(distance)} ${unit}`
+  return `${Math.round(formatedDistance)} ${unit}`
+}
+
+export const formatTripDistance = trip => {
+  return formatDistance(trip.properties.distance)
 }
 
 export const getModes = trip => {
@@ -120,17 +132,74 @@ export const getSectionsInfo = trip => {
   ).filter(Boolean)
 }
 
+export const getSectionsFormatedInfo = (trip, lang) => {
+  const sections = getSectionsInfo(trip)
+  const language = ['fr', 'en'].includes(lang) ? lang : 'en'
+
+  return sections.map(section => {
+    return {
+      ...section,
+      distance: `${formatDistance(section.distance)}`,
+      duration: `${humanizeDuration(section.duration * 1000, {
+        delimiter: ' ',
+        largest: 2,
+        round: true,
+        units: ['h', 'm'],
+        language,
+        languages: {
+          fr: {
+            d: () => 'j',
+            h: () => 'h',
+            m: () => 'min',
+            s: () => 's',
+            ms: () => 'ms'
+          },
+          en: {
+            d: () => 'd',
+            h: () => 'h',
+            m: () => 'min',
+            s: () => 's',
+            ms: () => 'ms'
+          }
+        }
+      })}`,
+      averageSpeed: `${Math.round(section.averageSpeed)} km/h`
+    }
+  })
+}
+
 export const getStartDate = trip => {
   return new Date(trip.properties.start_fmt_time)
+}
+
+export const getEndDate = trip => {
+  return new Date(trip.properties.end_fmt_time)
+}
+
+export const formatDate = ({ f, lang, date }) => {
+  if (lang === 'fr') {
+    return f(date, 'HH[h]mm')
+  }
+  return f(date, 'HH:mm')
 }
 
 /**
  * Get the average speed in km/h from an array of m/s values
  * @param {Array} speeds - The speed values, in m/s
- * @returns {number} The average speed, given in km/s
+ * @returns {number} The average speed, given in km/h
  */
 const averageSpeedKmH = speeds => {
   const avgSpeed = speeds.reduce((a, b) => a + b, 0) / speeds.length
   // The speed is given in m/s
   return avgSpeed * 3.6
+}
+
+export const formatCalories = trip => {
+  const caloriesTrip = computeCaloriesTrip(trip)
+  return `${Math.round(caloriesTrip)} kcal`
+}
+
+export const formatCO2 = trip => {
+  const CO2Trip = computeCO2Trip(trip)
+  return `${Math.round(CO2Trip)} kg`
 }

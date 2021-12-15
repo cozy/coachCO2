@@ -1,35 +1,35 @@
-import React, { useMemo, useState, useCallback } from 'react'
+import React, { useMemo, useCallback } from 'react'
 import PropTypes from 'prop-types'
+import { useHistory } from 'react-router-dom'
+
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
 import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 import ListItemIcon from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemIcon'
 import ListSubheader from 'cozy-ui/transpiled/react/MuiCozyTheme/ListSubheader'
 import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
-import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 
 import MainModeIcon from 'src/components/MainModeIcon'
-import GeoCard from 'src/components/GeoCard'
 import {
   getEndPlaceDisplayName,
   getFormattedDuration,
   getModes,
-  formatDistance,
+  formatTripDistance,
   getStartDate
 } from 'src/lib/trips'
-import { computeCaloriesTrip, computeCO2Trip } from 'src/lib/metrics'
+import { computeCO2Trip } from 'src/lib/metrics'
 
 export const TripItem = ({ trip, withDateHeader }) => {
   const { f, t } = useI18n()
-  const [shouldOpenMap, setShouldOpenMap] = useState(false)
+  const history = useHistory()
 
   const endPlace = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
   const modes = useMemo(() => getModes(trip), [trip])
-  const distance = useMemo(() => formatDistance(trip), [trip])
+  const distance = useMemo(() => formatTripDistance(trip), [trip])
   const day = useMemo(() => f(getStartDate(trip), 'dddd DD MMMM'), [f, trip])
 
   const CO2 = useMemo(() => {
@@ -37,32 +37,19 @@ export const TripItem = ({ trip, withDateHeader }) => {
     return Math.round(CO2Trip * 100) / 100
   }, [trip])
 
-  const calories = useMemo(() => {
-    const caloriesTrip = computeCaloriesTrip(trip)
-    return Math.round(caloriesTrip * 100) / 100
-  }, [trip])
-
   const tripDetails = useMemo(() => {
     const tModes = modes.map(m => t(`trips.modes.${m}`)).join(', ')
     return `${duration} · ${distance} · ${tModes} `
   }, [duration, modes, t, distance])
 
-  const toggleOpenMap = useCallback(() => {
-    setShouldOpenMap(!shouldOpenMap)
-  }, [setShouldOpenMap, shouldOpenMap])
+  const goToTrip = useCallback(() => {
+    history.push(`/trip/${trip.geojsonId}`)
+  }, [history, trip.geojsonId])
 
   return (
     <>
-      <Dialog
-        title={endPlace}
-        open={shouldOpenMap}
-        onClose={toggleOpenMap}
-        content={
-          <GeoCard trip={trip} CO2={CO2} calories={calories} loading={false} />
-        }
-      ></Dialog>
       {withDateHeader ? <ListSubheader>{day}</ListSubheader> : null}
-      <ListItem button onClick={toggleOpenMap}>
+      <ListItem button onClick={goToTrip}>
         <ListItemIcon>
           <MainModeIcon trip={trip} />
         </ListItemIcon>

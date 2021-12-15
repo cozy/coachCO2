@@ -93,7 +93,7 @@ export const computeCO2Trip = trip => {
  *
  * @param {number} MET
  * @param {number} durationInMinutes
- * @returns {number} The number of Kcal
+ * @returns {number} The number of kcal
  */
 export const caloriesFormula = (MET, durationInMinutes) => {
   const CBM = (MET * DEFAULT_WEIGHT_KG * 3.5) / 200
@@ -107,7 +107,7 @@ export const caloriesFormula = (MET, durationInMinutes) => {
  * See src/constants/const.js for more insights about the MET reasoning.
  *
  * @param {object} trip - The GeoJSON trip
- * @returns {number} The calories, in Kcal
+ * @returns {number} The calories, in kcal
  */
 export const computeCaloriesTrip = trip => {
   const sections = getSectionsInfo(trip)

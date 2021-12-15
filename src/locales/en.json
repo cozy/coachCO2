@@ -21,7 +21,11 @@
       "UNKNOWN": "Unknown",
       "WALKING": "Walking",
       "BUS": "Bus"
-    }
+    },
+    "duration": "Duration",
+    "distance": "Distance",
+    "calories": "Calories",
+    "co2": "CO2"
   },
   "loadMore": "Load more trips"
 }
