@@ -10,6 +10,12 @@ import './styles.styl'
 
 // use http://leaflet-extras.github.io/leaflet-providers/preview/ to choose a tileLayer
 const setupMap = node => {
+  // quick an dirty fix to avoid "map is already initialized" on resize
+  // TODO: find best way to init the map and avoid this problem
+  if (node != null) {
+    node._leaflet_id = null
+  }
+
   const map = L.map(node).setView([51.505, -0.09], 13)
 
   L.tileLayer(
