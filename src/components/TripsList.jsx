@@ -9,14 +9,14 @@ import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { isQueryLoading, useQuery, hasQueryBeenLoaded } from 'cozy-client'
 
-import { buildGeoJSONQuery } from 'src/queries/queries'
+import { buildGeoJSONQueryByAccountId } from 'src/queries/queries'
 import TripItem from 'src/components/TripItem'
 import { transformTimeSeriesToTrips, getStartDate } from 'src/lib/trips'
 
 export const TripsList = ({ account }) => {
   const { t } = useI18n()
 
-  const tripsQuery = buildGeoJSONQuery(account._id)
+  const tripsQuery = buildGeoJSONQueryByAccountId(account._id)
   const { data, ...tripsQueryResult } = useQuery(
     tripsQuery.definition,
     tripsQuery.options

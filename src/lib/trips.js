@@ -158,7 +158,7 @@ export const getSectionsFormatedInfo = (trip, lang) => {
             d: () => 'd',
             h: () => 'h',
             m: () => 'min',
-            s: () => 'sec',
+            s: () => 's',
             ms: () => 'ms'
           }
         }

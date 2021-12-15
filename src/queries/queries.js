@@ -3,7 +3,7 @@ import { DOCTYPE_GEOJSON, DOCTYPE_ACCOUNTS } from 'src/constants/const'
 
 const older30s = 30 * 1000
 
-export const buildGeoJSONQuery = accountId => ({
+export const buildGeoJSONQueryByAccountId = accountId => ({
   definition: Q(DOCTYPE_GEOJSON)
     .where({
       'cozyMetadata.sourceAccount': accountId
@@ -31,7 +31,7 @@ export const buildAccountQuery = () => ({
   }
 })
 
-export const buildGeojsonQuery = geojsonId => ({
+export const buildGeoJSONQueryById = geojsonId => ({
   definition: Q(DOCTYPE_GEOJSON).getById(geojsonId),
   options: {
     as: `${DOCTYPE_GEOJSON}/${geojsonId}`,
