@@ -77,21 +77,31 @@ export const formatTripDistance = trip => {
   return formatDistance(trip.properties.distance)
 }
 
+/**
+ * manual_mode is created when the user edit the feature mode manualy
+ * @param {object} feature - The feature from a section
+ * @returns The feature's mode depending on whether it has been changed manually
+ */
+const getFeatureMode = feature => {
+  const manualMode = get(feature, 'properties.manual_mode')
+  const sensedOriginalMode = get(feature, 'properties.sensed_mode')
+  const sensedMode =
+    sensedOriginalMode && sensedOriginalMode.split('PredictedModeTypes.')[1]
+
+  return manualMode || sensedMode
+}
+
 export const getModes = trip => {
   return uniq(
     flatten(
       trip.features.map(feature => {
         if (feature.features) {
-          return feature.features.map(feature =>
-            get(feature, 'properties.sensed_mode')
-          )
+          return feature.features.map(feature => getFeatureMode(feature))
         } else {
-          return get(feature, 'properties.sensed_mode')
+          return getFeatureMode(feature)
         }
       })
-    )
-      .map(x => (x ? x.split('PredictedModeTypes.')[1] : null))
-      .filter(Boolean)
+    ).filter(Boolean)
   )
 }
 
@@ -117,9 +127,8 @@ export const getSectionsInfo = trip => {
       if (feature.features) {
         return feature.features.map(feature => {
           return {
-            mode: get(feature, 'properties.sensed_mode').split(
-              'PredictedModeTypes.'
-            )[1],
+            id: feature.id,
+            mode: getFeatureMode(feature),
             distance: get(feature, 'properties.distance'), // in meters
             duration: get(feature, 'properties.duration'), // in seconds
             startDate: get(feature, 'properties.start_fmt_time'),

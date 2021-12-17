@@ -67,9 +67,10 @@ export const TripItem = ({ trip, withDateHeader }) => {
     </>
   )
 }
+
 TripItem.propTypes = {
   trip: PropTypes.object.isRequired,
   withDateHeader: PropTypes.bool.isRequired
 }
 
-export default TripItem
+export default React.memo(TripItem)

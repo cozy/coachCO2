@@ -27,5 +27,8 @@
     "calories": "Calories",
     "co2": "CO2"
   },
-  "loadMore": "Charger plus de trajets"
+  "loadMore": "Charger plus de trajets",
+  "tripEdit": {
+    "selectMode": "Modifier le mode de transport"
+  }
 }

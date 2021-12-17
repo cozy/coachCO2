@@ -9,6 +9,7 @@ const makeStyles = ({ isTopPosition }) => ({
     borderTopLeftRadius: '1rem',
     borderTopRightRadius: '1rem',
     transition: 'border-radius 0.5s',
+    zIndex: 'var(--zIndex-drawer)',
     boxShadow: '0 6px 16px 0 rgba(0, 0, 0, 0.5)',
     ...(isTopPosition && {
       borderTopLeftRadius: 0,

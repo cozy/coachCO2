@@ -36,11 +36,11 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const TimelineIcon = ({ icon, label, endLabel }) => {
+const TimelineIcon = ({ icon, label, endLabel, onClick }) => {
   const classes = useStyles()
 
   return (
-    <TimelineItem className={classes.iconItem}>
+    <TimelineItem className={classes.iconItem} onClick={onClick}>
       <TimelineSeparator>
         <TimelineDot className={classes.iconDot}>
           <Avatar icon={icon} className={classes.icon} size={32} />

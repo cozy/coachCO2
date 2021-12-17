@@ -9,8 +9,10 @@ import {
   formatCalories,
   formatCO2
 } from 'src/lib/trips'
+import { useTrip } from 'src/components/Trip/TripProvider'
 
-const BottomSheetHeader = ({ trip }) => {
+const BottomSheetHeader = () => {
+  const { trip } = useTrip()
   const { t } = useI18n()
 
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
