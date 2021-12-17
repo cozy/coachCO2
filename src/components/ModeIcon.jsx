@@ -4,16 +4,21 @@ import Avatar, { nameToColor } from 'cozy-ui/transpiled/react/Avatar'
 
 import { pickModeIcon } from 'src/components/helpers'
 
-const ModeIcon = ({ mode }) => {
-  const color = useMemo(() => nameToColor(mode), [mode])
+const makeStyle = ({ faded, color }) => {
+  return faded
+    ? {
+        color: 'var(--primaryColor)',
+        backgroundColor: 'var(--paperBackgroundColor)',
+        border: '1px solid var(--borderMainColor)'
+      }
+    : { backgroundColor: color }
+}
 
-  return (
-    <Avatar
-      style={{ backgroundColor: color }}
-      icon={pickModeIcon(mode)}
-      size={32}
-    />
-  )
+const ModeIcon = ({ mode, faded }) => {
+  const color = useMemo(() => nameToColor(mode), [mode])
+  const style = useMemo(() => makeStyle({ faded, color }), [color, faded])
+
+  return <Avatar style={style} icon={pickModeIcon(mode)} size={32} />
 }
 
 export default React.memo(ModeIcon)

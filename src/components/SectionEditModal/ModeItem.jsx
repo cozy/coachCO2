@@ -34,7 +34,7 @@ const ModeItem = ({ mode, section, closeModal }) => {
   return (
     <ListItem button onClick={() => changeMode(mode)}>
       <ListItemIcon>
-        <ModeIcon mode={mode} />
+        <ModeIcon mode={mode} faded />
       </ListItemIcon>
       <ListItemText primary={t(`trips.modes.${mode}`)} />
       <ListItemSecondaryAction className="u-flex u-flex-row">
