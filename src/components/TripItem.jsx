@@ -11,6 +11,7 @@ import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import Typography from 'cozy-ui/transpiled/react/Typography'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import MainModeIcon from 'src/components/MainModeIcon'
 import {
@@ -26,9 +27,10 @@ const styles = {
   co2: { fontWeight: 700 }
 }
 
-export const TripItem = ({ trip, withDateHeader }) => {
+export const TripItem = ({ trip, withDateHeader, showTripModal }) => {
   const { f, t } = useI18n()
   const history = useHistory()
+  const { isMobile } = useBreakpoints()
 
   const endPlace = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
@@ -46,14 +48,17 @@ export const TripItem = ({ trip, withDateHeader }) => {
     return `${duration} · ${distance} · ${tModes} `
   }, [duration, modes, t, distance])
 
-  const goToTrip = useCallback(() => {
-    history.push(`/trip/${trip.geojsonId}`)
-  }, [history, trip.geojsonId])
+  const handleClick = useCallback(() => {
+    if (isMobile) {
+      return history.push(`/trip/${trip.geojsonId}`)
+    }
+    showTripModal()
+  }, [history, isMobile, showTripModal, trip.geojsonId])
 
   return (
     <>
       {withDateHeader ? <ListSubheader>{day}</ListSubheader> : null}
-      <ListItem button onClick={goToTrip}>
+      <ListItem button onClick={handleClick}>
         <ListItemIcon>
           <MainModeIcon trip={trip} />
         </ListItemIcon>
