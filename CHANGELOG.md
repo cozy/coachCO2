@@ -7,7 +7,7 @@
 
 ## 🐛 Bug Fixes
 
-*
+* Add non breakable space to show CO2 quantity in list view and fix font size
 
 ## 🔧 Tech
 
