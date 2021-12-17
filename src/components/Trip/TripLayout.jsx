@@ -6,8 +6,10 @@ import TripContent from 'src/components/Trip/TripContent'
 import BottomSheetHeader from 'src/components/Trip/BottomSheet/BottomSheetHeader'
 import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
 import { getEndPlaceDisplayName } from 'src/lib/trips'
+import { useTrip } from 'src/components/Trip/TripProvider'
 
-const TripLayout = ({ trip }) => {
+const TripLayout = () => {
+  const { trip } = useTrip()
   const toolbarNode = document.getElementById('coz-bar')
   const title = useMemo(() => getEndPlaceDisplayName(trip), [trip])
 
@@ -17,8 +19,8 @@ const TripLayout = ({ trip }) => {
       <TripContent trip={trip} />
       <BottomSheet
         toolbarNode={toolbarNode}
-        header={<BottomSheetHeader trip={trip} />}
-        content={<BottomSheetContent trip={trip} />}
+        header={<BottomSheetHeader />}
+        content={<BottomSheetContent />}
       />
     </>
   )

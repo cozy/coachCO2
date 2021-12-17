@@ -6,8 +6,10 @@ import TimelineIcon from 'src/components/Timeline/TimelineIcon'
 import { formatDate, getSectionsFormatedInfo } from 'src/lib/trips.js'
 import { pickModeIcon } from 'src/components/helpers'
 import SectionEditModal from 'src/components/SectionEditModal'
+import { useTrip } from 'src/components/Trip/TripProvider'
 
-const TimelineSections = ({ trip }) => {
+const TimelineSections = () => {
+  const { trip } = useTrip()
   const { t, f, lang } = useI18n()
   const [showModal, setShowModal] = useState(false)
   const [section, setSection] = useState(null)

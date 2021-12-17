@@ -35,7 +35,7 @@ const TripView = () => {
 
   return (
     <TripProvider geojson={data[0]} trip={trip}>
-      <TripLayout trip={trip} />
+      <TripLayout />
     </TripProvider>
   )
 }

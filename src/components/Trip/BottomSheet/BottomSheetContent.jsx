@@ -13,10 +13,12 @@ import {
   getStartDate,
   getEndDate,
   formatDate
-} from 'src/lib/trips.js'
+} from 'src/lib/trips'
+import { useTrip } from 'src/components/Trip/TripProvider'
 
-const BottomSheetContent = ({ trip }) => {
+const BottomSheetContent = () => {
   const { f, lang } = useI18n()
+  const { trip } = useTrip()
 
   const startPlaceName = useMemo(() => getStartPlaceDisplayName(trip), [trip])
   const endPlaceName = useMemo(() => getEndPlaceDisplayName(trip), [trip])
@@ -37,7 +39,7 @@ const BottomSheetContent = ({ trip }) => {
           endLabel={startTime}
           type="start"
         />
-        <TimelineSections trip={trip} />
+        <TimelineSections />
         <TimelineNode label={endPlaceName} endLabel={endTime} type="end" />
       </Timeline>
     </Paper>
