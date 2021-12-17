@@ -117,6 +117,7 @@ export const getSectionsInfo = trip => {
       if (feature.features) {
         return feature.features.map(feature => {
           return {
+            id: feature.id,
             mode: get(feature, 'properties.sensed_mode').split(
               'PredictedModeTypes.'
             )[1],
