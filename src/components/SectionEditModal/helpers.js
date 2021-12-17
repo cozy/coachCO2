@@ -26,8 +26,8 @@ export const createGeojsonWithModifiedMode = ({ geojson, sectionId, mode }) => {
 
     const modifiedFeature = set(
       cloneDeep(feature),
-      `properties.sensed_mode`,
-      `PredictedModeTypes.${mode}`
+      `properties.manual_mode`,
+      mode
     )
 
     return set(

@@ -47,7 +47,8 @@ describe('createGeojsonWithModifiedMode', () => {
 
     expect(modifiedGeojson.series[1].features[1].features[1]).toMatchObject({
       properties: {
-        sensed_mode: 'PredictedModeTypes.BUS'
+        sensed_mode: 'PredictedModeTypes.WALKING',
+        manual_mode: 'BUS'
       }
     })
   })
