@@ -29,6 +29,6 @@
   },
   "loadMore": "Load more trips",
   "tripEdit": {
-    "selectMode": "Select a transportation mode"
+    "selectMode": "Modify the transportation mode"
   }
 }
