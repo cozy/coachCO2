@@ -3,6 +3,8 @@ import { useTheme } from '@material-ui/core/styles'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+
 import { useTrip } from 'src/components/Trip/TripProvider'
 import { bottomSheetSettings } from 'src/components/Trip/TripLayout'
 
@@ -52,9 +54,11 @@ const TripMap = () => {
   const { trip } = useTrip()
   const nodeRef = useRef()
   const theme = useTheme()
+  const { isMobile } = useBreakpoints()
+
   const mapPanRatio = useMemo(
-    () => bottomSheetSettings.mediumHeightRatio / 2,
-    []
+    () => (isMobile ? bottomSheetSettings.mediumHeightRatio / 2 : 0),
+    [isMobile]
   )
 
   useEffect(() => {
