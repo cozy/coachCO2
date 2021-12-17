@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css'
 
 import { useTrip } from 'src/components/Trip/TripProvider'
 
-import './styles.styl'
+import './tripmap.styl'
 
 // use http://leaflet-extras.github.io/leaflet-providers/preview/ to choose a tileLayer
 const setupMap = node => {

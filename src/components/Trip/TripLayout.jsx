@@ -6,7 +6,7 @@ import BottomSheetHeader from 'src/components/Trip/BottomSheet/BottomSheetHeader
 import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
 import { getEndPlaceDisplayName } from 'src/lib/trips'
 import { useTrip } from 'src/components/Trip/TripProvider'
-import TripMap from 'src/components/GeoCard'
+import TripMap from 'src/components/Trip/TripMap'
 
 const TripLayout = () => {
   const { trip } = useTrip()
