@@ -38,7 +38,7 @@ const ModeItem = ({ mode, section, closeModal }) => {
       </ListItemIcon>
       <ListItemText primary={t(`trips.modes.${mode}`)} />
       <ListItemSecondaryAction className="u-flex u-flex-row">
-        <Radio defaultChecked={isSelected} />
+        <Radio defaultChecked={isSelected} onChange={() => changeMode(mode)} />
       </ListItemSecondaryAction>
     </ListItem>
   )
