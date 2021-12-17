@@ -40,3 +40,14 @@ export const pickModeIcon = mode => {
       return UnknownIcon
   }
 }
+
+export const modes = [
+  AIR_MODE,
+  BICYCLING_MODE,
+  BUS_MODE,
+  CAR_MODE,
+  SUBWAY_MODE,
+  TRAIN_MODE,
+  WALKING_MODE,
+  UNKNOWN_MODE
+]

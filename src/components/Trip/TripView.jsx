@@ -7,6 +7,7 @@ import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import TripLayout from 'src/components/Trip/TripLayout'
 import { buildGeoJSONQueryById } from 'src/queries/queries'
 import { transformTimeSeriesToTrips } from 'src/lib/trips'
+import TripProvider from 'src/components/Trip/TripProvider'
 
 const TripView = () => {
   const { pathname } = useLocation()
@@ -32,7 +33,11 @@ const TripView = () => {
     return <Spinner size="xxlarge" className="u-flex u-flex-justify-center" />
   }
 
-  return <TripLayout trip={trip} />
+  return (
+    <TripProvider geojson={data[0]} trip={trip}>
+      <TripLayout trip={trip} />
+    </TripProvider>
+  )
 }
 
 export default React.memo(TripView)
