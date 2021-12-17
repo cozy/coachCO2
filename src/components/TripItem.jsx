@@ -55,7 +55,7 @@ export const TripItem = ({ trip, withDateHeader }) => {
         </ListItemIcon>
         <ListItemText primary={endPlace} secondary={tripDetails} />
         <Typography className="u-mh-half" variant="h6">
-          {CO2} kg
+          {CO2}&nbsp;kg
         </Typography>
         <Icon icon={RightIcon} className="u-coolGrey" />
       </ListItem>
