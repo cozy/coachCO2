@@ -2,11 +2,11 @@ import React, { useMemo } from 'react'
 
 import BottomSheet from 'src/components/BottomSheet'
 import Toolbar from 'src/components/Toolbar'
-import TripContent from 'src/components/Trip/TripContent'
 import BottomSheetHeader from 'src/components/Trip/BottomSheet/BottomSheetHeader'
 import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
 import { getEndPlaceDisplayName } from 'src/lib/trips'
 import { useTrip } from 'src/components/Trip/TripProvider'
+import TripMap from 'src/components/GeoCard'
 
 const TripLayout = () => {
   const { trip } = useTrip()
@@ -16,7 +16,7 @@ const TripLayout = () => {
   return (
     <>
       <Toolbar title={title} />
-      <TripContent trip={trip} />
+      <TripMap />
       <BottomSheet
         toolbarNode={toolbarNode}
         header={<BottomSheetHeader />}

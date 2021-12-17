@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useMemo } from 'react'
-import PropTypes from 'prop-types'
-import Skeleton from '@material-ui/lab/Skeleton'
+import { useTheme } from '@material-ui/core/styles'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-import { useTheme } from '@material-ui/core/styles'
+import { useTrip } from 'src/components/Trip/TripProvider'
 
 import './styles.styl'
 
@@ -54,7 +53,8 @@ const makeMapStyles = ({ toolbarHeight }) => ({
   }
 })
 
-const TripsMap = ({ trip }) => {
+const TripMap = () => {
+  const { trip } = useTrip()
   const nodeRef = useRef()
   const toolbarHeight = document.getElementById('coz-bar').offsetHeight
   const styles = useMemo(() => makeMapStyles({ toolbarHeight }), [
@@ -76,21 +76,4 @@ const TripsMap = ({ trip }) => {
   )
 }
 
-const GeoDataCard = ({ trip, loading }) => {
-  return (
-    <>
-      {loading ? (
-        <Skeleton variant="rect" width="100%" height={300} />
-      ) : (
-        <TripsMap trip={trip} />
-      )}
-    </>
-  )
-}
-
-GeoDataCard.propTypes = {
-  trip: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired
-}
-
-export default GeoDataCard
+export default React.memo(TripMap)
