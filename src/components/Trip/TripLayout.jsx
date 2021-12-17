@@ -8,15 +8,28 @@ import { getEndPlaceDisplayName } from 'src/lib/trips'
 import { useTrip } from 'src/components/Trip/TripProvider'
 import TripMap from 'src/components/Trip/TripMap'
 
+const makeMapStyles = ({ toolbarHeight }) => ({
+  mapContainer: {
+    height: `calc(100vh - ${toolbarHeight}px - var(--sidebarHeight) - env(safe-area-inset-bottom))`
+  }
+})
+
 const TripLayout = () => {
   const { trip } = useTrip()
+
   const toolbarNode = document.getElementById('coz-bar')
   const title = useMemo(() => getEndPlaceDisplayName(trip), [trip])
+  const styles = useMemo(
+    () => makeMapStyles({ toolbarHeight: toolbarNode.offsetHeight }),
+    [toolbarNode.offsetHeight]
+  )
 
   return (
     <>
       <Toolbar title={title} />
-      <TripMap />
+      <div className="u-w-100 u-pos-fixed" style={styles.mapContainer}>
+        <TripMap />
+      </div>
       <BottomSheet
         toolbarNode={toolbarNode}
         header={<BottomSheetHeader />}
