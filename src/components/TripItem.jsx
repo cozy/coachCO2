@@ -22,6 +22,10 @@ import {
 } from 'src/lib/trips'
 import { computeCO2Trip } from 'src/lib/metrics'
 
+const styles = {
+  co2: { fontWeight: 700 }
+}
+
 export const TripItem = ({ trip, withDateHeader }) => {
   const { f, t } = useI18n()
   const history = useHistory()
@@ -54,8 +58,8 @@ export const TripItem = ({ trip, withDateHeader }) => {
           <MainModeIcon trip={trip} />
         </ListItemIcon>
         <ListItemText primary={endPlace} secondary={tripDetails} />
-        <Typography className="u-mh-half" variant="h6">
-          {CO2} kg
+        <Typography className="u-mh-half" style={styles.co2} variant="body2">
+          {CO2}&nbsp;kg
         </Typography>
         <Icon icon={RightIcon} className="u-coolGrey" />
       </ListItem>
