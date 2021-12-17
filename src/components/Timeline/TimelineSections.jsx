@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
@@ -19,10 +19,13 @@ const TimelineSections = () => {
     trip
   ])
 
-  const handleClick = section => {
-    setShowModal(true)
-    setSection(section)
-  }
+  const handleClick = useCallback(
+    section => () => {
+      setSection(section)
+      setShowModal(true)
+    },
+    []
+  )
 
   return (
     <>
@@ -34,7 +37,7 @@ const TimelineSections = () => {
           } - ${section.averageSpeed}`}
           endLabel={formatDate({ f, lang, date: new Date(section.endDate) })}
           icon={pickModeIcon(section.mode)}
-          onClick={() => handleClick(section)}
+          onClick={handleClick(section)}
         />
       ))}
       {showModal && (

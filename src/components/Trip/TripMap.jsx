@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -47,19 +47,9 @@ const makeGeoJsonOptions = theme => ({
   }
 })
 
-const makeMapStyles = ({ toolbarHeight }) => ({
-  mapContainer: {
-    height: `calc(100vh - ${toolbarHeight}px - var(--sidebarHeight) - env(safe-area-inset-bottom))`
-  }
-})
-
 const TripMap = () => {
   const { trip } = useTrip()
   const nodeRef = useRef()
-  const toolbarHeight = document.getElementById('coz-bar').offsetHeight
-  const styles = useMemo(() => makeMapStyles({ toolbarHeight }), [
-    toolbarHeight
-  ])
   const theme = useTheme()
 
   useEffect(() => {
@@ -69,11 +59,7 @@ const TripMap = () => {
     map.addLayer(feature)
   }, [theme, trip])
 
-  return (
-    <div className="u-w-100 u-pos-fixed" style={styles.mapContainer}>
-      <div className="u-h-100" ref={nodeRef} />
-    </div>
-  )
+  return <div className="u-h-100" ref={nodeRef} />
 }
 
 export default React.memo(TripMap)

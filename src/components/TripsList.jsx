@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import isSameDay from 'date-fns/is_same_day'
 
@@ -12,9 +12,20 @@ import { isQueryLoading, useQuery, hasQueryBeenLoaded } from 'cozy-client'
 import { buildGeoJSONQueryByAccountId } from 'src/queries/queries'
 import TripItem from 'src/components/TripItem'
 import { transformTimeSeriesToTrips, getStartDate } from 'src/lib/trips'
+import TripDialog from 'src/components/Trip/TripDialog'
 
 export const TripsList = ({ account }) => {
   const { t } = useI18n()
+  const [showModal, setShowModal] = useState(false)
+  const [trip, setTrip] = useState(null)
+
+  const showTripModal = useCallback(
+    trip => () => {
+      setShowModal(true)
+      setTrip(trip)
+    },
+    []
+  )
 
   const tripsQuery = buildGeoJSONQueryByAccountId(account._id)
   const { data, ...tripsQueryResult } = useQuery(
@@ -39,6 +50,7 @@ export const TripsList = ({ account }) => {
 
   return (
     <>
+      {showModal && <TripDialog trip={trip} setShowModal={setShowModal} />}
       <Typography variant="h5" className="u-mb-half">
         {t('trips.from') + ' ' + account.label}
       </Typography>
@@ -48,7 +60,12 @@ export const TripsList = ({ account }) => {
             i === 0 ||
             !isSameDay(getStartDate(trip), getStartDate(trips[i - 1]))
           return (
-            <TripItem key={i} trip={trip} withDateHeader={withDateHeader} />
+            <TripItem
+              key={i}
+              trip={trip}
+              withDateHeader={withDateHeader}
+              showTripModal={showTripModal(trip)}
+            />
           )
         })}
         {tripsQueryResult.hasMore && (

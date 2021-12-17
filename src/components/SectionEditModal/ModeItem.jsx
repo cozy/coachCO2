@@ -19,7 +19,7 @@ const ModeItem = ({ mode, section, closeModal }) => {
   const isSelected = mode === section.mode
 
   const changeMode = useCallback(
-    async mode => {
+    mode => async () => {
       const geojsonWithModifiedMode = createGeojsonWithModifiedMode({
         geojson,
         sectionId: section.id,
@@ -32,13 +32,13 @@ const ModeItem = ({ mode, section, closeModal }) => {
   )
 
   return (
-    <ListItem button onClick={() => changeMode(mode)}>
+    <ListItem button onClick={changeMode(mode)}>
       <ListItemIcon>
         <ModeIcon mode={mode} faded />
       </ListItemIcon>
       <ListItemText primary={t(`trips.modes.${mode}`)} />
       <ListItemSecondaryAction className="u-flex u-flex-row">
-        <Radio defaultChecked={isSelected} onChange={() => changeMode(mode)} />
+        <Radio defaultChecked={isSelected} onChange={changeMode(mode)} />
       </ListItemSecondaryAction>
     </ListItem>
   )
