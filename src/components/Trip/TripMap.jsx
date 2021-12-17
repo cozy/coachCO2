@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useMemo } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
 import { useTrip } from 'src/components/Trip/TripProvider'
+import { bottomSheetSettings } from 'src/components/Trip/TripLayout'
 
 import './tripmap.styl'
 
@@ -51,13 +52,18 @@ const TripMap = () => {
   const { trip } = useTrip()
   const nodeRef = useRef()
   const theme = useTheme()
+  const mapPanRatio = useMemo(
+    () => bottomSheetSettings.mediumHeightRatio / 2,
+    []
+  )
 
   useEffect(() => {
     const map = setupMap(nodeRef.current)
     const feature = L.geoJSON(trip, makeGeoJsonOptions(theme))
     map.fitBounds(feature.getBounds())
+    map.panBy([0, map.getSize().y * mapPanRatio])
     map.addLayer(feature)
-  }, [theme, trip])
+  }, [mapPanRatio, theme, trip])
 
   return <div className="u-h-100" ref={nodeRef} />
 }

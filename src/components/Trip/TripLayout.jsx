@@ -8,6 +8,10 @@ import { getEndPlaceDisplayName } from 'src/lib/trips'
 import { useTrip } from 'src/components/Trip/TripProvider'
 import TripMap from 'src/components/Trip/TripMap'
 
+export const bottomSheetSettings = {
+  mediumHeightRatio: 0.66
+}
+
 const makeMapStyles = ({ toolbarHeight }) => ({
   mapContainer: {
     height: `calc(100vh - ${toolbarHeight}px - var(--sidebarHeight) - env(safe-area-inset-bottom))`
@@ -31,6 +35,7 @@ const TripLayout = () => {
         <TripMap />
       </div>
       <BottomSheet
+        settings={bottomSheetSettings}
         toolbarNode={toolbarNode}
         header={<BottomSheetHeader />}
         content={<BottomSheetContent />}

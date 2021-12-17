@@ -38,8 +38,12 @@ export const defaultBottomSheetSpringConfig = {
   clamp: true
 }
 
+const defaultSettings = {
+  mediumHeightRatio: 0.33
+}
+
 // TODO: should be in cozy-ui
-const BottomSheet = ({ toolbarNode, header, content }) => {
+const BottomSheet = ({ toolbarNode, header, content, settings }) => {
   const innerContentRef = useRef()
   const headerRef = useRef()
   const headerContentRef = useRef()
@@ -50,13 +54,16 @@ const BottomSheet = ({ toolbarNode, header, content }) => {
   const [bottomSpacerHeight, setBottomSpacerHeight] = useState(0)
 
   const styles = useMemo(() => makeStyles({ isTopPosition }), [isTopPosition])
+  const { mediumHeightRatio } = useMemo(() => settings || defaultSettings, [
+    settings
+  ])
 
   useEffect(() => {
     const maxHeight = toolbarNode
       ? window.innerHeight - toolbarNode.offsetHeight
       : window.innerHeight - 1
 
-    const mediumHeight = Math.round(maxHeight * 0.33)
+    const mediumHeight = Math.round(maxHeight * mediumHeightRatio)
     const actionButtonsHeight = parseFloat(
       getComputedStyle(headerContentRef.current).getPropertyValue('height')
     )
@@ -77,7 +84,7 @@ const BottomSheet = ({ toolbarNode, header, content }) => {
     setPeekHeights([minHeight, mediumHeight, maxHeight])
     setInitPos(mediumHeight)
     setBottomSpacerHeight(bottomSpacerHeight)
-  }, [innerContentRef, headerContentRef, toolbarNode])
+  }, [innerContentRef, headerContentRef, toolbarNode, mediumHeightRatio])
 
   const handleOnIndexChange = snapIndex => {
     const maxHeightSnapIndex = peekHeights.length - 1
