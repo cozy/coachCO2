@@ -3,9 +3,9 @@ import React from 'react'
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
-import ModeList from 'src/components/SectionEditModal/ModeList'
+import ModeList from 'src/components/SectionEditDialog/ModeList'
 
-const SectionEditModal = ({ section, showModal }) => {
+const SectionEditDialog = ({ section, showModal }) => {
   const { t } = useI18n()
 
   return (
@@ -20,4 +20,4 @@ const SectionEditModal = ({ section, showModal }) => {
   )
 }
 
-export default React.memo(SectionEditModal)
+export default React.memo(SectionEditDialog)

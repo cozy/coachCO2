@@ -8,7 +8,7 @@ import ListItemSecondaryAction from 'cozy-ui/transpiled/react/MuiCozyTheme/ListI
 import Radio from 'cozy-ui/transpiled/react/Radio'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
-import { createGeojsonWithModifiedMode } from 'src/components/SectionEditModal/helpers'
+import { createGeojsonWithModifiedMode } from 'src/components/SectionEditDialog/helpers'
 import { useTrip } from 'src/components/Trip/TripProvider'
 import ModeIcon from 'src/components/ModeIcon'
 

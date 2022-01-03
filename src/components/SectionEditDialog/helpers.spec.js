@@ -1,4 +1,4 @@
-import { createGeojsonWithModifiedMode } from 'src/components/SectionEditModal/helpers'
+import { createGeojsonWithModifiedMode } from 'src/components/SectionEditDialog/helpers'
 
 const geojson = {
   series: [
