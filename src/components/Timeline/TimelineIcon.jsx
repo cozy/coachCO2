@@ -13,6 +13,7 @@ import Avatar from 'cozy-ui/transpiled/react/Avatar'
 const useStyles = makeStyles(theme => ({
   iconItem: {
     marginTop: '-14px',
+    cursor: 'pointer',
     '&::before': {
       padding: 0,
       flexGrow: 0
