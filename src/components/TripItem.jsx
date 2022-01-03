@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react'
+import React, { useMemo, useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
 
@@ -22,15 +22,17 @@ import {
   getStartDate
 } from 'src/lib/trips'
 import { computeCO2Trip } from 'src/lib/metrics'
+import TripDialog from 'src/components/Trip/TripDialog'
 
 const styles = {
   co2: { fontWeight: 700 }
 }
 
-export const TripItem = ({ trip, withDateHeader, showTripModal }) => {
+export const TripItem = ({ geojson, trip, withDateHeader }) => {
   const { f, t } = useI18n()
   const history = useHistory()
   const { isMobile } = useBreakpoints()
+  const [showTripDialog, setShowTripDialog] = useState(false)
 
   const endPlace = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
@@ -52,8 +54,8 @@ export const TripItem = ({ trip, withDateHeader, showTripModal }) => {
     if (isMobile) {
       return history.push(`/trip/${trip.geojsonId}`)
     }
-    showTripModal()
-  }, [history, isMobile, showTripModal, trip.geojsonId])
+    setShowTripDialog(true)
+  }, [history, isMobile, trip.geojsonId])
 
   return (
     <>
@@ -69,6 +71,13 @@ export const TripItem = ({ trip, withDateHeader, showTripModal }) => {
         <Icon icon={RightIcon} className="u-coolGrey" />
       </ListItem>
       <Divider variant="inset" />
+      {showTripDialog && (
+        <TripDialog
+          geojson={geojson}
+          trip={trip}
+          setShowTripDialog={setShowTripDialog}
+        />
+      )}
     </>
   )
 }

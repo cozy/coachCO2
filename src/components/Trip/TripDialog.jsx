@@ -12,12 +12,14 @@ const styles = {
   map: { height: '400px' }
 }
 
-const TripDialog = ({ trip, setShowModal }) => {
+const TripDialog = ({ geojson, trip, setShowTripDialog }) => {
   const title = useMemo(() => getEndPlaceDisplayName(trip), [trip])
-  const hideModal = useCallback(() => setShowModal(false), [setShowModal])
+  const hideModal = useCallback(() => setShowTripDialog(false), [
+    setShowTripDialog
+  ])
 
   return (
-    <TripProvider trip={trip}>
+    <TripProvider geojson={geojson} trip={trip}>
       <Dialog
         open={true}
         onClose={hideModal}
