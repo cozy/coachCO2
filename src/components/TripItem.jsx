@@ -59,8 +59,8 @@ export const TripItem = ({ geojson, trip, withDateHeader }) => {
 
   return (
     <>
-      {withDateHeader ? <ListSubheader>{day}</ListSubheader> : null}
-      <ListItem button onClick={handleClick}>
+      {withDateHeader && <ListSubheader>{day}</ListSubheader>}
+      <ListItem className="u-pl-1-s u-pl-2" button onClick={handleClick}>
         <ListItemIcon>
           <MainModeIcon trip={trip} />
         </ListItemIcon>
@@ -70,7 +70,7 @@ export const TripItem = ({ geojson, trip, withDateHeader }) => {
         </Typography>
         <Icon icon={RightIcon} className="u-coolGrey" />
       </ListItem>
-      <Divider variant="inset" />
+      <Divider />
       {showTripDialog && (
         <TripDialog
           geojson={geojson}

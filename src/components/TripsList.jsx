@@ -44,12 +44,14 @@ export const TripsList = ({ account }) => {
   )
 
   if (isLoading) {
-    return <Spinner size="xxlarge" className="u-flex u-flex-justify-center" />
+    return (
+      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
+    )
   }
 
   return (
     <>
-      <Typography variant="h5" className="u-mb-half">
+      <Typography variant="h3" className="u-mv-1-half-s u-ml-1-s u-mv-2 u-ml-2">
         {t('trips.from') + ' ' + account.label}
       </Typography>
       <List>

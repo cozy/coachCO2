@@ -19,7 +19,9 @@ export const TripAccount = () => {
   )
 
   if (isQueryLoading(accountQueryRes)) {
-    return <Spinner size="xxlarge" className="u-flex u-flex-justify-center" />
+    return (
+      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
+    )
   }
 
   if (selectedAccount || accounts.length > 0) {
