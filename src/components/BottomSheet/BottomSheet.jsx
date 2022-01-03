@@ -58,6 +58,15 @@ const BottomSheet = ({ toolbarNode, header, content, settings }) => {
     settings
   ])
 
+  // hack to prevent pull-down-to-refresh behavior when dragging down the bottom sheet.
+  // Needed for iOS Safari
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  }, [])
+
   useEffect(() => {
     const maxHeight = toolbarNode
       ? window.innerHeight - toolbarNode.offsetHeight
