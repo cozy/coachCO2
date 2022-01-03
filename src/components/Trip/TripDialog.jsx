@@ -9,7 +9,10 @@ import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetConte
 import TripProvider from 'src/components/Trip/TripProvider'
 
 const styles = {
-  map: { height: '400px' }
+  map: {
+    height: '400px',
+    margin: '-24px -32px 0'
+  }
 }
 
 const TripDialog = ({ geojson, trip, setShowTripDialog }) => {
