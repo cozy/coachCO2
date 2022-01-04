@@ -1,6 +1,6 @@
 import BikeIcon from 'src/assets/icons/icon-bike.svg'
 import BusIcon from 'src/assets/icons/icon-bus.svg'
-import CarIcon from 'src/assets/icons/icon-car.svg'
+import CarIcon from 'cozy-ui/transpiled/react/Icons/Car'
 import PlaneIcone from 'src/assets/icons/icon-plane.svg'
 import SubwayIcon from 'src/assets/icons/icon-subway.svg'
 import TrainIcon from 'src/assets/icons/icon-train.svg'
