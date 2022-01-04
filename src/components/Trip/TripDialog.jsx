@@ -9,15 +9,20 @@ import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetConte
 import TripProvider from 'src/components/Trip/TripProvider'
 
 const styles = {
-  map: { height: '400px' }
+  map: {
+    height: '400px',
+    margin: '-24px -32px 0'
+  }
 }
 
-const TripDialog = ({ trip, setShowModal }) => {
+const TripDialog = ({ geojson, trip, setShowTripDialog }) => {
   const title = useMemo(() => getEndPlaceDisplayName(trip), [trip])
-  const hideModal = useCallback(() => setShowModal(false), [setShowModal])
+  const hideModal = useCallback(() => setShowTripDialog(false), [
+    setShowTripDialog
+  ])
 
   return (
-    <TripProvider trip={trip}>
+    <TripProvider geojson={geojson} trip={trip}>
       <Dialog
         open={true}
         onClose={hideModal}

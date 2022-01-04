@@ -30,7 +30,9 @@ const TripView = () => {
   const isLoading = isQueryLoading(tripQueryResult)
 
   if (isLoading) {
-    return <Spinner size="xxlarge" className="u-flex u-flex-justify-center" />
+    return (
+      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
+    )
   }
 
   return (
