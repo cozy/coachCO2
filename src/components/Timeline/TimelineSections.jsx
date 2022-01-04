@@ -26,6 +26,7 @@ const TimelineSections = () => {
     },
     []
   )
+  const closeSectionDialog = useCallback(() => setShowModal(false), [])
 
   return (
     <>
@@ -41,7 +42,7 @@ const TimelineSections = () => {
         />
       ))}
       {showModal && (
-        <SectionEditDialog section={section} showModal={setShowModal} />
+        <SectionEditDialog section={section} onClose={closeSectionDialog} />
       )}
     </>
   )

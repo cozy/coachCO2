@@ -20,12 +20,11 @@ const makeOptions = t => {
   return { children: options }
 }
 
-const SectionEditDialog = ({ section, showModal }) => {
+const SectionEditDialog = ({ section, onClose }) => {
   const { t } = useI18n()
   const client = useClient()
   const { geojson } = useTrip()
 
-  const handleClose = useCallback(() => showModal(false), [showModal])
   const handleSelect = useCallback(
     async item => {
       const geojsonWithModifiedMode = createGeojsonWithModifiedMode({
@@ -34,9 +33,9 @@ const SectionEditDialog = ({ section, showModal }) => {
         mode: item.id
       })
       await client.save(geojsonWithModifiedMode)
-      handleClose()
+      onClose()
     },
-    [client, geojson, handleClose, section.id]
+    [client, geojson, onClose, section.id]
   )
 
   const isSelected = useMemo(() => item => item.id === section.mode, [
@@ -46,7 +45,7 @@ const SectionEditDialog = ({ section, showModal }) => {
   return (
     <NestedSelectModal
       title={t('tripEdit.selectMode')}
-      onClose={handleClose}
+      onClose={onClose}
       onSelect={handleSelect}
       isSelected={isSelected}
       options={makeOptions(t)}
