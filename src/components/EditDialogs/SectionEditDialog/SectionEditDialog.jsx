@@ -5,7 +5,7 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
 
 import { modes } from 'src/components/helpers'
-import { createGeojsonWithModifiedMode } from 'src/components/SectionEditDialog/helpers'
+import { createGeojsonWithModifiedMode } from 'src/components/EditDialogs/SectionEditDialog/helpers'
 import Avatar from 'src/components/Avatar'
 import { useTrip } from 'src/components/Trip/TripProvider'
 import { pickModeIcon, modeToColor } from 'src/components/helpers'

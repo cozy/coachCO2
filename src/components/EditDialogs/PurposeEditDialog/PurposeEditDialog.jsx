@@ -5,7 +5,7 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
 
 import { purposes } from 'src/components/helpers'
-import { createGeojsonWithModifiedPurpose } from 'src/components/PurposeEditDialog/helpers'
+import { createGeojsonWithModifiedPurpose } from 'src/components/EditDialogs/PurposeEditDialog/helpers'
 import Avatar from 'src/components/Avatar'
 import { useTrip } from 'src/components/Trip/TripProvider'
 import { OTHER_PURPOSE } from 'src/constants/const'

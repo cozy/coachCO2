@@ -16,7 +16,7 @@ import {
 } from 'src/lib/trips'
 import { useTrip } from 'src/components/Trip/TripProvider'
 import PurposeItem from 'src/components/Trip/BottomSheet/PurposeItem'
-import PurposeEditDialog from 'src/components/PurposeEditDialog'
+import PurposeEditDialog from 'src/components/EditDialogs/PurposeEditDialog'
 
 const BottomSheetContent = () => {
   const { f, lang } = useI18n()
