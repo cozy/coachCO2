@@ -6,14 +6,15 @@ import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
 
 import { modes } from 'src/components/helpers'
 import { createGeojsonWithModifiedMode } from 'src/components/SectionEditDialog/helpers'
-import ModeIcon from 'src/components/ModeIcon'
+import Avatar from 'src/components/Avatar'
 import { useTrip } from 'src/components/Trip/TripProvider'
+import { pickModeIcon, modeToColor } from 'src/components/helpers'
 
 const makeOptions = t => {
   const options = modes.map(mode => ({
     id: mode,
     title: t(`trips.modes.${mode}`),
-    icon: <ModeIcon mode={mode} faded />
+    icon: <Avatar icon={pickModeIcon(mode)} color={modeToColor(mode)} faded />
   }))
 
   return { children: options }

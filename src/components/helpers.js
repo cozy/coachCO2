@@ -43,6 +43,17 @@ import {
   OTHER_PURPOSE
 } from 'src/constants/const'
 
+export const modes = [
+  AIR_MODE,
+  BICYCLING_MODE,
+  BUS_MODE,
+  CAR_MODE,
+  SUBWAY_MODE,
+  TRAIN_MODE,
+  WALKING_MODE,
+  UNKNOWN_MODE
+]
+
 export const pickModeIcon = mode => {
   switch (mode) {
     case AIR_MODE:
@@ -66,16 +77,20 @@ export const pickModeIcon = mode => {
   }
 }
 
-export const modes = [
-  AIR_MODE,
-  BICYCLING_MODE,
-  BUS_MODE,
-  CAR_MODE,
-  SUBWAY_MODE,
-  TRAIN_MODE,
-  WALKING_MODE,
-  UNKNOWN_MODE
-]
+export const modeToColor = (mode = UNKNOWN_MODE) => {
+  const colors = {
+    [AIR_MODE]: '#F05759',
+    [BICYCLING_MODE]: '#15CACD',
+    [BUS_MODE]: '#BA5AE8',
+    [CAR_MODE]: '#FF7B5E',
+    [SUBWAY_MODE]: '#8978FF',
+    [TRAIN_MODE]: '#F1B61E',
+    [WALKING_MODE]: '#21B930',
+    [UNKNOWN_MODE]: '#A4A7AC'
+  }
+
+  return colors[mode]
+}
 
 export const purposes = [
   HOME_PURPOSE,
@@ -115,4 +130,21 @@ export const pickPurposeIcon = purpose => {
     default:
       return MovementIcon
   }
+}
+
+export const purposeToColor = (purpose = OTHER_PURPOSE) => {
+  const colors = {
+    [HOME_PURPOSE]: '#F1B61E',
+    [WORK_PURPOSE]: '#BA5AE8',
+    [SCHOOL_PURPOSE]: '#8978FF',
+    [SHOPPING_PURPOSE]: '#FF7B5E',
+    [MEAL_PURPOSE]: '#15CACD',
+    [PERSONALMED_PURPOSE]: '#1CAAE8',
+    [EXERCISE_PURPOSE]: '#21B930',
+    [ENTERTAINMENT_PURPOSE]: '#F85AA8',
+    [PICKDROP_PURPOSE]: '#C78542',
+    [OTHER_PURPOSE]: '#A4A7AC'
+  }
+
+  return colors[purpose]
 }
