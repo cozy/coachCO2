@@ -13,15 +13,17 @@ import Icon from 'cozy-ui/transpiled/react/Icon'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
-import MainModeIcon from 'src/components/MainModeIcon'
+import Avatar from 'src/components/Avatar'
 import {
   getEndPlaceDisplayName,
   getFormattedDuration,
   getModes,
   formatTripDistance,
-  getStartDate
+  getStartDate,
+  getMainMode
 } from 'src/lib/trips'
 import { computeCO2Trip } from 'src/lib/metrics'
+import { pickModeIcon, modeToColor } from 'src/components/helpers'
 import TripDialog from 'src/components/Trip/TripDialog'
 
 const styles = {
@@ -39,6 +41,7 @@ export const TripItem = ({ geojson, trip, withDateHeader }) => {
   const modes = useMemo(() => getModes(trip), [trip])
   const distance = useMemo(() => formatTripDistance(trip), [trip])
   const day = useMemo(() => f(getStartDate(trip), 'dddd DD MMMM'), [f, trip])
+  const mainMode = useMemo(() => getMainMode(trip), [trip])
 
   const CO2 = useMemo(() => {
     const CO2Trip = computeCO2Trip(trip)
@@ -62,7 +65,7 @@ export const TripItem = ({ geojson, trip, withDateHeader }) => {
       {withDateHeader && <ListSubheader>{day}</ListSubheader>}
       <ListItem className="u-pl-1-s u-pl-2" button onClick={handleClick}>
         <ListItemIcon>
-          <MainModeIcon trip={trip} />
+          <Avatar icon={pickModeIcon(mainMode)} color={modeToColor(mainMode)} />
         </ListItemIcon>
         <ListItemText primary={endPlace} secondary={tripDetails} />
         <Typography className="u-mh-half" style={styles.co2} variant="body2">
