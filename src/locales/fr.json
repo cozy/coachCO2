@@ -22,6 +22,18 @@
       "WALKING": "Marche",
       "BUS": "Bus"
     },
+    "purposes": {
+      "HOME": "Domicile",
+      "WORK": "Travail",
+      "SCHOOL": "École",
+      "SHOPPING": "Achats",
+      "MEAL": "Repas",
+      "PERSONAL_MED": "Personnel",
+      "EXERCISE": "Sport",
+      "ENTERTAINMENT": "Loisir",
+      "PICK_DROP": "Dépose",
+      "OTHER_PURPOSE": "Indéfini"
+    },
     "duration": "Durée",
     "distance": "Distance",
     "calories": "Calories",
@@ -29,6 +41,8 @@
   },
   "loadMore": "Charger plus de trajets",
   "tripEdit": {
-    "selectMode": "Modifier le mode de transport"
-  }
+    "selectMode": "Modifier le mode de transport",
+    "selectPurpose": "Modifier le motif du déplacement"
+  },
+  "purpose": "Motif du déplacement"
 }

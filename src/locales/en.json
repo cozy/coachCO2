@@ -22,6 +22,18 @@
       "WALKING": "Walking",
       "BUS": "Bus"
     },
+    "purposes": {
+      "HOME": "Home",
+      "WORK": "Work",
+      "SCHOOL": "School",
+      "SHOPPING": "Shopping",
+      "MEAL": "Meal",
+      "PERSONAL_MED": "Personal",
+      "EXERCISE": "Sport",
+      "ENTERTAINMENT": "Entertainment",
+      "PICK_DROP": "Pick & drop",
+      "OTHER_PURPOSE": "Unknown"
+    },
     "duration": "Duration",
     "distance": "Distance",
     "calories": "Calories",
@@ -29,6 +41,8 @@
   },
   "loadMore": "Load more trips",
   "tripEdit": {
-    "selectMode": "Modify the transportation mode"
-  }
+    "selectMode": "Modify the transportation mode",
+    "selectPurpose": "Modify the travel purpose"
+  },
+  "purpose": "Reason for travel"
 }

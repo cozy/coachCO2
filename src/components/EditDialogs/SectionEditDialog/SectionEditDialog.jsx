@@ -5,26 +5,26 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
 
 import { modes } from 'src/components/helpers'
-import { createGeojsonWithModifiedMode } from 'src/components/SectionEditDialog/helpers'
-import ModeIcon from 'src/components/ModeIcon'
+import { createGeojsonWithModifiedMode } from 'src/components/EditDialogs/SectionEditDialog/helpers'
+import Avatar from 'src/components/Avatar'
 import { useTrip } from 'src/components/Trip/TripProvider'
+import { pickModeIcon, modeToColor } from 'src/components/helpers'
 
 const makeOptions = t => {
   const options = modes.map(mode => ({
     id: mode,
     title: t(`trips.modes.${mode}`),
-    icon: <ModeIcon mode={mode} faded />
+    icon: <Avatar icon={pickModeIcon(mode)} color={modeToColor(mode)} faded />
   }))
 
   return { children: options }
 }
 
-const SectionEditDialog = ({ section, showModal }) => {
+const SectionEditDialog = ({ section, onClose }) => {
   const { t } = useI18n()
   const client = useClient()
   const { geojson } = useTrip()
 
-  const handleClose = useCallback(() => showModal(false), [showModal])
   const handleSelect = useCallback(
     async item => {
       const geojsonWithModifiedMode = createGeojsonWithModifiedMode({
@@ -33,9 +33,9 @@ const SectionEditDialog = ({ section, showModal }) => {
         mode: item.id
       })
       await client.save(geojsonWithModifiedMode)
-      handleClose()
+      onClose()
     },
-    [client, geojson, handleClose, section.id]
+    [client, geojson, onClose, section.id]
   )
 
   const isSelected = useMemo(() => item => item.id === section.mode, [
@@ -45,7 +45,7 @@ const SectionEditDialog = ({ section, showModal }) => {
   return (
     <NestedSelectModal
       title={t('tripEdit.selectMode')}
-      onClose={handleClose}
+      onClose={onClose}
       onSelect={handleSelect}
       isSelected={isSelected}
       options={makeOptions(t)}
