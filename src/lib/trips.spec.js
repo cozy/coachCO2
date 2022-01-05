@@ -18,7 +18,7 @@ describe('formatCO2', () => {
     expect(bCO2).toBe('0 kg')
 
     const cCO2 = formatCO2(makeCarTrip())
-    expect(cCO2).toBe('3 kg')
+    expect(cCO2).toBe('2.84 kg')
   })
 })
 
