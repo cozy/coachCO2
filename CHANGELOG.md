@@ -10,6 +10,7 @@
 ## 🐛 Bug Fixes
 
 * Add non breakable space to show CO2 quantity in list view and fix font size
+* Add white background on PWA icon on iOS
 
 ## 🔧 Tech
 
