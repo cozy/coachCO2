@@ -16,6 +16,7 @@ import MuiCozyTheme from 'cozy-ui/transpiled/react/MuiCozyTheme'
 import { BreakpointsProvider } from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import setupApp from 'src/targets/browser/setupApp'
+import { register as registerServiceWorker } from 'src/targets/browser/serviceWorkerRegistration'
 import App from 'src/components/App'
 import AccountProvider from 'src/components/AccountProvider'
 
@@ -49,6 +50,8 @@ const init = function() {
     root
   )
 }
+
+registerServiceWorker()
 
 document.addEventListener('DOMContentLoaded', () => {
   init()
