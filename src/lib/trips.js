@@ -210,5 +210,5 @@ export const formatCalories = trip => {
 
 export const formatCO2 = trip => {
   const CO2Trip = computeCO2Trip(trip)
-  return `${Math.round(CO2Trip)} kg`
+  return `${Math.round(CO2Trip * 100) / 100} kg`
 }
