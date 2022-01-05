@@ -2,9 +2,9 @@ import React, { useMemo, useState, useCallback } from 'react'
 
 import Timeline from '@material-ui/lab/Timeline'
 
-import Paper from 'cozy-ui/transpiled/react/Paper'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
+import BottomSheetContentBlock from 'src/components/BottomSheet/BottomSheetContentBlock'
 import TimelineNode from 'src/components/Timeline/TimelineNode'
 import TimelineSections from 'src/components/Timeline/TimelineSections'
 import {
@@ -42,7 +42,7 @@ const BottomSheetContent = () => {
 
   return (
     <>
-      <Paper elevation={0} square>
+      <BottomSheetContentBlock>
         <Timeline>
           <TimelineNode
             label={startPlaceName}
@@ -52,10 +52,10 @@ const BottomSheetContent = () => {
           <TimelineSections />
           <TimelineNode label={endPlaceName} endLabel={endTime} type="end" />
         </Timeline>
-      </Paper>
-      <Paper elevation={0} square>
+      </BottomSheetContentBlock>
+      <BottomSheetContentBlock>
         <PurposeItem purpose={purpose} onClick={openPurposeDialog} />
-      </Paper>
+      </BottomSheetContentBlock>
       {showPurposeDialog && <PurposeEditDialog onClose={closePurposeDialog} />}
     </>
   )
