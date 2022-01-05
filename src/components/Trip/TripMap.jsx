@@ -1,4 +1,7 @@
-import React, { useEffect, useRef, useMemo } from 'react'
+// use http://leaflet-extras.github.io/leaflet-providers/preview/ to choose a tileLayer
+
+import React, { useEffect, useRef, useMemo, useState } from 'react'
+import { Map, TileLayer, GeoJSON } from 'react-leaflet'
 import { useTheme } from '@material-ui/core/styles'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -10,23 +13,7 @@ import { bottomSheetSettings } from 'src/components/Trip/TripLayout'
 
 import './tripmap.styl'
 
-// use http://leaflet-extras.github.io/leaflet-providers/preview/ to choose a tileLayer
-const setupMap = node => {
-  // quick an dirty fix to avoid "map is already initialized" on resize
-  // TODO: find best way to init the map and avoid this problem
-  if (node != null) {
-    node._leaflet_id = null
-  }
-
-  const map = L.map(node).setView([51.505, -0.09], 13)
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map)
-
-  return map
-}
+const mapCenter = [51.505, -0.09]
 
 const makeGeoJsonOptions = theme => ({
   style: feature => {
@@ -51,25 +38,48 @@ const makeGeoJsonOptions = theme => ({
 })
 
 const TripMap = () => {
-  const { trip } = useTrip()
-  const nodeRef = useRef()
-  const theme = useTheme()
   const { isMobile } = useBreakpoints()
+  const { trip } = useTrip()
+  const theme = useTheme()
+  const mapRef = useRef()
+  const geojsonRef = useRef()
+  const [mapL, setMapL] = useState(null)
 
+  const { pointToLayer, style } = useMemo(() => makeGeoJsonOptions(theme), [
+    theme
+  ])
   const mapPanRatio = useMemo(
     () => (isMobile ? bottomSheetSettings.mediumHeightRatio / 2 : 0),
     [isMobile]
   )
 
+  // needed to force a rerender, to be able to get Map children ref
   useEffect(() => {
-    const map = setupMap(nodeRef.current)
-    const feature = L.geoJSON(trip, makeGeoJsonOptions(theme))
-    map.fitBounds(feature.getBounds())
-    map.panBy([0, map.getSize().y * mapPanRatio])
-    map.addLayer(feature)
-  }, [mapPanRatio, theme, trip])
+    setMapL(mapRef.current.leafletElement)
+  }, [])
 
-  return <div className="u-h-100" ref={nodeRef} />
+  useEffect(() => {
+    if (geojsonRef.current) {
+      const geojsonL = geojsonRef.current.leafletElement
+      mapL.fitBounds(geojsonL.getBounds())
+      mapL.panBy([0, mapL.getSize().y * mapPanRatio])
+    }
+  }, [mapL, mapPanRatio])
+
+  return (
+    <Map className="u-h-100" ref={mapRef} center={mapCenter} zoom={13}>
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      />
+      <GeoJSON
+        ref={geojsonRef}
+        data={trip}
+        pointToLayer={pointToLayer}
+        style={style}
+      />
+    </Map>
+  )
 }
 
-export default React.memo(TripMap)
+export default TripMap

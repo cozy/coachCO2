@@ -58,6 +58,7 @@
     "mui-bottom-sheet": "https://github.com/cozy/mui-bottom-sheet.git#v1.0.6",
     "react": "16.14.0",
     "react-dom": "16.14.0",
+    "react-leaflet": "2.8.0",
     "react-router-dom": "5.2.0"
   }
 }
