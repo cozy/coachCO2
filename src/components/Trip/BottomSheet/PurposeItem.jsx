@@ -1,0 +1,44 @@
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar' // TODO: should be in cozy-ui
+
+import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
+import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
+import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+
+import PurposeIcon from 'src/components/PurposeIcon'
+import { OTHER_PURPOSE } from 'src/constants/const'
+
+const useStyles = makeStyles(() => ({
+  root: {
+    minWidth: '48px'
+  }
+}))
+
+const PurposeItem = ({ purpose, onClick }) => {
+  const { t } = useI18n()
+  const styles = useStyles()
+
+  return (
+    <List>
+      <ListItem className="u-c-pointer" onClick={onClick}>
+        <ListItemAvatar classes={{ root: styles.root }}>
+          <PurposeIcon purpose={purpose} />
+        </ListItemAvatar>
+        <ListItemText
+          primary={t('purpose')}
+          primaryTypographyProps={{ variant: 'caption' }}
+          secondary={t(`trips.purposes.${purpose}`)}
+          secondaryTypographyProps={{ variant: 'body1', color: 'textPrimary' }}
+        />
+      </ListItem>
+    </List>
+  )
+}
+
+PurposeItem.defaultProps = {
+  purpose: OTHER_PURPOSE
+}
+
+export default React.memo(PurposeItem)

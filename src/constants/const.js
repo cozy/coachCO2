@@ -10,6 +10,19 @@ export const WALKING_MODE = 'WALKING'
 export const UNKNOWN_MODE = 'UNKNOWN'
 export const BUS_MODE = 'BUS'
 
+// list of available purposes here
+// https://github.com/e-mission/e-mission-phone/blob/f3348aef02c80219b56fac892445cd53ba665669/www/js/diary/list.js#L496
+export const HOME_PURPOSE = 'HOME'
+export const WORK_PURPOSE = 'WORK'
+export const SCHOOL_PURPOSE = 'SCHOOL'
+export const SHOPPING_PURPOSE = 'SHOPPING'
+export const MEAL_PURPOSE = 'MEAL'
+export const PERSONALMED_PURPOSE = 'PERSONAL_MED'
+export const EXERCISE_PURPOSE = 'EXERCISE'
+export const ENTERTAINMENT_PURPOSE = 'ENTERTAINMENT'
+export const PICKDROP_PURPOSE = 'PICK_DROP'
+export const OTHER_PURPOSE = 'OTHER_PURPOSE'
+
 /**
  * Transporation CO2 constants, given in kg per km.
  * All values come from ADEME: https://www.bilans-ges.ademe.fr/
