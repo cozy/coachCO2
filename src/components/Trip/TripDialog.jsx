@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
+import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 
 import { getEndPlaceDisplayName } from 'src/lib/trips'
 import TripMap from 'src/components/Trip/TripMap'
@@ -12,6 +13,9 @@ const styles = {
   map: {
     height: '400px',
     margin: '-24px -32px 0'
+  },
+  divider: {
+    margin: '10px -32px 25px'
   }
 }
 
@@ -36,6 +40,7 @@ const TripDialog = ({ geojson, trip, setShowTripDialog }) => {
             <div className="u-mt-1 u-h-3 u-flex u-flex-items-center u-pb-half">
               <BottomSheetHeader />
             </div>
+            <Divider style={styles.divider} />
             <BottomSheetContent />
           </>
         }
