@@ -12,7 +12,7 @@ import UnknownIcon from 'src/assets/icons/icon-unknow.svg'
 import CompanyIcon from 'cozy-ui/transpiled/react/Icons/Company'
 import FitnessIcon from 'src/assets/icons/icon-fitness.svg'
 import HomeIcon from 'cozy-ui/transpiled/react/Icons/Home'
-import MountainIcone from 'src/assets/icons/icon-mountain.svg'
+import MountainIcon from 'src/assets/icons/icon-mountain.svg'
 import MovementIcon from 'src/assets/icons/icon-movement.svg'
 import PeopleIcon from 'cozy-ui/transpiled/react/Icons/People'
 import RestaurantIcon from 'src/assets/icons/icon-restaurant.svg'
@@ -122,7 +122,7 @@ export const pickPurposeIcon = purpose => {
     case EXERCISE_PURPOSE:
       return FitnessIcon
     case ENTERTAINMENT_PURPOSE:
-      return MountainIcone
+      return MountainIcon
     case PICKDROP_PURPOSE:
       return RestoreIcon
     case OTHER_PURPOSE:

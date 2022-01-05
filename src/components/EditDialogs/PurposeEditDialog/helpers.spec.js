@@ -24,7 +24,7 @@ const geojson = {
 }
 
 describe('createGeojsonWithModifiedPurpose', () => {
-  it('should returns the modified geojson', () => {
+  it('should return the modified geojson', () => {
     const modifiedGeojson = createGeojsonWithModifiedPurpose({
       geojson,
       tripId: 'tripId',

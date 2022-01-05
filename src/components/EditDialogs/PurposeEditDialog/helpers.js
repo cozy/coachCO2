@@ -6,19 +6,10 @@ export const createGeojsonWithModifiedPurpose = ({
   tripId,
   purpose
 }) => {
-  const matchedTrip = geojson.series
-    .map((serie, index) => {
-      if (serie.id === tripId) {
-        return {
-          serie,
-          index
-        }
-      }
-    })
-    .find(e => e)
+  const index = geojson.series.findIndex(serie => serie.id === tripId)
 
-  if (matchedTrip) {
-    const { serie, index } = matchedTrip
+  if (index > -1) {
+    const serie = geojson.series[index]
     const modifiedSerie = set(
       cloneDeep(serie),
       'properties.manual_purpose',
