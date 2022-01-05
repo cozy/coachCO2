@@ -6,6 +6,7 @@
 * Add a bottom sheet to show trip information on the trip view
 * Add mode edition to change a mode for a section in the trip view
 * Add trip purpose and trip modification modals
+* Add a service worker to update PWA automatically
 
 ## 🐛 Bug Fixes
 
