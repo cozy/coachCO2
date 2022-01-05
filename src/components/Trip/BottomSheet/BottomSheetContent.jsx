@@ -3,6 +3,8 @@ import React, { useMemo, useState, useCallback } from 'react'
 import Timeline from '@material-ui/lab/Timeline'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import BottomSheetContentBlock from 'src/components/BottomSheet/BottomSheetContentBlock'
 import TimelineNode from 'src/components/Timeline/TimelineNode'
@@ -18,9 +20,16 @@ import { useTrip } from 'src/components/Trip/TripProvider'
 import PurposeItem from 'src/components/Trip/BottomSheet/PurposeItem'
 import PurposeEditDialog from 'src/components/EditDialogs/PurposeEditDialog'
 
+const styles = {
+  divider: {
+    margin: '-10px -32px 10px'
+  }
+}
+
 const BottomSheetContent = () => {
   const { f, lang } = useI18n()
   const { trip } = useTrip()
+  const { isDesktop } = useBreakpoints()
   const [showPurposeDialog, setShowPurposeDialog] = useState(false)
 
   const startPlaceName = useMemo(() => getStartPlaceDisplayName(trip), [trip])
@@ -43,7 +52,7 @@ const BottomSheetContent = () => {
   return (
     <>
       <BottomSheetContentBlock>
-        <Timeline>
+        <Timeline className="u-pb-0 u-mb-0">
           <TimelineNode
             label={startPlaceName}
             endLabel={startTime}
@@ -53,6 +62,8 @@ const BottomSheetContent = () => {
           <TimelineNode label={endPlaceName} endLabel={endTime} type="end" />
         </Timeline>
       </BottomSheetContentBlock>
+      {/* TODO: Remove the Divider when we have the real desktop view */}
+      {isDesktop && <Divider style={styles.divider} />}
       <BottomSheetContentBlock>
         <PurposeItem purpose={purpose} onClick={openPurposeDialog} />
       </BottomSheetContentBlock>
