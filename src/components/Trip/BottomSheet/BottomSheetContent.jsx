@@ -5,8 +5,8 @@ import Timeline from '@material-ui/lab/Timeline'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import { BottomSheetItem } from 'cozy-ui/transpiled/react/BottomSheet'
 
-import BottomSheetContentBlock from 'src/components/BottomSheet/BottomSheetContentBlock'
 import TimelineNode from 'src/components/Timeline/TimelineNode'
 import TimelineSections from 'src/components/Timeline/TimelineSections'
 import {
@@ -51,7 +51,7 @@ const BottomSheetContent = () => {
 
   return (
     <>
-      <BottomSheetContentBlock>
+      <BottomSheetItem disableGutters>
         <Timeline className="u-pb-0 u-mb-0">
           <TimelineNode
             label={startPlaceName}
@@ -61,12 +61,12 @@ const BottomSheetContent = () => {
           <TimelineSections />
           <TimelineNode label={endPlaceName} endLabel={endTime} type="end" />
         </Timeline>
-      </BottomSheetContentBlock>
+      </BottomSheetItem>
       {/* TODO: Remove the Divider when we have the real desktop view */}
       {isDesktop && <Divider style={styles.divider} />}
-      <BottomSheetContentBlock>
+      <BottomSheetItem disableGutters>
         <PurposeItem purpose={purpose} onClick={openPurposeDialog} />
-      </BottomSheetContentBlock>
+      </BottomSheetItem>
       {showPurposeDialog && <PurposeEditDialog onClose={closePurposeDialog} />}
     </>
   )
