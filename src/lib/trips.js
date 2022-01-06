@@ -108,7 +108,7 @@ export const getModes = trip => {
 export const getMainMode = trip => {
   const sectionsInfo = getSectionsInfo(trip)
 
-  if (sectionsInfo.lengtth < 1) {
+  if (sectionsInfo.length < 1) {
     return UNKNOWN_MODE
   }
 
