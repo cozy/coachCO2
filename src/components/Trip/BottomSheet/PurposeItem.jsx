@@ -1,10 +1,10 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar' // TODO: should be in cozy-ui
 
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
+import ListItemAvatar from 'cozy-ui/transpiled/react/ListItemAvatar'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import Avatar from 'src/components/Avatar'
