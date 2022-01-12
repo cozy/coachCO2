@@ -39,15 +39,15 @@ export const transformTimeserieToTrip = timeserie => {
   })
 }
 
-// TODO: optimize to avoid multiple map
 export const transformTimeseriesToTrips = timeseries => {
-  const allSeries = flatten(timeseries.map(g => g.series))
-  const allSeriesWithGeojsonId = allSeries.map((s, i) => ({
-    ...s,
-    geojsonId: timeseries[i]._id
-  }))
-
-  return allSeriesWithGeojsonId.map(transformTimeserieToTrip)
+  return timeseries.flatMap((timeserie, index) => {
+    return timeserie.series.map(serie =>
+      transformTimeserieToTrip({
+        ...serie,
+        geojsonId: timeseries[index]._id
+      })
+    )
+  })
 }
 
 export const getStartPlaceDisplayName = trip => {
