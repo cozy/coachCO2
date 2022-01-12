@@ -15,4 +15,4 @@
 
 ## 🔧 Tech
 
-*
+* Remove stuffs related to default todo app
