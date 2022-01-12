@@ -10,8 +10,8 @@ import {
   formatCalories,
   formatCO2,
   getSectionsFormatedInfo,
-  transformSingleTimeSeriesToTrips,
-  transformTimeSeriesToTrips
+  transformTimeserieToTrip,
+  transformTimeseriesToTrips
 } from './trips'
 
 const timeseries = [
@@ -51,11 +51,11 @@ describe('getSectionsFormatedInfo', () => {
   })
 })
 
-describe('transformSingleTimeSeriesToTrips', () => {
+describe('transformTimeserieToTrip', () => {
   it('should return correct value', () => {
-    const trips = transformSingleTimeSeriesToTrips(mockSerie())
+    const trip = transformTimeserieToTrip(mockSerie())
 
-    expect(trips).toMatchObject({
+    expect(trip).toMatchObject({
       properties: {
         start_place: {
           data: {
@@ -78,9 +78,9 @@ describe('transformSingleTimeSeriesToTrips', () => {
   })
 })
 
-describe('transformTimeSeriesToTrips', () => {
+describe('transformTimeseriesToTrips', () => {
   it('should return correct value', () => {
-    const trips = transformTimeSeriesToTrips(timeseries)
+    const trips = transformTimeseriesToTrips(timeseries)
 
     expect(trips.length).toBe(3)
     expect(trips).toMatchObject([

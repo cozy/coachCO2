@@ -6,7 +6,7 @@ import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 import TripLayout from 'src/components/Trip/TripLayout'
 import { buildGeoJSONQueryById } from 'src/queries/queries'
-import { transformTimeSeriesToTrips } from 'src/lib/trips'
+import { transformTimeseriesToTrips } from 'src/lib/trips'
 import TripProvider from 'src/components/Trip/TripProvider'
 
 const TripView = () => {
@@ -23,7 +23,7 @@ const TripView = () => {
     if (!data || !data.length) {
       return null
     } else {
-      return transformTimeSeriesToTrips(data)[0]
+      return transformTimeseriesToTrips(data)[0]
     }
   }, [data])
 

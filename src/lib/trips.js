@@ -20,14 +20,14 @@ export const collectFeaturesByOid = geojson => {
 }
 
 /**
- * Prepare timeseries for easier consumption by React components
- *
- * Resolves $oid pointers for start_place and end_place
+ * Add feature data into timeserie start_place and end_place properties
+ * according to $oid pointers
  */
-export const transformSingleTimeSeriesToTrips = singleTimeseries => {
-  const { features, properties } = singleTimeseries
+export const transformTimeserieToTrip = timeserie => {
+  const { features, properties } = timeserie
   const featureIndex = keyBy(features, feature => feature.id)
-  return merge({}, singleTimeseries, {
+
+  return merge({}, timeserie, {
     properties: {
       start_place: {
         data: featureIndex[properties.start_place['$oid']]
@@ -40,14 +40,14 @@ export const transformSingleTimeSeriesToTrips = singleTimeseries => {
 }
 
 // TODO: optimize to avoid multiple map
-export const transformTimeSeriesToTrips = geojsonTimeseries => {
-  const allSeries = flatten(geojsonTimeseries.map(g => g.series))
+export const transformTimeseriesToTrips = timeseries => {
+  const allSeries = flatten(timeseries.map(g => g.series))
   const allSeriesWithGeojsonId = allSeries.map((s, i) => ({
     ...s,
-    geojsonId: geojsonTimeseries[i]._id
+    geojsonId: timeseries[i]._id
   }))
 
-  return allSeriesWithGeojsonId.map(transformSingleTimeSeriesToTrips)
+  return allSeriesWithGeojsonId.map(transformTimeserieToTrip)
 }
 
 export const getStartPlaceDisplayName = trip => {
