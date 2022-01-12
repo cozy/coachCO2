@@ -11,7 +11,7 @@ import { isQueryLoading, useQuery, hasQueryBeenLoaded } from 'cozy-client'
 
 import { buildGeoJSONQueryByAccountId } from 'src/queries/queries'
 import TripItem from 'src/components/TripItem'
-import { transformTimeSeriesToTrips, getStartDate } from 'src/lib/trips'
+import { transformTimeseriesToTrips, getStartDate } from 'src/lib/trips'
 
 export const TripsList = ({ account }) => {
   const { t } = useI18n()
@@ -29,7 +29,7 @@ export const TripsList = ({ account }) => {
     if (!data || !data.length) {
       return []
     } else {
-      return transformTimeSeriesToTrips(data)
+      return transformTimeseriesToTrips(data)
     }
   }, [data])
 
