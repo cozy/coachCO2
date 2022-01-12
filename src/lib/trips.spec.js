@@ -1,6 +1,24 @@
-import { makeBicycleTrip, makeWalkingTrip, makeCarTrip } from 'test/mockTrip'
+import {
+  makeBicycleTrip,
+  makeWalkingTrip,
+  makeCarTrip,
+  mockTimeserie,
+  mockSerie
+} from 'test/mockTrip'
 
-import { formatCalories, formatCO2, getSectionsFormatedInfo } from './trips'
+import {
+  formatCalories,
+  formatCO2,
+  getSectionsFormatedInfo,
+  transformSingleTimeSeriesToTrips,
+  transformTimeSeriesToTrips
+} from './trips'
+
+const timeseries = [
+  mockTimeserie('timeserieId01', [mockSerie()]),
+  mockTimeserie('timeserieId02', [mockSerie()]),
+  mockTimeserie('timeserieId03', [mockSerie()])
+]
 
 describe('formatCalories', () => {
   it('should return formated value', () => {
@@ -30,5 +48,114 @@ describe('getSectionsFormatedInfo', () => {
       duration: '10 min',
       averageSpeed: '4 km/h'
     })
+  })
+})
+
+describe('transformSingleTimeSeriesToTrips', () => {
+  it('should return correct value', () => {
+    const trips = transformSingleTimeSeriesToTrips(mockSerie())
+
+    expect(trips).toMatchObject({
+      properties: {
+        start_place: {
+          data: {
+            id: 'sectionId01',
+            type: 'Feature',
+            geometry: {},
+            properties: {}
+          }
+        },
+        end_place: {
+          data: {
+            id: 'sectionId02',
+            type: 'Feature',
+            geometry: {},
+            properties: {}
+          }
+        }
+      }
+    })
+  })
+})
+
+describe('transformTimeSeriesToTrips', () => {
+  it('should return correct value', () => {
+    const trips = transformTimeSeriesToTrips(timeseries)
+
+    expect(trips.length).toBe(3)
+    expect(trips).toMatchObject([
+      {
+        id: 'serieId01',
+        geojsonId: 'timeserieId01',
+        type: 'FeatureCollection',
+        properties: {
+          start_place: {
+            data: {
+              id: 'sectionId01',
+              type: 'Feature',
+              geometry: {},
+              properties: {}
+            }
+          },
+          end_place: {
+            data: {
+              id: 'sectionId02',
+              type: 'Feature',
+              geometry: {},
+              properties: {}
+            }
+          }
+        },
+        features: mockSerie().features
+      },
+      {
+        id: 'serieId01',
+        geojsonId: 'timeserieId02',
+        type: 'FeatureCollection',
+        properties: {
+          start_place: {
+            data: {
+              id: 'sectionId01',
+              type: 'Feature',
+              geometry: {},
+              properties: {}
+            }
+          },
+          end_place: {
+            data: {
+              id: 'sectionId02',
+              type: 'Feature',
+              geometry: {},
+              properties: {}
+            }
+          }
+        },
+        features: mockSerie().features
+      },
+      {
+        id: 'serieId01',
+        geojsonId: 'timeserieId03',
+        type: 'FeatureCollection',
+        properties: {
+          start_place: {
+            data: {
+              id: 'sectionId01',
+              type: 'Feature',
+              geometry: {},
+              properties: {}
+            }
+          },
+          end_place: {
+            data: {
+              id: 'sectionId02',
+              type: 'Feature',
+              geometry: {},
+              properties: {}
+            }
+          }
+        },
+        features: mockSerie().features
+      }
+    ])
   })
 })

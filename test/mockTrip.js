@@ -1,3 +1,5 @@
+import { DOCTYPE_GEOJSON } from 'src/constants/const'
+
 export const tripTemplate = {
   features: [
     {
@@ -51,3 +53,42 @@ export const makeCarTrip = () =>
     startDate: '2021-01-01T08:30:00',
     endDate: '2021-01-01T09:00:00'
   })
+
+export const mockFeature = id => ({
+  id,
+  type: 'Feature',
+  geometry: {},
+  properties: {}
+})
+
+export const mockFeatureCollection = (id, features) => ({
+  id,
+  type: 'FeatureCollection',
+  properties: {},
+  features
+})
+
+export const mockSerie = (id = 'serieId01') => ({
+  id,
+  type: 'FeatureCollection',
+  properties: {
+    start_place: { $oid: 'sectionId01' },
+    end_place: { $oid: 'sectionId02' }
+  },
+  features: [
+    mockFeature('sectionId01'),
+    mockFeature('sectionId02'),
+    mockFeatureCollection('sectionId03', [mockFeature('featureId01')])
+  ]
+})
+
+export const mockTimeserie = (id = 'timeserieId01', series) => ({
+  _id: id,
+  id,
+  _type: DOCTYPE_GEOJSON,
+  cozyMetadata: {},
+  startDate: '',
+  endDate: '',
+  source: '',
+  series
+})
