@@ -30,6 +30,13 @@ $ yarn install
 
 Cozy's apps use a standard set of _npm scripts_ to run common tasks, like watch, lint, test, build…
 
+### Fixtures
+
+You can import fixtures to quickly deal with datas
+
+```sh
+$ yarn fixtures
+```
 
 ### Run it inside a Cozy using Docker
 
@@ -42,10 +49,10 @@ $ yarn start
 ```
 
 ```sh
-# in an other terminal, run the docker image 
+# in an other terminal, run the docker image
 $ cd coachco2
 $ yarn stack:docker:dev
-``` 
+```
 
 After the build and the docker image launched, your app is now available at http://coachco2.cozy.tools:8080.
 

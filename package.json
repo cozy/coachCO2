@@ -18,7 +18,9 @@
     "test": "cs test --verbose --coverage",
     "cozyPublish": "git fetch origin ${DEPLOY_BRANCH:-build}:${DEPLOY_BRANCH:-build} && cs publish --token $REGISTRY_TOKEN --build-commit $(git rev-parse ${DEPLOY_BRANCH:-build})",
     "stack:docker:dev": "cs stackDocker",
-    "stack:docker:prod": "cs stackDocker --prod"
+    "stack:docker:prod": "cs stackDocker --prod",
+    "fixtures": "ACH import accounts/tracemob.json && ACH script timeseries/importGeojson",
+    "fixtures:drop": "ACH drop io.cozy.timeseries.geojson"
   },
   "repository": {
     "type": "git",
@@ -35,6 +37,7 @@
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@testing-library/react": "11.2.7",
     "babel-preset-cozy-app": "1.11.0",
+    "cozy-ach": "^1.39.0",
     "cozy-bar": "7.16.0",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.6",

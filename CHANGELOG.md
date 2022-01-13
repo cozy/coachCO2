@@ -16,3 +16,4 @@
 ## 🔧 Tech
 
 * Remove stuffs related to default todo app
+* Add fixtures to help development
