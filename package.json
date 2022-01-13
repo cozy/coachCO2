@@ -18,7 +18,9 @@
     "test": "cs test --verbose --coverage",
     "cozyPublish": "git fetch origin ${DEPLOY_BRANCH:-build}:${DEPLOY_BRANCH:-build} && cs publish --token $REGISTRY_TOKEN --build-commit $(git rev-parse ${DEPLOY_BRANCH:-build})",
     "stack:docker:dev": "cs stackDocker",
-    "stack:docker:prod": "cs stackDocker --prod"
+    "stack:docker:prod": "cs stackDocker --prod",
+    "fixtures": "ACH import accounts/tracemob.json && ACH script timeseries/importGeojson",
+    "fixtures:drop": "ACH drop io.cozy.timeseries.geojson"
   },
   "repository": {
     "type": "git",
