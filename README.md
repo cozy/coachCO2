@@ -7,8 +7,7 @@
 
 ## What's Coach CO2?
 
-<TODO>...
-
+CoachCO2 aims to raise user awareness about their carbon footprint, notably based on their location and transportation data.
 
 ## Hack
 
