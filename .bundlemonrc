@@ -1,0 +1,27 @@
+{
+    "baseDir": "./build",
+    "files": [
+        {
+            "path": "app/coachco2.<hash>.js"
+        },
+        {
+            "path": "app-coachco2.<hash>.min.css"
+        },
+        {
+            "path": "vendors/coachco2.<hash>.js"
+        },
+        {
+            "path": "vendors-coachco2.<hash>.<hash>.min.css"
+        }
+    ],
+    "reportOutput": [
+        [
+            "github",
+            {
+                "checkRun": false,
+                "commitStatus": true,
+                "prComment": true
+            }
+        ]
+    ]
+}

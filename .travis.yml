@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '10'
+- '12'
 branches:
   only:
   - master
@@ -9,7 +9,7 @@ branches:
 env:
   global:
   # GITHUB_TOKEN for yarn deploy script
-  # to generate yours : travis encrypt GITHUB_TOKEN=<your_GITHUB_TOKEN> -r paultranvan/coachco2 
+  # to generate yours : travis encrypt GITHUB_TOKEN=<your_GITHUB_TOKEN> -r paultranvan/coachco2
   # REGISTRY_TOKEN for yarn cozyPublish script
   # to generate yours : travis encrypt REGISTRY_TOKEN=<your_REGISTRY_TOKEN> -r paultranvan/coachco2
   # N.B.: the --org option is needed only for public repositories
@@ -30,7 +30,9 @@ jobs:
       script: yarn test
     - name: 'Build app'
       stage: 'build'
-      script: yarn build
+      script:
+        - yarn build
+        - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then yarn bundlemon; fi
       deploy:
         - provider: script
           repo: cozy/coachco2
