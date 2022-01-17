@@ -1,5 +1,5 @@
-[![Travis build status shield](https://img.shields.io/travis/paultranvan/coachco2/master.svg)](https://travis-ci.org/paultranvan/coachco2)
-[![Github Release version shield](https://img.shields.io/github/tag/paultranvan/coachco2.svg)](https://github.com/paultranvan/coachco2/releases)
+[![Travis build status shield](https://img.shields.io/travis/cozy/coachco2/master.svg)](https://travis-ci.org/cozy/coachco2)
+[![Github Release version shield](https://img.shields.io/github/tag/cozy/coachco2.svg)](https://github.com/cozy/coachco2/releases)
 [![jest](https://facebook.github.io/jest/img/jest-badge.svg)](https://github.com/facebook/jest)
 
 
@@ -20,7 +20,7 @@ Hacking the Cozy Coach CO2 app requires you to [setup a dev environment][setup].
 You can then clone the app repository and install dependencies:
 
 ```sh
-$ git clone https://github.com/paultranvan/coachco2.git
+$ git clone https://github.com/cozy/coachco2.git
 $ cd coachco2
 $ yarn install
 ```
@@ -131,7 +131,7 @@ As a _developer_, you must [configure the transifex client][tx-client], and clai
 
 ### Maintainer
 
-The lead maintainer for Coach CO2 is [paultranvan](https://github.com/paultranvan), send him/her a :beers: to say hello!
+The lead maintainer for Coach CO2 is [cozy](https://github.com/cozy), send him/her a :beers: to say hello!
 
 
 ### Get in touch
@@ -146,7 +146,7 @@ You can reach the Cozy Community by:
 
 ## License
 
-Coach CO2 is developed by paultranvan and distributed under the [AGPL v3 license][agpl-3.0].
+Coach CO2 is developed by cozy and distributed under the [AGPL v3 license][agpl-3.0].
 
 
 
