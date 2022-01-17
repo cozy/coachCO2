@@ -44,7 +44,7 @@ Pull requests are the primary mechanism we use to change Cozy. GitHub itself has
 Fork the project on GitHub and [check out your copy locally][forking].
 
 ```
-$ git clone github.com/paultranvan/coachco2.git
+$ git clone github.com/cozy/coachco2.git
 $ cd coachco2
 $ git remote add fork git://github.com/yourusername/coachco2.git
 ```
@@ -116,12 +116,12 @@ You can help us by making our community even more vibrant. For example, you can 
 
 
 
-[issues]: https://github.com/paultranvan/coachco2/issues/new
+[issues]: https://github.com/cozy/coachco2/issues/new
 [pr]: https://help.github.com/categories/collaborating-with-issues-and-pull-requests/
 [forking]: http://blog.campoy.cat/2014/03/github-and-go-forking-pull-requests-and.html
 [stdjs]: http://standardjs.com/
 [commitmsg]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
-[localization]: https://github.com/paultranvan/coachco2/blob/master/README.md#localization
+[localization]: https://github.com/cozy/coachco2/blob/master/README.md#localization
 [hub]: https://hub.github.com/
 [tx]: https://www.transifex.com/cozy/
 [tx-start]: http://docs.transifex.com/getting-started/translators/
