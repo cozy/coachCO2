@@ -5,7 +5,7 @@ import Typography from 'cozy-ui/transpiled/react/Typography'
 const makeStyles = ({ highlighted }) => ({
   infoBlock: {
     backgroundColor: highlighted ? 'var(--primaryColor)' : 'none',
-    margin: '0.25rem'
+    margin: '0.5rem'
   },
   typography: {
     ...(highlighted && {

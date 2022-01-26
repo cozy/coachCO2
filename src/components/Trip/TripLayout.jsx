@@ -1,6 +1,9 @@
 import React, { useMemo } from 'react'
 
-import BottomSheet from 'src/components/BottomSheet'
+import BottomSheet, {
+  BottomSheetHeader as UiBottomSheetHeader
+} from 'cozy-ui/transpiled/react/BottomSheet'
+
 import Toolbar from 'src/components/Toolbar'
 import BottomSheetHeader from 'src/components/Trip/BottomSheet/BottomSheetHeader'
 import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
@@ -21,12 +24,14 @@ const makeMapStyles = ({ toolbarHeight }) => ({
 const TripLayout = () => {
   const { trip } = useTrip()
 
-  const toolbarNode = document.getElementById('coz-bar')
+  const toolbarHeight = document.getElementById('coz-bar').offsetHeight
+  const toolbarProps = useMemo(() => ({ height: toolbarHeight }), [
+    toolbarHeight
+  ])
   const title = useMemo(() => getEndPlaceDisplayName(trip), [trip])
-  const styles = useMemo(
-    () => makeMapStyles({ toolbarHeight: toolbarNode.offsetHeight }),
-    [toolbarNode.offsetHeight]
-  )
+  const styles = useMemo(() => makeMapStyles({ toolbarHeight }), [
+    toolbarHeight
+  ])
 
   return (
     <>
@@ -34,12 +39,12 @@ const TripLayout = () => {
       <div className="u-w-100 u-pos-fixed" style={styles.mapContainer}>
         <TripMap />
       </div>
-      <BottomSheet
-        settings={bottomSheetSettings}
-        toolbarNode={toolbarNode}
-        header={<BottomSheetHeader />}
-        content={<BottomSheetContent />}
-      />
+      <BottomSheet settings={bottomSheetSettings} toolbarProps={toolbarProps}>
+        <UiBottomSheetHeader className="u-h-3 u-pb-half">
+          <BottomSheetHeader />
+        </UiBottomSheetHeader>
+        <BottomSheetContent />
+      </BottomSheet>
     </>
   )
 }
