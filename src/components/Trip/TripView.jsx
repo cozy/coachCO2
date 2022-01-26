@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { isQueryLoading, useQuery } from 'cozy-client'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
-import TripLayout from 'src/components/Trip/TripLayout'
+import TripDialogMobile from 'src/components/Trip/TripDialogMobile'
 import { buildGeoJSONQueryById } from 'src/queries/queries'
 import { transformTimeseriesToTrips } from 'src/lib/trips'
 import TripProvider from 'src/components/Trip/TripProvider'
@@ -37,7 +37,7 @@ const TripView = () => {
 
   return (
     <TripProvider geojson={data[0]} trip={trip}>
-      <TripLayout />
+      <TripDialogMobile />
     </TripProvider>
   )
 }

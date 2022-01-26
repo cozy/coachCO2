@@ -1,15 +1,11 @@
-import React, { useMemo, useCallback, useRef, useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useMemo, useState, useEffect } from 'react'
 
 import BottomSheet, {
   BottomSheetHeader as UiBottomSheetHeader
 } from 'cozy-ui/transpiled/react/BottomSheet'
-import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 
 import BottomSheetHeader from 'src/components/Trip/BottomSheet/BottomSheetHeader'
 import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
-import { getEndPlaceDisplayName } from 'src/lib/trips'
-import { useTrip } from 'src/components/Trip/TripProvider'
 import TripMap from 'src/components/Trip/TripMap'
 
 export const bottomSheetSettings = {
@@ -22,7 +18,7 @@ const makeMapStyles = ({ toolbarHeight }) => ({
   }
 })
 
-const DialogContent = ({ titleRef }) => {
+const TripDialogMobileContent = ({ titleRef }) => {
   const [toolbarHeight, setToolbarHeight] = useState(0)
 
   const toolbarProps = useMemo(() => ({ height: toolbarHeight }), [
@@ -35,7 +31,9 @@ const DialogContent = ({ titleRef }) => {
   )
 
   useEffect(() => {
-    setToolbarHeight(titleRef?.current?.offsetHeight)
+    if (titleRef?.current) {
+      setToolbarHeight(titleRef.current.offsetHeight)
+    }
   }, [titleRef])
 
   return (
@@ -53,26 +51,4 @@ const DialogContent = ({ titleRef }) => {
   )
 }
 
-const TripLayout = () => {
-  const { trip } = useTrip()
-  const history = useHistory()
-  const titleRef = useRef(null)
-
-  const title = useMemo(() => getEndPlaceDisplayName(trip), [trip])
-
-  const historyBack = useCallback(() => history.goBack(), [history])
-
-  return (
-    <Dialog
-      open
-      transitionDuration={0}
-      disableGutters
-      onBack={historyBack}
-      title={title}
-      titleRef={titleRef}
-      content={<DialogContent titleRef={titleRef} />}
-    />
-  )
-}
-
-export default React.memo(TripLayout)
+export default React.memo(TripDialogMobileContent)
