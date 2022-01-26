@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useCallback, useRef, useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import BottomSheet, {
   BottomSheetHeader as UiBottomSheetHeader
 } from 'cozy-ui/transpiled/react/BottomSheet'
+import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 
-import Toolbar from 'src/components/Toolbar'
 import BottomSheetHeader from 'src/components/Trip/BottomSheet/BottomSheetHeader'
 import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
 import { getEndPlaceDisplayName } from 'src/lib/trips'
@@ -21,21 +22,24 @@ const makeMapStyles = ({ toolbarHeight }) => ({
   }
 })
 
-const TripLayout = () => {
-  const { trip } = useTrip()
+const DialogContent = ({ titleRef }) => {
+  const [toolbarHeight, setToolbarHeight] = useState(0)
 
-  const toolbarHeight = document.getElementById('coz-bar').offsetHeight
   const toolbarProps = useMemo(() => ({ height: toolbarHeight }), [
     toolbarHeight
   ])
-  const title = useMemo(() => getEndPlaceDisplayName(trip), [trip])
-  const styles = useMemo(() => makeMapStyles({ toolbarHeight }), [
-    toolbarHeight
-  ])
+
+  const styles = useMemo(
+    () => makeMapStyles({ toolbarHeight: toolbarHeight }),
+    [toolbarHeight]
+  )
+
+  useEffect(() => {
+    setToolbarHeight(titleRef?.current?.offsetHeight)
+  }, [titleRef])
 
   return (
     <>
-      <Toolbar title={title} />
       <div className="u-w-100 u-pos-fixed" style={styles.mapContainer}>
         <TripMap />
       </div>
@@ -46,6 +50,28 @@ const TripLayout = () => {
         <BottomSheetContent />
       </BottomSheet>
     </>
+  )
+}
+
+const TripLayout = () => {
+  const { trip } = useTrip()
+  const history = useHistory()
+  const titleRef = useRef(null)
+
+  const title = useMemo(() => getEndPlaceDisplayName(trip), [trip])
+
+  const historyBack = useCallback(() => history.goBack(), [history])
+
+  return (
+    <Dialog
+      open
+      transitionDuration={0}
+      disableGutters
+      onBack={historyBack}
+      title={title}
+      titleRef={titleRef}
+      content={<DialogContent titleRef={titleRef} />}
+    />
   )
 }
 
