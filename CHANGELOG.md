@@ -18,3 +18,4 @@
 * Remove stuffs related to default todo app
 * Add fixtures to help development
 * Add bunldemon (used with `yarn build && yarn bundlemon`)
+* Use fullscreen modal for mobile trip view
