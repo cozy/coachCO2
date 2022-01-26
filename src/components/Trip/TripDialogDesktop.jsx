@@ -19,7 +19,7 @@ const styles = {
   }
 }
 
-const TripDialog = ({ geojson, trip, setShowTripDialog }) => {
+const TripDialogDesktop = ({ geojson, trip, setShowTripDialog }) => {
   const title = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const hideModal = useCallback(() => setShowTripDialog(false), [
     setShowTripDialog
@@ -49,4 +49,4 @@ const TripDialog = ({ geojson, trip, setShowTripDialog }) => {
   )
 }
 
-export default React.memo(TripDialog)
+export default React.memo(TripDialogDesktop)

@@ -1,14 +1,11 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 
 import BottomSheet, {
   BottomSheetHeader as UiBottomSheetHeader
 } from 'cozy-ui/transpiled/react/BottomSheet'
 
-import Toolbar from 'src/components/Toolbar'
 import BottomSheetHeader from 'src/components/Trip/BottomSheet/BottomSheetHeader'
 import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
-import { getEndPlaceDisplayName } from 'src/lib/trips'
-import { useTrip } from 'src/components/Trip/TripProvider'
 import TripMap from 'src/components/Trip/TripMap'
 
 export const bottomSheetSettings = {
@@ -21,21 +18,26 @@ const makeMapStyles = ({ toolbarHeight }) => ({
   }
 })
 
-const TripLayout = () => {
-  const { trip } = useTrip()
+const TripDialogMobileContent = ({ titleRef }) => {
+  const [toolbarHeight, setToolbarHeight] = useState(0)
 
-  const toolbarHeight = document.getElementById('coz-bar').offsetHeight
   const toolbarProps = useMemo(() => ({ height: toolbarHeight }), [
     toolbarHeight
   ])
-  const title = useMemo(() => getEndPlaceDisplayName(trip), [trip])
-  const styles = useMemo(() => makeMapStyles({ toolbarHeight }), [
-    toolbarHeight
-  ])
+
+  const styles = useMemo(
+    () => makeMapStyles({ toolbarHeight: toolbarHeight }),
+    [toolbarHeight]
+  )
+
+  useEffect(() => {
+    if (titleRef?.current) {
+      setToolbarHeight(titleRef.current.offsetHeight)
+    }
+  }, [titleRef])
 
   return (
     <>
-      <Toolbar title={title} />
       <div className="u-w-100 u-pos-fixed" style={styles.mapContainer}>
         <TripMap />
       </div>
@@ -49,4 +51,4 @@ const TripLayout = () => {
   )
 }
 
-export default React.memo(TripLayout)
+export default React.memo(TripDialogMobileContent)
