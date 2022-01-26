@@ -4069,16 +4069,17 @@ cozy-ui@35.22.0:
     react-select "2.2.0"
     react-swipeable-views "0.13.3"
 
-cozy-ui@^59.2.0:
-  version "59.2.0"
-  resolved "https://registry.yarnpkg.com/cozy-ui/-/cozy-ui-59.2.0.tgz#d9f0b3759b9407522a6d91df8cff57ac7327ae73"
-  integrity sha512-z/vff2tR9r/5ba0jHX+SOuXdmwwXTqft60yXmAH6YrgHzcbJcdMqpoOblZC/Qkno2LRNkPbJfz73ecJfcrTBqg==
+cozy-ui@^60.8.1:
+  version "60.8.1"
+  resolved "https://registry.yarnpkg.com/cozy-ui/-/cozy-ui-60.8.1.tgz#22481f5685403483a9fcf8ed1a4ede5ba68f0c2e"
+  integrity sha512-n6cDxeg6ADVrnBVFOhkF5JKGYCd3cZ+Bu7ZTmtpvhmzvZqZgfXuIynSgQblNsl37Jp81NEOfKY1/G/10AXJPdQ==
   dependencies:
     "@babel/runtime" "^7.3.4"
     "@popperjs/core" "^2.4.4"
     classnames "^2.2.5"
     cozy-interapp "^0.5.4"
     date-fns "^1.28.5"
+    filesize "8.0.7"
     hammerjs "^2.0.8"
     intersection-observer "0.11.0"
     mui-bottom-sheet "https://github.com/cozy/mui-bottom-sheet.git#v1.0.6"
@@ -5663,6 +5664,11 @@ file-uri-to-path@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz#553a7b8446ff6f684359c445f1e37a05dacc33dd"
   integrity sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==
+
+filesize@8.0.7:
+  version "8.0.7"
+  resolved "https://registry.yarnpkg.com/filesize/-/filesize-8.0.7.tgz#695e70d80f4e47012c132d57a059e80c6b580bd8"
+  integrity sha512-pjmC+bkIF8XI7fWaH8KxHcZL3DPybs1roSKP4rKDvy20tAWwIObE4+JIseG2byfGKhud5ZnM4YSGKBz7Sh0ndQ==
 
 filesize@^3.6.1:
   version "3.6.1"
@@ -8550,14 +8556,7 @@ mini-css-extract-plugin@0.5.0:
     schema-utils "^1.0.0"
     webpack-sources "^1.1.0"
 
-minilog@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/minilog/-/minilog-3.1.0.tgz#d2d0f1887ca363d1acf0ea86d5c4df293b3fb675"
-  integrity sha1-0tDxiHyjY9Gs8OqG1cTfKTs/tnU=
-  dependencies:
-    microee "0.0.6"
-
-"minilog@https://github.com/cozy/minilog.git#master":
+minilog@3.1.0, "minilog@https://github.com/cozy/minilog.git#master":
   version "3.1.0"
   resolved "https://github.com/cozy/minilog.git#6da0aa58759c4f1a1a7e0fd093dbe2a67c035c55"
   dependencies:
@@ -8688,6 +8687,17 @@ ms@2.1.3, ms@^2.0.0, ms@^2.1.1:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
+
+"mui-bottom-sheet@git+https://github.com/cozy/mui-bottom-sheet.git#v1.0.6":
+  version "1.0.6"
+  uid "494c40416ecde95732c864f9b921e7e545075aa5"
+  resolved "git+https://github.com/cozy/mui-bottom-sheet.git#494c40416ecde95732c864f9b921e7e545075aa5"
+  dependencies:
+    "@juggle/resize-observer" "^3.1.3"
+    jest-environment-jsdom-sixteen "^1.0.3"
+    react-spring "9.0.0-rc.3"
+    react-use-gesture "^7.0.8"
+    react-use-measure "^2.0.0"
 
 "mui-bottom-sheet@https://github.com/cozy/mui-bottom-sheet.git#v1.0.6":
   version "1.0.6"
