@@ -24,7 +24,7 @@ import {
 } from 'src/lib/trips'
 import { computeCO2Trip } from 'src/lib/metrics'
 import { pickModeIcon, modeToColor } from 'src/components/helpers'
-import TripDialog from 'src/components/Trip/TripDialog'
+import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
 
 const styles = {
   co2: { fontWeight: 700 }
@@ -75,7 +75,7 @@ export const TripItem = ({ geojson, trip, withDateHeader }) => {
       </ListItem>
       <Divider />
       {showTripDialog && (
-        <TripDialog
+        <TripDialogDesktop
           geojson={geojson}
           trip={trip}
           setShowTripDialog={setShowTripDialog}
