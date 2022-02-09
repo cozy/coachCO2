@@ -14,6 +14,7 @@ import { CozyProvider } from 'cozy-client'
 import { I18n } from 'cozy-ui/transpiled/react/I18n'
 import MuiCozyTheme from 'cozy-ui/transpiled/react/MuiCozyTheme'
 import { BreakpointsProvider } from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import { WebviewIntentProvider } from 'cozy-intent'
 
 import setupApp from 'src/targets/browser/setupApp'
 import { register as registerServiceWorker } from 'src/targets/browser/serviceWorkerRegistration'
@@ -34,19 +35,21 @@ const generateClassName = createGenerateClassName({
 const init = function() {
   const { root, client, lang, polyglot } = setupApp()
   render(
-    <StylesProvider generateClassName={generateClassName}>
-      <CozyProvider client={client}>
-        <AccountProvider>
-          <I18n lang={lang} polyglot={polyglot}>
-            <MuiCozyTheme>
-              <BreakpointsProvider>
-                <App />
-              </BreakpointsProvider>
-            </MuiCozyTheme>
-          </I18n>
-        </AccountProvider>
-      </CozyProvider>
-    </StylesProvider>,
+    <WebviewIntentProvider>
+      <StylesProvider generateClassName={generateClassName}>
+        <CozyProvider client={client}>
+          <AccountProvider>
+            <I18n lang={lang} polyglot={polyglot}>
+              <MuiCozyTheme>
+                <BreakpointsProvider>
+                  <App />
+                </BreakpointsProvider>
+              </MuiCozyTheme>
+            </I18n>
+          </AccountProvider>
+        </CozyProvider>
+      </StylesProvider>
+    </WebviewIntentProvider>,
     root
   )
 }
