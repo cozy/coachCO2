@@ -53,6 +53,7 @@
   "dependencies": {
     "@material-ui/core": "4",
     "cozy-client": "^27.14.4",
+    "cozy-intent": "^1.9.1",
     "cozy-scripts": "5.13.0",
     "cozy-ui": "^60.10.0",
     "date-fns": "^1.30.1",
