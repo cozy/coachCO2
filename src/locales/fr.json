@@ -1,6 +1,8 @@
 {
   "nav": {
     "trips": "Déplacements",
+    "analysis": "Analyse",
+    "modes": "Mode de déplac.",
     "settings": "Paramètres"
   },
   "account": {
@@ -44,5 +46,8 @@
     "selectMode": "Modifier le mode de transport",
     "selectPurpose": "Modifier le motif du déplacement"
   },
-  "purpose": "Motif du déplacement"
+  "purpose": "Motif du déplacement",
+  "analysis": {
+    "mode": "Mode de déplacement"
+  }
 }
