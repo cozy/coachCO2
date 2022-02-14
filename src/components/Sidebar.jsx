@@ -7,10 +7,12 @@ import Nav, {
   NavItem,
   NavIcon,
   NavText,
-  NavLink
+  genNavLink
 } from 'cozy-ui/transpiled/react/Nav'
 import CategoriesIcon from 'cozy-ui/transpiled/react/Icons/Categories'
 import SettingIcon from 'cozy-ui/transpiled/react/Icons/Setting'
+
+const NavLink = genNavLink(RouterLink)
 
 const Sidebar = () => {
   const { t } = useI18n()
@@ -19,24 +21,16 @@ const Sidebar = () => {
     <UISidebar>
       <Nav>
         <NavItem>
-          <RouterLink
-            to="/trips"
-            className={NavLink.className}
-            activeClassName={NavLink.activeClassName}
-          >
+          <NavLink to="/trips">
             <NavIcon icon={CategoriesIcon} />
             <NavText>{t('nav.trips')}</NavText>
-          </RouterLink>
+          </NavLink>
         </NavItem>
         <NavItem>
-          <RouterLink
-            to="/settings"
-            className={NavLink.className}
-            activeClassName={NavLink.activeClassName}
-          >
+          <NavLink to="/settings">
             <NavIcon icon={SettingIcon} />
             <NavText>{t('nav.settings')}</NavText>
-          </RouterLink>
+          </NavLink>
         </NavItem>
       </Nav>
     </UISidebar>
