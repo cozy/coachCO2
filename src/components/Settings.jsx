@@ -6,6 +6,7 @@ import { useQuery } from 'cozy-client'
 
 import { AccountContext } from 'src/components/AccountProvider'
 import { buildAccountQuery } from 'src/queries/queries'
+import Titlebar from 'src/components/Titlebar'
 
 export const Settings = () => {
   const { t } = useI18n()
@@ -26,6 +27,7 @@ export const Settings = () => {
 
   return (
     <>
+      <Titlebar />
       <Label>{t('devices.label')}</Label>
       <SelectBox
         options={accounts}
