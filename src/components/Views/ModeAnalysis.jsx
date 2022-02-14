@@ -2,8 +2,8 @@ import React from 'react'
 
 import Titlebar from 'src/components/Titlebar'
 
-const ModesView = () => {
+const ModeAnalysis = () => {
   return <Titlebar />
 }
 
-export default ModesView
+export default ModeAnalysis

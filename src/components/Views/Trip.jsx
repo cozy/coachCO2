@@ -9,7 +9,7 @@ import { buildGeoJSONQueryById } from 'src/queries/queries'
 import { transformTimeseriesToTrips } from 'src/lib/trips'
 import TripProvider from 'src/components/Trip/TripProvider'
 
-const TripView = () => {
+const Trip = () => {
   const { pathname } = useLocation()
   const geojsonId = useMemo(() => pathname.split('/').pop(), [pathname])
 
@@ -42,4 +42,4 @@ const TripView = () => {
   )
 }
 
-export default React.memo(TripView)
+export default React.memo(Trip)

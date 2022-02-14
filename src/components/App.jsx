@@ -8,10 +8,10 @@ import Alerter from 'cozy-ui/transpiled/react/Alerter'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import Sidebar from 'src/components/Sidebar'
-import TripAccount from 'src/components/TripAccount'
-import TripView from 'src/components/Trip'
-import ModesView from 'src/components/Analysis/Modes/ModesView'
-import Settings from 'src/components/Settings'
+import Trips from 'src/components/Views/Trips'
+import Trip from 'src/components/Views/Trip'
+import ModeAnalysis from 'src/components/Views/ModeAnalysis'
+import Settings from 'src/components/Views/Settings'
 
 const App = () => {
   const { t } = useI18n()
@@ -23,10 +23,10 @@ const App = () => {
         <Main>
           <Content>
             <Switch>
-              <Route path="/trip/:geojsonId" component={TripView} />
-              <Route path="/trips" component={TripAccount} />
+              <Route path="/trip/:geojsonId" component={Trip} />
+              <Route path="/trips" component={Trips} />
               <Route path="/settings" component={Settings} />
-              <Route path="/analysis/modes" component={ModesView} />
+              <Route path="/analysis/modes" component={ModeAnalysis} />
               <Redirect from="/analysis" to="/analysis/modes" />
               <Redirect from="/" to="/trips" />
               <Redirect from="*" to="/trips" />
