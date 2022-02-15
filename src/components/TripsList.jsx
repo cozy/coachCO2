@@ -10,7 +10,8 @@ import { isQueryLoading, useQuery, hasQueryBeenLoaded } from 'cozy-client'
 
 import { buildGeoJSONQueryByAccountId } from 'src/queries/queries'
 import TripItem from 'src/components/TripItem'
-import { transformTimeseriesToTrips, getStartDate } from 'src/lib/trips'
+import { getStartDate } from 'src/lib/trips'
+import { transformTimeseriesToTrips } from 'src/lib/timeseries'
 import Titlebar from 'src/components/Titlebar'
 
 export const TripsList = ({ account }) => {

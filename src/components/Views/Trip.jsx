@@ -6,7 +6,7 @@ import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 import TripDialogMobile from 'src/components/Trip/TripDialogMobile'
 import { buildGeoJSONQueryById } from 'src/queries/queries'
-import { transformTimeseriesToTrips } from 'src/lib/trips'
+import { transformTimeseriesToTrips } from 'src/lib/timeseries'
 import TripProvider from 'src/components/Trip/TripProvider'
 
 const Trip = () => {
