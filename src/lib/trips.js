@@ -92,6 +92,7 @@ export const getSectionsInfo = trip => {
     trip.features.map(feature => {
       if (feature.features) {
         return feature.features.map(feature => {
+          const speeds = get(feature, 'properties.speeds')
           return {
             id: feature.id,
             mode: getFeatureMode(feature),
@@ -99,7 +100,7 @@ export const getSectionsInfo = trip => {
             duration: get(feature, 'properties.duration'), // in seconds
             startDate: get(feature, 'properties.start_fmt_time'),
             endDate: get(feature, 'properties.end_fmt_time'),
-            averageSpeed: averageSpeedKmH(get(feature, 'properties.speeds')) // in km/h
+            averageSpeed: speeds ? averageSpeedKmH(speeds) : undefined // in km/h
           }
         })
       }
