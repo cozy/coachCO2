@@ -1,6 +1,7 @@
 import get from 'lodash/get'
 import flatten from 'lodash/flatten'
 import uniq from 'lodash/uniq'
+import memoize from 'lodash/memoize'
 import distanceInWords from 'date-fns/distance_in_words'
 import humanizeDuration from 'humanize-duration'
 
@@ -87,7 +88,7 @@ export const getMainMode = trip => {
   return mainSection.mode
 }
 
-export const getSectionsInfo = trip => {
+export const getSectionsInfo = memoize(trip => {
   return flatten(
     trip.features.map(feature => {
       if (feature.features) {
@@ -106,7 +107,7 @@ export const getSectionsInfo = trip => {
       }
     })
   ).filter(Boolean)
-}
+})
 
 export const getSectionsFormatedInfo = (trip, lang) => {
   const sections = getSectionsInfo(trip)
