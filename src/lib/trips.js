@@ -171,12 +171,16 @@ const averageSpeedKmH = speeds => {
   return avgSpeed * 3.6
 }
 
-export const formatCalories = trip => {
+export const formatCalories = calories => `${Math.round(calories)} kcal`
+
+export const computeAndformatCaloriesTrip = trip => {
   const caloriesTrip = computeCaloriesTrip(trip)
-  return `${Math.round(caloriesTrip)} kcal`
+  return formatCalories(caloriesTrip)
 }
 
-export const formatCO2 = trip => {
+export const formatCO2 = CO2 => `${Math.round(CO2 * 100) / 100} kg`
+
+export const computeAndFormatCO2Trip = trip => {
   const CO2Trip = computeCO2Trip(trip)
-  return `${Math.round(CO2Trip * 100) / 100} kg`
+  return formatCO2(CO2Trip)
 }

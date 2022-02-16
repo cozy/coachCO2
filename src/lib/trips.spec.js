@@ -1,23 +1,27 @@
 import { makeBicycleTrip, makeWalkingTrip, makeCarTrip } from 'test/mockTrip'
 
-import { formatCalories, formatCO2, getSectionsFormatedInfo } from './trips'
+import {
+  computeAndformatCaloriesTrip,
+  computeAndFormatCO2Trip,
+  getSectionsFormatedInfo
+} from './trips'
 
-describe('formatCalories', () => {
+describe('computeAndformatCaloriesTrip', () => {
   it('should return formated value', () => {
-    const bCalories = formatCalories(makeBicycleTrip())
+    const bCalories = computeAndformatCaloriesTrip(makeBicycleTrip())
     expect(bCalories).toBe('75 kcal')
 
-    const wCalories = formatCalories(makeWalkingTrip())
+    const wCalories = computeAndformatCaloriesTrip(makeWalkingTrip())
     expect(wCalories).toBe('41 kcal')
   })
 })
 
-describe('formatCO2', () => {
+describe('computeAndFormatCO2Trip', () => {
   it('should return formated value', () => {
-    const bCO2 = formatCO2(makeBicycleTrip())
+    const bCO2 = computeAndFormatCO2Trip(makeBicycleTrip())
     expect(bCO2).toBe('0 kg')
 
-    const cCO2 = formatCO2(makeCarTrip())
+    const cCO2 = computeAndFormatCO2Trip(makeCarTrip())
     expect(cCO2).toBe('2.84 kg')
   })
 })
