@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 
 import UiAvatar from 'cozy-ui/transpiled/react/Avatar'
 
@@ -12,10 +12,10 @@ const makeStyle = ({ faded, color }) => {
     : { backgroundColor: color }
 }
 
-const Avatar = ({ icon, color, faded }) => {
-  const style = useMemo(() => makeStyle({ faded, color }), [color, faded])
+const Avatar = ({ icon, color, faded, ghost }) => {
+  const style = makeStyle({ faded, color })
 
-  return <UiAvatar style={style} icon={icon} size={32} />
+  return <UiAvatar style={style} icon={icon} size={32} ghost={ghost} />
 }
 
-export default React.memo(Avatar)
+export default Avatar
