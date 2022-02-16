@@ -3,7 +3,10 @@ import {
   makeWalkingTrip,
   makeCarTrip,
   mockTimeserie,
-  mockSerie
+  mockSerie,
+  mockFeature,
+  mockFeatureCollection,
+  modeProps
 } from 'test/mockTrip'
 
 import {
@@ -11,14 +14,41 @@ import {
   formatCO2,
   getSectionsFormatedInfo,
   transformTimeserieToTrip,
-  transformTimeseriesToTrips
-} from './trips'
+  transformTimeseriesToTrips,
+  getModesSortedByDistance
+} from 'src/lib/trips'
 
 const timeseries = [
   mockTimeserie('timeserieId01', [mockSerie()]),
   mockTimeserie('timeserieId02', [mockSerie()]),
   mockTimeserie('timeserieId03', [mockSerie()])
 ]
+
+describe('getModesSortedByDistance', () => {
+  const mockedFeatures = [
+    mockFeature('featureId01'),
+    mockFeature('featureId02'),
+    mockFeature('featureId03'),
+    mockFeature('featureId04'),
+    mockFeatureCollection('featureCollectionId01', [
+      mockFeature('featureId05', modeProps.bicycle)
+    ]),
+    mockFeatureCollection('featureCollectionId02', [
+      mockFeature('featureId06', modeProps.walking)
+    ]),
+    mockFeatureCollection('featureCollectionId03', [
+      mockFeature('featureId07', modeProps.car)
+    ])
+  ]
+  const mockedSerie = mockSerie('serieId01', mockedFeatures)
+
+  it('should return feature collection modes sorted by distance', () => {
+    const result = getModesSortedByDistance(mockedSerie)
+
+    expect(result).toHaveLength(3)
+    expect(result).toStrictEqual(['CAR', 'BICYCLING', 'WALKING'])
+  })
+})
 
 describe('formatCalories', () => {
   it('should return formated value', () => {

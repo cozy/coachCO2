@@ -8,8 +8,8 @@ export const buildGeoJSONQueryByAccountId = accountId => ({
     .where({
       'cozyMetadata.sourceAccount': accountId
     })
-    .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
     .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
+    .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
     .limitBy(50),
   options: {
     as: `${DOCTYPE_GEOJSON}/sourceAccount/${accountId}`,

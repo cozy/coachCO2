@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
+import get from 'lodash/get'
 
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
@@ -17,41 +18,65 @@ import Avatar from 'src/components/Avatar'
 import {
   getEndPlaceDisplayName,
   getFormattedDuration,
-  getModes,
+  getModesSortedByDistance,
   formatTripDistance,
-  getStartDate,
-  getMainMode
+  getStartDate
 } from 'src/lib/trips'
 import { computeCO2Trip } from 'src/lib/metrics'
-import { pickModeIcon, modeToColor } from 'src/components/helpers'
+import {
+  pickPurposeIcon,
+  purposeToColor,
+  pickModeIcon
+} from 'src/components/helpers'
 import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
 
 const styles = {
   co2: { fontWeight: 700 }
 }
 
+const getIconStyle = (idx, icons) => ({
+  margin: idx !== 0 && idx < icons.length - 1 ? '0 4px' : '0'
+})
+
+const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
+  return (
+    <>
+      {tripModeIcons.map((tripModeIcon, idx) => (
+        <Icon
+          key={idx}
+          icon={tripModeIcon}
+          size={10}
+          style={getIconStyle(idx, tripModeIcons)}
+        />
+      ))}
+      {` · ${duration} · ${distance}`}
+    </>
+  )
+}
+
 export const TripItem = ({ geojson, trip, withDateHeader }) => {
-  const { f, t } = useI18n()
+  const { f } = useI18n()
   const history = useHistory()
+  const purpose = get(trip, 'properties.manual_purpose')
   const { isMobile } = useBreakpoints()
   const [showTripDialog, setShowTripDialog] = useState(false)
 
   const endPlace = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
-  const modes = useMemo(() => getModes(trip), [trip])
+  const modes = useMemo(() => getModesSortedByDistance(trip), [trip])
   const distance = useMemo(() => formatTripDistance(trip), [trip])
   const day = useMemo(() => f(getStartDate(trip), 'dddd DD MMMM'), [f, trip])
-  const mainMode = useMemo(() => getMainMode(trip), [trip])
+  const AvatarIcon = useMemo(() => pickPurposeIcon(purpose), [purpose])
+  const AvatarColor = useMemo(() => purposeToColor(purpose), [purpose])
 
   const CO2 = useMemo(() => {
     const CO2Trip = computeCO2Trip(trip)
     return Math.round(CO2Trip * 100) / 100
   }, [trip])
 
-  const tripDetails = useMemo(() => {
-    const tModes = modes.map(m => t(`trips.modes.${m}`)).join(', ')
-    return `${duration} · ${distance} · ${tModes} `
-  }, [duration, modes, t, distance])
+  const tripModeIcons = useMemo(() => modes.map(mode => pickModeIcon(mode)), [
+    modes
+  ])
 
   const handleClick = useCallback(() => {
     if (isMobile) {
@@ -65,13 +90,26 @@ export const TripItem = ({ geojson, trip, withDateHeader }) => {
       {withDateHeader && <ListSubheader>{day}</ListSubheader>}
       <ListItem className="u-pl-1-s u-pl-2" button onClick={handleClick}>
         <ListItemIcon>
-          <Avatar icon={pickModeIcon(mainMode)} color={modeToColor(mainMode)} />
+          <Avatar
+            icon={AvatarIcon}
+            ghost={purpose === undefined}
+            color={AvatarColor}
+          />
         </ListItemIcon>
-        <ListItemText primary={endPlace} secondary={tripDetails} />
+        <ListItemText
+          primary={endPlace}
+          secondary={
+            <TripItemSecondary
+              tripModeIcons={tripModeIcons}
+              duration={duration}
+              distance={distance}
+            />
+          }
+        />
         <Typography className="u-mh-half" style={styles.co2} variant="body2">
           {CO2}&nbsp;kg
         </Typography>
-        <Icon icon={RightIcon} className="u-coolGrey" />
+        <Icon icon={RightIcon} color={'var(--secondaryTextColor)'} />
       </ListItem>
       <Divider />
       {showTripDialog && (
@@ -90,4 +128,4 @@ TripItem.propTypes = {
   withDateHeader: PropTypes.bool.isRequired
 }
 
-export default React.memo(TripItem)
+export default TripItem

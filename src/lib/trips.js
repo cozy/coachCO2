@@ -91,16 +91,25 @@ const getFeatureMode = feature => {
   return manualMode || sensedMode
 }
 
-export const getModes = trip => {
+const getFeatureModes = feature => {
+  return feature.features.map(feature => getFeatureMode(feature))
+}
+
+const getDistance = x => {
+  return get(x, 'features[0].properties.distance')
+}
+
+const tripsSortedByDistance = (a, b) => {
+  return getDistance(a) > getDistance(b) ? -1 : 1
+}
+
+export const getModesSortedByDistance = trip => {
   return uniq(
     flatten(
-      trip.features.map(feature => {
-        if (feature.features) {
-          return feature.features.map(feature => getFeatureMode(feature))
-        } else {
-          return getFeatureMode(feature)
-        }
-      })
+      trip.features
+        .filter(feature => feature.type === 'FeatureCollection')
+        .sort(tripsSortedByDistance)
+        .map(getFeatureModes)
     ).filter(Boolean)
   )
 }
