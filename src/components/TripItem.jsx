@@ -18,7 +18,7 @@ import Avatar from 'src/components/Avatar'
 import {
   getEndPlaceDisplayName,
   getFormattedDuration,
-  getModes,
+  getModesSortedByDistance,
   formatTripDistance,
   getStartDate
 } from 'src/lib/trips'
@@ -63,7 +63,7 @@ export const TripItem = ({ geojson, trip, withDateHeader }) => {
 
   const endPlace = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
-  const modes = useMemo(() => getModes(trip), [trip])
+  const modes = useMemo(() => getModesSortedByDistance(trip), [trip])
   const distance = useMemo(() => formatTripDistance(trip), [trip])
   const day = useMemo(() => f(getStartDate(trip), 'dddd DD MMMM'), [f, trip])
   const AvatarIcon = useMemo(() => pickPurposeIcon(purpose), [purpose])

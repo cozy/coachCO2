@@ -15,7 +15,7 @@ import {
   getSectionsFormatedInfo,
   transformTimeserieToTrip,
   transformTimeseriesToTrips,
-  getModes
+  getModesSortedByDistance
 } from 'src/lib/trips'
 
 const timeseries = [
@@ -24,7 +24,7 @@ const timeseries = [
   mockTimeserie('timeserieId03', [mockSerie()])
 ]
 
-describe('getModes', () => {
+describe('getModesSortedByDistance', () => {
   const mockedFeatures = [
     mockFeature('featureId01'),
     mockFeature('featureId02'),
@@ -42,8 +42,8 @@ describe('getModes', () => {
   ]
   const mockedSerie = mockSerie('serieId01', mockedFeatures)
 
-  it('should return modes sorted by distance', () => {
-    const result = getModes(mockedSerie)
+  it('should return feature collection modes sorted by distance', () => {
+    const result = getModesSortedByDistance(mockedSerie)
 
     expect(result).toHaveLength(3)
     expect(result).toStrictEqual(['CAR', 'BICYCLING', 'WALKING'])
