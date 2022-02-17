@@ -31,25 +31,19 @@ import {
 import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
 
 const styles = {
-  co2: { fontWeight: 700 }
+  co2: { fontWeight: 700 },
+  tripIcon: {
+    marginRight: '4px'
+  }
 }
-
-const getIconStyle = (idx, icons) => ({
-  margin: idx !== 0 && idx < icons.length - 1 ? '0 4px' : '0'
-})
 
 const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
   return (
     <>
       {tripModeIcons.map((tripModeIcon, idx) => (
-        <Icon
-          key={idx}
-          icon={tripModeIcon}
-          size={10}
-          style={getIconStyle(idx, tripModeIcons)}
-        />
+        <Icon key={idx} icon={tripModeIcon} size={10} style={styles.tripIcon} />
       ))}
-      {` · ${duration} · ${distance}`}
+      {`· ${duration} · ${distance}`}
     </>
   )
 }
