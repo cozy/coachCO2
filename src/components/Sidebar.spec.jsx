@@ -5,13 +5,12 @@ import { render } from '@testing-library/react'
 import Sidebar from 'src/components/Sidebar'
 import AppLike from 'test/AppLike'
 
-const setup = () => {
-  return render(
+const setup = () =>
+  render(
     <AppLike>
       <Sidebar />
     </AppLike>
   )
-}
 
 describe('Sidebar component', () => {
   it('should be rendered correctly', () => {

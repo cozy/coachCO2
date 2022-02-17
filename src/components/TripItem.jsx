@@ -38,21 +38,19 @@ const getIconStyle = (idx, icons) => ({
   margin: idx !== 0 && idx < icons.length - 1 ? '0 4px' : '0'
 })
 
-const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
-  return (
-    <>
-      {tripModeIcons.map((tripModeIcon, idx) => (
-        <Icon
-          key={idx}
-          icon={tripModeIcon}
-          size={10}
-          style={getIconStyle(idx, tripModeIcons)}
-        />
-      ))}
-      {` · ${duration} · ${distance}`}
-    </>
-  )
-}
+const TripItemSecondary = ({ tripModeIcons, duration, distance }) => (
+  <>
+    {tripModeIcons.map((tripModeIcon, idx) => (
+      <Icon
+        key={idx}
+        icon={tripModeIcon}
+        size={10}
+        style={getIconStyle(idx, tripModeIcons)}
+      />
+    ))}
+    {` · ${duration} · ${distance}`}
+  </>
+)
 
 export const TripItem = ({ geojson, trip, withDateHeader }) => {
   const { f } = useI18n()

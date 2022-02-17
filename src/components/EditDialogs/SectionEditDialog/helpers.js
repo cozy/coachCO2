@@ -3,8 +3,8 @@ import cloneDeep from 'lodash/cloneDeep'
 
 export const createGeojsonWithModifiedMode = ({ geojson, sectionId, mode }) => {
   const matchedSection = geojson.series
-    .flatMap((serie, serieIndex) => {
-      return serie.features.flatMap((feature, firstIndex) => {
+    .flatMap((serie, serieIndex) =>
+      serie.features.flatMap((feature, firstIndex) => {
         if (feature.features) {
           return feature.features.flatMap((feature, secondIndex) => {
             if (feature.id === sectionId) {
@@ -18,7 +18,7 @@ export const createGeojsonWithModifiedMode = ({ geojson, sectionId, mode }) => {
           })
         }
       })
-    })
+    )
     .find(e => e)
 
   if (matchedSection) {

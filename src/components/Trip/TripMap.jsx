@@ -16,14 +16,12 @@ import './tripmap.styl'
 const mapCenter = [51.505, -0.09]
 
 const makeGeoJsonOptions = theme => ({
-  style: feature => {
-    return {
-      weight: feature.properties.feature_type === 'section' ? 5 : 2,
-      color: theme.palette.primary.main
-    }
-  },
-  pointToLayer: (feature, latlng) => {
-    return L.marker(latlng, {
+  style: feature => ({
+    weight: feature.properties.feature_type === 'section' ? 5 : 2,
+    color: theme.palette.primary.main
+  }),
+  pointToLayer: (feature, latlng) =>
+    L.marker(latlng, {
       icon: L.divIcon({
         html: `<div></div>`,
         iconSize: [12, 12],
@@ -34,7 +32,6 @@ const makeGeoJsonOptions = theme => ({
         }`
       })
     })
-  }
 })
 
 const TripMap = () => {

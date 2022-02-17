@@ -1,3 +1,8 @@
 {
-  "extends": ["cozy-app/react"]
+  "extends": ["cozy-app/react"],
+  "rules": {
+    "arrow-body-style": ["warn", "never"],
+    "no-param-reassign": "error",
+    "react-hooks/exhaustive-deps": "error"
+  }
 }

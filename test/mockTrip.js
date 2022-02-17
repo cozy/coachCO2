@@ -73,28 +73,25 @@ export const makeCarTrip = () =>
   createTripFromTemplate(tripTemplate, modeProps.car)
 export const makeCarFeature = id => mockFeature(id, modeProps.car)
 
-export const makePlaneTrip = () => {
-  return createTripFromTemplate(tripTemplate, modeProps.plane)
-}
+export const makePlaneTrip = () =>
+  createTripFromTemplate(tripTemplate, modeProps.plane)
 export const makePlaneFeature = id => mockFeature(id, modeProps.plane)
 
-export const mockFeature = (id, props) => {
-  return {
-    id,
-    type: 'Feature',
-    geometry: {},
-    properties: props
-      ? {
-          sensed_mode: props.mode ? `PredictedModeTypes.${props.mode}` : '',
-          distance: props.distance || '',
-          start_fmt_time: props.startDate || '',
-          end_fmt_time: props.endDate || '',
-          duration: props.duration || '',
-          speeds: props.speeds || [1]
-        }
-      : {}
-  }
-}
+export const mockFeature = (id, props) => ({
+  id,
+  type: 'Feature',
+  geometry: {},
+  properties: props
+    ? {
+        sensed_mode: props.mode ? `PredictedModeTypes.${props.mode}` : '',
+        distance: props.distance || '',
+        start_fmt_time: props.startDate || '',
+        end_fmt_time: props.endDate || '',
+        duration: props.duration || '',
+        speeds: props.speeds || [1]
+      }
+    : {}
+})
 
 export const mockFeatureCollection = (id, features) => ({
   id,
@@ -117,15 +114,13 @@ export const mockSerie = (id = 'serieId01', features) => ({
   ]
 })
 
-export const mockTimeserie = (id = 'timeserieId01', series) => {
-  return {
-    _id: id,
-    id,
-    _type: DOCTYPE_GEOJSON,
-    cozyMetadata: {},
-    startDate: '',
-    endDate: '',
-    source: '',
-    series
-  }
-}
+export const mockTimeserie = (id = 'timeserieId01', series) => ({
+  _id: id,
+  id,
+  _type: DOCTYPE_GEOJSON,
+  cozyMetadata: {},
+  startDate: '',
+  endDate: '',
+  source: '',
+  series
+})

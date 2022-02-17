@@ -39,24 +39,21 @@ export const transformTimeserieToTrip = timeserie => {
   })
 }
 
-export const transformTimeseriesToTrips = timeseries => {
-  return timeseries.flatMap((timeserie, index) => {
-    return timeserie.series.map(serie =>
+export const transformTimeseriesToTrips = timeseries =>
+  timeseries.flatMap((timeserie, index) =>
+    timeserie.series.map(serie =>
       transformTimeserieToTrip({
         ...serie,
         geojsonId: timeseries[index]._id
       })
     )
-  })
-}
+  )
 
-export const getStartPlaceDisplayName = trip => {
-  return get(trip, 'properties.start_place.data.properties.display_name')
-}
+export const getStartPlaceDisplayName = trip =>
+  get(trip, 'properties.start_place.data.properties.display_name')
 
-export const getEndPlaceDisplayName = trip => {
-  return get(trip, 'properties.end_place.data.properties.display_name')
-}
+export const getEndPlaceDisplayName = trip =>
+  get(trip, 'properties.end_place.data.properties.display_name')
 export const getFormattedDuration = trip => {
   const startDate = new Date(trip.properties.start_fmt_time)
   const endDate = new Date(trip.properties.end_fmt_time)
@@ -73,9 +70,8 @@ const formatDistance = distance => {
   return `${Math.round(formatedDistance)} ${unit}`
 }
 
-export const formatTripDistance = trip => {
-  return formatDistance(trip.properties.distance)
-}
+export const formatTripDistance = trip =>
+  formatDistance(trip.properties.distance)
 
 /**
  * manual_mode is created when the user edit the feature mode manualy
@@ -91,20 +87,16 @@ const getFeatureMode = feature => {
   return manualMode || sensedMode
 }
 
-const getFeatureModes = feature => {
-  return feature.features.map(feature => getFeatureMode(feature))
-}
+const getFeatureModes = feature =>
+  feature.features.map(feature => getFeatureMode(feature))
 
-const getDistance = x => {
-  return get(x, 'features[0].properties.distance')
-}
+const getDistance = x => get(x, 'features[0].properties.distance')
 
-const tripsSortedByDistance = (a, b) => {
-  return getDistance(a) > getDistance(b) ? -1 : 1
-}
+const tripsSortedByDistance = (a, b) =>
+  getDistance(a) > getDistance(b) ? -1 : 1
 
-export const getModesSortedByDistance = trip => {
-  return uniq(
+export const getModesSortedByDistance = trip =>
+  uniq(
     flatten(
       trip.features
         .filter(feature => feature.type === 'FeatureCollection')
@@ -112,7 +104,6 @@ export const getModesSortedByDistance = trip => {
         .map(getFeatureModes)
     ).filter(Boolean)
   )
-}
 
 export const getMainMode = trip => {
   const sectionsInfo = getSectionsInfo(trip)
@@ -130,69 +121,60 @@ export const getMainMode = trip => {
   return mainSection.mode
 }
 
-export const getSectionsInfo = trip => {
-  return flatten(
+export const getSectionsInfo = trip =>
+  flatten(
     trip.features.map(feature => {
       if (feature.features) {
-        return feature.features.map(feature => {
-          return {
-            id: feature.id,
-            mode: getFeatureMode(feature),
-            distance: get(feature, 'properties.distance'), // in meters
-            duration: get(feature, 'properties.duration'), // in seconds
-            startDate: get(feature, 'properties.start_fmt_time'),
-            endDate: get(feature, 'properties.end_fmt_time'),
-            averageSpeed: averageSpeedKmH(get(feature, 'properties.speeds')) // in km/h
-          }
-        })
+        return feature.features.map(feature => ({
+          id: feature.id,
+          mode: getFeatureMode(feature),
+          distance: get(feature, 'properties.distance'), // in meters
+          duration: get(feature, 'properties.duration'), // in seconds
+          startDate: get(feature, 'properties.start_fmt_time'),
+          endDate: get(feature, 'properties.end_fmt_time'),
+          averageSpeed: averageSpeedKmH(get(feature, 'properties.speeds')) // in km/h
+        }))
       }
     })
   ).filter(Boolean)
-}
 
 export const getSectionsFormatedInfo = (trip, lang) => {
   const sections = getSectionsInfo(trip)
   const language = ['fr', 'en'].includes(lang) ? lang : 'en'
 
-  return sections.map(section => {
-    return {
-      ...section,
-      distance: `${formatDistance(section.distance)}`,
-      duration: `${humanizeDuration(section.duration * 1000, {
-        delimiter: ' ',
-        largest: 2,
-        round: true,
-        units: ['h', 'm'],
-        language,
-        languages: {
-          fr: {
-            d: () => 'j',
-            h: () => 'h',
-            m: () => 'min',
-            s: () => 's',
-            ms: () => 'ms'
-          },
-          en: {
-            d: () => 'd',
-            h: () => 'h',
-            m: () => 'min',
-            s: () => 's',
-            ms: () => 'ms'
-          }
+  return sections.map(section => ({
+    ...section,
+    distance: `${formatDistance(section.distance)}`,
+    duration: `${humanizeDuration(section.duration * 1000, {
+      delimiter: ' ',
+      largest: 2,
+      round: true,
+      units: ['h', 'm'],
+      language,
+      languages: {
+        fr: {
+          d: () => 'j',
+          h: () => 'h',
+          m: () => 'min',
+          s: () => 's',
+          ms: () => 'ms'
+        },
+        en: {
+          d: () => 'd',
+          h: () => 'h',
+          m: () => 'min',
+          s: () => 's',
+          ms: () => 'ms'
         }
-      })}`,
-      averageSpeed: `${Math.round(section.averageSpeed)} km/h`
-    }
-  })
+      }
+    })}`,
+    averageSpeed: `${Math.round(section.averageSpeed)} km/h`
+  }))
 }
 
-export const getStartDate = trip => {
-  return new Date(trip.properties.start_fmt_time)
-}
+export const getStartDate = trip => new Date(trip.properties.start_fmt_time)
 
-export const getEndDate = trip => {
-  return new Date(trip.properties.end_fmt_time)
-}
+export const getEndDate = trip => new Date(trip.properties.end_fmt_time)
 
 export const formatDate = ({ f, lang, date }) => {
   if (lang === 'fr') {

@@ -1,9 +1,8 @@
 /* global cozy */
 import manifest from '../../manifest.webapp'
 
-const getDataOrDefault = (data, defaultData) => {
-  return /^\{\{\..*\}\}$/.test(data) ? defaultData : data
-}
+const getDataOrDefault = (data, defaultData) =>
+  /^\{\{\..*\}\}$/.test(data) ? defaultData : data
 
 /**
  * default data will allow to display correctly the cozy-bar
