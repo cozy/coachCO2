@@ -48,6 +48,7 @@
   },
   "purpose": "Reason for travel",
   "analysis": {
-    "mode": "Mode of travel"
+    "mode": "Mode of travel",
+    "travels": "%{smart_count} travel |||| %{smart_count} travel"
   }
 }

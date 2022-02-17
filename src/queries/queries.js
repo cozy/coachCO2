@@ -38,3 +38,11 @@ export const buildGeoJSONQueryById = geojsonId => ({
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
+
+export const buildGeoJSONQuery = () => ({
+  definition: Q(DOCTYPE_GEOJSON).UNSAFE_noLimit(),
+  options: {
+    as: DOCTYPE_GEOJSON,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+  }
+})
