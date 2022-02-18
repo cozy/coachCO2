@@ -4,6 +4,7 @@
 
 * Update cozy packages
 * Home : replace the icon of a trip by the purpose's one, and displays all used modes
+* Analysis: new analysis page allowing to visualize the most CO2 consuming trips by mode
 
 ## 🐛 Bug Fixes
 
