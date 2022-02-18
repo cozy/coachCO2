@@ -1,8 +1,13 @@
 import merge from 'lodash/merge'
 import keyBy from 'lodash/keyBy'
+import sortBy from 'lodash/sortBy'
+import fromPairs from 'lodash/fromPairs'
+import toPairs from 'lodash/toPairs'
 
 import { computeCO2Section } from 'src/lib/metrics'
 import { getSectionsInfo } from 'src/lib/trips'
+import { modes } from 'src/components/helpers'
+import { UNKNOWN_MODE } from 'src/constants/const'
 
 export const collectFeaturesByOid = geojson => {
   const res = {}
@@ -79,4 +84,83 @@ export const computeAggregatedTimeseries = timeseries => {
   })
 
   return aggregatedTimeseries
+}
+
+/**
+ * Computes the total CO2 for all aggregated timeseries
+ * @param {array} aggregatedTimeseries - Aggregated timeseries
+ * @returns {number} The total CO2 of all timeseries
+ */
+export const computeCO2Timeseries = aggregatedTimeseries => {
+  let totalCO2 = 0
+
+  aggregatedTimeseries.forEach(aggregatedTimeserie => {
+    totalCO2 += aggregatedTimeserie.aggregation.totalCO2
+  })
+
+  return totalCO2
+}
+
+/**
+ * Sort modes from aggregated timeseries by CO2 and timeseries count
+ * @param {object} timeseriesByModes - Sorted aggregated timeseries by modes
+ * @returns {object} Sorted aggregated timeseries by CO2
+ */
+export const sortTimeseriesByModesByCO2 = timeseriesByModes => {
+  const pairedTimeseriesByModes = toPairs(timeseriesByModes)
+
+  const unknown = timeseriesByModes[UNKNOWN_MODE]
+  const isUnknownWithNoDatas =
+    unknown.timeseries.length === 0 && unknown.totalCO2 === 0
+
+  const withCO2 = sortBy(
+    pairedTimeseriesByModes.filter(el =>
+      isUnknownWithNoDatas
+        ? el[0] !== UNKNOWN_MODE && el[1].totalCO2 > 0
+        : el[1].totalCO2 > 0
+    ),
+    el => el[1].totalCO2
+  ).reverse()
+
+  const withZeroCO2 = sortBy(
+    pairedTimeseriesByModes.filter(el =>
+      isUnknownWithNoDatas
+        ? el[0] !== UNKNOWN_MODE && el[1].totalCO2 === 0
+        : el[1].totalCO2 === 0
+    ),
+    el => el[1].timeseries.length
+  ).reverse()
+
+  return {
+    ...fromPairs(withCO2),
+    ...fromPairs(withZeroCO2),
+    ...(isUnknownWithNoDatas && { [UNKNOWN_MODE]: unknown })
+  }
+}
+
+/**
+ * Sort aggregated timeseries by modes and CO2
+ * @param {array} aggregatedTimeseries - Aggregated timeseries
+ * @returns {array} Sorted aggregated timeseries by CO2
+ */
+export const sortTimeseriesByModes = aggregatedTimeseries => {
+  const timeseriesByModes = modes.reduce(
+    (a, v) => ({ ...a, [v]: { timeseries: [], totalCO2: 0 } }),
+    {}
+  )
+
+  aggregatedTimeseries.forEach(aggregatedTimeserie => {
+    const aggregatedSections = aggregatedTimeserie.aggregation.sections
+
+    aggregatedSections.forEach(section => {
+      const collectedTimeseries = timeseriesByModes[section.mode].timeseries
+
+      if (!collectedTimeseries.includes(aggregatedTimeserie.id)) {
+        collectedTimeseries.push(aggregatedTimeserie.id)
+      }
+      timeseriesByModes[section.mode].totalCO2 += section.totalCO2
+    })
+  })
+
+  return sortTimeseriesByModesByCO2(timeseriesByModes)
 }
