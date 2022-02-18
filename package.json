@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@material-ui/core": "4",
+    "chart.js": "3.7.1",
     "cozy-client": "^27.14.4",
     "cozy-intent": "^1.9.1",
     "cozy-scripts": "5.13.0",
@@ -60,6 +61,7 @@
     "lodash": "^4.17.21",
     "mui-bottom-sheet": "https://github.com/cozy/mui-bottom-sheet.git#v1.0.6",
     "react": "16.14.0",
+    "react-chartjs-2": "4.0.1",
     "react-dom": "16.14.0",
     "react-leaflet": "2.8.0",
     "react-router-dom": "5.2.0"
