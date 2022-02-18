@@ -1,3 +1,21 @@
+# 0.4.0
+
+## ✨ Features
+
+* Update cozy packages
+* Home : replace the icon of a trip by the purpose's one, and displays all used modes
+
+## 🐛 Bug Fixes
+
+## 🔧 Tech
+
+* Remove stuffs related to default todo app
+* Add fixtures to help development
+* Add bunldemon (used with `yarn build && yarn bundlemon`)
+* Use fullscreen modal for mobile trip view
+* Some trips transformation optimization
+* Update documentation
+
 # 0.3.0
 
 ## ✨ Features
@@ -12,10 +30,3 @@
 
 * Add non breakable space to show CO2 quantity in list view and fix font size
 * Add white background on PWA icon on iOS
-
-## 🔧 Tech
-
-* Remove stuffs related to default todo app
-* Add fixtures to help development
-* Add bunldemon (used with `yarn build && yarn bundlemon`)
-* Use fullscreen modal for mobile trip view
