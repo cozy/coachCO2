@@ -7,13 +7,17 @@ import {
   makeWalkingFeature
 } from 'test/mockTrip'
 
+import { purposes } from 'src/components/helpers'
+import { UNKNOWN_MODE } from 'src/constants/const'
+
 import {
   transformTimeserieToTrip,
   transformTimeseriesToTrips,
   computeAggregatedTimeseries,
   sortTimeseriesByCO2GroupedByMode,
   computeCO2Timeseries,
-  sortTimeseriesByModesByCO2
+  sortGroupedTimeseries,
+  makeTimeseriesIdsAndTotalCO2ByPurposes
 } from './timeseries'
 
 describe('transformTimeserieToTrip', () => {
@@ -140,12 +144,20 @@ describe('Aggregation', () => {
   const timeseries = [
     mockTimeserie('timeserieId01', [serie01]),
     mockTimeserie('timeserieId02', [
-      mockSerie('serie02', [
-        mockFeatureCollection('featureCol03', [makeCarFeature('CarFeature02')]),
-        mockFeatureCollection('featureCol04', [
-          makeWalkingFeature('WalkingFeature01')
-        ])
-      ])
+      mockSerie(
+        'serie02',
+        [
+          mockFeatureCollection('featureCol03', [
+            makeCarFeature('CarFeature02')
+          ]),
+          mockFeatureCollection('featureCol04', [
+            makeWalkingFeature('WalkingFeature01')
+          ])
+        ],
+        {
+          manual_purpose: purposes[0]
+        }
+      )
     ])
   ]
 
@@ -248,9 +260,9 @@ describe('Aggregation', () => {
     })
   })
 
-  describe('sortTimeseriesByModesByCO2', () => {
+  describe('sortGroupedTimeseries', () => {
     it('should sort by CO2 first, then by timeseries count and at least put UNKNOWN', () => {
-      const timeseriesSortedByModes = {
+      const groupedTimeseries = {
         AIR_OR_HSR: { timeseries: ['timeserieId01'], totalCO2: 100 },
         BICYCLING: { timeseries: [], totalCO2: 0 },
         BUS: { timeseries: [], totalCO2: 0 },
@@ -264,7 +276,7 @@ describe('Aggregation', () => {
         UNKNOWN: { timeseries: [], totalCO2: 0 }
       }
 
-      const expected = sortTimeseriesByModesByCO2(timeseriesSortedByModes)
+      const expected = sortGroupedTimeseries(groupedTimeseries, UNKNOWN_MODE)
 
       expect(Object.keys(expected)[0]).toBe('CAR')
       expect(Object.keys(expected)[1]).toBe('AIR_OR_HSR')
@@ -273,7 +285,7 @@ describe('Aggregation', () => {
     })
 
     it('should place UNKNOWN in first', () => {
-      const timeseriesSortedByModes = {
+      const groupedTimeseries = {
         AIR_OR_HSR: { timeseries: ['timeserieId01'], totalCO2: 100 },
         BICYCLING: { timeseries: [], totalCO2: 0 },
         BUS: { timeseries: [], totalCO2: 0 },
@@ -284,7 +296,7 @@ describe('Aggregation', () => {
         UNKNOWN: { timeseries: ['timeserieId03'], totalCO2: 300 }
       }
 
-      const expected = sortTimeseriesByModesByCO2(timeseriesSortedByModes)
+      const expected = sortGroupedTimeseries(groupedTimeseries, UNKNOWN_MODE)
 
       expect(Object.keys(expected)[0]).toBe('UNKNOWN')
       expect(Object.keys(expected)[1]).toBe('CAR')
@@ -293,7 +305,7 @@ describe('Aggregation', () => {
     })
 
     it('should place UNKNOWN after all modes with CO2 but before the others', () => {
-      const timeseriesSortedByModes = {
+      const groupedTimeseries = {
         AIR_OR_HSR: { timeseries: ['timeserieId01'], totalCO2: 100 },
         BICYCLING: { timeseries: [], totalCO2: 0 },
         BUS: { timeseries: [], totalCO2: 0 },
@@ -304,7 +316,7 @@ describe('Aggregation', () => {
         UNKNOWN: { timeseries: ['timeserieId02', 'timeserieId03'], totalCO2: 0 }
       }
 
-      const expected = sortTimeseriesByModesByCO2(timeseriesSortedByModes)
+      const expected = sortGroupedTimeseries(groupedTimeseries, UNKNOWN_MODE)
 
       expect(Object.keys(expected)[0]).toBe('CAR')
       expect(Object.keys(expected)[1]).toBe('AIR_OR_HSR')
@@ -318,6 +330,65 @@ describe('Aggregation', () => {
       expect(computeCO2Timeseries(aggregatedTimeseries)).toBe(
         135.91453799999996
       )
+    })
+  })
+
+  describe('makeTimeseriesIdsAndTotalCO2ByPurposes', () => {
+    it('should not mutate initial aggregatedTimeseries', () => {
+      makeTimeseriesIdsAndTotalCO2ByPurposes(aggregatedTimeseries)
+
+      expect(Array.isArray(aggregatedTimeseries)).toBe(true)
+      expect(aggregatedTimeseries.length).toBe(2)
+    })
+
+    it('should return timeseries ids and totalCO2 sorted by purposes', () => {
+      const timeseriesSortedByPurposes = makeTimeseriesIdsAndTotalCO2ByPurposes(
+        aggregatedTimeseries
+      )
+
+      expect(timeseriesSortedByPurposes).toEqual({
+        HOME: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        WORK: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        SCHOOL: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        SHOPPING: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        MEAL: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+
+        PERSONAL_MED: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        EXERCISE: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        ENTERTAINMENT: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        PICK_DROP: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        OTHER_PURPOSE: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        }
+      })
     })
   })
 })
