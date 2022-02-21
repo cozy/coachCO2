@@ -3,7 +3,7 @@
     "trips": "Déplacements",
     "analysis": "Analyse",
     "modes": "Mode de déplac.",
-    "purposes": "Motif de déplac.",
+    "purposes": "Raison du déplac.",
     "settings": "Paramètres"
   },
   "account": {
@@ -45,12 +45,12 @@
   "loadMore": "Charger plus de trajets",
   "tripEdit": {
     "selectMode": "Modifier le mode de transport",
-    "selectPurpose": "Modifier le motif du déplacement"
+    "selectPurpose": "Modifier la raison du déplacement"
   },
-  "purpose": "Motif du déplacement",
+  "purpose": "Raison du déplacement",
   "analysis": {
     "mode": "Mode de déplacement",
-    "purpose": "Motif de déplacement",
+    "purpose": "Raison du déplacement",
     "travels": "%{smart_count} déplacement |||| %{smart_count} déplacements",
     "emittedCO2": "CO2 émis"
   }
