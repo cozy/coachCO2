@@ -31,7 +31,7 @@ const LoadedModesList = ({ timeseries }) => {
     aggregatedTimeseries
   ])
   const { data, options } = useMemo(
-    () => makeChartProps(timeseriesSortedByModes, t),
+    () => makeChartProps(timeseriesSortedByModes, 'modes', t),
     [t, timeseriesSortedByModes]
   )
 

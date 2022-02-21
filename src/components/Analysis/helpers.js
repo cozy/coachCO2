@@ -1,13 +1,14 @@
-import { modeToColor } from 'src/components/helpers'
+import { modeToColor, purposeToColor } from 'src/components/helpers'
 import { formatCO2 } from 'src/lib/trips'
 
-export const makeChartProps = (timeseriesSortedByModes, t) => {
-  const timeseriesData = Object.values(timeseriesSortedByModes).map(
-    modeValues => modeValues.totalCO2
+export const makeChartProps = (sortedTimeseries, type, t) => {
+  const timeseriesData = Object.values(sortedTimeseries).map(
+    val => val.totalCO2
   )
-  const colors = Object.keys(timeseriesSortedByModes).map(el => modeToColor(el))
-  const labels = Object.keys(timeseriesSortedByModes).map(el =>
-    t(`trips.modes.${el}`)
+  const pickColors = type === 'modes' ? modeToColor : purposeToColor
+  const colors = Object.keys(sortedTimeseries).map(el => pickColors(el))
+  const labels = Object.keys(sortedTimeseries).map(el =>
+    t(`trips.${type}.${el}`)
   )
 
   const data = {
