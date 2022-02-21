@@ -11,6 +11,7 @@ import Sidebar from 'src/components/Sidebar'
 import Trips from 'src/components/Views/Trips'
 import Trip from 'src/components/Views/Trip'
 import ModeAnalysis from 'src/components/Views/ModeAnalysis'
+import PurposeAnalysis from 'src/components/Views/PurposeAnalysis'
 import Settings from 'src/components/Views/Settings'
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
               <Route path="/trips" component={Trips} />
               <Route path="/settings" component={Settings} />
               <Route path="/analysis/modes" component={ModeAnalysis} />
+              <Route path="/analysis/purposes" component={PurposeAnalysis} />
               <Redirect from="/analysis" to="/analysis/modes" />
               <Redirect from="/" to="/trips" />
               <Redirect from="*" to="/trips" />

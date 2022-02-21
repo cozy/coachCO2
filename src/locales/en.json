@@ -3,6 +3,7 @@
     "trips": "Trips",
     "analysis": "Analysis",
     "modes": "Mode of travel",
+    "purposes": "Purpose of travel",
     "settings": "Settings"
   },
   "account": {
@@ -49,6 +50,7 @@
   "purpose": "Reason for travel",
   "analysis": {
     "mode": "Mode of travel",
+    "purpose": "Purpose of travel",
     "travels": "%{smart_count} travel |||| %{smart_count} travel",
     "emittedCO2": "emitted CO2"
   }

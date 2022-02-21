@@ -38,6 +38,11 @@ const Sidebar = () => {
             <NavText>{t('nav.modes')}</NavText>
           </NavLink>
         </NavItem>
+        <NavItem secondary>
+          <NavLink to="/analysis/purposes">
+            <NavText>{t('nav.purposes')}</NavText>
+          </NavLink>
+        </NavItem>
         <NavItem>
           <NavLink to="/settings">
             <NavIcon icon={SettingIcon} />
