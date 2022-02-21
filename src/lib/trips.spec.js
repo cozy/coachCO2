@@ -1,71 +1,27 @@
-import {
-  makeBicycleTrip,
-  makeWalkingTrip,
-  makeCarTrip,
-  mockTimeserie,
-  mockSerie,
-  mockFeature,
-  mockFeatureCollection,
-  modeProps
-} from 'test/mockTrip'
+import { makeBicycleTrip, makeWalkingTrip, makeCarTrip } from 'test/mockTrip'
 
 import {
-  formatCalories,
-  formatCO2,
-  getSectionsFormatedInfo,
-  transformTimeserieToTrip,
-  transformTimeseriesToTrips,
-  getModesSortedByDistance
-} from 'src/lib/trips'
+  computeAndformatCaloriesTrip,
+  computeAndFormatCO2Trip,
+  getSectionsFormatedInfo
+} from './trips'
 
-const timeseries = [
-  mockTimeserie('timeserieId01', [mockSerie()]),
-  mockTimeserie('timeserieId02', [mockSerie()]),
-  mockTimeserie('timeserieId03', [mockSerie()])
-]
-
-describe('getModesSortedByDistance', () => {
-  const mockedFeatures = [
-    mockFeature('featureId01'),
-    mockFeature('featureId02'),
-    mockFeature('featureId03'),
-    mockFeature('featureId04'),
-    mockFeatureCollection('featureCollectionId01', [
-      mockFeature('featureId05', modeProps.bicycle)
-    ]),
-    mockFeatureCollection('featureCollectionId02', [
-      mockFeature('featureId06', modeProps.walking)
-    ]),
-    mockFeatureCollection('featureCollectionId03', [
-      mockFeature('featureId07', modeProps.car)
-    ])
-  ]
-  const mockedSerie = mockSerie('serieId01', mockedFeatures)
-
-  it('should return feature collection modes sorted by distance', () => {
-    const result = getModesSortedByDistance(mockedSerie)
-
-    expect(result).toHaveLength(3)
-    expect(result).toStrictEqual(['CAR', 'BICYCLING', 'WALKING'])
-  })
-})
-
-describe('formatCalories', () => {
+describe('computeAndformatCaloriesTrip', () => {
   it('should return formated value', () => {
-    const bCalories = formatCalories(makeBicycleTrip())
+    const bCalories = computeAndformatCaloriesTrip(makeBicycleTrip())
     expect(bCalories).toBe('75 kcal')
 
-    const wCalories = formatCalories(makeWalkingTrip())
+    const wCalories = computeAndformatCaloriesTrip(makeWalkingTrip())
     expect(wCalories).toBe('41 kcal')
   })
 })
 
-describe('formatCO2', () => {
+describe('computeAndFormatCO2Trip', () => {
   it('should return formated value', () => {
-    const bCO2 = formatCO2(makeBicycleTrip())
+    const bCO2 = computeAndFormatCO2Trip(makeBicycleTrip())
     expect(bCO2).toBe('0 kg')
 
-    const cCO2 = formatCO2(makeCarTrip())
+    const cCO2 = computeAndFormatCO2Trip(makeCarTrip())
     expect(cCO2).toBe('2.84 kg')
   })
 })
@@ -78,114 +34,5 @@ describe('getSectionsFormatedInfo', () => {
       duration: '10 min',
       averageSpeed: '4 km/h'
     })
-  })
-})
-
-describe('transformTimeserieToTrip', () => {
-  it('should return correct value', () => {
-    const trip = transformTimeserieToTrip(mockSerie())
-
-    expect(trip).toMatchObject({
-      properties: {
-        start_place: {
-          data: {
-            id: 'sectionId01',
-            type: 'Feature',
-            geometry: {},
-            properties: {}
-          }
-        },
-        end_place: {
-          data: {
-            id: 'sectionId02',
-            type: 'Feature',
-            geometry: {},
-            properties: {}
-          }
-        }
-      }
-    })
-  })
-})
-
-describe('transformTimeseriesToTrips', () => {
-  it('should return correct value', () => {
-    const trips = transformTimeseriesToTrips(timeseries)
-
-    expect(trips.length).toBe(3)
-    expect(trips).toMatchObject([
-      {
-        id: 'serieId01',
-        geojsonId: 'timeserieId01',
-        type: 'FeatureCollection',
-        properties: {
-          start_place: {
-            data: {
-              id: 'sectionId01',
-              type: 'Feature',
-              geometry: {},
-              properties: {}
-            }
-          },
-          end_place: {
-            data: {
-              id: 'sectionId02',
-              type: 'Feature',
-              geometry: {},
-              properties: {}
-            }
-          }
-        },
-        features: mockSerie().features
-      },
-      {
-        id: 'serieId01',
-        geojsonId: 'timeserieId02',
-        type: 'FeatureCollection',
-        properties: {
-          start_place: {
-            data: {
-              id: 'sectionId01',
-              type: 'Feature',
-              geometry: {},
-              properties: {}
-            }
-          },
-          end_place: {
-            data: {
-              id: 'sectionId02',
-              type: 'Feature',
-              geometry: {},
-              properties: {}
-            }
-          }
-        },
-        features: mockSerie().features
-      },
-      {
-        id: 'serieId01',
-        geojsonId: 'timeserieId03',
-        type: 'FeatureCollection',
-        properties: {
-          start_place: {
-            data: {
-              id: 'sectionId01',
-              type: 'Feature',
-              geometry: {},
-              properties: {}
-            }
-          },
-          end_place: {
-            data: {
-              id: 'sectionId02',
-              type: 'Feature',
-              geometry: {},
-              properties: {}
-            }
-          }
-        },
-        features: mockSerie().features
-      }
-    ])
   })
 })

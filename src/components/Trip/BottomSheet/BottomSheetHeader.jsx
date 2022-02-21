@@ -6,8 +6,8 @@ import InfoBlock from 'src/components/Trip/BottomSheet/InfoBlock'
 import {
   getFormattedDuration,
   formatTripDistance,
-  formatCalories,
-  formatCO2
+  computeAndformatCaloriesTrip,
+  computeAndFormatCO2Trip
 } from 'src/lib/trips'
 import { useTrip } from 'src/components/Trip/TripProvider'
 
@@ -17,8 +17,8 @@ const BottomSheetHeader = () => {
 
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
   const distance = useMemo(() => formatTripDistance(trip), [trip])
-  const calories = useMemo(() => formatCalories(trip), [trip])
-  const CO2 = useMemo(() => formatCO2(trip), [trip])
+  const calories = useMemo(() => computeAndformatCaloriesTrip(trip), [trip])
+  const CO2 = useMemo(() => computeAndFormatCO2Trip(trip), [trip])
 
   return (
     <>

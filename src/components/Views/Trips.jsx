@@ -8,7 +8,7 @@ import { buildAccountQuery } from 'src/queries/queries'
 import TripsList from 'src/components/TripsList'
 import { AccountContext } from 'src/components/AccountProvider'
 
-export const TripAccount = () => {
+export const Trips = () => {
   const { t } = useI18n()
   const { selectedAccount } = useContext(AccountContext)
 
@@ -36,4 +36,4 @@ export const TripAccount = () => {
   return <p>{t('account.notFound')}</p>
 }
 
-export default TripAccount
+export default Trips

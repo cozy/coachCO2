@@ -1,6 +1,8 @@
 {
   "nav": {
     "trips": "Trips",
+    "analysis": "Analysis",
+    "modes": "Mode of travel",
     "settings": "Settings"
   },
   "account": {
@@ -44,5 +46,10 @@
     "selectMode": "Modify the transportation mode",
     "selectPurpose": "Modify the travel purpose"
   },
-  "purpose": "Reason for travel"
+  "purpose": "Reason for travel",
+  "analysis": {
+    "mode": "Mode of travel",
+    "travels": "%{smart_count} travel |||| %{smart_count} travel",
+    "emittedCO2": "emitted CO2"
+  }
 }

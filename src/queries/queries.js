@@ -38,3 +38,14 @@ export const buildGeoJSONQueryById = geojsonId => ({
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
+
+// TODO Query used to create the aggregates of the analysis page.
+// This is a first non-optimized version. It is not guaranteed to work with a lot of data.
+// A better approach would be to use a service or a connector.
+export const buildGeoJSONQueryNoLimit = () => ({
+  definition: Q(DOCTYPE_GEOJSON).UNSAFE_noLimit(),
+  options: {
+    as: DOCTYPE_GEOJSON,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+  }
+})

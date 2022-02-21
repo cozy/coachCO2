@@ -1,54 +1,12 @@
 import get from 'lodash/get'
-import merge from 'lodash/merge'
-import keyBy from 'lodash/keyBy'
 import flatten from 'lodash/flatten'
 import uniq from 'lodash/uniq'
+import memoize from 'lodash/memoize'
 import distanceInWords from 'date-fns/distance_in_words'
 import humanizeDuration from 'humanize-duration'
 
 import { UNKNOWN_MODE } from 'src/constants/const'
 import { computeCaloriesTrip, computeCO2Trip } from 'src/lib/metrics'
-
-export const collectFeaturesByOid = geojson => {
-  const res = {}
-  for (let item of geojson) {
-    for (let feature of item.features) {
-      res[feature.id] = feature
-    }
-  }
-  return res
-}
-
-/**
- * Add feature data into timeserie start_place and end_place properties
- * according to $oid pointers
- */
-export const transformTimeserieToTrip = timeserie => {
-  const { features, properties } = timeserie
-  const featureIndex = keyBy(features, feature => feature.id)
-
-  return merge({}, timeserie, {
-    properties: {
-      start_place: {
-        data: featureIndex[properties.start_place['$oid']]
-      },
-      end_place: {
-        data: featureIndex[properties.end_place['$oid']]
-      }
-    }
-  })
-}
-
-export const transformTimeseriesToTrips = timeseries => {
-  return timeseries.flatMap((timeserie, index) => {
-    return timeserie.series.map(serie =>
-      transformTimeserieToTrip({
-        ...serie,
-        geojsonId: timeseries[index]._id
-      })
-    )
-  })
-}
 
 export const getStartPlaceDisplayName = trip => {
   return get(trip, 'properties.start_place.data.properties.display_name')
@@ -130,11 +88,12 @@ export const getMainMode = trip => {
   return mainSection.mode
 }
 
-export const getSectionsInfo = trip => {
+export const getSectionsInfo = memoize(trip => {
   return flatten(
     trip.features.map(feature => {
       if (feature.features) {
         return feature.features.map(feature => {
+          const speeds = get(feature, 'properties.speeds')
           return {
             id: feature.id,
             mode: getFeatureMode(feature),
@@ -142,13 +101,13 @@ export const getSectionsInfo = trip => {
             duration: get(feature, 'properties.duration'), // in seconds
             startDate: get(feature, 'properties.start_fmt_time'),
             endDate: get(feature, 'properties.end_fmt_time'),
-            averageSpeed: averageSpeedKmH(get(feature, 'properties.speeds')) // in km/h
+            averageSpeed: speeds ? averageSpeedKmH(speeds) : undefined // in km/h
           }
         })
       }
     })
   ).filter(Boolean)
-}
+})
 
 export const getSectionsFormatedInfo = (trip, lang) => {
   const sections = getSectionsInfo(trip)
@@ -212,12 +171,16 @@ const averageSpeedKmH = speeds => {
   return avgSpeed * 3.6
 }
 
-export const formatCalories = trip => {
+export const formatCalories = calories => `${Math.round(calories)} kcal`
+
+export const computeAndformatCaloriesTrip = trip => {
   const caloriesTrip = computeCaloriesTrip(trip)
-  return `${Math.round(caloriesTrip)} kcal`
+  return formatCalories(caloriesTrip)
 }
 
-export const formatCO2 = trip => {
+export const formatCO2 = CO2 => `${Math.round(CO2 * 100) / 100} kg`
+
+export const computeAndFormatCO2Trip = trip => {
   const CO2Trip = computeCO2Trip(trip)
-  return `${Math.round(CO2Trip * 100) / 100} kg`
+  return formatCO2(CO2Trip)
 }

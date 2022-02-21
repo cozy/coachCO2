@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import isSameDay from 'date-fns/is_same_day'
 
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
-import Typography from 'cozy-ui/transpiled/react/Typography'
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -11,7 +10,9 @@ import { isQueryLoading, useQuery, hasQueryBeenLoaded } from 'cozy-client'
 
 import { buildGeoJSONQueryByAccountId } from 'src/queries/queries'
 import TripItem from 'src/components/TripItem'
-import { transformTimeseriesToTrips, getStartDate } from 'src/lib/trips'
+import { getStartDate } from 'src/lib/trips'
+import { transformTimeseriesToTrips } from 'src/lib/timeseries'
+import Titlebar from 'src/components/Titlebar'
 
 export const TripsList = ({ account }) => {
   const { t } = useI18n()
@@ -51,9 +52,7 @@ export const TripsList = ({ account }) => {
 
   return (
     <>
-      <Typography variant="h3" className="u-mv-1-half-s u-ml-1-s u-mv-2 u-ml-2">
-        {t('trips.from') + ' ' + account.label}
-      </Typography>
+      <Titlebar label={t('trips.from') + ' ' + account.label} />
       <List>
         {trips.map((trip, i) => (
           <TripItem
