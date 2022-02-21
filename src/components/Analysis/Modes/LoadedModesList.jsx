@@ -11,8 +11,8 @@ import {
   computeCO2Timeseries
 } from 'src/lib/timeseries'
 import { formatCO2 } from 'src/lib/trips'
-import { makeChartProps } from 'src/components/Analysis/Modes/helpers'
-import ModeItem from 'src/components/Analysis/Modes/ModeItem'
+import { makeChartProps } from 'src/components/Analysis/helpers'
+import AnalysisListItem from 'src/components/Analysis/AnalysisListItem'
 import PieChart from 'src/components/PieChart/PieChart'
 
 const LoadedModesList = ({ timeseries }) => {
@@ -53,10 +53,11 @@ const LoadedModesList = ({ timeseries }) => {
       <List>
         {Object.entries(timeseriesSortedByModes).map(
           (timeseriesSortedByMode, index) => (
-            <ModeItem
+            <AnalysisListItem
               key={index}
+              type="modes"
               totalCO2={totalCO2}
-              timeseriesSortedByMode={timeseriesSortedByMode}
+              sortedTimeserie={timeseriesSortedByMode}
             />
           )
         )}
