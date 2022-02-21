@@ -2,7 +2,7 @@ import { modeToColor } from 'src/components/helpers'
 import { formatCO2 } from 'src/lib/trips'
 
 export const makeChartProps = (timeseriesSortedByModes, t) => {
-  const datas = Object.values(timeseriesSortedByModes).map(
+  const timeseriesData = Object.values(timeseriesSortedByModes).map(
     modeValues => modeValues.totalCO2
   )
   const colors = Object.keys(timeseriesSortedByModes).map(el => modeToColor(el))
@@ -15,7 +15,7 @@ export const makeChartProps = (timeseriesSortedByModes, t) => {
     datasets: [
       {
         id: 1,
-        data: datas,
+        data: timeseriesData,
         backgroundColor: colors
       }
     ]

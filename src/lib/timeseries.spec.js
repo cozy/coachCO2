@@ -11,7 +11,7 @@ import {
   transformTimeserieToTrip,
   transformTimeseriesToTrips,
   computeAggregatedTimeseries,
-  sortTimeseriesByModes,
+  sortTimeseriesByCO2GroupedByMode,
   computeCO2Timeseries,
   sortTimeseriesByModesByCO2
 } from './timeseries'
@@ -200,14 +200,14 @@ describe('Aggregation', () => {
     })
   })
 
-  describe('sortTimeseriesByModes', () => {
+  describe('sortTimeseriesByCO2GroupedByMode', () => {
     it('should not mutate initial aggregatedTimeseries', () => {
       expect(Array.isArray(aggregatedTimeseries)).toBe(true)
       expect(aggregatedTimeseries.length).toBe(2)
     })
 
     it('should return timeseries ids and totalCO2 sorted by modes', () => {
-      const timeseriesSortedByModes = sortTimeseriesByModes(
+      const timeseriesSortedByModes = sortTimeseriesByCO2GroupedByMode(
         aggregatedTimeseries
       )
 

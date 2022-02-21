@@ -3,11 +3,11 @@ import React from 'react'
 import { isQueryLoading, useQuery } from 'cozy-client'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
-import { buildGeoJSONQuery } from 'src/queries/queries'
+import { buildGeoJSONQueryNoLimit } from 'src/queries/queries'
 import LoadedModesList from 'src/components/Analysis/Modes/LoadedModesList'
 
 const ModesList = () => {
-  const geoJsonQuery = buildGeoJSONQuery()
+  const geoJsonQuery = buildGeoJSONQueryNoLimit()
   const { data: timeseries, ...queryResult } = useQuery(
     geoJsonQuery.definition,
     geoJsonQuery.options

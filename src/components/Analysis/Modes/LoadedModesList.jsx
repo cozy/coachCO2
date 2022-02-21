@@ -7,7 +7,7 @@ import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import {
   computeAggregatedTimeseries,
-  sortTimeseriesByModes,
+  sortTimeseriesByCO2GroupedByMode,
   computeCO2Timeseries
 } from 'src/lib/timeseries'
 import { formatCO2 } from 'src/lib/trips'
@@ -24,7 +24,7 @@ const LoadedModesList = ({ timeseries }) => {
     [timeseries]
   )
   const timeseriesSortedByModes = useMemo(
-    () => sortTimeseriesByModes(aggregatedTimeseries),
+    () => sortTimeseriesByCO2GroupedByMode(aggregatedTimeseries),
     [aggregatedTimeseries]
   )
   const totalCO2 = useMemo(() => computeCO2Timeseries(aggregatedTimeseries), [

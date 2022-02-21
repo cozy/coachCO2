@@ -51,7 +51,7 @@ export const transformTimeseriesToTrips = timeseries => {
 }
 
 /**
- * Add aggregates for all timeseries by computing section's datas
+ * Add aggregates for all timeseries by computing section's data
  * @param {array} timeseries - Timeseries to be aggregated
  * @returns {array} The aggregated timeseries
  */
@@ -102,7 +102,8 @@ export const computeCO2Timeseries = aggregatedTimeseries => {
 }
 
 /**
- * Sort modes from aggregated timeseries by CO2 and timeseries count
+ * Sort modes from aggregated timeseries by CO2,
+ * and by timeseries count for those who don't have CO2 value
  * @param {object} timeseriesByModes - Sorted aggregated timeseries by modes
  * @returns {object} Sorted aggregated timeseries by CO2
  */
@@ -110,12 +111,12 @@ export const sortTimeseriesByModesByCO2 = timeseriesByModes => {
   const pairedTimeseriesByModes = toPairs(timeseriesByModes)
 
   const unknown = timeseriesByModes[UNKNOWN_MODE]
-  const isUnknownWithNoDatas =
+  const isUnknownWithNoData =
     unknown.timeseries.length === 0 && unknown.totalCO2 === 0
 
   const withCO2 = sortBy(
     pairedTimeseriesByModes.filter(el =>
-      isUnknownWithNoDatas
+      isUnknownWithNoData
         ? el[0] !== UNKNOWN_MODE && el[1].totalCO2 > 0
         : el[1].totalCO2 > 0
     ),
@@ -124,7 +125,7 @@ export const sortTimeseriesByModesByCO2 = timeseriesByModes => {
 
   const withZeroCO2 = sortBy(
     pairedTimeseriesByModes.filter(el =>
-      isUnknownWithNoDatas
+      isUnknownWithNoData
         ? el[0] !== UNKNOWN_MODE && el[1].totalCO2 === 0
         : el[1].totalCO2 === 0
     ),
@@ -134,7 +135,7 @@ export const sortTimeseriesByModesByCO2 = timeseriesByModes => {
   return {
     ...fromPairs(withCO2),
     ...fromPairs(withZeroCO2),
-    ...(isUnknownWithNoDatas && { [UNKNOWN_MODE]: unknown })
+    ...(isUnknownWithNoData && { [UNKNOWN_MODE]: unknown })
   }
 }
 
@@ -143,7 +144,7 @@ export const sortTimeseriesByModesByCO2 = timeseriesByModes => {
  * @param {array} aggregatedTimeseries - Aggregated timeseries
  * @returns {array} Sorted aggregated timeseries by CO2
  */
-export const sortTimeseriesByModes = aggregatedTimeseries => {
+export const sortTimeseriesByCO2GroupedByMode = aggregatedTimeseries => {
   const timeseriesByModes = modes.reduce(
     (a, v) => ({ ...a, [v]: { timeseries: [], totalCO2: 0 } }),
     {}
