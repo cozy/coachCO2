@@ -1,0 +1,34 @@
+import React from 'react'
+import { useLocation, useHistory } from 'react-router-dom'
+
+import Paper from 'cozy-ui/transpiled/react/Paper'
+import { Tabs, Tab } from 'cozy-ui/transpiled/react/MuiTabs'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+
+const routes = ['/analysis/modes', '/analysis/purposes']
+
+const a11yProps = index => ({
+  id: `simple-tab-${index}`,
+  'aria-controls': `simple-tabpanel-${index}`
+})
+
+const TabsNav = () => {
+  const history = useHistory()
+  const { pathname } = useLocation()
+  const { t } = useI18n()
+
+  const handleChange = (_, value) => {
+    history.push(routes[value])
+  }
+
+  return (
+    <Paper>
+      <Tabs value={routes.indexOf(pathname)} onChange={handleChange}>
+        <Tab label={t('nav.modes')} {...a11yProps(0)} />
+        <Tab label={t('nav.purposes')} {...a11yProps(1)} />
+      </Tabs>
+    </Paper>
+  )
+}
+
+export default TabsNav
