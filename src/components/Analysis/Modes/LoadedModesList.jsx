@@ -13,7 +13,7 @@ import {
 import { formatCO2 } from 'src/lib/trips'
 import { makeChartProps } from 'src/components/Analysis/Modes/helpers'
 import ModeItem from 'src/components/Analysis/Modes/ModeItem'
-import PieChart from 'src/components/Analysis/Modes/PieChart'
+import PieChart from 'src/components/PieChart/PieChart'
 
 const LoadedModesList = ({ timeseries }) => {
   const { t } = useI18n()

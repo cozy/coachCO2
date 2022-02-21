@@ -30,6 +30,7 @@ const styles = {
   }
 }
 
+// TODO: should be in cozy-ui
 const PieChart = ({ data, options, total, label }) => {
   return (
     <Box {...styles.container}>
