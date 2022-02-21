@@ -146,3 +146,21 @@ export const MET_BICYCLING_VERY_FAST = 15.8
 export const SLOW_BICYCLING_MAX_SPEED = 15
 export const SLOW_BICYCLING_MAX_MEDIUM = 22.4
 export const SLOW_BICYCLING_MAX_FAST = 25.6
+
+export const COLUMNS_NAMES_CSV = {
+  tripId: 'Trip_Id',
+  tripStartDisplayName: 'Trip_Start_Display_Name',
+  tripArrivalDisplayName: 'Trip_Arrival_Display_Name',
+  tripPurpose: 'Trip_Purpose',
+  tripStartDate: 'Trip_Start_Date',
+  tripEndDate: 'Trip_End_Date',
+  sectionStartDate: 'Section_Start_Date',
+  sectionEndDate: 'Section_End_Date',
+  sectionDuration: 'Section_Duration',
+  sectionDistance: 'Section_Distance',
+  sectionMode: 'Section_Mode',
+  sectionCoordinates: 'Section_Coordinates',
+  sectionDistances: 'Section_Distances',
+  sectionTimestamps: 'Section_Timestamps',
+  sectionSpeeds: 'Section_Speeds'
+}
