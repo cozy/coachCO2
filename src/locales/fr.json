@@ -49,6 +49,7 @@
   "purpose": "Motif du déplacement",
   "analysis": {
     "mode": "Mode de déplacement",
-    "travels": "%{smart_count} déplacement |||| %{smart_count} déplacements"
+    "travels": "%{smart_count} déplacement |||| %{smart_count} déplacements",
+    "emittedCO2": "CO2 émis"
   }
 }
