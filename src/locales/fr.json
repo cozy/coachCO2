@@ -9,6 +9,10 @@
   "account": {
     "notFound": "Aucun compte trouvé"
   },
+  "folder": {
+    "administrative": "Administratif",
+    "coachco2": "Coach CO2"
+  },
   "devices": {
     "select": "Sélectionnez un appareil",
     "label": "Appareils"
