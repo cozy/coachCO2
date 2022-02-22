@@ -39,7 +39,7 @@ const LoadedPurposesList = ({ timeseries }) => {
     <>
       <div
         className={cx('u-flex', {
-          ['u-flex-justify-end u-mr-2']: !isMobile,
+          'u-flex-justify-end u-mr-2': !isMobile,
           'u-flex-justify-center u-mt-1': isMobile
         })}
       >

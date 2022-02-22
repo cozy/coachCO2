@@ -17,7 +17,8 @@ import {
   sortTimeseriesByCO2GroupedByMode,
   computeCO2Timeseries,
   sortGroupedTimeseries,
-  makeTimeseriesIdsAndTotalCO2ByPurposes
+  makeTimeseriesIdsAndTotalCO2ByPurposes,
+  sortTimeseriesByCO2GroupedByPurpose
 } from './timeseries'
 
 describe('transformTimeserieToTrip', () => {
@@ -389,6 +390,14 @@ describe('Aggregation', () => {
           totalCO2: expect.any(Number)
         }
       })
+    })
+  })
+
+  describe('sortTimeseriesByCO2GroupedByPurpose', () => {
+    it('should', () => {
+      expect(
+        sortTimeseriesByCO2GroupedByPurpose(aggregatedTimeseries)
+      ).toMatchSnapshot()
     })
   })
 })

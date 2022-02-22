@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useCallback } from 'react'
 import cx from 'classnames'
 
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
@@ -19,19 +19,19 @@ const LoadedModesList = ({ timeseries }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
 
-  const aggregatedTimeseries = useMemo(
-    () => computeAggregatedTimeseries(timeseries),
+  const aggregatedTimeseries = useCallback(
+    computeAggregatedTimeseries(timeseries),
     [timeseries]
   )
-  const timeseriesSortedByModes = useMemo(
-    () => sortTimeseriesByCO2GroupedByMode(aggregatedTimeseries),
+  const timeseriesSortedByModes = useCallback(
+    sortTimeseriesByCO2GroupedByMode(aggregatedTimeseries),
     [aggregatedTimeseries]
   )
-  const totalCO2 = useMemo(() => computeCO2Timeseries(aggregatedTimeseries), [
+  const totalCO2 = useCallback(computeCO2Timeseries(aggregatedTimeseries), [
     aggregatedTimeseries
   ])
-  const { data, options } = useMemo(
-    () => makeChartProps(timeseriesSortedByModes, 'modes', t),
+  const { data, options } = useCallback(
+    makeChartProps(timeseriesSortedByModes, 'modes', t),
     [t, timeseriesSortedByModes]
   )
 
@@ -39,7 +39,7 @@ const LoadedModesList = ({ timeseries }) => {
     <>
       <div
         className={cx('u-flex', {
-          ['u-flex-justify-end u-mr-2']: !isMobile,
+          'u-flex-justify-end u-mr-2': !isMobile,
           'u-flex-justify-center u-mt-1': isMobile
         })}
       >

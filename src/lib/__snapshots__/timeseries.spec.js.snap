@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Aggregation sortTimeseriesByCO2GroupedByPurpose should 1`] = `
+Object {
+  "ENTERTAINMENT": Object {
+    "timeseries": Array [],
+    "totalCO2": 0,
+  },
+  "EXERCISE": Object {
+    "timeseries": Array [],
+    "totalCO2": 0,
+  },
+  "HOME": Object {
+    "timeseries": Array [
+      "timeserieId02",
+    ],
+    "totalCO2": 2.839488,
+  },
+  "MEAL": Object {
+    "timeseries": Array [],
+    "totalCO2": 0,
+  },
+  "OTHER_PURPOSE": Object {
+    "timeseries": Array [
+      "timeserieId01",
+    ],
+    "totalCO2": 133.07504999999998,
+  },
+  "PERSONAL_MED": Object {
+    "timeseries": Array [],
+    "totalCO2": 0,
+  },
+  "PICK_DROP": Object {
+    "timeseries": Array [],
+    "totalCO2": 0,
+  },
+  "SCHOOL": Object {
+    "timeseries": Array [],
+    "totalCO2": 0,
+  },
+  "SHOPPING": Object {
+    "timeseries": Array [],
+    "totalCO2": 0,
+  },
+  "WORK": Object {
+    "timeseries": Array [],
+    "totalCO2": 0,
+  },
+}
+`;

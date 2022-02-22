@@ -40,8 +40,7 @@ const ItemIcon = ({ type, sortedTimeserieKey }) => {
 
 const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
   const { t } = useI18n()
-  const sortedTimeserieKey = sortedTimeserie[0]
-  const sortedTimeserieValue = sortedTimeserie[1]
+  const [sortedTimeserieKey, sortedTimeserieValue] = sortedTimeserie
   const travelCount = sortedTimeserieValue.timeseries.length
   const CO2 = sortedTimeserieValue.totalCO2
 
