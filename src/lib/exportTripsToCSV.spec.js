@@ -1,45 +1,51 @@
-import {
-  mockSerie,
-  mockFeature,
-  mockFeatureCollection,
-  modeProps
-} from 'test/mockTrip'
-
 import { exportTripsToCSV } from 'src/lib/exportTripsToCSV'
+import { getOrCreateAppFolderWithReference } from 'src/lib/getOrCreateAppFolderWithReference'
+import { mockTimeserie, mockSerie } from 'test/mockTrip'
 
-jest.mock('src/lib/exportTripsToCSV', () => ({
-  ...jest.requireActual('src/lib/exportTripsToCSV'),
-  makeTripsForExport: jest.fn()
+jest.mock('src/lib/getOrCreateAppFolderWithReference', () => ({
+  getOrCreateAppFolderWithReference: jest.fn()
+}))
+jest.mock('cozy-client', () => ({
+  ...jest.requireActual('cozy-client'),
+  query: jest.fn(),
+  models: {
+    file: {
+      uploadFileWithConflictStrategy: jest.fn(() => ({
+        data: { _id: 'fileId00', name: 'fileName00' }
+      }))
+    }
+  }
 }))
 
-const mockedFeatures = () => [
-  mockFeature('featureId01'),
-  mockFeature('featureId02'),
-  mockFeature('featureId03'),
-  mockFeature('featureId04'),
-  mockFeatureCollection('featureCollectionId01', [
-    mockFeature('featureId05', modeProps.bicycle)
-  ]),
-  mockFeatureCollection('featureCollectionId02', [
-    mockFeature('featureId06', modeProps.walking)
-  ]),
-  mockFeatureCollection('featureCollectionId03', [
-    mockFeature('featureId07', modeProps.car)
-  ])
-]
-
 describe('exportTripsToCSV', () => {
-  const trips = mockSerie('serieId01', mockedFeatures())
-
-  it('should return correctly formatted trips for the CSV file', () => {
-    const tripCSV = exportTripsToCSV([trips])
-
-    expect(tripCSV).toMatchSnapshot()
+  const t = jest.fn()
+  const mockClient = (mockData = []) => {
+    const client = {
+      query: jest.fn(() => ({
+        data: [mockData]
+      }))
+    }
+    return client
+  }
+  getOrCreateAppFolderWithReference.mockReturnValue({
+    _id: 'folderId00',
+    path: '/Path/To/Folder'
   })
 
-  it('should return undefined', () => {
-    const tripCSV = exportTripsToCSV()
+  it('should return correctly formatted trips for the CSV file', async () => {
+    const mockData = mockTimeserie('timeserieId01', [mockSerie()])
+    const client = mockClient(mockData)
+    let tripCSV = await exportTripsToCSV(client, t, 'test')
 
-    expect(tripCSV).toBeUndefined()
+    expect(tripCSV).toMatchObject({
+      appFolder: {
+        _id: 'folderId00',
+        path: '/Path/To/Folder'
+      },
+      file: {
+        _id: 'fileId00',
+        name: 'fileName00'
+      }
+    })
   })
 })

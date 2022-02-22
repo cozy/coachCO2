@@ -1,4 +1,11 @@
 import sortBy from 'lodash/sortBy'
+import format from 'date-fns/format'
+
+import { models } from 'cozy-client'
+
+const {
+  file: { uploadFileWithConflictStrategy }
+} = models
 
 import {
   getStartPlaceDisplayName,
@@ -9,6 +16,15 @@ import {
   getEndDate
 } from 'src/lib/trips'
 import { COLUMNS_NAMES_CSV } from 'src/constants/const'
+import { transformTimeseriesToTrips } from 'src/lib/timeseries'
+import { getOrCreateAppFolderWithReference } from 'src/lib/getOrCreateAppFolderWithReference'
+import { buildGeoJSONQueryNoLimit } from 'src/queries/queries'
+
+const makeCSVFilename = (accountLabel, t) => {
+  const today = format(new Date(), 'YYYY MM DD')
+
+  return t('export.filename', { today, accountLabel })
+}
 
 /**
  * @param {object} tripsData
@@ -30,7 +46,7 @@ const convertTripsToCSV = tripsData => {
  * @param {object} trips
  * @returns {object}
  */
-export const makeTripsForExport = trips => {
+const makeTripsForExport = trips => {
   const result = trips.flatMap(trip => {
     const sectionsInfo = getSectionsInfo(trip)
 
@@ -68,14 +84,31 @@ export const makeTripsForExport = trips => {
 
 /**
  * @param {object} trips
- * @returns {string}
+ * @returns {{ appFolder: object, file: object }}
  */
-export const exportTripsToCSV = trips => {
-  if (!trips || trips.length === 0) return
+export const exportTripsToCSV = async (client, t, accountName) => {
+  const timeseriesDef = buildGeoJSONQueryNoLimit()
+  const { data } = await client.query(timeseriesDef.definition)
 
+  const trips = transformTimeseriesToTrips(data)
   const tripsData = makeTripsForExport(trips)
 
   if (tripsData.length > 0) {
-    return convertTripsToCSV(tripsData)
+    const tripsCSV = convertTripsToCSV(tripsData)
+    const CSVFilename = makeCSVFilename(accountName, t)
+    const appFolder = await getOrCreateAppFolderWithReference(client, t)
+
+    const { data: fileCreated } = await uploadFileWithConflictStrategy(
+      client,
+      tripsCSV,
+      {
+        name: CSVFilename,
+        contentType: 'text/css',
+        dirId: appFolder._id,
+        conflictStrategy: 'rename'
+      }
+    )
+
+    return { appFolder, file: fileCreated }
   }
 }

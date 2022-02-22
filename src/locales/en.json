@@ -57,5 +57,8 @@
     "purpose": "Purpose of travel",
     "travels": "%{smart_count} travel |||| %{smart_count} travel",
     "emittedCO2": "emitted CO2"
+  },
+  "export": {
+    "filename": "%{today} - Trips %{accountLabel}.csv"
   }
 }

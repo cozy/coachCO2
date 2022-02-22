@@ -57,5 +57,8 @@
     "purpose": "Raison du déplacement",
     "travels": "%{smart_count} déplacement |||| %{smart_count} déplacements",
     "emittedCO2": "CO2 émis"
+  },
+  "export": {
+    "filename": "%{today} - Déplacements %{accountLabel}.csv"
   }
 }
