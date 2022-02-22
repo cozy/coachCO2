@@ -103,12 +103,17 @@ export const mockFeatureCollection = (id, features) => ({
   features
 })
 
-export const mockSerie = (id = 'serieId01', features) => ({
+export const mockSerie = (
+  id = 'serieId01',
+  features,
+  { manual_purpose } = {}
+) => ({
   id,
   type: 'FeatureCollection',
   properties: {
     start_place: { $oid: 'sectionId01' },
-    end_place: { $oid: 'sectionId02' }
+    end_place: { $oid: 'sectionId02' },
+    manual_purpose
   },
   features: features || [
     mockFeature('sectionId01'),

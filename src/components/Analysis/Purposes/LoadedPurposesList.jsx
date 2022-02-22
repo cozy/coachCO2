@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
@@ -7,7 +7,7 @@ import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import {
   computeAggregatedTimeseries,
-  sortTimeseriesByCO2GroupedByMode,
+  sortTimeseriesByCO2GroupedByPurpose,
   computeCO2Timeseries
 } from 'src/lib/timeseries'
 import { formatCO2 } from 'src/lib/trips'
@@ -15,24 +15,24 @@ import { makeChartProps } from 'src/components/Analysis/helpers'
 import AnalysisListItem from 'src/components/Analysis/AnalysisListItem'
 import PieChart from 'src/components/PieChart/PieChart'
 
-const LoadedModesList = ({ timeseries }) => {
+const LoadedPurposesList = ({ timeseries }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
 
-  const aggregatedTimeseries = useCallback(
-    computeAggregatedTimeseries(timeseries),
+  const aggregatedTimeseries = useMemo(
+    () => computeAggregatedTimeseries(timeseries),
     [timeseries]
   )
-  const timeseriesSortedByModes = useCallback(
-    sortTimeseriesByCO2GroupedByMode(aggregatedTimeseries),
+  const timeseriesSortedByPurposes = useMemo(
+    () => sortTimeseriesByCO2GroupedByPurpose(aggregatedTimeseries),
     [aggregatedTimeseries]
   )
-  const totalCO2 = useCallback(computeCO2Timeseries(aggregatedTimeseries), [
+  const totalCO2 = useMemo(() => computeCO2Timeseries(aggregatedTimeseries), [
     aggregatedTimeseries
   ])
-  const { data, options } = useCallback(
-    makeChartProps(timeseriesSortedByModes, 'modes', t),
-    [t, timeseriesSortedByModes]
+  const { data, options } = useMemo(
+    () => makeChartProps(timeseriesSortedByPurposes, 'purposes', t),
+    [t, timeseriesSortedByPurposes]
   )
 
   return (
@@ -51,13 +51,13 @@ const LoadedModesList = ({ timeseries }) => {
         />
       </div>
       <List>
-        {Object.entries(timeseriesSortedByModes).map(
-          (timeseriesSortedByMode, index) => (
+        {Object.entries(timeseriesSortedByPurposes).map(
+          (timeseriesSortedByPurpose, index) => (
             <AnalysisListItem
               key={index}
-              type="modes"
+              type="purposes"
+              sortedTimeserie={timeseriesSortedByPurpose}
               totalCO2={totalCO2}
-              sortedTimeserie={timeseriesSortedByMode}
             />
           )
         )}
@@ -66,4 +66,4 @@ const LoadedModesList = ({ timeseries }) => {
   )
 }
 
-export default LoadedModesList
+export default LoadedPurposesList

@@ -12,6 +12,7 @@ import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 const pathnameToTitle = {
   '/trips': 'nav.trips',
   '/analysis/modes': 'analysis.mode',
+  '/analysis/purposes': 'analysis.purpose',
   '/settings': 'nav.settings'
 }
 

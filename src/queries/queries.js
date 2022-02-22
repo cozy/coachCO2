@@ -41,7 +41,7 @@ export const buildGeoJSONQueryById = geojsonId => ({
 
 // TODO Query used to create the aggregates of the analysis page.
 // This is a first non-optimized version. It is not guaranteed to work with a lot of data.
-// A better approach would be to use a service or a connector.
+// A better approach would be to use a service or a connector to pre-compute aggregation.
 export const buildGeoJSONQueryNoLimit = () => ({
   definition: Q(DOCTYPE_GEOJSON).UNSAFE_noLimit(),
   options: {

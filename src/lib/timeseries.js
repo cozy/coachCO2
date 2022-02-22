@@ -6,8 +6,8 @@ import toPairs from 'lodash/toPairs'
 
 import { computeCO2Section } from 'src/lib/metrics'
 import { getSectionsInfo } from 'src/lib/trips'
-import { modes } from 'src/components/helpers'
-import { UNKNOWN_MODE } from 'src/constants/const'
+import { modes, purposes } from 'src/components/helpers'
+import { UNKNOWN_MODE, OTHER_PURPOSE } from 'src/constants/const'
 
 export const collectFeaturesByOid = geojson => {
   const res = {}
@@ -107,26 +107,26 @@ export const computeCO2Timeseries = aggregatedTimeseries => {
  * @param {object} timeseriesByModes - Sorted aggregated timeseries by modes
  * @returns {object} Sorted aggregated timeseries by CO2
  */
-export const sortTimeseriesByModesByCO2 = timeseriesByModes => {
-  const pairedTimeseriesByModes = toPairs(timeseriesByModes)
+export const sortGroupedTimeseries = (groupedTimeseries, keyForUnknown) => {
+  const pairedGroupedTimeseries = toPairs(groupedTimeseries)
 
-  const unknown = timeseriesByModes[UNKNOWN_MODE]
+  const unknown = groupedTimeseries[keyForUnknown]
   const isUnknownWithNoData =
     unknown.timeseries.length === 0 && unknown.totalCO2 === 0
 
   const withCO2 = sortBy(
-    pairedTimeseriesByModes.filter(el =>
+    pairedGroupedTimeseries.filter(el =>
       isUnknownWithNoData
-        ? el[0] !== UNKNOWN_MODE && el[1].totalCO2 > 0
+        ? el[0] !== keyForUnknown && el[1].totalCO2 > 0
         : el[1].totalCO2 > 0
     ),
     el => el[1].totalCO2
   ).reverse()
 
   const withZeroCO2 = sortBy(
-    pairedTimeseriesByModes.filter(el =>
+    pairedGroupedTimeseries.filter(el =>
       isUnknownWithNoData
-        ? el[0] !== UNKNOWN_MODE && el[1].totalCO2 === 0
+        ? el[0] !== keyForUnknown && el[1].totalCO2 === 0
         : el[1].totalCO2 === 0
     ),
     el => el[1].timeseries.length
@@ -135,16 +135,18 @@ export const sortTimeseriesByModesByCO2 = timeseriesByModes => {
   return {
     ...fromPairs(withCO2),
     ...fromPairs(withZeroCO2),
-    ...(isUnknownWithNoData && { [UNKNOWN_MODE]: unknown })
+    ...(isUnknownWithNoData && { [keyForUnknown]: unknown })
   }
 }
 
+// Modes usages
+
 /**
- * Sort aggregated timeseries by modes and CO2
+ * Group timeseries ids by mode, and add totalCO2 for each modes
  * @param {array} aggregatedTimeseries - Aggregated timeseries
- * @returns {array} Sorted aggregated timeseries by CO2
+ * @returns {object}
  */
-export const sortTimeseriesByCO2GroupedByMode = aggregatedTimeseries => {
+const makeTimeseriesIdsAndTotalCO2ByModes = aggregatedTimeseries => {
   const timeseriesByModes = modes.reduce(
     (a, v) => ({ ...a, [v]: { timeseries: [], totalCO2: 0 } }),
     {}
@@ -163,5 +165,62 @@ export const sortTimeseriesByCO2GroupedByMode = aggregatedTimeseries => {
     })
   })
 
-  return sortTimeseriesByModesByCO2(timeseriesByModes)
+  return timeseriesByModes
+}
+
+/**
+ * Sort aggregated timeseries by modes and CO2
+ * @param {array} aggregatedTimeseries - Aggregated timeseries
+ * @returns {array} Sorted aggregated timeseries by CO2
+ */
+export const sortTimeseriesByCO2GroupedByMode = aggregatedTimeseries => {
+  const timeseriesByModes = makeTimeseriesIdsAndTotalCO2ByModes(
+    aggregatedTimeseries
+  )
+
+  return sortGroupedTimeseries(timeseriesByModes, UNKNOWN_MODE)
+}
+
+// Purpose usages
+
+const getTimeseriePurpose = timeserie =>
+  timeserie.series[0].properties.manual_purpose || OTHER_PURPOSE
+
+/**
+ * Group timeseries ids by purpose, and add totalCO2 for each purposes
+ * @param {array} aggregatedTimeseries - Aggregated timeseries
+ * @returns {object}
+ */
+export const makeTimeseriesIdsAndTotalCO2ByPurposes = aggregatedTimeseries => {
+  const timeseriesByPurposes = purposes.reduce(
+    (a, v) => ({ ...a, [v]: { timeseries: [], totalCO2: 0 } }),
+    {}
+  )
+
+  aggregatedTimeseries.forEach(aggregatedTimeserie => {
+    const timeseriePurpose = getTimeseriePurpose(aggregatedTimeserie)
+    const collectedTimeseries =
+      timeseriesByPurposes[timeseriePurpose].timeseries
+
+    if (!collectedTimeseries.includes(aggregatedTimeserie.id)) {
+      collectedTimeseries.push(aggregatedTimeserie.id)
+    }
+    timeseriesByPurposes[timeseriePurpose].totalCO2 +=
+      aggregatedTimeserie.aggregation.totalCO2
+  })
+
+  return timeseriesByPurposes
+}
+
+/**
+ * Sort aggregated timeseries by purposes and CO2
+ * @param {array} aggregatedTimeseries - Aggregated timeseries
+ * @returns {array}
+ */
+export const sortTimeseriesByCO2GroupedByPurpose = aggregatedTimeseries => {
+  const timeseriesByPurposes = makeTimeseriesIdsAndTotalCO2ByPurposes(
+    aggregatedTimeseries
+  )
+
+  return sortGroupedTimeseries(timeseriesByPurposes, OTHER_PURPOSE)
 }

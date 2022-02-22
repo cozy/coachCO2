@@ -8,19 +8,41 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 
 import Avatar from 'src/components/Avatar'
-import { pickModeIcon, modeToColor } from 'src/components/helpers'
+import {
+  pickModeIcon,
+  modeToColor,
+  pickPurposeIcon,
+  purposeToColor
+} from 'src/components/helpers'
 import { formatCO2 } from 'src/lib/trips'
 
 const styles = {
   co2: { fontWeight: 700 }
 }
 
-const ModeItem = ({ timeseriesSortedByMode, totalCO2 }) => {
+const ItemIcon = ({ type, sortedTimeserieKey }) => {
+  if (type === 'modes') {
+    return (
+      <Avatar
+        icon={pickModeIcon(sortedTimeserieKey)}
+        color={modeToColor(sortedTimeserieKey)}
+      />
+    )
+  }
+
+  return (
+    <Avatar
+      icon={pickPurposeIcon(sortedTimeserieKey)}
+      color={purposeToColor(sortedTimeserieKey)}
+    />
+  )
+}
+
+const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
   const { t } = useI18n()
-  const mode = timeseriesSortedByMode[0]
-  const value = timeseriesSortedByMode[1]
-  const travelCount = value.timeseries.length
-  const CO2 = value.totalCO2
+  const [sortedTimeserieKey, sortedTimeserieValue] = sortedTimeserie
+  const travelCount = sortedTimeserieValue.timeseries.length
+  const CO2 = sortedTimeserieValue.totalCO2
 
   const CO2percent = `${Math.round((CO2 * 100) / totalCO2)}%`
   const isDisabled = travelCount === 0 && CO2 === 0
@@ -29,10 +51,10 @@ const ModeItem = ({ timeseriesSortedByMode, totalCO2 }) => {
     <>
       <ListItem className="u-pl-1-s u-pl-2" disabled={isDisabled}>
         <ListItemIcon>
-          <Avatar icon={pickModeIcon(mode)} color={modeToColor(mode)} />
+          <ItemIcon type={type} sortedTimeserieKey={sortedTimeserieKey} />
         </ListItemIcon>
         <ListItemText
-          primary={t(`trips.modes.${mode}`)}
+          primary={t(`trips.${type}.${sortedTimeserieKey}`)}
           secondary={`${CO2percent} · ${t('analysis.travels', travelCount)}`}
         />
         <Typography className="u-mh-half" style={styles.co2} variant="body2">
@@ -44,4 +66,4 @@ const ModeItem = ({ timeseriesSortedByMode, totalCO2 }) => {
   )
 }
 
-export default ModeItem
+export default AnalysisListItem
