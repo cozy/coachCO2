@@ -8,6 +8,10 @@ import humanizeDuration from 'humanize-duration'
 import { UNKNOWN_MODE } from 'src/constants/const'
 import { computeCaloriesTrip, computeCO2Trip } from 'src/lib/metrics'
 
+export const getPurpose = trip => {
+  return get(trip, 'properties.manual_purpose')
+}
+
 export const getStartPlaceDisplayName = trip => {
   return get(trip, 'properties.start_place.data.properties.display_name')
 }
@@ -88,25 +92,32 @@ export const getMainMode = trip => {
   return mainSection.mode
 }
 
+const getSection = featureCollection => {
+  return featureCollection.features.map(feature => {
+    const startDate = get(feature, 'properties.start_fmt_time')
+    const endDate = get(feature, 'properties.end_fmt_time')
+    const speeds = get(feature, 'properties.speeds')
+
+    return {
+      id: feature.id,
+      mode: getFeatureMode(feature),
+      coordinates: get(feature, 'geometry.coordinates'),
+      timestamps: get(feature, 'properties.timestamps'),
+      distance: get(feature, 'properties.distance'), // in meters
+      distances: get(feature, 'properties.distances'), // in meters (Array)
+      duration: get(feature, 'properties.duration'), // in seconds
+      startDate: startDate ? new Date(startDate) : startDate,
+      endDate: endDate ? new Date(endDate) : endDate,
+      speeds, // in m/s (Array)
+      averageSpeed: speeds ? averageSpeedKmH(speeds) : undefined // in km/h
+    }
+  })
+}
+
 export const getSectionsInfo = memoize(trip => {
-  return flatten(
-    trip.features.map(feature => {
-      if (feature.features) {
-        return feature.features.map(feature => {
-          const speeds = get(feature, 'properties.speeds')
-          return {
-            id: feature.id,
-            mode: getFeatureMode(feature),
-            distance: get(feature, 'properties.distance'), // in meters
-            duration: get(feature, 'properties.duration'), // in seconds
-            startDate: get(feature, 'properties.start_fmt_time'),
-            endDate: get(feature, 'properties.end_fmt_time'),
-            averageSpeed: speeds ? averageSpeedKmH(speeds) : undefined // in km/h
-          }
-        })
-      }
-    })
-  ).filter(Boolean)
+  return trip.features
+    .filter(feature => feature.type === 'FeatureCollection')
+    .flatMap(getSection)
 })
 
 export const getSectionsFormatedInfo = (trip, lang) => {
