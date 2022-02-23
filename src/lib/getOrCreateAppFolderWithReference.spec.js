@@ -18,6 +18,7 @@ const setup = referencedFilesRes => {
   getReferencedFolder.mockReturnValue(referencedFilesRes)
 }
 
+// TODO Add all tests (https://github.com/cozy/coachCO2/pull/62#discussion_r812710842)
 describe('getFolderWithReference', () => {
   it('should get folder with reference', async () => {
     const referencedFilesRes = {

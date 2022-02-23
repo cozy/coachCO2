@@ -59,6 +59,18 @@
     "emittedCO2": "emitted CO2"
   },
   "export": {
-    "filename": "%{today} - Trips %{accountLabel}.csv"
+    "filename": "%{today} - Trips %{accountLabel}.csv",
+    "button": "Export my data (CSV)",
+    "modal": {
+      "button": {
+        "close": "Close",
+        "viewInDrive": "View in Drive"
+      },
+      "title": "Exporting",
+      "content": {
+        "done": "The \"%{filename}\" file was created in the \"Drive%{pathAppDir}\" folder of your Cozy.",
+        "progress": "The export of your trips is in progress, please wait..."
+      }
+    }
   }
 }
