@@ -1,4 +1,4 @@
-import { getSectionsInfo } from './trips'
+import { getSectionsFromTrip } from './trips'
 import {
   BICYCLING_MODE,
   WALKING_MODE,
@@ -37,7 +37,7 @@ import {
 /**
  * Compute the total CO2 consumed by the section based on the mode and distance.
  *
- * @param {object} section - The computed section by getSectionsInfo
+ * @param {object} section - The computed section by getSectionsFromTrip
  * @returns {number} The consumed CO2, in kg
  */
 export const computeCO2Section = section => {
@@ -90,7 +90,7 @@ export const computeCO2Section = section => {
  * @returns {number} The consumed CO2, in kg
  */
 export const computeCO2Trip = trip => {
-  const sections = getSectionsInfo(trip)
+  const sections = getSectionsFromTrip(trip)
   let totalCO2 = 0
   for (const section of sections) {
     totalCO2 += computeCO2Section(section)
@@ -124,7 +124,7 @@ export const caloriesFormula = (MET, durationInMinutes) => {
  * @returns {number} The calories, in kcal
  */
 export const computeCaloriesTrip = trip => {
-  const sections = getSectionsInfo(trip)
+  const sections = getSectionsFromTrip(trip)
   let totalCalories = 0
   for (const section of sections) {
     const speed = section.averageSpeed

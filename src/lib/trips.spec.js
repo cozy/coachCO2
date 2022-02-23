@@ -10,9 +10,9 @@ import {
 
 import {
   computeAndformatCaloriesTrip,
-  getSectionsInfo,
+  getSectionsFromTrip,
   getPurpose,
-  getSectionsFormatedInfo,
+  getSectionsFormatedFromTrip,
   getModesSortedByDistance,
   computeAndFormatCO2Trip
 } from 'src/lib/trips'
@@ -75,7 +75,7 @@ describe('getPurpose', () => {
   })
 })
 
-describe('getSectionsInfo', () => {
+describe('getSectionsFromTrip', () => {
   const trips = mockSerie('serieId01', mockedFeatures())
 
   it.each`
@@ -92,19 +92,19 @@ describe('getSectionsInfo', () => {
     ${trips} | ${'startDate'}
     ${trips} | ${'timestamps'}
   `(`should section must have $property property`, ({ trips, property }) => {
-    const sectionsInfo = getSectionsInfo(trips)
+    const sectionsInfo = getSectionsFromTrip(trips)
     expect(sectionsInfo[0]).toHaveProperty(property)
   })
 
   it('should return correct sections', () => {
-    const sectionsInfo = getSectionsInfo(trips)
+    const sectionsInfo = getSectionsFromTrip(trips)
     expect(sectionsInfo).toMatchSnapshot()
   })
 })
 
-describe('getSectionsFormatedInfo', () => {
+describe('getSectionsFormatedFromTrip', () => {
   it('should return formated value', () => {
-    const bicyleInfos = getSectionsFormatedInfo(makeBicycleTrip(), 'en')
+    const bicyleInfos = getSectionsFormatedFromTrip(makeBicycleTrip(), 'en')
     expect(bicyleInfos[0]).toMatchObject({
       distance: '2 km',
       duration: '10 min',

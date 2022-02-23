@@ -11,7 +11,7 @@ import {
   getStartPlaceDisplayName,
   getEndPlaceDisplayName,
   getPurpose,
-  getSectionsInfo,
+  getSectionsFromTrip,
   getStartDate,
   getEndDate
 } from 'src/lib/trips'
@@ -48,7 +48,7 @@ const convertTripsToCSV = tripsData => {
  */
 const makeTripsForExport = trips => {
   const result = trips.flatMap(trip => {
-    const sectionsInfo = getSectionsInfo(trip)
+    const sectionsInfo = getSectionsFromTrip(trip)
 
     return sectionsInfo.map(sectionInfo => {
       const sectionData = {

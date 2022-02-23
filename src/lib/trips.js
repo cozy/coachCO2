@@ -77,7 +77,7 @@ export const getModesSortedByDistance = trip => {
 }
 
 export const getMainMode = trip => {
-  const sectionsInfo = getSectionsInfo(trip)
+  const sectionsInfo = getSectionsFromTrip(trip)
 
   if (sectionsInfo.length < 1) {
     return UNKNOWN_MODE
@@ -92,7 +92,7 @@ export const getMainMode = trip => {
   return mainSection.mode
 }
 
-const getSection = featureCollection => {
+const getSectionFromFeatureColl = featureCollection => {
   return featureCollection.features.map(feature => {
     const startDate = get(feature, 'properties.start_fmt_time')
     const endDate = get(feature, 'properties.end_fmt_time')
@@ -114,14 +114,14 @@ const getSection = featureCollection => {
   })
 }
 
-export const getSectionsInfo = memoize(trip => {
+export const getSectionsFromTrip = memoize(trip => {
   return trip.features
     .filter(feature => feature.type === 'FeatureCollection')
-    .flatMap(getSection)
+    .flatMap(getSectionFromFeatureColl)
 })
 
-export const getSectionsFormatedInfo = (trip, lang) => {
-  const sections = getSectionsInfo(trip)
+export const getSectionsFormatedFromTrip = (trip, lang) => {
+  const sections = getSectionsFromTrip(trip)
   const language = ['fr', 'en'].includes(lang) ? lang : 'en'
 
   return sections.map(section => {

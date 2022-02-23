@@ -5,7 +5,7 @@ import fromPairs from 'lodash/fromPairs'
 import toPairs from 'lodash/toPairs'
 
 import { computeCO2Section } from 'src/lib/metrics'
-import { getSectionsInfo } from 'src/lib/trips'
+import { getSectionsFromTrip } from 'src/lib/trips'
 import { modes, purposes } from 'src/components/helpers'
 import { UNKNOWN_MODE, OTHER_PURPOSE } from 'src/constants/const'
 
@@ -61,7 +61,7 @@ export const computeAggregatedTimeseries = timeseries => {
     let totalSerieCO2 = 0
     let totalSerieDistance = 0
     let totalSerieDuration = 0
-    const sections = getSectionsInfo(serie)
+    const sections = getSectionsFromTrip(serie)
 
     const computedSections = sections.map(section => {
       const totalCO2 = computeCO2Section(section)
