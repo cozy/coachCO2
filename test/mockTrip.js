@@ -17,29 +17,41 @@ export const modeProps = {
     mode: 'BICYCLING',
     distance: 2456,
     duration: 600,
-    startDate: '2021-01-01T08:00:00',
-    endDate: '2021-01-01T08:10:00'
+    distances: [0, 201.98652472578271, 201.98549037826737],
+    timestamps: [1638890689000, 1638890719000, 1638890749000],
+    speeds: [0, 6.73288415752609, 6.732849679275579],
+    startDate: '2021-12-07T16:24:49+01:00',
+    endDate: '2021-12-07T16:39:16+01:00'
   },
   walking: {
     mode: 'WALKING',
     distance: 563,
     duration: 540,
-    startDate: '2021-01-01T08:11:00',
-    endDate: '2021-01-01T08:20:00'
+    distances: [0, 2.3338746642432437, 5.89018714479141],
+    timestamps: [1638891571000, 1638891601000, 1638891631000],
+    speeds: [0, 0.07779582214144146, 0.196339571493047],
+    startDate: '2021-12-07T16:39:31+01:00',
+    endDate: '2021-12-07T17:04:07+01:00'
   },
   car: {
     mode: 'CAR',
     distance: 14789,
     duration: 1800,
-    startDate: '2021-01-01T08:30:00',
-    endDate: '2021-01-01T09:00:00'
+    distances: [0, 43.094121726730805, 31.5918459191552],
+    timestamps: [1638893074000, 1638893104000, 1638893134000],
+    speeds: [0, 1.4364707242243602, 1.0530615306385067],
+    startDate: '2021-12-07T17:04:34+01:00',
+    endDate: '2021-12-07T17:06:26+01:00'
   },
   plane: {
     mode: 'AIR_OR_HSR',
     distance: 504789,
     duration: 1800,
-    startDate: '2021-01-01T08:30:00',
-    endDate: '2021-01-01T09:00:00'
+    distances: [0, 3.084870063085477, 376.624960316763],
+    timestamps: [1638909778000, 1638909808000, 1638909838000],
+    speeds: [0, 0.10282900210284923, 12.5541653438921],
+    startDate: '2021-12-07T17:06:26+01:00',
+    endDate: '2021-12-07T19:18:05+01:00'
   }
 }
 
@@ -82,7 +94,16 @@ export const mockFeature = (id, props) => {
   return {
     id,
     type: 'Feature',
-    geometry: {},
+    geometry: {
+      coordinates: props
+        ? [
+            [2.31251, 48.7799432],
+            [2.313591181324194, 48.78161416932299],
+            [2.314672362648388, 48.783285138645994]
+          ]
+        : [2.31251, 48.7799432],
+      type: props ? 'LineString' : 'Point'
+    },
     properties: props
       ? {
           sensed_mode: props.mode ? `PredictedModeTypes.${props.mode}` : '',
@@ -90,6 +111,8 @@ export const mockFeature = (id, props) => {
           start_fmt_time: props.startDate || '',
           end_fmt_time: props.endDate || '',
           duration: props.duration || '',
+          timestamps: props.timestamps || [],
+          distances: props.distances || [],
           speeds: props.speeds || [1]
         }
       : {}
@@ -111,9 +134,17 @@ export const mockSerie = (
   id,
   type: 'FeatureCollection',
   properties: {
-    start_place: { $oid: 'sectionId01' },
-    end_place: { $oid: 'sectionId02' },
-    manual_purpose
+    start_place: {
+      $oid: 'sectionId01',
+      data: { properties: { display_name: 'GR9, Isère' } }
+    },
+    end_place: {
+      $oid: 'sectionId02',
+      data: { properties: { display_name: 'Piste de la Combe Noire, Isère' } }
+    },
+    manual_purpose,
+    start_fmt_time: '2021-06-30T14:47:51.081201+02:00',
+    end_fmt_time: '2021-06-30T16:37:05.086000+02:00'
   },
   features: features || [
     mockFeature('sectionId01'),

@@ -1,4 +1,5 @@
 import React, { useMemo, useContext } from 'react'
+
 import SelectBox from 'cozy-ui/transpiled/react/SelectBox'
 import Label from 'cozy-ui/transpiled/react/Label'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -7,6 +8,7 @@ import { useQuery } from 'cozy-client'
 import { AccountContext } from 'src/components/AccountProvider'
 import { buildAccountQuery } from 'src/queries/queries'
 import Titlebar from 'src/components/Titlebar'
+import CsvExporter from 'src/components/ExportCSV/CsvExporter'
 
 export const Settings = () => {
   const { t } = useI18n()
@@ -25,16 +27,25 @@ export const Settings = () => {
     }))
   }, [data])
 
+  // To know the reason for not passing directly `accounts`, see
+  // https://github.com/cozy/coachCO2/pull/62#discussion_r812929004
+  const accountName = accounts[0]?.label || ''
+
   return (
     <>
       <Titlebar />
-      <Label>{t('devices.label')}</Label>
-      <SelectBox
-        options={accounts}
-        label={t('devices.label')}
-        placeholder={t('devices.select')}
-        onChange={account => setSelectedAccount(account)}
-      />
+      <div className="u-mh-1 u-mv-1-half">
+        <div className="u-mb-1-half">
+          <Label>{t('devices.label')}</Label>
+          <SelectBox
+            options={accounts}
+            label={t('devices.label')}
+            placeholder={t('devices.select')}
+            onChange={setSelectedAccount}
+          />
+        </div>
+        <CsvExporter accountName={accountName} />
+      </div>
     </>
   )
 }

@@ -184,8 +184,8 @@ describe('Aggregation', () => {
         mode: expect.any(String),
         distance: expect.any(Number),
         duration: expect.any(Number),
-        startDate: expect.any(String),
-        endDate: expect.any(String),
+        startDate: expect.any(Date),
+        endDate: expect.any(Date),
         averageSpeed: expect.any(Number),
         totalCO2: expect.any(Number)
       })

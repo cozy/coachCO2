@@ -40,6 +40,11 @@
         "GET"
       ]
     },
+    "files": {
+      "description": "Required to access the files for saved your export of trips",
+      "type": "io.cozy.files",
+      "verbs": ["ALL"]
+    },
     "geojson-timeseries": {
       "description": "Required to display geojson timeseries",
       "type": "io.cozy.timeseries.geojson"
