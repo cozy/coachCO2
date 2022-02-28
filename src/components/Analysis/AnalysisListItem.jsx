@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
@@ -40,6 +41,7 @@ const ItemIcon = ({ type, sortedTimeserieKey }) => {
 
 const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
   const { t } = useI18n()
+  const history = useHistory()
   const [sortedTimeserieKey, sortedTimeserieValue] = sortedTimeserie
   const travelCount = sortedTimeserieValue.timeseries.length
   const CO2 = sortedTimeserieValue.totalCO2
@@ -47,9 +49,17 @@ const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
   const CO2percent = `${Math.round((CO2 * 100) / totalCO2)}%`
   const isDisabled = travelCount === 0 && CO2 === 0
 
+  const handleClick = () => {
+    return history.push(`/analysis/${type}/${sortedTimeserieKey}`)
+  }
+
   return (
     <>
-      <ListItem className="u-pl-1-s u-pl-2" disabled={isDisabled}>
+      <ListItem
+        className="u-pl-1-s u-pl-2"
+        disabled={isDisabled}
+        onClick={handleClick}
+      >
         <ListItemIcon>
           <ItemIcon type={type} sortedTimeserieKey={sortedTimeserieKey} />
         </ListItemIcon>
