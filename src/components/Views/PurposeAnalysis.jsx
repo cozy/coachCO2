@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -10,14 +10,17 @@ import PurposesList from 'src/components/Analysis/Purposes/PurposesList'
 
 const PurposeAnalysis = () => {
   const { t } = useI18n()
+  const history = useHistory()
   const { purpose } = useParams()
   const { isMobile } = useBreakpoints()
 
-  const title = purpose ? t(`trips.purposes.${purpose}`) : ''
+  const purposeTitle = purpose ? t(`trips.purposes.${purpose}`) : ''
+
+  const onBack = purpose ? history.goBack : undefined
 
   return (
     <>
-      <Titlebar label={title} />
+      <Titlebar label={purposeTitle} onBack={onBack} />
       {isMobile && <TabsNav />}
       <PurposesList />
     </>

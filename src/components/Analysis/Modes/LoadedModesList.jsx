@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
+import { useParams } from 'react-router-dom'
 import cx from 'classnames'
 
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
@@ -8,14 +9,17 @@ import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import {
   computeAggregatedTimeseries,
   sortTimeseriesByCO2GroupedByMode,
-  computeCO2Timeseries
+  computeCO2Timeseries,
+  transformTimeseriesToTrips
 } from 'src/lib/timeseries'
 import { formatCO2 } from 'src/lib/trips'
 import { makeChartProps } from 'src/components/Analysis/helpers'
 import AnalysisListItem from 'src/components/Analysis/AnalysisListItem'
 import PieChart from 'src/components/PieChart/PieChart'
+import TripsList from 'src/components/TripsList'
 
 const LoadedModesList = ({ timeseries }) => {
+  const { mode } = useParams()
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
 
@@ -35,12 +39,21 @@ const LoadedModesList = ({ timeseries }) => {
     [t, timeseriesSortedByModes]
   )
 
-  return (
+  const trips = useMemo(() => {
+    if (mode) {
+      return transformTimeseriesToTrips(
+        timeseriesSortedByModes[mode].timeseries
+      )
+    }
+    return []
+  }, [mode, timeseriesSortedByModes])
+
+  return !mode ? (
     <>
       <div
-        className={cx('u-flex', {
+        className={cx('u-flex u-mt-1', {
           'u-flex-justify-end u-mr-2': !isMobile,
-          'u-flex-justify-center u-mt-1': isMobile
+          'u-flex-justify-center': isMobile
         })}
       >
         <PieChart
@@ -63,6 +76,11 @@ const LoadedModesList = ({ timeseries }) => {
         )}
       </List>
     </>
+  ) : (
+    <TripsList
+      trips={trips}
+      timeseries={timeseriesSortedByModes[mode].timeseries}
+    />
   )
 }
 

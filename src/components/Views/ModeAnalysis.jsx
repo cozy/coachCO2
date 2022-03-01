@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -10,14 +10,17 @@ import TabsNav from 'src/components/Analysis/TabsNav'
 
 const ModeAnalysis = () => {
   const { t } = useI18n()
+  const history = useHistory()
   const { mode } = useParams()
   const { isMobile } = useBreakpoints()
 
-  const title = mode ? t(`trips.modes.${mode}`) : ''
+  const modeTitle = mode ? t(`trips.modes.${mode}`) : ''
+
+  const onBack = mode ? history.goBack : undefined
 
   return (
     <>
-      <Titlebar label={title} />
+      <Titlebar label={modeTitle} onBack={onBack} />
       {isMobile && <TabsNav />}
       <ModesList />
     </>
