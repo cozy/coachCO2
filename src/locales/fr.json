@@ -15,7 +15,7 @@
   },
   "devices": {
     "select": "Sélectionnez un appareil",
-    "label": "Appareils"
+    "label": "Source des données"
   },
   "trips": {
     "from": "Déplacements de",
@@ -59,8 +59,9 @@
     "emittedCO2": "CO2 émis"
   },
   "export": {
+    "label": "Export",
     "filename": "%{today} - Déplacements %{accountLabel}.csv",
-    "button": "Exporter mes données (CSV)",
+    "button": "Exporter les déplacements en CSV",
     "modal": {
       "button": {
         "close": "Fermer",

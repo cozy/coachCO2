@@ -12,7 +12,7 @@ import CsvExporter from 'src/components/ExportCSV/CsvExporter'
 
 export const Settings = () => {
   const { t } = useI18n()
-  const { setSelectedAccount } = useContext(AccountContext)
+  const { selectedAccount, setSelectedAccount } = useContext(AccountContext)
 
   const accountQuery = buildAccountQuery()
   const { data } = useQuery(accountQuery.definition, accountQuery.options)
@@ -30,6 +30,7 @@ export const Settings = () => {
   // To know the reason for not passing directly `accounts`, see
   // https://github.com/cozy/coachCO2/pull/62#discussion_r812929004
   const accountName = accounts[0]?.label || ''
+  const accountId = accounts[0]?._id || ''
 
   return (
     <>
@@ -39,11 +40,16 @@ export const Settings = () => {
           <Label>{t('devices.label')}</Label>
           <SelectBox
             options={accounts}
+            value={{
+              value: selectedAccount?._id || accountId,
+              label: selectedAccount?.label || accountName
+            }}
             label={t('devices.label')}
             placeholder={t('devices.select')}
             onChange={setSelectedAccount}
           />
         </div>
+        <Label>{t('export.label')}</Label>
         <CsvExporter accountName={accountName} />
       </div>
     </>

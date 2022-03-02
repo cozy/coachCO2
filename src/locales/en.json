@@ -15,7 +15,7 @@
   },
   "devices": {
     "select": "Select a device",
-    "label": "Devices"
+    "label": "Data source"
   },
   "trips": {
     "from": "Trips from",
@@ -59,8 +59,9 @@
     "emittedCO2": "emitted CO2"
   },
   "export": {
+    "label": "Export",
     "filename": "%{today} - Trips %{accountLabel}.csv",
-    "button": "Export my data (CSV)",
+    "button": "Export trips in CSV",
     "modal": {
       "button": {
         "close": "Close",
