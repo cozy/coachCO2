@@ -13,7 +13,7 @@ export const createGeojsonWithModifiedPurpose = ({
     const modifiedSerie = set(
       cloneDeep(serie),
       'properties.manual_purpose',
-      purpose
+      purpose.toUpperCase()
     )
 
     return set(cloneDeep(geojson), `series[${index}]`, modifiedSerie)

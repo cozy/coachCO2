@@ -58,4 +58,14 @@ describe('createGeojsonWithModifiedPurpose', () => {
 
     expect(modifiedGeojson).toMatchObject(geojson)
   })
+
+  it('should create the purpose in upper case', () => {
+    const modifiedGeojson = createGeojsonWithModifiedPurpose({
+      geojson,
+      tripId: 'tripId',
+      purpose: 'shopping'
+    })
+
+    expect(modifiedGeojson.series[1].properties.manual_purpose).toBe('SHOPPING')
+  })
 })
