@@ -27,7 +27,12 @@ const App = () => {
               <Route path="/trip/:geojsonId" component={Trip} />
               <Route path="/trips" component={Trips} />
               <Route path="/settings" component={Settings} />
-              <Route path="/analysis/modes" component={ModeAnalysis} />
+              <Route path="/analysis/modes/:mode" component={ModeAnalysis} />
+              <Route path="/analysis/modes" component={ModeAnalysis}></Route>
+              <Route
+                path="/analysis/purposes/:purpose"
+                component={PurposeAnalysis}
+              />
               <Route path="/analysis/purposes" component={PurposeAnalysis} />
               <Redirect from="/analysis" to="/analysis/modes" />
               <Redirect from="/" to="/trips" />

@@ -16,6 +16,9 @@ const TabsNav = () => {
   const history = useHistory()
   const { pathname } = useLocation()
   const { t } = useI18n()
+  const currentTabIndex = routes.indexOf(
+    routes.find(route => pathname.includes(route))
+  )
 
   const handleChange = (_, value) => {
     history.push(routes[value])
@@ -23,7 +26,7 @@ const TabsNav = () => {
 
   return (
     <Paper>
-      <Tabs value={routes.indexOf(pathname)} onChange={handleChange}>
+      <Tabs value={currentTabIndex} onChange={handleChange}>
         <Tab label={t('nav.modes')} {...a11yProps(0)} />
         <Tab label={t('nav.purposes')} {...a11yProps(1)} />
       </Tabs>

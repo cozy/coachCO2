@@ -146,7 +146,7 @@ export const sortGroupedTimeseries = (groupedTimeseries, keyForUnknown) => {
  * @param {array} aggregatedTimeseries - Aggregated timeseries
  * @returns {object}
  */
-const makeTimeseriesIdsAndTotalCO2ByModes = aggregatedTimeseries => {
+const makeTimeseriesAndTotalCO2ByModes = aggregatedTimeseries => {
   const timeseriesByModes = modes.reduce(
     (a, v) => ({ ...a, [v]: { timeseries: [], totalCO2: 0 } }),
     {}
@@ -159,7 +159,7 @@ const makeTimeseriesIdsAndTotalCO2ByModes = aggregatedTimeseries => {
       const collectedTimeseries = timeseriesByModes[section.mode].timeseries
 
       if (!collectedTimeseries.includes(aggregatedTimeserie.id)) {
-        collectedTimeseries.push(aggregatedTimeserie.id)
+        collectedTimeseries.push(aggregatedTimeserie)
       }
       timeseriesByModes[section.mode].totalCO2 += section.totalCO2
     })
@@ -174,7 +174,7 @@ const makeTimeseriesIdsAndTotalCO2ByModes = aggregatedTimeseries => {
  * @returns {array} Sorted aggregated timeseries by CO2
  */
 export const sortTimeseriesByCO2GroupedByMode = aggregatedTimeseries => {
-  const timeseriesByModes = makeTimeseriesIdsAndTotalCO2ByModes(
+  const timeseriesByModes = makeTimeseriesAndTotalCO2ByModes(
     aggregatedTimeseries
   )
 
@@ -191,7 +191,7 @@ const getTimeseriePurpose = timeserie =>
  * @param {array} aggregatedTimeseries - Aggregated timeseries
  * @returns {object}
  */
-export const makeTimeseriesIdsAndTotalCO2ByPurposes = aggregatedTimeseries => {
+export const makeTimeseriesAndTotalCO2ByPurposes = aggregatedTimeseries => {
   const timeseriesByPurposes = purposes.reduce(
     (a, v) => ({ ...a, [v]: { timeseries: [], totalCO2: 0 } }),
     {}
@@ -203,7 +203,7 @@ export const makeTimeseriesIdsAndTotalCO2ByPurposes = aggregatedTimeseries => {
       timeseriesByPurposes[timeseriePurpose].timeseries
 
     if (!collectedTimeseries.includes(aggregatedTimeserie.id)) {
-      collectedTimeseries.push(aggregatedTimeserie.id)
+      collectedTimeseries.push(aggregatedTimeserie)
     }
     timeseriesByPurposes[timeseriePurpose].totalCO2 +=
       aggregatedTimeserie.aggregation.totalCO2
@@ -218,7 +218,7 @@ export const makeTimeseriesIdsAndTotalCO2ByPurposes = aggregatedTimeseries => {
  * @returns {array}
  */
 export const sortTimeseriesByCO2GroupedByPurpose = aggregatedTimeseries => {
-  const timeseriesByPurposes = makeTimeseriesIdsAndTotalCO2ByPurposes(
+  const timeseriesByPurposes = makeTimeseriesAndTotalCO2ByPurposes(
     aggregatedTimeseries
   )
 

@@ -1,39 +1,78 @@
-import React, { useContext } from 'react'
+import React, { useMemo } from 'react'
 
-import { isQueryLoading, useQuery } from 'cozy-client'
+import { hasQueryBeenLoaded, isQueryLoading, useQuery } from 'cozy-client'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
+import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
 
-import { buildAccountQuery } from 'src/queries/queries'
+import {
+  buildAccountQuery,
+  buildGeoJSONQueryByAccountId
+} from 'src/queries/queries'
 import TripsList from 'src/components/TripsList'
-import { AccountContext } from 'src/components/AccountProvider'
+import { transformTimeseriesToTrips } from 'src/lib/timeseries'
+import Titlebar from 'src/components/Titlebar'
 
 export const Trips = () => {
   const { t } = useI18n()
-  const { selectedAccount } = useContext(AccountContext)
 
   const accountQuery = buildAccountQuery()
-  const { data: accounts, ...accountQueryRes } = useQuery(
+  const { data: accountQueryRes, ...accountQueryLeft } = useQuery(
     accountQuery.definition,
     accountQuery.options
   )
 
-  if (isQueryLoading(accountQueryRes)) {
-    return (
-      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
-    )
+  const isLoadingAccountQuery =
+    isQueryLoading(accountQueryLeft) && !hasQueryBeenLoaded(accountQueryLeft)
+
+  const accounts = useMemo(() => {
+    if (Array.isArray(accountQueryRes)) {
+      return accountQueryRes.map(account => ({
+        label: account.auth.login,
+        _id: account._id
+      }))
+    }
+    return []
+  }, [accountQueryRes])
+
+  const timeseriesQuery = buildGeoJSONQueryByAccountId(accounts?.[0]?._id)
+  const { data: timeseriesQueryResult, ...timeseriesQueryLeft } = useQuery(
+    timeseriesQuery.definition,
+    {
+      ...timeseriesQuery.options,
+      enabled: accounts && accounts.length > 0
+    }
+  )
+
+  const isLoadingTimeseriesQuery =
+    isQueryLoading(timeseriesQueryLeft) &&
+    !hasQueryBeenLoaded(timeseriesQueryLeft)
+
+  const trips = useMemo(() => {
+    if (Array.isArray(timeseriesQueryResult)) {
+      return transformTimeseriesToTrips(timeseriesQueryResult)
+    }
+    return []
+  }, [timeseriesQueryResult])
+
+  if (!isLoadingAccountQuery && accounts.length === 0) {
+    return <p>{t('account.notFound')}</p>
   }
 
-  if (selectedAccount || accounts.length > 0) {
-    return (
-      <TripsList
-        account={
-          selectedAccount || { ...accounts[0], label: accounts[0].auth.login }
-        }
-      />
-    )
-  }
-  return <p>{t('account.notFound')}</p>
+  return isLoadingAccountQuery || isLoadingTimeseriesQuery ? (
+    <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
+  ) : (
+    <>
+      <Titlebar label={t('trips.from') + ' ' + accounts?.[0]?.label} />
+      <TripsList trips={trips} timeseries={timeseriesQueryResult} />
+      {timeseriesQueryLeft.hasMore && (
+        <LoadMore
+          label={t('loadMore')}
+          fetchMore={timeseriesQueryLeft.fetchMore}
+        />
+      )}
+    </>
+  )
 }
 
 export default Trips

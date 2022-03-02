@@ -1,80 +1,41 @@
-import React, { useMemo } from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import isSameDay from 'date-fns/is_same_day'
 
-import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
-import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import { isQueryLoading, useQuery, hasQueryBeenLoaded } from 'cozy-client'
 
-import { buildGeoJSONQueryByAccountId } from 'src/queries/queries'
 import TripItem from 'src/components/TripItem'
 import { getStartDate } from 'src/lib/trips'
-import { transformTimeseriesToTrips } from 'src/lib/timeseries'
-import Titlebar from 'src/components/Titlebar'
 
-export const TripsList = ({ account }) => {
-  const { t } = useI18n()
-
-  const tripsQuery = buildGeoJSONQueryByAccountId(account._id)
-  const { data, ...tripsQueryResult } = useQuery(
-    tripsQuery.definition,
-    tripsQuery.options
-  )
-
-  const isLoading =
-    isQueryLoading(tripsQueryResult) && !hasQueryBeenLoaded(tripsQueryResult)
-
-  const trips = useMemo(() => {
-    if (!data || !data.length) {
-      return []
-    } else {
-      return transformTimeseriesToTrips(data)
-    }
-  }, [data])
-
-  const makeGeojson = useMemo(
-    () => trip => data.find(e => e._id === trip.geojsonId),
-    [data]
-  )
-  const makeWithDataHeader = useMemo(
-    () => (trip, i) =>
-      i === 0 || !isSameDay(getStartDate(trip), getStartDate(trips[i - 1])),
+export const TripsList = ({ trips, timeseries }) => {
+  const hasDateHeader = useCallback(
+    (trip, idx) =>
+      idx === 0 || !isSameDay(getStartDate(trip), getStartDate(trips[idx - 1])),
     [trips]
   )
 
-  if (isLoading) {
-    return (
-      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
-    )
-  }
+  const getGeojson = useCallback(
+    trip => timeseries.find(e => e._id === trip.geojsonId),
+    [timeseries]
+  )
 
   return (
-    <>
-      <Titlebar label={t('trips.from') + ' ' + account.label} />
-      <List>
-        {trips.map((trip, i) => (
-          <TripItem
-            key={i}
-            geojson={makeGeojson(trip)}
-            trip={trip}
-            withDateHeader={makeWithDataHeader(trip, i)}
-          />
-        ))}
-        {tripsQueryResult.hasMore && (
-          <LoadMore
-            label={t('loadMore')}
-            fetchMore={tripsQueryResult.fetchMore}
-          />
-        )}
-      </List>
-    </>
+    <List>
+      {trips.map((trip, idx) => (
+        <TripItem
+          key={`${trip.id}${idx}`}
+          geojson={getGeojson(trip)}
+          trip={trip}
+          hasDateHeader={hasDateHeader(trip, idx)}
+        />
+      ))}
+    </List>
   )
 }
 
 TripsList.propTypes = {
-  account: PropTypes.object.isRequired
+  trips: PropTypes.arrayOf(PropTypes.object).isRequired,
+  timeseries: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default TripsList
