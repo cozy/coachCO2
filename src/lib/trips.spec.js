@@ -14,7 +14,8 @@ import {
   getPurpose,
   getSectionsFormatedFromTrip,
   getModesSortedByDistance,
-  computeAndFormatCO2Trip
+  computeAndFormatCO2Trip,
+  getFeatureMode
 } from 'src/lib/trips'
 
 const mockedFeatures = () => [
@@ -110,5 +111,59 @@ describe('getSectionsFormatedFromTrip', () => {
       duration: '10 min',
       averageSpeed: '16 km/h'
     })
+  })
+})
+
+describe('getFeatureMode', () => {
+  it('should return the manual mode if present', () => {
+    const result = getFeatureMode({
+      properties: {
+        manual_mode: 'BIKE',
+        sensed_mode: 'PredictedModeTypes.CAR'
+      }
+    })
+
+    expect(result).toBe('BIKE')
+  })
+
+  it('should return the sensed mode if no manual mode', () => {
+    const result = getFeatureMode({
+      properties: {
+        manual_mode: undefined,
+        sensed_mode: 'PredictedModeTypes.CAR'
+      }
+    })
+
+    expect(result).toBe('CAR')
+  })
+
+  it('should return the default mode if sensed mode is not supported by the application', () => {
+    const result = getFeatureMode({
+      properties: {
+        manual_mode: undefined,
+        sensed_mode: 'PredictedModeTypes.UNSUPPORTED_MODE'
+      }
+    })
+
+    expect(result).toBe('UNKNOWN')
+  })
+
+  it('should return the default mode if sensed mode is not a correct value', () => {
+    const result = getFeatureMode({
+      properties: {
+        manual_mode: undefined,
+        sensed_mode: 'UNCORRECT_FORMATED_VALUE'
+      }
+    })
+
+    expect(result).toBe('UNKNOWN')
+  })
+
+  it('should return the default mode for undefined manual and sensed mode', () => {
+    const result = getFeatureMode({
+      properties: { manual_mode: undefined, sensed_mode: undefined }
+    })
+
+    expect(result).toBe('UNKNOWN')
   })
 })

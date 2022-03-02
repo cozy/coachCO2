@@ -18,7 +18,8 @@ import {
   computeCO2Timeseries,
   sortGroupedTimeseries,
   makeTimeseriesAndTotalCO2ByPurposes,
-  sortTimeseriesByCO2GroupedByPurpose
+  sortTimeseriesByCO2GroupedByPurpose,
+  getTimeseriePurpose
 } from 'src/lib/timeseries'
 
 describe('transformTimeserieToTrip', () => {
@@ -394,10 +395,36 @@ describe('Aggregation', () => {
   })
 
   describe('sortTimeseriesByCO2GroupedByPurpose', () => {
-    it('should', () => {
+    it('should return correct value', () => {
       expect(
         sortTimeseriesByCO2GroupedByPurpose(aggregatedTimeseries)
       ).toMatchSnapshot()
     })
+  })
+})
+
+describe('getTimeseriePurpose', () => {
+  it('should return the manual purpose in upper case', () => {
+    const result = getTimeseriePurpose({
+      series: [{ properties: { manual_purpose: 'shopping' } }]
+    })
+
+    expect(result).toBe('SHOPPING')
+  })
+
+  it('should return the manual purpose', () => {
+    const result = getTimeseriePurpose({
+      series: [{ properties: { manual_purpose: 'SHOPPING' } }]
+    })
+
+    expect(result).toBe('SHOPPING')
+  })
+
+  it('should return default manual purpose', () => {
+    const result = getTimeseriePurpose({
+      series: [{ properties: { manual_purpose: undefined } }]
+    })
+
+    expect(result).toBe('OTHER_PURPOSE')
   })
 })

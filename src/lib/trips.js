@@ -7,6 +7,7 @@ import humanizeDuration from 'humanize-duration'
 
 import { UNKNOWN_MODE } from 'src/constants/const'
 import { computeCaloriesTrip, computeCO2Trip } from 'src/lib/metrics'
+import { modes } from 'src/components/helpers'
 
 export const getPurpose = trip => {
   return get(trip, 'properties.manual_purpose')
@@ -44,13 +45,15 @@ export const formatTripDistance = trip => {
  * @param {object} feature - The feature from a section
  * @returns The feature's mode depending on whether it has been changed manually
  */
-const getFeatureMode = feature => {
+export const getFeatureMode = feature => {
   const manualMode = get(feature, 'properties.manual_mode')
   const sensedOriginalMode = get(feature, 'properties.sensed_mode')
+
   const sensedMode =
     sensedOriginalMode && sensedOriginalMode.split('PredictedModeTypes.')[1]
+  const isSupportedSensedMode = modes.includes(sensedMode)
 
-  return manualMode || sensedMode
+  return manualMode || (isSupportedSensedMode && sensedMode) || UNKNOWN_MODE
 }
 
 const getFeatureModes = feature => {
