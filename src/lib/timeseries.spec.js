@@ -17,9 +17,9 @@ import {
   sortTimeseriesByCO2GroupedByMode,
   computeCO2Timeseries,
   sortGroupedTimeseries,
-  makeTimeseriesIdsAndTotalCO2ByPurposes,
+  makeTimeseriesAndTotalCO2ByPurposes,
   sortTimeseriesByCO2GroupedByPurpose
-} from './timeseries'
+} from 'src/lib/timeseries'
 
 describe('transformTimeserieToTrip', () => {
   it('should return correct value', () => {
@@ -334,16 +334,16 @@ describe('Aggregation', () => {
     })
   })
 
-  describe('makeTimeseriesIdsAndTotalCO2ByPurposes', () => {
+  describe('makeTimeseriesAndTotalCO2ByPurposes', () => {
     it('should not mutate initial aggregatedTimeseries', () => {
-      makeTimeseriesIdsAndTotalCO2ByPurposes(aggregatedTimeseries)
+      makeTimeseriesAndTotalCO2ByPurposes(aggregatedTimeseries)
 
       expect(Array.isArray(aggregatedTimeseries)).toBe(true)
       expect(aggregatedTimeseries.length).toBe(2)
     })
 
     it('should return timeseries ids and totalCO2 sorted by purposes', () => {
-      const timeseriesSortedByPurposes = makeTimeseriesIdsAndTotalCO2ByPurposes(
+      const timeseriesSortedByPurposes = makeTimeseriesAndTotalCO2ByPurposes(
         aggregatedTimeseries
       )
 
