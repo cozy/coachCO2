@@ -183,8 +183,11 @@ export const sortTimeseriesByCO2GroupedByMode = aggregatedTimeseries => {
 
 // Purpose usages
 
-const getTimeseriePurpose = timeserie =>
-  timeserie.series[0].properties.manual_purpose || OTHER_PURPOSE
+export const getTimeseriePurpose = timeserie => {
+  const manualPurpose = timeserie.series[0].properties.manual_purpose
+
+  return (manualPurpose && manualPurpose.toUpperCase()) || OTHER_PURPOSE
+}
 
 /**
  * Group timeseries ids by purpose, and add totalCO2 for each purposes

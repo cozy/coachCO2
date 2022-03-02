@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Aggregation sortTimeseriesByCO2GroupedByPurpose should 1`] = `
+exports[`Aggregation sortTimeseriesByCO2GroupedByPurpose should return correct value 1`] = `
 Object {
   "ENTERTAINMENT": Object {
     "timeseries": Array [],
