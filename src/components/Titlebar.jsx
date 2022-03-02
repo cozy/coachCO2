@@ -62,9 +62,7 @@ const Titlebar = ({ label, onBack }) => {
       <Typography
         variant="h3"
         className={cx('u-mv-1-half-s u-ml-1-s u-mv-2', {
-          ['u-pos-absolute']: !backAction && pathname !== '/trips',
-          ['u-ml-2']: !backAction,
-          ['u-dib']: backAction
+          ['u-ml-2']: !backAction
         })}
       >
         {title}
