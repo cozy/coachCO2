@@ -5,6 +5,7 @@
 * Update cozy packages
 * Home : replace the icon of a trip by the purpose's one, and displays all used modes
 * Analysis: new analysis pages allowing to visualize the most CO2 consuming trips by mode and purpose
+* Analysis: new pages in the analysis tab allowing to visualize the trips filtered by mode or purpose by clicking on them
 
 ## 🐛 Bug Fixes
 
@@ -16,6 +17,10 @@
 * Use fullscreen modal for mobile trip view
 * Some trips transformation optimization
 * Update documentation
+* Added 2 routes for displaying trips filtered by `mode` or `purpose`
+* Add an `onBack` property on the `Titlebar` component to go back
+* Renamed `makeTimeseriesIdsAndTotalCO2ByModes` to `makeTimeseriesAndTotalCO2ByModes` and return `timeseriesBy*` object instead Ids.
+* Refactor TripsList & Trips components
 
 # 0.3.0
 
