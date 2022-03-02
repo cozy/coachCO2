@@ -58,7 +58,21 @@ describe('AnalysisListItem', () => {
   })
 
   it('should push route', () => {
-    const { getByTestId } = setup()
+    const { getByTestId } = setup({
+      value: { timeseries: ['a'], totalCO2: 1 }
+    })
+    useHistory.mockReturnValue(history)
+
+    fireEvent.click(getByTestId('ListItem'))
+
+    // eslint-disable-next-line no-console
+    expect(console.log).toHaveBeenCalledWith('history push is called')
+  })
+
+  it('should not push route if disabled', () => {
+    const { getByTestId } = setup({
+      value: { timeseries: [], totalCO2: 0 }
+    })
     useHistory.mockReturnValue(history)
 
     fireEvent.click(getByTestId('ListItem'))

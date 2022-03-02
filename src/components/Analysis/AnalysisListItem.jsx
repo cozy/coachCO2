@@ -7,6 +7,8 @@ import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 import ListItemIcon from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemIcon'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Typography from 'cozy-ui/transpiled/react/Typography'
+import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
+import Icon from 'cozy-ui/transpiled/react/Icon'
 
 import Avatar from 'src/components/Avatar'
 import {
@@ -58,7 +60,8 @@ const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
       <ListItem
         className="u-pl-1-s u-pl-2"
         disabled={isDisabled}
-        onClick={handleClick}
+        onClick={!isDisabled ? handleClick : undefined}
+        button
       >
         <ListItemIcon>
           <ItemIcon type={type} sortedTimeserieKey={sortedTimeserieKey} />
@@ -70,6 +73,9 @@ const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
         <Typography className="u-mh-half" style={styles.co2} variant="body2">
           {formatCO2(CO2)}
         </Typography>
+        {!isDisabled && (
+          <Icon icon={RightIcon} color={'var(--secondaryTextColor)'} />
+        )}
       </ListItem>
       <Divider />
     </>
