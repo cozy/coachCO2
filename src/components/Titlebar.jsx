@@ -2,12 +2,16 @@
 
 import React from 'react'
 import { useLocation } from 'react-router-dom'
+import cx from 'classnames'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import MuiCozyTheme from 'cozy-ui/transpiled/react/MuiCozyTheme'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import BarTitle from 'cozy-ui/transpiled/react/BarTitle'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import Icon from 'cozy-ui/transpiled/react/Icon'
+import IconButton from 'cozy-ui/transpiled/react/IconButton'
+import Previous from 'cozy-ui/transpiled/react/Icons/Previous'
 
 const pathnameToTitle = {
   '/trips': 'nav.trips',
@@ -16,28 +20,56 @@ const pathnameToTitle = {
   '/settings': 'nav.settings'
 }
 
-const Titlebar = ({ label }) => {
+const Titlebar = ({ label, onBack }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const { pathname } = useLocation()
-  const { BarCenter } = cozy.bar
+  const { BarCenter, BarLeft } = cozy.bar
 
   const title = label || t(pathnameToTitle[pathname])
+  const backAction = typeof onBack === 'function' ? onBack : undefined
 
   if (isMobile) {
     return (
-      <BarCenter>
-        <MuiCozyTheme>
-          <BarTitle>{title}</BarTitle>
-        </MuiCozyTheme>
-      </BarCenter>
+      <>
+        {backAction && (
+          <BarLeft>
+            <IconButton className={'u-mr-half'} onClick={backAction}>
+              <Icon icon={Previous} size={16} />
+            </IconButton>
+          </BarLeft>
+        )}
+        <BarCenter>
+          <MuiCozyTheme>
+            <BarTitle>{title}</BarTitle>
+          </MuiCozyTheme>
+        </BarCenter>
+      </>
     )
   }
 
   return (
-    <Typography variant="h3" className="u-mv-1-half-s u-ml-1-s u-mv-2 u-ml-2">
-      {title}
-    </Typography>
+    <div
+      className={cx({
+        ['u-flex u-flex-items-center u-ml-2']: backAction
+      })}
+    >
+      {backAction && (
+        <IconButton className="u-mr-half" onClick={backAction}>
+          <Icon icon={Previous} size={16} />
+        </IconButton>
+      )}
+      <Typography
+        variant="h3"
+        className={cx('u-mv-1-half-s u-ml-1-s u-mv-2', {
+          ['u-pos-absolute']: !backAction && pathname !== '/trips',
+          ['u-ml-2']: !backAction,
+          ['u-dib']: backAction
+        })}
+      >
+        {title}
+      </Typography>
+    </div>
   )
 }
 
