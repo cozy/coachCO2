@@ -48,7 +48,7 @@ const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
   )
 }
 
-export const TripItem = ({ geojson, trip, withDateHeader }) => {
+export const TripItem = ({ geojson, trip, hasDateHeader }) => {
   const { f } = useI18n()
   const history = useHistory()
   const purpose = get(trip, 'properties.manual_purpose')
@@ -81,7 +81,7 @@ export const TripItem = ({ geojson, trip, withDateHeader }) => {
 
   return (
     <>
-      {withDateHeader && <ListSubheader>{day}</ListSubheader>}
+      {hasDateHeader && <ListSubheader>{day}</ListSubheader>}
       <ListItem className="u-pl-1-s u-pl-2" button onClick={handleClick}>
         <ListItemIcon>
           <Avatar
@@ -119,7 +119,7 @@ export const TripItem = ({ geojson, trip, withDateHeader }) => {
 
 TripItem.propTypes = {
   trip: PropTypes.object.isRequired,
-  withDateHeader: PropTypes.bool.isRequired
+  hasDateHeader: PropTypes.bool.isRequired
 }
 
 export default TripItem
