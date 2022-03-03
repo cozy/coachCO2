@@ -49,9 +49,9 @@ const LoadedPurposesList = ({ timeseries }) => {
   }, [purpose, timeseriesSortedByPurposes])
 
   return !purpose ? (
-    <>
+    <div className="u-mt-2">
       <div
-        className={cx('u-flex u-mt-1', {
+        className={cx('u-flex', {
           'u-flex-justify-end u-mr-2': !isMobile,
           'u-flex-justify-center': isMobile
         })}
@@ -75,12 +75,14 @@ const LoadedPurposesList = ({ timeseries }) => {
           )
         )}
       </List>
-    </>
+    </div>
   ) : (
-    <TripsList
-      trips={trips}
-      timeseries={timeseriesSortedByPurposes[purpose].timeseries}
-    />
+    <div className="u-mt-2">
+      <TripsList
+        trips={trips}
+        timeseries={timeseriesSortedByPurposes[purpose].timeseries}
+      />
+    </div>
   )
 }
 
