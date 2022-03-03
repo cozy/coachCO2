@@ -171,7 +171,7 @@ const makeTimeseriesAndTotalCO2ByModes = aggregatedTimeseries => {
 /**
  * Sort aggregated timeseries by modes and CO2
  * @param {array} aggregatedTimeseries - Aggregated timeseries
- * @returns {array} Sorted aggregated timeseries by CO2
+ * @returns {object} Sorted aggregated timeseries by CO2 and modes
  */
 export const sortTimeseriesByCO2GroupedByMode = aggregatedTimeseries => {
   const timeseriesByModes = makeTimeseriesAndTotalCO2ByModes(
