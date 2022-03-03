@@ -15,7 +15,8 @@ import {
   getSectionsFormatedFromTrip,
   getModesSortedByDistance,
   computeAndFormatCO2Trip,
-  getFeatureMode
+  getFeatureMode,
+  computeFormatedPercentage
 } from 'src/lib/trips'
 
 const mockedFeatures = () => [
@@ -166,4 +167,21 @@ describe('getFeatureMode', () => {
 
     expect(result).toBe('UNKNOWN')
   })
+})
+
+describe('computeFormatedPercentage', () => {
+  it.each`
+    value | total  | result
+    ${50} | ${100} | ${'50%'}
+    ${50} | ${90}  | ${'55.56%'}
+    ${50} | ${80}  | ${'62.50%'}
+    ${50} | ${0}   | ${'0%'}
+    ${0}  | ${0}   | ${'0%'}
+    ${0}  | ${100} | ${'0%'}
+  `(
+    `should return $result with ($value, $total) params`,
+    ({ value, total, result }) => {
+      expect(computeFormatedPercentage(value, total)).toBe(result)
+    }
+  )
 })

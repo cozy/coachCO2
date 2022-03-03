@@ -17,7 +17,7 @@ import {
   pickPurposeIcon,
   purposeToColor
 } from 'src/components/helpers'
-import { formatCO2 } from 'src/lib/trips'
+import { computeFormatedPercentage, formatCO2 } from 'src/lib/trips'
 
 const styles = {
   co2: { fontWeight: 700 }
@@ -48,7 +48,7 @@ const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
   const travelCount = sortedTimeserieValue.timeseries.length
   const CO2 = sortedTimeserieValue.totalCO2
 
-  const CO2percent = `${Math.round((CO2 * 100) / totalCO2)}%`
+  const CO2percent = computeFormatedPercentage(CO2, totalCO2)
   const isDisabled = travelCount === 0 && CO2 === 0
 
   const handleClick = () => {

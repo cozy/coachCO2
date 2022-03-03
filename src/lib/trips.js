@@ -9,6 +9,21 @@ import { UNKNOWN_MODE } from 'src/constants/const'
 import { computeCaloriesTrip, computeCO2Trip } from 'src/lib/metrics'
 import { modes } from 'src/components/helpers'
 
+/**
+ * Compute the percentage and returns it as a formatted string
+ * @param {number} value
+ * @param {number} total
+ * @returns {string}
+ */
+export const computeFormatedPercentage = (value, total) => {
+  if (total === 0) return '0%'
+
+  const [int, dec] = ((value * 100) / total).toFixed(2).split('.')
+  if (dec === '00') return `${int}%`
+
+  return `${int}.${dec}%`
+}
+
 export const getPurpose = trip => {
   return get(trip, 'properties.manual_purpose')
 }
