@@ -1,3 +1,6 @@
+import endOfMonth from 'date-fns/end_of_month'
+import startOfMonth from 'date-fns/start_of_month'
+
 import CozyClient, { Q } from 'cozy-client'
 import { DOCTYPE_GEOJSON, DOCTYPE_ACCOUNTS } from 'src/constants/const'
 
@@ -13,6 +16,19 @@ export const buildGeoJSONQueryByAccountId = accountId => ({
     .limitBy(50),
   options: {
     as: `${DOCTYPE_GEOJSON}/sourceAccount/${accountId}`,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+  }
+})
+
+export const buildGeoJSONQueryByAccountIdNoLimit = accountId => ({
+  definition: Q(DOCTYPE_GEOJSON)
+    .where({
+      'cozyMetadata.sourceAccount': accountId
+    })
+    .indexFields(['cozyMetadata.sourceAccount'])
+    .UNSAFE_noLimit(),
+  options: {
+    as: `${DOCTYPE_GEOJSON}/all/sourceAccount/${accountId}`,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
@@ -49,3 +65,28 @@ export const buildGeoJSONQueryNoLimit = () => ({
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
+
+export const buildGeoJSONQueryNoLimitByDate = date => {
+  const startMonth = startOfMonth(date)
+  const endMonth = endOfMonth(date)
+  const isDateNull = date === null
+
+  return {
+    definition: Q(DOCTYPE_GEOJSON)
+      .UNSAFE_noLimit()
+      .where({
+        startDate: {
+          $gt: startMonth,
+          $lt: endMonth
+        }
+      })
+      .indexFields(['startDate']),
+    options: {
+      as: `${DOCTYPE_GEOJSON}/date/${
+        isDateNull ? 'noDate' : date.toISOString()
+      }`,
+      // fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s), TODO: should not be commented. See issue https://github.com/cozy/cozy-client/issues/1142
+      enabled: !isDateNull
+    }
+  }
+}
