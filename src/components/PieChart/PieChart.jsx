@@ -15,6 +15,17 @@ const styles = {
     width: '192px',
     height: '192px'
   },
+  background: {
+    position: 'absolute',
+    boxSizing: 'border-box',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    border: '24px solid var(--actionColorGhost)',
+    borderRadius: '100%',
+    zIndex: -1
+  },
   centerText: {
     display: 'flex',
     flexDirection: 'column',
@@ -34,6 +45,7 @@ const styles = {
 const PieChart = ({ data, options, total, label }) => {
   return (
     <Box {...styles.container}>
+      <Box {...styles.background} />
       <Doughnut data={data} options={options} width={192} height={192} />
       <Box {...styles.centerText}>
         <Typography variant="h3">{total}</Typography>
