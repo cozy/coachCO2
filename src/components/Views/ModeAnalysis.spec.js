@@ -22,17 +22,22 @@ jest.mock('src/components/Analysis/Modes/ModesList', () => () => (
 jest.mock('src/components/Analysis/TabsNav', () => () => (
   <div data-testid="TabsNav" />
 ))
+jest.mock('src/components/SelectDates', () => () => (
+  <div data-testid="SelectDates" />
+))
 
 describe('ModeAnalysis', () => {
   it('should not display TabsNav on Desktop view', () => {
     useBreakpoints.mockReturnValue({ isMobile: false })
     const { queryByTestId } = render(<ModeAnalysis />)
+
     expect(queryByTestId('TabsNav')).not.toBeTruthy()
   })
 
   it('should display TabsNav on Mobile view', () => {
     useBreakpoints.mockReturnValue({ isMobile: true })
     const { queryByTestId } = render(<ModeAnalysis />)
+
     expect(queryByTestId('TabsNav')).toBeTruthy()
   })
 })

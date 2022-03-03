@@ -22,17 +22,22 @@ jest.mock('src/components/Analysis/Purposes/PurposesList', () => () => (
 jest.mock('src/components/Analysis/TabsNav', () => () => (
   <div data-testid="TabsNav" />
 ))
+jest.mock('src/components/SelectDates', () => () => (
+  <div data-testid="SelectDates" />
+))
 
 describe('PurposeAnalysis', () => {
   it('should not display TabsNav on Desktop view', () => {
     useBreakpoints.mockReturnValue({ isMobile: false })
     const { queryByTestId } = render(<PurposeAnalysis />)
+
     expect(queryByTestId('TabsNav')).not.toBeTruthy()
   })
 
   it('should display TabsNav on Mobile view', () => {
     useBreakpoints.mockReturnValue({ isMobile: true })
     const { queryByTestId } = render(<PurposeAnalysis />)
+
     expect(queryByTestId('TabsNav')).toBeTruthy()
   })
 })

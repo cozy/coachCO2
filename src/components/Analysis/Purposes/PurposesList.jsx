@@ -3,11 +3,14 @@ import React from 'react'
 import { isQueryLoading, useQuery } from 'cozy-client'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
-import { buildGeoJSONQueryNoLimit } from 'src/queries/queries'
+import { buildGeoJSONQueryNoLimitByDate } from 'src/queries/queries'
+import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
 import LoadedPurposesList from 'src/components/Analysis/Purposes/LoadedPurposesList'
 
 const PurposesList = () => {
-  const geoJsonQuery = buildGeoJSONQueryNoLimit()
+  const { selectedDate } = useSelectDatesContext()
+
+  const geoJsonQuery = buildGeoJSONQueryNoLimitByDate(selectedDate)
   const { data: timeseries, ...queryResult } = useQuery(
     geoJsonQuery.definition,
     geoJsonQuery.options
