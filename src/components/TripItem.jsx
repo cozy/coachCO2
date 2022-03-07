@@ -29,6 +29,7 @@ import {
   pickModeIcon
 } from 'src/components/helpers'
 import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
+import { OTHER_PURPOSE } from 'src/constants/const'
 
 const styles = {
   co2: { fontWeight: 700 },
@@ -51,10 +52,10 @@ const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
 export const TripItem = ({ geojson, trip, hasDateHeader }) => {
   const { f } = useI18n()
   const history = useHistory()
-  const purpose = get(trip, 'properties.manual_purpose')
   const { isMobile } = useBreakpoints()
   const [showTripDialog, setShowTripDialog] = useState(false)
 
+  const purpose = get(trip, 'properties.manual_purpose', OTHER_PURPOSE)
   const endPlace = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
   const modes = useMemo(() => getModesSortedByDistance(trip), [trip])
@@ -86,7 +87,7 @@ export const TripItem = ({ geojson, trip, hasDateHeader }) => {
         <ListItemIcon>
           <Avatar
             icon={AvatarIcon}
-            ghost={purpose === undefined}
+            ghost={purpose === OTHER_PURPOSE}
             color={AvatarColor}
           />
         </ListItemIcon>

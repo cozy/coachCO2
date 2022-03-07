@@ -16,7 +16,11 @@ const makeOptions = t => {
     id: purpose,
     title: t(`trips.purposes.${purpose}`),
     icon: (
-      <Avatar icon={pickPurposeIcon(purpose)} color={purposeToColor(purpose)} />
+      <Avatar
+        icon={pickPurposeIcon(purpose)}
+        color={purposeToColor(purpose)}
+        ghost={purpose === OTHER_PURPOSE}
+      />
     )
   }))
 

@@ -28,6 +28,7 @@ const PurposeItem = ({ purpose, onClick }) => {
           <Avatar
             icon={pickPurposeIcon(purpose)}
             color={purposeToColor(purpose)}
+            ghost={purpose === OTHER_PURPOSE}
           />
         </ListItemAvatar>
         <ListItemText
