@@ -6,18 +6,15 @@ import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
 
 import { purposes } from 'src/components/helpers'
 import { createGeojsonWithModifiedPurpose } from 'src/components/EditDialogs/PurposeEditDialog/helpers'
-import Avatar from 'src/components/Avatar'
+import { PurposeAvatar } from 'src/components/Avatar'
 import { useTrip } from 'src/components/Trip/TripProvider'
 import { OTHER_PURPOSE } from 'src/constants/const'
-import { pickPurposeIcon, purposeToColor } from 'src/components/helpers'
 
 const makeOptions = t => {
   const options = purposes.map(purpose => ({
     id: purpose,
     title: t(`trips.purposes.${purpose}`),
-    icon: (
-      <Avatar icon={pickPurposeIcon(purpose)} color={purposeToColor(purpose)} />
-    )
+    icon: <PurposeAvatar purpose={purpose} />
   }))
 
   return { children: options }
