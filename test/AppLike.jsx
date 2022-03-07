@@ -4,20 +4,20 @@ import { HashRouter } from 'react-router-dom'
 import { CozyProvider, createMockClient } from 'cozy-client'
 import I18n from 'cozy-ui/transpiled/react/I18n'
 import { BreakpointsProvider } from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
-import { WebviewIntentProvider } from 'cozy-intent'
+import AccountProvider from 'src/components/AccountProvider'
 
 import enLocale from '../src/locales/en.json'
 
 const AppLike = ({ children, client }) => (
-  <WebviewIntentProvider>
-    <CozyProvider client={client || createMockClient({})}>
-      <I18n dictRequire={() => enLocale} lang="en">
-        <BreakpointsProvider>
+  <CozyProvider client={client || createMockClient({})}>
+    <I18n dictRequire={() => enLocale} lang="en">
+      <BreakpointsProvider>
+        <AccountProvider>
           <HashRouter>{children}</HashRouter>
-        </BreakpointsProvider>
-      </I18n>
-    </CozyProvider>
-  </WebviewIntentProvider>
+        </AccountProvider>
+      </BreakpointsProvider>
+    </I18n>
+  </CozyProvider>
 )
 
 export default AppLike
