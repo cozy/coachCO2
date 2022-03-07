@@ -22,7 +22,7 @@ jest.mock('src/components/Analysis/Modes/ModesList', () => () => (
 jest.mock('src/components/Analysis/TabsNav', () => () => (
   <div data-testid="TabsNav" />
 ))
-jest.mock('src/components/SelectDates', () => () => (
+jest.mock('src/components/SelectDatesWrapper', () => () => (
   <div data-testid="SelectDates" />
 ))
 

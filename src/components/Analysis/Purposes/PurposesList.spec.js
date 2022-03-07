@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import PurposesList from './PurposesList'
 import { isQueryLoading, useQuery } from 'cozy-client'
 
-import { buildGeoJSONQueryNoLimitByDate } from 'src/queries/queries'
+import { buildGeoJSONQueryByDateNoLimit } from 'src/queries/queries'
 
 jest.mock('cozy-client', () => ({
   isQueryLoading: jest.fn(),
@@ -25,7 +25,7 @@ jest.mock('src/components/Providers/SelectDatesProvider', () => ({
 
 describe('PurposesList', () => {
   beforeEach(() => {
-    buildGeoJSONQueryNoLimitByDate.mockReturnValue({
+    buildGeoJSONQueryByDateNoLimit.mockReturnValue({
       definition: 'definition',
       options: 'options'
     })
@@ -35,7 +35,7 @@ describe('PurposesList', () => {
     })
   })
 
-  it('should call useQuery with correct definition from buildGeoJSONQueryNoLimitByDate', () => {
+  it('should call useQuery with correct definition from buildGeoJSONQueryByDateNoLimit', () => {
     render(<PurposesList />)
 
     expect(useQuery).toHaveBeenCalledWith('definition', 'options')

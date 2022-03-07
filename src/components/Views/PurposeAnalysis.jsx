@@ -8,7 +8,7 @@ import Titlebar from 'src/components/Titlebar'
 import TabsNav from 'src/components/Analysis/TabsNav'
 import SelectDatesProvider from 'src/components/Providers/SelectDatesProvider'
 import PurposesList from 'src/components/Analysis/Purposes/PurposesList'
-import SelectDates from 'src/components/SelectDates'
+import SelectDatesWrapper from 'src/components/SelectDatesWrapper'
 
 const PurposeAnalysis = () => {
   const { t } = useI18n()
@@ -24,7 +24,7 @@ const PurposeAnalysis = () => {
     <SelectDatesProvider>
       <Titlebar label={purposeTitle} onBack={onBack} />
       {isMobile && <TabsNav />}
-      <SelectDates />
+      <SelectDatesWrapper />
       <PurposesList />
     </SelectDatesProvider>
   )

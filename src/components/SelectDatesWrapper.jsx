@@ -10,7 +10,7 @@ const computeOptions = (isLoading, timeseries) => {
   return timeseries.map(timeserie => new Date(timeserie.startDate))
 }
 
-const SelectDates = () => {
+const SelectDatesWrapper = () => {
   const { selectedDate, setSelectedDate } = useSelectDatesContext()
   const { timeseries, isLoading } = useAllTimeseriesByAccount()
 
@@ -42,4 +42,4 @@ const SelectDates = () => {
   )
 }
 
-export default SelectDates
+export default SelectDatesWrapper

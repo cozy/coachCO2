@@ -66,7 +66,7 @@ export const buildGeoJSONQueryNoLimit = () => ({
   }
 })
 
-export const buildGeoJSONQueryNoLimitByDate = date => {
+export const buildGeoJSONQueryByDateNoLimit = date => {
   const startMonth = startOfMonth(date)
   const endMonth = endOfMonth(date)
   const isDateNull = date === null

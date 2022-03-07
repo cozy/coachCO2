@@ -8,7 +8,7 @@ import SelectDatesProvider from 'src/components/Providers/SelectDatesProvider'
 import Titlebar from 'src/components/Titlebar'
 import ModesList from 'src/components/Analysis/Modes/ModesList'
 import TabsNav from 'src/components/Analysis/TabsNav'
-import SelectDates from 'src/components/SelectDates'
+import SelectDatesWrapper from 'src/components/SelectDatesWrapper'
 
 const ModeAnalysis = () => {
   const { t } = useI18n()
@@ -24,7 +24,7 @@ const ModeAnalysis = () => {
     <SelectDatesProvider>
       <Titlebar label={modeTitle} onBack={onBack} />
       {isMobile && <TabsNav />}
-      <SelectDates />
+      <SelectDatesWrapper />
       <ModesList />
     </SelectDatesProvider>
   )
