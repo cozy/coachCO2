@@ -7,8 +7,7 @@ import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
 import ListItemAvatar from 'cozy-ui/transpiled/react/ListItemAvatar'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
-import Avatar from 'src/components/Avatar'
-import { pickPurposeIcon, purposeToColor } from 'src/components/helpers'
+import { PurposeAvatar } from 'src/components/Avatar'
 import { OTHER_PURPOSE } from 'src/constants/const'
 
 const useStyles = makeStyles(() => ({
@@ -25,11 +24,7 @@ const PurposeItem = ({ purpose, onClick }) => {
     <List>
       <ListItem className="u-c-pointer" onClick={onClick}>
         <ListItemAvatar classes={{ root: styles.root }}>
-          <Avatar
-            icon={pickPurposeIcon(purpose)}
-            color={purposeToColor(purpose)}
-            ghost={purpose === OTHER_PURPOSE}
-          />
+          <PurposeAvatar purpose={purpose} />
         </ListItemAvatar>
         <ListItemText
           primary={t('purpose')}

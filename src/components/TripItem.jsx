@@ -14,7 +14,7 @@ import Icon from 'cozy-ui/transpiled/react/Icon'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
-import Avatar from 'src/components/Avatar'
+import { PurposeAvatar } from 'src/components/Avatar'
 import {
   getEndPlaceDisplayName,
   getFormattedDuration,
@@ -23,11 +23,7 @@ import {
   getStartDate
 } from 'src/lib/trips'
 import { computeCO2Trip } from 'src/lib/metrics'
-import {
-  pickPurposeIcon,
-  purposeToColor,
-  pickModeIcon
-} from 'src/components/helpers'
+import { pickModeIcon } from 'src/components/helpers'
 import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
 import { OTHER_PURPOSE } from 'src/constants/const'
 
@@ -61,8 +57,6 @@ export const TripItem = ({ geojson, trip, hasDateHeader }) => {
   const modes = useMemo(() => getModesSortedByDistance(trip), [trip])
   const distance = useMemo(() => formatTripDistance(trip), [trip])
   const day = useMemo(() => f(getStartDate(trip), 'dddd DD MMMM'), [f, trip])
-  const AvatarIcon = useMemo(() => pickPurposeIcon(purpose), [purpose])
-  const AvatarColor = useMemo(() => purposeToColor(purpose), [purpose])
 
   const CO2 = useMemo(() => {
     const CO2Trip = computeCO2Trip(trip)
@@ -85,11 +79,7 @@ export const TripItem = ({ geojson, trip, hasDateHeader }) => {
       {hasDateHeader && <ListSubheader>{day}</ListSubheader>}
       <ListItem className="u-pl-1-s u-pl-2" button onClick={handleClick}>
         <ListItemIcon>
-          <Avatar
-            icon={AvatarIcon}
-            ghost={purpose === OTHER_PURPOSE}
-            color={AvatarColor}
-          />
+          <PurposeAvatar purpose={purpose} />
         </ListItemIcon>
         <ListItemText
           primary={endPlace}
