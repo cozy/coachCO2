@@ -43,6 +43,8 @@ const LoadedModesList = ({ timeseries }) => {
     if (mode) {
       return transformTimeseriesToTrips(
         timeseriesSortedByModes[mode].timeseries
+      ).sort((a, b) =>
+        a.properties.start_fmt_time.localeCompare(b.properties.start_fmt_time)
       )
     }
     return []

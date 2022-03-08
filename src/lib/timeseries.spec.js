@@ -150,6 +150,7 @@ describe('Aggregation', () => {
         'serie02',
         [
           mockFeatureCollection('featureCol03', [
+            makeCarFeature('CarFeature02'),
             makeCarFeature('CarFeature02')
           ]),
           mockFeatureCollection('featureCol04', [
@@ -197,7 +198,11 @@ describe('Aggregation', () => {
         sections: [{ totalCO2: 130.235562 }, { totalCO2: 2.839488 }]
       })
       expect(aggregatedTimeseries[1].aggregation).toMatchObject({
-        sections: [{ totalCO2: 2.839488 }, { totalCO2: 0 }]
+        sections: [
+          { id: 'CarFeature02', totalCO2: 2.839488 },
+          { id: 'CarFeature02', totalCO2: 2.839488 },
+          { id: 'WalkingFeature01', totalCO2: 0 }
+        ]
       })
     })
 
@@ -220,7 +225,7 @@ describe('Aggregation', () => {
       expect(aggregatedTimeseries.length).toBe(2)
     })
 
-    it('should return timeseries ids and totalCO2 sorted by modes', () => {
+    it('should return timeseries and totalCO2 sorted by modes without duplicate', () => {
       const timeseriesSortedByModes = sortTimeseriesByCO2GroupedByMode(
         aggregatedTimeseries
       )
@@ -259,6 +264,7 @@ describe('Aggregation', () => {
           totalCO2: expect.any(Number)
         }
       })
+      expect(timeseriesSortedByModes.CAR.timeseries).toHaveLength(2)
     })
   })
 
@@ -330,7 +336,7 @@ describe('Aggregation', () => {
   describe('computeCO2Timeseries', () => {
     it('should return the total CO2 for all timeseries', () => {
       expect(computeCO2Timeseries(aggregatedTimeseries)).toBe(
-        135.91453799999996
+        138.75402599999998
       )
     })
   })
@@ -343,7 +349,7 @@ describe('Aggregation', () => {
       expect(aggregatedTimeseries.length).toBe(2)
     })
 
-    it('should return timeseries ids and totalCO2 sorted by purposes', () => {
+    it('should return timeseries and totalCO2 sorted by purposes', () => {
       const timeseriesSortedByPurposes = makeTimeseriesAndTotalCO2ByPurposes(
         aggregatedTimeseries
       )
@@ -396,9 +402,52 @@ describe('Aggregation', () => {
 
   describe('sortTimeseriesByCO2GroupedByPurpose', () => {
     it('should return correct value', () => {
-      expect(
-        sortTimeseriesByCO2GroupedByPurpose(aggregatedTimeseries)
-      ).toMatchSnapshot()
+      const timeseriesSortedByCO2GroupedByPurpose = sortTimeseriesByCO2GroupedByPurpose(
+        aggregatedTimeseries
+      )
+
+      expect(timeseriesSortedByCO2GroupedByPurpose).toEqual({
+        ENTERTAINMENT: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        EXERCISE: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        HOME: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        MEAL: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        OTHER_PURPOSE: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        PERSONAL_MED: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        PICK_DROP: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        SCHOOL: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        SHOPPING: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        WORK: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        }
+      })
     })
   })
 })

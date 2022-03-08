@@ -43,6 +43,8 @@ const LoadedPurposesList = ({ timeseries }) => {
     if (purpose) {
       return transformTimeseriesToTrips(
         timeseriesSortedByPurposes[purpose].timeseries
+      ).sort((a, b) =>
+        a.properties.start_fmt_time.localeCompare(b.properties.start_fmt_time)
       )
     }
     return []
