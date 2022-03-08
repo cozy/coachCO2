@@ -13,16 +13,52 @@ import {
   MET_BICYCLING_SLOW,
   MET_BICYCLING_MEDIUM,
   MET_BICYCLING_FAST,
-  MET_BICYCLING_VERY_FAST
+  MET_BICYCLING_VERY_FAST,
+  CAR_MODE,
+  AIR_MODE
 } from 'src/constants/const'
 import {
   createTripFromTemplate,
   tripTemplate,
   makeBicycleTrip,
   makeWalkingTrip,
-  makeCarTrip
+  makeCarTrip,
+  mockFeatureCollection,
+  mockFeature,
+  modeProps,
+  mockSerie
 } from 'test/mockTrip'
-import { computeCO2Trip, computeCaloriesTrip, caloriesFormula } from './metrics'
+import {
+  computeCO2Trip,
+  computeCO2TripByMode,
+  computeCaloriesTrip,
+  caloriesFormula
+} from './metrics'
+
+const mockedFeatures = () => [
+  mockFeatureCollection('featureCollectionId01', [
+    mockFeature('featureId05', modeProps.plane)
+  ]),
+  mockFeatureCollection('featureCollectionId02', [
+    mockFeature('featureId06', modeProps.car)
+  ]),
+  mockFeatureCollection('featureCollectionId03', [
+    mockFeature('featureId07', modeProps.car)
+  ])
+]
+
+describe('computeCO2TripByMode', () => {
+  const mockedSerie = mockSerie('serieId01', mockedFeatures())
+  it('should return only CO2 of car', () => {
+    const carCO2 = computeCO2TripByMode(mockedSerie, CAR_MODE)
+    expect(carCO2).toEqual(5.678976)
+  })
+
+  it('should return only CO2 of plane', () => {
+    const carCO2 = computeCO2TripByMode(mockedSerie, AIR_MODE)
+    expect(carCO2).toEqual(130.235562)
+  })
+})
 
 describe('computeCO2Trip', () => {
   it('should correctly compute the bicycling CO2', () => {

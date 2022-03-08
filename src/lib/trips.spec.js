@@ -16,8 +16,10 @@ import {
   getModesSortedByDistance,
   computeAndFormatCO2Trip,
   getFeatureMode,
-  computeFormatedPercentage
+  computeFormatedPercentage,
+  computeAndFormatCO2TripByMode
 } from 'src/lib/trips'
+import { BICYCLING_MODE, CAR_MODE } from 'src/constants/const'
 
 const mockedFeatures = () => [
   mockFeature('featureId01'),
@@ -63,6 +65,25 @@ describe('computeAndFormatCO2Trip', () => {
 
     const cCO2 = computeAndFormatCO2Trip(makeCarTrip())
     expect(cCO2).toBe('2.84 kg')
+  })
+})
+
+describe('computeAndFormatCO2TripByMode', () => {
+  const mockedSerie = mockSerie('serieId01', mockedFeatures())
+  it('should return formatted value by car mode', () => {
+    const formattedCO2ByCarMode = computeAndFormatCO2TripByMode(
+      mockedSerie,
+      CAR_MODE
+    )
+    expect(formattedCO2ByCarMode).toBe('2.84 kg')
+  })
+
+  it('should return formatted value by bicycle mode', () => {
+    const formattedCO2ByPlaneMode = computeAndFormatCO2TripByMode(
+      mockedSerie,
+      BICYCLING_MODE
+    )
+    expect(formattedCO2ByPlaneMode).toBe('0 kg')
   })
 })
 

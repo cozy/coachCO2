@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import get from 'lodash/get'
 
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
@@ -20,9 +20,10 @@ import {
   getFormattedDuration,
   getModesSortedByDistance,
   formatTripDistance,
-  getStartDate
+  getStartDate,
+  computeAndFormatCO2Trip,
+  computeAndFormatCO2TripByMode
 } from 'src/lib/trips'
-import { computeCO2Trip } from 'src/lib/metrics'
 import { pickModeIcon } from 'src/components/helpers'
 import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
 import { OTHER_PURPOSE } from 'src/constants/const'
@@ -48,6 +49,7 @@ const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
 export const TripItem = ({ geojson, trip, hasDateHeader }) => {
   const { f } = useI18n()
   const history = useHistory()
+  const { mode } = useParams()
   const { isMobile } = useBreakpoints()
   const [showTripDialog, setShowTripDialog] = useState(false)
 
@@ -58,10 +60,12 @@ export const TripItem = ({ geojson, trip, hasDateHeader }) => {
   const distance = useMemo(() => formatTripDistance(trip), [trip])
   const day = useMemo(() => f(getStartDate(trip), 'dddd DD MMMM'), [f, trip])
 
-  const CO2 = useMemo(() => {
-    const CO2Trip = computeCO2Trip(trip)
-    return Math.round(CO2Trip * 100) / 100
-  }, [trip])
+  const formattedCO2 = useMemo(() => {
+    if (mode) {
+      return computeAndFormatCO2TripByMode(trip, mode)
+    }
+    return computeAndFormatCO2Trip(trip)
+  }, [mode, trip])
 
   const tripModeIcons = useMemo(() => modes.map(mode => pickModeIcon(mode)), [
     modes
@@ -92,7 +96,7 @@ export const TripItem = ({ geojson, trip, hasDateHeader }) => {
           }
         />
         <Typography className="u-mh-half" style={styles.co2} variant="body2">
-          {CO2}&nbsp;kg
+          {formattedCO2}
         </Typography>
         <Icon icon={RightIcon} color={'var(--secondaryTextColor)'} />
       </ListItem>

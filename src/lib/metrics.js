@@ -99,6 +99,24 @@ export const computeCO2Trip = trip => {
 }
 
 /**
+ * Compute the total CO2 consumed only by the specified mode on the trip.
+ *
+ * @param {object} trip - The GeoJSON trip
+ * @param {string} mode - The mode of trip
+ * @returns {number} The consumed CO2 only by the specified mode, in kg
+ */
+export const computeCO2TripByMode = (trip, mode) => {
+  const sections = getSectionsFromTrip(trip)
+  let totalCO2 = 0
+  for (const section of sections) {
+    if (section.mode === mode) {
+      totalCO2 += computeCO2Section(section)
+    }
+  }
+  return totalCO2
+}
+
+/**
  * Compute the calories produced based on weight, MET and duration.
  * Source of this formula:
  *  Bushman B PhD. Complete Guide to Fitness and Health 2nd Edition.
