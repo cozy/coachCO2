@@ -1,18 +1,18 @@
-import React, { useMemo, useContext } from 'react'
+import React, { useMemo } from 'react'
 
 import SelectBox from 'cozy-ui/transpiled/react/SelectBox'
 import Label from 'cozy-ui/transpiled/react/Label'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { useQuery } from 'cozy-client'
 
-import { AccountContext } from 'src/components/Providers/AccountProvider'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { buildAccountQuery } from 'src/queries/queries'
 import Titlebar from 'src/components/Titlebar'
 import CsvExporter from 'src/components/ExportCSV/CsvExporter'
 
 export const Settings = () => {
   const { t } = useI18n()
-  const { selectedAccount, setSelectedAccount } = useContext(AccountContext)
+  const { selectedAccount, setSelectedAccount } = useAccountContext()
 
   const accountQuery = buildAccountQuery()
   const { data } = useQuery(accountQuery.definition, accountQuery.options)
