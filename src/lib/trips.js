@@ -6,7 +6,11 @@ import distanceInWords from 'date-fns/distance_in_words'
 import humanizeDuration from 'humanize-duration'
 
 import { UNKNOWN_MODE } from 'src/constants/const'
-import { computeCaloriesTrip, computeCO2Trip } from 'src/lib/metrics'
+import {
+  computeCaloriesTrip,
+  computeCO2Trip,
+  computeCO2TripByMode
+} from 'src/lib/metrics'
 import { modes } from 'src/components/helpers'
 
 /**
@@ -212,4 +216,16 @@ export const formatCO2 = CO2 => `${Math.round(CO2 * 100) / 100} kg`
 export const computeAndFormatCO2Trip = trip => {
   const CO2Trip = computeCO2Trip(trip)
   return formatCO2(CO2Trip)
+}
+
+/**
+ * Computes CO2 and return it formatted in kg
+ *
+ * @param {object} trip - The GeoJSON trip
+ * @param {string} mode - The mode of trip
+ * @returns {string} The CO2 formatted in kg
+ */
+export const computeAndFormatCO2TripByMode = (trip, mode) => {
+  const CO2TripByMode = computeCO2TripByMode(trip, mode)
+  return formatCO2(CO2TripByMode)
 }
