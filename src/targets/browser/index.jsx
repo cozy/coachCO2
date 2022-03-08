@@ -19,7 +19,7 @@ import { WebviewIntentProvider } from 'cozy-intent'
 import setupApp from 'src/targets/browser/setupApp'
 import { register as registerServiceWorker } from 'src/targets/browser/serviceWorkerRegistration'
 import App from 'src/components/App'
-import AccountProvider from 'src/components/AccountProvider'
+import AccountProvider from 'src/components/Providers/AccountProvider'
 
 /*
 With MUI V4, it is possible to generate deterministic class names.

@@ -4,7 +4,7 @@ import { HashRouter } from 'react-router-dom'
 import { CozyProvider, createMockClient } from 'cozy-client'
 import I18n from 'cozy-ui/transpiled/react/I18n'
 import { BreakpointsProvider } from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
-import AccountProvider from 'src/components/AccountProvider'
+import AccountProvider from 'src/components/Providers/AccountProvider'
 
 import enLocale from '../src/locales/en.json'
 

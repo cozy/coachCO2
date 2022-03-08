@@ -2,7 +2,7 @@ import { useContext } from 'react'
 
 import { isQueryLoading, useQuery } from 'cozy-client'
 
-import { AccountContext } from 'src/components/AccountProvider'
+import { AccountContext } from 'src/components/Providers/AccountProvider'
 import {
   buildTimeseriesQueryByAccountIdNoLimit,
   buildAccountQuery

@@ -5,7 +5,7 @@ import Label from 'cozy-ui/transpiled/react/Label'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { useQuery } from 'cozy-client'
 
-import { AccountContext } from 'src/components/AccountProvider'
+import { AccountContext } from 'src/components/Providers/AccountProvider'
 import { buildAccountQuery } from 'src/queries/queries'
 import Titlebar from 'src/components/Titlebar'
 import CsvExporter from 'src/components/ExportCSV/CsvExporter'
