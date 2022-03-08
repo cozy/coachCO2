@@ -7,7 +7,8 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import {
   computeAggregatedTimeseries,
   sortTimeseriesByCO2GroupedByPurpose,
-  computeCO2Timeseries
+  computeCO2Timeseries,
+  transformTimeseriesToTrips
 } from 'src/lib/timeseries'
 import { makeChartProps } from 'src/components/Analysis/helpers'
 import LoadedPurposesList from 'src/components/Analysis/Purposes/LoadedPurposesList'
@@ -136,6 +137,7 @@ describe('LoadedPurposesList', () => {
 
   it('should render TripsList if purpose param is defined', () => {
     useParams.mockReturnValue({ purpose: 'WORK' })
+    transformTimeseriesToTrips.mockReturnValue([])
     const { queryByTestId } = render(
       <LoadedPurposesList timeseries={timeseries} />
     )
@@ -146,6 +148,7 @@ describe('LoadedPurposesList', () => {
 
   it('should render AnalysisListItem & PieChart if purpose param is undefined', () => {
     useParams.mockReturnValue({ purpose: '' })
+    transformTimeseriesToTrips.mockReturnValue([])
     const { queryByTestId, queryAllByTestId } = render(
       <LoadedPurposesList timeseries={timeseries} />
     )

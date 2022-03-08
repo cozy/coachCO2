@@ -7,7 +7,8 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import {
   computeAggregatedTimeseries,
   sortTimeseriesByCO2GroupedByMode,
-  computeCO2Timeseries
+  computeCO2Timeseries,
+  transformTimeseriesToTrips
 } from 'src/lib/timeseries'
 import { makeChartProps } from 'src/components/Analysis/helpers'
 import LoadedModesList from 'src/components/Analysis/Modes/LoadedModesList'
@@ -134,6 +135,7 @@ describe('LoadedModesList', () => {
 
   it('should render TripsList if "mode" param is defined', () => {
     useParams.mockReturnValue({ mode: 'CAR' })
+    transformTimeseriesToTrips.mockReturnValue([])
     const { queryByTestId } = render(
       <LoadedModesList timeseries={timeseries} />
     )
@@ -144,6 +146,7 @@ describe('LoadedModesList', () => {
 
   it('should render AnalysisListItem & PieChart if "mode" param is undefined', () => {
     useParams.mockReturnValue({ mode: '' })
+    transformTimeseriesToTrips.mockReturnValue([])
     const { queryByTestId, queryAllByTestId } = render(
       <LoadedModesList timeseries={timeseries} />
     )
