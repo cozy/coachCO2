@@ -158,7 +158,11 @@ const makeTimeseriesAndTotalCO2ByModes = aggregatedTimeseries => {
     aggregatedSections.forEach(section => {
       const collectedTimeseries = timeseriesByModes[section.mode].timeseries
 
-      if (!collectedTimeseries.includes(aggregatedTimeserie.id)) {
+      if (
+        !collectedTimeseries.some(
+          collectedTimeserie => collectedTimeserie.id === aggregatedTimeserie.id
+        )
+      ) {
         collectedTimeseries.push(aggregatedTimeserie)
       }
       timeseriesByModes[section.mode].totalCO2 += section.totalCO2
@@ -205,7 +209,11 @@ export const makeTimeseriesAndTotalCO2ByPurposes = aggregatedTimeseries => {
     const collectedTimeseries =
       timeseriesByPurposes[timeseriePurpose].timeseries
 
-    if (!collectedTimeseries.includes(aggregatedTimeserie.id)) {
+    if (
+      !collectedTimeseries.some(
+        collectedTimeserie => collectedTimeserie.id === aggregatedTimeserie.id
+      )
+    ) {
       collectedTimeseries.push(aggregatedTimeserie)
     }
     timeseriesByPurposes[timeseriePurpose].totalCO2 +=
