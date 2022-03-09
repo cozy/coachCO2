@@ -9,6 +9,7 @@
 * Date selector for analysis pages
 * Change app icon to beta one
 * Change some text for better understanding between modes and purposes
+* Icons to show transport mode are now colorized
 
 ## 🐛 Bug Fixes
 
