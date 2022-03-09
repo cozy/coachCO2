@@ -103,7 +103,7 @@ export const exportTripsToCSV = async (client, t, accountName) => {
       tripsCSV,
       {
         name: CSVFilename,
-        contentType: 'text/css',
+        contentType: 'text/csv',
         dirId: appFolder._id,
         conflictStrategy: 'rename'
       }
