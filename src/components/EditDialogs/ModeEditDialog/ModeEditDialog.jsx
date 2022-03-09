@@ -5,7 +5,7 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
 
 import { modes } from 'src/components/helpers'
-import { createGeojsonWithModifiedMode } from 'src/components/EditDialogs/SectionEditDialog/helpers'
+import { createGeojsonWithModifiedMode } from 'src/components/EditDialogs/ModeEditDialog/helpers'
 import Avatar from 'src/components/Avatar'
 import { useTrip } from 'src/components/Trip/TripProvider'
 import { pickModeIcon, modeToColor } from 'src/components/helpers'
@@ -20,7 +20,7 @@ const makeOptions = t => {
   return { children: options }
 }
 
-const SectionEditDialog = ({ section, onClose }) => {
+const ModeEditDialog = ({ section, onClose }) => {
   const { t } = useI18n()
   const client = useClient()
   const { geojson } = useTrip()
@@ -53,4 +53,4 @@ const SectionEditDialog = ({ section, onClose }) => {
   )
 }
 
-export default React.memo(SectionEditDialog)
+export default React.memo(ModeEditDialog)
