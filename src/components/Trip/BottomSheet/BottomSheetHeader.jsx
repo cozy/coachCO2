@@ -5,7 +5,7 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import InfoBlock from 'src/components/Trip/BottomSheet/InfoBlock'
 import {
   getFormattedDuration,
-  formatTripDistance,
+  getFormattedTripDistance,
   computeAndformatCaloriesTrip,
   computeAndFormatCO2Trip
 } from 'src/lib/trips'
@@ -16,7 +16,7 @@ const BottomSheetHeader = () => {
   const { t } = useI18n()
 
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
-  const distance = useMemo(() => formatTripDistance(trip), [trip])
+  const distance = useMemo(() => getFormattedTripDistance(trip), [trip])
   const calories = useMemo(() => computeAndformatCaloriesTrip(trip), [trip])
   const CO2 = useMemo(() => computeAndFormatCO2Trip(trip), [trip])
 
