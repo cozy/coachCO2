@@ -4,7 +4,7 @@ import { isQueryLoading, useQuery } from 'cozy-client'
 
 import { AccountContext } from 'src/components/AccountProvider'
 import {
-  buildGeoJSONQueryByAccountIdNoLimit,
+  buildTimeseriesQueryByAccountIdNoLimit,
   buildAccountQuery
 } from 'src/queries/queries'
 
@@ -21,11 +21,11 @@ const useAllTimeseriesByAccount = () => {
 
   const account = isAccountLoading ? null : selectedAccount || accounts[0]
 
-  const geoJsonQuery = buildGeoJSONQueryByAccountIdNoLimit(account?._id)
+  const timeserieQuery = buildTimeseriesQueryByAccountIdNoLimit(account?._id)
   const { data: timeseries, ...timeseriesQueryResult } = useQuery(
-    geoJsonQuery.definition,
+    timeserieQuery.definition,
     {
-      ...geoJsonQuery.options,
+      ...timeserieQuery.options,
       enabled: !isAccountLoading
     }
   )

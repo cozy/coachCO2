@@ -15,7 +15,7 @@ export const TripsList = ({ trips, timeseries }) => {
   )
 
   const getGeojson = useCallback(
-    trip => timeseries.find(e => e._id === trip.geojsonId),
+    trip => timeseries.find(e => e._id === trip.timeserieId),
     [timeseries]
   )
 

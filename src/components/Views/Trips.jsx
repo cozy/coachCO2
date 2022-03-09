@@ -7,7 +7,7 @@ import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
 
 import {
   buildAccountQuery,
-  buildGeoJSONQueryByAccountId
+  buildTimeseriesQueryByAccountId
 } from 'src/queries/queries'
 import TripsList from 'src/components/TripsList'
 import { transformTimeseriesToTrips } from 'src/lib/timeseries'
@@ -35,7 +35,7 @@ export const Trips = () => {
     return []
   }, [accountQueryRes])
 
-  const timeseriesQuery = buildGeoJSONQueryByAccountId(accounts?.[0]?._id)
+  const timeseriesQuery = buildTimeseriesQueryByAccountId(accounts?.[0]?._id)
   const { data: timeseriesQueryResult, ...timeseriesQueryLeft } = useQuery(
     timeseriesQuery.definition,
     {

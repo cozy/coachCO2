@@ -6,7 +6,7 @@ import { DOCTYPE_GEOJSON, DOCTYPE_ACCOUNTS } from 'src/constants/const'
 
 const older30s = 30 * 1000
 
-export const buildGeoJSONQueryByAccountId = accountId => ({
+export const buildTimeseriesQueryByAccountId = accountId => ({
   definition: Q(DOCTYPE_GEOJSON)
     .where({
       'cozyMetadata.sourceAccount': accountId
@@ -20,7 +20,7 @@ export const buildGeoJSONQueryByAccountId = accountId => ({
   }
 })
 
-export const buildGeoJSONQueryByAccountIdNoLimit = accountId => ({
+export const buildTimeseriesQueryByAccountIdNoLimit = accountId => ({
   definition: Q(DOCTYPE_GEOJSON)
     .where({
       'cozyMetadata.sourceAccount': accountId
@@ -47,10 +47,10 @@ export const buildAccountQuery = () => ({
   }
 })
 
-export const buildGeoJSONQueryById = geojsonId => ({
-  definition: Q(DOCTYPE_GEOJSON).getById(geojsonId),
+export const buildTimeserieQueryById = timeserieId => ({
+  definition: Q(DOCTYPE_GEOJSON).getById(timeserieId),
   options: {
-    as: `${DOCTYPE_GEOJSON}/${geojsonId}`,
+    as: `${DOCTYPE_GEOJSON}/${timeserieId}`,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
@@ -58,7 +58,7 @@ export const buildGeoJSONQueryById = geojsonId => ({
 // TODO Query used to create the aggregates of the analysis page.
 // This is a first non-optimized version. It is not guaranteed to work with a lot of data.
 // A better approach would be to use a service or a connector to pre-compute aggregation.
-export const buildGeoJSONQueryNoLimit = () => ({
+export const buildTimeseriesQueryNoLimit = () => ({
   definition: Q(DOCTYPE_GEOJSON).UNSAFE_noLimit(),
   options: {
     as: DOCTYPE_GEOJSON,
@@ -66,7 +66,7 @@ export const buildGeoJSONQueryNoLimit = () => ({
   }
 })
 
-export const buildGeoJSONQueryByDateNoLimit = date => {
+export const buildTimeseriesQueryByDateNoLimit = date => {
   const startMonth = startOfMonth(date)
   const endMonth = endOfMonth(date)
   const isDateNull = date === null

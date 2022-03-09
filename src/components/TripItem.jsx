@@ -73,10 +73,10 @@ export const TripItem = ({ geojson, trip, hasDateHeader }) => {
 
   const handleClick = useCallback(() => {
     if (isMobile) {
-      return history.push(`/trip/${trip.geojsonId}`)
+      return history.push(`/trip/${trip.timeserieId}`)
     }
     setShowTripDialog(true)
-  }, [history, isMobile, trip.geojsonId])
+  }, [history, isMobile, trip.timeserieId])
 
   return (
     <>

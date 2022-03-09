@@ -18,7 +18,7 @@ import {
 import { COLUMNS_NAMES_CSV } from 'src/constants/const'
 import { transformTimeseriesToTrips } from 'src/lib/timeseries'
 import { getOrCreateAppFolderWithReference } from 'src/lib/getOrCreateAppFolderWithReference'
-import { buildGeoJSONQueryNoLimit } from 'src/queries/queries'
+import { buildTimeseriesQueryNoLimit } from 'src/queries/queries'
 
 const makeCSVFilename = (accountLabel, t) => {
   const today = format(new Date(), 'YYYY MM DD')
@@ -87,7 +87,7 @@ const makeTripsForExport = trips => {
  * @returns {{ appFolder: object, file: object }}
  */
 export const exportTripsToCSV = async (client, t, accountName) => {
-  const timeseriesDef = buildGeoJSONQueryNoLimit()
+  const timeseriesDef = buildTimeseriesQueryNoLimit()
   const { data } = await client.query(timeseriesDef.definition)
 
   const trips = transformTimeseriesToTrips(data)

@@ -44,7 +44,7 @@ export const transformTimeseriesToTrips = timeseries => {
     return timeserie.series.map(serie =>
       transformSerieToTrip({
         ...serie,
-        geojsonId: timeseries[index]._id
+        timeserieId: timeseries[index]._id
       })
     )
   })
