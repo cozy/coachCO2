@@ -11,7 +11,7 @@ import { purposes } from 'src/components/helpers'
 import { UNKNOWN_MODE } from 'src/constants/const'
 
 import {
-  transformTimeserieToTrip,
+  transformSerieToTrip,
   transformTimeseriesToTrips,
   computeAggregatedTimeseries,
   sortTimeseriesByCO2GroupedByMode,
@@ -22,9 +22,9 @@ import {
   getTimeseriePurpose
 } from 'src/lib/timeseries'
 
-describe('transformTimeserieToTrip', () => {
+describe('transformSerieToTrip', () => {
   it('should return correct value', () => {
-    const trip = transformTimeserieToTrip(mockSerie())
+    const trip = transformSerieToTrip(mockSerie())
 
     expect(trip).toMatchObject({
       properties: {
