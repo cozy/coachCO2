@@ -271,16 +271,16 @@ describe('Aggregation', () => {
   describe('sortGroupedTimeseries', () => {
     it('should sort by CO2 first, then by timeseries count and at least put UNKNOWN', () => {
       const groupedTimeseries = {
-        AIR_OR_HSR: { timeseries: ['timeserieId01'], totalCO2: 100 },
+        AIR_OR_HSR: { timeseries: [{ _id: 'timeserieId01' }], totalCO2: 100 },
         BICYCLING: { timeseries: [], totalCO2: 0 },
         BUS: { timeseries: [], totalCO2: 0 },
         CAR: {
-          timeseries: ['timeserieId01', 'timeserieId02'],
+          timeseries: [{ _id: 'timeserieId01' }, { _id: 'timeserieId02' }],
           totalCO2: 250
         },
         SUBWAY: { timeseries: [], totalCO2: 0 },
         TRAIN: { timeseries: [], totalCO2: 0 },
-        WALKING: { timeseries: ['timeserieId02'], totalCO2: 0 },
+        WALKING: { timeseries: [{ _id: 'timeserieId02' }], totalCO2: 0 },
         UNKNOWN: { timeseries: [], totalCO2: 0 }
       }
 
@@ -294,14 +294,14 @@ describe('Aggregation', () => {
 
     it('should place UNKNOWN in first', () => {
       const groupedTimeseries = {
-        AIR_OR_HSR: { timeseries: ['timeserieId01'], totalCO2: 100 },
+        AIR_OR_HSR: { timeseries: [{ _id: 'timeserieId01' }], totalCO2: 100 },
         BICYCLING: { timeseries: [], totalCO2: 0 },
         BUS: { timeseries: [], totalCO2: 0 },
-        CAR: { timeseries: ['timeserieId02'], totalCO2: 250 },
+        CAR: { timeseries: [{ _id: 'timeserieId02' }], totalCO2: 250 },
         SUBWAY: { timeseries: [], totalCO2: 0 },
         TRAIN: { timeseries: [], totalCO2: 0 },
-        WALKING: { timeseries: ['timeserieId02'], totalCO2: 0 },
-        UNKNOWN: { timeseries: ['timeserieId03'], totalCO2: 300 }
+        WALKING: { timeseries: [{ _id: 'timeserieId02' }], totalCO2: 0 },
+        UNKNOWN: { timeseries: [{ _id: 'timeserieId03' }], totalCO2: 300 }
       }
 
       const expected = sortGroupedTimeseries(groupedTimeseries, UNKNOWN_MODE)
@@ -314,14 +314,17 @@ describe('Aggregation', () => {
 
     it('should place UNKNOWN after all modes with CO2 but before the others', () => {
       const groupedTimeseries = {
-        AIR_OR_HSR: { timeseries: ['timeserieId01'], totalCO2: 100 },
+        AIR_OR_HSR: { timeseries: [{ _id: 'timeserieId01' }], totalCO2: 100 },
         BICYCLING: { timeseries: [], totalCO2: 0 },
         BUS: { timeseries: [], totalCO2: 0 },
-        CAR: { timeseries: ['timeserieId02'], totalCO2: 250 },
+        CAR: { timeseries: [{ _id: 'timeserieId02' }], totalCO2: 250 },
         SUBWAY: { timeseries: [], totalCO2: 0 },
         TRAIN: { timeseries: [], totalCO2: 0 },
-        WALKING: { timeseries: ['timeserieId02'], totalCO2: 0 },
-        UNKNOWN: { timeseries: ['timeserieId02', 'timeserieId03'], totalCO2: 0 }
+        WALKING: { timeseries: [{ _id: 'timeserieId02' }], totalCO2: 0 },
+        UNKNOWN: {
+          timeseries: [{ _id: 'timeserieId02' }, { _id: 'timeserieId03' }],
+          totalCO2: 0
+        }
       }
 
       const expected = sortGroupedTimeseries(groupedTimeseries, UNKNOWN_MODE)
