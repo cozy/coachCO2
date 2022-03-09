@@ -8,6 +8,7 @@
 * Analysis: new pages in the analysis tab allowing to visualize the trips filtered by mode or purpose by clicking on them
 * Date selector for analysis pages
 * Change app icon to beta one
+* Change some text for better understanding between modes and purposes
 
 ## 🐛 Bug Fixes
 

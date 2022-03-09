@@ -2,7 +2,7 @@
   "nav": {
     "trips": "Trips",
     "analysis": "Analysis",
-    "modes": "Mode of travel",
+    "modes": "Mode of transport",
     "purposes": "Purpose of travel",
     "settings": "Settings"
   },
@@ -53,8 +53,8 @@
   },
   "purpose": "Reason for travel",
   "analysis": {
-    "mode": "Mode of travel",
-    "purpose": "Purpose of travel",
+    "mode": "CO2 emission",
+    "purpose": "CO2 emission",
     "travels": "%{smart_count} travel |||| %{smart_count} travel",
     "emittedCO2": "emitted CO2"
   },

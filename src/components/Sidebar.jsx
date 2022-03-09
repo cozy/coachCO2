@@ -12,6 +12,7 @@ import Nav, {
 import CategoriesIcon from 'cozy-ui/transpiled/react/Icons/Categories'
 import SettingIcon from 'cozy-ui/transpiled/react/Icons/Setting'
 import PieChartIcon from 'cozy-ui/transpiled/react/Icons/PieChart'
+import Box from 'cozy-ui/transpiled/react/Box'
 
 const NavLink = genNavLink(RouterLink)
 
@@ -40,7 +41,9 @@ const Sidebar = () => {
         </NavItem>
         <NavItem secondary>
           <NavLink to="/analysis/purposes">
-            <NavText>{t('nav.purposes')}</NavText>
+            <NavText>
+              <Box whiteSpace="nowrap">{t('nav.purposes')}</Box>
+            </NavText>
           </NavLink>
         </NavItem>
         <NavItem>
