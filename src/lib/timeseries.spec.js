@@ -11,7 +11,7 @@ import { purposes } from 'src/components/helpers'
 import { UNKNOWN_MODE } from 'src/constants/const'
 
 import {
-  transformTimeserieToTrip,
+  transformSerieToTrip,
   transformTimeseriesToTrips,
   computeAggregatedTimeseries,
   sortTimeseriesByCO2GroupedByMode,
@@ -22,9 +22,9 @@ import {
   getTimeseriePurpose
 } from 'src/lib/timeseries'
 
-describe('transformTimeserieToTrip', () => {
+describe('transformSerieToTrip', () => {
   it('should return correct value', () => {
-    const trip = transformTimeserieToTrip(mockSerie())
+    const trip = transformSerieToTrip(mockSerie())
 
     expect(trip).toMatchObject({
       properties: {
@@ -63,7 +63,7 @@ describe('transformTimeseriesToTrips', () => {
     expect(trips).toMatchObject([
       {
         id: 'serieId01',
-        geojsonId: 'timeserieId01',
+        timeserieId: 'timeserieId01',
         type: 'FeatureCollection',
         properties: {
           start_place: {
@@ -87,7 +87,7 @@ describe('transformTimeseriesToTrips', () => {
       },
       {
         id: 'serieId01',
-        geojsonId: 'timeserieId02',
+        timeserieId: 'timeserieId02',
         type: 'FeatureCollection',
         properties: {
           start_place: {
@@ -111,7 +111,7 @@ describe('transformTimeseriesToTrips', () => {
       },
       {
         id: 'serieId01',
-        geojsonId: 'timeserieId03',
+        timeserieId: 'timeserieId03',
         type: 'FeatureCollection',
         properties: {
           start_place: {

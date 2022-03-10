@@ -19,7 +19,7 @@ import {
   getEndPlaceDisplayName,
   getFormattedDuration,
   getModesSortedByDistance,
-  formatTripDistance,
+  getFormattedTripDistance,
   getStartDate,
   computeAndFormatCO2Trip,
   computeAndFormatCO2TripByMode
@@ -57,7 +57,7 @@ export const TripItem = ({ geojson, trip, hasDateHeader }) => {
   const endPlace = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
   const modes = useMemo(() => getModesSortedByDistance(trip), [trip])
-  const distance = useMemo(() => formatTripDistance(trip), [trip])
+  const distance = useMemo(() => getFormattedTripDistance(trip), [trip])
   const day = useMemo(() => f(getStartDate(trip), 'dddd DD MMMM'), [f, trip])
 
   const formattedCO2 = useMemo(() => {
@@ -73,10 +73,10 @@ export const TripItem = ({ geojson, trip, hasDateHeader }) => {
 
   const handleClick = useCallback(() => {
     if (isMobile) {
-      return history.push(`/trip/${trip.geojsonId}`)
+      return history.push(`/trip/${trip.timeserieId}`)
     }
     setShowTripDialog(true)
-  }, [history, isMobile, trip.geojsonId])
+  }, [history, isMobile, trip.timeserieId])
 
   return (
     <>

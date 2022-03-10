@@ -55,7 +55,7 @@ const formatDistance = distance => {
   return `${Math.round(formatedDistance)} ${unit}`
 }
 
-export const formatTripDistance = trip => {
+export const getFormattedTripDistance = trip => {
   return formatDistance(trip.properties.distance)
 }
 

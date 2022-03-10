@@ -24,7 +24,7 @@ const App = () => {
         <Main>
           <Content>
             <Switch>
-              <Route path="/trip/:geojsonId" component={Trip} />
+              <Route path="/trip/:timeserieId" component={Trip} />
               <Route path="/trips" component={Trips} />
               <Route path="/settings" component={Settings} />
               <Route path="/analysis/modes/:mode" component={ModeAnalysis} />

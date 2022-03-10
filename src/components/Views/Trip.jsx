@@ -5,18 +5,18 @@ import { isQueryLoading, useQuery } from 'cozy-client'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 import TripDialogMobile from 'src/components/Trip/TripDialogMobile'
-import { buildGeoJSONQueryById } from 'src/queries/queries'
+import { buildTimeserieQueryById } from 'src/queries/queries'
 import { transformTimeseriesToTrips } from 'src/lib/timeseries'
 import TripProvider from 'src/components/Trip/TripProvider'
 
 const Trip = () => {
   const { pathname } = useLocation()
-  const geojsonId = useMemo(() => pathname.split('/').pop(), [pathname])
+  const timeserieId = useMemo(() => pathname.split('/').pop(), [pathname])
 
-  const geoJsonQuery = buildGeoJSONQueryById(geojsonId)
+  const timeserieQuery = buildTimeserieQueryById(timeserieId)
   const { data, ...tripQueryResult } = useQuery(
-    geoJsonQuery.definition,
-    geoJsonQuery.options
+    timeserieQuery.definition,
+    timeserieQuery.options
   )
 
   const trip = useMemo(() => {

@@ -23,11 +23,11 @@ export const collectFeaturesByOid = geojson => {
  * Add feature data into timeserie start_place and end_place properties
  * according to $oid pointers
  */
-export const transformTimeserieToTrip = timeserie => {
-  const { features, properties } = timeserie
+export const transformSerieToTrip = serie => {
+  const { features, properties } = serie
   const featureIndex = keyBy(features, feature => feature.id)
 
-  return merge({}, timeserie, {
+  return merge({}, serie, {
     properties: {
       start_place: {
         data: featureIndex[properties.start_place['$oid']]
@@ -42,9 +42,9 @@ export const transformTimeserieToTrip = timeserie => {
 export const transformTimeseriesToTrips = timeseries => {
   return timeseries.flatMap((timeserie, index) => {
     return timeserie.series.map(serie =>
-      transformTimeserieToTrip({
+      transformSerieToTrip({
         ...serie,
-        geojsonId: timeseries[index]._id
+        timeserieId: timeseries[index]._id
       })
     )
   })

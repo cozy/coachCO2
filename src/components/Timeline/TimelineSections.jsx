@@ -5,7 +5,7 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import TimelineIcon from 'src/components/Timeline/TimelineIcon'
 import { formatDate, getSectionsFormatedFromTrip } from 'src/lib/trips.js'
 import { pickModeIcon } from 'src/components/helpers'
-import SectionEditDialog from 'src/components/EditDialogs/SectionEditDialog'
+import ModeEditDialog from 'src/components/EditDialogs/ModeEditDialog'
 import { useTrip } from 'src/components/Trip/TripProvider'
 
 const TimelineSections = () => {
@@ -42,7 +42,7 @@ const TimelineSections = () => {
         />
       ))}
       {showModal && (
-        <SectionEditDialog section={section} onClose={closeSectionDialog} />
+        <ModeEditDialog section={section} onClose={closeSectionDialog} />
       )}
     </>
   )
