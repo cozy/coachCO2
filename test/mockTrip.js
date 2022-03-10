@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep'
 
-import { DOCTYPE_GEOJSON } from 'src/constants/const'
+import { GEOJSON_DOCTYPE } from 'src/doctypes'
 
 export const tripTemplate = {
   type: 'FeatureCollection',
@@ -157,7 +157,7 @@ export const mockTimeserie = (id = 'timeserieId01', series) => {
   return {
     _id: id,
     id,
-    _type: DOCTYPE_GEOJSON,
+    _type: GEOJSON_DOCTYPE,
     cozyMetadata: {},
     startDate: '',
     endDate: '',

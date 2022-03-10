@@ -1,6 +1,3 @@
-export const DOCTYPE_GEOJSON = 'io.cozy.timeseries.geojson'
-export const DOCTYPE_ACCOUNTS = 'io.cozy.accounts'
-
 export const AIR_MODE = 'AIR_OR_HSR'
 export const BICYCLING_MODE = 'BICYCLING'
 export const CAR_MODE = 'CAR'
