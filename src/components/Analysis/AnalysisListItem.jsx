@@ -10,35 +10,23 @@ import Typography from 'cozy-ui/transpiled/react/Typography'
 import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 
-import Avatar from 'src/components/Avatar'
-import {
-  pickModeIcon,
-  modeToColor,
-  pickPurposeIcon,
-  purposeToColor
-} from 'src/components/helpers'
+import { PurposeAvatar, ModeAvatar } from 'src/components/Avatar'
+
 import { computeFormatedPercentage, formatCO2 } from 'src/lib/trips'
 
 const styles = {
   co2: { fontWeight: 700 }
 }
 
-const ItemIcon = ({ type, sortedTimeserieKey }) => {
-  if (type === 'modes') {
-    return (
-      <Avatar
-        icon={pickModeIcon(sortedTimeserieKey)}
-        color={modeToColor(sortedTimeserieKey)}
-      />
-    )
-  }
+const AvatarByType = {
+  modes: ModeAvatar,
+  purposes: PurposeAvatar
+}
 
-  return (
-    <Avatar
-      icon={pickPurposeIcon(sortedTimeserieKey)}
-      color={purposeToColor(sortedTimeserieKey)}
-    />
-  )
+const ItemIcon = ({ type, sortedTimeserieKey }) => {
+  const TypeAvatar = AvatarByType[type]
+
+  return <TypeAvatar attribute={sortedTimeserieKey} />
 }
 
 const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
@@ -58,6 +46,7 @@ const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
   return (
     <>
       <ListItem
+        data-testid="ListItem"
         className="u-pl-1-s u-pl-2"
         disabled={isDisabled}
         onClick={!isDisabled ? handleClick : undefined}

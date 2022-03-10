@@ -24,7 +24,7 @@ const PurposeItem = ({ purpose, onClick }) => {
     <List>
       <ListItem className="u-c-pointer" onClick={onClick}>
         <ListItemAvatar classes={{ root: styles.root }}>
-          <PurposeAvatar purpose={purpose} />
+          <PurposeAvatar attribute={purpose} />
         </ListItemAvatar>
         <ListItemText
           primary={t('purpose')}

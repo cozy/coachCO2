@@ -83,7 +83,7 @@ export const TripItem = ({ geojson, trip, hasDateHeader }) => {
       {hasDateHeader && <ListSubheader>{day}</ListSubheader>}
       <ListItem className="u-pl-1-s u-pl-2" button onClick={handleClick}>
         <ListItemIcon>
-          <PurposeAvatar purpose={purpose} />
+          <PurposeAvatar attribute={purpose} />
         </ListItemIcon>
         <ListItemText
           primary={endPlace}
