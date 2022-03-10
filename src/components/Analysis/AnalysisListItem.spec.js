@@ -2,6 +2,7 @@ import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import { useHistory } from 'react-router-dom'
 
+import AppLike from 'test/AppLike'
 import AnalysisListItem from 'src/components/Analysis/AnalysisListItem'
 
 const history = {
@@ -13,35 +14,9 @@ const history = {
 }
 
 jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
   useHistory: jest.fn().mockReturnValue(history)
 }))
-jest.mock('cozy-ui/transpiled/react/I18n', () => ({
-  useI18n: jest.fn(() => ({ t: jest.fn() }))
-}))
-jest.mock('cozy-ui/transpiled/react/MuiCozyTheme/Divider', () => () => (
-  <div data-testid="Divider" />
-))
-jest.mock(
-  'cozy-ui/transpiled/react/MuiCozyTheme/ListItem',
-  () => ({ children, disabled, onClick }) => (
-    <div data-testid="ListItem" data-test-disabled={disabled} onClick={onClick}>
-      {children}
-    </div>
-  )
-)
-jest.mock(
-  'cozy-ui/transpiled/react/MuiCozyTheme/ListItemIcon',
-  () => ({ children }) => <div data-testid="ListItemIcon">{children}</div>
-)
-jest.mock(
-  'cozy-ui/transpiled/react/ListItemText',
-  () => ({ primary, secondary }) => (
-    <div data-testid="ListItemText" primary={primary} secondary={secondary} />
-  )
-)
-jest.mock('cozy-ui/transpiled/react/Typography', () => ({ children }) => (
-  <div data-testid="Typography">{children}</div>
-))
 
 const setup = ({
   key = 'CAR',
@@ -49,12 +24,20 @@ const setup = ({
 } = {}) => {
   const sortedTimeserie = [key, value]
 
-  return render(<AnalysisListItem sortedTimeserie={sortedTimeserie} />)
+  return render(
+    <AppLike>
+      <AnalysisListItem sortedTimeserie={sortedTimeserie} type="modes" />
+    </AppLike>
+  )
 }
 
 describe('AnalysisListItem', () => {
   beforeEach(() => {
     jest.spyOn(console, 'log').mockImplementation()
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
   })
 
   it('should push route', () => {
@@ -78,7 +61,7 @@ describe('AnalysisListItem', () => {
     fireEvent.click(getByTestId('ListItem'))
 
     // eslint-disable-next-line no-console
-    expect(console.log).toHaveBeenCalledWith('history push is called')
+    expect(console.log).not.toHaveBeenCalledWith('history push is called')
   })
 
   it.each`
@@ -93,9 +76,9 @@ describe('AnalysisListItem', () => {
       const { queryByTestId } = setup({
         value: { timeseries, totalCO2 }
       })
-      expect(
-        queryByTestId('ListItem').getAttribute('data-test-disabled')
-      ).toEqual(`${result}`)
+      expect(queryByTestId('ListItem').getAttribute('aria-disabled')).toEqual(
+        `${result}`
+      )
     }
   )
 })

@@ -14,7 +14,7 @@ const makeOptions = t => {
   const options = purposes.map(purpose => ({
     id: purpose,
     title: t(`trips.purposes.${purpose}`),
-    icon: <PurposeAvatar purpose={purpose} />
+    icon: <PurposeAvatar attribute={purpose} />
   }))
 
   return { children: options }
