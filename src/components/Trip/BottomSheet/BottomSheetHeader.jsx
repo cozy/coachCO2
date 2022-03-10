@@ -9,7 +9,7 @@ import {
   computeAndformatCaloriesTrip,
   computeAndFormatCO2Trip
 } from 'src/lib/trips'
-import { useTrip } from 'src/components/Trip/TripProvider'
+import { useTrip } from 'src/components/Providers/TripProvider'
 
 const BottomSheetHeader = () => {
   const { trip } = useTrip()

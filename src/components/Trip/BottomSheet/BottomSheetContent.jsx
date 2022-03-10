@@ -16,7 +16,7 @@ import {
   getEndDate,
   formatDate
 } from 'src/lib/trips'
-import { useTrip } from 'src/components/Trip/TripProvider'
+import { useTrip } from 'src/components/Providers/TripProvider'
 import PurposeItem from 'src/components/Trip/BottomSheet/PurposeItem'
 import PurposeEditDialog from 'src/components/EditDialogs/PurposeEditDialog'
 

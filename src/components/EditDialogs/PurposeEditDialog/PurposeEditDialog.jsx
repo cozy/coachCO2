@@ -7,7 +7,7 @@ import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
 import { purposes } from 'src/components/helpers'
 import { createGeojsonWithModifiedPurpose } from 'src/components/EditDialogs/PurposeEditDialog/helpers'
 import { PurposeAvatar } from 'src/components/Avatar'
-import { useTrip } from 'src/components/Trip/TripProvider'
+import { useTrip } from 'src/components/Providers/TripProvider'
 import { OTHER_PURPOSE } from 'src/constants/const'
 
 const makeOptions = t => {

@@ -7,7 +7,7 @@ import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import TripDialogMobile from 'src/components/Trip/TripDialogMobile'
 import { buildTimeserieQueryById } from 'src/queries/queries'
 import { transformTimeseriesToTrips } from 'src/lib/timeseries'
-import TripProvider from 'src/components/Trip/TripProvider'
+import TripProvider from 'src/components/Providers/TripProvider'
 
 const Trip = () => {
   const { pathname } = useLocation()

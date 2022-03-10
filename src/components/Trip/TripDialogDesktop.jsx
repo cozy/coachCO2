@@ -7,7 +7,7 @@ import { getEndPlaceDisplayName } from 'src/lib/trips'
 import TripMap from 'src/components/Trip/TripMap'
 import BottomSheetHeader from 'src/components/Trip/BottomSheet/BottomSheetHeader'
 import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
-import TripProvider from 'src/components/Trip/TripProvider'
+import TripProvider from 'src/components/Providers/TripProvider'
 
 const styles = {
   map: {

@@ -8,7 +8,7 @@ import 'leaflet/dist/leaflet.css'
 
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
-import { useTrip } from 'src/components/Trip/TripProvider'
+import { useTrip } from 'src/components/Providers/TripProvider'
 import { bottomSheetSettings } from 'src/components/Trip/TripDialogMobileContent'
 
 import './tripmap.styl'

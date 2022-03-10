@@ -6,7 +6,7 @@ import TimelineIcon from 'src/components/Timeline/TimelineIcon'
 import { formatDate, getSectionsFormatedFromTrip } from 'src/lib/trips.js'
 import { pickModeIcon } from 'src/components/helpers'
 import ModeEditDialog from 'src/components/EditDialogs/ModeEditDialog'
-import { useTrip } from 'src/components/Trip/TripProvider'
+import { useTrip } from 'src/components/Providers/TripProvider'
 
 const TimelineSections = () => {
   const { trip } = useTrip()

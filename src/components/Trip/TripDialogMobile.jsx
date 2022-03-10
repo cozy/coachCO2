@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 
 import { getEndPlaceDisplayName } from 'src/lib/trips'
-import { useTrip } from 'src/components/Trip/TripProvider'
+import { useTrip } from 'src/components/Providers/TripProvider'
 import TripDialogMobileContent from 'src/components/Trip/TripDialogMobileContent'
 
 const TripDialogMobile = () => {
