@@ -1,15 +1,13 @@
-import { useContext } from 'react'
-
 import { isQueryLoading, useQuery } from 'cozy-client'
 
-import { AccountContext } from 'src/components/AccountProvider'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import {
   buildTimeseriesQueryByAccountIdNoLimit,
   buildAccountQuery
 } from 'src/queries/queries'
 
 const useAllTimeseriesByAccount = () => {
-  const { selectedAccount } = useContext(AccountContext)
+  const { selectedAccount } = useAccountContext()
 
   const accountQuery = buildAccountQuery()
   const { data: accounts, ...accountQueryRes } = useQuery(
