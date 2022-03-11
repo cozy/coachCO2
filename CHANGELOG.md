@@ -10,6 +10,8 @@
 * Change app icon to beta one
 * Change some text for better understanding between modes and purposes
 * Icons to show transport mode are now colorized
+* Selected account is now stored in a doctype
+* Possibility to use multiple tracemob account
 
 ## 🐛 Bug Fixes
 

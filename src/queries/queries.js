@@ -3,7 +3,11 @@ import startOfMonth from 'date-fns/start_of_month'
 
 import CozyClient, { Q } from 'cozy-client'
 
-import { GEOJSON_DOCTYPE, ACCOUNTS_DOCTYPE } from 'src/doctypes'
+import {
+  GEOJSON_DOCTYPE,
+  ACCOUNTS_DOCTYPE,
+  SETTINGS_DOCTYPE
+} from 'src/doctypes'
 
 const older30s = 30 * 1000
 
@@ -91,3 +95,11 @@ export const buildTimeseriesQueryByDateNoLimit = date => {
     }
   }
 }
+
+export const buildSettingsQuery = () => ({
+  definition: Q(SETTINGS_DOCTYPE),
+  options: {
+    as: SETTINGS_DOCTYPE,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+  }
+})

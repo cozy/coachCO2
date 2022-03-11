@@ -1,36 +1,38 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 
+import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import SelectBox from 'cozy-ui/transpiled/react/SelectBox'
 import Label from 'cozy-ui/transpiled/react/Label'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import { useQuery } from 'cozy-client'
 
-import { useAccountContext } from 'src/components/Providers/AccountProvider'
-import { buildAccountQuery } from 'src/queries/queries'
+import {
+  useAccountContext,
+  getAccountLabel
+} from 'src/components/Providers/AccountProvider'
 import Titlebar from 'src/components/Titlebar'
 import CsvExporter from 'src/components/ExportCSV/CsvExporter'
 
 export const Settings = () => {
   const { t } = useI18n()
-  const { selectedAccount, setSelectedAccount } = useAccountContext()
+  const { accounts, account, setAccount } = useAccountContext()
 
-  const accountQuery = buildAccountQuery()
-  const { data } = useQuery(accountQuery.definition, accountQuery.options)
+  if (!account) {
+    return (
+      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
+    )
+  }
 
-  const accounts = useMemo(() => {
-    if (!data || data.length < 1) {
-      return []
-    }
-    return data.map(account => ({
-      label: account.auth.login,
-      _id: account._id
-    }))
-  }, [data])
+  const options = accounts.map(account => ({
+    label: getAccountLabel(account),
+    value: account._id
+  }))
+  const value = {
+    label: getAccountLabel(account),
+    value: account._id
+  }
 
-  // To know the reason for not passing directly `accounts`, see
-  // https://github.com/cozy/coachCO2/pull/62#discussion_r812929004
-  const accountName = accounts[0]?.label || ''
-  const accountId = accounts[0]?._id || ''
+  const handleChange = ({ value }) =>
+    setAccount(accounts.find(account => account._id === value))
 
   return (
     <>
@@ -39,18 +41,15 @@ export const Settings = () => {
         <div className="u-mb-1-half">
           <Label>{t('devices.label')}</Label>
           <SelectBox
-            options={accounts}
-            value={{
-              value: selectedAccount?._id || accountId,
-              label: selectedAccount?.label || accountName
-            }}
+            options={options}
+            value={value}
             label={t('devices.label')}
             placeholder={t('devices.select')}
-            onChange={setSelectedAccount}
+            onChange={handleChange}
           />
         </div>
         <Label>{t('export.label')}</Label>
-        <CsvExporter accountName={accountName} />
+        <CsvExporter accountName={getAccountLabel(account)} />
       </div>
     </>
   )

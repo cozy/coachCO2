@@ -5,42 +5,25 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
 
-import {
-  buildAccountQuery,
-  buildTimeseriesQueryByAccountId
-} from 'src/queries/queries'
+import { buildTimeseriesQueryByAccountId } from 'src/queries/queries'
 import TripsList from 'src/components/TripsList'
 import { transformTimeseriesToTrips } from 'src/lib/timeseries'
 import Titlebar from 'src/components/Titlebar'
+import {
+  useAccountContext,
+  getAccountLabel
+} from 'src/components/Providers/AccountProvider'
 
 export const Trips = () => {
+  const { accounts, account } = useAccountContext()
   const { t } = useI18n()
 
-  const accountQuery = buildAccountQuery()
-  const { data: accountQueryRes, ...accountQueryLeft } = useQuery(
-    accountQuery.definition,
-    accountQuery.options
-  )
-
-  const isLoadingAccountQuery =
-    isQueryLoading(accountQueryLeft) && !hasQueryBeenLoaded(accountQueryLeft)
-
-  const accounts = useMemo(() => {
-    if (Array.isArray(accountQueryRes)) {
-      return accountQueryRes.map(account => ({
-        label: account.auth.login,
-        _id: account._id
-      }))
-    }
-    return []
-  }, [accountQueryRes])
-
-  const timeseriesQuery = buildTimeseriesQueryByAccountId(accounts?.[0]?._id)
+  const timeseriesQuery = buildTimeseriesQueryByAccountId(account?._id)
   const { data: timeseriesQueryResult, ...timeseriesQueryLeft } = useQuery(
     timeseriesQuery.definition,
     {
       ...timeseriesQuery.options,
-      enabled: accounts && accounts.length > 0
+      enabled: Boolean(account)
     }
   )
 
@@ -55,15 +38,19 @@ export const Trips = () => {
     return []
   }, [timeseriesQueryResult])
 
-  if (!isLoadingAccountQuery && accounts.length === 0) {
+  if (isLoadingTimeseriesQuery) {
+    return (
+      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
+    )
+  }
+
+  if (!accounts || accounts.length === 0) {
     return <p>{t('account.notFound')}</p>
   }
 
-  return isLoadingAccountQuery || isLoadingTimeseriesQuery ? (
-    <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
-  ) : (
+  return (
     <>
-      <Titlebar label={t('trips.from') + ' ' + accounts?.[0]?.label} />
+      <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />
       <TripsList trips={trips} timeseries={timeseriesQueryResult} />
       {timeseriesQueryLeft.hasMore && (
         <LoadMore
