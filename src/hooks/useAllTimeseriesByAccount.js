@@ -1,23 +1,29 @@
-import { isQueryLoading, useQuery } from 'cozy-client'
+import { useState, useEffect } from 'react'
+
+import { useClient } from 'cozy-client'
 
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
-import { buildTimeseriesQueryByAccountIdNoLimit } from 'src/queries/queries'
+import { fetchTimeseries } from './helpers'
 
 const useAllTimeseriesByAccount = () => {
+  const [timeseries, setTimeseries] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
   const { account } = useAccountContext()
+  const client = useClient()
 
-  const timeserieQuery = buildTimeseriesQueryByAccountIdNoLimit(account?._id)
-  const { data: timeseries, ...timeseriesQueryResult } = useQuery(
-    timeserieQuery.definition,
-    {
-      ...timeserieQuery.options,
-      enabled: Boolean(account)
+  useEffect(() => {
+    const fetchTimseriesAndSetStates = async () => {
+      const timeseries = await fetchTimeseries(client, account)
+      setTimeseries(timeseries)
+      setIsLoading(false)
     }
-  )
 
-  const isAllQueriesLoading = !account || isQueryLoading(timeseriesQueryResult)
+    if (account) {
+      fetchTimseriesAndSetStates()
+    }
+  }, [account, client])
 
-  return { timeseries, isLoading: isAllQueriesLoading }
+  return { timeseries, isLoading }
 }
 
 export default useAllTimeseriesByAccount

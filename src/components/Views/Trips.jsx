@@ -18,7 +18,10 @@ export const Trips = () => {
   const { accounts, account } = useAccountContext()
   const { t } = useI18n()
 
-  const timeseriesQuery = buildTimeseriesQueryByAccountId(account?._id)
+  const timeseriesQuery = buildTimeseriesQueryByAccountId({
+    accountId: account?._id,
+    limit: 50
+  })
   const { data: timeseriesQueryResult, ...timeseriesQueryLeft } = useQuery(
     timeseriesQuery.definition,
     {
