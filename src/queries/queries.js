@@ -71,27 +71,31 @@ export const buildTimeseriesQueryNoLimit = () => ({
   }
 })
 
-export const buildTimeseriesQueryByDateNoLimit = date => {
+export const buildTimeseriesQueryByDateAndAccountIdNoLimit = (
+  date,
+  accountId
+) => {
   const startMonth = startOfMonth(date)
   const endMonth = endOfMonth(date)
   const isDateNull = date === null
 
   return {
     definition: Q(GEOJSON_DOCTYPE)
-      .UNSAFE_noLimit()
       .where({
+        'cozyMetadata.sourceAccount': accountId,
         startDate: {
           $gt: startMonth,
           $lt: endMonth
         }
       })
-      .indexFields(['startDate']),
+      .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
+      .UNSAFE_noLimit(),
     options: {
-      as: `${GEOJSON_DOCTYPE}/date/${
+      as: `${GEOJSON_DOCTYPE}/all/sourceAccount/${accountId}/date/${
         isDateNull ? 'noDate' : date.toISOString()
       }`,
       // fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s), TODO: should not be commented. See issue https://github.com/cozy/cozy-client/issues/1142
-      enabled: !isDateNull
+      enabled: !isDateNull && accountId
     }
   }
 }

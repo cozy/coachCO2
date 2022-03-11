@@ -3,14 +3,19 @@ import React from 'react'
 import { isQueryLoading, useQuery } from 'cozy-client'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
-import { buildTimeseriesQueryByDateNoLimit } from 'src/queries/queries'
+import { buildTimeseriesQueryByDateAndAccountIdNoLimit } from 'src/queries/queries'
 import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import LoadedModesList from 'src/components/Analysis/Modes/LoadedModesList'
 
 const ModesList = () => {
+  const { account } = useAccountContext()
   const { selectedDate } = useSelectDatesContext()
 
-  const timeserieQuery = buildTimeseriesQueryByDateNoLimit(selectedDate)
+  const timeserieQuery = buildTimeseriesQueryByDateAndAccountIdNoLimit(
+    selectedDate,
+    account?._id
+  )
   const { data: timeseries, ...queryResult } = useQuery(
     timeserieQuery.definition,
     timeserieQuery.options

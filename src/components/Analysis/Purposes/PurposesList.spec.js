@@ -3,8 +3,15 @@ import { render } from '@testing-library/react'
 import PurposesList from './PurposesList'
 import { isQueryLoading, useQuery } from 'cozy-client'
 
-import { buildTimeseriesQueryByDateNoLimit } from 'src/queries/queries'
+import { buildTimeseriesQueryByDateAndAccountIdNoLimit } from 'src/queries/queries'
 
+jest.mock('src/components/Providers/AccountProvider', () => ({
+  ...jest.requireActual('src/components/Providers/AccountProvider'),
+  __esModule: true,
+  useAccountContext: jest.fn().mockReturnValue({
+    account: {}
+  })
+}))
 jest.mock('cozy-client', () => ({
   isQueryLoading: jest.fn(),
   useQuery: jest.fn()
@@ -25,7 +32,7 @@ jest.mock('src/components/Providers/SelectDatesProvider', () => ({
 
 describe('PurposesList', () => {
   beforeEach(() => {
-    buildTimeseriesQueryByDateNoLimit.mockReturnValue({
+    buildTimeseriesQueryByDateAndAccountIdNoLimit.mockReturnValue({
       definition: 'definition',
       options: 'options'
     })
@@ -35,7 +42,7 @@ describe('PurposesList', () => {
     })
   })
 
-  it('should call useQuery with correct definition from buildTimeseriesQueryByDateNoLimit', () => {
+  it('should call useQuery with correct definition from buildTimeseriesQueryByDateAndAccountIdNoLimit', () => {
     render(<PurposesList />)
 
     expect(useQuery).toHaveBeenCalledWith('definition', 'options')
