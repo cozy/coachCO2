@@ -3,7 +3,12 @@ import React, { useMemo, useContext } from 'react'
 export const TripContext = React.createContext()
 
 export const useTrip = () => {
-  return useContext(TripContext)
+  const context = useContext(TripContext)
+
+  if (!context) {
+    throw new Error('useTrip must be used within a TripProvider')
+  }
+  return context
 }
 
 const TripProvider = ({ geojson, trip, children }) => {
