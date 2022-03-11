@@ -50,6 +50,15 @@
     "geojson-timeseries": {
       "description": "Required to display geojson timeseries",
       "type": "io.cozy.timeseries.geojson"
+    },
+    "coachco2.settings": {
+      "description": "Used to manage your Coach CO2 settings",
+      "type": "io.cozy.coachco2.settings",
+      "verbs": [
+        "GET",
+        "POST",
+        "PUT"
+      ]
     }
   },
   "locales": {
