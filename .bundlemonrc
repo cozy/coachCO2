@@ -14,14 +14,5 @@
             "path": "vendors-coachco2.<hash>.<hash>.min.css"
         }
     ],
-    "reportOutput": [
-        [
-            "github",
-            {
-                "checkRun": false,
-                "commitStatus": true,
-                "prComment": true
-            }
-        ]
-    ]
+    "reportOutput": ["github"]
 }
