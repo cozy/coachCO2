@@ -67,15 +67,13 @@ describe('useAccountForProvider', () => {
   })
 
   describe('for the first render, aka selectedAccount is null', () => {
-    const selectedAccount = null
-
     it('should return the account from settings', () => {
       const {
         result: { current: account }
       } = setup({
         settings: { data: settingsData, isLoading: false },
         accounts: { data: null, isLoading: false },
-        selectedAccount
+        selectedAccount: null
       })
 
       expect(account).toStrictEqual(accountFromSettingData)
@@ -88,7 +86,7 @@ describe('useAccountForProvider', () => {
       } = setup({
         settings: { data: settingsData, isLoading: false },
         accounts: { data: accountsData, isLoading: false },
-        selectedAccount
+        selectedAccount: null
       })
 
       expect(account).toStrictEqual(accountFromSettingData)
@@ -101,20 +99,20 @@ describe('useAccountForProvider', () => {
       } = setup({
         settings: { data: [], isLoading: false },
         accounts: { data: accountsData, isLoading: false },
-        selectedAccount
+        selectedAccount: null
       })
 
       expect(account).toStrictEqual(accountsData[0])
       expect(saveAccountToSettings).toHaveBeenCalled()
     })
 
-    it('should return null if if no settings nor accounts', () => {
+    it('should return null if neither settings nor accounts are set', () => {
       const {
         result: { current: account }
       } = setup({
         settings: { data: [], isLoading: false },
         accounts: { data: [], isLoading: false },
-        selectedAccount
+        selectedAccount: null
       })
 
       expect(account).toStrictEqual(null)
@@ -123,18 +121,16 @@ describe('useAccountForProvider', () => {
   })
 
   describe('for the other render, aka selectedAccount is not null', () => {
-    const selectedAccount = accountsData[0]
-
     it('should return selectedAccount', () => {
       const {
         result: { current: account }
       } = setup({
         settings: { data: settingsData, isLoading: false },
         accounts: { data: null, isLoading: false },
-        selectedAccount
+        selectedAccount: accountsData[0]
       })
 
-      expect(account).toStrictEqual(selectedAccount)
+      expect(account).toStrictEqual(accountsData[0])
       expect(saveAccountToSettings).not.toHaveBeenCalled()
     })
 
@@ -144,10 +140,10 @@ describe('useAccountForProvider', () => {
       } = setup({
         settings: { data: settingsData, isLoading: false },
         accounts: { data: accountsData, isLoading: false },
-        selectedAccount
+        selectedAccount: accountsData[0]
       })
 
-      expect(account).toStrictEqual(selectedAccount)
+      expect(account).toStrictEqual(accountsData[0])
       expect(saveAccountToSettings).not.toHaveBeenCalled()
     })
 
@@ -157,23 +153,23 @@ describe('useAccountForProvider', () => {
       } = setup({
         settings: { data: [], isLoading: false },
         accounts: { data: accountsData, isLoading: false },
-        selectedAccount
+        selectedAccount: accountsData[0]
       })
 
-      expect(account).toStrictEqual(selectedAccount)
+      expect(account).toStrictEqual(accountsData[0])
       expect(saveAccountToSettings).not.toHaveBeenCalled()
     })
 
-    it('should return null if if no settings nor accounts', () => {
+    it('should return null if neither settings nor accounts are set', () => {
       const {
         result: { current: account }
       } = setup({
         settings: { data: [], isLoading: false },
         accounts: { data: [], isLoading: false },
-        selectedAccount
+        selectedAccount: accountsData[0]
       })
 
-      expect(account).toStrictEqual(selectedAccount)
+      expect(account).toStrictEqual(accountsData[0])
       expect(saveAccountToSettings).not.toHaveBeenCalled()
     })
   })
