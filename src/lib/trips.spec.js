@@ -19,7 +19,7 @@ import {
   computeFormatedPercentage,
   computeAndFormatCO2TripByMode
 } from 'src/lib/trips'
-import { BICYCLING_MODE, CAR_MODE } from 'src/constants/const'
+import { BICYCLING_MODE, CAR_MODE } from 'src/constants'
 
 const mockedFeatures = () => [
   mockFeature('featureId01'),

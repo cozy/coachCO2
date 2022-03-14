@@ -8,7 +8,7 @@ import ListItemAvatar from 'cozy-ui/transpiled/react/ListItemAvatar'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import { PurposeAvatar } from 'src/components/Avatar'
-import { OTHER_PURPOSE } from 'src/constants/const'
+import { OTHER_PURPOSE } from 'src/constants'
 
 const useStyles = makeStyles(() => ({
   root: {

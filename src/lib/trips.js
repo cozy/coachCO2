@@ -5,7 +5,7 @@ import memoize from 'lodash/memoize'
 import distanceInWords from 'date-fns/distance_in_words'
 import humanizeDuration from 'humanize-duration'
 
-import { UNKNOWN_MODE } from 'src/constants/const'
+import { UNKNOWN_MODE } from 'src/constants'
 import {
   computeCaloriesTrip,
   computeCO2Trip,

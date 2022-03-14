@@ -29,7 +29,7 @@ import {
   TRAIN_MODE,
   WALKING_MODE,
   UNKNOWN_MODE
-} from 'src/constants/const'
+} from 'src/constants'
 import {
   HOME_PURPOSE,
   WORK_PURPOSE,
@@ -41,7 +41,7 @@ import {
   EXERCISE_PURPOSE,
   ENTERTAINMENT_PURPOSE,
   OTHER_PURPOSE
-} from 'src/constants/const'
+} from 'src/constants'
 
 export const modes = [
   AIR_MODE,

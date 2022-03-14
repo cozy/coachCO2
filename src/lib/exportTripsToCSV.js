@@ -15,7 +15,7 @@ import {
   getStartDate,
   getEndDate
 } from 'src/lib/trips'
-import { COLUMNS_NAMES_CSV } from 'src/constants/const'
+import { COLUMNS_NAMES_CSV } from 'src/constants'
 import { transformTimeseriesToTrips } from 'src/lib/timeseries'
 import { getOrCreateAppFolderWithReference } from 'src/lib/getOrCreateAppFolderWithReference'
 import { buildTimeseriesQueryNoLimit } from 'src/queries/queries'

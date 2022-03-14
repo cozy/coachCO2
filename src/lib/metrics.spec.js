@@ -16,7 +16,7 @@ import {
   MET_BICYCLING_VERY_FAST,
   CAR_MODE,
   AIR_MODE
-} from 'src/constants/const'
+} from 'src/constants'
 import {
   createTripFromTemplate,
   tripTemplate,

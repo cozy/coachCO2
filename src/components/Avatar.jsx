@@ -8,7 +8,7 @@ import {
   pickModeIcon,
   modeToColor
 } from 'src/components/helpers'
-import { OTHER_PURPOSE } from 'src/constants/const'
+import { OTHER_PURPOSE } from 'src/constants'
 
 const makeStyle = ({ faded, color }) => {
   return faded

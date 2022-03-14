@@ -26,7 +26,7 @@ import {
 } from 'src/lib/trips'
 import { pickModeIcon } from 'src/components/helpers'
 import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
-import { OTHER_PURPOSE } from 'src/constants/const'
+import { OTHER_PURPOSE } from 'src/constants'
 
 const styles = {
   co2: { fontWeight: 700 },
