@@ -32,7 +32,7 @@ import {
   SLOW_BICYCLING_MAX_SPEED,
   SLOW_BICYCLING_MAX_MEDIUM,
   SLOW_BICYCLING_MAX_FAST
-} from 'src/constants/const'
+} from 'src/constants'
 
 /**
  * Compute the total CO2 consumed by the section based on the mode and distance.

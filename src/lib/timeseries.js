@@ -7,7 +7,7 @@ import toPairs from 'lodash/toPairs'
 import { computeCO2Section } from 'src/lib/metrics'
 import { getSectionsFromTrip } from 'src/lib/trips'
 import { modes, purposes } from 'src/components/helpers'
-import { UNKNOWN_MODE, OTHER_PURPOSE } from 'src/constants/const'
+import { UNKNOWN_MODE, OTHER_PURPOSE } from 'src/constants'
 
 export const collectFeaturesByOid = geojson => {
   const res = {}

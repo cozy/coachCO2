@@ -8,7 +8,7 @@ import {
 } from 'test/mockTrip'
 
 import { purposes } from 'src/components/helpers'
-import { UNKNOWN_MODE } from 'src/constants/const'
+import { UNKNOWN_MODE } from 'src/constants'
 
 import {
   transformSerieToTrip,
