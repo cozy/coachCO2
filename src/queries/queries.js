@@ -11,29 +11,16 @@ import {
 
 const older30s = 30 * 1000
 
-export const buildTimeseriesQueryByAccountId = accountId => ({
+export const buildTimeseriesQueryByAccountId = ({ accountId, limitBy }) => ({
   definition: Q(GEOJSON_DOCTYPE)
     .where({
       'cozyMetadata.sourceAccount': accountId
     })
     .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
     .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
-    .limitBy(50),
+    .limitBy(limitBy),
   options: {
-    as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}`,
-    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
-  }
-})
-
-export const buildTimeseriesQueryByAccountIdNoLimit = accountId => ({
-  definition: Q(GEOJSON_DOCTYPE)
-    .where({
-      'cozyMetadata.sourceAccount': accountId
-    })
-    .indexFields(['cozyMetadata.sourceAccount'])
-    .UNSAFE_noLimit(),
-  options: {
-    as: `${GEOJSON_DOCTYPE}/all/sourceAccount/${accountId}`,
+    as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/limitedBy/${limitBy}`,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })

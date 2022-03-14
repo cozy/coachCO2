@@ -1,9 +1,13 @@
 import React, { useCallback, useEffect } from 'react'
 
+import { isQueryLoading } from 'cozy-client'
+
+import useFullyLoadedQuery from 'src/hooks/useFullyLoadedQuery'
+import { buildTimeseriesQueryByAccountId } from 'src/queries/queries'
 import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import SelectDatesWithLoader from 'src/components/SelectDates/SelectDatesWithLoader'
 import { makeLatestDate } from 'src/components/SelectDates/helpers'
-import useAllTimeseriesByAccount from 'src/hooks/useAllTimeseriesByAccount'
 
 const computeOptions = (isLoading, timeseries) => {
   if (isLoading) return null
@@ -12,7 +16,21 @@ const computeOptions = (isLoading, timeseries) => {
 
 const SelectDatesWrapper = () => {
   const { selectedDate, setSelectedDate } = useSelectDatesContext()
-  const { timeseries, isLoading } = useAllTimeseriesByAccount()
+  const { account } = useAccountContext()
+
+  const timeseriesQuery = buildTimeseriesQueryByAccountId({
+    accountId: account?._id,
+    limitBy: 1000
+  })
+  const { data: timeseries, ...timeseriesQueryResult } = useFullyLoadedQuery(
+    timeseriesQuery.definition,
+    {
+      ...timeseriesQuery.options,
+      enabled: Boolean(account)
+    }
+  )
+
+  const isLoading = !account || isQueryLoading(timeseriesQueryResult)
 
   const options = useCallback(computeOptions(isLoading, timeseries), [
     isLoading,
