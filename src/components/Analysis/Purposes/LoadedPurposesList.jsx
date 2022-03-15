@@ -67,7 +67,7 @@ const LoadedPurposesList = ({ timeseries }) => {
             label={t('analysis.emittedCO2')}
           />
         </div>
-        <Box marginTop={!isMobile ? '5rem' : undefined}>
+        <Box marginTop={!isMobile ? '6rem' : undefined}>
           <List>
             {Object.entries(timeseriesSortedByPurposes).map(
               (timeseriesSortedByPurpose, index) => (
