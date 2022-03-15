@@ -40,7 +40,8 @@ const useStyles = makeStyles(theme => ({
   },
   iconButton: {
     color: theme.palette.text.icon,
-    boxShadow: theme.shadows[2]
+    boxShadow: theme.shadows[2],
+    backgroundColor: theme.palette.background.paper
   }
 }))
 
