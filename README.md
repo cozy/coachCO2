@@ -2,7 +2,7 @@
 [![Github Release version shield](https://img.shields.io/github/tag/cozy/coachco2.svg)](https://github.com/cozy/coachco2/releases)
 [![jest](https://facebook.github.io/jest/img/jest-badge.svg)](https://github.com/facebook/jest)
 
-
+ 
 # Coach CO2
 
 ## What's Coach CO2?
