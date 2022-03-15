@@ -99,7 +99,7 @@ Cozy ships a [built-in list of `doctypes`][doctypes] for representation of most 
 
 This application use [geoJSON][geojsonWikipedia] object inside [timeseries][timeseries] from `io.cozy.timeseries.geojson` doctype.
 
-So the doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series` prop (aka `doc.series`) stores `geoJSON` objects, called `trips`. Each `trips` may have `sections` stores in `features` prop (aka `doc.series[x].features`).
+The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series` prop (aka `doc.series`) stores `geoJSON` objects, called `trips`. Each `trips` may have `sections` stores in `features` prop (aka `doc.series[x].features`).
 
 ```jsonc
 { // timeserie
