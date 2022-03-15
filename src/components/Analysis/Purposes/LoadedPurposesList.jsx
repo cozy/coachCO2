@@ -5,6 +5,7 @@ import cx from 'classnames'
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import Box from 'cozy-ui/transpiled/react/Box'
 
 import {
   computeAggregatedTimeseries,
@@ -50,35 +51,41 @@ const LoadedPurposesList = ({ timeseries }) => {
     return []
   }, [purpose, timeseriesSortedByPurposes])
 
-  return !purpose ? (
-    <div className="u-mt-2">
-      <div
-        className={cx('u-flex', {
-          'u-flex-justify-end u-mr-2': !isMobile,
-          'u-flex-justify-center': isMobile
-        })}
-      >
-        <PieChart
-          data={data}
-          options={options}
-          total={formatCO2(totalCO2)}
-          label={t('analysis.emittedCO2')}
-        />
-      </div>
-      <List>
-        {Object.entries(timeseriesSortedByPurposes).map(
-          (timeseriesSortedByPurpose, index) => (
-            <AnalysisListItem
-              key={index}
-              type="purposes"
-              sortedTimeserie={timeseriesSortedByPurpose}
-              totalCO2={totalCO2}
-            />
-          )
-        )}
-      </List>
-    </div>
-  ) : (
+  if (!purpose) {
+    return (
+      <>
+        <div
+          className={cx('u-flex', {
+            'u-flex-justify-end u-pos-absolute u-top-m u-right-xl': !isMobile,
+            'u-flex-justify-center u-mv-1': isMobile
+          })}
+        >
+          <PieChart
+            data={data}
+            options={options}
+            total={formatCO2(totalCO2)}
+            label={t('analysis.emittedCO2')}
+          />
+        </div>
+        <Box marginTop={!isMobile ? '5rem' : undefined}>
+          <List>
+            {Object.entries(timeseriesSortedByPurposes).map(
+              (timeseriesSortedByPurpose, index) => (
+                <AnalysisListItem
+                  key={index}
+                  type="purposes"
+                  totalCO2={totalCO2}
+                  sortedTimeserie={timeseriesSortedByPurpose}
+                />
+              )
+            )}
+          </List>
+        </Box>
+      </>
+    )
+  }
+
+  return (
     <div className="u-mt-2">
       <TripsList
         trips={trips}
