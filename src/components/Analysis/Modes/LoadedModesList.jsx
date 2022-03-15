@@ -5,6 +5,7 @@ import cx from 'classnames'
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import Box from 'cozy-ui/transpiled/react/Box'
 
 import {
   computeAggregatedTimeseries,
@@ -51,11 +52,11 @@ const LoadedModesList = ({ timeseries }) => {
   }, [mode, timeseriesSortedByModes])
 
   return !mode ? (
-    <div className="u-mt-2">
+    <>
       <div
         className={cx('u-flex', {
-          'u-flex-justify-end u-mr-2': !isMobile,
-          'u-flex-justify-center': isMobile
+          'u-flex-justify-end u-pos-absolute u-top-m u-right-xl': !isMobile,
+          'u-flex-justify-center u-mv-1': isMobile
         })}
       >
         <PieChart
@@ -65,19 +66,21 @@ const LoadedModesList = ({ timeseries }) => {
           label={t('analysis.emittedCO2')}
         />
       </div>
-      <List>
-        {Object.entries(timeseriesSortedByModes).map(
-          (timeseriesSortedByMode, index) => (
-            <AnalysisListItem
-              key={index}
-              type="modes"
-              totalCO2={totalCO2}
-              sortedTimeserie={timeseriesSortedByMode}
-            />
-          )
-        )}
-      </List>
-    </div>
+      <Box marginTop={!isMobile ? '5rem' : undefined}>
+        <List>
+          {Object.entries(timeseriesSortedByModes).map(
+            (timeseriesSortedByMode, index) => (
+              <AnalysisListItem
+                key={index}
+                type="modes"
+                totalCO2={totalCO2}
+                sortedTimeserie={timeseriesSortedByMode}
+              />
+            )
+          )}
+        </List>
+      </Box>
+    </>
   ) : (
     <div className="u-mt-2">
       <TripsList
