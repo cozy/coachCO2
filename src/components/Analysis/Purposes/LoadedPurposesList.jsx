@@ -51,37 +51,41 @@ const LoadedPurposesList = ({ timeseries }) => {
     return []
   }, [purpose, timeseriesSortedByPurposes])
 
-  return !purpose ? (
-    <>
-      <div
-        className={cx('u-flex', {
-          'u-flex-justify-end u-pos-absolute u-top-m u-right-xl': !isMobile,
-          'u-flex-justify-center u-mv-1': isMobile
-        })}
-      >
-        <PieChart
-          data={data}
-          options={options}
-          total={formatCO2(totalCO2)}
-          label={t('analysis.emittedCO2')}
-        />
-      </div>
-      <Box marginTop={!isMobile ? '5rem' : undefined}>
-        <List>
-          {Object.entries(timeseriesSortedByPurposes).map(
-            (timeseriesSortedByPurpose, index) => (
-              <AnalysisListItem
-                key={index}
-                type="purposes"
-                totalCO2={totalCO2}
-                sortedTimeserie={timeseriesSortedByPurpose}
-              />
-            )
-          )}
-        </List>
-      </Box>
-    </>
-  ) : (
+  if (!purpose) {
+    return (
+      <>
+        <div
+          className={cx('u-flex', {
+            'u-flex-justify-end u-pos-absolute u-top-m u-right-xl': !isMobile,
+            'u-flex-justify-center u-mv-1': isMobile
+          })}
+        >
+          <PieChart
+            data={data}
+            options={options}
+            total={formatCO2(totalCO2)}
+            label={t('analysis.emittedCO2')}
+          />
+        </div>
+        <Box marginTop={!isMobile ? '5rem' : undefined}>
+          <List>
+            {Object.entries(timeseriesSortedByPurposes).map(
+              (timeseriesSortedByPurpose, index) => (
+                <AnalysisListItem
+                  key={index}
+                  type="purposes"
+                  totalCO2={totalCO2}
+                  sortedTimeserie={timeseriesSortedByPurpose}
+                />
+              )
+            )}
+          </List>
+        </Box>
+      </>
+    )
+  }
+
+  return (
     <div className="u-mt-2">
       <TripsList
         trips={trips}

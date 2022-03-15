@@ -51,37 +51,41 @@ const LoadedModesList = ({ timeseries }) => {
     return []
   }, [mode, timeseriesSortedByModes])
 
-  return !mode ? (
-    <>
-      <div
-        className={cx('u-flex', {
-          'u-flex-justify-end u-pos-absolute u-top-m u-right-xl': !isMobile,
-          'u-flex-justify-center u-mv-1': isMobile
-        })}
-      >
-        <PieChart
-          data={data}
-          options={options}
-          total={formatCO2(totalCO2)}
-          label={t('analysis.emittedCO2')}
-        />
-      </div>
-      <Box marginTop={!isMobile ? '5rem' : undefined}>
-        <List>
-          {Object.entries(timeseriesSortedByModes).map(
-            (timeseriesSortedByMode, index) => (
-              <AnalysisListItem
-                key={index}
-                type="modes"
-                totalCO2={totalCO2}
-                sortedTimeserie={timeseriesSortedByMode}
-              />
-            )
-          )}
-        </List>
-      </Box>
-    </>
-  ) : (
+  if (!mode) {
+    return (
+      <>
+        <div
+          className={cx('u-flex', {
+            'u-flex-justify-end u-pos-absolute u-top-m u-right-xl': !isMobile,
+            'u-flex-justify-center u-mv-1': isMobile
+          })}
+        >
+          <PieChart
+            data={data}
+            options={options}
+            total={formatCO2(totalCO2)}
+            label={t('analysis.emittedCO2')}
+          />
+        </div>
+        <Box marginTop={!isMobile ? '5rem' : undefined}>
+          <List>
+            {Object.entries(timeseriesSortedByModes).map(
+              (timeseriesSortedByMode, index) => (
+                <AnalysisListItem
+                  key={index}
+                  type="modes"
+                  totalCO2={totalCO2}
+                  sortedTimeserie={timeseriesSortedByMode}
+                />
+              )
+            )}
+          </List>
+        </Box>
+      </>
+    )
+  }
+
+  return (
     <div className="u-mt-2">
       <TripsList
         trips={trips}
