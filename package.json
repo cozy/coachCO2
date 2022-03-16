@@ -16,7 +16,7 @@
     "start": "cs start --browser",
     "deploy": "git-directory-deploy --directory build/ --branch ${DEPLOY_BRANCH:-build} --repo=${DEPLOY_REPOSITORY:-https://$GITHUB_TOKEN@github.com/cozy/coachCO2.git}",
     "test": "cs test --verbose --coverage",
-    "cozyPublish": "cozy-app-publish --token $REGISTRY_TOKEN --prepublish downcloud --postpublish mattermost --space default",
+    "cozyPublish": "cozy-app-publish --token $REGISTRY_TOKEN --prepublish downcloud --postpublish mattermost --space larochelle",
     "stack:docker:dev": "cs stackDocker",
     "stack:docker:prod": "cs stackDocker --prod",
     "fixtures": "ACH import accounts/tracemob.json && ACH script timeseries/importGeojson",
