@@ -10,9 +10,9 @@ branches:
 env:
   global:
   # GITHUB_TOKEN for yarn deploy script
-  # to generate yours : travis encrypt GITHUB_TOKEN=<your_GITHUB_TOKEN> -r cozy/coachco2
+  # to generate yours : travis encrypt GITHUB_TOKEN=<your_GITHUB_TOKEN> -r cozy/coachCO2
   # REGISTRY_TOKEN for yarn cozyPublish script
-  # to generate yours : travis encrypt REGISTRY_TOKEN=<your_REGISTRY_TOKEN> -r cozy/coachco2
+  # to generate yours : travis encrypt REGISTRY_TOKEN=<your_REGISTRY_TOKEN> -r cozy/coachCO2
   # N.B.: the --org option is needed only for public repositories
 cache:
   yarn: true
@@ -36,14 +36,14 @@ jobs:
         - yarn bundlemon
       deploy:
         - provider: script
-          repo: cozy/coachco2
+          repo: cozy/coachCO2
           skip-cleanup: true
           # deploy the build on a build branch and publish to the Cozy registry
           script: DEPLOY_BRANCH=build && yarn deploy && yarn cozyPublish
           on:
             branch: master
         - provider: script
-          repo: cozy/coachco2
+          repo: cozy/coachCO2
           skip-cleanup: true
           # deploy the build on a build branch and publish stable or beta versions using Github Releases (git tag)
           script: DEPLOY_BRANCH=build && yarn deploy && yarn cozyPublish
