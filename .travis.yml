@@ -9,11 +9,12 @@ branches:
   - /^\d+\.\d+\.\d+(\-beta.\d+)?$/
 env:
   global:
-  # GITHUB_TOKEN for yarn deploy script
-  # to generate yours : travis encrypt GITHUB_TOKEN=<your_GITHUB_TOKEN> -r cozy/coachCO2
-  # REGISTRY_TOKEN for yarn cozyPublish script
-  # to generate yours : travis encrypt REGISTRY_TOKEN=<your_REGISTRY_TOKEN> -r cozy/coachCO2
-  # N.B.: the --org option is needed only for public repositories
+    - MATTERMOST_CHANNEL='{"dev":"projet---la-rochelle","beta":"projet---la-rochelle,publication","stable":"projet---la-rochelle,publication"}'
+    # GITHUB_TOKEN for yarn deploy script
+    # to generate yours : travis encrypt GITHUB_TOKEN=<your_GITHUB_TOKEN> -r cozy/coachCO2
+    # REGISTRY_TOKEN for yarn cozyPublish script
+    # to generate yours : travis encrypt REGISTRY_TOKEN=<your_REGISTRY_TOKEN> -r cozy/coachCO2
+    # N.B.: the --org option is needed only for public repositories
 cache:
   yarn: true
   directories:
@@ -21,6 +22,11 @@ cache:
 stages:
   - prebuild
   - build
+before_install:
+  - 'if [ "$TRAVIS_SECURE_ENV_VARS" != "false" ]; then openssl aes-256-cbc -K $encrypted_d66f6ce0658a_key -iv $encrypted_d66f6ce0658a_iv -in id_rsa_downcloud_coachCO2.enc -out id_rsa_downcloud_coachCO2 -d; fi'
+  - 'if [ "$TRAVIS_SECURE_ENV_VARS" != "false" ]; then eval "$(ssh-agent -s)"; fi'
+  - 'if [ "$TRAVIS_SECURE_ENV_VARS" != "false" ]; then chmod 600 id_rsa_downcloud_coachCO2; fi'
+  - 'if [ "$TRAVIS_SECURE_ENV_VARS" != "false" ]; then ssh-add id_rsa_downcloud_coachCO2; fi'
 jobs:
   include:
     - name: 'Lint'
@@ -39,13 +45,13 @@ jobs:
           repo: cozy/coachCO2
           skip-cleanup: true
           # deploy the build on a build branch and publish to the Cozy registry
-          script: DEPLOY_BRANCH=build && yarn cozyPublish
+          script: yarn cozyPublish
           on:
             branch: master
         - provider: script
           repo: cozy/coachCO2
           skip-cleanup: true
           # publish stable or beta versions using Github Releases (git tag)
-          script: DEPLOY_BRANCH=build && yarn cozyPublish
+          script: yarn cozyPublish
           on:
             tags: true
