@@ -29,7 +29,10 @@ import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
 import { OTHER_PURPOSE } from 'src/constants'
 
 const styles = {
-  co2: { fontWeight: 700 },
+  co2: {
+    fontWeight: 700,
+    whiteSpace: 'nowrap'
+  },
   tripIcon: {
     marginRight: '4px'
   }
