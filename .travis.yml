@@ -22,11 +22,6 @@ cache:
 stages:
   - prebuild
   - build
-before_install:
-  - 'if [ "$TRAVIS_SECURE_ENV_VARS" != "false" ]; then openssl aes-256-cbc -K $encrypted_d66f6ce0658a_key -iv $encrypted_d66f6ce0658a_iv -in id_rsa_downcloud_coachCO2.enc -out id_rsa_downcloud_coachCO2 -d; fi'
-  - 'if [ "$TRAVIS_SECURE_ENV_VARS" != "false" ]; then eval "$(ssh-agent -s)"; fi'
-  - 'if [ "$TRAVIS_SECURE_ENV_VARS" != "false" ]; then chmod 600 id_rsa_downcloud_coachCO2; fi'
-  - 'if [ "$TRAVIS_SECURE_ENV_VARS" != "false" ]; then ssh-add id_rsa_downcloud_coachCO2; fi'
 jobs:
   include:
     - name: 'Lint'
@@ -40,6 +35,13 @@ jobs:
       script:
         - yarn build
         - yarn bundlemon
+      before_install:
+        - '[ "$TRAVIS_SECURE_ENV_VARS" != "false" ] && openssl aes-256-cbc -K $encrypted_d66f6ce0658a_key -iv $encrypted_d66f6ce0658a_iv -in id_rsa_downcloud_coachCO2.enc -out id_rsa_downcloud_coachCO2 -d'
+        - '[ "$TRAVIS_SECURE_ENV_VARS" != "false" ] && eval "$(ssh-agent -s)"'
+        - '[ "$TRAVIS_SECURE_ENV_VARS" != "false" ] && chmod 600 id_rsa_downcloud_coachCO2'
+        - '[ "$TRAVIS_SECURE_ENV_VARS" != "false" ] && ssh-add id_rsa_downcloud_coachCO2'
+      before_deploy:
+        - yarn add cozy-app-publish # to be sure to have the last version before deploy
       deploy:
         - provider: script
           repo: cozy/coachCO2
