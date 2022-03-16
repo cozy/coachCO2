@@ -39,13 +39,13 @@ jobs:
           repo: cozy/coachCO2
           skip-cleanup: true
           # deploy the build on a build branch and publish to the Cozy registry
-          script: DEPLOY_BRANCH=build && yarn deploy && yarn cozyPublish
+          script: DEPLOY_BRANCH=build && yarn cozyPublish
           on:
             branch: master
         - provider: script
           repo: cozy/coachCO2
           skip-cleanup: true
-          # deploy the build on a build branch and publish stable or beta versions using Github Releases (git tag)
-          script: DEPLOY_BRANCH=build && yarn deploy && yarn cozyPublish
+          # publish stable or beta versions using Github Releases (git tag)
+          script: DEPLOY_BRANCH=build && yarn cozyPublish
           on:
             tags: true
