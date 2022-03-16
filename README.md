@@ -1,5 +1,5 @@
-[![Travis build status shield](https://img.shields.io/travis/cozy/coachco2/master.svg)](https://travis-ci.org/cozy/coachco2)
-[![Github Release version shield](https://img.shields.io/github/tag/cozy/coachco2.svg)](https://github.com/cozy/coachco2/releases)
+[![Travis build status shield](https://img.shields.io/travis/cozy/coachCO2/master.svg)](https://travis-ci.org/cozy/coachCO2)
+[![Github Release version shield](https://img.shields.io/github/tag/cozy/coachCO2.svg)](https://github.com/cozy/coachCO2/releases)
 [![jest](https://facebook.github.io/jest/img/jest-badge.svg)](https://github.com/facebook/jest)
 
 
@@ -16,7 +16,7 @@ Hacking the Cozy Coach CO2 app requires you to [setup a dev environment][setup].
 You can then clone the app repository and install dependencies:
 
 ```sh
-$ git clone https://github.com/cozy/coachco2.git
+$ git clone https://github.com/cozy/coachCO2.git
 $ cd coachco2
 $ yarn install
 ```
