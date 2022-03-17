@@ -4,6 +4,8 @@
 
 ## 🐛 Bug Fixes
 
+* No blinking on analysis pages if more than 1000 travels
+
 ## 🔧 Tech
 
 # 0.4.0

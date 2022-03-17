@@ -30,7 +30,10 @@ const SelectDatesWrapper = () => {
     }
   )
 
-  const isLoading = !account || isQueryLoading(timeseriesQueryResult)
+  const isLoading =
+    !account ||
+    isQueryLoading(timeseriesQueryResult) ||
+    timeseriesQueryResult.hasMore
 
   const options = useCallback(computeOptions(isLoading, timeseries), [
     isLoading,

@@ -22,7 +22,7 @@ const PurposesList = () => {
     timeserieQuery.options
   )
 
-  const isLoading = isQueryLoading(queryResult)
+  const isLoading = isQueryLoading(queryResult) || queryResult.hasMore
 
   if (isLoading) {
     return (
