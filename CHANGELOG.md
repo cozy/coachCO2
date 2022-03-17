@@ -1,3 +1,11 @@
+# 0.5.0
+
+## ✨ Features
+
+## 🐛 Bug Fixes
+
+## 🔧 Tech
+
 # 0.4.0
 
 ## ✨ Features
@@ -12,8 +20,6 @@
 * Icons to show transport mode are now colorized
 * Selected account is now stored in a doctype
 * Possibility to use multiple tracemob account
-
-## 🐛 Bug Fixes
 
 ## 🔧 Tech
 
