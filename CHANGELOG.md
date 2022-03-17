@@ -6,6 +6,8 @@
 
 ## 🔧 Tech
 
+* Remove icons from assets and use icons from cozy-ui
+
 # 0.4.0
 
 ## ✨ Features
