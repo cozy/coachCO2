@@ -1,24 +1,23 @@
-// TODO: icons should be in cozy-ui
 // mode icons
-import BikeIcon from 'src/assets/icons/icon-bike.svg'
-import BusIcon from 'src/assets/icons/icon-bus.svg'
+import BikeIcon from 'cozy-ui/transpiled/react/Icons/Bike'
+import BusIcon from 'cozy-ui/transpiled/react/Icons/Bus'
 import CarIcon from 'cozy-ui/transpiled/react/Icons/Car'
-import PlaneIcone from 'src/assets/icons/icon-plane.svg'
-import SubwayIcon from 'src/assets/icons/icon-subway.svg'
-import TrainIcon from 'src/assets/icons/icon-train.svg'
-import WalkIcon from 'src/assets/icons/icon-walk.svg'
-import UnknownIcon from 'src/assets/icons/icon-unknow.svg'
+import PlaneIcone from 'cozy-ui/transpiled/react/Icons/Plane'
+import SubwayIcon from 'cozy-ui/transpiled/react/Icons/Subway'
+import TrainIcon from 'cozy-ui/transpiled/react/Icons/Train'
+import WalkIcon from 'cozy-ui/transpiled/react/Icons/Walk'
+import UnknownIcon from 'cozy-ui/transpiled/react/Icons/Unknow'
 // purpose icons
 import CompanyIcon from 'cozy-ui/transpiled/react/Icons/Company'
-import FitnessIcon from 'src/assets/icons/icon-fitness.svg'
+import FitnessIcon from 'cozy-ui/transpiled/react/Icons/Fitness'
 import HomeIcon from 'cozy-ui/transpiled/react/Icons/Home'
-import MountainIcon from 'src/assets/icons/icon-mountain.svg'
-import MovementIcon from 'src/assets/icons/icon-movement.svg'
+import MountainIcon from 'cozy-ui/transpiled/react/Icons/Mountain'
+import MovementIcon from 'cozy-ui/transpiled/react/Icons/Movement'
 import PeopleIcon from 'cozy-ui/transpiled/react/Icons/People'
-import RestaurantIcon from 'src/assets/icons/icon-restaurant.svg'
-import RestoreIcon from 'src/assets/icons/icon-restore.svg'
-import SchoolIcon from 'src/assets/icons/icon-school.svg'
-import ShopIcon from 'src/assets/icons/icon-shop.svg'
+import RestaurantIcon from 'cozy-ui/transpiled/react/Icons/Restaurant'
+import RestoreIcon from 'cozy-ui/transpiled/react/Icons/Restore'
+import SchoolIcon from 'cozy-ui/transpiled/react/Icons/School'
+import ShopIcon from 'cozy-ui/transpiled/react/Icons/Shop'
 
 import {
   AIR_MODE,
