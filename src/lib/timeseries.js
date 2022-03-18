@@ -3,6 +3,7 @@ import keyBy from 'lodash/keyBy'
 import sortBy from 'lodash/sortBy'
 import fromPairs from 'lodash/fromPairs'
 import toPairs from 'lodash/toPairs'
+import get from 'lodash/get'
 
 import { computeCO2Section } from 'src/lib/metrics'
 import { getSectionsFromTrip } from 'src/lib/trips'
@@ -188,9 +189,14 @@ export const sortTimeseriesByCO2GroupedByMode = aggregatedTimeseries => {
 // Purpose usages
 
 export const getTimeseriePurpose = timeserie => {
-  const manualPurpose = timeserie.series[0].properties.manual_purpose
+  const manualPurpose = get(
+    timeserie,
+    'series[0].properties.manual_purpose',
+    ''
+  ).toUpperCase()
+  const isSupportedPurpose = purposes.includes(manualPurpose)
 
-  return (manualPurpose && manualPurpose.toUpperCase()) || OTHER_PURPOSE
+  return (isSupportedPurpose && manualPurpose) || OTHER_PURPOSE
 }
 
 /**

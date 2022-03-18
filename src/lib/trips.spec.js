@@ -140,12 +140,12 @@ describe('getFeatureMode', () => {
   it('should return the manual mode if present', () => {
     const result = getFeatureMode({
       properties: {
-        manual_mode: 'BIKE',
+        manual_mode: 'BICYCLING',
         sensed_mode: 'PredictedModeTypes.CAR'
       }
     })
 
-    expect(result).toBe('BIKE')
+    expect(result).toBe('BICYCLING')
   })
 
   it('should return the sensed mode if no manual mode', () => {
@@ -184,6 +184,39 @@ describe('getFeatureMode', () => {
   it('should return the default mode for undefined manual and sensed mode', () => {
     const result = getFeatureMode({
       properties: { manual_mode: undefined, sensed_mode: undefined }
+    })
+
+    expect(result).toBe('UNKNOWN')
+  })
+
+  it('should return sensed mode when manual mode is not supported', () => {
+    const result = getFeatureMode({
+      properties: {
+        manual_mode: 'NOT_SUPPORTED_MODE',
+        sensed_mode: 'PredictedModeTypes.CAR'
+      }
+    })
+
+    expect(result).toBe('CAR')
+  })
+
+  it('should return the default mode when manual mode and sensed mode are not supported', () => {
+    const result = getFeatureMode({
+      properties: {
+        manual_mode: 'NOT_SUPPORTED_MODE',
+        sensed_mode: 'PredictedModeTypes.NOT_SUPPORTED_MODE'
+      }
+    })
+
+    expect(result).toBe('UNKNOWN')
+  })
+
+  it('should return the default mode when manual mode is not supported and sensed mode has incorrect value', () => {
+    const result = getFeatureMode({
+      properties: {
+        manual_mode: 'NOT_SUPPORTED_MODE',
+        sensed_mode: 'UNCORRECT_FORMATED_VALUE'
+      }
     })
 
     expect(result).toBe('UNKNOWN')

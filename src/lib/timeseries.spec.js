@@ -479,4 +479,18 @@ describe('getTimeseriePurpose', () => {
 
     expect(result).toBe('OTHER_PURPOSE')
   })
+
+  it('should return other purpose when not supported', () => {
+    const result = getTimeseriePurpose({
+      series: [{ properties: { manual_purpose: 'NOT_SUPPORTED_PURPOSE' } }]
+    })
+    expect(result).toBe('OTHER_PURPOSE')
+  })
+
+  it('should return other purpose when empty string', () => {
+    const result = getTimeseriePurpose({
+      series: [{ properties: { manual_purpose: '' } }]
+    })
+    expect(result).toBe('OTHER_PURPOSE')
+  })
 })
