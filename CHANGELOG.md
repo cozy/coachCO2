@@ -5,6 +5,7 @@
 ## 🐛 Bug Fixes
 
 * No blinking on analysis pages if more than 1000 travels
+* Correctly handle not supported purposes
 
 ## 🔧 Tech
 
