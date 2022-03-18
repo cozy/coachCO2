@@ -65,14 +65,23 @@ export const getFormattedTripDistance = trip => {
  * @returns The feature's mode depending on whether it has been changed manually
  */
 export const getFeatureMode = feature => {
-  const manualMode = get(feature, 'properties.manual_mode')
-  const sensedOriginalMode = get(feature, 'properties.sensed_mode')
+  const manualMode = get(feature, 'properties.manual_mode', '').toUpperCase()
+  const sensedOriginalMode = get(
+    feature,
+    'properties.sensed_mode',
+    ''
+  ).toUpperCase()
 
-  const sensedMode =
-    sensedOriginalMode && sensedOriginalMode.split('PredictedModeTypes.')[1]
+  const isSupportedManualMode = modes.includes(manualMode)
+
+  const sensedMode = sensedOriginalMode.split('PREDICTEDMODETYPES.')[1]
   const isSupportedSensedMode = modes.includes(sensedMode)
 
-  return manualMode || (isSupportedSensedMode && sensedMode) || UNKNOWN_MODE
+  return (
+    (isSupportedManualMode && manualMode) ||
+    (isSupportedSensedMode && sensedMode) ||
+    UNKNOWN_MODE
+  )
 }
 
 const getFeatureModes = feature => {
