@@ -1,10 +1,8 @@
 # 0.6.0
 
-## ✨ Features
-
-## 🐛 Bug Fixes
-
 ## 🔧 Tech
+
+* Add app descriptions in the manifest for the Store
 
 # 0.5.0
 

@@ -8,9 +8,23 @@
   "editor": "Cozy Cloud",
   "source": "https://github.com/cozy/coachCO2.git@build",
   "developer": {
-    "name": "cozy",
-    "url": ""
+    "name": "Cozy Cloud",
+    "url": "https://cozy.io"
   },
+  "default_locale": "fr",
+    "locales": {
+    "en": {
+      "short_description": "CoachCO2 is a self data application developed within the framework of the territory of La Rochelle and the Agremob.",
+      "long_description": "Its ambition is to **help you** :\n- to **become aware of the issues** related to mobility,\n- to **question your travel habits**,\n- and **find more sustainable alternatives** (yes it is possible!).\n\nAll this in complete confidentiality, as always in your Cozy: **only you have the right to access your data**, and you have the control to share it with whomever you want, whenever and if YOU want.\n\nIts objective is also to **enable the emergence of new ecomobility projects or offers** thanks to the expertise of the program's partner structures.\n\n&nbsp;\n\nToday this application forms a duo with **the mobile application TraceMob** whose connector, also present in the store of your Personal Cloud, collects and saves your mobility tracks at home.\n\nTomorrow **other sensors will complete your data**. The application, itself under development, is today focused on mobility, tomorrow other sources of CO2 may extend its scope.\n\n&nbsp;\n\n[Agremob](https://agremob.com/) makes this application **a common good** that can be used beyond the borders of the La Rochelle agglomeration. If your Cozy's host does not offer it in its own store, contact them!",
+      "changes": ""
+    },
+    "fr": {
+      "short_description": "CoachCO2 est une application de self data développée dans le cadre du territoire de la Rochelle et du programme Agremob.",
+      "long_description": "Elle a pour ambition de **vous aider** :\n- à **prendre conscience des enjeux** liés à la mobilité,\n- à **questionner vos habitudes** de déplacements,\n- et **trouver des alternatives** plus durables (oui c’est possible !).\n\nCeci en toute confidentialité, comme toujours dans votre Cozy : **vous êtes le seul à avoir le droit d'accéder à vos données**, et vous avez le contrôle de les partager avec qui vous vous voulez, quand et si VOUS le souhaitez.\n\nSon objectif est aussi de **permettre l’émergence de nouveaux projets ou offres d’écomobilité** grâce à l’expertise de structures partenaires du programme.\n\n&nbsp;\n\nAujourd'hui cette application forme un duo avec **l'application mobile TraceMob** dont le connecteur, présent aussi dans le store de votre Cloud Personnel, collecte et sauvegarde vos traces de mobilité chez vous.\n\nDemain **d'autres capteurs compléteront vos données**. L'application, elle-même en cours de développement, est aujourd'hui tournée vers la mobilité, demain d'autres sources de CO2 pourront étendre son champ d'action.\n\n&nbsp;\n\n[Agremob](https://agremob.com/) fait de cette application **un bien commun** utilisable au-delà des frontières de l'agglomération de la Rochelle. Si l'hébergeur de votre Cozy ne la propose pas dans son propre store, contactez-le !",
+      "changes": ""
+    }
+  },
+  "langs": ["fr", "en"],
   "routes": {
     "/": {
       "folder": "/",
