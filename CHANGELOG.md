@@ -3,6 +3,7 @@
 ## 🔧 Tech
 
 * Add app descriptions in the manifest for the Store
+* Add a message on the trips page if no tracemob account or no trip
 
 # 0.5.0
 
