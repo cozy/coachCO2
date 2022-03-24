@@ -50,6 +50,8 @@ const AccountProvider = ({ children }) => {
     selectedAccount
   )
 
+  const isAccountLoading = isSettingsQueryLoading || isAccountQueryLoading
+
   const setAccount = useCallback(
     account => {
       saveAccountToSettings({ client, setting: settings[0], account })
@@ -59,8 +61,13 @@ const AccountProvider = ({ children }) => {
   )
 
   const value = useMemo(
-    () => ({ accounts, account: selectedAccount, setAccount }),
-    [accounts, selectedAccount, setAccount]
+    () => ({
+      accounts,
+      account: selectedAccount,
+      setAccount,
+      isAccountLoading
+    }),
+    [accounts, isAccountLoading, selectedAccount, setAccount]
   )
 
   useEffect(() => {

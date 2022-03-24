@@ -1,6 +1,12 @@
 import React, { useMemo } from 'react'
 
-import { hasQueryBeenLoaded, isQueryLoading, useQuery } from 'cozy-client'
+import {
+  hasQueryBeenLoaded,
+  isQueryLoading,
+  useQuery,
+  useClient
+} from 'cozy-client'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
@@ -13,10 +19,13 @@ import {
   useAccountContext,
   getAccountLabel
 } from 'src/components/Providers/AccountProvider'
+import EmptyContent from 'src/components/EmptyContent'
 
 export const Trips = () => {
-  const { accounts, account } = useAccountContext()
+  const { account, isAccountLoading } = useAccountContext()
   const { t } = useI18n()
+  const client = useClient()
+  const { isMobile } = useBreakpoints()
 
   const timeseriesQuery = buildTimeseriesQueryByAccountId({
     accountId: account?._id,
@@ -41,14 +50,34 @@ export const Trips = () => {
     return []
   }, [timeseriesQueryResult])
 
+  if (isAccountLoading) {
+    return (
+      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
+    )
+  }
+
+  if (!account) {
+    return (
+      <>
+        {isMobile && <Titlebar label={client.appMetadata.slug} />}
+        <EmptyContent />
+      </>
+    )
+  }
+
   if (isLoadingTimeseriesQuery) {
     return (
       <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
     )
   }
 
-  if (!accounts || accounts.length === 0) {
-    return <p>{t('account.notFound')}</p>
+  if (timeseriesQueryResult.length === 0) {
+    return (
+      <>
+        {isMobile && <Titlebar label={client.appMetadata.slug} />}
+        <EmptyContent />
+      </>
+    )
   }
 
   return (

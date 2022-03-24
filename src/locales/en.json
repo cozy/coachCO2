@@ -6,9 +6,6 @@
     "purposes": "Purpose of travel",
     "settings": "Settings"
   },
-  "account": {
-    "notFound": "No account found"
-  },
   "folder": {
     "administrative": "Administrative",
     "coachco2": "Coach CO2"
@@ -73,5 +70,9 @@
         "progress": "The export of your trips is in progress, please wait..."
       }
     }
+  },
+  "empty": {
+    "title": "Add your trips",
+    "text": "This application is in experimental phase. It works at this stage only if you are a user of the mobile application \"TraceMob\" and that you have configured the connector in your Cozy."
   }
 }

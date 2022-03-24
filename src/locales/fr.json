@@ -6,9 +6,6 @@
     "purposes": "Motif de déplacement",
     "settings": "Paramètres"
   },
-  "account": {
-    "notFound": "Aucun compte trouvé"
-  },
   "folder": {
     "administrative": "Administratif",
     "coachco2": "Coach CO2"
@@ -73,5 +70,9 @@
         "progress": "L’export de vos déplacements est en cours, merci de patienter..."
       }
     }
+  },
+  "empty": {
+    "title": "Ajoutez vos trajets",
+    "text": "Cette application est en phase expérimentale. Elle fonctionne à ce stade uniquement si vous êtes utilisateur de l'application mobile \"TraceMob\" et que vous en avez configuré le connecteur dans votre Cozy."
   }
 }
