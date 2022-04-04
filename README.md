@@ -1,5 +1,5 @@
-[![Travis build status shield](https://img.shields.io/travis/cozy/coachco2/master.svg)](https://travis-ci.org/cozy/coachco2)
-[![Github Release version shield](https://img.shields.io/github/tag/cozy/coachco2.svg)](https://github.com/cozy/coachco2/releases)
+[![Travis build status shield](https://img.shields.io/travis/cozy/coachCO2/master.svg)](https://travis-ci.org/cozy/coachCO2)
+[![Github Release version shield](https://img.shields.io/github/tag/cozy/coachCO2.svg)](https://github.com/cozy/coachCO2/releases)
 [![jest](https://facebook.github.io/jest/img/jest-badge.svg)](https://github.com/facebook/jest)
 
 
@@ -16,7 +16,7 @@ Hacking the Cozy Coach CO2 app requires you to [setup a dev environment][setup].
 You can then clone the app repository and install dependencies:
 
 ```sh
-$ git clone https://github.com/cozy/coachco2.git
+$ git clone https://github.com/cozy/coachCO2.git
 $ cd coachco2
 $ yarn install
 ```
@@ -99,7 +99,7 @@ Cozy ships a [built-in list of `doctypes`][doctypes] for representation of most 
 
 This application use [geoJSON][geojsonWikipedia] object inside [timeseries][timeseries] from `io.cozy.timeseries.geojson` doctype.
 
-So the doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series` prop (aka `doc.series`) stores `geoJSON` objects, called `trips`. Each `trips` may have `sections` stores in `features` prop (aka `doc.series[x].features`).
+The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series` prop (aka `doc.series`) stores `geoJSON` objects, called `trips`. Each `trips` may have `sections` stores in `features` prop (aka `doc.series[x].features`).
 
 ```jsonc
 { // timeserie
