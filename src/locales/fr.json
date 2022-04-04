@@ -74,5 +74,29 @@
   "empty": {
     "title": "Ajoutez vos trajets",
     "text": "Cette application est en phase expérimentale. Elle fonctionne à ce stade uniquement si vous êtes utilisateur de l'application mobile \"TraceMob\" et que vous en avez configuré le connecteur dans votre Cozy."
+  },
+  "manifest": {
+    "short_description": "Conservez l'historique de vos déplacements et analysez leurs impacts sur l'environnement.",
+    "long_description": "CoachCO2 est une application de self data développée dans le cadre du **territoire de la Rochelle** et du programme [Agremob](https://agremob.com/).\n\n&nbsp;\n\nElle a pour ambition de **vous aider** :\n- à **prendre conscience des enjeux** liés à la mobilité,\n- à **questionner vos habitudes** de déplacements,\n- et **trouver des alternatives** plus durables (oui c’est possible !).\n\nCeci en toute confidentialité, comme toujours dans votre Cozy : **vous êtes le seul à avoir le droit d'accéder à vos données**, et vous avez le contrôle de les partager avec qui vous vous voulez, quand et si VOUS le souhaitez.\n\nSon objectif est aussi de **permettre l’émergence de nouveaux projets ou offres d’écomobilité** grâce à l’expertise de structures partenaires du programme.\n\n&nbsp;\n\nAujourd'hui cette application forme un duo avec **l'application mobile TraceMob** dont le connecteur, présent aussi dans le store de votre Cloud Personnel, collecte et sauvegarde vos traces de mobilité chez vous.\n\nDemain **d'autres capteurs compléteront vos données**. L'application, elle-même en cours de développement, est aujourd'hui tournée vers la mobilité, demain d'autres sources de CO2 pourront étendre son champ d'action.\n\n&nbsp;\n\n[Agremob](https://agremob.com/) fait de cette application **un bien commun** utilisable au-delà des frontières de l'agglomération de la Rochelle. Si l'hébergeur de votre Cozy ne la propose pas dans son propre store, contactez-le !",
+    "permissions": {
+      "apps": {
+        "description": "Utilisé par la cozy-bar pour afficher les icônes des applications"
+      },
+      "settings": {
+        "description": "Utilisé par le cozy-bar pour afficher Claudy et savoir quelles applications sont à venir"
+      },
+      "accounts": {
+        "description": "Utilisé pour obtenir un compte konnector"
+      },
+      "files": {
+        "description": "Utilisé pour accéder aux fichiers de sauvegarde de votre exportation de voyages"
+      },
+      "geojson-timeseries": {
+        "description": "Utilisé pour afficher les séries temporelles geojson"
+      },
+      "coachco2.settings": {
+        "description": "Utilisé pour gérer les paramètres de votre Coach CO2"
+      }
+    }
   }
 }
