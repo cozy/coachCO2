@@ -4,6 +4,8 @@
 
 ## 🐛 Bug Fixes
 
+* Locales when installing the app the first time
+
 ## 🔧 Tech
 
 # 0.6.0
