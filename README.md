@@ -103,26 +103,93 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
 
 ```jsonc
 { // timeserie
-  "series": [ // only one serie here
-    { // geoJSON
+  "series": [ // only one serie here, including GeoJSON content
+    {
+      // trip description
+      "type": "FeatureCollection",
+      "properties": {
+        "start_fmt_time": "2022-04-02T16:00:13",
+        "end_fmt_time": "2022-04-02T16:13:09",
+        "duration": 776, // duration in seconds
+        "distance": 3245, // distance in meters
+        "start_loc": { // starting point coordinates
+          "type": "Point",
+          "coordinates": [
+            -0.8119085,
+            46.4536633
+          ]
+        },
+        "end_loc": { // ending point coordinates
+          "type": "Point",
+          "coordinates": [
+            -0.8119085,
+            46.4536633
+          ]
+        },
+        "start_place": {
+          "$oid": "6248ec5d5d25e718233a5099"
+        },
+        "end_place": {
+          "$oid": "6248ec5e5d25e718233a509a"
+        },
+        "confidence_threshold": 0.65,
+      },
       "features": [
-        { // start position
+        { // starting place
           "type": "Feature",
-          "properties": { "feature_type": "start_place" }
+          "geometry": {
+            "type": "Point",
+            "coordinates": [-0.8119085, 46.4536633]
+          },
+          "id": "6248ec5d5d25e718264a4099",
+          "properties": {
+            "feature_type": "start_place",
+            "display_name": "Avenue Jean Guiton, La Rochelle",
+            "enter_fmt_time": "2022-04-02T14:56:05", // Arrival at the starting place
+            "exit_fmt_time": "2022-04-02T16:00:13", // Departure from the starting place
+            "duration": 3848.2966425418854, // Duration spent at the starting place
+          }
         },
-        { // end position
+        { // ending place
           "type": "Feature",
-          "properties": { "feature_type": "end_place" }
+          "geometry": {
+            "type": "Point",
+            "coordinates": [-0.7519085, 46.4536633]
+          },
+          "id": "6248ec5e5d25e718264a409a",
+          "properties": {
+            "feature_type": "end_place",
+            "display_name": "Rue Ampère, La Rochelle",
+            "enter_fmt_time": "2022-04-02T16:13:09", // Arrival at the ending place
+          }
         },
-        { // section
+        { // section description
           "type": "FeatureCollection",
           "features": [ // only one feature here
             {
-              "type": "Feature"
+              "type": "Feature",
+              "geometry": {
+                "type": "LineString",
+                "coordinates": [...] // List of section coordinates
+              },
+              "id": "6248ec535d25e718264a4073",
+              "properties": {
+                "times": [...], // List of times, in seconds
+                "timestamps": [...], // List of timestamps, in ms
+                "start_fmt_time": "2022-04-02T16:00:13",
+                "end_fmt_time": "2022-04-02T16:13:09",
+                "duration": 776, // Section duration, in seconds
+                "speeds": [...], // List of speeds, in m/s
+                "distances": [...], // List of distances, in meters
+                "distance": 4948, // Section's total distance, in meters
+                "sensed_mode": "PredictedModeTypes.CAR", // Detected mode
+                "feature_type": "section",
+                "source": "SmoothedHighConfidenceMotion"
+              }
             }
           ]
         }
-      ]
+      ],
     }
   ]
 }
