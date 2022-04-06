@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 
-import { getEndPlaceDisplayName } from 'src/lib/trips'
+import { getEndPlaceDisplayName } from 'src/lib/timeseries'
 import TripMap from 'src/components/Trip/TripMap'
 import BottomSheetHeader from 'src/components/Trip/BottomSheet/BottomSheetHeader'
 import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
@@ -19,8 +19,7 @@ const styles = {
   }
 }
 
-const TripDialogDesktop = ({ timeserie, trip, setShowTripDialog }) => {
-  const title = useMemo(() => getEndPlaceDisplayName(trip), [trip])
+const TripDialogDesktop = ({ timeserie, setShowTripDialog }) => {
   const hideModal = useCallback(() => setShowTripDialog(false), [
     setShowTripDialog
   ])
@@ -30,7 +29,7 @@ const TripDialogDesktop = ({ timeserie, trip, setShowTripDialog }) => {
       <Dialog
         open={true}
         onClose={hideModal}
-        title={title}
+        title={getEndPlaceDisplayName(timeserie)}
         size="large"
         content={
           <>

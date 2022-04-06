@@ -16,7 +16,6 @@ import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import { PurposeAvatar } from 'src/components/Avatar'
 import {
-  getEndPlaceDisplayName,
   getFormattedDuration,
   getModesSortedByDistance,
   getFormattedTripDistance,
@@ -24,7 +23,10 @@ import {
   computeAndFormatCO2Trip,
   computeAndFormatCO2TripByMode
 } from 'src/lib/trips'
-import { transformTimeseriesToTrips } from 'src/lib/timeseries'
+import {
+  transformTimeseriesToTrips,
+  getEndPlaceDisplayName
+} from 'src/lib/timeseries'
 import { pickModeIcon } from 'src/components/helpers'
 import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
 import { OTHER_PURPOSE } from 'src/constants'
@@ -61,7 +63,6 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
   ])
 
   const purpose = get(trip, 'properties.manual_purpose', OTHER_PURPOSE)
-  const endPlace = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
   const modes = useMemo(() => getModesSortedByDistance(trip), [trip])
   const distance = useMemo(() => getFormattedTripDistance(trip), [trip])
@@ -83,10 +84,10 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
 
   const handleClick = useCallback(() => {
     if (isMobile) {
-      return history.push(`/trip/${trip.timeserieId}`)
+      return history.push(`/trip/${timeserie._id}`)
     }
     setShowTripDialog(true)
-  }, [history, isMobile, trip.timeserieId])
+  }, [history, isMobile, timeserie._id])
 
   return (
     <>
@@ -96,7 +97,7 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
           <PurposeAvatar attribute={purpose} />
         </ListItemIcon>
         <ListItemText
-          primary={endPlace}
+          primary={getEndPlaceDisplayName(timeserie)}
           secondary={
             <TripItemSecondary
               tripModeIcons={tripModeIcons}
@@ -114,7 +115,6 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
       {showTripDialog && (
         <TripDialogDesktop
           timeserie={timeserie}
-          trip={trip}
           setShowTripDialog={setShowTripDialog}
         />
       )}

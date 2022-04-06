@@ -249,3 +249,11 @@ export const getStartDate = timeserie => {
 export const getEndDate = timeserie => {
   return new Date(timeserie.endDate)
 }
+
+export const getStartPlaceDisplayName = timeserie => {
+  return get(timeserie, 'series[0].features[0].properties.display_name')
+}
+
+export const getEndPlaceDisplayName = timeserie => {
+  return get(timeserie, 'series[0].features[1].properties.display_name')
+}
