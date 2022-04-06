@@ -31,7 +31,7 @@ export const Trips = () => {
     accountId: account?._id,
     limitBy: 50
   })
-  const { data: timeseriesQueryResult, ...timeseriesQueryLeft } = useQuery(
+  const { data: timeseries, ...timeseriesQueryLeft } = useQuery(
     timeseriesQuery.definition,
     {
       ...timeseriesQuery.options,
@@ -44,11 +44,11 @@ export const Trips = () => {
     !hasQueryBeenLoaded(timeseriesQueryLeft)
 
   const trips = useMemo(() => {
-    if (Array.isArray(timeseriesQueryResult)) {
-      return transformTimeseriesToTrips(timeseriesQueryResult)
+    if (Array.isArray(timeseries)) {
+      return transformTimeseriesToTrips(timeseries)
     }
     return []
-  }, [timeseriesQueryResult])
+  }, [timeseries])
 
   if (isAccountLoading) {
     return (
@@ -71,7 +71,7 @@ export const Trips = () => {
     )
   }
 
-  if (timeseriesQueryResult.length === 0) {
+  if (timeseries.length === 0) {
     return (
       <>
         {isMobile && <Titlebar label={client.appMetadata.slug} />}
@@ -83,7 +83,7 @@ export const Trips = () => {
   return (
     <>
       <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />
-      <TripsList trips={trips} timeseries={timeseriesQueryResult} />
+      <TripsList trips={trips} timeseries={timeseries} />
       {timeseriesQueryLeft.hasMore && (
         <LoadMore
           label={t('loadMore')}
