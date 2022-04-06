@@ -26,7 +26,7 @@ const TripDialogDesktop = ({ timeserie, trip, setShowTripDialog }) => {
   ])
 
   return (
-    <TripProvider timeserie={timeserie} trip={trip}>
+    <TripProvider timeserie={timeserie}>
       <Dialog
         open={true}
         onClose={hideModal}

@@ -6,7 +6,6 @@ import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 import TripDialogMobile from 'src/components/Trip/TripDialogMobile'
 import { buildTimeserieQueryById } from 'src/queries/queries'
-import { transformTimeseriesToTrips } from 'src/lib/timeseries'
 import TripProvider from 'src/components/Providers/TripProvider'
 
 const Trip = () => {
@@ -19,14 +18,6 @@ const Trip = () => {
     timeserieQuery.options
   )
 
-  const trip = useMemo(() => {
-    if (!data || !data.length) {
-      return null
-    } else {
-      return transformTimeseriesToTrips(data)[0]
-    }
-  }, [data])
-
   const isLoading = isQueryLoading(tripQueryResult)
 
   if (isLoading) {
@@ -36,7 +27,7 @@ const Trip = () => {
   }
 
   return (
-    <TripProvider timeserie={data[0]} trip={trip}>
+    <TripProvider timeserie={data[0]}>
       <TripDialogMobile />
     </TripProvider>
   )
