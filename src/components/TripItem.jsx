@@ -49,7 +49,7 @@ const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
   )
 }
 
-export const TripItem = ({ geojson, trip, hasDateHeader }) => {
+export const TripItem = ({ timeserie, trip, hasDateHeader }) => {
   const { f } = useI18n()
   const history = useHistory()
   const { mode } = useParams()
@@ -106,7 +106,7 @@ export const TripItem = ({ geojson, trip, hasDateHeader }) => {
       <Divider />
       {showTripDialog && (
         <TripDialogDesktop
-          geojson={geojson}
+          timeserie={timeserie}
           trip={trip}
           setShowTripDialog={setShowTripDialog}
         />

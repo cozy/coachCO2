@@ -1,6 +1,6 @@
 import { createGeojsonWithModifiedMode } from './helpers'
 
-const geojson = {
+const timeserie = {
   series: [
     { type: 'FeatureCollection', features: [] },
     {
@@ -31,21 +31,21 @@ const geojson = {
 }
 
 describe('createGeojsonWithModifiedMode', () => {
-  it('should return the modified geojson', () => {
-    const modifiedGeojson = createGeojsonWithModifiedMode({
-      geojson,
+  it('should return the modified timeserie', () => {
+    const modifiedTimeserie = createGeojsonWithModifiedMode({
+      timeserie,
       sectionId: 'sectionId',
       mode: 'BUS'
     })
 
-    // to be sure initial geojson is not mutated
-    expect(geojson.series[1].features[1].features[1]).toMatchObject({
+    // to be sure initial timeserie is not mutated
+    expect(timeserie.series[1].features[1].features[1]).toMatchObject({
       properties: {
         sensed_mode: 'PredictedModeTypes.WALKING'
       }
     })
 
-    expect(modifiedGeojson.series[1].features[1].features[1]).toMatchObject({
+    expect(modifiedTimeserie.series[1].features[1].features[1]).toMatchObject({
       properties: {
         sensed_mode: 'PredictedModeTypes.WALKING',
         manual_mode: 'BUS'
@@ -53,13 +53,13 @@ describe('createGeojsonWithModifiedMode', () => {
     })
   })
 
-  it('should returns a not modified geojson', () => {
-    const modifiedGeojson = createGeojsonWithModifiedMode({
-      geojson,
+  it('should returns a not modified timeserie', () => {
+    const modifiedTimeserie = createGeojsonWithModifiedMode({
+      timeserie,
       sectionId: 'idNotFound',
       mode: 'BUS'
     })
 
-    expect(modifiedGeojson).toMatchObject(geojson)
+    expect(modifiedTimeserie).toMatchObject(timeserie)
   })
 })

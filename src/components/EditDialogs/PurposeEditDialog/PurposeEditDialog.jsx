@@ -23,19 +23,19 @@ const makeOptions = t => {
 const PurposeEditDialog = ({ onClose }) => {
   const { t } = useI18n()
   const client = useClient()
-  const { geojson, trip } = useTrip()
+  const { timeserie, trip } = useTrip()
 
   const handleSelect = useCallback(
     async item => {
-      const newGeojson = createGeojsonWithModifiedPurpose({
-        geojson,
+      const newTimeserie = createGeojsonWithModifiedPurpose({
+        timeserie,
         tripId: trip.id,
         purpose: item.id
       })
-      await client.save(newGeojson)
+      await client.save(newTimeserie)
       onClose()
     },
-    [client, geojson, onClose, trip.id]
+    [client, timeserie, onClose, trip.id]
   )
 
   const isSelected = useMemo(

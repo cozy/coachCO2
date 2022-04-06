@@ -19,14 +19,14 @@ const styles = {
   }
 }
 
-const TripDialogDesktop = ({ geojson, trip, setShowTripDialog }) => {
+const TripDialogDesktop = ({ timeserie, trip, setShowTripDialog }) => {
   const title = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const hideModal = useCallback(() => setShowTripDialog(false), [
     setShowTripDialog
   ])
 
   return (
-    <TripProvider geojson={geojson} trip={trip}>
+    <TripProvider timeserie={timeserie} trip={trip}>
       <Dialog
         open={true}
         onClose={hideModal}

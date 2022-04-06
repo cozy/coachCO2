@@ -1,8 +1,12 @@
 import set from 'lodash/set'
 import cloneDeep from 'lodash/cloneDeep'
 
-export const createGeojsonWithModifiedMode = ({ geojson, sectionId, mode }) => {
-  const matchedSection = geojson.series
+export const createGeojsonWithModifiedMode = ({
+  timeserie,
+  sectionId,
+  mode
+}) => {
+  const matchedSection = timeserie.series
     .flatMap((serie, serieIndex) => {
       return serie.features.flatMap((feature, firstIndex) => {
         if (feature.features) {
@@ -31,11 +35,11 @@ export const createGeojsonWithModifiedMode = ({ geojson, sectionId, mode }) => {
     )
 
     return set(
-      cloneDeep(geojson),
+      cloneDeep(timeserie),
       `series[${serieIndex}].features[${firstIndex}].features[${secondIndex}]`,
       modifiedFeature
     )
   }
 
-  return geojson
+  return timeserie
 }

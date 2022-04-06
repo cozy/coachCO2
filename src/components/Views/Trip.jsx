@@ -36,7 +36,7 @@ const Trip = () => {
   }
 
   return (
-    <TripProvider geojson={data[0]} trip={trip}>
+    <TripProvider timeserie={data[0]} trip={trip}>
       <TripDialogMobile />
     </TripProvider>
   )
