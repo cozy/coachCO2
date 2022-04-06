@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 
 import {
   hasQueryBeenLoaded,
@@ -13,7 +13,6 @@ import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
 
 import { buildTimeseriesQueryByAccountId } from 'src/queries/queries'
 import TripsList from 'src/components/TripsList'
-import { transformTimeseriesToTrips } from 'src/lib/timeseries'
 import Titlebar from 'src/components/Titlebar'
 import {
   useAccountContext,
@@ -42,13 +41,6 @@ export const Trips = () => {
   const isLoadingTimeseriesQuery =
     isQueryLoading(timeseriesQueryLeft) &&
     !hasQueryBeenLoaded(timeseriesQueryLeft)
-
-  const trips = useMemo(() => {
-    if (Array.isArray(timeseries)) {
-      return transformTimeseriesToTrips(timeseries)
-    }
-    return []
-  }, [timeseries])
 
   if (isAccountLoading) {
     return (
@@ -83,7 +75,7 @@ export const Trips = () => {
   return (
     <>
       <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />
-      <TripsList trips={trips} timeseries={timeseries} />
+      <TripsList timeseries={timeseries} />
       {timeseriesQueryLeft.hasMore && (
         <LoadMore
           label={t('loadMore')}

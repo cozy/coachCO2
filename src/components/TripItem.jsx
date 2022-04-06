@@ -24,6 +24,7 @@ import {
   computeAndFormatCO2Trip,
   computeAndFormatCO2TripByMode
 } from 'src/lib/trips'
+import { transformTimeseriesToTrips } from 'src/lib/timeseries'
 import { pickModeIcon } from 'src/components/helpers'
 import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
 import { OTHER_PURPOSE } from 'src/constants'
@@ -49,12 +50,15 @@ const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
   )
 }
 
-export const TripItem = ({ timeserie, trip, hasDateHeader }) => {
+export const TripItem = ({ timeserie, hasDateHeader }) => {
   const { f } = useI18n()
   const history = useHistory()
   const { mode } = useParams()
   const { isMobile } = useBreakpoints()
   const [showTripDialog, setShowTripDialog] = useState(false)
+  const trip = useCallback(transformTimeseriesToTrips([timeserie])[0], [
+    timeserie
+  ])
 
   const purpose = get(trip, 'properties.manual_purpose', OTHER_PURPOSE)
   const endPlace = useMemo(() => getEndPlaceDisplayName(trip), [trip])
@@ -119,7 +123,7 @@ export const TripItem = ({ timeserie, trip, hasDateHeader }) => {
 }
 
 TripItem.propTypes = {
-  trip: PropTypes.object.isRequired,
+  timeserie: PropTypes.object.isRequired,
   hasDateHeader: PropTypes.bool.isRequired
 }
 

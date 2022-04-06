@@ -241,3 +241,11 @@ export const sortTimeseriesByCO2GroupedByPurpose = aggregatedTimeseries => {
 
   return sortGroupedTimeseries(timeseriesByPurposes, OTHER_PURPOSE)
 }
+
+export const getStartDate = timeserie => {
+  return new Date(timeserie.startDate)
+}
+
+export const getEndDate = timeserie => {
+  return new Date(timeserie.endDate)
+}
