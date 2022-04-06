@@ -10,8 +10,7 @@ import Box from 'cozy-ui/transpiled/react/Box'
 import {
   computeAggregatedTimeseries,
   sortTimeseriesByCO2GroupedByMode,
-  computeCO2Timeseries,
-  transformTimeseriesToTrips
+  computeCO2Timeseries
 } from 'src/lib/timeseries'
 import { formatCO2 } from 'src/lib/trips'
 import { makeChartProps } from 'src/components/Analysis/helpers'
@@ -40,16 +39,15 @@ const LoadedModesList = ({ timeseries }) => {
     [t, timeseriesSortedByModes]
   )
 
-  const trips = useMemo(() => {
-    if (mode) {
-      return transformTimeseriesToTrips(
-        timeseriesSortedByModes[mode].timeseries
-      ).sort((a, b) =>
-        a.properties.start_fmt_time.localeCompare(b.properties.start_fmt_time)
-      )
-    }
-    return []
-  }, [mode, timeseriesSortedByModes])
+  const tripsListTimeseries = useMemo(
+    () =>
+      mode
+        ? timeseriesSortedByModes[mode].timeseries.sort((a, b) =>
+            a.startDate.localeCompare(b.startDate)
+          )
+        : [],
+    [mode, timeseriesSortedByModes]
+  )
 
   if (!mode) {
     return (
@@ -87,10 +85,7 @@ const LoadedModesList = ({ timeseries }) => {
 
   return (
     <div className="u-mt-2">
-      <TripsList
-        trips={trips}
-        timeseries={timeseriesSortedByModes[mode].timeseries}
-      />
+      <TripsList timeseries={tripsListTimeseries} />
     </div>
   )
 }

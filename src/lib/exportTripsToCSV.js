@@ -12,8 +12,8 @@ import {
   getEndPlaceDisplayName,
   getPurpose,
   getSectionsFromTrip,
-  getStartDate,
-  getEndDate
+  getTripStartDate,
+  getTripEndDate
 } from 'src/lib/trips'
 import { COLUMNS_NAMES_CSV } from 'src/constants'
 import { transformTimeseriesToTrips } from 'src/lib/timeseries'
@@ -64,8 +64,8 @@ const makeTripsForExport = trips => {
       }
       const tripData = {
         [COLUMNS_NAMES_CSV.tripId]: trip.id,
-        [COLUMNS_NAMES_CSV.tripStartDate]: getStartDate(trip),
-        [COLUMNS_NAMES_CSV.tripEndDate]: getEndDate(trip),
+        [COLUMNS_NAMES_CSV.tripStartDate]: getTripStartDate(trip),
+        [COLUMNS_NAMES_CSV.tripEndDate]: getTripEndDate(trip),
         [COLUMNS_NAMES_CSV.tripStartDisplayName]: getStartPlaceDisplayName(
           trip
         ),

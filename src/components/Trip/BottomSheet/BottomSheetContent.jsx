@@ -9,13 +9,12 @@ import { BottomSheetItem } from 'cozy-ui/transpiled/react/BottomSheet'
 
 import TimelineNode from 'src/components/Timeline/TimelineNode'
 import TimelineSections from 'src/components/Timeline/TimelineSections'
+import { getTripStartDate, getTripEndDate, formatDate } from 'src/lib/trips'
 import {
-  getStartPlaceDisplayName,
   getEndPlaceDisplayName,
-  getStartDate,
-  getEndDate,
-  formatDate
-} from 'src/lib/trips'
+  getStartPlaceDisplayName,
+  getGeoJSONData
+} from 'src/lib/timeseries'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import PurposeItem from 'src/components/Trip/BottomSheet/PurposeItem'
 import PurposeEditDialog from 'src/components/EditDialogs/PurposeEditDialog'
@@ -28,18 +27,17 @@ const styles = {
 
 const BottomSheetContent = () => {
   const { f, lang } = useI18n()
-  const { trip } = useTrip()
+  const { timeserie } = useTrip()
   const { isDesktop } = useBreakpoints()
   const [showPurposeDialog, setShowPurposeDialog] = useState(false)
+  const trip = getGeoJSONData(timeserie)
 
-  const startPlaceName = useMemo(() => getStartPlaceDisplayName(trip), [trip])
-  const endPlaceName = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const startTime = useMemo(
-    () => formatDate({ f, lang, date: getStartDate(trip) }),
+    () => formatDate({ f, lang, date: getTripStartDate(trip) }),
     [f, lang, trip]
   )
   const endTime = useMemo(
-    () => formatDate({ f, lang, date: getEndDate(trip) }),
+    () => formatDate({ f, lang, date: getTripEndDate(trip) }),
     [f, lang, trip]
   )
   const purpose = useMemo(() => trip?.properties?.manual_purpose, [
@@ -54,12 +52,16 @@ const BottomSheetContent = () => {
       <BottomSheetItem disableGutters>
         <Timeline className="u-pb-0 u-mb-0">
           <TimelineNode
-            label={startPlaceName}
+            label={getStartPlaceDisplayName(timeserie)}
             endLabel={startTime}
             type="start"
           />
           <TimelineSections />
-          <TimelineNode label={endPlaceName} endLabel={endTime} type="end" />
+          <TimelineNode
+            label={getEndPlaceDisplayName(timeserie)}
+            endLabel={endTime}
+            type="end"
+          />
         </Timeline>
       </BottomSheetItem>
       {/* TODO: Remove the Divider when we have the real desktop view */}

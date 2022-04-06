@@ -9,6 +9,7 @@ import { createGeojsonWithModifiedPurpose } from 'src/components/EditDialogs/Pur
 import { PurposeAvatar } from 'src/components/Avatar'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import { OTHER_PURPOSE } from 'src/constants'
+import { getGeoJSONData, getManualPurpose } from 'src/lib/timeseries'
 
 const makeOptions = t => {
   const options = purposes.map(purpose => ({
@@ -23,29 +24,29 @@ const makeOptions = t => {
 const PurposeEditDialog = ({ onClose }) => {
   const { t } = useI18n()
   const client = useClient()
-  const { geojson, trip } = useTrip()
+  const { timeserie } = useTrip()
 
   const handleSelect = useCallback(
     async item => {
-      const newGeojson = createGeojsonWithModifiedPurpose({
-        geojson,
-        tripId: trip.id,
+      const newTimeserie = createGeojsonWithModifiedPurpose({
+        timeserie,
+        tripId: getGeoJSONData(timeserie).id,
         purpose: item.id
       })
-      await client.save(newGeojson)
+      await client.save(newTimeserie)
       onClose()
     },
-    [client, geojson, onClose, trip.id]
+    [client, timeserie, onClose]
   )
 
   const isSelected = useMemo(
     () => item => {
-      const manualPurpose = trip.properties.manual_purpose
+      const manualPurpose = getManualPurpose(timeserie)
       return manualPurpose
         ? item.id === manualPurpose
         : item.id === OTHER_PURPOSE
     },
-    [trip.properties.manual_purpose]
+    [timeserie]
   )
 
   return (

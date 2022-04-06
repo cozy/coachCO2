@@ -7,12 +7,14 @@ import { formatDate, getSectionsFormatedFromTrip } from 'src/lib/trips.js'
 import { pickModeIcon } from 'src/components/helpers'
 import ModeEditDialog from 'src/components/EditDialogs/ModeEditDialog'
 import { useTrip } from 'src/components/Providers/TripProvider'
+import { getGeoJSONData } from 'src/lib/timeseries'
 
 const TimelineSections = () => {
-  const { trip } = useTrip()
+  const { timeserie } = useTrip()
   const { t, f, lang } = useI18n()
   const [showModal, setShowModal] = useState(false)
   const [section, setSection] = useState(null)
+  const trip = getGeoJSONData(timeserie)
 
   const formatedSections = useMemo(
     () => getSectionsFormatedFromTrip(trip, lang),

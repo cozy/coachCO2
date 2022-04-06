@@ -5,28 +5,26 @@ import isSameDay from 'date-fns/is_same_day'
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 
 import TripItem from 'src/components/TripItem'
-import { getStartDate } from 'src/lib/trips'
+import { getStartDate } from 'src/lib/timeseries'
 
-export const TripsList = ({ trips, timeseries }) => {
+export const TripsList = ({ timeseries }) => {
   const hasDateHeader = useCallback(
-    (trip, idx) =>
-      idx === 0 || !isSameDay(getStartDate(trip), getStartDate(trips[idx - 1])),
-    [trips]
-  )
-
-  const getGeojson = useCallback(
-    trip => timeseries.find(e => e._id === trip.timeserieId),
+    (timeserie, index) => {
+      return (
+        index === 0 ||
+        !isSameDay(getStartDate(timeserie), getStartDate(timeseries[index - 1]))
+      )
+    },
     [timeseries]
   )
 
   return (
     <List>
-      {trips.map((trip, idx) => (
+      {timeseries.map((timeserie, index) => (
         <TripItem
-          key={`${trip.id}${idx}`}
-          geojson={getGeojson(trip)}
-          trip={trip}
-          hasDateHeader={hasDateHeader(trip, idx)}
+          key={`${timeserie.id}${index}`}
+          timeserie={timeserie}
+          hasDateHeader={hasDateHeader(timeserie, index)}
         />
       ))}
     </List>
@@ -34,8 +32,7 @@ export const TripsList = ({ trips, timeseries }) => {
 }
 
 TripsList.propTypes = {
-  trips: PropTypes.arrayOf(PropTypes.object).isRequired,
-  timeseries: PropTypes.arrayOf(PropTypes.object)
+  timeseries: PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
 export default TripsList

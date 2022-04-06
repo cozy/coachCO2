@@ -1,6 +1,6 @@
 import { createGeojsonWithModifiedPurpose } from './helpers'
 
-const geojson = {
+const timeserie = {
   series: [
     {
       type: 'FeatureCollection',
@@ -24,48 +24,54 @@ const geojson = {
 }
 
 describe('createGeojsonWithModifiedPurpose', () => {
-  it('should return the modified geojson', () => {
-    const modifiedGeojson = createGeojsonWithModifiedPurpose({
-      geojson,
+  it('should return the modified timeserie', () => {
+    const modifiedTimeserie = createGeojsonWithModifiedPurpose({
+      timeserie,
       tripId: 'tripId',
       purpose: 'SHOPPING'
     })
 
-    // to be sure initial geojson is not mutated
-    expect(geojson.series[1].properties.manual_purpose).toBe('WORK')
+    // to be sure initial timeserie is not mutated
+    expect(timeserie.series[1].properties.manual_purpose).toBe('WORK')
     // to be sure other series are not impacted
-    expect(geojson.series[0].properties.manual_purpose).toBe('HOME')
+    expect(timeserie.series[0].properties.manual_purpose).toBe('HOME')
 
-    expect(modifiedGeojson.series[1].properties.manual_purpose).toBe('SHOPPING')
+    expect(modifiedTimeserie.series[1].properties.manual_purpose).toBe(
+      'SHOPPING'
+    )
   })
 
   it("should create the manual_purpose if it doesn't exist", () => {
-    const modifiedGeojson = createGeojsonWithModifiedPurpose({
-      geojson,
+    const modifiedTimeserie = createGeojsonWithModifiedPurpose({
+      timeserie,
       tripId: 'tripWithNoManualPurpose',
       purpose: 'SHOPPING'
     })
 
-    expect(modifiedGeojson.series[2].properties.manual_purpose).toBe('SHOPPING')
+    expect(modifiedTimeserie.series[2].properties.manual_purpose).toBe(
+      'SHOPPING'
+    )
   })
 
-  it("should returns a not modified geojson if tripId doesn't exist", () => {
-    const modifiedGeojson = createGeojsonWithModifiedPurpose({
-      geojson,
+  it("should returns a not modified timeserie if tripId doesn't exist", () => {
+    const modifiedTimeserie = createGeojsonWithModifiedPurpose({
+      timeserie,
       tripId: 'idNotFound',
       purpose: 'SHOPPING'
     })
 
-    expect(modifiedGeojson).toMatchObject(geojson)
+    expect(modifiedTimeserie).toMatchObject(timeserie)
   })
 
   it('should create the purpose in upper case', () => {
-    const modifiedGeojson = createGeojsonWithModifiedPurpose({
-      geojson,
+    const modifiedTimeserie = createGeojsonWithModifiedPurpose({
+      timeserie,
       tripId: 'tripId',
       purpose: 'shopping'
     })
 
-    expect(modifiedGeojson.series[1].properties.manual_purpose).toBe('SHOPPING')
+    expect(modifiedTimeserie.series[1].properties.manual_purpose).toBe(
+      'SHOPPING'
+    )
   })
 })

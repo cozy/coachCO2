@@ -187,11 +187,11 @@ export const getSectionsFormatedFromTrip = (trip, lang) => {
   })
 }
 
-export const getStartDate = trip => {
+export const getTripStartDate = trip => {
   return new Date(trip.properties.start_fmt_time)
 }
 
-export const getEndDate = trip => {
+export const getTripEndDate = trip => {
   return new Date(trip.properties.end_fmt_time)
 }
 

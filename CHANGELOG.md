@@ -8,6 +8,8 @@
 
 ## 🔧 Tech
 
+* Refactor to fix https://github.com/cozy/coachCO2/issues/94 and first step to use only `timeserie` object in the application
+
 # 0.6.0
 
 ## 🔧 Tech

@@ -16,14 +16,17 @@ import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import { PurposeAvatar } from 'src/components/Avatar'
 import {
-  getEndPlaceDisplayName,
   getFormattedDuration,
   getModesSortedByDistance,
   getFormattedTripDistance,
-  getStartDate,
+  getTripStartDate,
   computeAndFormatCO2Trip,
   computeAndFormatCO2TripByMode
 } from 'src/lib/trips'
+import {
+  transformTimeseriesToTrips,
+  getEndPlaceDisplayName
+} from 'src/lib/timeseries'
 import { pickModeIcon } from 'src/components/helpers'
 import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
 import { OTHER_PURPOSE } from 'src/constants'
@@ -49,19 +52,24 @@ const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
   )
 }
 
-export const TripItem = ({ geojson, trip, hasDateHeader }) => {
+export const TripItem = ({ timeserie, hasDateHeader }) => {
   const { f } = useI18n()
   const history = useHistory()
   const { mode } = useParams()
   const { isMobile } = useBreakpoints()
   const [showTripDialog, setShowTripDialog] = useState(false)
+  const trip = useCallback(transformTimeseriesToTrips([timeserie])[0], [
+    timeserie
+  ])
 
   const purpose = get(trip, 'properties.manual_purpose', OTHER_PURPOSE)
-  const endPlace = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
   const modes = useMemo(() => getModesSortedByDistance(trip), [trip])
   const distance = useMemo(() => getFormattedTripDistance(trip), [trip])
-  const day = useMemo(() => f(getStartDate(trip), 'dddd DD MMMM'), [f, trip])
+  const day = useMemo(() => f(getTripStartDate(trip), 'dddd DD MMMM'), [
+    f,
+    trip
+  ])
 
   const formattedCO2 = useMemo(() => {
     if (mode) {
@@ -76,10 +84,10 @@ export const TripItem = ({ geojson, trip, hasDateHeader }) => {
 
   const handleClick = useCallback(() => {
     if (isMobile) {
-      return history.push(`/trip/${trip.timeserieId}`)
+      return history.push(`/trip/${timeserie._id}`)
     }
     setShowTripDialog(true)
-  }, [history, isMobile, trip.timeserieId])
+  }, [history, isMobile, timeserie._id])
 
   return (
     <>
@@ -89,7 +97,7 @@ export const TripItem = ({ geojson, trip, hasDateHeader }) => {
           <PurposeAvatar attribute={purpose} />
         </ListItemIcon>
         <ListItemText
-          primary={endPlace}
+          primary={getEndPlaceDisplayName(timeserie)}
           secondary={
             <TripItemSecondary
               tripModeIcons={tripModeIcons}
@@ -106,8 +114,7 @@ export const TripItem = ({ geojson, trip, hasDateHeader }) => {
       <Divider />
       {showTripDialog && (
         <TripDialogDesktop
-          geojson={geojson}
-          trip={trip}
+          timeserie={timeserie}
           setShowTripDialog={setShowTripDialog}
         />
       )}
@@ -116,7 +123,7 @@ export const TripItem = ({ geojson, trip, hasDateHeader }) => {
 }
 
 TripItem.propTypes = {
-  trip: PropTypes.object.isRequired,
+  timeserie: PropTypes.object.isRequired,
   hasDateHeader: PropTypes.bool.isRequired
 }
 

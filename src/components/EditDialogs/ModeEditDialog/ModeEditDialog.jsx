@@ -22,19 +22,19 @@ const makeOptions = t => {
 const ModeEditDialog = ({ section, onClose }) => {
   const { t } = useI18n()
   const client = useClient()
-  const { geojson } = useTrip()
+  const { timeserie } = useTrip()
 
   const handleSelect = useCallback(
     async item => {
-      const geojsonWithModifiedMode = createGeojsonWithModifiedMode({
-        geojson,
+      const newTimeserie = createGeojsonWithModifiedMode({
+        timeserie,
         sectionId: section.id,
         mode: item.id
       })
-      await client.save(geojsonWithModifiedMode)
+      await client.save(newTimeserie)
       onClose()
     },
-    [client, geojson, onClose, section.id]
+    [client, timeserie, onClose, section.id]
   )
 
   const isSelected = useMemo(() => item => item.id === section.mode, [
