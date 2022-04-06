@@ -20,7 +20,7 @@ import {
   getFormattedDuration,
   getModesSortedByDistance,
   getFormattedTripDistance,
-  getStartDate,
+  getTripStartDate,
   computeAndFormatCO2Trip,
   computeAndFormatCO2TripByMode
 } from 'src/lib/trips'
@@ -61,7 +61,10 @@ export const TripItem = ({ timeserie, trip, hasDateHeader }) => {
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
   const modes = useMemo(() => getModesSortedByDistance(trip), [trip])
   const distance = useMemo(() => getFormattedTripDistance(trip), [trip])
-  const day = useMemo(() => f(getStartDate(trip), 'dddd DD MMMM'), [f, trip])
+  const day = useMemo(() => f(getTripStartDate(trip), 'dddd DD MMMM'), [
+    f,
+    trip
+  ])
 
   const formattedCO2 = useMemo(() => {
     if (mode) {

@@ -12,8 +12,8 @@ import TimelineSections from 'src/components/Timeline/TimelineSections'
 import {
   getStartPlaceDisplayName,
   getEndPlaceDisplayName,
-  getStartDate,
-  getEndDate,
+  getTripStartDate,
+  getTripEndDate,
   formatDate
 } from 'src/lib/trips'
 import { useTrip } from 'src/components/Providers/TripProvider'
@@ -35,11 +35,11 @@ const BottomSheetContent = () => {
   const startPlaceName = useMemo(() => getStartPlaceDisplayName(trip), [trip])
   const endPlaceName = useMemo(() => getEndPlaceDisplayName(trip), [trip])
   const startTime = useMemo(
-    () => formatDate({ f, lang, date: getStartDate(trip) }),
+    () => formatDate({ f, lang, date: getTripStartDate(trip) }),
     [f, lang, trip]
   )
   const endTime = useMemo(
-    () => formatDate({ f, lang, date: getEndDate(trip) }),
+    () => formatDate({ f, lang, date: getTripEndDate(trip) }),
     [f, lang, trip]
   )
   const purpose = useMemo(() => trip?.properties?.manual_purpose, [

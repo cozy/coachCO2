@@ -5,12 +5,13 @@ import isSameDay from 'date-fns/is_same_day'
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 
 import TripItem from 'src/components/TripItem'
-import { getStartDate } from 'src/lib/trips'
+import { getTripStartDate } from 'src/lib/trips'
 
 export const TripsList = ({ trips, timeseries }) => {
   const hasDateHeader = useCallback(
     (trip, idx) =>
-      idx === 0 || !isSameDay(getStartDate(trip), getStartDate(trips[idx - 1])),
+      idx === 0 ||
+      !isSameDay(getTripStartDate(trip), getTripStartDate(trips[idx - 1])),
     [trips]
   )
 
