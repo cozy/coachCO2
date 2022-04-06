@@ -9,11 +9,13 @@ import {
   computeAndformatCaloriesTrip,
   computeAndFormatCO2Trip
 } from 'src/lib/trips'
+import { getGeoJSONData } from 'src/lib/timeseries'
 import { useTrip } from 'src/components/Providers/TripProvider'
 
 const BottomSheetHeader = () => {
-  const { trip } = useTrip()
+  const { timeserie } = useTrip()
   const { t } = useI18n()
+  const trip = getGeoJSONData(timeserie)
 
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
   const distance = useMemo(() => getFormattedTripDistance(trip), [trip])

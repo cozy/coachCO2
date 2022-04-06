@@ -10,6 +10,7 @@ import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import { useTrip } from 'src/components/Providers/TripProvider'
 import { bottomSheetSettings } from 'src/components/Trip/TripDialogMobileContent'
+import { getGeoJSONData } from 'src/lib/timeseries'
 
 import './tripmap.styl'
 
@@ -39,7 +40,7 @@ const makeGeoJsonOptions = theme => ({
 
 const TripMap = () => {
   const { isMobile } = useBreakpoints()
-  const { trip } = useTrip()
+  const { timeserie } = useTrip()
   const theme = useTheme()
   const mapRef = useRef()
   const geojsonRef = useRef()
@@ -74,7 +75,7 @@ const TripMap = () => {
       />
       <GeoJSON
         ref={geojsonRef}
-        data={trip}
+        data={getGeoJSONData(timeserie)}
         pointToLayer={pointToLayer}
         style={style}
       />

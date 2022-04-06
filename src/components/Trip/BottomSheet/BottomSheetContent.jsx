@@ -12,7 +12,8 @@ import TimelineSections from 'src/components/Timeline/TimelineSections'
 import { getTripStartDate, getTripEndDate, formatDate } from 'src/lib/trips'
 import {
   getEndPlaceDisplayName,
-  getStartPlaceDisplayName
+  getStartPlaceDisplayName,
+  getGeoJSONData
 } from 'src/lib/timeseries'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import PurposeItem from 'src/components/Trip/BottomSheet/PurposeItem'
@@ -26,9 +27,10 @@ const styles = {
 
 const BottomSheetContent = () => {
   const { f, lang } = useI18n()
-  const { trip, timeserie } = useTrip()
+  const { timeserie } = useTrip()
   const { isDesktop } = useBreakpoints()
   const [showPurposeDialog, setShowPurposeDialog] = useState(false)
+  const trip = getGeoJSONData(timeserie)
 
   const startTime = useMemo(
     () => formatDate({ f, lang, date: getTripStartDate(trip) }),

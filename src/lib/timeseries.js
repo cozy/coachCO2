@@ -257,3 +257,11 @@ export const getStartPlaceDisplayName = timeserie => {
 export const getEndPlaceDisplayName = timeserie => {
   return get(timeserie, 'series[0].features[1].properties.display_name')
 }
+
+export const getGeoJSONData = timeserie => {
+  return get(timeserie, 'series[0]')
+}
+
+export const getManualPurpose = timeserie => {
+  return get(timeserie, 'series[0].properties.manual_purpose')
+}
