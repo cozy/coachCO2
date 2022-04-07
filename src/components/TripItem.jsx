@@ -127,4 +127,6 @@ TripItem.propTypes = {
   hasDateHeader: PropTypes.bool.isRequired
 }
 
-export default TripItem
+export default React.memo(TripItem, (prevProps, nextProps) => {
+  return prevProps.timeserie._rev === nextProps.timeserie._rev
+})
