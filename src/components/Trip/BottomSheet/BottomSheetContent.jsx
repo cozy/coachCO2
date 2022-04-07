@@ -9,11 +9,13 @@ import { BottomSheetItem } from 'cozy-ui/transpiled/react/BottomSheet'
 
 import TimelineNode from 'src/components/Timeline/TimelineNode'
 import TimelineSections from 'src/components/Timeline/TimelineSections'
-import { getTripStartDate, getTripEndDate, formatDate } from 'src/lib/trips'
+import { formatDate } from 'src/lib/trips'
 import {
   getEndPlaceDisplayName,
   getStartPlaceDisplayName,
-  getGeoJSONData
+  getGeoJSONData,
+  getStartDate,
+  getEndDate
 } from 'src/lib/timeseries'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import PurposeItem from 'src/components/Trip/BottomSheet/PurposeItem'
@@ -32,14 +34,6 @@ const BottomSheetContent = () => {
   const [showPurposeDialog, setShowPurposeDialog] = useState(false)
   const trip = getGeoJSONData(timeserie)
 
-  const startTime = useMemo(
-    () => formatDate({ f, lang, date: getTripStartDate(trip) }),
-    [f, lang, trip]
-  )
-  const endTime = useMemo(
-    () => formatDate({ f, lang, date: getTripEndDate(trip) }),
-    [f, lang, trip]
-  )
   const purpose = useMemo(() => trip?.properties?.manual_purpose, [
     trip.properties.manual_purpose
   ])
@@ -53,13 +47,13 @@ const BottomSheetContent = () => {
         <Timeline className="u-pb-0 u-mb-0">
           <TimelineNode
             label={getStartPlaceDisplayName(timeserie)}
-            endLabel={startTime}
+            endLabel={formatDate({ f, lang, date: getStartDate(timeserie) })}
             type="start"
           />
           <TimelineSections />
           <TimelineNode
             label={getEndPlaceDisplayName(timeserie)}
-            endLabel={endTime}
+            endLabel={formatDate({ f, lang, date: getEndDate(timeserie) })}
             type="end"
           />
         </Timeline>
