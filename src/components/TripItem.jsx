@@ -19,13 +19,13 @@ import {
   getFormattedDuration,
   getModesSortedByDistance,
   getFormattedTripDistance,
-  getTripStartDate,
   computeAndFormatCO2Trip,
   computeAndFormatCO2TripByMode
 } from 'src/lib/trips'
 import {
   transformTimeseriesToTrips,
-  getEndPlaceDisplayName
+  getEndPlaceDisplayName,
+  getStartDate
 } from 'src/lib/timeseries'
 import { pickModeIcon } from 'src/components/helpers'
 import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
@@ -66,10 +66,6 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
   const modes = useMemo(() => getModesSortedByDistance(trip), [trip])
   const distance = useMemo(() => getFormattedTripDistance(trip), [trip])
-  const day = useMemo(() => f(getTripStartDate(trip), 'dddd DD MMMM'), [
-    f,
-    trip
-  ])
 
   const formattedCO2 = useMemo(() => {
     if (mode) {
@@ -91,7 +87,11 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
 
   return (
     <>
-      {hasDateHeader && <ListSubheader>{day}</ListSubheader>}
+      {hasDateHeader && (
+        <ListSubheader>
+          {f(getStartDate(timeserie), 'dddd DD MMMM')}
+        </ListSubheader>
+      )}
       <ListItem className="u-pl-1-s u-pl-2" button onClick={handleClick}>
         <ListItemIcon>
           <PurposeAvatar attribute={purpose} />
