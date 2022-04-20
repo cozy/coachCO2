@@ -1,13 +1,12 @@
 import React from 'react'
 
-import { isQueryLoading } from 'cozy-client'
+import { isQueryLoading, useQueryAll } from 'cozy-client'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 import { buildTimeseriesQueryByDateAndAccountId } from 'src/queries/queries'
 import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import LoadedPurposesList from 'src/components/Analysis/Purposes/LoadedPurposesList'
-import useFullyLoadedQuery from 'src/hooks/useFullyLoadedQuery'
 
 const PurposesList = () => {
   const { account } = useAccountContext()
@@ -17,7 +16,7 @@ const PurposesList = () => {
     selectedDate,
     account?._id
   )
-  const { data: timeseries, ...queryResult } = useFullyLoadedQuery(
+  const { data: timeseries, ...queryResult } = useQueryAll(
     timeserieQuery.definition,
     timeserieQuery.options
   )

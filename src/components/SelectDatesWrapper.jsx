@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 
-import { isQueryLoading } from 'cozy-client'
+import { isQueryLoading, useQueryAll } from 'cozy-client'
 
-import useFullyLoadedQuery from 'src/hooks/useFullyLoadedQuery'
 import { buildTimeseriesQueryByAccountId } from 'src/queries/queries'
 import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
@@ -22,7 +21,7 @@ const SelectDatesWrapper = () => {
     accountId: account?._id,
     limitBy: 1000
   })
-  const { data: timeseries, ...timeseriesQueryResult } = useFullyLoadedQuery(
+  const { data: timeseries, ...timeseriesQueryResult } = useQueryAll(
     timeseriesQuery.definition,
     {
       ...timeseriesQuery.options,

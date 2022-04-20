@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import PurposesList from './PurposesList'
-import { isQueryLoading, useQuery } from 'cozy-client'
+import { isQueryLoading, useQueryAll } from 'cozy-client'
 
 import { buildTimeseriesQueryByDateAndAccountId } from 'src/queries/queries'
 
@@ -14,7 +14,7 @@ jest.mock('src/components/Providers/AccountProvider', () => ({
 }))
 jest.mock('cozy-client', () => ({
   isQueryLoading: jest.fn(),
-  useQuery: jest.fn()
+  useQueryAll: jest.fn()
 }))
 jest.mock('cozy-ui/transpiled/react/Spinner', () => ({ size, className }) => (
   <div data-testid="Spinner" className={className} data-size={size} />
@@ -36,16 +36,16 @@ describe('PurposesList', () => {
       definition: 'definition',
       options: 'options'
     })
-    useQuery.mockReturnValue({
+    useQueryAll.mockReturnValue({
       data: ['timeseries'],
       other: 'value'
     })
   })
 
-  it('should call useQuery with correct definition from buildTimeseriesQueryByDateAndAccountId', () => {
+  it('should call useQueryAll with correct definition from buildTimeseriesQueryByDateAndAccountId', () => {
     render(<PurposesList />)
 
-    expect(useQuery).toHaveBeenCalledWith('definition', 'options')
+    expect(useQueryAll).toHaveBeenCalledWith('definition', 'options')
   })
 
   it('should detect if query loading is true when query result', () => {
