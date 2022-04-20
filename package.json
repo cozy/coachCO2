@@ -53,7 +53,7 @@
   "dependencies": {
     "@material-ui/core": "4",
     "chart.js": "3.7.1",
-    "cozy-client": "^27.22.0",
+    "cozy-client": "^27.26.4",
     "cozy-intent": "^1.13.2",
     "cozy-scripts": "5.13.0",
     "cozy-ui": "^62.2.0",
