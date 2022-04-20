@@ -2,6 +2,8 @@
 
 ## ✨ Features
 
+* Update cozy-client to get useQueryAll hook https://github.com/cozy/cozy-client/commit/590f18abbf13db372b3d3a1c517a7795957a1808
+
 ## 🐛 Bug Fixes
 
 * Locales when installing the app the first time
