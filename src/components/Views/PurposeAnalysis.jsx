@@ -16,7 +16,9 @@ const PurposeAnalysis = () => {
   const { purpose } = useParams()
   const { isMobile } = useBreakpoints()
 
-  const purposeTitle = purpose ? t(`trips.purposes.${purpose}`) : ''
+  const purposeTitle = purpose
+    ? t(`trips.purposes.${purpose.toUpperCase()}`)
+    : ''
 
   const onBack = purpose ? history.goBack : undefined
 

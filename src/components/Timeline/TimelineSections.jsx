@@ -35,9 +35,9 @@ const TimelineSections = () => {
       {formatedSections.map((section, index) => (
         <TimelineIcon
           key={index}
-          label={`${t(`trips.modes.${section.mode}`)} - ${section.duration} - ${
-            section.distance
-          } - ${section.averageSpeed}`}
+          label={`${t(`trips.modes.${section.mode.toUpperCase()}`)} - ${
+            section.duration
+          } - ${section.distance} - ${section.averageSpeed}`}
           endLabel={formatDate({ f, lang, date: new Date(section.endDate) })}
           icon={pickModeIcon(section.mode)}
           onClick={handleClick(section)}

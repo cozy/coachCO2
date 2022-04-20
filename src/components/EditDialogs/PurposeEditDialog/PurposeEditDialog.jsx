@@ -14,7 +14,7 @@ import { getGeoJSONData, getManualPurpose } from 'src/lib/timeseries'
 const makeOptions = t => {
   const options = purposes.map(purpose => ({
     id: purpose,
-    title: t(`trips.purposes.${purpose}`),
+    title: t(`trips.purposes.${purpose.toUpperCase()}`),
     icon: <PurposeAvatar attribute={purpose} />
   }))
 
