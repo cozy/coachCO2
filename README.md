@@ -133,6 +133,7 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
           "$oid": "6248ec5e5d25e718233a509a"
         },
         "confidence_threshold": 0.65,
+        "manual_purpose": "ENTERTAINMENT" // Trip purpose set by the user
       },
       "features": [
         { // starting place
