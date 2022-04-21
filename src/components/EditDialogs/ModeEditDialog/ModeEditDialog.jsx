@@ -12,7 +12,7 @@ import { useTrip } from 'src/components/Providers/TripProvider'
 const makeOptions = t => {
   const options = modes.map(mode => ({
     id: mode,
-    title: t(`trips.modes.${mode.toUpperCase()}`),
+    title: t(`trips.modes.${mode}`),
     icon: <ModeAvatar attribute={mode} />
   }))
 
