@@ -1,7 +1,6 @@
 import React, { useMemo, useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useHistory, useParams } from 'react-router-dom'
-import get from 'lodash/get'
 
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
@@ -25,11 +24,11 @@ import {
 import {
   transformTimeseriesToTrips,
   getEndPlaceDisplayName,
-  getStartDate
+  getStartDate,
+  getTimeseriePurpose
 } from 'src/lib/timeseries'
 import { pickModeIcon } from 'src/components/helpers'
 import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
-import { OTHER_PURPOSE } from 'src/constants'
 
 const styles = {
   co2: {
@@ -62,7 +61,7 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
     timeserie
   ])
 
-  const purpose = get(trip, 'properties.manual_purpose', OTHER_PURPOSE)
+  const purpose = getTimeseriePurpose(timeserie)
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
   const modes = useMemo(() => getModesSortedByDistance(trip), [trip])
   const distance = useMemo(() => getFormattedTripDistance(trip), [trip])

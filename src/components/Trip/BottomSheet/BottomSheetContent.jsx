@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 
 import Timeline from '@material-ui/lab/Timeline'
 
@@ -13,9 +13,9 @@ import { formatDate } from 'src/lib/trips'
 import {
   getEndPlaceDisplayName,
   getStartPlaceDisplayName,
-  getGeoJSONData,
   getStartDate,
-  getEndDate
+  getEndDate,
+  getTimeseriePurpose
 } from 'src/lib/timeseries'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import PurposeItem from 'src/components/Trip/BottomSheet/PurposeItem'
@@ -32,12 +32,8 @@ const BottomSheetContent = () => {
   const { timeserie } = useTrip()
   const { isDesktop } = useBreakpoints()
   const [showPurposeDialog, setShowPurposeDialog] = useState(false)
-  const trip = getGeoJSONData(timeserie)
 
-  const purpose = useMemo(() => trip?.properties?.manual_purpose, [
-    trip.properties.manual_purpose
-  ])
-
+  const purpose = getTimeseriePurpose(timeserie)
   const openPurposeDialog = useCallback(() => setShowPurposeDialog(true), [])
   const closePurposeDialog = useCallback(() => setShowPurposeDialog(false), [])
 
