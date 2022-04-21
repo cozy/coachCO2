@@ -29,7 +29,7 @@ const PurposeItem = ({ purpose, onClick }) => {
         <ListItemText
           primary={t('purpose')}
           primaryTypographyProps={{ variant: 'caption' }}
-          secondary={t(`trips.purposes.${purpose.toUpperCase()}`)}
+          secondary={t(`trips.purposes.${purpose}`)}
           secondaryTypographyProps={{ variant: 'body1', color: 'textPrimary' }}
         />
       </ListItem>

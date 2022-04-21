@@ -7,7 +7,7 @@
 ## 🐛 Bug Fixes
 
 * Locales when installing the app the first time
-* Locales to get trip purpose/mode
+* Purpose locale and icon with lowercase purpose
 
 ## 🔧 Tech
 

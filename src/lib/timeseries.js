@@ -261,7 +261,3 @@ export const getEndPlaceDisplayName = timeserie => {
 export const getGeoJSONData = timeserie => {
   return get(timeserie, 'series[0]')
 }
-
-export const getManualPurpose = timeserie => {
-  return get(timeserie, 'series[0].properties.manual_purpose')
-}
