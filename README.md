@@ -183,7 +183,8 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
                 "speeds": [...], // List of speeds, in m/s
                 "distances": [...], // List of distances, in meters
                 "distance": 4948, // Section's total distance, in meters
-                "sensed_mode": "PredictedModeTypes.CAR", // Detected mode
+                "sensed_mode": "PredictedModeTypes.CAR", // Detected mode in mobile
+                "manual_mode": "BIKE", // Manual mode set by the user
                 "feature_type": "section",
                 "source": "SmoothedHighConfidenceMotion"
               }
