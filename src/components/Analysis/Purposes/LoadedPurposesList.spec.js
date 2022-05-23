@@ -37,14 +37,14 @@ jest.mock(
   )
 )
 jest.mock(
-  'src/components/PieChart/PieChart',
-  () => ({ data, options, total, label }) => (
+  'cozy-ui/transpiled/react/PieChart',
+  () => ({ data, options, primaryText, secondaryText }) => (
     <div
       data-testid="PieChart"
       data-test={data}
       data-options={options}
-      data-total={total}
-      data-label={label}
+      data-primarytext={primaryText}
+      data-secondarytext={secondaryText}
     />
   )
 )
@@ -92,14 +92,16 @@ describe('LoadedPurposesList', () => {
   it('should contain a PieChart with correct total CO2', () => {
     const { getByTestId } = render(<LoadedPurposesList />)
 
-    expect(getByTestId('PieChart').getAttribute('data-label')).toEqual(
+    expect(getByTestId('PieChart').getAttribute('data-secondarytext')).toEqual(
       'analysis.emittedCO2'
     )
     expect(getByTestId('PieChart').getAttribute('data-options')).toEqual(
       'options'
     )
     expect(getByTestId('PieChart').getAttribute('data-test')).toEqual('data')
-    expect(getByTestId('PieChart').getAttribute('data-total')).toEqual('48 kg')
+    expect(getByTestId('PieChart').getAttribute('data-primarytext')).toEqual(
+      '48 kg'
+    )
   })
 
   it('should computeAggregatedTimeseries from timeseries', () => {

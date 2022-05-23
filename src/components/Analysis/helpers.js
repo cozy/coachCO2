@@ -22,12 +22,6 @@ export const makeChartProps = (sortedTimeseries, type, t) => {
   }
 
   const options = {
-    cutout: '75%',
-    elements: {
-      arc: {
-        borderWidth: 0
-      }
-    },
     plugins: {
       tooltip: {
         callbacks: {
