@@ -55,6 +55,11 @@
       "description": "Used to manage your Coach CO2 settings",
       "type": "io.cozy.coachco2.settings",
       "verbs": ["GET", "POST", "PUT"]
+    },
+    "contacts": {
+      "description": "Used to manage your Coach CO2 settings",
+      "type": "io.cozy.contacts",
+      "verbs": ["POST"]
     }
   }
 }

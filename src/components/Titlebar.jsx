@@ -34,7 +34,11 @@ const Titlebar = ({ label, onBack }) => {
       <>
         {backAction && (
           <BarLeft>
-            <IconButton className={'u-mr-half'} onClick={backAction}>
+            <IconButton
+              className={'u-mr-half'}
+              onClick={backAction}
+              size="medium"
+            >
               <Icon icon={Previous} size={16} />
             </IconButton>
           </BarLeft>
@@ -55,7 +59,7 @@ const Titlebar = ({ label, onBack }) => {
       })}
     >
       {backAction && (
-        <IconButton className="u-mr-half" onClick={backAction}>
+        <IconButton className="u-mr-half" onClick={backAction} size="medium">
           <Icon icon={Previous} size={16} />
         </IconButton>
       )}
