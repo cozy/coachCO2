@@ -115,6 +115,7 @@ const SelectDates = ({ className, options, selectedDate, setSelectedDate }) => {
           className={classes.iconButton}
           onClick={handleIconButtonClick(-1)}
           disabled={isDisabledIconButton('previous')}
+          size="medium"
         >
           <Icon icon={LeftIcon} />
         </IconButton>
@@ -123,6 +124,7 @@ const SelectDates = ({ className, options, selectedDate, setSelectedDate }) => {
           className={cx(classes.iconButton, 'u-ml-half')}
           onClick={handleIconButtonClick(+1)}
           disabled={isDisabledIconButton('next')}
+          size="medium"
         >
           <Icon icon={RightIcon} />
         </IconButton>

@@ -28,12 +28,13 @@ const EmptySelectDates = ({ className }) => {
     <Box display="flex" className={className}>
       <Paper className={classes.paper} elevation={2} />
       <Box className="u-ml-half" display="inline-flex">
-        <IconButton className={classes.iconButton} disabled={true}>
+        <IconButton className={classes.iconButton} disabled size="medium">
           <Icon icon={LeftIcon} />
         </IconButton>
         <IconButton
           className={cx(classes.iconButton, 'u-ml-half')}
-          disabled={true}
+          disabled
+          size="medium"
         >
           <Icon icon={RightIcon} />
         </IconButton>
