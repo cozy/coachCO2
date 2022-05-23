@@ -3876,19 +3876,16 @@ cozy-client@^26.0.2:
     sift "^6.0.0"
     url-search-params-polyfill "^8.0.0"
 
-cozy-client@^27.26.4:
-  version "27.26.4"
-  resolved "https://registry.yarnpkg.com/cozy-client/-/cozy-client-27.26.4.tgz#6e5f194e459826297ab8885abbcab25a8b4011da"
-  integrity sha512-1mK7OqaVs9i/bSRQq9S2DFRCxbCe5TpEoqZVi0gjlE1CuFwiNFQrLFHkwaudk49ioJ2iABb9lsYtvlrT2EMdOw==
+cozy-client@^29.0.1:
+  version "29.0.1"
+  resolved "https://registry.yarnpkg.com/cozy-client/-/cozy-client-29.0.1.tgz#c29828c7358a0f4c275ccf4520a355ce4aec0edb"
+  integrity sha512-wf9UnHjErFerbOBIJMiA6EPlsTTIAm7I3s1h3riEyUPptBNMx7Kcrgvq8HbU8i7U3fWc4yDbzSiWIercJoIi5g==
   dependencies:
     "@cozy/minilog" "1.0.0"
     "@types/jest" "^26.0.20"
     "@types/lodash" "^4.14.170"
     btoa "^1.2.1"
-    cozy-device-helper "^1.12.0"
-    cozy-flags "2.7.1"
-    cozy-logger "^1.6.0"
-    cozy-stack-client "^27.26.0"
+    cozy-stack-client "^29.0.0"
     json-stable-stringify "^1.0.1"
     lodash "^4.17.13"
     microee "^0.0.6"
@@ -3917,6 +3914,13 @@ cozy-device-helper@^1.12.0, cozy-device-helper@^1.7.3:
   dependencies:
     lodash "^4.17.19"
 
+cozy-device-helper@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/cozy-device-helper/-/cozy-device-helper-2.1.0.tgz#6e94215ecf7831093eeb6b260923262cb7331f81"
+  integrity sha512-FhiplXS7R4kY7FobGDbmR6GSWMcgrZMnjDz2DcHVyX2sSNewVKk71zRh0vWeWuJRraoXpd32n8B327SjERkEXw==
+  dependencies:
+    lodash "^4.17.19"
+
 cozy-doctypes@1.39.0:
   version "1.39.0"
   resolved "https://registry.yarnpkg.com/cozy-doctypes/-/cozy-doctypes-1.39.0.tgz#edbd8b7575d858ce5305c0e7c6d14cf6c44b6d83"
@@ -3931,6 +3935,13 @@ cozy-flags@2.7.1:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/cozy-flags/-/cozy-flags-2.7.1.tgz#f37251fee248ef9bef079a22bc52954f1a892dfc"
   integrity sha512-TtVhuyMSRADRr4q5LSaRjq6u03S5m1zkZRc8n3q8bfad86FizqGC02m3e/Zh4kWTwnsO0pVW+mzeVSsBqDVT/g==
+  dependencies:
+    microee "^0.0.6"
+
+cozy-flags@^2.8.7:
+  version "2.8.7"
+  resolved "https://registry.yarnpkg.com/cozy-flags/-/cozy-flags-2.8.7.tgz#d600019b66c41af6dfff2d1941e78c8284c54a22"
+  integrity sha512-TXi0el5uD2PbM7abpe+MY+lCKWDJUMohALnoRdjSPgiGzKn135NuY+MRcK1pPKOxUMkYT1hh3XGEY2+BD6Q2ng==
   dependencies:
     microee "^0.0.6"
 
@@ -3962,6 +3973,14 @@ cozy-logger@^1.6.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/cozy-logger/-/cozy-logger-1.8.0.tgz#8d37f8e52c0de02a65ca0606ad60b0ebf3a60ed6"
   integrity sha512-0sBNsfwCwO/r23vrOncvj/EGRjDh/0Emh2WqWL0cYriPbOiidWrsULmh11Q9ykCB1IxBZ3z8PEpaqGTvAas2ug==
+  dependencies:
+    chalk "^2.4.2"
+    json-stringify-safe "5.0.1"
+
+cozy-logger@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/cozy-logger/-/cozy-logger-1.9.0.tgz#e3a2323d9a2945ca10da5c318ff2f63544a54415"
+  integrity sha512-x/iFwFuNTbG4lwgeKPv6HtdixY+CcJm47sRd2za09aS1zZMHnN3HX7fFgoSSgEqFhpnIO/PpP2pVqJ4orSCp0g==
   dependencies:
     chalk "^2.4.2"
     json-stringify-safe "5.0.1"
@@ -4059,12 +4078,11 @@ cozy-stack-client@^26.0.0:
     mime "^2.4.0"
     qs "^6.7.0"
 
-cozy-stack-client@^27.26.0:
-  version "27.26.0"
-  resolved "https://registry.yarnpkg.com/cozy-stack-client/-/cozy-stack-client-27.26.0.tgz#153b32411c7e8480db7c7a01621999f4969294a7"
-  integrity sha512-UO+1DdPLntkw1aI0XVgME/ChkInjltiy5w7z83OkVlkBZ3tXwLckzh3bXcUdR0TfIwv4fsCWCOJb/gIUFo0fFA==
+cozy-stack-client@^29.0.0:
+  version "29.0.0"
+  resolved "https://registry.yarnpkg.com/cozy-stack-client/-/cozy-stack-client-29.0.0.tgz#d94ab0f1432d9a6175bbbcde850dafde0d657752"
+  integrity sha512-pGXq+7P/BriMqku43QLQhctQ3lop0GyHLc/82E+APZTMQh6bVO/0tTyggQ45HxfB76vMyZoY+BSubr+vQVLUkQ==
   dependencies:
-    cozy-flags "2.7.1"
     detect-node "^2.0.4"
     mime "^2.4.0"
     qs "^6.7.0"
