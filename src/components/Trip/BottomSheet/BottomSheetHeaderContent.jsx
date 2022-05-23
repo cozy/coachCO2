@@ -12,7 +12,7 @@ import {
 import { getGeoJSONData } from 'src/lib/timeseries'
 import { useTrip } from 'src/components/Providers/TripProvider'
 
-const BottomSheetHeader = () => {
+const BottomSheetHeaderContent = () => {
   const { timeserie } = useTrip()
   const { t } = useI18n()
   const trip = getGeoJSONData(timeserie)
@@ -32,4 +32,4 @@ const BottomSheetHeader = () => {
   )
 }
 
-export default React.memo(BottomSheetHeader)
+export default React.memo(BottomSheetHeaderContent)

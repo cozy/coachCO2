@@ -5,7 +5,7 @@ import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 
 import { getEndPlaceDisplayName } from 'src/lib/timeseries'
 import TripMap from 'src/components/Trip/TripMap'
-import BottomSheetHeader from 'src/components/Trip/BottomSheet/BottomSheetHeader'
+import BottomSheetHeaderContent from 'src/components/Trip/BottomSheet/BottomSheetHeaderContent'
 import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
 import TripProvider from 'src/components/Providers/TripProvider'
 
@@ -37,7 +37,7 @@ const TripDialogDesktop = ({ timeserie, setShowTripDialog }) => {
               <TripMap />
             </div>
             <div className="u-mt-1 u-h-3 u-flex u-flex-items-center u-pb-half">
-              <BottomSheetHeader />
+              <BottomSheetHeaderContent />
             </div>
             <Divider style={styles.divider} />
             <BottomSheetContent />

@@ -14,6 +14,9 @@
 * Refactor to fix https://github.com/cozy/coachCO2/issues/94 and first step to use only `timeserie` object in the application
 * Memo TripItem and Boost performance when modifying a trip (purpose or mode)
 * Use `timeserie` instead of `trip` to show startDate / endDate on trips list and trip info
+* Use PieChart from cozy-ui
+* Remove useless mui-bottom-sheet package
+* Rename BottomSheetHeader to BottomSheetHeaderContent
 
 # 0.6.0
 

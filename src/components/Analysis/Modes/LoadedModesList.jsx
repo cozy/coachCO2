@@ -6,6 +6,7 @@ import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import Box from 'cozy-ui/transpiled/react/Box'
+import PieChart from 'cozy-ui/transpiled/react/PieChart'
 
 import {
   computeAggregatedTimeseries,
@@ -15,7 +16,6 @@ import {
 import { formatCO2 } from 'src/lib/trips'
 import { makeChartProps } from 'src/components/Analysis/helpers'
 import AnalysisListItem from 'src/components/Analysis/AnalysisListItem'
-import PieChart from 'src/components/PieChart/PieChart'
 import TripsList from 'src/components/TripsList'
 
 const LoadedModesList = ({ timeseries }) => {
@@ -61,8 +61,8 @@ const LoadedModesList = ({ timeseries }) => {
           <PieChart
             data={data}
             options={options}
-            total={formatCO2(totalCO2)}
-            label={t('analysis.emittedCO2')}
+            primaryText={formatCO2(totalCO2)}
+            secondaryText={t('analysis.emittedCO2')}
           />
         </div>
         <Box marginTop={!isMobile ? '6rem' : undefined}>

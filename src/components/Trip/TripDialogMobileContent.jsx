@@ -1,10 +1,10 @@
 import React, { useMemo, useState, useEffect } from 'react'
 
 import BottomSheet, {
-  BottomSheetHeader as UiBottomSheetHeader
+  BottomSheetHeader
 } from 'cozy-ui/transpiled/react/BottomSheet'
 
-import BottomSheetHeader from 'src/components/Trip/BottomSheet/BottomSheetHeader'
+import BottomSheetHeaderContent from 'src/components/Trip/BottomSheet/BottomSheetHeaderContent'
 import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
 import TripMap from 'src/components/Trip/TripMap'
 
@@ -42,9 +42,9 @@ const TripDialogMobileContent = ({ titleRef }) => {
         <TripMap />
       </div>
       <BottomSheet settings={bottomSheetSettings} toolbarProps={toolbarProps}>
-        <UiBottomSheetHeader className="u-h-3 u-pb-half">
-          <BottomSheetHeader />
-        </UiBottomSheetHeader>
+        <BottomSheetHeader className="u-h-3 u-pb-half">
+          <BottomSheetHeaderContent />
+        </BottomSheetHeader>
         <BottomSheetContent />
       </BottomSheet>
     </>
