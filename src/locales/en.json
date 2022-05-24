@@ -98,5 +98,11 @@
         "description": "Used to manage your Coach CO2 settings"
       }
     }
+  },
+  "dacc": {
+    "settings": {
+      "label": "Data transmission",
+      "anonymous_participation": "Participate anonymously in the calculation of average CO2 emissions"
+    }
   }
 }

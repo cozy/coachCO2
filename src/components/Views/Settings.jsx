@@ -9,6 +9,7 @@ import {
 import Titlebar from 'src/components/Titlebar'
 import CsvExporter from 'src/components/ExportCSV/CsvExporter'
 import AccountSelector from 'src/components/AccountSelector'
+import DaccSwitcher from 'src/components/DaccSwitcher'
 
 export const Settings = () => {
   const { account } = useAccountContext()
@@ -24,6 +25,7 @@ export const Settings = () => {
       <Titlebar />
       <div className="u-mh-1 u-mv-1-half">
         <AccountSelector />
+        <DaccSwitcher className="u-mt-1-half" />
         <CsvExporter
           className="u-mt-1-half"
           accountName={getAccountLabel(account)}

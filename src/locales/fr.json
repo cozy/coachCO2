@@ -98,5 +98,11 @@
         "description": "Utilisé pour gérer les paramètres de votre Coach CO2"
       }
     }
+  },
+  "dacc": {
+    "settings": {
+      "label": "Transmission des données",
+      "anonymous_participation": "Participer anonymement au calcul des émissions moyennes de CO2"
+    }
   }
 }
