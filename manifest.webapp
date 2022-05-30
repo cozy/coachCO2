@@ -39,7 +39,7 @@
       "description": "Required to get konnector account",
       "type": "io.cozy.accounts",
       "verbs": [
-        "GET"
+        "GET", "PUT"
       ]
     },
     "files": {
@@ -60,6 +60,19 @@
       "description": "Used to manage your Coach CO2 settings",
       "type": "io.cozy.contacts",
       "verbs": ["POST"]
+    },
+    "jobs": {
+      "description": "Used in services to start other services",
+      "type": "io.cozy.jobs",
+      "verbs": ["POST"]
+    }
+  },
+  "services": {
+    "timeseriesWithoutAggregateMigration": {
+      "type": "node",
+      "file": "services/timeseriesWithoutAggregateMigration/coachco2.js",
+      "trigger": "@event io.cozy.timeseries.geojson:CREATED,UPDATED",
+      "debounce": "5s"
     }
   }
 }

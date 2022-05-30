@@ -1,3 +1,5 @@
+export const APP_SLUG = 'coachco2'
+
 export const AIR_MODE = 'AIR_OR_HSR'
 export const BICYCLING_MODE = 'BICYCLING'
 export const CAR_MODE = 'CAR'
