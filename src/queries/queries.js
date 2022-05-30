@@ -25,19 +25,27 @@ export const buildTimeseriesQueryByAccountId = ({ accountId, limitBy }) => ({
   }
 })
 
-export const buildAccountQuery = () => ({
-  definition: Q(ACCOUNTS_DOCTYPE)
+export const buildAccountQuery = ({
+  limit = 100,
+  withOnlyLogin = true
+} = {}) => {
+  const queryDef = Q(ACCOUNTS_DOCTYPE)
     .where({
       account_type: 'tracemob'
     })
-    .select(['auth.login'])
     .indexFields(['account_type'])
-    .limitBy(100),
-  options: {
-    as: `${ACCOUNTS_DOCTYPE}/account_type`,
-    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+    .limitBy(limit)
+  if (withOnlyLogin) {
+    queryDef.select(['auth.login'])
   }
-})
+  return {
+    definition: queryDef,
+    options: {
+      as: `${ACCOUNTS_DOCTYPE}/account_type`,
+      fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+    }
+  }
+}
 
 export const buildTimeserieQueryById = timeserieId => ({
   definition: Q(GEOJSON_DOCTYPE).getById(timeserieId),
@@ -92,4 +100,30 @@ export const buildSettingsQuery = () => ({
     as: SETTINGS_DOCTYPE,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
+})
+
+// Note there is no need for fetchPolicy here, as this query is only used in node service
+export const buildTimeseriesWithoutAggregationByAccountAndDate = ({
+  accountId,
+  date,
+  limit = 1000
+}) => ({
+  definition: Q(GEOJSON_DOCTYPE)
+    .where({
+      'cozyMetadata.sourceAccount': accountId,
+      'cozyMetadata.updatedAt': {
+        $gt: date
+      }
+    })
+    .partialIndex({
+      aggregation: {
+        $exists: false
+      }
+    })
+    .indexFields(['cozyMetadata.sourceAccount', 'cozyMetadata.updatedAt'])
+    .sortBy([
+      { 'cozyMetadata.sourceAccount': 'asc' },
+      { 'cozyMetadata.updatedAt': 'asc' }
+    ])
+    .limitBy(limit)
 })
