@@ -5,8 +5,8 @@ import fromPairs from 'lodash/fromPairs'
 import toPairs from 'lodash/toPairs'
 import get from 'lodash/get'
 
-import { computeCO2Section } from 'src/lib/metrics'
-import { getSectionsFromTrip } from 'src/lib/trips'
+import { computeCO2Section, computeCaloriesSection } from 'src/lib/metrics'
+import { getSectionsFromTrip, getPurpose } from 'src/lib/trips'
 import { modes, purposes } from 'src/components/helpers'
 import { UNKNOWN_MODE, OTHER_PURPOSE } from 'src/constants'
 
@@ -27,7 +27,6 @@ export const collectFeaturesByOid = geojson => {
 export const transformSerieToTrip = serie => {
   const { features, properties } = serie
   const featureIndex = keyBy(features, feature => feature.id)
-
   return merge({}, serie, {
     properties: {
       start_place: {
@@ -62,16 +61,39 @@ export const computeAggregatedTimeseries = timeseries => {
     let totalSerieCO2 = 0
     let totalSerieDistance = 0
     let totalSerieDuration = 0
+    let totalSerieCalories = 0
+    const modes = []
     const sections = getSectionsFromTrip(serie)
 
     const computedSections = sections.map(section => {
-      const totalCO2 = computeCO2Section(section)
-      totalSerieCO2 += totalCO2
-      totalSerieDistance += section.distance
-      totalSerieDuration += section.duration
-
-      return { ...section, totalCO2 }
+      const summarySection = {
+        startDate: section.startDate,
+        endDate: section.endDate,
+        CO2: computeCO2Section(section),
+        calories: computeCaloriesSection(section),
+        avgSpeed: section.averageSpeed,
+        duration: section.duration,
+        distance: section.distance,
+        mode: section.mode,
+        id: section.id
+      }
+      totalSerieCO2 += summarySection.CO2
+      totalSerieDistance += summarySection.distance
+      totalSerieDuration += summarySection.duration
+      totalSerieCalories += summarySection.calories
+      modes.push(summarySection.mode)
+      return summarySection
     })
+
+    const startPlaceDisplayName = get(
+      serie,
+      'features[0].properties.display_name'
+    )
+    const endPlaceDisplayName = get(
+      serie,
+      'features[1].properties.display_name'
+    )
+    const purpose = getPurpose(serie)
 
     return {
       ...timeserie,
@@ -79,6 +101,11 @@ export const computeAggregatedTimeseries = timeseries => {
         totalCO2: totalSerieCO2,
         totalDistance: totalSerieDistance,
         totalDuration: totalSerieDuration,
+        totalCalories: totalSerieCalories,
+        startPlaceDisplayName,
+        endPlaceDisplayName,
+        purpose,
+        modes,
         sections: computedSections
       }
     }
@@ -166,7 +193,7 @@ const makeTimeseriesAndTotalCO2ByModes = aggregatedTimeseries => {
       ) {
         collectedTimeseries.push(aggregatedTimeserie)
       }
-      timeseriesByModes[section.mode].totalCO2 += section.totalCO2
+      timeseriesByModes[section.mode].totalCO2 += section.CO2
     })
   })
 

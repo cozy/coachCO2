@@ -132,6 +132,43 @@ export const caloriesFormula = (MET, durationInMinutes) => {
   return CBM * durationInMinutes
 }
 
+export const computeCaloriesSection = section => {
+  const speed = section.averageSpeed
+  const durationInMinutes = section.duration / 60 // duration is in seconds
+  let MET
+  switch (section.mode) {
+    case WALKING_MODE:
+      if (speed <= SLOW_WALKING_MAX_SPEED) {
+        MET = MET_WALKING_SLOW
+      } else if (speed <= MEDIUM_WALKING_MAX_SPEED) {
+        MET = MET_WALKING_MEDIUM
+      } else if (speed <= FAST_WALKING_MAX_SPEED) {
+        MET = MET_WALKING_FAST
+      } else {
+        MET = MET_WALKING_VERY_FAST
+      }
+      break
+    case BICYCLING_MODE:
+      if (speed <= SLOW_BICYCLING_MAX_SPEED) {
+        MET = MET_BICYCLING_SLOW
+      } else if (speed <= SLOW_BICYCLING_MAX_MEDIUM) {
+        MET = MET_BICYCLING_MEDIUM
+      } else if (speed <= SLOW_BICYCLING_MAX_FAST) {
+        MET = MET_BICYCLING_FAST
+      } else {
+        MET = MET_BICYCLING_VERY_FAST
+      }
+      break
+    default:
+      break
+  }
+  if (!MET) {
+    // No relevant MET found for this section
+    return 0
+  }
+  return caloriesFormula(MET, durationInMinutes)
+}
+
 /**
  * Compute the total number of burned calories during the trip.
  *
@@ -145,40 +182,8 @@ export const computeCaloriesTrip = trip => {
   const sections = getSectionsFromTrip(trip)
   let totalCalories = 0
   for (const section of sections) {
-    const speed = section.averageSpeed
-    const durationInMinutes = section.duration / 60 // duration is in seconds
-    let MET
-    switch (section.mode) {
-      case WALKING_MODE:
-        if (speed <= SLOW_WALKING_MAX_SPEED) {
-          MET = MET_WALKING_SLOW
-        } else if (speed <= MEDIUM_WALKING_MAX_SPEED) {
-          MET = MET_WALKING_MEDIUM
-        } else if (speed <= FAST_WALKING_MAX_SPEED) {
-          MET = MET_WALKING_FAST
-        } else {
-          MET = MET_WALKING_VERY_FAST
-        }
-        break
-      case BICYCLING_MODE:
-        if (speed <= SLOW_BICYCLING_MAX_SPEED) {
-          MET = MET_BICYCLING_SLOW
-        } else if (speed <= SLOW_BICYCLING_MAX_MEDIUM) {
-          MET = MET_BICYCLING_MEDIUM
-        } else if (speed <= SLOW_BICYCLING_MAX_FAST) {
-          MET = MET_BICYCLING_FAST
-        } else {
-          MET = MET_BICYCLING_VERY_FAST
-        }
-        break
-      default:
-        break
-    }
-    if (!MET) {
-      // No relevant MET found for this section
-      continue
-    }
-    totalCalories += caloriesFormula(MET, durationInMinutes)
+    const calories = computeCaloriesSection(section)
+    totalCalories += calories
   }
   return totalCalories
 }

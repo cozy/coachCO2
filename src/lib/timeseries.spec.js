@@ -136,12 +136,18 @@ describe('transformTimeseriesToTrips', () => {
 })
 
 describe('Aggregation', () => {
-  const serie01 = mockSerie('serie01', [
-    mockStartPlaceFeature('startPlace01', makeStartPlaceFeature()),
-    mockEndPlaceFeature('endPlace01', makeEndPlaceFeature()),
-    mockFeatureCollection('featureCol01', [makePlaneFeature('planeFeature01')]),
-    mockFeatureCollection('featureCol02', [makeCarFeature('CarFeature01')])
-  ])
+  const serie01 = mockSerie(
+    'serie01',
+    [
+      mockStartPlaceFeature('startPlace01', makeStartPlaceFeature()),
+      mockEndPlaceFeature('endPlace01', makeEndPlaceFeature()),
+      mockFeatureCollection('featureCol01', [
+        makePlaneFeature('planeFeature01')
+      ]),
+      mockFeatureCollection('featureCol02', [makeCarFeature('CarFeature01')])
+    ],
+    { manual_purpose: purposes[1] }
+  )
   const serie02 = mockSerie(
     'serie02',
     [
@@ -152,6 +158,7 @@ describe('Aggregation', () => {
         makeCarFeature('CarFeature02')
       ]),
       mockFeatureCollection('featureCol04', [
+        makeWalkingFeature('WalkingFeature01'),
         makeWalkingFeature('WalkingFeature01')
       ])
     ],
@@ -175,6 +182,9 @@ describe('Aggregation', () => {
         totalCO2: expect.any(Number),
         totalDistance: expect.any(Number),
         totalDuration: expect.any(Number),
+        totalCalories: expect.any(Number),
+        purpose: expect.any(String),
+        modes: expect.any(Array),
         sections: expect.any(Array)
       })
     })
@@ -187,20 +197,36 @@ describe('Aggregation', () => {
         duration: expect.any(Number),
         startDate: expect.any(Date),
         endDate: expect.any(Date),
-        averageSpeed: expect.any(Number),
-        totalCO2: expect.any(Number)
+        avgSpeed: expect.any(Number),
+        CO2: expect.any(Number),
+        calories: expect.any(Number)
       })
     })
 
-    it('should compute correct totalCO2 in the timeseries aggregates', () => {
+    it('should compute correct CO2 in the timeseries aggregates', () => {
       expect(aggregatedTimeseries[0].aggregation).toMatchObject({
-        sections: [{ totalCO2: 130.235562 }, { totalCO2: 2.839488 }]
+        sections: [{ CO2: 130.235562 }, { CO2: 2.839488 }]
       })
       expect(aggregatedTimeseries[1].aggregation).toMatchObject({
         sections: [
-          { id: 'CarFeature02', totalCO2: 2.839488 },
-          { id: 'CarFeature02', totalCO2: 2.839488 },
-          { id: 'WalkingFeature01', totalCO2: 0 }
+          { id: 'CarFeature02', CO2: 2.839488 },
+          { id: 'CarFeature02', CO2: 2.839488 },
+          { id: 'WalkingFeature01', CO2: 0 },
+          { id: 'WalkingFeature01', CO2: 0 }
+        ]
+      })
+    })
+
+    it('should compute correct calories in the timeseries aggregates', () => {
+      expect(aggregatedTimeseries[0].aggregation).toMatchObject({
+        sections: [{ calories: 0 }, { calories: 0 }]
+      })
+      expect(aggregatedTimeseries[1].aggregation).toMatchObject({
+        sections: [
+          { id: 'CarFeature02', calories: 0 },
+          { id: 'CarFeature02', calories: 0 },
+          { id: 'WalkingFeature01', calories: 23.388749999999998 },
+          { id: 'WalkingFeature01', calories: 23.388749999999998 }
         ]
       })
     })
@@ -214,6 +240,33 @@ describe('Aggregation', () => {
     it('should compute correct totalDuration in the timeseries aggregates', () => {
       expect(aggregatedTimeseries[0].aggregation).toMatchObject({
         totalDuration: 3600
+      })
+    })
+    it('should compute correct totalCO2 in the timeseries aggregates', () => {
+      expect(aggregatedTimeseries[0].aggregation).toMatchObject({
+        totalCO2: 133.07504999999998
+      })
+    })
+    it('should compute correct totalCalories in the timeseries aggregates', () => {
+      expect(aggregatedTimeseries[0].aggregation).toMatchObject({
+        totalCalories: 0
+      })
+      expect(aggregatedTimeseries[1].aggregation).toMatchObject({
+        totalCalories: 46.777499999999996
+      })
+    })
+    it('should have the start/end display names in the timeseries aggregates', () => {
+      expect(aggregatedTimeseries[0].aggregation).toMatchObject({
+        startPlaceDisplayName: 'Avenue Jean Guiton, La Rochelle',
+        endPlaceDisplayName: 'Rue Ampère, La Rochelle'
+      })
+    })
+    it('should have the sections modes in the timeseries aggregate', () => {
+      expect(aggregatedTimeseries[0].aggregation).toMatchObject({
+        modes: ['AIR_OR_HSR', 'CAR']
+      })
+      expect(aggregatedTimeseries[1].aggregation).toMatchObject({
+        modes: ['CAR', 'CAR', 'WALKING', 'WALKING']
       })
     })
   })
