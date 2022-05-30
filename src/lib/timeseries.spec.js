@@ -1,10 +1,14 @@
 import {
   mockTimeserie,
   mockSerie,
+  mockStartPlaceFeature,
+  mockEndPlaceFeature,
   makePlaneFeature,
   mockFeatureCollection,
   makeCarFeature,
-  makeWalkingFeature
+  makeWalkingFeature,
+  makeStartPlaceFeature,
+  makeEndPlaceFeature
 } from 'test/mockTrip'
 
 import { purposes } from 'src/components/helpers'
@@ -25,21 +29,21 @@ import {
 describe('transformSerieToTrip', () => {
   it('should return correct value', () => {
     const trip = transformSerieToTrip(mockSerie())
-
     expect(trip).toMatchObject({
+      type: 'FeatureCollection',
       properties: {
         start_place: {
+          $oid: 'startPlace01',
           data: {
-            id: 'sectionId01',
-            type: 'Feature',
+            id: 'startPlace01',
             geometry: {},
             properties: {}
           }
         },
         end_place: {
+          $oid: 'endPlace01',
           data: {
-            id: 'sectionId02',
-            type: 'Feature',
+            id: 'endPlace01',
             geometry: {},
             properties: {}
           }
@@ -68,16 +72,14 @@ describe('transformTimeseriesToTrips', () => {
         properties: {
           start_place: {
             data: {
-              id: 'sectionId01',
-              type: 'Feature',
+              id: 'startPlace01',
               geometry: {},
               properties: {}
             }
           },
           end_place: {
             data: {
-              id: 'sectionId02',
-              type: 'Feature',
+              id: 'endPlace01',
               geometry: {},
               properties: {}
             }
@@ -92,16 +94,14 @@ describe('transformTimeseriesToTrips', () => {
         properties: {
           start_place: {
             data: {
-              id: 'sectionId01',
-              type: 'Feature',
+              id: 'startPlace01',
               geometry: {},
               properties: {}
             }
           },
           end_place: {
             data: {
-              id: 'sectionId02',
-              type: 'Feature',
+              id: 'endPlace01',
               geometry: {},
               properties: {}
             }
@@ -116,16 +116,14 @@ describe('transformTimeseriesToTrips', () => {
         properties: {
           start_place: {
             data: {
-              id: 'sectionId01',
-              type: 'Feature',
+              id: 'startPlace01',
               geometry: {},
               properties: {}
             }
           },
           end_place: {
             data: {
-              id: 'sectionId02',
-              type: 'Feature',
+              id: 'endPlace01',
               geometry: {},
               properties: {}
             }
@@ -138,30 +136,31 @@ describe('transformTimeseriesToTrips', () => {
 })
 
 describe('Aggregation', () => {
-  const serie01Features = [
+  const serie01 = mockSerie('serie01', [
+    mockStartPlaceFeature('startPlace01', makeStartPlaceFeature()),
+    mockEndPlaceFeature('endPlace01', makeEndPlaceFeature()),
     mockFeatureCollection('featureCol01', [makePlaneFeature('planeFeature01')]),
     mockFeatureCollection('featureCol02', [makeCarFeature('CarFeature01')])
-  ]
-  const serie01 = mockSerie('serie01', serie01Features)
+  ])
+  const serie02 = mockSerie(
+    'serie02',
+    [
+      mockStartPlaceFeature('startPlace02'),
+      mockEndPlaceFeature('endPlace02'),
+      mockFeatureCollection('featureCol03', [
+        makeCarFeature('CarFeature02'),
+        makeCarFeature('CarFeature02')
+      ]),
+      mockFeatureCollection('featureCol04', [
+        makeWalkingFeature('WalkingFeature01')
+      ])
+    ],
+    { manual_purpose: purposes[0] }
+  )
+
   const timeseries = [
     mockTimeserie('timeserieId01', [serie01]),
-    mockTimeserie('timeserieId02', [
-      mockSerie(
-        'serie02',
-        [
-          mockFeatureCollection('featureCol03', [
-            makeCarFeature('CarFeature02'),
-            makeCarFeature('CarFeature02')
-          ]),
-          mockFeatureCollection('featureCol04', [
-            makeWalkingFeature('WalkingFeature01')
-          ])
-        ],
-        {
-          manual_purpose: purposes[0]
-        }
-      )
-    ])
+    mockTimeserie('timeserieId02', [serie02])
   ]
 
   const aggregatedTimeseries = computeAggregatedTimeseries(timeseries)
