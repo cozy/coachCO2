@@ -73,6 +73,22 @@ export const createTripFromTemplate = (
   return trip
 }
 
+export const makeStartPlaceFeature = () => ({
+  feature_type: 'start_place',
+  display_name: 'Avenue Jean Guiton, La Rochelle',
+  enter_fmt_time: '2022-04-02T14:56:05',
+  exit_fmt_time: '2022-04-02T16:00:13',
+  duration: 3848.2966425418854,
+  coordinates: [2.31251, 48.7799432]
+})
+
+export const makeEndPlaceFeature = () => ({
+  feature_type: 'start_place',
+  display_name: 'Rue Ampère, La Rochelle',
+  enter_fmt_time: '2022-04-02T16:13:09',
+  coordinates: [-0.7519085, 46.4536633]
+})
+
 export const makeBicycleTrip = () =>
   createTripFromTemplate(tripTemplate, modeProps.bicycle)
 export const makeBicycleFeature = id => mockFeature(id, modeProps.bicycle)
@@ -119,6 +135,48 @@ export const mockFeature = (id, props) => {
   }
 }
 
+export const mockStartPlaceFeature = (id, props) => {
+  return {
+    id,
+    type: 'Feature',
+    geometry: props
+      ? {
+          coordinates: props.coordinates || [2.31251, 48.7799432],
+          type: 'Point'
+        }
+      : {},
+    properties: props
+      ? {
+          feature_type: 'start_place',
+          display_name: props.display_name,
+          enter_fmt_time: props.enter_fmt_time,
+          exit_fmt_time: props.exit_fmt_time,
+          duration: props.duration
+        }
+      : {}
+  }
+}
+
+export const mockEndPlaceFeature = (id, props) => {
+  return {
+    id,
+    type: 'Feature',
+    geometry: props
+      ? {
+          coordinates: props.coordinates || [-0.7519085, 46.4536633],
+          type: 'Point'
+        }
+      : {},
+    properties: props
+      ? {
+          feature_type: 'end_place',
+          display_name: props.display_name,
+          enter_fmt_time: props.enter_fmt_time
+        }
+      : {}
+  }
+}
+
 export const mockFeatureCollection = (id, features) => ({
   id,
   type: 'FeatureCollection',
@@ -135,21 +193,20 @@ export const mockSerie = (
   type: 'FeatureCollection',
   properties: {
     start_place: {
-      $oid: 'sectionId01',
-      data: { properties: { display_name: 'GR9, Isère' } }
+      $oid: 'startPlace01'
     },
     end_place: {
-      $oid: 'sectionId02',
-      data: { properties: { display_name: 'Piste de la Combe Noire, Isère' } }
+      $oid: 'endPlace01'
     },
     manual_purpose,
     start_fmt_time: '2021-06-30T14:47:51.081201+02:00',
     end_fmt_time: '2021-06-30T16:37:05.086000+02:00'
   },
   features: features || [
-    mockFeature('sectionId01'),
-    mockFeature('sectionId02'),
-    mockFeatureCollection('sectionId03', [mockFeature('featureId01')])
+    mockStartPlaceFeature('startPlace01'),
+    mockEndPlaceFeature('endPlace01'),
+    mockFeatureCollection('featureColl1', [mockFeature('sectionId01')]),
+    mockFeatureCollection('featureColl2', [mockFeature('sectionId02')])
   ]
 })
 
