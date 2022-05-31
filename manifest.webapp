@@ -39,7 +39,7 @@
       "description": "Required to get konnector account",
       "type": "io.cozy.accounts",
       "verbs": [
-        "GET", "PUT"
+        "GET"
       ]
     },
     "files": {

@@ -103,16 +103,11 @@ export const buildSettingsQuery = () => ({
 })
 
 // Note there is no need for fetchPolicy here, as this query is only used in node service
-export const buildTimeseriesWithoutAggregationByAccountAndDate = ({
-  accountId,
-  date,
-  limit = 1000
-}) => ({
+export const buildTimeseriesWithoutAggregation = ({ limit = 1000 }) => ({
   definition: Q(GEOJSON_DOCTYPE)
     .where({
-      'cozyMetadata.sourceAccount': accountId,
-      'cozyMetadata.updatedAt': {
-        $gt: date
+      startDate: {
+        $gt: null
       }
     })
     .partialIndex({
@@ -120,10 +115,7 @@ export const buildTimeseriesWithoutAggregationByAccountAndDate = ({
         $exists: false
       }
     })
-    .indexFields(['cozyMetadata.sourceAccount', 'cozyMetadata.updatedAt'])
-    .sortBy([
-      { 'cozyMetadata.sourceAccount': 'asc' },
-      { 'cozyMetadata.updatedAt': 'asc' }
-    ])
+    .indexFields(['startDate'])
+    .sortBy([{ startDate: 'desc' }])
     .limitBy(limit)
 })
