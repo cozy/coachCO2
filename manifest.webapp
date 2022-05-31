@@ -72,7 +72,7 @@
       "type": "node",
       "file": "services/timeseriesWithoutAggregateMigration/coachco2.js",
       "trigger": "@event io.cozy.timeseries.geojson:CREATED,UPDATED",
-      "debounce": "5s"
+      "debounce": "5m"
     }
   }
 }
