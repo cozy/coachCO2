@@ -3,10 +3,7 @@ import log from 'cozy-logger'
 import schema, { JOBS_DOCTYPE } from 'src/doctypes'
 import { APP_SLUG } from 'src/constants'
 import { computeAggregatedTimeseries } from 'src/lib/timeseries'
-import {
-  buildTimeseriesWithoutAggregationByAccountAndDate,
-  buildAccountQuery
-} from 'src/queries/queries'
+import { buildTimeseriesWithoutAggregation } from 'src/queries/queries'
 
 import fetch from 'node-fetch'
 global.fetch = fetch
@@ -18,66 +15,29 @@ const migrateTimeSeriesWithoutAggregation = async () => {
   log('info', `Start migrateTimeSeriesWithoutAggregation service`)
   const client = CozyClient.fromEnv(process.env, { schema })
 
-  // Get all existing accounts
-  const accounts = await client.queryAll(
-    buildAccountQuery({ limit: null, withOnlyLogin: false }).definition
-  )
-  if (!accounts) {
-    log('info', 'No account found: Nothing to do')
+  const query = buildTimeseriesWithoutAggregation({
+    limit: BATCH_DOCS_LIMIT
+  }).definition
+  const resp = await client.query(query)
+
+  if (!resp.data || resp.data.length < 1) {
+    log('info', 'Nothing to migrate')
     return
   }
-  let moreDocsToProcess = false
-  for (const account of accounts) {
-    // Query timeseries without aggregation from the last saved date for this account
-    const updatedAt = account.data?.lastMigratedTimeserieUpdatedAt || null
+  log('info', `Found ${resp.data.length} timeseries to migrate...`)
 
-    log(
-      'info',
-      `Query timeseries updated since: ${updatedAt} for account ${account._id}`
-    )
-    const query = buildTimeseriesWithoutAggregationByAccountAndDate({
-      accountId: account._id,
-      date: updatedAt,
-      limit: BATCH_DOCS_LIMIT
-    }).definition
-    const resp = await client.query(query)
+  // Compute aggregation for all retrieved timeseries
+  const migratedTimeseries = computeAggregatedTimeseries(resp.data)
 
-    if (!resp.data || resp.data.length < 1) {
-      log('info', 'Nothing to migrate')
-      continue
-    }
-    log('info', `Found ${resp.data.length} timeseries to migrate...`)
+  // Save the migrated timeseries
+  await client.saveAll(migratedTimeseries)
 
-    // Compute aggregation for all retrieved timeseries
-    const migratedTimeseries = computeAggregatedTimeseries(resp.data)
-
-    // Save the migrated timeseries
-    await client.saveAll(migratedTimeseries)
-
-    // Save in account the startDate of the last processed timeserie
-    const moreRecentUpdatedAt =
-      migratedTimeseries[migratedTimeseries.length - 1].cozyMetadata.updatedAt
-
-    const newAccountDoc = {
-      ...account,
-      data: {
-        ...account.data,
-        lastMigratedTimeserieUpdatedAt: moreRecentUpdatedAt
-      }
-    }
-    await client.save(newAccountDoc)
-
-    log(
-      'info',
-      `${migratedTimeseries.length} timeseries migrated until ${moreRecentUpdatedAt}`
-    )
-    if (migratedTimeseries.length >= BATCH_DOCS_LIMIT) {
-      moreDocsToProcess = true
-    }
-  }
-
+  log(
+    'info',
+    `${migratedTimeseries.length} timeseries migrated with aggregation`
+  )
   // Restart the service, if necessary
-  if (moreDocsToProcess) {
+  if (migratedTimeseries.length >= BATCH_DOCS_LIMIT) {
     log('info', 'There are more timeseries to migrate: restart the service')
     await client.collection(JOBS_DOCTYPE).create('service', {
       name: SERVICE_NAME,
