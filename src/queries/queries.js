@@ -66,7 +66,8 @@ export const buildTimeseriesQueryNoLimit = () => ({
 
 export const buildTimeseriesQueryByDateAndAccountId = (
   date = null,
-  accountId
+  accountId,
+  { withOnlyAggregation = true, limit = 1000 } = {}
 ) => {
   const startMonth = startOfMonth(date) || null
   const endMonth = endOfMonth(date) || null
@@ -75,21 +76,25 @@ export const buildTimeseriesQueryByDateAndAccountId = (
     ? `${startMonth.getFullYear()}-${startMonth.getMonth()}`
     : 'noDate'
 
-  return {
-    definition: Q(GEOJSON_DOCTYPE)
-      .where({
-        'cozyMetadata.sourceAccount': accountId,
-        ...(date && {
-          startDate: {
-            $gt: startMonth.toISOString(),
-            $lt: endMonth.toISOString()
-          }
-        })
+  const queryDef = Q(GEOJSON_DOCTYPE)
+    .where({
+      'cozyMetadata.sourceAccount': accountId,
+      ...(date && {
+        startDate: {
+          $gte: startMonth.toISOString(),
+          $lte: endMonth.toISOString()
+        }
       })
-      .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
-      .limitBy(1000),
+    })
+    .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
+    .limitBy(limit)
+  if (withOnlyAggregation) {
+    queryDef.select(['aggregation'])
+  }
+  return {
+    definition: queryDef,
     options: {
-      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/date/${dateAsOption}`,
+      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/date/${dateAsOption}/limitedBy/${limit}/withOnlyAggregation/${withOnlyAggregation}`,
       fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s),
       enabled: Boolean(date) && Boolean(accountId)
     }
@@ -120,4 +125,15 @@ export const buildTimeseriesWithoutAggregation = ({ limit = 1000 }) => ({
     .indexFields(['startDate'])
     .sortBy([{ startDate: 'desc' }])
     .limitBy(limit)
+})
+
+// Node.js query
+export const buildOldestTimeseriesQueryByAccountId = accountId => ({
+  definition: Q(GEOJSON_DOCTYPE)
+    .where({
+      'cozyMetadata.sourceAccount': accountId
+    })
+    .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
+    .sortBy([{ 'cozyMetadata.sourceAccount': 'asc' }, { startDate: 'asc' }])
+    .limitBy(1)
 })

@@ -123,9 +123,8 @@ export const computeCO2Timeseries = aggregatedTimeseries => {
   let totalCO2 = 0
 
   aggregatedTimeseries.forEach(aggregatedTimeserie => {
-    totalCO2 += aggregatedTimeserie.aggregation.totalCO2
+    totalCO2 += aggregatedTimeserie.aggregation?.totalCO2 || 0
   })
-
   return totalCO2
 }
 

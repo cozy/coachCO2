@@ -163,3 +163,13 @@ export const COLUMNS_NAMES_CSV = {
   sectionTimestamps: 'Section_Timestamps',
   sectionSpeeds: 'Section_Speeds'
 }
+
+export const DACC_MEASURE_NAME_CO2_MONTHLY = 'co2-emissions-monthly'
+export const DACC_MEASURE_GROUP1_CO2_MONTHLY = Object.freeze({
+  is_tracemob_expe: true
+})
+
+export const TIMESERIE_MIGRATION_SERVICE_NAME =
+  'timeseriesWithoutAggregateMigration'
+export const DACC_SERVICE_NAME = 'dacc'
+export const MAX_DACC_MEASURES_SENT = 12

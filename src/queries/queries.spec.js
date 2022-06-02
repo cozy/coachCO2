@@ -10,8 +10,8 @@ describe('buildTimeseriesQueryByDateAndAccountId', () => {
       definition: {
         selector: {
           startDate: {
-            $gt: '2022-02-01T00:00:00.000Z',
-            $lt: '2022-02-28T23:59:59.999Z'
+            $gte: '2022-02-01T00:00:00.000Z',
+            $lte: '2022-02-28T23:59:59.999Z'
           }
         }
       },
@@ -31,8 +31,8 @@ describe('buildTimeseriesQueryByDateAndAccountId', () => {
       definition: {
         selector: {
           startDate: {
-            $gt: '2022-02-01T00:00:00.000Z',
-            $lt: '2022-02-28T23:59:59.999Z'
+            $gte: '2022-02-01T00:00:00.000Z',
+            $lte: '2022-02-28T23:59:59.999Z'
           }
         }
       },
