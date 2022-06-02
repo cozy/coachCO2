@@ -39,7 +39,7 @@
       "description": "Required to get konnector account",
       "type": "io.cozy.accounts",
       "verbs": [
-        "GET"
+        "GET", "PUT"
       ]
     },
     "files": {
@@ -65,6 +65,16 @@
       "description": "Used in services to start other services",
       "type": "io.cozy.jobs",
       "verbs": ["POST"]
+    },
+    "dacc": {
+      "type": "cc.cozycloud.dacc",
+      "verbs": ["POST"],
+      "description": "Remote-doctype required to send anonymized CO2 contributions"
+    },
+    "dacc-dev": {
+      "type": "cc.cozycloud.dacc.dev",
+      "verbs": ["POST"],
+      "description": "Remote-doctype required to send anonymized CO2 contributions, for developement purposes"
     }
   },
   "services": {
@@ -73,6 +83,11 @@
       "file": "services/timeseriesWithoutAggregateMigration/coachco2.js",
       "trigger": "@event io.cozy.timeseries.geojson:CREATED,UPDATED",
       "debounce": "5m"
+    },
+    "dacc": {
+      "type": "node",
+      "file": "services/dacc/coachco2.js",
+      "trigger": "@every 720h"
     }
   }
 }

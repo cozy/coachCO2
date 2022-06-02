@@ -5,6 +5,9 @@ export const ACCOUNTS_DOCTYPE = 'io.cozy.accounts'
 export const SETTINGS_DOCTYPE = 'io.cozy.coachco2.settings'
 export const JOBS_DOCTYPE = 'io.cozy.jobs'
 
+export const DACC_REMOTE_DOCTYPE = 'cc.cozycloud.dacc'
+export const DACC_REMOTE_DOCTYPE_DEV = 'cc.cozycloud.dacc.dev'
+
 // the documents schema, necessary for CozyClient
 export default {
   timeseries: {
