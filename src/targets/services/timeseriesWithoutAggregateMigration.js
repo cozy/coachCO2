@@ -1,15 +1,14 @@
 import CozyClient from 'cozy-client'
 import log from 'cozy-logger'
-import schema, { JOBS_DOCTYPE } from 'src/doctypes'
-import { APP_SLUG } from 'src/constants'
+import schema from 'src/doctypes'
 import { computeAggregatedTimeseries } from 'src/lib/timeseries'
 import { buildTimeseriesWithoutAggregation } from 'src/queries/queries'
-
+import { restartService } from 'src/lib/services'
+import { TIMESERIE_MIGRATION_SERVICE_NAME } from 'src/constants'
 import fetch from 'node-fetch'
 global.fetch = fetch
 
 const BATCH_DOCS_LIMIT = 1000 // to avoid processing too many files and get timeouts
-const SERVICE_NAME = 'timeseriesWithoutAggregateMigration'
 
 const migrateTimeSeriesWithoutAggregation = async () => {
   log('info', `Start migrateTimeSeriesWithoutAggregation service`)
@@ -39,10 +38,7 @@ const migrateTimeSeriesWithoutAggregation = async () => {
   // Restart the service, if necessary
   if (migratedTimeseries.length >= BATCH_DOCS_LIMIT) {
     log('info', 'There are more timeseries to migrate: restart the service')
-    await client.collection(JOBS_DOCTYPE).create('service', {
-      name: SERVICE_NAME,
-      slug: APP_SLUG
-    })
+    await restartService(client, TIMESERIE_MIGRATION_SERVICE_NAME)
   }
 }
 
