@@ -1,14 +1,13 @@
 import CozyClient from 'cozy-client'
 import log from 'cozy-logger'
-import schema, { JOBS_DOCTYPE } from 'src/doctypes'
-import { APP_SLUG } from 'src/constants'
+import schema from 'src/doctypes'
 
 import { runDACCService } from 'src/lib/dacc'
+import { restartService } from 'src/lib/services'
+import { DACC_SERVICE_NAME } from 'src/constants'
 
 import fetch from 'node-fetch'
 global.fetch = fetch
-
-const SERVICE_NAME = 'dacc'
 
 const dacc = async () => {
   log('info', 'Start dacc service')
@@ -17,10 +16,7 @@ const dacc = async () => {
   const shouldRestart = await runDACCService(client)
   if (shouldRestart) {
     log('info', 'There are more DACC measures to send: restart the service')
-    await client.collection(JOBS_DOCTYPE).create('service', {
-      name: SERVICE_NAME,
-      slug: APP_SLUG
-    })
+    await restartService(client, DACC_SERVICE_NAME)
   }
 }
 
