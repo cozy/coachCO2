@@ -47,14 +47,6 @@ describe('buildTimeseriesQueryByDateAndAccountId', () => {
     const query = buildTimeseriesQueryByDateAndAccountId(undefined, 'accountId')
 
     expect(query).toMatchObject({
-      definition: {
-        selector: {
-          startDate: {
-            $gt: '1970-01-01T00:00:00.000Z',
-            $lt: '1970-01-31T23:59:59.999Z'
-          }
-        }
-      },
       options: {
         as: 'io.cozy.timeseries.geojson/sourceAccount/accountId/date/noDate',
         enabled: false
@@ -66,14 +58,6 @@ describe('buildTimeseriesQueryByDateAndAccountId', () => {
     const query = buildTimeseriesQueryByDateAndAccountId(undefined, undefined)
 
     expect(query).toMatchObject({
-      definition: {
-        selector: {
-          startDate: {
-            $gt: '1970-01-01T00:00:00.000Z',
-            $lt: '1970-01-31T23:59:59.999Z'
-          }
-        }
-      },
       options: {
         as: 'io.cozy.timeseries.geojson/sourceAccount/undefined/date/noDate',
         enabled: false

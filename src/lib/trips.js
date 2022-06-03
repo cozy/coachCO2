@@ -2,7 +2,8 @@ import get from 'lodash/get'
 import flatten from 'lodash/flatten'
 import uniq from 'lodash/uniq'
 import memoize from 'lodash/memoize'
-import distanceInWords from 'date-fns/distance_in_words'
+import dateFnsFormatDistance from 'date-fns/formatDistance'
+
 import humanizeDuration from 'humanize-duration'
 
 import { UNKNOWN_MODE } from 'src/constants'
@@ -42,7 +43,7 @@ export const getEndPlaceDisplayName = trip => {
 export const getFormattedDuration = trip => {
   const startDate = new Date(trip.properties.start_fmt_time)
   const endDate = new Date(trip.properties.end_fmt_time)
-  return distanceInWords(endDate, startDate)
+  return dateFnsFormatDistance(endDate, startDate)
 }
 
 const formatDistance = distance => {

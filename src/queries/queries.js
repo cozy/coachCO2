@@ -1,5 +1,5 @@
-import endOfMonth from 'date-fns/end_of_month'
-import startOfMonth from 'date-fns/start_of_month'
+import endOfMonth from 'date-fns/endOfMonth'
+import startOfMonth from 'date-fns/startOfMonth'
 
 import CozyClient, { Q } from 'cozy-client'
 
@@ -68,28 +68,30 @@ export const buildTimeseriesQueryByDateAndAccountId = (
   date = null,
   accountId
 ) => {
-  const startMonth = startOfMonth(date)
-  const endMonth = endOfMonth(date)
-  const isDateNull = date === null
-  const dateAsOption = isDateNull
-    ? 'noDate'
-    : `${startMonth.getFullYear()}-${startMonth.getMonth()}`
+  const startMonth = startOfMonth(date) || null
+  const endMonth = endOfMonth(date) || null
+
+  const dateAsOption = date
+    ? `${startMonth.getFullYear()}-${startMonth.getMonth()}`
+    : 'noDate'
 
   return {
     definition: Q(GEOJSON_DOCTYPE)
       .where({
         'cozyMetadata.sourceAccount': accountId,
-        startDate: {
-          $gt: startMonth.toISOString(),
-          $lt: endMonth.toISOString()
-        }
+        ...(date && {
+          startDate: {
+            $gt: startMonth.toISOString(),
+            $lt: endMonth.toISOString()
+          }
+        })
       })
       .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
       .limitBy(1000),
     options: {
       as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/date/${dateAsOption}`,
       fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s),
-      enabled: !isDateNull && Boolean(accountId)
+      enabled: Boolean(date) && Boolean(accountId)
     }
   }
 }

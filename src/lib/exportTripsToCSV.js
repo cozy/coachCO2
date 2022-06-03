@@ -21,7 +21,7 @@ import { getOrCreateAppFolderWithReference } from 'src/lib/getOrCreateAppFolderW
 import { buildTimeseriesQueryNoLimit } from 'src/queries/queries'
 
 const makeCSVFilename = (accountLabel, t) => {
-  const today = format(new Date(), 'YYYY MM DD')
+  const today = format(new Date(), 'yyyy MM dd')
 
   return t('export.filename', { today, accountLabel })
 }
