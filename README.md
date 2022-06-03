@@ -33,6 +33,14 @@ You can import fixtures to quickly deal with datas
 $ yarn fixtures
 ```
 
+### Services
+
+You can run a migration service to add aggregation data on your timeseries.
+
+```sh
+$ yarn service:timeseriesWithoutAggregateMigration
+```
+
 ### Run it inside a Cozy using Docker
 
 You can run your application inside a Cozy thanks to the [cozy-stack docker image][cozy-stack-docker]:
