@@ -41,7 +41,7 @@ export const buildAccountQuery = ({
   return {
     definition: queryDef,
     options: {
-      as: `${ACCOUNTS_DOCTYPE}/account_type`,
+      as: `${ACCOUNTS_DOCTYPE}/account_type/limitedBy/${limit}/withOnlyLogin/${withOnlyLogin}`,
       fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
     }
   }
