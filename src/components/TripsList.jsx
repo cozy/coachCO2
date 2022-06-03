@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
-import isSameDay from 'date-fns/is_same_day'
+import isSameDay from 'date-fns/isSameDay'
 
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 
