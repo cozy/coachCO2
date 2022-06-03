@@ -18,6 +18,7 @@
 * Use PieChart from cozy-ui
 * Remove useless mui-bottom-sheet package
 * Rename BottomSheetHeader to BottomSheetHeaderContent
+* Upgrade React and React-dom to 17.0.2
 
 # 0.6.0
 
