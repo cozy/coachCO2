@@ -4,6 +4,8 @@ import sortBy from 'lodash/sortBy'
 import fromPairs from 'lodash/fromPairs'
 import toPairs from 'lodash/toPairs'
 import get from 'lodash/get'
+import sumBy from 'lodash/sumBy'
+import subMonths from 'date-fns/subMonths'
 
 import { computeCO2Section, computeCaloriesSection } from 'src/lib/metrics'
 import { getSectionsFromTrip, getPurpose } from 'src/lib/trips'
@@ -286,4 +288,31 @@ export const getEndPlaceDisplayName = timeserie => {
 
 export const getGeoJSONData = timeserie => {
   return get(timeserie, 'series[0]')
+}
+
+/**
+ * Computes total CO2 by month of timeseries on twelve last months
+ * @param {array} timeseries - Timeseries to be parsed
+ * @param {function} f - format from I18n
+ * @returns {object}
+ */
+export const computeMonthsAndCO2s = (timeseries, f) => {
+  const lastDate = new Date()
+  const months = Array.from({ length: 12 }, (_, index) =>
+    subMonths(lastDate, index)
+  ).reverse()
+
+  const formatedMonths = months.map(month => f(month, 'MMM').toUpperCase())
+
+  const CO2s = months.map((month, index) => {
+    const filteredTimeseries = timeseries.filter(
+      timeserie =>
+        new Date(timeserie.startDate) >= month &&
+        new Date(timeserie.startDate) < months[index + 1]
+    )
+
+    return sumBy(filteredTimeseries, 'aggregation.totalCO2')
+  })
+
+  return { months: formatedMonths, CO2s }
 }
