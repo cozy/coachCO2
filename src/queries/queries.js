@@ -1,5 +1,6 @@
 import endOfMonth from 'date-fns/endOfMonth'
 import startOfMonth from 'date-fns/startOfMonth'
+import subYears from 'date-fns/subYears'
 
 import CozyClient, { Q } from 'cozy-client'
 
@@ -137,3 +138,27 @@ export const buildOldestTimeseriesQueryByAccountId = accountId => ({
     .sortBy([{ 'cozyMetadata.sourceAccount': 'asc' }, { startDate: 'asc' }])
     .limitBy(1)
 })
+
+export const buildOneYearOldTimeseriesWithAggregationByAccountId = accountId => {
+  const dateOneYearAgoFromNow = startOfMonth(subYears(new Date(), 1))
+
+  return {
+    definition: Q(GEOJSON_DOCTYPE)
+      .where({
+        'cozyMetadata.sourceAccount': accountId,
+        startDate: {
+          $gte: dateOneYearAgoFromNow.toISOString()
+        },
+        aggregation: {
+          $exists: true
+        }
+      })
+      .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
+      .sortBy([{ 'cozyMetadata.sourceAccount': 'asc' }, { startDate: 'asc' }])
+      .limitBy(1000),
+    options: {
+      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/withAggregation/fromDate/${dateOneYearAgoFromNow.getFullYear()}-${dateOneYearAgoFromNow.getMonth()}`,
+      fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+    }
+  }
+}

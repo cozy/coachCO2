@@ -58,9 +58,7 @@ const TimelineNode = ({ label, endLabel, type }) => {
       </TimelineSeparator>
       <TimelineContent>
         <div className={classes.contentWrapper}>
-          <Typography className="u-flex-grow-1" variant="body1">
-            {label}
-          </Typography>
+          <Typography className="u-flex-grow-1">{label}</Typography>
           <Typography
             className={classes.endLabel}
             variant="body2"

@@ -2,12 +2,13 @@ import React, { memo, useState, useCallback, useEffect } from 'react'
 
 import Buttons from 'cozy-ui/transpiled/react/Buttons'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Label from 'cozy-ui/transpiled/react/Label'
 import { useClient, generateWebLink } from 'cozy-client'
 
 import ExportDialog from 'src/components/ExportCSV/ExportDialog'
 import { exportTripsToCSV } from 'src/lib/exportTripsToCSV'
 
-export const CsvExporter = ({ accountName }) => {
+export const CsvExporter = ({ accountName, ...props }) => {
   const { t } = useI18n()
   const client = useClient()
   const [isModalOpened, setIsModalOpened] = useState(false)
@@ -44,7 +45,8 @@ export const CsvExporter = ({ accountName }) => {
 
   return (
     <>
-      <div className="u-mb-1-half">
+      <div {...props}>
+        <Label>{t('export.label')}</Label>
         <Buttons
           busy={false}
           variant="secondary"
