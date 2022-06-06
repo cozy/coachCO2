@@ -197,6 +197,13 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
 }
 ```
 
+## DACC
+
+This app uses the [DACC](https://github.com/cozy/DACC) to send and received anonymized contributions. 
+This is used to compare average CO2 emissions: if the user gives consent, her monthly CO2 emissions are sent to the DACC.
+Then, she can compare herself with the average emissions of all the participating users.
+All data sent to the DACC is anonymized, and only aggregated values under a certain threshold can be queried.
+
 ## Community
 
 ### What's Cozy?
