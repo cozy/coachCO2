@@ -129,5 +129,12 @@
       "title": "Motifs de permissions",
       "content": "Parce que votre Cozy vous a fait la promesse de ne jamais divulguer vos données privées, il vous demandera toujours le droit de laisser une application les envoyer à l'extérieur."
     }
+  },
+  "vericalBarChart": {
+    "title": "Émissions de CO2",
+    "legend": {
+      "yours": "Vos émissions",
+      "average": "Émissions moyennes des utilisateurs"
+    }
   }
 }
