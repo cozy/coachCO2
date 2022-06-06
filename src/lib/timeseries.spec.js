@@ -1,3 +1,6 @@
+import MockDate from 'mockdate'
+
+import { mockF } from 'test/lib/I18n'
 import {
   mockTimeserie,
   mockSerie,
@@ -23,7 +26,8 @@ import {
   sortGroupedTimeseries,
   makeTimeseriesAndTotalCO2ByPurposes,
   sortTimeseriesByCO2GroupedByPurpose,
-  getTimeseriePurpose
+  getTimeseriePurpose,
+  computeMonthsAndCO2s
 } from 'src/lib/timeseries'
 
 describe('transformSerieToTrip', () => {
@@ -544,5 +548,66 @@ describe('getTimeseriePurpose', () => {
       series: [{ properties: { manual_purpose: '' } }]
     })
     expect(result).toBe('OTHER_PURPOSE')
+  })
+})
+
+describe('computeMonthsAndCO2s', () => {
+  beforeEach(() => {
+    MockDate.set('2021-02-01')
+  })
+
+  afterEach(() => {
+    MockDate.reset()
+  })
+
+  it('should return correct months and values', () => {
+    const timeseries = [
+      { startDate: '2020-01-01T00:00:00Z', aggregation: { totalCO2: 5 } },
+      { startDate: '2020-02-01T00:00:00Z', aggregation: { totalCO2: 10 } },
+      { startDate: '2020-03-01T00:00:00Z', aggregation: { totalCO2: 15 } },
+      { startDate: '2020-03-05T00:00:00Z', aggregation: { totalCO2: 20 } },
+      { startDate: '2020-04-01T00:00:00Z', aggregation: { totalCO2: 25 } },
+      { startDate: '2020-05-01T00:00:00Z', aggregation: { totalCO2: 0 } }
+    ]
+
+    const { months, CO2s } = computeMonthsAndCO2s(timeseries, mockF)
+
+    expect(months).toStrictEqual([
+      'MAR',
+      'APR',
+      'MAY',
+      'JUN',
+      'JUL',
+      'AUG',
+      'SEP',
+      'OCT',
+      'NOV',
+      'DEC',
+      'JAN',
+      'FEB'
+    ])
+    expect(CO2s).toStrictEqual([35, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+  })
+
+  it('should handle empty timeseries', () => {
+    const timeseries = []
+
+    const { months, CO2s } = computeMonthsAndCO2s(timeseries, mockF)
+
+    expect(months).toStrictEqual([
+      'MAR',
+      'APR',
+      'MAY',
+      'JUN',
+      'JUL',
+      'AUG',
+      'SEP',
+      'OCT',
+      'NOV',
+      'DEC',
+      'JAN',
+      'FEB'
+    ])
+    expect(CO2s).toStrictEqual([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
   })
 })
