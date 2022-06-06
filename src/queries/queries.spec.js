@@ -1,4 +1,9 @@
-import { buildTimeseriesQueryByDateAndAccountId } from './queries'
+import MockDate from 'mockdate'
+
+import {
+  buildTimeseriesQueryByDateAndAccountId,
+  buildOneYearOldTimeseriesWithAggregationByAccountId
+} from './queries'
 
 describe('buildTimeseriesQueryByDateAndAccountId', () => {
   it('should return an enabled well formated query', () => {
@@ -65,6 +70,36 @@ describe('buildTimeseriesQueryByDateAndAccountId', () => {
         as:
           'io.cozy.timeseries.geojson/sourceAccount/undefined/date/noDate/limitedBy/1000/withOnlyAggregation/true',
         enabled: false
+      }
+    })
+  })
+})
+
+describe('buildOneYearOldTimeseriesWithAggregationByAccountId', () => {
+  beforeEach(() => {
+    MockDate.set('2020-01-01')
+  })
+
+  afterEach(() => {
+    MockDate.reset()
+  })
+
+  it('should return a well formated query', () => {
+    const query = buildOneYearOldTimeseriesWithAggregationByAccountId(
+      'accountId'
+    )
+
+    expect(query).toMatchObject({
+      definition: {
+        selector: {
+          startDate: {
+            $gte: '2019-01-01T00:00:00.000Z'
+          }
+        }
+      },
+      options: {
+        as:
+          'io.cozy.timeseries.geojson/sourceAccount/accountId/withAggregation/fromDate/2019-0'
       }
     })
   })
