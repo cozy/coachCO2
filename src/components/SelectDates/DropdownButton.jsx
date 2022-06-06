@@ -27,9 +27,7 @@ const DropdownButton = ({ children, className, spaceBetween, ...props }) => {
       endIcon={<Icon icon={BottomIcon} size={10} />}
       {...props}
     >
-      <Typography className={classes.typography} variant="body1">
-        {children}
-      </Typography>
+      <Typography className={classes.typography}>{children}</Typography>
     </Button>
   )
 }

@@ -24,10 +24,10 @@ const DaccDialogsManager = ({ open, onClose, showDaccPermissionsDialog }) => {
             height={136}
           />
           <Typography variant="h3">{t('dacc.compareDialog.title')}</Typography>
-          <Typography className="u-mt-1" variant="body1">
+          <Typography className="u-mt-1">
             {t('dacc.compareDialog.primaryText')}
           </Typography>
-          <Typography className="u-mt-1" variant="body1">
+          <Typography className="u-mt-1">
             {t('dacc.compareDialog.secondaryText')}
           </Typography>
         </div>

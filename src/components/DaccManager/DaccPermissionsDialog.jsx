@@ -35,7 +35,7 @@ const DaccPermissionsDialog = ({
             <Typography variant="h4">
               {t('dacc.permissionsDialog.title')}
             </Typography>
-            <Typography className="u-mt-1" variant="body1">
+            <Typography className="u-mt-1">
               {t('dacc.permissionsDialog.primaryText')}
             </Typography>
             <CozyTheme variant="normal">
@@ -71,7 +71,6 @@ const DaccPermissionsDialog = ({
             <Typography
               className="u-mt-1-half"
               style={{ textDecoration: 'underline' }}
-              variant="body1"
               onClick={showDaccReasonsDialog}
             >
               {t('dacc.permissionsDialog.why_asking')}

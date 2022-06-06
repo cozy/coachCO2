@@ -15,14 +15,14 @@ const ExportDialog = ({ onClose, appDir, fileCreated, linkToAppFolder }) => {
       title={t('export.modal.title')}
       content={
         appDir ? (
-          <Typography variant="body1" color="textPrimary">
+          <Typography color="textPrimary">
             {t('export.modal.content.done', {
               filename: fileCreated.name,
               pathAppDir: appDir.path
             })}
           </Typography>
         ) : (
-          <Typography variant="body1" color="textPrimary">
+          <Typography color="textPrimary">
             {t('export.modal.content.progress')}
           </Typography>
         )
