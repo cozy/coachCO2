@@ -103,6 +103,31 @@
     "settings": {
       "label": "Transmission des données",
       "anonymous_participation": "Participer anonymement au calcul des émissions moyennes de CO2"
+    },
+    "tripsCard": {
+      "label": "Comparez vos émissions à la moyenne des autres utilisateurs de l’application ?",
+      "discard": "Non, merci",
+      "accept": "Comparer"
+    },
+    "compareDialog": {
+      "title": "Comparez-vous anonymement",
+      "primaryText": "Afin de constituer la moyenne des émissions des utilisateurs, et parce que votre Cozy vous a fait la promesse de ne jamais divulguer vos données sans votre demande explicite, il va vous demander le droit d'envoyer cette donnée.",
+      "secondaryText": "Ces données seront agrégées et anonymes, elles ne contiendront aucun identifiant ni lieux.",
+      "action": "J'ai compris"
+    },
+    "permissionsDialog": {
+      "title": "Demande de permissions",
+      "primaryText": "L’application Coach CO2 demande les permissions suivantes à votre Cozy :",
+      "secondaryText": "Une fois autorisées, les permissions pourront être modiées dans les paramètres",
+      "why_asking": "Pourquoi me demander ces permissions ?",
+      "export_outside": "Exporter hors du Cozy",
+      "anonymized_emissions": "Mes émissions de CO2 anonymisées",
+      "accept": "Toujours autoriser",
+      "refuse": "Refuser"
+    },
+    "reasonsDialog": {
+      "title": "Motifs de permissions",
+      "content": "Parce que votre Cozy vous a fait la promesse de ne jamais divulguer vos données privées, il vous demandera toujours le droit de laisser une application les envoyer à l'extérieur."
     }
   }
 }
