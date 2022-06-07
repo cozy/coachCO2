@@ -56,15 +56,6 @@ export const buildTimeserieQueryById = timeserieId => ({
   }
 })
 
-// TODO replace UNSAFE_noLimit by a queryAll when https://github.com/cozy/cozy-client/issues/931 is fixed
-export const buildTimeseriesQueryNoLimit = () => ({
-  definition: Q(GEOJSON_DOCTYPE).UNSAFE_noLimit(),
-  options: {
-    as: GEOJSON_DOCTYPE,
-    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
-  }
-})
-
 export const buildTimeseriesQueryByDateAndAccountId = (
   date = null,
   accountId,
