@@ -5,19 +5,17 @@ import Typography from 'cozy-ui/transpiled/react/Typography'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import { generateWebLink, useClient } from 'cozy-client'
-import { exportTripsToCSV } from 'src/lib/exportTripsToCSV'
+import useExportTripsToCSV from 'src/hooks/useExportTripsToCSV'
 
-const ExportDialog = ({ onClose, accountName }) => {
+const ExportDialog = ({ onClose }) => {
   const { t } = useI18n()
   const client = useClient()
   const [linkToAppFolder, setLinkToAppFolder] = useState('')
-  const [{ file, appDir }, setFileCreated] = useState({
-    file: null,
-    appDir: null
-  })
+
+  const { file, appDir, isLoading } = useExportTripsToCSV()
 
   useEffect(() => {
-    if (!linkToAppFolder && appDir) {
+    if (!isLoading) {
       const link = generateWebLink({
         slug: 'drive',
         cozyUrl: client.getStackClient().uri,
@@ -27,15 +25,7 @@ const ExportDialog = ({ onClose, accountName }) => {
       })
       setLinkToAppFolder(link)
     }
-  }, [appDir, client, linkToAppFolder])
-
-  useEffect(() => {
-    const exportTrips = async () => {
-      const { appFolder, file } = await exportTripsToCSV(client, t, accountName)
-      setFileCreated({ file, appDir: appFolder })
-    }
-    exportTrips()
-  }, [accountName, client, t])
+  }, [appDir, client, isLoading])
 
   return (
     <ConfirmDialog
