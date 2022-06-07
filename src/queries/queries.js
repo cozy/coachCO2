@@ -153,8 +153,13 @@ export const buildOneYearOldTimeseriesWithAggregationByAccountId = accountId => 
           $exists: true
         }
       })
-      .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
-      .sortBy([{ 'cozyMetadata.sourceAccount': 'asc' }, { startDate: 'asc' }])
+      .indexFields(['cozyMetadata.sourceAccount', 'startDate', 'aggregation']) // aggregation should be in partialIndex, but we need to fix https://github.com/cozy/cozy-client/issues/1054 first
+      .sortBy([
+        { 'cozyMetadata.sourceAccount': 'asc' },
+        { startDate: 'asc' },
+        { aggregation: 'asc' }
+      ])
+      // .select(['startDate', 'aggregation']) should be used after https://github.com/cozy/cozy-client/issues/1175 fixed
       .limitBy(1000),
     options: {
       as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/withAggregation/fromDate/${dateOneYearAgoFromNow.getFullYear()}-${dateOneYearAgoFromNow.getMonth()}`,
