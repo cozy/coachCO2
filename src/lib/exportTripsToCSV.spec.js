@@ -1,7 +1,13 @@
-import { exportTripsToCSV } from 'src/lib/exportTripsToCSV'
+import { models } from 'cozy-client'
+import { uploadFile } from 'src/lib/exportTripsToCSV'
 import { getOrCreateAppFolderWithReference } from 'src/lib/getOrCreateAppFolderWithReference'
 import { mockTimeserie, mockSerie } from 'test/mockTrip'
 
+const {
+  file: { uploadFileWithConflictStrategy }
+} = models
+
+jest.mock('cozy-client/dist/models/file')
 jest.mock('src/lib/getOrCreateAppFolderWithReference', () => ({
   getOrCreateAppFolderWithReference: jest.fn()
 }))
@@ -17,8 +23,7 @@ jest.mock('cozy-client', () => ({
   }
 }))
 
-// TODO Add other tests for the another functions at file
-describe('exportTripsToCSV', () => {
+describe('uploadFile', () => {
   const t = jest.fn()
   const mockClient = (mockData = []) => {
     const client = {
@@ -33,20 +38,34 @@ describe('exportTripsToCSV', () => {
     path: '/Path/To/Folder'
   })
 
+  uploadFileWithConflictStrategy.mockReturnValue({
+    data: {
+      _id: 'fileId00',
+      name: 'fileName00'
+    }
+  })
+
   it('should return correctly formatted trips for the CSV file', async () => {
     const mockData = mockTimeserie('timeserieId01', [mockSerie()])
     const client = mockClient(mockData)
-    let tripCSV = await exportTripsToCSV(client, t, 'test')
+    const timeseries = [mockTimeserie('001', [mockSerie()])]
+    let tripCSV = await uploadFile({
+      client,
+      t,
+      timeseries,
+      accountName: 'test'
+    })
 
     expect(tripCSV).toMatchObject({
-      appFolder: {
+      appDir: {
         _id: 'folderId00',
         path: '/Path/To/Folder'
       },
-      file: {
+      fileCreated: {
         _id: 'fileId00',
         name: 'fileName00'
-      }
+      },
+      isLoading: false
     })
   })
 })

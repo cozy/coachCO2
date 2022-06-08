@@ -1,11 +1,8 @@
 import sortBy from 'lodash/sortBy'
 import format from 'date-fns/format'
 
+import log from 'cozy-logger'
 import { models } from 'cozy-client'
-
-const {
-  file: { uploadFileWithConflictStrategy }
-} = models
 
 import {
   getStartPlaceDisplayName,
@@ -16,9 +13,12 @@ import {
   getTripEndDate
 } from 'src/lib/trips'
 import { COLUMNS_NAMES_CSV } from 'src/constants'
-import { transformTimeseriesToTrips } from 'src/lib/timeseries'
-import { getOrCreateAppFolderWithReference } from 'src/lib/getOrCreateAppFolderWithReference'
-import { buildTimeseriesQueryNoLimit } from 'src/queries/queries'
+import { getOrCreateAppFolderWithReference } from './getOrCreateAppFolderWithReference'
+import { transformTimeseriesToTrips } from './timeseries'
+
+const {
+  file: { uploadFileWithConflictStrategy }
+} = models
 
 export const makeCSVFilename = (accountLabel, t) => {
   const today = format(new Date(), 'yyyy MM dd')
@@ -83,32 +83,33 @@ export const makeTripsForExport = trips => {
 }
 
 /**
- * @param {object} trips
- * @returns {{ appFolder: object, file: object }}
+ * Get or create CoachCO2 folder into Drive and upload CSV file inside
+ *
+ * @param {object} param
+ * @param {CozyClient} param.client - Instance of Cozy-Client
+ * @param {Function} param.t - I18n function
+ * @param {object} param.timeseries -
+ * @param {string} param.accountName - Name of account
+ * @returns {Promise<{ appDir: object | null, fileCreated: object | null, isLoading: boolean }>}
  */
-export const exportTripsToCSV = async (client, t, accountName) => {
-  const timeseriesDef = buildTimeseriesQueryNoLimit()
-  const { data } = await client.query(timeseriesDef.definition)
-
-  const trips = transformTimeseriesToTrips(data)
+export const uploadFile = async ({ client, t, timeseries, accountName }) => {
+  const trips = transformTimeseriesToTrips(timeseries)
   const tripsData = makeTripsForExport(trips)
+  const tripsCSV = convertTripsToCSV(tripsData)
+  const CSVFilename = makeCSVFilename(accountName, t)
 
-  if (tripsData.length > 0) {
-    const tripsCSV = convertTripsToCSV(tripsData)
-    const CSVFilename = makeCSVFilename(accountName, t)
-    const appFolder = await getOrCreateAppFolderWithReference(client, t)
+  try {
+    const folder = await getOrCreateAppFolderWithReference(client, t)
+    const { data } = await uploadFileWithConflictStrategy(client, tripsCSV, {
+      name: CSVFilename,
+      contentType: 'text/csv',
+      dirId: folder._id,
+      conflictStrategy: 'rename'
+    })
 
-    const { data: fileCreated } = await uploadFileWithConflictStrategy(
-      client,
-      tripsCSV,
-      {
-        name: CSVFilename,
-        contentType: 'text/csv',
-        dirId: appFolder._id,
-        conflictStrategy: 'rename'
-      }
-    )
-
-    return { appFolder, file: fileCreated }
+    return { appDir: folder, fileCreated: data, isLoading: false }
+  } catch (error) {
+    log('error', error)
+    return { appDir: null, fileCreated: null, isLoading: true }
   }
 }
