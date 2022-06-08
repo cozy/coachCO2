@@ -4,6 +4,7 @@
 
 * Migrate timeseries without aggregation
 * Update cozy-client to get useQueryAll hook https://github.com/cozy/cozy-client/commit/590f18abbf13db372b3d3a1c517a7795957a1808
+* CSV export filtered by sensor
 
 ## 🐛 Bug Fixes
 
