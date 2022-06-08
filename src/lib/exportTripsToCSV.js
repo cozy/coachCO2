@@ -20,7 +20,7 @@ import { transformTimeseriesToTrips } from 'src/lib/timeseries'
 import { getOrCreateAppFolderWithReference } from 'src/lib/getOrCreateAppFolderWithReference'
 import { buildTimeseriesQueryNoLimit } from 'src/queries/queries'
 
-const makeCSVFilename = (accountLabel, t) => {
+export const makeCSVFilename = (accountLabel, t) => {
   const today = format(new Date(), 'yyyy MM dd')
 
   return t('export.filename', { today, accountLabel })
@@ -30,7 +30,7 @@ const makeCSVFilename = (accountLabel, t) => {
  * @param {object} tripsData
  * @returns {string}
  */
-const convertTripsToCSV = tripsData => {
+export const convertTripsToCSV = tripsData => {
   const tripsDataWithHeader = [Object.keys(tripsData[0]), ...tripsData]
 
   return tripsDataWithHeader
@@ -46,7 +46,7 @@ const convertTripsToCSV = tripsData => {
  * @param {object} trips
  * @returns {object}
  */
-const makeTripsForExport = trips => {
+export const makeTripsForExport = trips => {
   const result = trips.flatMap(trip => {
     const sectionsInfo = getSectionsFromTrip(trip)
 
