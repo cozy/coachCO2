@@ -46,12 +46,9 @@
     "cozy-jobs-cli": "1.16.3",
     "eslint": "5.9.0",
     "eslint-config-cozy-app": "2.1.1",
-    "git-directory-deploy": "1.5.1",
     "mockdate": "^3.0.5",
     "react-hot-loader": "4.13.0",
-    "react-test-renderer": "16.14.0",
-    "redux-mock-store": "1.5.4",
-    "stylint": "2.0.0"
+    "react-test-renderer": "16.14.0"
   },
   "dependencies": {
     "@material-ui/core": "4",
