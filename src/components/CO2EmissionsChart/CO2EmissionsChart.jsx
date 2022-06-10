@@ -19,9 +19,8 @@ const CO2EmissionsChart = () => {
     'allowSendDataToDacc'
   )
 
-  const oneYearOldTimeseriesQuery = buildOneYearOldTimeseriesWithAggregationByAccountId(
-    account?._id
-  )
+  const oneYearOldTimeseriesQuery =
+    buildOneYearOldTimeseriesWithAggregationByAccountId(account?._id)
   const { data: oneYearOldTimeseries, ...queryResult } = useQueryAll(
     oneYearOldTimeseriesQuery.definition,
     {

@@ -35,7 +35,7 @@ const Titlebar = ({ label, onBack }) => {
         {backAction && (
           <BarLeft>
             <IconButton
-              className={'u-mr-half'}
+              className="u-mr-half"
               onClick={backAction}
               size="medium"
             >

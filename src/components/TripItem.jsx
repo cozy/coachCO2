@@ -57,9 +57,10 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
   const { mode } = useParams()
   const { isMobile } = useBreakpoints()
   const [showTripDialog, setShowTripDialog] = useState(false)
-  const trip = useMemo(() => transformTimeseriesToTrips([timeserie])[0], [
-    timeserie
-  ])
+  const trip = useMemo(
+    () => transformTimeseriesToTrips([timeserie])[0],
+    [timeserie]
+  )
 
   const purpose = getTimeseriePurpose(timeserie)
   const duration = useMemo(() => getFormattedDuration(trip), [trip])
@@ -73,9 +74,10 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
     return computeAndFormatCO2Trip(trip)
   }, [mode, trip])
 
-  const tripModeIcons = useMemo(() => modes.map(mode => pickModeIcon(mode)), [
-    modes
-  ])
+  const tripModeIcons = useMemo(
+    () => modes.map(mode => pickModeIcon(mode)),
+    [modes]
+  )
 
   const handleClick = useCallback(() => {
     if (isMobile) {
@@ -108,7 +110,7 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
         <Typography className="u-mh-half" style={styles.co2} variant="body2">
           {formattedCO2}
         </Typography>
-        <Icon icon={RightIcon} color={'var(--secondaryTextColor)'} />
+        <Icon icon={RightIcon} color="var(--secondaryTextColor)" />
       </ListItem>
       <Divider />
       {showTripDialog && (
@@ -126,6 +128,9 @@ TripItem.propTypes = {
   hasDateHeader: PropTypes.bool.isRequired
 }
 
-export default React.memo(TripItem, (prevProps, nextProps) => {
+const MemoizedTripItem = React.memo(TripItem, (prevProps, nextProps) => {
   return prevProps.timeserie._rev === nextProps.timeserie._rev
 })
+MemoizedTripItem.displayName = 'MemoizedTripItem'
+
+export default MemoizedTripItem

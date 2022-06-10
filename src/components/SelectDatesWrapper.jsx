@@ -34,10 +34,10 @@ const SelectDatesWrapper = () => {
     isQueryLoading(timeseriesQueryResult) ||
     timeseriesQueryResult.hasMore
 
-  const options = useMemo(() => computeOptions(isLoading, timeseries), [
-    isLoading,
-    timeseries
-  ])
+  const options = useMemo(
+    () => computeOptions(isLoading, timeseries),
+    [isLoading, timeseries]
+  )
 
   useEffect(() => {
     if (options && selectedDate === null) {

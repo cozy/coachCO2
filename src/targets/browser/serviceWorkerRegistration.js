@@ -1,3 +1,9 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+/* eslint-disable promise/no-nesting */
+/* eslint-disable promise/always-return */
+/* eslint-disable promise/catch-or-return */
+
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
@@ -36,7 +42,6 @@ export function register(config) {
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then(() => {
-          // eslint-disable-next-line
           console.log(
             'This web app is being served cache-first by a service ' +
               'worker. To learn more, visit https://cra.link/PWA'
@@ -50,7 +55,6 @@ export function register(config) {
   }
 }
 
-// eslint-disable-next-line no-unused-vars
 function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
@@ -58,7 +62,6 @@ function registerValidSW(swUrl, config) {
       registration.update()
     })
     .catch(error => {
-      // eslint-disable-next-line
       console.error('Error during service worker registration:', error)
     })
 }
@@ -90,7 +93,6 @@ function checkValidServiceWorker(swUrl, config) {
       }
     })
     .catch(() => {
-      // eslint-disable-next-line
       console.log(
         'No internet connection found. App is running in offline mode.'
       )
@@ -104,7 +106,6 @@ export function unregister() {
         registration.unregister()
       })
       .catch(error => {
-        // eslint-disable-next-line
         console.error(error.message)
       })
   }

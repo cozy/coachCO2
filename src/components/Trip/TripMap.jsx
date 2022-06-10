@@ -46,9 +46,10 @@ const TripMap = () => {
   const geojsonRef = useRef()
   const [mapL, setMapL] = useState(null)
 
-  const { pointToLayer, style } = useMemo(() => makeGeoJsonOptions(theme), [
-    theme
-  ])
+  const { pointToLayer, style } = useMemo(
+    () => makeGeoJsonOptions(theme),
+    [theme]
+  )
   const mapPanRatio = useMemo(
     () => (isMobile ? bottomSheetSettings.mediumHeightRatio / 2 : 0),
     [isMobile]

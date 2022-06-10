@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import { getSectionsFromTrip } from './trips'
 import {
   BICYCLING_MODE,

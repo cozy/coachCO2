@@ -31,9 +31,10 @@ const LoadedModesList = ({ timeseries }) => {
     () => sortTimeseriesByCO2GroupedByMode(aggregatedTimeseries),
     [aggregatedTimeseries]
   )
-  const totalCO2 = useMemo(() => computeCO2Timeseries(aggregatedTimeseries), [
-    aggregatedTimeseries
-  ])
+  const totalCO2 = useMemo(
+    () => computeCO2Timeseries(aggregatedTimeseries),
+    [aggregatedTimeseries]
+  )
   const { data, options } = useMemo(
     () => makeChartProps(timeseriesSortedByModes, 'modes', t),
     [t, timeseriesSortedByModes]

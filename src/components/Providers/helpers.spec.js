@@ -15,9 +15,8 @@ describe('Helpers Providers', () => {
       expect(timeseriesCleaned).not.toBe(timeseriesOriginal)
     })
     it('should return original timeseries object if aggregation property does not exists', () => {
-      const timeseriesCleaned = removeAggregationFromTimeseries(
-        timeseriesOriginal
-      )
+      const timeseriesCleaned =
+        removeAggregationFromTimeseries(timeseriesOriginal)
 
       expect(timeseriesCleaned).toStrictEqual(timeseriesOriginal)
       expect(timeseriesCleaned).toBe(timeseriesOriginal)

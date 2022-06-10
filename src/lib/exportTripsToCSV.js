@@ -66,12 +66,10 @@ export const makeTripsForExport = trips => {
         [COLUMNS_NAMES_CSV.tripId]: trip.id,
         [COLUMNS_NAMES_CSV.tripStartDate]: getTripStartDate(trip),
         [COLUMNS_NAMES_CSV.tripEndDate]: getTripEndDate(trip),
-        [COLUMNS_NAMES_CSV.tripStartDisplayName]: getStartPlaceDisplayName(
-          trip
-        ),
-        [COLUMNS_NAMES_CSV.tripArrivalDisplayName]: getEndPlaceDisplayName(
-          trip
-        ),
+        [COLUMNS_NAMES_CSV.tripStartDisplayName]:
+          getStartPlaceDisplayName(trip),
+        [COLUMNS_NAMES_CSV.tripArrivalDisplayName]:
+          getEndPlaceDisplayName(trip),
         [COLUMNS_NAMES_CSV.tripPurpose]: getPurpose(trip)
       }
 

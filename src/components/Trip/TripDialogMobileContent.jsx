@@ -21,9 +21,10 @@ const makeMapStyles = ({ toolbarHeight }) => ({
 const TripDialogMobileContent = ({ titleRef }) => {
   const [toolbarHeight, setToolbarHeight] = useState(0)
 
-  const toolbarProps = useMemo(() => ({ height: toolbarHeight }), [
-    toolbarHeight
-  ])
+  const toolbarProps = useMemo(
+    () => ({ height: toolbarHeight }),
+    [toolbarHeight]
+  )
 
   const styles = useMemo(
     () => makeMapStyles({ toolbarHeight: toolbarHeight }),

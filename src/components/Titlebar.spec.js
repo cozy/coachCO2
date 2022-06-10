@@ -59,13 +59,13 @@ describe('Titlebar', () => {
 
   it('should display "title" property on Desktop view', () => {
     useBreakpoints.mockReturnValue({ isMobile: false })
-    const { getByText } = render(<Titlebar label={'My title Desktop view'} />)
+    const { getByText } = render(<Titlebar label="My title Desktop view" />)
     expect(getByText('My title Desktop view')).toBeTruthy()
   })
 
   it('should display "title" property on Mobile view', () => {
     useBreakpoints.mockReturnValue({ isMobile: true })
-    const { getByText } = render(<Titlebar label={'My title Mobile view'} />)
+    const { getByText } = render(<Titlebar label="My title Mobile view" />)
     expect(getByText('My title Mobile view')).toBeTruthy()
   })
 

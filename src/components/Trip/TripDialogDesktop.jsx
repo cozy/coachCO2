@@ -20,9 +20,10 @@ const styles = {
 }
 
 const TripDialogDesktop = ({ timeserie, setShowTripDialog }) => {
-  const hideModal = useCallback(() => setShowTripDialog(false), [
-    setShowTripDialog
-  ])
+  const hideModal = useCallback(
+    () => setShowTripDialog(false),
+    [setShowTripDialog]
+  )
 
   return (
     <TripProvider timeserie={timeserie}>

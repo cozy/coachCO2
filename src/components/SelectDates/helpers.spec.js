@@ -55,11 +55,7 @@ describe('makeYearsBetweenEarliestAndLatest', () => {
     const dates = [new Date('2018'), new Date('2022'), new Date('2020')]
 
     expect(makeYearsBetweenEarliestAndLatest(dates)).toEqual([
-      2022,
-      2021,
-      2020,
-      2019,
-      2018
+      2022, 2021, 2020, 2019, 2018
     ])
   })
 })

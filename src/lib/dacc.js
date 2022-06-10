@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import log from 'cozy-logger'
 import flag from 'cozy-flags'
 import { models } from 'cozy-client'

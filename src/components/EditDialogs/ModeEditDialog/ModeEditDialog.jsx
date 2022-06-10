@@ -37,9 +37,10 @@ const ModeEditDialog = ({ section, onClose }) => {
     [client, timeserie, onClose, section.id]
   )
 
-  const isSelected = useMemo(() => item => item.id === section.mode, [
-    section.mode
-  ])
+  const isSelected = useMemo(
+    () => item => item.id === section.mode,
+    [section.mode]
+  )
 
   return (
     <NestedSelectModal

@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import merge from 'lodash/merge'
 import keyBy from 'lodash/keyBy'
 import sortBy from 'lodash/sortBy'
@@ -209,9 +207,8 @@ const makeTimeseriesAndTotalCO2ByModes = aggregatedTimeseries => {
  * @returns {object} Sorted aggregated timeseries by CO2 and modes
  */
 export const sortTimeseriesByCO2GroupedByMode = aggregatedTimeseries => {
-  const timeseriesByModes = makeTimeseriesAndTotalCO2ByModes(
-    aggregatedTimeseries
-  )
+  const timeseriesByModes =
+    makeTimeseriesAndTotalCO2ByModes(aggregatedTimeseries)
 
   return sortGroupedTimeseries(timeseriesByModes, UNKNOWN_MODE)
 }
@@ -265,9 +262,8 @@ export const makeTimeseriesAndTotalCO2ByPurposes = aggregatedTimeseries => {
  * @returns {array}
  */
 export const sortTimeseriesByCO2GroupedByPurpose = aggregatedTimeseries => {
-  const timeseriesByPurposes = makeTimeseriesAndTotalCO2ByPurposes(
-    aggregatedTimeseries
-  )
+  const timeseriesByPurposes =
+    makeTimeseriesAndTotalCO2ByPurposes(aggregatedTimeseries)
 
   return sortGroupedTimeseries(timeseriesByPurposes, OTHER_PURPOSE)
 }
