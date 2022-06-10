@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import merge from 'lodash/merge'
 import keyBy from 'lodash/keyBy'
 import sortBy from 'lodash/sortBy'
