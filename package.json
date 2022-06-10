@@ -44,12 +44,11 @@
     "cozy-ach": "^1.39.0",
     "cozy-bar": "7.16.0",
     "cozy-jobs-cli": "1.16.3",
-    "eslint": "5.9.0",
+    "cozy-scripts": "5.13.0",
     "eslint-config-cozy-app": "2.1.1",
     "mockdate": "^3.0.5",
     "react-hot-loader": "4.13.0",
-    "react-test-renderer": "16.14.0",
-    "cozy-scripts": "5.13.0"
+    "react-test-renderer": "16.14.0"
   },
   "dependencies": {
     "@material-ui/core": "4",

@@ -57,7 +57,7 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
   const { mode } = useParams()
   const { isMobile } = useBreakpoints()
   const [showTripDialog, setShowTripDialog] = useState(false)
-  const trip = useCallback(transformTimeseriesToTrips([timeserie])[0], [
+  const trip = useMemo(() => transformTimeseriesToTrips([timeserie])[0], [
     timeserie
   ])
 
