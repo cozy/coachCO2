@@ -63,7 +63,7 @@ const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
           {formatCO2(CO2)}
         </Typography>
         {!isDisabled && (
-          <Icon icon={RightIcon} color={'var(--secondaryTextColor)'} />
+          <Icon icon={RightIcon} color="var(--secondaryTextColor)" />
         )}
       </ListItem>
       <Divider />

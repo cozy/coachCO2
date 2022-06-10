@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+
 import React from 'react'
 import { render } from '@testing-library/react'
 import { useParams } from 'react-router-dom'
@@ -27,26 +29,30 @@ jest.mock('cozy-ui/transpiled/react/hooks/useBreakpoints', () => () => ({
 jest.mock('cozy-ui/transpiled/react/I18n')
 jest.mock(
   'src/components/Analysis/AnalysisListItem',
-  () => ({ type, sortedTimeserie, totalCO2 }) => (
-    <div
-      data-testid="AnalysisListItem"
-      data-test-type={type}
-      data-timeserie={sortedTimeserie}
-      data-total={totalCO2}
-    />
-  )
+  () =>
+    ({ type, sortedTimeserie, totalCO2 }) =>
+      (
+        <div
+          data-testid="AnalysisListItem"
+          data-test-type={type}
+          data-timeserie={sortedTimeserie}
+          data-total={totalCO2}
+        />
+      )
 )
 jest.mock(
   'cozy-ui/transpiled/react/PieChart',
-  () => ({ data, options, primaryText, secondaryText }) => (
-    <div
-      data-testid="PieChart"
-      data-test={data}
-      data-options={options}
-      data-primarytext={primaryText}
-      data-secondarytext={secondaryText}
-    />
-  )
+  () =>
+    ({ data, options, primaryText, secondaryText }) =>
+      (
+        <div
+          data-testid="PieChart"
+          data-test={data}
+          data-options={options}
+          data-primarytext={primaryText}
+          data-secondarytext={secondaryText}
+        />
+      )
 )
 
 describe('LoadedPurposesList', () => {

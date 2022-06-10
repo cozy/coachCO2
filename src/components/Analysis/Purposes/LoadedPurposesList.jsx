@@ -31,9 +31,10 @@ const LoadedPurposesList = ({ timeseries }) => {
     () => sortTimeseriesByCO2GroupedByPurpose(aggregatedTimeseries),
     [aggregatedTimeseries]
   )
-  const totalCO2 = useMemo(() => computeCO2Timeseries(aggregatedTimeseries), [
-    aggregatedTimeseries
-  ])
+  const totalCO2 = useMemo(
+    () => computeCO2Timeseries(aggregatedTimeseries),
+    [aggregatedTimeseries]
+  )
   const { data, options } = useMemo(
     () => makeChartProps(timeseriesSortedByPurposes, 'purposes', t),
     [t, timeseriesSortedByPurposes]

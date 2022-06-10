@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useMemo, useEffect } from 'react'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
 
@@ -34,10 +34,10 @@ const SelectDatesWrapper = () => {
     isQueryLoading(timeseriesQueryResult) ||
     timeseriesQueryResult.hasMore
 
-  const options = useCallback(computeOptions(isLoading, timeseries), [
-    isLoading,
-    timeseries
-  ])
+  const options = useMemo(
+    () => computeOptions(isLoading, timeseries),
+    [isLoading, timeseries]
+  )
 
   useEffect(() => {
     if (options && selectedDate === null) {

@@ -130,31 +130,32 @@ export const buildOldestTimeseriesQueryByAccountId = accountId => ({
     .limitBy(1)
 })
 
-export const buildOneYearOldTimeseriesWithAggregationByAccountId = accountId => {
-  const dateOneYearAgoFromNow = startOfMonth(subYears(new Date(), 1))
+export const buildOneYearOldTimeseriesWithAggregationByAccountId =
+  accountId => {
+    const dateOneYearAgoFromNow = startOfMonth(subYears(new Date(), 1))
 
-  return {
-    definition: Q(GEOJSON_DOCTYPE)
-      .where({
-        'cozyMetadata.sourceAccount': accountId,
-        startDate: {
-          $gte: dateOneYearAgoFromNow.toISOString()
-        },
-        aggregation: {
-          $exists: true
-        }
-      })
-      .indexFields(['cozyMetadata.sourceAccount', 'startDate', 'aggregation']) // aggregation should be in partialIndex, but we need to fix https://github.com/cozy/cozy-client/issues/1054 first
-      .sortBy([
-        { 'cozyMetadata.sourceAccount': 'asc' },
-        { startDate: 'asc' },
-        { aggregation: 'asc' }
-      ])
-      // .select(['startDate', 'aggregation']) should be used after https://github.com/cozy/cozy-client/issues/1175 fixed
-      .limitBy(1000),
-    options: {
-      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/withAggregation/fromDate/${dateOneYearAgoFromNow.getFullYear()}-${dateOneYearAgoFromNow.getMonth()}`,
-      fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+    return {
+      definition: Q(GEOJSON_DOCTYPE)
+        .where({
+          'cozyMetadata.sourceAccount': accountId,
+          startDate: {
+            $gte: dateOneYearAgoFromNow.toISOString()
+          },
+          aggregation: {
+            $exists: true
+          }
+        })
+        .indexFields(['cozyMetadata.sourceAccount', 'startDate', 'aggregation']) // aggregation should be in partialIndex, but we need to fix https://github.com/cozy/cozy-client/issues/1054 first
+        .sortBy([
+          { 'cozyMetadata.sourceAccount': 'asc' },
+          { startDate: 'asc' },
+          { aggregation: 'asc' }
+        ])
+        // .select(['startDate', 'aggregation']) should be used after https://github.com/cozy/cozy-client/issues/1175 fixed
+        .limitBy(1000),
+      options: {
+        as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/withAggregation/fromDate/${dateOneYearAgoFromNow.getFullYear()}-${dateOneYearAgoFromNow.getMonth()}`,
+        fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+      }
     }
   }
-}

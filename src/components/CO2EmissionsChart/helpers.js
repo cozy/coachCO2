@@ -46,7 +46,7 @@ export const makeOptions = theme => ({
       ticks: {
         color: theme.palette.text.secondary,
         // don't use arrow func here to keep reference to `this`
-        callback: function(value, index) {
+        callback: function (value, index) {
           return index % 2 !== 0 ? this.getLabelForValue(value) : ''
         }
       }
@@ -59,7 +59,7 @@ export const makeOptions = theme => ({
       ticks: {
         color: theme.palette.text.secondary,
         // don't use arrow func here to keep reference to `this`
-        callback: function(value) {
+        callback: function (value) {
           return `${value} g`
         }
       }

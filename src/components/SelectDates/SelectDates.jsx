@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { makeStyles } from '@material-ui/core/styles'
@@ -49,17 +49,18 @@ const SelectDates = ({ className, options, selectedDate, setSelectedDate }) => {
   const classes = useStyles()
   const { lang } = useI18n()
 
-  const { months, monthSelectedIndex, disabledMonthsIndexes } = useCallback(
-    computeMonths({
-      dates: options,
-      selectedDate,
-      lang
-    }),
+  const { months, monthSelectedIndex, disabledMonthsIndexes } = useMemo(
+    () =>
+      computeMonths({
+        dates: options,
+        selectedDate,
+        lang
+      }),
     [options, selectedDate, lang]
   )
 
-  const { years, yearSelectedIndex, disabledYearsIndexes } = useCallback(
-    computeYears(options, selectedDate),
+  const { years, yearSelectedIndex, disabledYearsIndexes } = useMemo(
+    () => computeYears(options, selectedDate),
     [options, selectedDate]
   )
 

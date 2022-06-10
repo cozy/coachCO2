@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -23,19 +23,20 @@ const LoadedModesList = ({ timeseries }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
 
-  const aggregatedTimeseries = useCallback(
-    computeAggregatedTimeseries(timeseries),
+  const aggregatedTimeseries = useMemo(
+    () => computeAggregatedTimeseries(timeseries),
     [timeseries]
   )
-  const timeseriesSortedByModes = useCallback(
-    sortTimeseriesByCO2GroupedByMode(aggregatedTimeseries),
+  const timeseriesSortedByModes = useMemo(
+    () => sortTimeseriesByCO2GroupedByMode(aggregatedTimeseries),
     [aggregatedTimeseries]
   )
-  const totalCO2 = useCallback(computeCO2Timeseries(aggregatedTimeseries), [
-    aggregatedTimeseries
-  ])
-  const { data, options } = useCallback(
-    makeChartProps(timeseriesSortedByModes, 'modes', t),
+  const totalCO2 = useMemo(
+    () => computeCO2Timeseries(aggregatedTimeseries),
+    [aggregatedTimeseries]
+  )
+  const { data, options } = useMemo(
+    () => makeChartProps(timeseriesSortedByModes, 'modes', t),
     [t, timeseriesSortedByModes]
   )
 

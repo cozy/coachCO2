@@ -32,7 +32,7 @@ const generateClassName = createGenerateClassName({
   disableGlobal: true
 })
 
-const init = function() {
+const init = function () {
   const { root, client, lang, polyglot } = setupApp()
   render(
     <WebviewIntentProvider>

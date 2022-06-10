@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+
 import React from 'react'
 import { render } from '@testing-library/react'
 import PurposesList from './PurposesList'
@@ -22,9 +24,9 @@ jest.mock('cozy-ui/transpiled/react/Spinner', () => ({ size, className }) => (
 jest.mock('src/queries/queries')
 jest.mock(
   'src/components/Analysis/Purposes/LoadedPurposesList',
-  () => ({ timeseries }) => (
-    <div data-testid="LoadedPurposesList" data-timeseries={timeseries} />
-  )
+  () =>
+    ({ timeseries }) =>
+      <div data-testid="LoadedPurposesList" data-timeseries={timeseries} />
 )
 jest.mock('src/components/Providers/SelectDatesProvider', () => ({
   useSelectDatesContext: jest.fn(() => ({ selectedDate: '' }))

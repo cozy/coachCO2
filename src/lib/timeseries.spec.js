@@ -282,9 +282,8 @@ describe('Aggregation', () => {
     })
 
     it('should return timeseries and totalCO2 sorted by modes without duplicate', () => {
-      const timeseriesSortedByModes = sortTimeseriesByCO2GroupedByMode(
-        aggregatedTimeseries
-      )
+      const timeseriesSortedByModes =
+        sortTimeseriesByCO2GroupedByMode(aggregatedTimeseries)
 
       expect(timeseriesSortedByModes).toEqual({
         AIR_OR_HSR: {
@@ -409,9 +408,8 @@ describe('Aggregation', () => {
     })
 
     it('should return timeseries and totalCO2 sorted by purposes', () => {
-      const timeseriesSortedByPurposes = makeTimeseriesAndTotalCO2ByPurposes(
-        aggregatedTimeseries
-      )
+      const timeseriesSortedByPurposes =
+        makeTimeseriesAndTotalCO2ByPurposes(aggregatedTimeseries)
 
       expect(timeseriesSortedByPurposes).toEqual({
         HOME: {
@@ -461,9 +459,8 @@ describe('Aggregation', () => {
 
   describe('sortTimeseriesByCO2GroupedByPurpose', () => {
     it('should return correct value', () => {
-      const timeseriesSortedByCO2GroupedByPurpose = sortTimeseriesByCO2GroupedByPurpose(
-        aggregatedTimeseries
-      )
+      const timeseriesSortedByCO2GroupedByPurpose =
+        sortTimeseriesByCO2GroupedByPurpose(aggregatedTimeseries)
 
       expect(timeseriesSortedByCO2GroupedByPurpose).toEqual({
         ENTERTAINMENT: {
