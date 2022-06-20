@@ -37,7 +37,7 @@ export const buildAccountQuery = ({
     .indexFields(['account_type'])
     .limitBy(limit)
   if (withOnlyLogin) {
-    queryDef.select(['auth.login'])
+    queryDef.select(['auth.login', 'account_type'])
   }
   return {
     definition: queryDef,
@@ -81,7 +81,7 @@ export const buildTimeseriesQueryByDateAndAccountId = (
     .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
     .limitBy(limit)
   if (withOnlyAggregation) {
-    queryDef.select(['aggregation'])
+    queryDef.select(['aggregation', 'cozyMetadata.sourceAccount', 'startDate'])
   }
   return {
     definition: queryDef,

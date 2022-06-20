@@ -1,6 +1,6 @@
 import { createMockClient, models } from 'cozy-client'
 const { sendMeasureToDACC } = models.dacc
-
+import { DACC_REMOTE_DOCTYPE } from 'src/doctypes'
 import * as dacc from './dacc'
 jest.mock('cozy-client', () => ({
   ...jest.requireActual('cozy-client'),
@@ -183,7 +183,7 @@ describe('sendMeasuresForAccount', () => {
     expect(sendMeasureToDACC).toHaveBeenNthCalledWith(
       1,
       mockClient,
-      'cc.cozycloud.dacc',
+      DACC_REMOTE_DOCTYPE,
       {
         ...expectedMeasure,
         value: 39,
@@ -193,7 +193,7 @@ describe('sendMeasuresForAccount', () => {
     expect(sendMeasureToDACC).toHaveBeenNthCalledWith(
       2,
       mockClient,
-      'cc.cozycloud.dacc',
+      DACC_REMOTE_DOCTYPE,
       {
         ...expectedMeasure,
         value: 53,
@@ -203,7 +203,7 @@ describe('sendMeasuresForAccount', () => {
     expect(sendMeasureToDACC).toHaveBeenNthCalledWith(
       3,
       mockClient,
-      'cc.cozycloud.dacc',
+      DACC_REMOTE_DOCTYPE,
       {
         ...expectedMeasure,
         value: 126,

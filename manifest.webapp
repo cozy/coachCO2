@@ -67,12 +67,12 @@
       "verbs": ["POST"]
     },
     "dacc": {
-      "type": "cc.cozycloud.dacc",
+      "type": "cc.cozycloud.dacc_v2",
       "verbs": ["POST"],
       "description": "Remote-doctype required to send anonymized CO2 contributions"
     },
     "dacc-dev": {
-      "type": "cc.cozycloud.dacc.dev",
+      "type": "cc.cozycloud.dacc.dev_v2",
       "verbs": ["POST"],
       "description": "Remote-doctype required to send anonymized CO2 contributions, for developement purposes"
     }

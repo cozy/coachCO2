@@ -28,7 +28,7 @@ export const sendCO2MeasureToDACC = async (client, measure) => {
   try {
     await flag.initialize(client)
     const remoteDoctype =
-      flag('coachco2.dacc-dev') === true
+      flag('coachco2.dacc-dev_v2') === true
         ? DACC_REMOTE_DOCTYPE_DEV
         : DACC_REMOTE_DOCTYPE
     log('info', `Send measure to ${remoteDoctype} on ${measure.startDate}`)
