@@ -19,9 +19,8 @@ import {
   getAccountLabel
 } from 'src/components/Providers/AccountProvider'
 import EmptyContent from 'src/components/EmptyContent'
-// TODO: uncomment when DACC is finished
-// import CO2EmissionsChart from 'src/components/CO2EmissionsChart/CO2EmissionsChart'
-// import DaccManager from 'src/components/DaccManager/DaccManager'
+import CO2EmissionsChart from 'src/components/CO2EmissionsChart/CO2EmissionsChart'
+import DaccManager from 'src/components/DaccManager/DaccManager'
 
 export const Trips = () => {
   const { account, isAccountLoading } = useAccountContext()
@@ -78,8 +77,8 @@ export const Trips = () => {
   return (
     <>
       <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />
-      {/* <CO2EmissionsChart />
-      <DaccManager /> */}
+      <CO2EmissionsChart />
+      <DaccManager />
       <TripsList timeseries={timeseries} />
       {timeseriesQueryLeft.hasMore && (
         <LoadMore
