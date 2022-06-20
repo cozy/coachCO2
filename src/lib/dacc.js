@@ -22,7 +22,7 @@ import {
 import { DACC_REMOTE_DOCTYPE, DACC_REMOTE_DOCTYPE_DEV } from 'src/doctypes'
 import { restartService } from 'src/lib/services'
 
-const { sendMeasureToDACC } = models.dacc
+const { sendMeasureToDACC, fetchAggregatesFromDACC } = models.dacc
 
 export const sendCO2MeasureToDACC = async (client, measure) => {
   try {
@@ -40,6 +40,41 @@ export const sendCO2MeasureToDACC = async (client, measure) => {
       `Error while sending measure to remote doctype: ${error.message}`
     )
     throw error
+  }
+}
+
+/**
+ * @typedef {object} DACCAggregate
+ *
+ * See https://github.com/cozy/cozy-client/blob/0724ceb0905923fc2b2f2e7f322498042813a3b8/packages/cozy-client/src/types.js#L340
+ *
+ */
+/**
+ * Fetch monthly DACC CO2 aggregates
+ *
+ * @param {object} client - The cozy-client instance
+ * @returns {Array<DACCAggregate>} The aggregates sorted by startDate.
+ */
+export const fetchMonthlyAverageCO2FromDACCFor12Month = async client => {
+  try {
+    const remoteDoctype =
+      flag('coachco2.dacc-dev_v2') === true
+        ? DACC_REMOTE_DOCTYPE_DEV
+        : DACC_REMOTE_DOCTYPE
+    const startDate = format(
+      startOfMonth(subMonths(Date.now(), 12)),
+      'yyyy-MM-dd'
+    )
+    const results = await fetchAggregatesFromDACC(client, remoteDoctype, {
+      measureName: DACC_MEASURE_NAME_CO2_MONTHLY,
+      startDate
+    })
+    return results
+  } catch (error) {
+    log(
+      'error',
+      `Error while retrieving data from remote-doctype: ${error.message}`
+    )
   }
 }
 

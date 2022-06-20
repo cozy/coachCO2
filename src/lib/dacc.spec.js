@@ -1,12 +1,16 @@
 import { createMockClient, models } from 'cozy-client'
-const { sendMeasureToDACC } = models.dacc
+const { sendMeasureToDACC, fetchAggregatesFromDACC } = models.dacc
 import { DACC_REMOTE_DOCTYPE } from 'src/doctypes'
+import { DACC_MEASURE_NAME_CO2_MONTHLY } from 'src/constants'
 import * as dacc from './dacc'
+import MockDate from 'mockdate'
+
 jest.mock('cozy-client', () => ({
   ...jest.requireActual('cozy-client'),
   models: {
     dacc: {
-      sendMeasureToDACC: jest.fn()
+      sendMeasureToDACC: jest.fn(),
+      fetchAggregatesFromDACC: jest.fn()
     }
   }
 }))
@@ -302,5 +306,23 @@ describe('runDACCService', () => {
     const shouldRestart = await dacc.runDACCService(mockClient)
     expect(sendMeasureToDACC).toHaveBeenCalledTimes(12)
     expect(shouldRestart).toBe(true)
+  })
+})
+
+describe('fetchMonthlyAverageCO2FromDACCFor12Month', () => {
+  beforeEach(() => {
+    MockDate.set(mockedCurrentDate)
+  })
+
+  afterEach(() => {
+    MockDate.reset()
+  })
+  it('should call fetchAggregatesFromDACC with the correct args', async () => {
+    dacc.fetchMonthlyAverageCO2FromDACCFor12Month(mockClient)
+    expect(fetchAggregatesFromDACC).toHaveBeenCalledWith(
+      mockClient,
+      DACC_REMOTE_DOCTYPE,
+      { measureName: DACC_MEASURE_NAME_CO2_MONTHLY, startDate: '2021-04-01' }
+    )
   })
 })
