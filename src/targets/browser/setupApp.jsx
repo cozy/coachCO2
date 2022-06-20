@@ -4,6 +4,7 @@ import { initTranslation } from 'cozy-ui/transpiled/react/I18n'
 
 import { getClient } from 'src/utils/client'
 import { getValues, initBar } from 'src/utils/bar'
+import flag from 'cozy-flags'
 
 /**
  * Memoize this function in its own file so that it is correctly memoized
@@ -13,6 +14,7 @@ const setupApp = memoize(() => {
   const { lang, appName } = getValues(JSON.parse(root.dataset.cozy))
   const polyglot = initTranslation(lang, lang => require(`locales/${lang}`))
   const client = getClient()
+  client.registerPlugin(flag.plugin)
 
   initBar({ client, root, lang, appName })
 
