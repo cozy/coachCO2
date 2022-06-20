@@ -5,6 +5,7 @@ import { isQueryLoading, useQueryAll } from 'cozy-client'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import useSettings from 'src/hooks/useSettings'
+import useFetchDACCAggregates from 'src/hooks/useFetchDACCAggregates'
 import { buildOneYearOldTimeseriesWithAggregationByAccountId } from 'src/queries/queries'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import ChartLegend from 'src/components/CO2EmissionsChart/VerticalBarChart/ChartLegend'
@@ -29,6 +30,8 @@ const CO2EmissionsChart = () => {
     }
   )
 
+  const { data: globalAverages } = useFetchDACCAggregates(allowSendDataToDacc)
+
   const isLoading =
     !account || isQueryLoading(queryResult) || queryResult.hasMore
 
@@ -42,7 +45,9 @@ const CO2EmissionsChart = () => {
     theme,
     oneYearOldTimeseries,
     allowSendDataToDacc,
-    f
+    globalAverages,
+    f,
+    t
   })
 
   return (

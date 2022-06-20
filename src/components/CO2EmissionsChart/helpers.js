@@ -3,8 +3,10 @@ import { computeMonthsAndCO2s } from 'src/lib/timeseries'
 export const makeData = ({
   theme,
   oneYearOldTimeseries,
-  // allowSendDataToDacc,
-  f
+  allowSendDataToDacc,
+  globalAverages,
+  f,
+  t
 }) => {
   const { months, CO2s } = computeMonthsAndCO2s(oneYearOldTimeseries, f)
 
@@ -12,7 +14,7 @@ export const makeData = ({
     labels: months,
     datasets: [
       {
-        label: 'Dataset 1',
+        label: t('vericalBarChart.legend.yours'),
         backgroundColor: theme.palette.primary.main,
         borderRadius: 8,
         barThickness: 8,
@@ -21,16 +23,15 @@ export const makeData = ({
     ]
   }
 
-  // TODO: to be refactored when DACC is finished
-  // if (allowSendDataToDacc) {
-  //   data.datasets.push({
-  //     label: 'Dataset 1',
-  //     backgroundColor: theme.palette.border.main,
-  //     borderRadius: 8,
-  //     barThickness: 8,
-  //     data: [0, 1800, 1700, 3600, 1900, 2800, 4000, 1300, 2800, 2700, 660, 2000]
-  //   })
-  // }
+  if (allowSendDataToDacc) {
+    data.datasets.push({
+      label: t('vericalBarChart.legend.average'),
+      backgroundColor: theme.palette.border.main,
+      borderRadius: 8,
+      barThickness: 8,
+      data: globalAverages
+    })
+  }
 
   return data
 }
