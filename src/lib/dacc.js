@@ -24,13 +24,16 @@ import { restartService } from 'src/lib/services'
 
 const { sendMeasureToDACC, fetchAggregatesFromDACC } = models.dacc
 
+const getDACCRemoteDoctype = () => {
+  return flag('coachco2.dacc-dev_v2') === true
+    ? DACC_REMOTE_DOCTYPE_DEV
+    : DACC_REMOTE_DOCTYPE
+}
+
 export const sendCO2MeasureToDACC = async (client, measure) => {
   try {
     await flag.initialize(client)
-    const remoteDoctype =
-      flag('coachco2.dacc-dev_v2') === true
-        ? DACC_REMOTE_DOCTYPE_DEV
-        : DACC_REMOTE_DOCTYPE
+    const remoteDoctype = getDACCRemoteDoctype()
     log('info', `Send measure to ${remoteDoctype} on ${measure.startDate}`)
 
     await sendMeasureToDACC(client, remoteDoctype, measure)
@@ -57,10 +60,7 @@ export const sendCO2MeasureToDACC = async (client, measure) => {
  */
 export const fetchMonthlyAverageCO2FromDACCFor12Month = async client => {
   try {
-    const remoteDoctype =
-      flag('coachco2.dacc-dev_v2') === true
-        ? DACC_REMOTE_DOCTYPE_DEV
-        : DACC_REMOTE_DOCTYPE
+    const remoteDoctype = getDACCRemoteDoctype()
     const startDate = format(
       startOfMonth(subMonths(Date.now(), 12)),
       'yyyy-MM-dd'
