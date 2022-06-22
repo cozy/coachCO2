@@ -6,6 +6,7 @@ import toPairs from 'lodash/toPairs'
 import get from 'lodash/get'
 import sumBy from 'lodash/sumBy'
 import subMonths from 'date-fns/subMonths'
+import startOfMonth from 'date-fns/startOfMonth'
 
 import { computeCO2Section, computeCaloriesSection } from 'src/lib/metrics'
 import { getSectionsFromTrip, getPurpose } from 'src/lib/trips'
@@ -297,7 +298,7 @@ export const getGeoJSONData = timeserie => {
 export const computeMonthsAndCO2s = (timeseries, f) => {
   const lastDate = new Date()
   const months = Array.from({ length: 12 }, (_, index) =>
-    subMonths(lastDate, index)
+    startOfMonth(subMonths(lastDate, index))
   ).reverse()
 
   const formatedMonths = months.map(month => f(month, 'MMM').toUpperCase())
