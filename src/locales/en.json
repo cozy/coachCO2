@@ -102,7 +102,8 @@
   "dacc": {
     "settings": {
       "label": "Data transmission",
-      "anonymous_participation": "Participate anonymously in the calculation of average CO2 emissions"
+      "anonymous_participation": "Participate anonymously in the calculation of average CO2 emissions",
+      "hideAlerter": "Hide DACC alerter"
     },
     "tripsCard": {
       "label": "Compare your emissions to the average of other users of the application?",
