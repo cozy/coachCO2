@@ -309,7 +309,7 @@ describe('runDACCService', () => {
   })
 })
 
-describe('fetchMonthlyAverageCO2FromDACCFor12Month', () => {
+describe('fetchMonthlyAverageCO2FromDACCFor11Month', () => {
   beforeEach(() => {
     MockDate.set(mockedCurrentDate)
   })
@@ -318,11 +318,11 @@ describe('fetchMonthlyAverageCO2FromDACCFor12Month', () => {
     MockDate.reset()
   })
   it('should call fetchAggregatesFromDACC with the correct args', async () => {
-    dacc.fetchMonthlyAverageCO2FromDACCFor12Month(mockClient)
+    dacc.fetchMonthlyAverageCO2FromDACCFor11Month(mockClient)
     expect(fetchAggregatesFromDACC).toHaveBeenCalledWith(
       mockClient,
       DACC_REMOTE_DOCTYPE,
-      { measureName: DACC_MEASURE_NAME_CO2_MONTHLY, startDate: '2021-04-01' }
+      { measureName: DACC_MEASURE_NAME_CO2_MONTHLY, startDate: '2021-05-01' }
     )
   })
 })

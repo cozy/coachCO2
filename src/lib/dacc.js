@@ -58,11 +58,11 @@ export const sendCO2MeasureToDACC = async (client, measure) => {
  * @param {object} client - The cozy-client instance
  * @returns {Array<DACCAggregate>} The aggregates sorted by startDate.
  */
-export const fetchMonthlyAverageCO2FromDACCFor12Month = async client => {
+export const fetchMonthlyAverageCO2FromDACCFor11Month = async client => {
   try {
     const remoteDoctype = getDACCRemoteDoctype()
     const startDate = format(
-      startOfMonth(subMonths(Date.now(), 12)),
+      startOfMonth(subMonths(Date.now(), 11)),
       'yyyy-MM-dd'
     )
     const results = await fetchAggregatesFromDACC(client, remoteDoctype, {
