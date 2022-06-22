@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useClient } from 'cozy-client'
 
-import { fetchMonthlyAverageCO2FromDACCFor12Month } from 'src/lib/dacc'
+import { fetchMonthlyAverageCO2FromDACCFor11Month } from 'src/lib/dacc'
 
 const useFetchDACCAggregates = allowSendDataToDacc => {
   const client = useClient()
@@ -11,7 +11,7 @@ const useFetchDACCAggregates = allowSendDataToDacc => {
   useEffect(() => {
     const fetchDataFromDACC = async () => {
       setIsLoading(true)
-      const results = await fetchMonthlyAverageCO2FromDACCFor12Month(client)
+      const results = await fetchMonthlyAverageCO2FromDACCFor11Month(client)
       const averages = results?.length > 0 ? results.map(agg => agg.avg) : null
       setIsLoading(false)
       setData(averages)
