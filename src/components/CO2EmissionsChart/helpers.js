@@ -65,5 +65,10 @@ export const makeOptions = theme => ({
         }
       }
     }
+  },
+  plugins: {
+    tooltip: {
+      displayColors: false
+    }
   }
 })
