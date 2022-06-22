@@ -310,7 +310,8 @@ export const computeMonthsAndCO2s = (timeseries, f) => {
         new Date(timeserie.startDate) < months[index + 1]
     )
 
-    return sumBy(filteredTimeseries, 'aggregation.totalCO2')
+    const sum = sumBy(filteredTimeseries, 'aggregation.totalCO2')
+    return Math.round(sum * 100) / 100 // Round values to 2 decimals
   })
 
   return { months: formatedMonths, CO2s }
