@@ -550,7 +550,7 @@ describe('getTimeseriePurpose', () => {
 
 describe('computeMonthsAndCO2s', () => {
   beforeEach(() => {
-    MockDate.set('2021-02-01')
+    MockDate.set('2021-02-10')
   })
 
   afterEach(() => {
