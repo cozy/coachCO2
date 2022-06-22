@@ -151,7 +151,7 @@ export const buildOneYearOldTimeseriesWithAggregationByAccountId =
           { startDate: 'asc' },
           { aggregation: 'asc' }
         ])
-        // .select(['startDate', 'aggregation']) should be used after https://github.com/cozy/cozy-client/issues/1175 fixed
+        .select(['startDate', 'aggregation', 'cozyMetadata.sourceAccount'])
         .limitBy(1000),
       options: {
         as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/withAggregation/fromDate/${dateOneYearAgoFromNow.getFullYear()}-${dateOneYearAgoFromNow.getMonth()}`,
