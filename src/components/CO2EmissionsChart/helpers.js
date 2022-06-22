@@ -61,7 +61,7 @@ export const makeOptions = theme => ({
         color: theme.palette.text.secondary,
         // don't use arrow func here to keep reference to `this`
         callback: function (value) {
-          return `${value} g`
+          return `${value} kg`
         }
       }
     }
