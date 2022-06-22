@@ -212,6 +212,24 @@ This is used to compare average CO2 emissions: if the user gives consent, her mo
 Then, she can compare herself with the average emissions of all the participating users.
 All data sent to the DACC is anonymized, and only aggregated values under a certain threshold can be queried.
 
+### Develop with the DACC
+
+To develop locally with the DACC, you first need to get an access token to the dev server. Then, you need to:
+
+- Set the flag `coachco2.dacc-dev_v2`. You can do it by running `cozy-stack features flags '{"coachco2.dacc-dev_v2": true}'`.
+- Add a secret document containing the DACC token:
+  - Create a database `secrets/io-cozy-remote-secrets` if it does not exist yet. You may need to replace the `/` with `%2F` depending on your client.
+  - Add the following document:
+  ```
+  {
+    "_id": "cc.cozycloud.dacc.dev_v2",
+    "token": "<dacc_token>"
+  }
+  ```
+
+Now, thanks to this, you should be able to use the DACC's remote-doctype! 
+
+
 ## Community
 
 ### What's Cozy?
