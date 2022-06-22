@@ -134,7 +134,7 @@
     "title": "CO2 emissions",
     "legend": {
       "yours": "Your emissions",
-      "average": "Average user emissions"
+      "average": "User averages"
     }
   }
 }
