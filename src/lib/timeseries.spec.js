@@ -563,7 +563,7 @@ describe('computeMonthsAndCO2s', () => {
       { startDate: '2020-02-01T00:00:00Z', aggregation: { totalCO2: 10 } },
       { startDate: '2020-03-01T00:00:00Z', aggregation: { totalCO2: 15 } },
       { startDate: '2020-03-05T00:00:00Z', aggregation: { totalCO2: 20 } },
-      { startDate: '2020-04-01T00:00:00Z', aggregation: { totalCO2: 25 } },
+      { startDate: '2020-04-01T00:00:00Z', aggregation: { totalCO2: 25.886 } },
       { startDate: '2020-05-01T00:00:00Z', aggregation: { totalCO2: 0 } }
     ]
 
@@ -583,7 +583,7 @@ describe('computeMonthsAndCO2s', () => {
       'JAN',
       'FEB'
     ])
-    expect(CO2s).toStrictEqual([35, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+    expect(CO2s).toStrictEqual([35, 25.89, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
   })
 
   it('should handle empty timeseries', () => {
