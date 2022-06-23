@@ -173,7 +173,7 @@ export const sendMeasuresForAccount = async (client, account) => {
       // There are timeseries without aggregation: interrupt service execution to run migration service
       log(
         'warn',
-        `Timeseries for ${startDate.toISOString} does not have aggregation`
+        `Timeseries for ${startDate.toISOString()} does not have aggregation`
       )
       await restartService(client, TIMESERIE_MIGRATION_SERVICE_NAME)
       log('info', 'Timeseries migration service started')

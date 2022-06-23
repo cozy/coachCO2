@@ -3,8 +3,6 @@ import log from 'cozy-logger'
 import schema from 'src/doctypes'
 import { computeAggregatedTimeseries } from 'src/lib/timeseries'
 import { buildTimeseriesWithoutAggregation } from 'src/queries/queries'
-import { restartService } from 'src/lib/services'
-import { TIMESERIE_MIGRATION_SERVICE_NAME } from 'src/constants'
 import fetch from 'node-fetch'
 global.fetch = fetch
 
@@ -35,11 +33,6 @@ const migrateTimeSeriesWithoutAggregation = async () => {
     'info',
     `${migratedTimeseries.length} timeseries migrated with aggregation`
   )
-  // Restart the service, if necessary
-  if (migratedTimeseries.length >= BATCH_DOCS_LIMIT) {
-    log('info', 'There are more timeseries to migrate: restart the service')
-    await restartService(client, TIMESERIE_MIGRATION_SERVICE_NAME)
-  }
 }
 
 migrateTimeSeriesWithoutAggregation().catch(e => {
