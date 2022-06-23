@@ -6,7 +6,7 @@ import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 
 import useSettings from 'src/hooks/useSettings'
 
-const DaccAlterterSwitcher = props => {
+const DaccAlerterSwitcher = props => {
   const { t } = useI18n()
   const { isLoading, value, save } = useSettings('hideDaccAlerter')
 
@@ -29,4 +29,4 @@ const DaccAlterterSwitcher = props => {
   )
 }
 
-export default DaccAlterterSwitcher
+export default DaccAlerterSwitcher
