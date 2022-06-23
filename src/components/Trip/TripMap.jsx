@@ -51,7 +51,7 @@ const TripMap = () => {
     [theme]
   )
   const mapPanRatio = useMemo(
-    () => (isMobile ? bottomSheetSettings.mediumHeightRatio / 2 : 0),
+    () => (isMobile ? bottomSheetSettings.mediumHeightRatio : 0),
     [isMobile]
   )
 
@@ -63,8 +63,9 @@ const TripMap = () => {
   useEffect(() => {
     if (geojsonRef.current) {
       const geojsonL = geojsonRef.current.leafletElement
-      mapL.fitBounds(geojsonL.getBounds())
-      mapL.panBy([0, mapL.getSize().y * mapPanRatio])
+      mapL.fitBounds(geojsonL.getBounds(), {
+        paddingBottomRight: [0, mapL.getSize().y * mapPanRatio]
+      })
     }
   }, [mapL, mapPanRatio])
 
