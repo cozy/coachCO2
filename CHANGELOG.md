@@ -8,6 +8,7 @@
 * Display global average CO2 emissions, thanks to DACC
 * Optimize aggregation query to select only required fields
 * Send aggregated CO2 values to the DACC under user consent
+* Add app version number and DACC alerter switch in admin mode (flag `coachco2.admin-mode`)
 
 ## 🐛 Bug Fixes
 

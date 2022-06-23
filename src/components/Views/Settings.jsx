@@ -11,7 +11,8 @@ import Titlebar from 'src/components/Titlebar'
 import CsvExporter from 'src/components/ExportCSV/CsvExporter'
 import AccountSelector from 'src/components/AccountSelector'
 import DaccSwitcher from 'src/components/DaccSwitcher'
-import DaccAlterterSwitcher from 'src/components/DaccAlterterSwitcher'
+import DaccAlerterSwitcher from 'src/components/DaccAlerterSwitcher'
+import AppVersionNumber from 'src/components/AppVersionNumber'
 
 export const Settings = () => {
   const { account } = useAccountContext()
@@ -29,12 +30,13 @@ export const Settings = () => {
         <AccountSelector />
         <DaccSwitcher className="u-mt-1-half" />
         {flag('coachco2.admin-mode') && (
-          <DaccAlterterSwitcher className="u-mt-1-half" />
+          <DaccAlerterSwitcher className="u-mt-half-s" />
         )}
         <CsvExporter
           className="u-mt-1-half"
           accountName={getAccountLabel(account)}
         />
+        {flag('coachco2.admin-mode') && <AppVersionNumber />}
       </div>
     </>
   )

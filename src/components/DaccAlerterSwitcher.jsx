@@ -3,10 +3,11 @@ import React from 'react'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Switch from 'cozy-ui/transpiled/react/MuiCozyTheme/Switch'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
+import Typography from 'cozy-ui/transpiled/react/Typography'
 
 import useSettings from 'src/hooks/useSettings'
 
-const DaccAlterterSwitcher = props => {
+const DaccAlerterSwitcher = props => {
   const { t } = useI18n()
   const { isLoading, value, save } = useSettings('hideDaccAlerter')
 
@@ -18,7 +19,11 @@ const DaccAlterterSwitcher = props => {
     <div {...props}>
       <FormControlLabel
         className="u-ml-0"
-        label={t('dacc.settings.hideAlerter')}
+        label={
+          <Typography style={{ color: 'var(--infoColor)' }}>
+            {t('dacc.settings.hideAlerter')}
+          </Typography>
+        }
         labelPlacement="start"
         checked={value}
         disabled={isLoading}
@@ -29,4 +34,4 @@ const DaccAlterterSwitcher = props => {
   )
 }
 
-export default DaccAlterterSwitcher
+export default DaccAlerterSwitcher

@@ -41,6 +41,12 @@ You can run a migration service to add aggregation data on your timeseries.
 $ yarn service:timeseriesWithoutAggregateMigration
 ```
 
+### Feature flags availables
+
+`coachco2.admin-mode`: activate some hidden functions
+`coachco2.dacc-dev_v2`: to use dev version of DACC
+
+
 ### Run it inside a Cozy using Docker
 
 You can run your application inside a Cozy thanks to the [cozy-stack docker image][cozy-stack-docker]:
@@ -207,7 +213,7 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
 
 ## DACC
 
-This app uses the [DACC](https://github.com/cozy/DACC) to send and received anonymized contributions. 
+This app uses the [DACC](https://github.com/cozy/DACC) to send and received anonymized contributions.
 This is used to compare average CO2 emissions: if the user gives consent, her monthly CO2 emissions are sent to the DACC.
 Then, she can compare herself with the average emissions of all the participating users.
 All data sent to the DACC is anonymized, and only aggregated values under a certain threshold can be queried.
@@ -227,7 +233,7 @@ To develop locally with the DACC, you first need to get an access token to the d
   }
   ```
 
-Now, thanks to this, you should be able to use the DACC's remote-doctype! 
+Now, thanks to this, you should be able to use the DACC's remote-doctype!
 
 
 ## Community
