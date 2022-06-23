@@ -278,7 +278,25 @@ describe('runDACCService', () => {
       .spyOn(global.Date, 'now')
       .mockImplementation(() => new Date(mockedCurrentDate).valueOf())
   })
+
+  it('should do nothing when there is no consent', async () => {
+    jest.spyOn(mockClient, 'queryAll').mockResolvedValueOnce(null)
+    let shouldRestart = await dacc.runDACCService(mockClient)
+    expect(sendMeasureToDACC).toHaveBeenCalledTimes(0)
+    expect(shouldRestart).toBe(false)
+
+    jest
+      .spyOn(mockClient, 'queryAll')
+      .mockResolvedValueOnce([{ allowSendDataToDacc: false }])
+    shouldRestart = await dacc.runDACCService(mockClient)
+    expect(sendMeasureToDACC).toHaveBeenCalledTimes(0)
+    expect(shouldRestart).toBe(false)
+  })
+
   it('should return false when there is no more measure to send', async () => {
+    jest
+      .spyOn(mockClient, 'queryAll')
+      .mockResolvedValueOnce([{ allowSendDataToDacc: true }])
     jest
       .spyOn(mockClient, 'queryAll')
       .mockResolvedValueOnce([
@@ -294,6 +312,9 @@ describe('runDACCService', () => {
   })
 
   it('should return true when there are no more measure to send', async () => {
+    jest
+      .spyOn(mockClient, 'queryAll')
+      .mockResolvedValueOnce([{ allowSendDataToDacc: true }])
     jest
       .spyOn(mockClient, 'queryAll')
       .mockResolvedValueOnce([

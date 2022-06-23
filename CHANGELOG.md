@@ -7,6 +7,7 @@
 * CSV export filtered by sensor
 * Display global average CO2 emissions, thanks to DACC
 * Optimize aggregation query to select only required fields
+* Send aggregated CO2 values to the DACC under user consent
 
 ## 🐛 Bug Fixes
 

@@ -9,7 +9,8 @@ import format from 'date-fns/format'
 import {
   buildAccountQuery,
   buildTimeseriesQueryByDateAndAccountId,
-  buildOldestTimeseriesQueryByAccountId
+  buildOldestTimeseriesQueryByAccountId,
+  buildSettingsQuery
 } from 'src/queries/queries'
 import { computeCO2Timeseries } from 'src/lib/timeseries'
 import {
@@ -153,6 +154,7 @@ export const sendMeasuresForAccount = async (client, account) => {
     log('info', `No data to process for account ${account._id}.`)
     return nMeasuresSent
   }
+  log('info', `Start measures from ${startDate.toISOString()}`)
   let nextStartDate = getNextMeasureStartDate(startDate)
   while (nextStartDate && nMeasuresSent < MAX_DACC_MEASURES_SENT) {
     startDate = nextStartDate
@@ -189,13 +191,24 @@ export const sendMeasuresForAccount = async (client, account) => {
   return nMeasuresSent
 }
 
+/**
+ * Run the DACC service
+ *
+ * @param {object} client - The client instance
+ * @returns {boolean} Whether or not the service should be restarted
+ */
 export const runDACCService = async client => {
+  const settings = await client.queryAll(buildSettingsQuery().definition)
+  if (!settings || !settings[0].allowSendDataToDacc) {
+    log('info', 'The user did not give consent to send data to DACC')
+    return false
+  }
   const accounts = await client.queryAll(
     buildAccountQuery({ limit: 1000, withOnlyLogin: false }).definition
   )
   if (!accounts) {
     log('info', 'No account found: Nothing to do')
-    return
+    return false
   }
 
   let shouldRestartService = false
