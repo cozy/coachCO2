@@ -27,7 +27,9 @@ const migrateTimeSeriesWithoutAggregation = async () => {
   const migratedTimeseries = computeAggregatedTimeseries(resp.data)
 
   // Save the migrated timeseries
-  await client.saveAll(migratedTimeseries)
+  for (const timeserie of migratedTimeseries) {
+    await client.save(timeserie)
+  }
 
   log(
     'info',
