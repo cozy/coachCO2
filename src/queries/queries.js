@@ -36,9 +36,11 @@ export const buildAccountQuery = ({
     })
     .indexFields(['account_type'])
     .limitBy(limit)
+
   if (withOnlyLogin) {
     queryDef.select(['auth.login', 'account_type'])
   }
+
   return {
     definition: queryDef,
     options: {
@@ -80,9 +82,11 @@ export const buildTimeseriesQueryByDateAndAccountId = (
     })
     .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
     .limitBy(limit)
+
   if (withOnlyAggregation) {
     queryDef.select(['aggregation', 'cozyMetadata.sourceAccount', 'startDate'])
   }
+
   return {
     definition: queryDef,
     options: {
@@ -140,17 +144,15 @@ export const buildOneYearOldTimeseriesWithAggregationByAccountId =
           'cozyMetadata.sourceAccount': accountId,
           startDate: {
             $gte: dateOneYearAgoFromNow.toISOString()
-          },
+          }
+        })
+        .partialIndex({
           aggregation: {
             $exists: true
           }
         })
-        .indexFields(['cozyMetadata.sourceAccount', 'startDate', 'aggregation']) // aggregation should be in partialIndex, but we need to fix https://github.com/cozy/cozy-client/issues/1054 first
-        .sortBy([
-          { 'cozyMetadata.sourceAccount': 'asc' },
-          { startDate: 'asc' },
-          { aggregation: 'asc' }
-        ])
+        .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
+        .sortBy([{ 'cozyMetadata.sourceAccount': 'asc' }, { startDate: 'asc' }])
         .select(['startDate', 'aggregation', 'cozyMetadata.sourceAccount'])
         .limitBy(1000),
       options: {
