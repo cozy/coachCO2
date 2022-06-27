@@ -1,5 +1,6 @@
 import set from 'lodash/set'
 import cloneDeep from 'lodash/cloneDeep'
+import { computeAggregatedTimeseries } from 'src/lib/timeseries'
 
 export const createGeojsonWithModifiedMode = ({
   timeserie,
@@ -34,11 +35,15 @@ export const createGeojsonWithModifiedMode = ({
       mode
     )
 
-    return set(
+    const updatedTimeserie = set(
       cloneDeep(timeserie),
       `series[${serieIndex}].features[${firstIndex}].features[${secondIndex}]`,
       modifiedFeature
     )
+    const timeserieWithUpdatedAggregation = computeAggregatedTimeseries([
+      updatedTimeserie
+    ])[0]
+    return timeserieWithUpdatedAggregation
   }
 
   return timeserie
