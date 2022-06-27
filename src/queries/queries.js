@@ -109,7 +109,7 @@ export const buildSettingsQuery = () => ({
 export const buildTimeseriesWithoutAggregation = ({ limit = 1000 }) => ({
   definition: Q(GEOJSON_DOCTYPE)
     .where({
-      startDate: {
+      endDate: {
         $gt: null
       }
     })
@@ -118,8 +118,8 @@ export const buildTimeseriesWithoutAggregation = ({ limit = 1000 }) => ({
         $exists: false
       }
     })
-    .indexFields(['startDate'])
-    .sortBy([{ startDate: 'desc' }])
+    .indexFields(['endDate'])
+    .sortBy([{ endDate: 'desc' }])
     .limitBy(limit)
 })
 
