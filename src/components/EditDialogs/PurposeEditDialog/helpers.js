@@ -15,8 +15,12 @@ export const createGeojsonWithModifiedPurpose = ({
       'properties.manual_purpose',
       purpose.toUpperCase()
     )
-
-    return set(cloneDeep(timeserie), `series[${index}]`, modifiedSerie)
+    const modifiedTimeserie = set(
+      cloneDeep(timeserie),
+      `series[${index}]`,
+      modifiedSerie
+    )
+    return set(modifiedTimeserie, 'aggregation.purpose', purpose.toUpperCase())
   }
 
   return timeserie
