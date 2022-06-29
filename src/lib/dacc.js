@@ -91,7 +91,6 @@ const createMeasureForDACC = (startDate, value) => {
 
 const fetchTimeseriesForMonth = async (client, accountId, startDate) => {
   const query = buildTimeseriesQueryByDateAndAccountId(startDate, accountId, {
-    withOnlyAggregation: true,
     limit: 1000
   }).definition
   return client.queryAll(query)

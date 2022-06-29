@@ -21,7 +21,7 @@ describe('buildTimeseriesQueryByDateAndAccountId', () => {
         }
       },
       options: {
-        as: 'io.cozy.timeseries.geojson/sourceAccount/accountId/date/2022-1/limitedBy/1000/withOnlyAggregation/true',
+        as: 'io.cozy.timeseries.geojson/sourceAccount/accountId/date/2022-1/limitedBy/1000',
         enabled: true
       }
     })
@@ -42,7 +42,7 @@ describe('buildTimeseriesQueryByDateAndAccountId', () => {
         }
       },
       options: {
-        as: 'io.cozy.timeseries.geojson/sourceAccount/undefined/date/2022-1/limitedBy/1000/withOnlyAggregation/true',
+        as: 'io.cozy.timeseries.geojson/sourceAccount/undefined/date/2022-1/limitedBy/1000',
         enabled: false
       }
     })
@@ -53,7 +53,7 @@ describe('buildTimeseriesQueryByDateAndAccountId', () => {
 
     expect(query).toMatchObject({
       options: {
-        as: 'io.cozy.timeseries.geojson/sourceAccount/accountId/date/noDate/limitedBy/1000/withOnlyAggregation/true',
+        as: 'io.cozy.timeseries.geojson/sourceAccount/accountId/date/noDate/limitedBy/1000',
         enabled: false
       }
     })
@@ -64,7 +64,7 @@ describe('buildTimeseriesQueryByDateAndAccountId', () => {
 
     expect(query).toMatchObject({
       options: {
-        as: 'io.cozy.timeseries.geojson/sourceAccount/undefined/date/noDate/limitedBy/1000/withOnlyAggregation/true',
+        as: 'io.cozy.timeseries.geojson/sourceAccount/undefined/date/noDate/limitedBy/1000',
         enabled: false
       }
     })

@@ -22,6 +22,7 @@ export const buildTimeseriesQueryByAccountId = ({ accountId, limitBy }) => ({
         $exists: true
       }
     })
+    .select(['cozyMetadata.sourceAccount', 'startDate', 'aggregation'])
     .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
     .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
     .limitBy(limitBy),
@@ -64,7 +65,7 @@ export const buildTimeserieQueryById = timeserieId => ({
 export const buildTimeseriesQueryByDateAndAccountId = (
   date = null,
   accountId,
-  { withOnlyAggregation = true, limit = 1000 } = {}
+  { limit = 1000 } = {}
 ) => {
   const startMonth = startOfMonth(date) || null
   const endMonth = endOfMonth(date) || null
@@ -88,15 +89,14 @@ export const buildTimeseriesQueryByDateAndAccountId = (
         $exists: true
       }
     })
+    .select(['aggregation', 'cozyMetadata.sourceAccount', 'startDate'])
     .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
     .limitBy(limit)
-  if (withOnlyAggregation) {
-    queryDef.select(['aggregation', 'cozyMetadata.sourceAccount', 'startDate'])
-  }
+
   return {
     definition: queryDef,
     options: {
-      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/date/${dateAsOption}/limitedBy/${limit}/withOnlyAggregation/${withOnlyAggregation}`,
+      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/date/${dateAsOption}/limitedBy/${limit}`,
       fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s),
       enabled: Boolean(date) && Boolean(accountId)
     }
