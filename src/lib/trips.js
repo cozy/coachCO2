@@ -3,7 +3,6 @@ import flatten from 'lodash/flatten'
 import uniq from 'lodash/uniq'
 import memoize from 'lodash/memoize'
 import dateFnsFormatDistance from 'date-fns/formatDistance'
-
 import humanizeDuration from 'humanize-duration'
 
 import { UNKNOWN_MODE } from 'src/constants'
@@ -13,6 +12,7 @@ import {
   computeCO2TripByMode
 } from 'src/lib/metrics'
 import { modes } from 'src/components/helpers'
+import { formatDistance, formatCO2, formatCalories } from 'src/lib/helpers'
 
 /**
  * Compute the percentage and returns it as a formatted string
@@ -44,16 +44,6 @@ export const getFormattedDuration = trip => {
   const startDate = new Date(trip.properties.start_fmt_time)
   const endDate = new Date(trip.properties.end_fmt_time)
   return dateFnsFormatDistance(endDate, startDate)
-}
-
-const formatDistance = distance => {
-  let unit = 'm'
-  let formatedDistance = distance
-  if (distance > 1000) {
-    unit = 'km'
-    formatedDistance = distance / 1000
-  }
-  return `${Math.round(formatedDistance)} ${unit}`
 }
 
 export const getFormattedTripDistance = trip => {
@@ -196,13 +186,6 @@ export const getTripEndDate = trip => {
   return new Date(trip.properties.end_fmt_time)
 }
 
-export const formatDate = ({ f, lang, date }) => {
-  if (lang === 'fr') {
-    return f(date, 'HH[h]mm')
-  }
-  return f(date, 'HH:mm')
-}
-
 /**
  * Get the average speed in km/h from an array of m/s values
  * @param {Array} speeds - The speed values, in m/s
@@ -214,14 +197,10 @@ const averageSpeedKmH = speeds => {
   return avgSpeed * 3.6
 }
 
-export const formatCalories = calories => `${Math.round(calories)} kcal`
-
 export const computeAndformatCaloriesTrip = trip => {
   const caloriesTrip = computeCaloriesTrip(trip)
   return formatCalories(caloriesTrip)
 }
-
-export const formatCO2 = CO2 => `${Math.round(CO2 * 100) / 100} kg`
 
 export const computeAndFormatCO2Trip = trip => {
   const CO2Trip = computeCO2Trip(trip)

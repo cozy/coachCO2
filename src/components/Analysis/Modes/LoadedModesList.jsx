@@ -13,7 +13,7 @@ import {
   sortTimeseriesByCO2GroupedByMode,
   computeCO2Timeseries
 } from 'src/lib/timeseries'
-import { formatCO2 } from 'src/lib/trips'
+import { formatCO2 } from 'src/lib/helpers'
 import { makeChartProps } from 'src/components/Analysis/helpers'
 import AnalysisListItem from 'src/components/Analysis/AnalysisListItem'
 import TripsList from 'src/components/TripsList'

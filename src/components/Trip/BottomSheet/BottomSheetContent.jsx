@@ -9,7 +9,7 @@ import { BottomSheetItem } from 'cozy-ui/transpiled/react/BottomSheet'
 
 import TimelineNode from 'src/components/Timeline/TimelineNode'
 import TimelineSections from 'src/components/Timeline/TimelineSections'
-import { formatDate } from 'src/lib/trips'
+import { formatDate } from 'src/lib/helpers'
 import {
   getEndPlaceDisplayName,
   getStartPlaceDisplayName,

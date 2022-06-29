@@ -1,25 +1,23 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import TimelineIcon from 'src/components/Timeline/TimelineIcon'
-import { formatDate, getSectionsFormatedFromTrip } from 'src/lib/trips.js'
+import {
+  formatDistance,
+  formatDuration,
+  formatAvgSpeed,
+  formatDate
+} from 'src/lib/helpers'
 import { pickModeIcon } from 'src/components/helpers'
 import ModeEditDialog from 'src/components/EditDialogs/ModeEditDialog'
 import { useTrip } from 'src/components/Providers/TripProvider'
-import { getGeoJSONData } from 'src/lib/timeseries'
 
 const TimelineSections = () => {
   const { timeserie } = useTrip()
   const { t, f, lang } = useI18n()
   const [showModal, setShowModal] = useState(false)
   const [section, setSection] = useState(null)
-  const trip = getGeoJSONData(timeserie)
-
-  const formatedSections = useMemo(
-    () => getSectionsFormatedFromTrip(trip, lang),
-    [lang, trip]
-  )
 
   const handleClick = useCallback(
     section => () => {
@@ -32,12 +30,14 @@ const TimelineSections = () => {
 
   return (
     <>
-      {formatedSections.map((section, index) => (
+      {timeserie.aggregation.sections.map((section, index) => (
         <TimelineIcon
           key={index}
-          label={`${t(`trips.modes.${section.mode}`)} - ${section.duration} - ${
-            section.distance
-          } - ${section.averageSpeed}`}
+          label={`${t(`trips.modes.${section.mode}`)} - ${formatDuration(
+            section.duration
+          )} - ${formatDistance(section.distance)} - ${formatAvgSpeed(
+            section.avgSpeed
+          )}`}
           endLabel={formatDate({ f, lang, date: new Date(section.endDate) })}
           icon={pickModeIcon(section.mode)}
           onClick={handleClick(section)}

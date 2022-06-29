@@ -12,7 +12,8 @@ import Icon from 'cozy-ui/transpiled/react/Icon'
 
 import { PurposeAvatar, ModeAvatar } from 'src/components/Avatar'
 
-import { computeFormatedPercentage, formatCO2 } from 'src/lib/trips'
+import { computeFormatedPercentage } from 'src/lib/trips'
+import { formatCO2 } from 'src/lib/helpers'
 
 const styles = {
   co2: { fontWeight: 700 }

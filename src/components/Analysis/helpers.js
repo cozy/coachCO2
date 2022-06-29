@@ -1,5 +1,5 @@
 import { modeToColor, purposeToColor } from 'src/components/helpers'
-import { formatCO2 } from 'src/lib/trips'
+import { formatCO2 } from 'src/lib/helpers'
 
 export const makeChartProps = (sortedTimeseries, type, t) => {
   const sortedTimeseriesKeys = Object.keys(sortedTimeseries)
