@@ -9,7 +9,6 @@ import Box from 'cozy-ui/transpiled/react/Box'
 import PieChart from 'cozy-ui/transpiled/react/PieChart'
 
 import {
-  computeAggregatedTimeseries,
   sortTimeseriesByCO2GroupedByMode,
   computeCO2Timeseries
 } from 'src/lib/timeseries'
@@ -23,18 +22,13 @@ const LoadedModesList = ({ timeseries }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
 
-  const aggregatedTimeseries = useMemo(
-    () => computeAggregatedTimeseries(timeseries),
+  const timeseriesSortedByModes = useMemo(
+    () => sortTimeseriesByCO2GroupedByMode(timeseries),
     [timeseries]
   )
-  const timeseriesSortedByModes = useMemo(
-    () => sortTimeseriesByCO2GroupedByMode(aggregatedTimeseries),
-    [aggregatedTimeseries]
-  )
-  const totalCO2 = useMemo(
-    () => computeCO2Timeseries(aggregatedTimeseries),
-    [aggregatedTimeseries]
-  )
+
+  const totalCO2 = computeCO2Timeseries(timeseries)
+
   const { data, options } = useMemo(
     () => makeChartProps(timeseriesSortedByModes, 'modes', t),
     [t, timeseriesSortedByModes]
