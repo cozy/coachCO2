@@ -17,6 +17,11 @@ export const buildTimeseriesQueryByAccountId = ({ accountId, limitBy }) => ({
     .where({
       'cozyMetadata.sourceAccount': accountId
     })
+    .partialIndex({
+      aggregation: {
+        $exists: true
+      }
+    })
     .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
     .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
     .limitBy(limitBy),
@@ -77,6 +82,11 @@ export const buildTimeseriesQueryByDateAndAccountId = (
           $lte: endMonth.toISOString()
         }
       })
+    })
+    .partialIndex({
+      aggregation: {
+        $exists: true
+      }
     })
     .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
     .limitBy(limit)
@@ -140,18 +150,16 @@ export const buildOneYearOldTimeseriesWithAggregationByAccountId =
           'cozyMetadata.sourceAccount': accountId,
           startDate: {
             $gte: dateOneYearAgoFromNow.toISOString()
-          },
+          }
+        })
+        .partialIndex({
           aggregation: {
             $exists: true
           }
         })
-        .indexFields(['cozyMetadata.sourceAccount', 'startDate', 'aggregation']) // aggregation should be in partialIndex, but we need to fix https://github.com/cozy/cozy-client/issues/1054 first
-        .sortBy([
-          { 'cozyMetadata.sourceAccount': 'asc' },
-          { startDate: 'asc' },
-          { aggregation: 'asc' }
-        ])
         .select(['startDate', 'aggregation', 'cozyMetadata.sourceAccount'])
+        .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
+        .sortBy([{ 'cozyMetadata.sourceAccount': 'asc' }, { startDate: 'asc' }])
         .limitBy(1000),
       options: {
         as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/withAggregation/fromDate/${dateOneYearAgoFromNow.getFullYear()}-${dateOneYearAgoFromNow.getMonth()}`,
