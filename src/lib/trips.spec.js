@@ -1,25 +1,16 @@
 import {
-  makeBicycleTrip,
-  makeWalkingTrip,
   mockFeature,
   mockFeatureCollection,
   mockSerie,
-  makeCarTrip,
   modeProps
 } from 'test/mockTrip'
 
 import {
-  computeAndformatCaloriesTrip,
   getSectionsFromTrip,
   getPurpose,
-  getSectionsFormatedFromTrip,
-  getModesSortedByDistance,
-  computeAndFormatCO2Trip,
   getFeatureMode,
-  computeFormatedPercentage,
-  computeAndFormatCO2TripByMode
+  computeFormatedPercentage
 } from 'src/lib/trips'
-import { BICYCLING_MODE, CAR_MODE } from 'src/constants'
 
 const mockedFeatures = () => [
   mockFeature('featureId01'),
@@ -36,56 +27,6 @@ const mockedFeatures = () => [
     mockFeature('featureId07', modeProps.car)
   ])
 ]
-
-describe('getModesSortedByDistance', () => {
-  const mockedSerie = mockSerie('serieId01', mockedFeatures())
-
-  it('should return feature collection modes sorted by distance', () => {
-    const result = getModesSortedByDistance(mockedSerie)
-
-    expect(result).toHaveLength(3)
-    expect(result).toStrictEqual(['CAR', 'BICYCLING', 'WALKING'])
-  })
-})
-
-describe('computeAndformatCaloriesTrip', () => {
-  it('should return formated value', () => {
-    const bCalories = computeAndformatCaloriesTrip(makeBicycleTrip())
-    expect(bCalories).toBe('104 kcal')
-
-    const wCalories = computeAndformatCaloriesTrip(makeWalkingTrip())
-    expect(wCalories).toBe('23 kcal')
-  })
-})
-
-describe('computeAndFormatCO2Trip', () => {
-  it('should return formated value', () => {
-    const bCO2 = computeAndFormatCO2Trip(makeBicycleTrip())
-    expect(bCO2).toBe('0 kg')
-
-    const cCO2 = computeAndFormatCO2Trip(makeCarTrip())
-    expect(cCO2).toBe('2.84 kg')
-  })
-})
-
-describe('computeAndFormatCO2TripByMode', () => {
-  const mockedSerie = mockSerie('serieId01', mockedFeatures())
-  it('should return formatted value by car mode', () => {
-    const formattedCO2ByCarMode = computeAndFormatCO2TripByMode(
-      mockedSerie,
-      CAR_MODE
-    )
-    expect(formattedCO2ByCarMode).toBe('2.84 kg')
-  })
-
-  it('should return formatted value by bicycle mode', () => {
-    const formattedCO2ByPlaneMode = computeAndFormatCO2TripByMode(
-      mockedSerie,
-      BICYCLING_MODE
-    )
-    expect(formattedCO2ByPlaneMode).toBe('0 kg')
-  })
-})
 
 describe('getPurpose', () => {
   it('should return purpose value', () => {
@@ -122,17 +63,6 @@ describe('getSectionsFromTrip', () => {
   it('should return correct sections', () => {
     const sectionsInfo = getSectionsFromTrip(trips)
     expect(sectionsInfo).toMatchSnapshot()
-  })
-})
-
-describe('getSectionsFormatedFromTrip', () => {
-  it('should return formated value', () => {
-    const bicyleInfos = getSectionsFormatedFromTrip(makeBicycleTrip(), 'en')
-    expect(bicyleInfos[0]).toMatchObject({
-      distance: '2 km',
-      duration: '10 min',
-      averageSpeed: '16 km/h'
-    })
   })
 })
 
