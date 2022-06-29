@@ -11,7 +11,7 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
 
-import { buildTimeseriesQueryByAccountId } from 'src/queries/queries'
+import { buildAggregatedTimeseriesQueryByAccountId } from 'src/queries/queries'
 import TripsList from 'src/components/TripsList'
 import Titlebar from 'src/components/Titlebar'
 import {
@@ -28,7 +28,7 @@ export const Trips = () => {
   const client = useClient()
   const { isMobile } = useBreakpoints()
 
-  const timeseriesQuery = buildTimeseriesQueryByAccountId({
+  const timeseriesQuery = buildAggregatedTimeseriesQueryByAccountId({
     accountId: account?._id,
     limitBy: 50
   })
