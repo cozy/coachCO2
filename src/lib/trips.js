@@ -3,21 +3,7 @@ import memoize from 'lodash/memoize'
 
 import { UNKNOWN_MODE } from 'src/constants'
 import { modes } from 'src/components/helpers'
-
-/**
- * Compute the percentage and returns it as a formatted string
- * @param {number} value
- * @param {number} total
- * @returns {string}
- */
-export const computeFormatedPercentage = (value, total) => {
-  if (total === 0) return '0%'
-
-  const [int, dec] = ((value * 100) / total).toFixed(2).split('.')
-  if (dec === '00') return `${int}%`
-
-  return `${int}.${dec}%`
-}
+import { averageSpeedKmH } from 'src/lib/helpers'
 
 export const getPurpose = trip => {
   return get(trip, 'properties.manual_purpose')
@@ -90,15 +76,4 @@ export const getTripStartDate = trip => {
 
 export const getTripEndDate = trip => {
   return new Date(trip.properties.end_fmt_time)
-}
-
-/**
- * Get the average speed in km/h from an array of m/s values
- * @param {Array} speeds - The speed values, in m/s
- * @returns {number} The average speed, given in km/h
- */
-const averageSpeedKmH = speeds => {
-  const avgSpeed = speeds.reduce((a, b) => a + b, 0) / speeds.length
-  // The speed is given in m/s
-  return avgSpeed * 3.6
 }
