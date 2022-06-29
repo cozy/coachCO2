@@ -22,9 +22,18 @@ export const buildTimeseriesQueryByAccountId = ({ accountId, limitBy }) => ({
         $exists: true
       }
     })
-    .select(['cozyMetadata.sourceAccount', 'startDate', 'aggregation'])
-    .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
-    .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
+    .select([
+      'cozyMetadata.sourceAccount',
+      'startDate',
+      'endDate',
+      'aggregation'
+    ])
+    .indexFields(['cozyMetadata.sourceAccount', 'startDate', 'endDate'])
+    .sortBy([
+      { 'cozyMetadata.sourceAccount': 'desc' },
+      { startDate: 'desc' },
+      { endDate: 'desc' }
+    ])
     .limitBy(limitBy),
   options: {
     as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/limitedBy/${limitBy}`,
