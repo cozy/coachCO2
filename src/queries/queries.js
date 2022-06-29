@@ -12,6 +12,8 @@ import {
 
 const older30s = 30 * 1000
 
+// Timeseries doctype -------------
+
 export const buildTimeseriesQueryByAccountId = ({ accountId, limitBy }) => ({
   definition: Q(GEOJSON_DOCTYPE)
     .where({
@@ -40,28 +42,6 @@ export const buildTimeseriesQueryByAccountId = ({ accountId, limitBy }) => ({
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
-
-export const buildAccountQuery = ({
-  limit = 100,
-  withOnlyLogin = true
-} = {}) => {
-  const queryDef = Q(ACCOUNTS_DOCTYPE)
-    .where({
-      account_type: 'tracemob'
-    })
-    .indexFields(['account_type'])
-    .limitBy(limit)
-  if (withOnlyLogin) {
-    queryDef.select(['auth.login', 'account_type'])
-  }
-  return {
-    definition: queryDef,
-    options: {
-      as: `${ACCOUNTS_DOCTYPE}/account_type/limitedBy/${limit}/withOnlyLogin/${withOnlyLogin}`,
-      fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
-    }
-  }
-}
 
 export const buildTimeserieQueryById = timeserieId => ({
   definition: Q(GEOJSON_DOCTYPE).getById(timeserieId),
@@ -111,14 +91,6 @@ export const buildTimeseriesQueryByDateAndAccountId = (
     }
   }
 }
-
-export const buildSettingsQuery = () => ({
-  definition: Q(SETTINGS_DOCTYPE),
-  options: {
-    as: SETTINGS_DOCTYPE,
-    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
-  }
-})
 
 // Note there is no need for fetchPolicy here, as this query is only used in node service
 export const buildTimeseriesWithoutAggregation = ({ limit = 1000 }) => ({
@@ -176,3 +148,35 @@ export const buildOneYearOldTimeseriesWithAggregationByAccountId =
       }
     }
   }
+
+// other doctypes -------------
+
+export const buildAccountQuery = ({
+  limit = 100,
+  withOnlyLogin = true
+} = {}) => {
+  const queryDef = Q(ACCOUNTS_DOCTYPE)
+    .where({
+      account_type: 'tracemob'
+    })
+    .indexFields(['account_type'])
+    .limitBy(limit)
+  if (withOnlyLogin) {
+    queryDef.select(['auth.login', 'account_type'])
+  }
+  return {
+    definition: queryDef,
+    options: {
+      as: `${ACCOUNTS_DOCTYPE}/account_type/limitedBy/${limit}/withOnlyLogin/${withOnlyLogin}`,
+      fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+    }
+  }
+}
+
+export const buildSettingsQuery = () => ({
+  definition: Q(SETTINGS_DOCTYPE),
+  options: {
+    as: SETTINGS_DOCTYPE,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+  }
+})
