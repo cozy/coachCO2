@@ -1,7 +1,5 @@
 import React, { useMemo, useContext } from 'react'
 
-import { removeAggregationFromTimeseries } from 'src/components/Providers/helpers'
-
 export const TripContext = React.createContext()
 
 export const useTrip = () => {
@@ -14,13 +12,11 @@ export const useTrip = () => {
 }
 
 const TripProvider = ({ timeserie, children }) => {
-  const cleanedGeojson = removeAggregationFromTimeseries(timeserie)
-
   const value = useMemo(
     () => ({
-      timeserie: cleanedGeojson
+      timeserie
     }),
-    [cleanedGeojson]
+    [timeserie]
   )
 
   return <TripContext.Provider value={value}>{children}</TripContext.Provider>
