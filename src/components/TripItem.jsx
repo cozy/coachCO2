@@ -115,7 +115,7 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
       <Divider />
       {showTripDialog && (
         <TripDialogDesktop
-          timeserie={timeserie}
+          timeserieId={timeserie._id}
           setShowTripDialog={setShowTripDialog}
         />
       )}
