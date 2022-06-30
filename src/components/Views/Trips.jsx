@@ -10,6 +10,7 @@ import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
+import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 
 import { buildAggregatedTimeseriesQueryByAccountId } from 'src/queries/queries'
 import TripsList from 'src/components/TripsList'
@@ -79,6 +80,14 @@ export const Trips = () => {
       <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />
       <CO2EmissionsChart />
       <DaccManager />
+      {isMobile && (
+        <Divider
+          style={{
+            height: '12px',
+            backgroundColor: 'var(--defaultBackgroundColor)'
+          }}
+        />
+      )}
       <TripsList timeseries={timeseries} />
       {timeseriesQueryLeft.hasMore && (
         <LoadMore
