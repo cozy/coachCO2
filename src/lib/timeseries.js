@@ -5,11 +5,14 @@ import fromPairs from 'lodash/fromPairs'
 import toPairs from 'lodash/toPairs'
 import get from 'lodash/get'
 import sumBy from 'lodash/sumBy'
+import uniq from 'lodash/uniq'
 import subMonths from 'date-fns/subMonths'
 import startOfMonth from 'date-fns/startOfMonth'
+import dateFnsFormatDistance from 'date-fns/formatDistance'
 
 import { computeCO2Section, computeCaloriesSection } from 'src/lib/metrics'
 import { getSectionsFromTrip, getPurpose } from 'src/lib/trips'
+import { formatDistance, formatCO2, formatCalories } from 'src/lib/helpers'
 import { modes, purposes } from 'src/components/helpers'
 import { UNKNOWN_MODE, OTHER_PURPOSE } from 'src/constants'
 
@@ -217,6 +220,13 @@ export const sortTimeseriesByCO2GroupedByMode = aggregatedTimeseries => {
 // Purpose usages
 
 export const getTimeseriePurpose = timeserie => {
+  const purpose = get(timeserie, 'aggregation.purpose', '').toUpperCase()
+  const isSupportedPurpose = purposes.includes(purpose)
+
+  return (isSupportedPurpose && purpose) || OTHER_PURPOSE
+}
+
+export const getTimeseriePurposeOld = timeserie => {
   const manualPurpose = get(
     timeserie,
     'series[0].properties.manual_purpose',
@@ -278,15 +288,76 @@ export const getEndDate = timeserie => {
 }
 
 export const getStartPlaceDisplayName = timeserie => {
-  return get(timeserie, 'series[0].features[0].properties.display_name')
+  return get(timeserie, 'aggregation.startPlaceDisplayName')
 }
 
 export const getEndPlaceDisplayName = timeserie => {
-  return get(timeserie, 'series[0].features[1].properties.display_name')
+  return get(timeserie, 'aggregation.endPlaceDisplayName')
 }
 
 export const getGeoJSONData = timeserie => {
   return get(timeserie, 'series[0]')
+}
+
+export const getTotalDuration = timeserie => {
+  return get(timeserie, 'aggregation.totalDuration')
+}
+
+export const getFormattedDuration = timeserie => {
+  const startDate = getStartDate(timeserie)
+  const endDate = getEndDate(timeserie)
+  return dateFnsFormatDistance(endDate, startDate)
+}
+
+export const getFormattedDistance = timeserie => {
+  return formatDistance(timeserie.aggregation.totalDistance)
+}
+
+export const getTotalCO2 = timeserie => {
+  return get(timeserie, 'aggregation.totalCO2', '')
+}
+
+export const getFormattedTotalCO2 = timeserie => {
+  const totalCO2 = getTotalCO2(timeserie)
+  return formatCO2(totalCO2)
+}
+
+export const getTotalCalories = timeserie => {
+  return get(timeserie, 'aggregation.totalCalories', '')
+}
+
+export const getFormattedTotalCalories = timeserie => {
+  const totalCalories = getTotalCalories(timeserie)
+  return formatCalories(totalCalories)
+}
+
+/**
+ * Compute the total CO2 consumed only by the specified mode
+ */
+export const computeTotalCO2ByMode = (timeserie, mode) => {
+  let totalCO2 = 0
+  for (const section of timeserie.aggregation.sections) {
+    if (section.mode === mode) {
+      totalCO2 += section.CO2
+    }
+  }
+  return totalCO2
+}
+
+export const computeAndFormatTotalCO2ByMode = (timeserie, mode) => {
+  const totalCO2ByMode = computeTotalCO2ByMode(timeserie, mode)
+  return formatCO2(totalCO2ByMode)
+}
+
+export const getModesSortedByDistance = timeserie => {
+  return uniq(
+    timeserie.aggregation.sections
+      .sort((sectionA, sectionB) =>
+        sectionA.distance > sectionB.distance ? -1 : 1
+      )
+      .map(section => section.mode)
+      .filter(Boolean)
+  )
 }
 
 /**

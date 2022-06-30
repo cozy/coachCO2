@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import {
-  computeAggregatedTimeseries,
   sortTimeseriesByCO2GroupedByPurpose,
   computeCO2Timeseries,
   transformTimeseriesToTrips
@@ -57,7 +56,6 @@ jest.mock(
 
 describe('LoadedPurposesList', () => {
   const timeseries = ['timeseries']
-  const aggregatedTimeseries = 'computeAggregatedTimeseries'
   const t = x => x
   const firstTimeserieSortedByPurposes = {
     timeseries: [],
@@ -73,7 +71,6 @@ describe('LoadedPurposesList', () => {
 
   beforeEach(() => {
     useI18n.mockReturnValue({ t })
-    computeAggregatedTimeseries.mockReturnValue(aggregatedTimeseries)
     sortTimeseriesByCO2GroupedByPurpose.mockReturnValue(
       timeseriesSortedByPurposes
     )
@@ -110,27 +107,19 @@ describe('LoadedPurposesList', () => {
     )
   })
 
-  it('should computeAggregatedTimeseries from timeseries', () => {
+  it('should sortTimeseriesByCO2GroupedByPurpose from timeseries', () => {
     render(<LoadedPurposesList timeseries={timeseries} />)
 
-    expect(computeAggregatedTimeseries).toHaveBeenCalledWith(timeseries)
+    expect(sortTimeseriesByCO2GroupedByPurpose).toHaveBeenCalledWith(timeseries)
   })
 
-  it('should sortTimeseriesByCO2GroupedByPurpose from computeAggregatedTimeseries', () => {
+  it('should computeCO2Timeseries from timeseries', () => {
     render(<LoadedPurposesList timeseries={timeseries} />)
 
-    expect(sortTimeseriesByCO2GroupedByPurpose).toHaveBeenCalledWith(
-      aggregatedTimeseries
-    )
+    expect(computeCO2Timeseries).toHaveBeenCalledWith(timeseries)
   })
 
-  it('should computeCO2Timeseries from computeAggregatedTimeseries', () => {
-    render(<LoadedPurposesList timeseries={timeseries} />)
-
-    expect(computeCO2Timeseries).toHaveBeenCalledWith(aggregatedTimeseries)
-  })
-
-  it('should makeChartProps from computeAggregatedTimeseries', () => {
+  it('should makeChartProps from timeseries', () => {
     render(<LoadedPurposesList timeseries={timeseries} />)
 
     expect(makeChartProps).toHaveBeenCalledWith(

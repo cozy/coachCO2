@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import {
-  computeAggregatedTimeseries,
   sortTimeseriesByCO2GroupedByMode,
   computeCO2Timeseries,
   transformTimeseriesToTrips
@@ -57,7 +56,6 @@ jest.mock(
 
 describe('LoadedModesList', () => {
   const timeseries = ['timeseries']
-  const aggregatedTimeseries = 'computeAggregatedTimeseries'
   const t = x => x
   const firstTimeserieSortedByMode = {
     timeseries: [],
@@ -73,7 +71,6 @@ describe('LoadedModesList', () => {
 
   beforeEach(() => {
     useI18n.mockReturnValue({ t })
-    computeAggregatedTimeseries.mockReturnValue(aggregatedTimeseries)
     sortTimeseriesByCO2GroupedByMode.mockReturnValue(timeseriesSortedByMode)
     computeCO2Timeseries.mockReturnValue(48)
     makeChartProps.mockReturnValue({ data: 'data', options: 'options' })
@@ -108,27 +105,19 @@ describe('LoadedModesList', () => {
     )
   })
 
-  it('should computeAggregatedTimeseries from timeseries', () => {
+  it('should sortTimeseriesByCO2GroupedByMode from timeseries', () => {
     render(<LoadedModesList timeseries={timeseries} />)
 
-    expect(computeAggregatedTimeseries).toHaveBeenCalledWith(timeseries)
+    expect(sortTimeseriesByCO2GroupedByMode).toHaveBeenCalledWith(timeseries)
   })
 
-  it('should sortTimeseriesByCO2GroupedByMode from computeAggregatedTimeseries', () => {
+  it('should computeCO2Timeseries from timeseries', () => {
     render(<LoadedModesList timeseries={timeseries} />)
 
-    expect(sortTimeseriesByCO2GroupedByMode).toHaveBeenCalledWith(
-      aggregatedTimeseries
-    )
+    expect(computeCO2Timeseries).toHaveBeenCalledWith(timeseries)
   })
 
-  it('should computeCO2Timeseries from computeAggregatedTimeseries', () => {
-    render(<LoadedModesList timeseries={timeseries} />)
-
-    expect(computeCO2Timeseries).toHaveBeenCalledWith(aggregatedTimeseries)
-  })
-
-  it('should makeChartProps from computeAggregatedTimeseries', () => {
+  it('should makeChartProps from timeseries', () => {
     render(<LoadedModesList timeseries={timeseries} />)
 
     expect(makeChartProps).toHaveBeenCalledWith(

@@ -2,7 +2,7 @@ import React, { useMemo, useEffect } from 'react'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
 
-import { buildTimeseriesQueryByAccountId } from 'src/queries/queries'
+import { buildAggregatedTimeseriesQueryByAccountId } from 'src/queries/queries'
 import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import SelectDatesWithLoader from 'src/components/SelectDates/SelectDatesWithLoader'
@@ -17,7 +17,7 @@ const SelectDatesWrapper = () => {
   const { selectedDate, setSelectedDate } = useSelectDatesContext()
   const { account } = useAccountContext()
 
-  const timeseriesQuery = buildTimeseriesQueryByAccountId({
+  const timeseriesQuery = buildAggregatedTimeseriesQueryByAccountId({
     accountId: account?._id,
     limitBy: 1000
   })

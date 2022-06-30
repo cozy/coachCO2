@@ -15,17 +15,14 @@ import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import { PurposeAvatar } from 'src/components/Avatar'
 import {
-  getFormattedDuration,
-  getModesSortedByDistance,
-  getFormattedTripDistance,
-  computeAndFormatCO2Trip,
-  computeAndFormatCO2TripByMode
-} from 'src/lib/trips'
-import {
-  transformTimeseriesToTrips,
   getEndPlaceDisplayName,
   getStartDate,
-  getTimeseriePurpose
+  getTimeseriePurpose,
+  getFormattedDuration,
+  getModesSortedByDistance,
+  getFormattedDistance,
+  getFormattedTotalCO2,
+  computeAndFormatTotalCO2ByMode
 } from 'src/lib/timeseries'
 import { pickModeIcon } from 'src/components/helpers'
 import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
@@ -57,22 +54,18 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
   const { mode } = useParams()
   const { isMobile } = useBreakpoints()
   const [showTripDialog, setShowTripDialog] = useState(false)
-  const trip = useMemo(
-    () => transformTimeseriesToTrips([timeserie])[0],
-    [timeserie]
-  )
 
   const purpose = getTimeseriePurpose(timeserie)
-  const duration = useMemo(() => getFormattedDuration(trip), [trip])
-  const modes = useMemo(() => getModesSortedByDistance(trip), [trip])
-  const distance = useMemo(() => getFormattedTripDistance(trip), [trip])
+  const duration = getFormattedDuration(timeserie)
+  const modes = getModesSortedByDistance(timeserie)
+  const distance = getFormattedDistance(timeserie)
 
   const formattedCO2 = useMemo(() => {
     if (mode) {
-      return computeAndFormatCO2TripByMode(trip, mode)
+      return computeAndFormatTotalCO2ByMode(timeserie, mode)
     }
-    return computeAndFormatCO2Trip(trip)
-  }, [mode, trip])
+    return getFormattedTotalCO2(timeserie)
+  }, [timeserie, mode])
 
   const tripModeIcons = useMemo(
     () => modes.map(mode => pickModeIcon(mode)),
@@ -115,7 +108,7 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
       <Divider />
       {showTripDialog && (
         <TripDialogDesktop
-          timeserie={timeserie}
+          timeserieId={timeserie._id}
           setShowTripDialog={setShowTripDialog}
         />
       )}

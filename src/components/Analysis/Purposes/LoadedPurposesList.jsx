@@ -9,11 +9,10 @@ import Box from 'cozy-ui/transpiled/react/Box'
 import PieChart from 'cozy-ui/transpiled/react/PieChart'
 
 import {
-  computeAggregatedTimeseries,
   sortTimeseriesByCO2GroupedByPurpose,
   computeCO2Timeseries
 } from 'src/lib/timeseries'
-import { formatCO2 } from 'src/lib/trips'
+import { formatCO2 } from 'src/lib/helpers'
 import { makeChartProps } from 'src/components/Analysis/helpers'
 import AnalysisListItem from 'src/components/Analysis/AnalysisListItem'
 import TripsList from 'src/components/TripsList'
@@ -23,18 +22,13 @@ const LoadedPurposesList = ({ timeseries }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
 
-  const aggregatedTimeseries = useMemo(
-    () => computeAggregatedTimeseries(timeseries),
+  const timeseriesSortedByPurposes = useMemo(
+    () => sortTimeseriesByCO2GroupedByPurpose(timeseries),
     [timeseries]
   )
-  const timeseriesSortedByPurposes = useMemo(
-    () => sortTimeseriesByCO2GroupedByPurpose(aggregatedTimeseries),
-    [aggregatedTimeseries]
-  )
-  const totalCO2 = useMemo(
-    () => computeCO2Timeseries(aggregatedTimeseries),
-    [aggregatedTimeseries]
-  )
+
+  const totalCO2 = computeCO2Timeseries(timeseries)
+
   const { data, options } = useMemo(
     () => makeChartProps(timeseriesSortedByPurposes, 'purposes', t),
     [t, timeseriesSortedByPurposes]

@@ -12,13 +12,33 @@ import {
 
 const older30s = 30 * 1000
 
-export const buildTimeseriesQueryByAccountId = ({ accountId, limitBy }) => ({
+// Timeseries doctype -------------
+
+export const buildAggregatedTimeseriesQueryByAccountId = ({
+  accountId,
+  limitBy
+}) => ({
   definition: Q(GEOJSON_DOCTYPE)
     .where({
       'cozyMetadata.sourceAccount': accountId
     })
-    .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
-    .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
+    .partialIndex({
+      aggregation: {
+        $exists: true
+      }
+    })
+    .select([
+      'cozyMetadata.sourceAccount',
+      'startDate',
+      'endDate',
+      'aggregation'
+    ])
+    .indexFields(['cozyMetadata.sourceAccount', 'startDate', 'endDate'])
+    .sortBy([
+      { 'cozyMetadata.sourceAccount': 'desc' },
+      { startDate: 'desc' },
+      { endDate: 'desc' }
+    ])
     .limitBy(limitBy),
   options: {
     as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/limitedBy/${limitBy}`,
@@ -26,27 +46,19 @@ export const buildTimeseriesQueryByAccountId = ({ accountId, limitBy }) => ({
   }
 })
 
-export const buildAccountQuery = ({
-  limit = 100,
-  withOnlyLogin = true
-} = {}) => {
-  const queryDef = Q(ACCOUNTS_DOCTYPE)
+export const buildTimeseriesQueryByAccountId = ({ accountId }) => ({
+  definition: Q(GEOJSON_DOCTYPE)
     .where({
-      account_type: 'tracemob'
+      'cozyMetadata.sourceAccount': accountId
     })
-    .indexFields(['account_type'])
-    .limitBy(limit)
-  if (withOnlyLogin) {
-    queryDef.select(['auth.login', 'account_type'])
+    .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
+    .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
+    .limitBy(1000),
+  options: {
+    as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}`,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
-  return {
-    definition: queryDef,
-    options: {
-      as: `${ACCOUNTS_DOCTYPE}/account_type/limitedBy/${limit}/withOnlyLogin/${withOnlyLogin}`,
-      fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
-    }
-  }
-}
+})
 
 export const buildTimeserieQueryById = timeserieId => ({
   definition: Q(GEOJSON_DOCTYPE).getById(timeserieId),
@@ -59,7 +71,7 @@ export const buildTimeserieQueryById = timeserieId => ({
 export const buildTimeseriesQueryByDateAndAccountId = (
   date = null,
   accountId,
-  { withOnlyAggregation = true, limit = 1000 } = {}
+  { limit = 1000 } = {}
 ) => {
   const startMonth = startOfMonth(date) || null
   const endMonth = endOfMonth(date) || null
@@ -78,28 +90,24 @@ export const buildTimeseriesQueryByDateAndAccountId = (
         }
       })
     })
+    .partialIndex({
+      aggregation: {
+        $exists: true
+      }
+    })
+    .select(['aggregation', 'cozyMetadata.sourceAccount', 'startDate'])
     .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
     .limitBy(limit)
-  if (withOnlyAggregation) {
-    queryDef.select(['aggregation', 'cozyMetadata.sourceAccount', 'startDate'])
-  }
+
   return {
     definition: queryDef,
     options: {
-      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/date/${dateAsOption}/limitedBy/${limit}/withOnlyAggregation/${withOnlyAggregation}`,
+      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/date/${dateAsOption}/limitedBy/${limit}`,
       fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s),
       enabled: Boolean(date) && Boolean(accountId)
     }
   }
 }
-
-export const buildSettingsQuery = () => ({
-  definition: Q(SETTINGS_DOCTYPE),
-  options: {
-    as: SETTINGS_DOCTYPE,
-    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
-  }
-})
 
 // Note there is no need for fetchPolicy here, as this query is only used in node service
 export const buildTimeseriesWithoutAggregation = ({ limit = 1000 }) => ({
@@ -140,18 +148,16 @@ export const buildOneYearOldTimeseriesWithAggregationByAccountId =
           'cozyMetadata.sourceAccount': accountId,
           startDate: {
             $gte: dateOneYearAgoFromNow.toISOString()
-          },
+          }
+        })
+        .partialIndex({
           aggregation: {
             $exists: true
           }
         })
-        .indexFields(['cozyMetadata.sourceAccount', 'startDate', 'aggregation']) // aggregation should be in partialIndex, but we need to fix https://github.com/cozy/cozy-client/issues/1054 first
-        .sortBy([
-          { 'cozyMetadata.sourceAccount': 'asc' },
-          { startDate: 'asc' },
-          { aggregation: 'asc' }
-        ])
         .select(['startDate', 'aggregation', 'cozyMetadata.sourceAccount'])
+        .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
+        .sortBy([{ 'cozyMetadata.sourceAccount': 'asc' }, { startDate: 'asc' }])
         .limitBy(1000),
       options: {
         as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/withAggregation/fromDate/${dateOneYearAgoFromNow.getFullYear()}-${dateOneYearAgoFromNow.getMonth()}`,
@@ -159,3 +165,35 @@ export const buildOneYearOldTimeseriesWithAggregationByAccountId =
       }
     }
   }
+
+// other doctypes -------------
+
+export const buildAccountQuery = ({
+  limit = 100,
+  withOnlyLogin = true
+} = {}) => {
+  const queryDef = Q(ACCOUNTS_DOCTYPE)
+    .where({
+      account_type: 'tracemob'
+    })
+    .indexFields(['account_type'])
+    .limitBy(limit)
+  if (withOnlyLogin) {
+    queryDef.select(['auth.login', 'account_type'])
+  }
+  return {
+    definition: queryDef,
+    options: {
+      as: `${ACCOUNTS_DOCTYPE}/account_type/limitedBy/${limit}/withOnlyLogin/${withOnlyLogin}`,
+      fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+    }
+  }
+}
+
+export const buildSettingsQuery = () => ({
+  definition: Q(SETTINGS_DOCTYPE),
+  options: {
+    as: SETTINGS_DOCTYPE,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+  }
+})

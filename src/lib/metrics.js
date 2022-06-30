@@ -1,4 +1,3 @@
-import { getSectionsFromTrip } from './trips'
 import {
   BICYCLING_MODE,
   WALKING_MODE,
@@ -82,41 +81,6 @@ export const computeCO2Section = section => {
 }
 
 /**
- * Compute the total CO2 consumed by the trip.
- * For each section, compute the related consumed CO2 based on the mode and distance.
- * See the src/constants/const.js file for more insights about the CO2 values
- *
- * @param {object} trip - The GeoJSON trip
- * @returns {number} The consumed CO2, in kg
- */
-export const computeCO2Trip = trip => {
-  const sections = getSectionsFromTrip(trip)
-  let totalCO2 = 0
-  for (const section of sections) {
-    totalCO2 += computeCO2Section(section)
-  }
-  return totalCO2
-}
-
-/**
- * Compute the total CO2 consumed only by the specified mode on the trip.
- *
- * @param {object} trip - The GeoJSON trip
- * @param {string} mode - The mode of trip
- * @returns {number} The consumed CO2 only by the specified mode, in kg
- */
-export const computeCO2TripByMode = (trip, mode) => {
-  const sections = getSectionsFromTrip(trip)
-  let totalCO2 = 0
-  for (const section of sections) {
-    if (section.mode === mode) {
-      totalCO2 += computeCO2Section(section)
-    }
-  }
-  return totalCO2
-}
-
-/**
  * Compute the calories produced based on weight, MET and duration.
  * Source of this formula:
  *  Bushman B PhD. Complete Guide to Fitness and Health 2nd Edition.
@@ -167,23 +131,4 @@ export const computeCaloriesSection = section => {
     return 0
   }
   return caloriesFormula(MET, durationInMinutes)
-}
-
-/**
- * Compute the total number of burned calories during the trip.
- *
- * For each section, find the most relevant MET based on mode and speed.
- * See src/constants/const.js for more insights about the MET reasoning.
- *
- * @param {object} trip - The GeoJSON trip
- * @returns {number} The calories, in kcal
- */
-export const computeCaloriesTrip = trip => {
-  const sections = getSectionsFromTrip(trip)
-  let totalCalories = 0
-  for (const section of sections) {
-    const calories = computeCaloriesSection(section)
-    totalCalories += calories
-  }
-  return totalCalories
 }

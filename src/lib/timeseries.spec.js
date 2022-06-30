@@ -27,7 +27,12 @@ import {
   makeTimeseriesAndTotalCO2ByPurposes,
   sortTimeseriesByCO2GroupedByPurpose,
   getTimeseriePurpose,
-  computeMonthsAndCO2s
+  computeMonthsAndCO2s,
+  getModesSortedByDistance,
+  getFormattedTotalCO2,
+  computeTotalCO2ByMode,
+  computeAndFormatTotalCO2ByMode,
+  getFormattedTotalCalories
 } from 'src/lib/timeseries'
 
 describe('transformSerieToTrip', () => {
@@ -509,25 +514,25 @@ describe('Aggregation', () => {
 })
 
 describe('getTimeseriePurpose', () => {
-  it('should return the manual purpose in upper case', () => {
+  it('should return the purpose in upper case', () => {
     const result = getTimeseriePurpose({
-      series: [{ properties: { manual_purpose: 'shopping' } }]
+      aggregation: { purpose: 'shopping' }
     })
 
     expect(result).toBe('SHOPPING')
   })
 
-  it('should return the manual purpose', () => {
+  it('should return the purpose', () => {
     const result = getTimeseriePurpose({
-      series: [{ properties: { manual_purpose: 'SHOPPING' } }]
+      aggregation: { purpose: 'SHOPPING' }
     })
 
     expect(result).toBe('SHOPPING')
   })
 
-  it('should return default manual purpose', () => {
+  it('should return other purpose when undefined', () => {
     const result = getTimeseriePurpose({
-      series: [{ properties: { manual_purpose: undefined } }]
+      aggregation: { purpose: undefined }
     })
 
     expect(result).toBe('OTHER_PURPOSE')
@@ -535,14 +540,14 @@ describe('getTimeseriePurpose', () => {
 
   it('should return other purpose when not supported', () => {
     const result = getTimeseriePurpose({
-      series: [{ properties: { manual_purpose: 'NOT_SUPPORTED_PURPOSE' } }]
+      aggregation: { purpose: 'NOT_SUPPORTED_PURPOSE' }
     })
     expect(result).toBe('OTHER_PURPOSE')
   })
 
   it('should return other purpose when empty string', () => {
     const result = getTimeseriePurpose({
-      series: [{ properties: { manual_purpose: '' } }]
+      aggregation: { purpose: '' }
     })
     expect(result).toBe('OTHER_PURPOSE')
   })
@@ -606,5 +611,98 @@ describe('computeMonthsAndCO2s', () => {
       'FEB'
     ])
     expect(CO2s).toStrictEqual([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+  })
+})
+
+describe('getModesSortedByDistance', () => {
+  it('should return modes sorted by distance', () => {
+    const timeserie = {
+      aggregation: {
+        sections: [
+          { distance: 30, mode: 'WALKING' },
+          { distance: 300, mode: 'AIR_OR_HSR' },
+          { distance: 100, mode: 'BUS' }
+        ]
+      }
+    }
+    const result = getModesSortedByDistance(timeserie)
+
+    expect(result).toStrictEqual(['AIR_OR_HSR', 'BUS', 'WALKING'])
+  })
+})
+
+describe('getFormattedTotalCO2', () => {
+  it('should return formated value', () => {
+    const bicycleCO2 = getFormattedTotalCO2({ aggregation: { totalCO2: 0.0 } })
+    expect(bicycleCO2).toBe('0 kg')
+
+    const carCO2 = getFormattedTotalCO2({
+      aggregation: { totalCO2: 1.2190207188953108 }
+    })
+    expect(carCO2).toBe('1.22 kg')
+  })
+})
+
+describe('computeTotalCO2ByMode', () => {
+  const timeserie = {
+    aggregation: {
+      sections: [
+        { mode: 'CAR', CO2: 30.4676546 },
+        { mode: 'AIR_OR_HSR', CO2: 100.697412 },
+        { mode: 'CAR', CO2: 8.789453 }
+      ]
+    }
+  }
+
+  it('should return only CO2 of car', () => {
+    const carCO2 = computeTotalCO2ByMode(timeserie, 'CAR')
+    expect(carCO2).toEqual(39.2571076)
+  })
+
+  it('should return only CO2 of plane', () => {
+    const carCO2 = computeTotalCO2ByMode(timeserie, 'AIR_OR_HSR')
+    expect(carCO2).toEqual(100.697412)
+  })
+})
+
+describe('computeAndFormatTotalCO2ByMode', () => {
+  const timeserie = {
+    aggregation: {
+      sections: [
+        { mode: 'CAR', CO2: 30.4676546 },
+        { mode: 'AIR_OR_HSR', CO2: 100.697412 },
+        { mode: 'CAR', CO2: 8.789453 }
+      ]
+    }
+  }
+
+  it('should return formatted value by car mode', () => {
+    const formattedCO2ByCarMode = computeAndFormatTotalCO2ByMode(
+      timeserie,
+      'CAR'
+    )
+    expect(formattedCO2ByCarMode).toBe('39.26 kg')
+  })
+
+  it('should return formatted value by bicycle mode', () => {
+    const formattedCO2ByPlaneMode = computeAndFormatTotalCO2ByMode(
+      timeserie,
+      'BICYCLING'
+    )
+    expect(formattedCO2ByPlaneMode).toBe('0 kg')
+  })
+})
+
+describe('getFormattedTotalCalories', () => {
+  it('should return formated value', () => {
+    const bCalories = getFormattedTotalCalories({
+      aggregation: { totalCalories: 104.05456 }
+    })
+    expect(bCalories).toBe('104 kcal')
+
+    const wCalories = getFormattedTotalCalories({
+      aggregation: { totalCalories: 22.7456 }
+    })
+    expect(wCalories).toBe('23 kcal')
   })
 })
