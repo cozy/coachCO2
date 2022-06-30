@@ -33,6 +33,20 @@ You can import fixtures to quickly deal with datas
 $ yarn fixtures
 ```
 
+### Services
+
+You can run a migration service to add aggregation data on your timeseries.
+
+```sh
+$ yarn service:timeseriesWithoutAggregateMigration
+```
+
+### Feature flags availables
+
+`coachco2.admin-mode`: activate some hidden functions
+`coachco2.dacc-dev_v2`: to use dev version of DACC
+
+
 ### Run it inside a Cozy using Docker
 
 You can run your application inside a Cozy thanks to the [cozy-stack docker image][cozy-stack-docker]:
@@ -103,30 +117,124 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
 
 ```jsonc
 { // timeserie
-  "series": [ // only one serie here
-    { // geoJSON
+  "series": [ // only one serie here, including GeoJSON content
+    {
+      // trip description
+      "type": "FeatureCollection",
+      "properties": {
+        "start_fmt_time": "2022-04-02T16:00:13",
+        "end_fmt_time": "2022-04-02T16:13:09",
+        "duration": 776, // duration in seconds
+        "distance": 3245, // distance in meters
+        "start_loc": { // starting point coordinates
+          "type": "Point",
+          "coordinates": [
+            -0.8119085,
+            46.4536633
+          ]
+        },
+        "end_loc": { // ending point coordinates
+          "type": "Point",
+          "coordinates": [
+            -0.8119085,
+            46.4536633
+          ]
+        },
+        "start_place": {
+          "$oid": "6248ec5d5d25e718233a5099"
+        },
+        "end_place": {
+          "$oid": "6248ec5e5d25e718233a509a"
+        },
+        "confidence_threshold": 0.65,
+        "manual_purpose": "ENTERTAINMENT" // Trip purpose set by the user
+      },
       "features": [
-        { // start position
+        { // starting place
           "type": "Feature",
-          "properties": { "feature_type": "start_place" }
+          "geometry": {
+            "type": "Point",
+            "coordinates": [-0.8119085, 46.4536633]
+          },
+          "id": "6248ec5d5d25e718264a4099",
+          "properties": {
+            "feature_type": "start_place",
+            "display_name": "Avenue Jean Guiton, La Rochelle",
+            "enter_fmt_time": "2022-04-02T14:56:05", // Arrival at the starting place
+            "exit_fmt_time": "2022-04-02T16:00:13", // Departure from the starting place
+            "duration": 3848.2966425418854, // Duration spent at the starting place
+          }
         },
-        { // end position
+        { // ending place
           "type": "Feature",
-          "properties": { "feature_type": "end_place" }
+          "geometry": {
+            "type": "Point",
+            "coordinates": [-0.7519085, 46.4536633]
+          },
+          "id": "6248ec5e5d25e718264a409a",
+          "properties": {
+            "feature_type": "end_place",
+            "display_name": "Rue Ampère, La Rochelle",
+            "enter_fmt_time": "2022-04-02T16:13:09", // Arrival at the ending place
+          }
         },
-        { // section
+        { // section description
           "type": "FeatureCollection",
           "features": [ // only one feature here
             {
-              "type": "Feature"
+              "type": "Feature",
+              "geometry": {
+                "type": "LineString",
+                "coordinates": [...] // List of section coordinates
+              },
+              "id": "6248ec535d25e718264a4073",
+              "properties": {
+                "times": [...], // List of times, in seconds
+                "timestamps": [...], // List of timestamps, in ms
+                "start_fmt_time": "2022-04-02T16:00:13",
+                "end_fmt_time": "2022-04-02T16:13:09",
+                "duration": 776, // Section duration, in seconds
+                "speeds": [...], // List of speeds, in m/s
+                "distances": [...], // List of distances, in meters
+                "distance": 4948, // Section's total distance, in meters
+                "sensed_mode": "PredictedModeTypes.CAR", // Detected mode in mobile
+                "manual_mode": "BIKE", // Manual mode set by the user
+                "feature_type": "section",
+                "source": "SmoothedHighConfidenceMotion"
+              }
             }
           ]
         }
-      ]
+      ],
     }
   ]
 }
 ```
+
+## DACC
+
+This app uses the [DACC](https://github.com/cozy/DACC) to send and received anonymized contributions.
+This is used to compare average CO2 emissions: if the user gives consent, her monthly CO2 emissions are sent to the DACC.
+Then, she can compare herself with the average emissions of all the participating users.
+All data sent to the DACC is anonymized, and only aggregated values under a certain threshold can be queried.
+
+### Develop with the DACC
+
+To develop locally with the DACC, you first need to get an access token to the dev server. Then, you need to:
+
+- Set the flag `coachco2.dacc-dev_v2`. You can do it by running `cozy-stack features flags '{"coachco2.dacc-dev_v2": true}'`.
+- Add a secret document containing the DACC token:
+  - Create a database `secrets/io-cozy-remote-secrets` if it does not exist yet. You may need to replace the `/` with `%2F` depending on your client.
+  - Add the following document:
+  ```
+  {
+    "_id": "cc.cozycloud.dacc.dev_v2",
+    "token": "<dacc_token>"
+  }
+  ```
+
+Now, thanks to this, you should be able to use the DACC's remote-doctype!
+
 
 ## Community
 
