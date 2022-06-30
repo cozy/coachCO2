@@ -2,6 +2,7 @@ import { computeMonthsAndCO2s } from 'src/lib/timeseries'
 
 export const makeData = ({
   theme,
+  isMobile,
   oneYearOldTimeseries,
   allowSendDataToDacc,
   globalAverages,
@@ -16,8 +17,8 @@ export const makeData = ({
       {
         label: t('vericalBarChart.legend.yours'),
         backgroundColor: theme.palette.primary.main,
-        borderRadius: 8,
-        barThickness: 8,
+        borderRadius: isMobile ? 8 : 4,
+        barThickness: isMobile ? (allowSendDataToDacc ? 6 : 8) : 24,
         data: CO2s
       }
     ]
@@ -27,8 +28,8 @@ export const makeData = ({
     data.datasets.push({
       label: t('vericalBarChart.legend.average'),
       backgroundColor: theme.palette.border.main,
-      borderRadius: 8,
-      barThickness: 8,
+      borderRadius: isMobile ? 8 : 4,
+      barPercentage: isMobile ? 0.55 : 0.85,
       data: globalAverages
     })
   }
@@ -45,11 +46,7 @@ export const makeOptions = theme => ({
         drawBorder: false
       },
       ticks: {
-        color: theme.palette.text.secondary,
-        // don't use arrow func here to keep reference to `this`
-        callback: function (value, index) {
-          return index % 2 !== 0 ? this.getLabelForValue(value) : ''
-        }
+        color: theme.palette.text.secondary
       }
     },
     y: {
@@ -60,8 +57,8 @@ export const makeOptions = theme => ({
       ticks: {
         color: theme.palette.text.secondary,
         // don't use arrow func here to keep reference to `this`
-        callback: function (value) {
-          return `${value} kg`
+        callback: function (value, index) {
+          return index % 2 === 0 ? `${value} kg` : ''
         }
       }
     }

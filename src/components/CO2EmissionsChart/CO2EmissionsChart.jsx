@@ -3,6 +3,7 @@ import { useTheme } from '@material-ui/core'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import useSettings from 'src/hooks/useSettings'
 import useFetchDACCAggregates from 'src/hooks/useFetchDACCAggregates'
@@ -15,6 +16,7 @@ import { makeOptions, makeData } from 'src/components/CO2EmissionsChart/helpers'
 const CO2EmissionsChart = () => {
   const { t, f } = useI18n()
   const theme = useTheme()
+  const { isMobile } = useBreakpoints()
   const { account } = useAccountContext()
   const { isSettingsLoading, value: allowSendDataToDacc } = useSettings(
     'allowSendDataToDacc'
@@ -43,6 +45,7 @@ const CO2EmissionsChart = () => {
   const options = makeOptions(theme)
   const data = makeData({
     theme,
+    isMobile,
     oneYearOldTimeseries,
     allowSendDataToDacc,
     globalAverages,
