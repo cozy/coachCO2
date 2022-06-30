@@ -52,7 +52,9 @@ const CO2EmissionsChart = () => {
 
   return (
     <VerticalBarChart
+      className="u-mt-1 u-ph-half-s u-ph-2"
       title={t('vericalBarChart.title')}
+      height="190px"
       data={data}
       options={options}
     >

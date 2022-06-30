@@ -17,17 +17,29 @@ ChartJS.defaults.font = {
   weight: '700'
 }
 
-const VerticalBarChart = ({ title, data, options, children }) => {
+const VerticalBarChart = ({
+  className,
+  title,
+  data,
+  options,
+  width,
+  height,
+  children
+}) => {
   return (
     <>
       <Typography className="u-mt-1 u-ml-1" variant="h5">
         {title}
       </Typography>
-      <Bar
-        className="u-mt-1 u-mb-half u-ph-half"
-        options={options}
-        data={data}
-      />
+      <div style={{ width, height }}>
+        <Bar
+          className={className}
+          width={width}
+          height={height}
+          options={options}
+          data={data}
+        />
+      </div>
       {children}
     </>
   )

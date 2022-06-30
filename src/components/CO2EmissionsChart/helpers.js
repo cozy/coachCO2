@@ -37,7 +37,7 @@ export const makeData = ({
 }
 
 export const makeOptions = theme => ({
-  responsive: true,
+  maintainAspectRatio: false,
   scales: {
     x: {
       grid: {
