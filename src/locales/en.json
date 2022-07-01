@@ -15,6 +15,7 @@
     "label": "Data source"
   },
   "trips": {
+    "trips": "Trips",
     "from": "Trips from",
     "modes": {
       "AIR_OR_HSR": "Plane",

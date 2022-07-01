@@ -15,6 +15,7 @@
     "label": "Source des données"
   },
   "trips": {
+    "trips": "Déplacements",
     "from": "Déplacements de",
     "modes": {
       "AIR_OR_HSR": "Avion",

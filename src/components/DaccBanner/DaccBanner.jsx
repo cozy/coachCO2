@@ -11,7 +11,7 @@ const DaccBanner = ({ onDiscard, onAccept }) => {
 
   return (
     <Banner
-      className="u-mh-half u-mb-half u-bdrs-4 u-pv-half u-pr-half"
+      className="u-mh-half-s u-mh-2 u-mb-half-s u-mb-1 u-mt-0-s u-mt-1 u-bdrs-4 u-pv-half u-pr-half"
       text={t('dacc.tripsCard.label')}
       icon={
         <Icon
