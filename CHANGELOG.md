@@ -10,6 +10,7 @@
 * Send aggregated CO2 values to the DACC under user consent
 * Add app version number and DACC alerter switch in admin mode (flag `coachco2.admin-mode`)
 * Update CO2 values after manual mode edition
+* Update cozy-ui to 68.9.1
 
 ## 🐛 Bug Fixes
 
