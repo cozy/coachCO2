@@ -1,9 +1,9 @@
 {
   "nav": {
     "trips": "Déplacements",
-    "analysis": "Analyse",
-    "modes": "Mode de transport",
-    "purposes": "Motif de déplacement",
+    "analysis": "Analyses",
+    "modes": "Modes de transport",
+    "purposes": "Motifs de déplacement",
     "settings": "Paramètres"
   },
   "folder": {
@@ -51,8 +51,8 @@
   },
   "purpose": "Motif du déplacement",
   "analysis": {
-    "mode": "Émission de CO2",
-    "purpose": "Émission de CO2",
+    "mode": "Émissions de CO2",
+    "purpose": "Émissions de CO2",
     "travels": "%{smart_count} déplacement |||| %{smart_count} déplacements",
     "emittedCO2": "CO2 émis"
   },
@@ -136,7 +136,7 @@
     "title": "Émissions de CO2",
     "legend": {
       "yours": "Vos émissions",
-      "average": "Moyennes des utilisateurs"
+      "average": "Moyennes des utilisateurs de l'app"
     }
   }
 }
