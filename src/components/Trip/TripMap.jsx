@@ -15,6 +15,7 @@ import { getGeoJSONData } from 'src/lib/timeseries'
 import './tripmap.styl'
 
 const mapCenter = [51.505, -0.09]
+const mapPadding = 16
 
 const makeGeoJsonOptions = theme => ({
   style: feature => {
@@ -63,8 +64,16 @@ const TripMap = () => {
   useEffect(() => {
     if (geojsonRef.current) {
       const geojsonL = geojsonRef.current.leafletElement
-      mapL.fitBounds(geojsonL.getBounds())
-      mapL.panBy([0, mapL.getSize().y * mapPanRatio])
+      const bounds = geojsonL.getBounds()
+      const paddingTopLeft = [mapPadding, mapPadding]
+      const paddingBottomRight = [
+        mapPadding,
+        mapPadding + mapL.getSize().y * mapPanRatio
+      ]
+      mapL.fitBounds(bounds, {
+        paddingTopLeft,
+        paddingBottomRight
+      })
     }
   }, [mapL, mapPanRatio])
 
