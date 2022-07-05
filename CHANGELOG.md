@@ -4,6 +4,8 @@
 
 ## 🐛 Bug Fixes
 
+* Vertically center the trip map on mobile when opening it
+
 ## 🔧 Tech
 
 # 0.7.0
