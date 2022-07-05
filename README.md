@@ -38,6 +38,7 @@ $ yarn fixtures
 You can run a migration service to add aggregation data on your timeseries.
 
 ```sh
+$ yarn build
 $ yarn service:timeseriesWithoutAggregateMigration
 ```
 
