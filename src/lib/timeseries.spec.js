@@ -32,7 +32,8 @@ import {
   getFormattedTotalCO2,
   computeTotalCO2ByMode,
   computeAndFormatTotalCO2ByMode,
-  getFormattedTotalCalories
+  getFormattedTotalCalories,
+  getFormattedDuration
 } from 'src/lib/timeseries'
 
 describe('transformSerieToTrip', () => {
@@ -704,5 +705,27 @@ describe('getFormattedTotalCalories', () => {
       aggregation: { totalCalories: 22.7456 }
     })
     expect(wCalories).toBe('23 kcal')
+  })
+})
+
+describe('getFormattedDuration', () => {
+  it('should format the duration', () => {
+    expect(
+      getFormattedDuration({
+        aggregation: {
+          totalDuration: 60
+        }
+      })
+    ).toEqual('1 minute')
+    expect(
+      getFormattedDuration({
+        aggregation: {
+          totalDuration: 4000
+        }
+      })
+    ).toEqual('about 1 hour')
+  })
+  it('should handle empty duration', () => {
+    expect(getFormattedDuration({})).toEqual('')
   })
 })

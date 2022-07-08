@@ -304,9 +304,8 @@ export const getTotalDuration = timeserie => {
 }
 
 export const getFormattedDuration = timeserie => {
-  const startDate = getStartDate(timeserie)
-  const endDate = getEndDate(timeserie)
-  return dateFnsFormatDistance(endDate, startDate)
+  const duration = timeserie?.aggregation?.totalDuration
+  return duration ? dateFnsFormatDistance(0, duration * 1000) : ''
 }
 
 export const getFormattedDistance = timeserie => {
