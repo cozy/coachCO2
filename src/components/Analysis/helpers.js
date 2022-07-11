@@ -24,6 +24,7 @@ export const makeChartProps = (sortedTimeseries, type, t) => {
   const options = {
     plugins: {
       tooltip: {
+        displayColors: false,
         callbacks: {
           label: tooltipItems =>
             `${tooltipItems.label} ${formatCO2(tooltipItems.raw)}`
