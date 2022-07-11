@@ -16,6 +16,7 @@
 
 * Locales when installing the app the first time
 * Purpose locale and icon with lowercase purpose
+* Remove square color in tooltip for PieChart
 
 ## 🔧 Tech
 
