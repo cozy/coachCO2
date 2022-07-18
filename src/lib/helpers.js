@@ -42,8 +42,8 @@ export const formatDuration = (duration, lang) => {
   })
 }
 
-// The speed is given in m/s
-export const formatAvgSpeed = avgSpeed => `${Math.round(avgSpeed * 3.6)} km/h`
+// The average speed is given in km/h
+export const formatAvgSpeed = avgSpeed => `${Math.round(avgSpeed)} km/h`
 
 export const formatDate = ({ f, lang, date }) => {
   if (lang === 'fr') {
