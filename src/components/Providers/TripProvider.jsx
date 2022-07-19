@@ -1,4 +1,5 @@
 import React, { useMemo, useContext } from 'react'
+import { sortTimeserieSections } from './helpers'
 
 export const TripContext = React.createContext()
 
@@ -14,7 +15,7 @@ export const useTrip = () => {
 const TripProvider = ({ timeserie, children }) => {
   const value = useMemo(
     () => ({
-      timeserie
+      timeserie: sortTimeserieSections(timeserie)
     }),
     [timeserie]
   )
