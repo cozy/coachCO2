@@ -1,6 +1,6 @@
 {
   "name": "coachco2",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "scripts": {
     "analyze": "COZY_SCRIPTS_ANALYZER=true yarn build",
     "lint": "yarn lint:js && yarn lint:styles",
