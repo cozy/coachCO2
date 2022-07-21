@@ -3,7 +3,7 @@
   "slug": "coachco2",
   "icon": "icon.svg",
   "categories": [],
-  "version": "0.7.0",
+  "version": "0.8.0",
   "licence": "AGPL-3.0",
   "editor": "Cozy Cloud",
   "source": "https://github.com/cozy/coachCO2.git@build",
@@ -106,6 +106,12 @@
       "type": "node",
       "file": "services/dacc/coachco2.js",
       "trigger": "@every 720h"
+    },
+    "recurringPurposes": {
+      "type": "node",
+      "file": "services/recurringPurposes/coachco2.js",
+      "trigger": "@event io.cozy.timeseries.geojson:CREATED,UPDATED",
+      "debounce": "1s"
     }
   },
   "locales": {
