@@ -21,7 +21,7 @@ import {
   MAX_DACC_MEASURES_SENT
 } from 'src/constants'
 import { DACC_REMOTE_DOCTYPE, DACC_REMOTE_DOCTYPE_DEV } from 'src/doctypes'
-import { restartService } from 'src/lib/services'
+import { startService } from 'src/lib/services'
 
 const { sendMeasureToDACC, fetchAggregatesFromDACC } = models.dacc
 
@@ -174,7 +174,7 @@ export const sendMeasuresForAccount = async (client, account) => {
         'warn',
         `Timeseries for ${startDate.toISOString()} does not have aggregation`
       )
-      await restartService(client, TIMESERIE_MIGRATION_SERVICE_NAME)
+      await startService(client, TIMESERIE_MIGRATION_SERVICE_NAME)
       log('info', 'Timeseries migration service started')
       return nMeasuresSent
     }

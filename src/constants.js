@@ -173,3 +173,5 @@ export const TIMESERIE_MIGRATION_SERVICE_NAME =
   'timeseriesWithoutAggregateMigration'
 export const DACC_SERVICE_NAME = 'dacc'
 export const MAX_DACC_MEASURES_SENT = 12
+
+export const RECURRING_PURPOSES_SERVICE_NAME = 'recurringPurposes'

@@ -8,8 +8,9 @@ import { purposes } from 'src/components/helpers'
 import { createGeojsonWithModifiedPurpose } from 'src/components/EditDialogs/PurposeEditDialog/helpers'
 import { PurposeAvatar } from 'src/components/Avatar'
 import { useTrip } from 'src/components/Providers/TripProvider'
-import { OTHER_PURPOSE } from 'src/constants'
+import { OTHER_PURPOSE, RECURRING_PURPOSES_SERVICE_NAME } from 'src/constants'
 import { getGeoJSONData, getTimeseriePurpose } from 'src/lib/timeseries'
+import { startService } from 'src/lib/services'
 
 const makeOptions = t => {
   const options = purposes.map(purpose => ({
@@ -34,6 +35,13 @@ const PurposeEditDialog = ({ onClose }) => {
         purpose: item.id
       })
       await client.save(newTimeserie)
+      // Start service to set the purpose to similar trips
+      startService(client, RECURRING_PURPOSES_SERVICE_NAME, {
+        fields: {
+          docId: newTimeserie._id,
+          purpose: newTimeserie.purpose
+        }
+      })
       onClose()
     },
     [client, timeserie, onClose]
