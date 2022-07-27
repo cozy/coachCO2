@@ -4,6 +4,8 @@
 
 ## ✨ Features
 
+* When a trip is edited with a manual purpose, automatically detect and set purpose to similar trips
+
 ## 🐛 Bug Fixes
 
 * Vertically center the trip map on mobile when opening it
