@@ -50,6 +50,11 @@
     "selectPurpose": "Modify the travel purpose"
   },
   "purpose": "Reason for travel",
+  "recurring": {
+    "title": "Recurrence",
+    "recurringTrip": "Recurring trip",
+    "ocasionnalTrip": "Occasional trip"
+  },
   "analysis": {
     "mode": "CO2 emissions",
     "purpose": "CO2 emissions",
