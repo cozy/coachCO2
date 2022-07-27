@@ -20,6 +20,7 @@ import {
 import { useTrip } from 'src/components/Providers/TripProvider'
 import PurposeItem from 'src/components/Trip/BottomSheet/PurposeItem'
 import PurposeEditDialog from 'src/components/EditDialogs/PurposeEditDialog'
+import RecurringTripItem from './RecurringTripItem'
 
 const styles = {
   divider: {
@@ -34,6 +35,7 @@ const BottomSheetContent = () => {
   const [showPurposeDialog, setShowPurposeDialog] = useState(false)
 
   const purpose = getTimeseriePurpose(timeserie)
+  const isRecurring = timeserie?.aggregation?.recurring
   const openPurposeDialog = useCallback(() => setShowPurposeDialog(true), [])
   const closePurposeDialog = useCallback(() => setShowPurposeDialog(false), [])
 
@@ -60,6 +62,9 @@ const BottomSheetContent = () => {
         <PurposeItem purpose={purpose} onClick={openPurposeDialog} />
       </BottomSheetItem>
       {showPurposeDialog && <PurposeEditDialog onClose={closePurposeDialog} />}
+      <BottomSheetItem disableGutters>
+        <RecurringTripItem isRecurringTrip={isRecurring} purpose={purpose} />
+      </BottomSheetItem>
     </>
   )
 }

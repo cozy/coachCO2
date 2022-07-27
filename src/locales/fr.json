@@ -50,6 +50,11 @@
     "selectPurpose": "Modifier le motif du déplacement"
   },
   "purpose": "Motif du déplacement",
+  "recurring": {
+    "title": "Récurrence",
+    "recurringTrip": "Déplacement habituel",
+    "ocasionnalTrip": "Déplacement occasionnel"
+  },
   "analysis": {
     "mode": "Émissions de CO2",
     "purpose": "Émissions de CO2",
