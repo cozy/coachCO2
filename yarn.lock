@@ -1606,7 +1606,7 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@cozy/minilog@1.0.0":
+"@cozy/minilog@1.0.0", "@cozy/minilog@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@cozy/minilog/-/minilog-1.0.0.tgz#1acc1aad849261e931e255a5f181b638315f7b84"
   integrity sha512-IkDHF9CLh0kQeSEVsou59ar/VehvenpbEUjLfwhckJyOUqZnKAWmXy8qrBgMT5Loxr8Xjs2wmMnj0D67wP00eQ==
@@ -4955,6 +4955,13 @@ cozy-device-helper@^2.1.0:
   dependencies:
     lodash "^4.17.19"
 
+cozy-device-helper@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/cozy-device-helper/-/cozy-device-helper-2.2.1.tgz#d5822afd818919fa871527e6f78b0265fc1e009b"
+  integrity sha512-1zVQag2OI+6sEGEC70w77urnk4GpWa/ncvCYuyrOOgib4bH6v2YbBrymOD9T3MH0yVF/LVMnXnugSHQfhNLVhA==
+  dependencies:
+    lodash "^4.17.19"
+
 cozy-doctypes@1.39.0:
   version "1.39.0"
   resolved "https://registry.yarnpkg.com/cozy-doctypes/-/cozy-doctypes-1.39.0.tgz#edbd8b7575d858ce5305c0e7c6d14cf6c44b6d83"
@@ -5093,6 +5100,14 @@ cozy-realtime@3.2.1:
   integrity sha512-Ff1vQ8vxam5aH9GmL6+YgEApV40aku7Z84yTdfcEUaOYo4OJ+n40P0EUsQoqgpA2suGONdUfvJ+FnS0aha+9nw==
   dependencies:
     minilog "3.1.0"
+
+cozy-realtime@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/cozy-realtime/-/cozy-realtime-4.2.1.tgz#b42fe82057bd1aae4f227d7987f207eacb169984"
+  integrity sha512-YuyT8DfzInyzt5dW4Acb+nxU0lIMQ4aGveZyx2pTjpYVpRf8xYDz0zPkcxVugfEgSstZBfFtcXKS1+9i4QcjMw==
+  dependencies:
+    "@cozy/minilog" "^1.0.0"
+    cozy-device-helper "^2.2.1"
 
 cozy-release@1.10.0:
   version "1.10.0"
