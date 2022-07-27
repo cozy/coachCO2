@@ -148,7 +148,8 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
           "$oid": "6248ec5e5d25e718233a509a"
         },
         "confidence_threshold": 0.65,
-        "manual_purpose": "ENTERTAINMENT" // Trip purpose set by the user
+        "manual_purpose": "ENTERTAINMENT", // Trip purpose set by the user
+        "automatic_purpose": "ENTERTAINMENT" // Trip purpose automatically detected
       },
       "features": [
         { // starting place
@@ -210,6 +211,40 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
     }
   ]
 }
+```
+
+### Aggregation
+
+Every timeserie is automatically aggregated by a service, to sum up the `series` content into an `aggregation` object, saved directly inside the `io.cozy.timeseries.geojson` document. Here is an example:
+
+```json
+{
+  "aggregation": {
+    "modes": [
+      "WALKING"
+    ],
+    "sections": [
+      {
+        "CO2": 0,
+        "avgSpeed": 5.204285178716263,
+        "calories": 22.83998061653227,
+        "distance": 377.40909178940984,
+        "duration": 210.9319999217987,
+        "id": "600772889801285fa1f3a7b6",
+        "mode": "WALKING",
+        "startDate": "2021-01-19T16:54:26.068Z",
+        "endDate": "2021-01-19T16:57:57.000Z"
+      }
+    ],
+    "startPlaceDisplayName": "Avenue Jean Guiton, La Rochelle",
+    "endPlaceDisplayName": "Rue Ampère, La Rochelle",
+    "totalCO2": 0,
+    "totalCalories": 22.83998061653227,
+    "totalDistance": 377.40909178940984,
+    "totalDuration": 210.9319999217987
+  }
+}
+
 ```
 
 ## DACC
