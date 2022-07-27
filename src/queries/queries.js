@@ -127,7 +127,7 @@ export const buildTimeseriesWithoutAggregation = ({ limit = 1000 }) => ({
     .limitBy(limit)
 })
 
-// Node.js query
+// ---------- Node.js queries
 export const buildOldestTimeseriesQueryByAccountId = accountId => ({
   definition: Q(GEOJSON_DOCTYPE)
     .where({
@@ -137,6 +137,47 @@ export const buildOldestTimeseriesQueryByAccountId = accountId => ({
     .sortBy([{ 'cozyMetadata.sourceAccount': 'asc' }, { startDate: 'asc' }])
     .limitBy(1)
 })
+
+export const builTimeserieQueryByAccountIdAndStartPlaceAndEndPlace = ({
+  accountId,
+  startPlaceDisplayName,
+  endPlaceDisplayName,
+  startDate = null,
+  searchForward = true,
+  limit = 1000
+}) => {
+  const rangeOperatorDate = searchForward ? '$gt' : '$lt'
+  const selector = {
+    'cozyMetadata.sourceAccount': accountId,
+    'aggregation.startPlaceDisplayName': startPlaceDisplayName,
+    'aggregation.endPlaceDisplayName': endPlaceDisplayName,
+    startDate: {
+      [rangeOperatorDate]: startDate
+    }
+  }
+  return {
+    definition: Q(GEOJSON_DOCTYPE)
+      .where(selector)
+      .indexFields([
+        'cozyMetadata.sourceAccount',
+        'aggregation.startPlaceDisplayName',
+        'aggregation.endPlaceDisplayName',
+        'startDate'
+      ])
+      .partialIndex({
+        manual_purpose: {
+          $exists: false
+        }
+      })
+      .sortBy([
+        { 'cozyMetadata.sourceAccount': 'asc' },
+        { 'aggregation.startPlaceDisplayName': 'asc' },
+        { 'aggregation.endPlaceDisplayName': 'asc' },
+        { startDate: 'asc' }
+      ])
+      .limitBy(limit)
+  }
+}
 
 export const buildOneYearOldTimeseriesWithAggregationByAccountId =
   accountId => {
@@ -197,3 +238,8 @@ export const buildSettingsQuery = () => ({
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
+
+export const queryTimeserieByDocId = async (client, docId) => {
+  const res = await client.query(Q(GEOJSON_DOCTYPE).getById(docId))
+  return res?.data
+}

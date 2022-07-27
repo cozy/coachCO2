@@ -32,7 +32,9 @@ import {
   getFormattedTotalCO2,
   computeTotalCO2ByMode,
   computeAndFormatTotalCO2ByMode,
-  getFormattedTotalCalories
+  getFormattedTotalCalories,
+  setAggregationPurpose,
+  setAutomaticPurpose
 } from 'src/lib/timeseries'
 
 describe('transformSerieToTrip', () => {
@@ -704,5 +706,58 @@ describe('getFormattedTotalCalories', () => {
       aggregation: { totalCalories: 22.7456 }
     })
     expect(wCalories).toBe('23 kcal')
+  })
+})
+
+describe('set purpose', () => {
+  it('should set the new aggregation purpose with an automatic mode', () => {
+    const ts = {
+      series: [
+        {
+          properties: {
+            automatic_purpose: 'HOBBY'
+          }
+        }
+      ]
+    }
+    expect(setAggregationPurpose(ts)).toMatchObject({
+      aggregation: { purpose: 'HOBBY' }
+    })
+  })
+  it('should set the new aggregation purpose with a manual mode', () => {
+    const ts = {
+      series: [
+        {
+          properties: {
+            manual_purpose: 'SPORT',
+            automatic_purpose: 'HOBBY'
+          }
+        }
+      ]
+    }
+    expect(setAggregationPurpose(ts)).toMatchObject({
+      aggregation: { purpose: 'SPORT' }
+    })
+  })
+  it('should do nothing when there is no purpose', () => {
+    const ts = { series: [{ properties: {} }] }
+    expect(setAggregationPurpose(ts)).toMatchObject(ts)
+  })
+
+  it('should properly set the given recurring automatic purpose', () => {
+    const ts = { series: [{ properties: {} }] }
+    expect(setAutomaticPurpose(ts, 'HOBBY')).toMatchObject({
+      aggregation: { purpose: 'HOBBY', recurring: true },
+      series: [{ properties: { automatic_purpose: 'HOBBY' } }]
+    })
+  })
+  it('should properly set the given occasional automatic purpose', () => {
+    const ts = { series: [{ properties: {} }] }
+    expect(
+      setAutomaticPurpose(ts, 'HOBBY', { isRecurringTrip: false })
+    ).toMatchObject({
+      aggregation: { purpose: 'HOBBY', recurring: false },
+      series: [{ properties: { automatic_purpose: 'HOBBY' } }]
+    })
   })
 })

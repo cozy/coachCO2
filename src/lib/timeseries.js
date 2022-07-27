@@ -4,6 +4,7 @@ import sortBy from 'lodash/sortBy'
 import fromPairs from 'lodash/fromPairs'
 import toPairs from 'lodash/toPairs'
 import get from 'lodash/get'
+import set from 'lodash/set'
 import sumBy from 'lodash/sumBy'
 import uniq from 'lodash/uniq'
 import subMonths from 'date-fns/subMonths'
@@ -11,7 +12,11 @@ import startOfMonth from 'date-fns/startOfMonth'
 import dateFnsFormatDistance from 'date-fns/formatDistance'
 
 import { computeCO2Section, computeCaloriesSection } from 'src/lib/metrics'
-import { getSectionsFromTrip, getPurpose } from 'src/lib/trips'
+import {
+  getSectionsFromTrip,
+  getManualPurpose,
+  getAutomaticPurpose
+} from 'src/lib/trips'
 import { formatDistance, formatCO2, formatCalories } from 'src/lib/helpers'
 import { modes, purposes } from 'src/components/helpers'
 import { UNKNOWN_MODE, OTHER_PURPOSE } from 'src/constants'
@@ -99,7 +104,7 @@ export const computeAggregatedTimeseries = timeseries => {
       serie,
       'features[1].properties.display_name'
     )
-    const purpose = getPurpose(serie)
+    const purpose = getManualPurpose(serie) || getAutomaticPurpose(serie)
 
     return {
       ...timeserie,
@@ -329,6 +334,51 @@ export const getTotalCalories = timeserie => {
 export const getFormattedTotalCalories = timeserie => {
   const totalCalories = getTotalCalories(timeserie)
   return formatCalories(totalCalories)
+}
+
+/**
+ * Set an automatic purpose and the aggregation purpose
+ * @param {object} timeserie - The timeserie to set
+ * @param {string} purpose - The new purpose
+ * @param {object} params
+ * @param {isRecurringTrip} boolean - Whether or not the trip is recurring
+ *
+ * @returns
+ */
+export const setAutomaticPurpose = (
+  timeserie,
+  purpose,
+  { isRecurringTrip = true } = {}
+) => {
+  const newTimeserie = { ...timeserie }
+  set(newTimeserie, 'series[0].properties.automatic_purpose', purpose)
+  set(newTimeserie, 'aggregation.recurring', isRecurringTrip)
+  return setAggregationPurpose(newTimeserie)
+}
+
+/**
+ * Set the aggregation purpose, which is the manual purpose if any,
+ * or the automatic purpose
+ *
+ * @param {object} timeserie - The timeserie to set
+ * @returns {object} - The timeserie with the set purpose
+ */
+export const setAggregationPurpose = timeserie => {
+  const serie = timeserie.series[0]
+  const recurring = timeserie?.aggregation?.recurring
+  let purpose
+  if (recurring) {
+    purpose = getAutomaticPurpose(serie) || getManualPurpose(serie)
+  } else {
+    purpose = getManualPurpose(serie) || getAutomaticPurpose(serie)
+  }
+  if (!purpose) {
+    return timeserie
+  }
+  return {
+    ...timeserie,
+    aggregation: { ...timeserie.aggregation, purpose }
+  }
 }
 
 /**

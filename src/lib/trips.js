@@ -5,8 +5,12 @@ import { UNKNOWN_MODE } from 'src/constants'
 import { modes } from 'src/components/helpers'
 import { averageSpeedKmH } from 'src/lib/helpers'
 
-export const getPurpose = trip => {
+export const getManualPurpose = trip => {
   return get(trip, 'properties.manual_purpose')
+}
+
+export const getAutomaticPurpose = trip => {
+  return trip?.properties?.automatic_purpose
 }
 
 export const getStartPlaceDisplayName = trip => {
