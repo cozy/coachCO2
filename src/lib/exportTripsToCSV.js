@@ -7,7 +7,7 @@ import { models } from 'cozy-client'
 import {
   getStartPlaceDisplayName,
   getEndPlaceDisplayName,
-  getPurpose,
+  getManualPurpose,
   getSectionsFromTrip,
   getTripStartDate,
   getTripEndDate
@@ -70,7 +70,7 @@ export const makeTripsForExport = trips => {
           getStartPlaceDisplayName(trip),
         [COLUMNS_NAMES_CSV.tripArrivalDisplayName]:
           getEndPlaceDisplayName(trip),
-        [COLUMNS_NAMES_CSV.tripPurpose]: getPurpose(trip)
+        [COLUMNS_NAMES_CSV.tripPurpose]: getManualPurpose(trip)
       }
 
       return { ...tripData, ...sectionData }

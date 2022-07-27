@@ -88,6 +88,10 @@
       "type": "node",
       "file": "services/dacc/coachco2.js",
       "trigger": "@every 720h"
+    },
+    "recurringPurposes": {
+      "type": "node",
+      "file": "services/recurringPurposes/coachco2.js"
     }
   }
 }

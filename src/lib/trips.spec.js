@@ -5,7 +5,11 @@ import {
   modeProps
 } from 'test/mockTrip'
 
-import { getSectionsFromTrip, getPurpose, getFeatureMode } from 'src/lib/trips'
+import {
+  getSectionsFromTrip,
+  getManualPurpose,
+  getFeatureMode
+} from 'src/lib/trips'
 
 const mockedFeatures = () => [
   mockFeature('featureId01'),
@@ -23,12 +27,12 @@ const mockedFeatures = () => [
   ])
 ]
 
-describe('getPurpose', () => {
+describe('getManualPurpose', () => {
   it('should return purpose value', () => {
     const trips = mockSerie('serieId01', mockedFeatures(), {
       manual_purpose: 'PICK_DROP'
     })
-    const purpose = getPurpose(trips)
+    const purpose = getManualPurpose(trips)
 
     expect(purpose).toBe('PICK_DROP')
   })
