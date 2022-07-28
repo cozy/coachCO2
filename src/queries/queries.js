@@ -142,18 +142,14 @@ export const builTimeserieQueryByAccountIdAndStartPlaceAndEndPlace = ({
   accountId,
   startPlaceDisplayName,
   endPlaceDisplayName,
-  startDate = null,
-  searchForward = true,
+  startDate = { $gt: null },
   limit = 1000
 }) => {
-  const rangeOperatorDate = searchForward ? '$gt' : '$lt'
   const selector = {
     'cozyMetadata.sourceAccount': accountId,
     'aggregation.startPlaceDisplayName': startPlaceDisplayName,
     'aggregation.endPlaceDisplayName': endPlaceDisplayName,
-    startDate: {
-      [rangeOperatorDate]: startDate
-    }
+    startDate
   }
   return {
     definition: Q(GEOJSON_DOCTYPE)

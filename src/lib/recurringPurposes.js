@@ -38,8 +38,7 @@ export const findClosestWaybackTrips = async (client, timeserie) => {
       accountId,
       startPlaceDisplayName,
       endPlaceDisplayName,
-      startDate: timeserie.endDate,
-      searchForward: true,
+      startDate: { $gt: timeserie.endDate },
       limit: 1
     }
   ).definition
@@ -53,8 +52,7 @@ export const findClosestWaybackTrips = async (client, timeserie) => {
       accountId,
       startPlaceDisplayName,
       endPlaceDisplayName,
-      startDate: timeserie.endDate,
-      searchForward: false,
+      startDate: { $lt: timeserie.startDate },
       limit: 1
     }).definition
   const resBackward = await client.query(queryDefBackward)
