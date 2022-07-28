@@ -1,6 +1,6 @@
 import { createMockClient } from 'cozy-client'
 import {
-  runReccuringPurposes,
+  runRecurringPurposes,
   setRecurringPurposes,
   findAndSetWaybackRecurringTimeseries,
   findClosestWaybackTrips,
@@ -88,27 +88,35 @@ describe('setRecurringPurposes', () => {
   })
 })
 
-describe('runReccuringPurposes', () => {
+describe('runRecurringPurposes', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
-  it('should do nothing if the timeserie is not well defined', async () => {
+  it('should do nothing if the timeserie is not found or miss fields', async () => {
     jest.spyOn(mockClient, 'query').mockResolvedValueOnce({ data: null })
-    let res = await runReccuringPurposes(mockClient, 1)
+    let res = await runRecurringPurposes(mockClient, 1)
     expect(res.length).toEqual(0)
 
     jest.spyOn(mockClient, 'query').mockResolvedValueOnce({
       data: { aggregation: {}, series: [{ properties: {} }] }
     })
-    res = await runReccuringPurposes(mockClient, 1)
+    res = await runRecurringPurposes(mockClient, 1)
     expect(res.length).toEqual(0)
 
     jest.spyOn(mockClient, 'query').mockResolvedValueOnce({
-      data: { series: [{ properties: { manual_purpoes: 'HOBBY' } }] }
+      data: { series: [{ properties: { manual_purpose: 'HOBBY' } }] }
     })
-    res = await runReccuringPurposes(mockClient, 1)
+    res = await runRecurringPurposes(mockClient, 1)
     expect(res.length).toEqual(0)
   })
+
+  it('should throw an error if timeserie is not well-formed', async () => {
+    jest
+      .spyOn(mockClient, 'query')
+      .mockResolvedValueOnce({ data: { series: {} } })
+    await expect(() => runRecurringPurposes(mockClient, 1)).rejects.toThrow()
+  })
+
   it('should detect and save recurring trips', async () => {
     jest.spyOn(mockClient, 'query').mockResolvedValueOnce({
       data: mockTimeserie({ manualPurpose: 'HOBBY' })
@@ -118,7 +126,7 @@ describe('runReccuringPurposes', () => {
       .mockResolvedValueOnce(mockSimilarTimeseries())
     jest.spyOn(mockClient, 'saveAll').mockResolvedValueOnce([])
 
-    const updated = await runReccuringPurposes(mockClient, 1)
+    const updated = await runRecurringPurposes(mockClient, 1)
 
     expect(updated.length).toEqual(3)
     expect(updated[0]).toMatchObject({

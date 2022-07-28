@@ -350,6 +350,9 @@ export const setAutomaticPurpose = (
   purpose,
   { isRecurringTrip = true } = {}
 ) => {
+  if (!timeserie?.series?.[0]) {
+    throw new Error('Timeserie is malformed')
+  }
   const newTimeserie = { ...timeserie }
   set(newTimeserie, 'series[0].properties.automatic_purpose', purpose)
   set(newTimeserie, 'aggregation.recurring', isRecurringTrip)
