@@ -751,6 +751,12 @@ describe('set purpose', () => {
       series: [{ properties: { automatic_purpose: 'HOBBY' } }]
     })
   })
+
+  it('should throw when timeserie is malformed', () => {
+    const ts = { series: null }
+    expect(() => setAutomaticPurpose(ts, 'HOBBY')).toThrow()
+  })
+
   it('should properly set the given occasional automatic purpose', () => {
     const ts = { series: [{ properties: {} }] }
     expect(

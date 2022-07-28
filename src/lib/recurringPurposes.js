@@ -9,9 +9,12 @@ import {
 
 // Similar trips = same start/end dipslay name
 const findSimilarTimeseries = async (client, timeserie) => {
-  const accountId = timeserie.cozyMetadata.sourceAccount
-  const startPlaceDisplayName = timeserie.aggregation.startPlaceDisplayName
-  const endPlaceDisplayName = timeserie.aggregation.endPlaceDisplayName
+  const accountId = timeserie?.cozyMetadata?.sourceAccount
+  const startPlaceDisplayName = timeserie?.aggregation?.startPlaceDisplayName
+  const endPlaceDisplayName = timeserie?.aggregation?.endPlaceDisplayName
+  if (!accountId || !startPlaceDisplayName || !endPlaceDisplayName) {
+    throw new Error('Missing attributes to run query')
+  }
   const queryDef = builTimeserieQueryByAccountIdAndStartPlaceAndEndPlace({
     accountId,
     startPlaceDisplayName,
@@ -26,6 +29,9 @@ export const findClosestWaybackTrips = async (client, timeserie) => {
   const accountId = timeserie.cozyMetadata.sourceAccount
   const startPlaceDisplayName = timeserie.aggregation.endPlaceDisplayName
   const endPlaceDisplayName = timeserie.aggregation.startPlaceDisplayName
+  if (!accountId || !startPlaceDisplayName || !endPlaceDisplayName) {
+    throw new Error('Missing attributes to run query')
+  }
   // Find closest wayback in the future
   const queryDefForward = builTimeserieQueryByAccountIdAndStartPlaceAndEndPlace(
     {
@@ -124,11 +130,14 @@ export const setRecurringPurposes = (timeserie, similarTimeseries) => {
   return timeseriesToUpdate
 }
 
-export const runReccuringPurposes = async (client, docId) => {
+export const runRecurringPurposes = async (client, docId) => {
   const timeserie = await queryTimeserieByDocId(client, docId)
   if (!timeserie) {
     log('error', 'No timeserie found')
     return []
+  }
+  if (timeserie?.series.length != 1) {
+    throw new Error('error', 'The timeserie is malformed')
   }
   if (!getManualPurpose(timeserie.series[0])) {
     log('error', 'No manual purpose found')

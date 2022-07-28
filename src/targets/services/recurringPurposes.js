@@ -2,7 +2,7 @@ import CozyClient from 'cozy-client'
 import log from 'cozy-logger'
 import schema from 'src/doctypes'
 
-import { runReccuringPurposes } from 'src/lib/recurringPurposes'
+import { runRecurringPurposes } from 'src/lib/recurringPurposes'
 
 import fetch from 'node-fetch'
 global.fetch = fetch
@@ -23,7 +23,7 @@ const recurringPurposes = async () => {
     log('error', 'No docId provided to the service')
     return
   }
-  await runReccuringPurposes(client, docId)
+  await runRecurringPurposes(client, docId)
 }
 
 recurringPurposes().catch(e => {
