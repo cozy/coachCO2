@@ -1,10 +1,12 @@
 import { createMockClient } from 'cozy-client'
+import { OTHER_PURPOSE } from 'src/constants'
 import {
   runRecurringPurposes,
   setRecurringPurposes,
   findAndSetWaybackRecurringTimeseries,
   findClosestWaybackTrips,
-  findAndSetWaybackTimeserie
+  findAndSetWaybackTimeserie,
+  filterByPurpose
 } from './recurringPurposes'
 
 const mockClient = createMockClient({})
@@ -15,7 +17,8 @@ const mockTimeserie = ({
   endDate,
   startPlace,
   endPlace,
-  manualPurpose
+  manualPurpose,
+  noPurpose = false
 } = {}) => {
   const ts = {
     _id: id || 1,
@@ -24,21 +27,22 @@ const mockTimeserie = ({
     aggregation: {
       startPlaceDisplayName: startPlace || 'Bag End, The Shire',
       endPlaceDisplayName: endPlace || 'Rivendell, Eastern Eriador',
-      purpose: manualPurpose || 'HOBBY'
+      purpose: noPurpose ? null : manualPurpose || 'HOBBY'
     },
     cozyMetadata: {
       sourceAccount: 'account-id'
     },
     series: [{ properties: {} }]
   }
-  if (manualPurpose) {
+  if (manualPurpose && !noPurpose) {
     ts.series[0].properties.manual_purpose = manualPurpose
   }
   return ts
 }
 const mockSimilarTimeseries = ({
   startPlace = 'Bag End, The Shire',
-  endPlace = 'Rivendell, Eastern Eriador'
+  endPlace = 'Rivendell, Eastern Eriador',
+  manualPurpose
 } = {}) => {
   return [
     mockTimeserie({
@@ -46,14 +50,16 @@ const mockSimilarTimeseries = ({
       startDate: '2021-12-01',
       endDate: '2021-12-08',
       startPlace,
-      endPlace
+      endPlace,
+      manualPurpose
     }),
     mockTimeserie({
       id: 3,
       startDate: '2022-02-01',
       endDate: '2021-02-09',
       startPlace,
-      endPlace
+      endPlace,
+      manualPurpose
     })
   ]
 }
@@ -94,19 +100,28 @@ describe('runRecurringPurposes', () => {
   })
   it('should do nothing if the timeserie is not found or miss fields', async () => {
     jest.spyOn(mockClient, 'query').mockResolvedValueOnce({ data: null })
-    let res = await runRecurringPurposes(mockClient, 1)
+    let res = await runRecurringPurposes(mockClient, {
+      docId: 1,
+      oldPurpose: 'SPORT'
+    })
     expect(res.length).toEqual(0)
 
     jest.spyOn(mockClient, 'query').mockResolvedValueOnce({
       data: { aggregation: {}, series: [{ properties: {} }] }
     })
-    res = await runRecurringPurposes(mockClient, 1)
+    res = await runRecurringPurposes(mockClient, {
+      docId: 1,
+      oldPurpose: 'SPORT'
+    })
     expect(res.length).toEqual(0)
 
     jest.spyOn(mockClient, 'query').mockResolvedValueOnce({
       data: { series: [{ properties: { manual_purpose: 'HOBBY' } }] }
     })
-    res = await runRecurringPurposes(mockClient, 1)
+    res = await runRecurringPurposes(mockClient, {
+      docId: 1,
+      oldPurpose: 'SPORT'
+    })
     expect(res.length).toEqual(0)
   })
 
@@ -114,7 +129,9 @@ describe('runRecurringPurposes', () => {
     jest
       .spyOn(mockClient, 'query')
       .mockResolvedValueOnce({ data: { series: {} } })
-    await expect(() => runRecurringPurposes(mockClient, 1)).rejects.toThrow()
+    await expect(() =>
+      runRecurringPurposes(mockClient, { docId: 1, oldPurpose: 'SPORT' })
+    ).rejects.toThrow()
   })
 
   it('should detect and save recurring trips', async () => {
@@ -123,10 +140,13 @@ describe('runRecurringPurposes', () => {
     })
     jest
       .spyOn(mockClient, 'queryAll')
-      .mockResolvedValueOnce(mockSimilarTimeseries())
+      .mockResolvedValueOnce(mockSimilarTimeseries({ manualPurpose: 'SPORT' }))
     jest.spyOn(mockClient, 'saveAll').mockResolvedValueOnce([])
 
-    const updated = await runRecurringPurposes(mockClient, 1)
+    const updated = await runRecurringPurposes(mockClient, {
+      docId: 1,
+      oldPurpose: 'SPORT'
+    })
 
     expect(updated.length).toEqual(3)
     expect(updated[0]).toMatchObject({
@@ -168,12 +188,14 @@ describe('findClosestWaybackTrips', () => {
         endPlace: 'Mount Doom, Mordor',
         startDate: '2019-01-01',
         endDate: '2020-01-01'
-      })
+      }),
+      { oldPurpose: 'HOBBY' }
     )
     expect(waybacks.length).toEqual(1)
     expect(waybacks[0]).toMatchObject({
       startDate: '2021-02-01',
-      endDate: '2022-02-01'
+      endDate: '2022-02-01',
+      aggregation: { purpose: 'HOBBY' }
     })
   })
   it('should find closest wayback trip in the past', async () => {
@@ -195,12 +217,14 @@ describe('findClosestWaybackTrips', () => {
         endPlace: 'Mount Doom, Mordor',
         startDate: '2019-01-01',
         endDate: '2020-01-01'
-      })
+      }),
+      { oldPurpose: 'HOBBY' }
     )
     expect(waybacks.length).toEqual(1)
     expect(waybacks[0]).toMatchObject({
       startDate: '2018-02-01',
-      endDate: '2019-02-01'
+      endDate: '2019-02-01',
+      aggregation: { purpose: 'HOBBY' }
     })
   })
 })
@@ -214,7 +238,8 @@ describe('findAndSetWaybackTrips', () => {
     const trips = await findAndSetWaybackRecurringTimeseries(
       mockClient,
       mockTimeserie(),
-      mockSimilarTimeseries()
+      mockSimilarTimeseries(),
+      { oldPurpose: 'HOBBY', waybackInitialTimeseries: [] }
     )
     expect(trips).toEqual([])
   })
@@ -235,7 +260,8 @@ describe('findAndSetWaybackTrips', () => {
         startPlace: 'Bag End, The Shire',
         endPlace: 'Mount Doom, Mordor',
         manualPurpose: 'WORK'
-      })
+      }),
+      { oldPurpose: 'HOBBY', similarTimeseries: [] }
     )
     expect(trips.length).toEqual(1)
     expect(trips[0]).toMatchObject({
@@ -282,7 +308,8 @@ describe('findAndSetWaybackTrips', () => {
       mockSimilarTimeseries({
         startPlace: 'Valinor',
         endPlace: 'Grey Havens, Lindon'
-      })
+      }),
+      { oldPurpose: 'HOBBY', waybackInitialTimeseries: [] }
     )
     expect(trips.length).toEqual(2)
     expect(trips[0]).toMatchObject({
@@ -298,5 +325,32 @@ describe('findAndSetWaybackTrips', () => {
         }
       ]
     })
+  })
+})
+
+describe('filterByPurpose', () => {
+  it('should return trips with same purpose', () => {
+    const timeseries = [
+      mockTimeserie({ manualPurpose: 'WORK' }),
+      mockTimeserie({ manualPurpose: 'SPORT' })
+    ]
+    const sportTS = filterByPurpose(timeseries, 'SPORT')
+    expect(sportTS.length).toEqual(1)
+    expect(sportTS[0].aggregation.purpose).toEqual('SPORT')
+
+    const hobbyTS = filterByPurpose(timeseries, 'HOBBY')
+    expect(hobbyTS.length).toEqual(0)
+  })
+
+  it('should include trips with no purpose when OTHER_PURPOSE is searched', () => {
+    const timeseries = [
+      mockTimeserie({ manualPurpose: 'WORK' }),
+      mockTimeserie({ noPurpose: true }),
+      mockTimeserie({ manualPurpose: OTHER_PURPOSE })
+    ]
+    const ts = filterByPurpose(timeseries, OTHER_PURPOSE)
+    expect(ts.length).toEqual(2)
+    expect(ts[0].aggregation.purpose).toEqual(null)
+    expect(ts[1].aggregation.purpose).toEqual(OTHER_PURPOSE)
   })
 })

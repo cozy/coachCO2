@@ -29,6 +29,7 @@ const PurposeEditDialog = ({ onClose }) => {
 
   const handleSelect = useCallback(
     async item => {
+      const oldPurpose = getTimeseriePurpose(timeserie)
       const newTimeserie = createGeojsonWithModifiedPurpose({
         timeserie,
         tripId: getGeoJSONData(timeserie).id,
@@ -39,7 +40,7 @@ const PurposeEditDialog = ({ onClose }) => {
       startService(client, RECURRING_PURPOSES_SERVICE_NAME, {
         fields: {
           docId: newTimeserie._id,
-          purpose: newTimeserie.purpose
+          oldPurpose
         }
       })
       onClose()

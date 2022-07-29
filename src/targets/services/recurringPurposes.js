@@ -17,13 +17,13 @@ const recurringPurposes = async () => {
   const client = CozyClient.fromEnv(process.env, { schema })
 
   const fields = JSON.parse(process.env.COZY_FIELDS || '{}')
-  const { docId } = fields
-
-  if (!docId) {
-    log('error', 'No docId provided to the service')
+  const { docId, oldPurpose } = fields
+  if (!docId || !oldPurpose) {
+    log('error', 'No docId or purpose provided to the service')
     return
   }
-  await runRecurringPurposes(client, docId)
+
+  await runRecurringPurposes(client, { docId, oldPurpose })
 }
 
 recurringPurposes().catch(e => {

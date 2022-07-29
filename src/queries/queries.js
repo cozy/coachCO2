@@ -138,42 +138,38 @@ export const buildOldestTimeseriesQueryByAccountId = accountId => ({
     .limitBy(1)
 })
 
-export const builTimeserieQueryByAccountIdAndStartPlaceAndEndPlace = ({
-  accountId,
-  startPlaceDisplayName,
-  endPlaceDisplayName,
-  startDate = { $gt: null },
-  limit = 1000
-}) => {
-  const selector = {
-    'cozyMetadata.sourceAccount': accountId,
-    'aggregation.startPlaceDisplayName': startPlaceDisplayName,
-    'aggregation.endPlaceDisplayName': endPlaceDisplayName,
-    startDate
+export const builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDate =
+  ({
+    accountId,
+    startPlaceDisplayName,
+    endPlaceDisplayName,
+    startDate = { $gt: null },
+    limit = 1000
+  }) => {
+    const selector = {
+      'cozyMetadata.sourceAccount': accountId,
+      'aggregation.startPlaceDisplayName': startPlaceDisplayName,
+      'aggregation.endPlaceDisplayName': endPlaceDisplayName,
+      startDate
+    }
+    return {
+      definition: Q(GEOJSON_DOCTYPE)
+        .where(selector)
+        .indexFields([
+          'cozyMetadata.sourceAccount',
+          'aggregation.startPlaceDisplayName',
+          'aggregation.endPlaceDisplayName',
+          'startDate'
+        ])
+        .sortBy([
+          { 'cozyMetadata.sourceAccount': 'asc' },
+          { 'aggregation.startPlaceDisplayName': 'asc' },
+          { 'aggregation.endPlaceDisplayName': 'asc' },
+          { startDate: 'asc' }
+        ])
+        .limitBy(limit)
+    }
   }
-  return {
-    definition: Q(GEOJSON_DOCTYPE)
-      .where(selector)
-      .indexFields([
-        'cozyMetadata.sourceAccount',
-        'aggregation.startPlaceDisplayName',
-        'aggregation.endPlaceDisplayName',
-        'startDate'
-      ])
-      .partialIndex({
-        manual_purpose: {
-          $exists: false
-        }
-      })
-      .sortBy([
-        { 'cozyMetadata.sourceAccount': 'asc' },
-        { 'aggregation.startPlaceDisplayName': 'asc' },
-        { 'aggregation.endPlaceDisplayName': 'asc' },
-        { startDate: 'asc' }
-      ])
-      .limitBy(limit)
-  }
-}
 
 export const buildOneYearOldTimeseriesWithAggregationByAccountId =
   accountId => {
