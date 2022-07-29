@@ -95,7 +95,12 @@ export const buildTimeseriesQueryByDateAndAccountId = (
         $exists: true
       }
     })
-    .select(['aggregation', 'cozyMetadata.sourceAccount', 'startDate'])
+    .select([
+      'aggregation',
+      'cozyMetadata.sourceAccount',
+      'startDate',
+      'endDate'
+    ])
     .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
     .limitBy(limit)
 

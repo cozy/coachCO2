@@ -9,6 +9,7 @@
 ## 🐛 Bug Fixes
 
 * Vertically center the trip map on mobile when opening it
+* Fix app crashes due to missing field in query
 
 ## 🔧 Tech
 
