@@ -194,7 +194,12 @@ export const buildOneYearOldTimeseriesWithAggregationByAccountId =
             $exists: true
           }
         })
-        .select(['startDate', 'aggregation', 'cozyMetadata.sourceAccount'])
+        .select([
+          'startDate',
+          'endDate',
+          'aggregation',
+          'cozyMetadata.sourceAccount'
+        ])
         .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
         .sortBy([{ 'cozyMetadata.sourceAccount': 'asc' }, { startDate: 'asc' }])
         .limitBy(1000),
