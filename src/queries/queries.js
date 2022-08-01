@@ -64,7 +64,8 @@ export const buildTimeserieQueryById = timeserieId => ({
   definition: Q(GEOJSON_DOCTYPE).getById(timeserieId),
   options: {
     as: `${GEOJSON_DOCTYPE}/${timeserieId}`,
-    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s),
+    singleDocData: true
   }
 })
 
