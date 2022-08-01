@@ -27,7 +27,7 @@ const Trip = () => {
   }
 
   return (
-    <TripProvider timeserie={data[0]}>
+    <TripProvider timeserie={data}>
       <TripDialogMobile />
     </TripProvider>
   )

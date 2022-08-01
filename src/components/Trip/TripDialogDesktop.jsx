@@ -24,7 +24,7 @@ const styles = {
 
 const TripDialogDesktop = ({ timeserieId, setShowTripDialog }) => {
   const timeserieQuery = buildTimeserieQueryById(timeserieId)
-  const { data: timeseries, ...timeseriesQueryResult } = useQuery(
+  const { data: timeserie, ...timeseriesQueryResult } = useQuery(
     timeserieQuery.definition,
     timeserieQuery.options
   )
@@ -37,11 +37,11 @@ const TripDialogDesktop = ({ timeserieId, setShowTripDialog }) => {
   )
 
   return (
-    <TripProvider timeserie={isLoading ? '' : timeseries[0]}>
+    <TripProvider timeserie={isLoading ? '' : timeserie}>
       <Dialog
         open={true}
         onClose={hideModal}
-        title={isLoading ? '' : getEndPlaceDisplayName(timeseries[0])}
+        title={isLoading ? '' : getEndPlaceDisplayName(timeserie)}
         size="large"
         content={
           isLoading ? (
