@@ -130,20 +130,20 @@ export const findAndSetWaybackRecurringTimeseries = async (
   { oldPurpose, waybackInitialTimeseries }
 ) => {
   const waybacks = {}
-  // Populate with initial waybacks to avoid conflicts
-  for (const wayback of waybackInitialTimeseries) {
-    waybacks[wayback._id] = wayback
-  }
-
+  const waybackInitialIds = waybackInitialTimeseries.map(ts => ts._id)
   for (const trip of recurringTimeseries) {
     // Find way-back trips
     const closestWaybackTrips = await findClosestWaybackTrips(client, trip, {
       oldPurpose
     })
     for (const waybackTrip of closestWaybackTrips) {
-      if (!waybacks[waybackTrip._id])
+      if (
+        !waybacks[waybackTrip._id] &&
+        !waybackInitialIds.includes(waybackTrip._id)
+      ) {
         // Avoid duplicates
         waybacks[waybackTrip._id] = waybackTrip
+      }
     }
   }
   return setRecurringPurposes(initialTimeserie, Object.values(waybacks))
@@ -219,7 +219,6 @@ export const runRecurringPurposes = async (client, { docId, oldPurpose }) => {
     similarTimeseries,
     { oldPurpose, waybackInitialTimeseries }
   )
-
   // Save trips with new purpose
   const timeseriesToUpdate = [
     updatedTS,
