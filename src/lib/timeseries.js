@@ -285,11 +285,11 @@ export const sortTimeseriesByCO2GroupedByPurpose = aggregatedTimeseries => {
 }
 
 export const getStartDate = timeserie => {
-  return new Date(timeserie.startDate)
+  return timeserie.startDate ? new Date(timeserie.startDate) : null
 }
 
 export const getEndDate = timeserie => {
-  return new Date(timeserie.endDate)
+  return timeserie.endDate ? new Date(timeserie.endDate) : null
 }
 
 export const getStartPlaceDisplayName = timeserie => {
