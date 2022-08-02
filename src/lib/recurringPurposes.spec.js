@@ -6,7 +6,7 @@ import {
   findAndSetWaybackRecurringTimeseries,
   findClosestWaybackTrips,
   findAndSetWaybackTimeserie,
-  filterByPurpose
+  filterByPurposeAndRecurrence
 } from './recurringPurposes'
 
 const mockClient = createMockClient({})
@@ -17,6 +17,7 @@ const mockTimeserie = ({
   endDate,
   startPlace,
   endPlace,
+  recurring,
   manualPurpose,
   noPurpose = false
 } = {}) => {
@@ -27,7 +28,8 @@ const mockTimeserie = ({
     aggregation: {
       startPlaceDisplayName: startPlace || 'Bag End, The Shire',
       endPlaceDisplayName: endPlace || 'Rivendell, Eastern Eriador',
-      purpose: noPurpose ? null : manualPurpose || 'HOBBY'
+      purpose: noPurpose ? null : manualPurpose || 'HOBBY',
+      recurring
     },
     cozyMetadata: {
       sourceAccount: 'account-id'
@@ -334,11 +336,11 @@ describe('filterByPurpose', () => {
       mockTimeserie({ manualPurpose: 'WORK' }),
       mockTimeserie({ manualPurpose: 'SPORT' })
     ]
-    const sportTS = filterByPurpose(timeseries, 'SPORT')
+    const sportTS = filterByPurposeAndRecurrence(timeseries, 'SPORT')
     expect(sportTS.length).toEqual(1)
     expect(sportTS[0].aggregation.purpose).toEqual('SPORT')
 
-    const hobbyTS = filterByPurpose(timeseries, 'HOBBY')
+    const hobbyTS = filterByPurposeAndRecurrence(timeseries, 'HOBBY')
     expect(hobbyTS.length).toEqual(0)
   })
 
@@ -348,9 +350,21 @@ describe('filterByPurpose', () => {
       mockTimeserie({ noPurpose: true }),
       mockTimeserie({ manualPurpose: OTHER_PURPOSE })
     ]
-    const ts = filterByPurpose(timeseries, OTHER_PURPOSE)
+    const ts = filterByPurposeAndRecurrence(timeseries, OTHER_PURPOSE)
     expect(ts.length).toEqual(2)
     expect(ts[0].aggregation.purpose).toEqual(null)
     expect(ts[1].aggregation.purpose).toEqual(OTHER_PURPOSE)
+  })
+
+  it('should exclude trips with recurring: false', () => {
+    const timeseries = [
+      mockTimeserie({ id: 1, manualPurpose: 'HOBBY', recurring: true }),
+      mockTimeserie({ id: 2, manualPurpose: 'HOBBY', recurring: false }),
+      mockTimeserie({ id: 3, manualPurpose: 'HOBBY' })
+    ]
+    const ts = filterByPurposeAndRecurrence(timeseries, 'HOBBY')
+    expect(ts.length).toEqual(2)
+    expect(ts[0]._id).toEqual(1)
+    expect(ts[1]._id).toEqual(3)
   })
 })
