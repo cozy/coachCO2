@@ -8,7 +8,7 @@ import {
 } from 'src/queries/queries'
 import { OTHER_PURPOSE } from 'src/constants'
 
-export const filterByPurpose = (timeseries, purpose) => {
+export const filterByPurposeAndRecurrence = (timeseries, purpose) => {
   return timeseries
     ? timeseries.filter(ts => {
         if (purpose === OTHER_PURPOSE) {
@@ -16,7 +16,10 @@ export const filterByPurpose = (timeseries, purpose) => {
             !ts?.aggregation?.purpose || ts?.aggregation?.purpose === purpose
           )
         }
-        return ts?.aggregation?.purpose === purpose
+        return (
+          ts?.aggregation?.purpose === purpose &&
+          ts.aggregation?.recurring !== false
+        )
       })
     : []
 }
@@ -42,7 +45,7 @@ const findSimilarTimeseries = async (client, timeserie, { oldPurpose }) => {
       purpose: oldPurpose
     }).definition
   const timeseries = await client.queryAll(queryDef)
-  return filterByPurpose(
+  return filterByPurposeAndRecurrence(
     timeseries.filter(ts => ts._id !== timeserie._id),
     oldPurpose
   )
@@ -76,7 +79,7 @@ export const findClosestWaybackTrips = async (
       limit: 1
     }).definition
   const resForward = await client.query(queryDefForward)
-  const nextWayback = filterByPurpose(resForward?.data, oldPurpose)
+  const nextWayback = filterByPurposeAndRecurrence(resForward?.data, oldPurpose)
   if (nextWayback.length > 0) {
     waybackTrips.push(nextWayback[0])
   }
@@ -91,7 +94,10 @@ export const findClosestWaybackTrips = async (
       limit: 1
     }).definition
   const resBackward = await client.query(queryDefBackward)
-  const previousWayback = filterByPurpose(resBackward?.data, oldPurpose)
+  const previousWayback = filterByPurposeAndRecurrence(
+    resBackward?.data,
+    oldPurpose
+  )
   if (previousWayback.length > 0) {
     waybackTrips.push(previousWayback[0])
   }
@@ -101,7 +107,7 @@ export const findClosestWaybackTrips = async (
 export const findAndSetWaybackTimeserie = async (
   client,
   initialTimeserie,
-  { oldPurpose, similarTimeseries }
+  { oldPurpose }
 ) => {
   const waybackTrips = []
   const closestInitialWaybackTrips = await findClosestWaybackTrips(
@@ -110,14 +116,9 @@ export const findAndSetWaybackTimeserie = async (
     { oldPurpose }
   )
   if (closestInitialWaybackTrips.length > 0) {
-    const isRecurringTrip = similarTimeseries.length > 0
-    const purpose = initialTimeserie.aggregation.purpose
+    const purpose = initialTimeserie?.aggregation?.purpose
     for (const waybackTrip of closestInitialWaybackTrips) {
-      waybackTrips.push(
-        setAutomaticPurpose(waybackTrip, purpose, {
-          isRecurringTrip
-        })
-      )
+      waybackTrips.push(setAutomaticPurpose(waybackTrip, purpose))
     }
   }
   return waybackTrips
@@ -149,10 +150,9 @@ export const findAndSetWaybackRecurringTimeseries = async (
   return setRecurringPurposes(initialTimeserie, Object.values(waybacks))
 }
 
-const setManuallyUpdatedTrip = (timeserie, recurringTrips, waybackTrips) => {
+export const setManuallyUpdatedTrip = timeserie => {
   const purpose = getManualPurpose(timeserie.series[0])
-  const isRecurringTrip = recurringTrips.length > 0 || waybackTrips.length > 1
-  return setAutomaticPurpose(timeserie, purpose, { isRecurringTrip })
+  return setAutomaticPurpose(timeserie, purpose)
 }
 
 export const setRecurringPurposes = (timeserie, similarTimeseries) => {
@@ -169,7 +169,7 @@ export const setRecurringPurposes = (timeserie, similarTimeseries) => {
       // No need to update trips with the same automatic purpose
       continue
     }
-    const newTS = setAutomaticPurpose(ts, purpose, { isRecurringTrip: true })
+    const newTS = setAutomaticPurpose(ts, purpose)
     timeseriesToUpdate.push(newTS)
   }
 
@@ -202,23 +202,29 @@ export const runRecurringPurposes = async (client, { docId, oldPurpose }) => {
     timeserie,
     similarTimeseries
   )
+  log('info', `Found ${similarTimeseries.length} similar timeseries`)
+
   // Find wayback trips (with reverse start/end place) and set their purpose
   const waybackInitialTimeseries = await findAndSetWaybackTimeserie(
     client,
     timeserie,
     { oldPurpose, similarTimeseries }
   )
-  const updatedTS = setManuallyUpdatedTrip(
-    timeserie,
-    similarTimeseries,
-    waybackInitialTimeseries
-  )
+
+  const updatedTS = setManuallyUpdatedTrip(timeserie)
   const recurringWaybackTimeseries = await findAndSetWaybackRecurringTimeseries(
     client,
     updatedTS,
     similarTimeseries,
     { oldPurpose, waybackInitialTimeseries }
   )
+  log(
+    'info',
+    `Found ${
+      waybackInitialTimeseries.length + recurringWaybackTimeseries.length
+    } wayback timeseries`
+  )
+
   // Save trips with new purpose
   const timeseriesToUpdate = [
     updatedTS,

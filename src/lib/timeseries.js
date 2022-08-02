@@ -337,44 +337,57 @@ export const getFormattedTotalCalories = timeserie => {
 }
 
 /**
- * Set an automatic purpose and the aggregation purpose
+ * Set an automatic purpose and the aggregation purpose.
+ * An automatic purpose implies a recurring trip.
+ *
  * @param {object} timeserie - The timeserie to set
  * @param {string} purpose - The new purpose
- * @param {object} params
- * @param {isRecurringTrip} boolean - Whether or not the trip is recurring
  *
  * @returns
  */
-export const setAutomaticPurpose = (
-  timeserie,
-  purpose,
-  { isRecurringTrip = true } = {}
-) => {
+export const setAutomaticPurpose = (timeserie, purpose) => {
   if (!timeserie?.series?.[0]) {
     throw new Error('Timeserie is malformed')
   }
   const newTimeserie = { ...timeserie }
   set(newTimeserie, 'series[0].properties.automatic_purpose', purpose)
-  set(newTimeserie, 'aggregation.recurring', isRecurringTrip)
+  set(newTimeserie, 'aggregation.recurring', true) // An automatic purpose is necessary recurring - otherwise it's manual
+  return setAggregationPurpose(newTimeserie)
+}
+
+export const setManualPurpose = (
+  timeserie,
+  purpose,
+  { isRecurringTrip = null } = {}
+) => {
+  if (!timeserie?.series?.[0]) {
+    throw new Error('Timeserie is malformed')
+  }
+  const newTimeserie = { ...timeserie }
+  set(
+    newTimeserie,
+    'series[0].properties.manual_purpose',
+    purpose.toUpperCase()
+  )
+  if (isRecurringTrip !== null) {
+    set(newTimeserie, 'aggregation.recurring', isRecurringTrip)
+  }
   return setAggregationPurpose(newTimeserie)
 }
 
 /**
  * Set the aggregation purpose, which is the manual purpose if any,
- * or the automatic purpose
+ * or the automatic purpose.
+ * The automatic purpose is preferred when the trip is recurring.
  *
  * @param {object} timeserie - The timeserie to set
  * @returns {object} - The timeserie with the set purpose
  */
 export const setAggregationPurpose = timeserie => {
   const serie = timeserie.series[0]
-  const recurring = timeserie?.aggregation?.recurring
-  let purpose
-  if (recurring) {
-    purpose = getAutomaticPurpose(serie) || getManualPurpose(serie)
-  } else {
-    purpose = getManualPurpose(serie) || getAutomaticPurpose(serie)
-  }
+  const purpose = timeserie?.aggregation?.recurring
+    ? getAutomaticPurpose(serie) || getManualPurpose(serie)
+    : getManualPurpose(serie)
   if (!purpose) {
     return timeserie
   }

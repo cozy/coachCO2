@@ -34,7 +34,8 @@ import {
   computeAndFormatTotalCO2ByMode,
   getFormattedTotalCalories,
   setAggregationPurpose,
-  setAutomaticPurpose
+  setAutomaticPurpose,
+  setManualPurpose
 } from 'src/lib/timeseries'
 
 describe('transformSerieToTrip', () => {
@@ -712,6 +713,9 @@ describe('getFormattedTotalCalories', () => {
 describe('set purpose', () => {
   it('should set the new aggregation purpose with an automatic mode', () => {
     const ts = {
+      aggregation: {
+        recurring: true
+      },
       series: [
         {
           properties: {
@@ -757,13 +761,23 @@ describe('set purpose', () => {
     expect(() => setAutomaticPurpose(ts, 'HOBBY')).toThrow()
   })
 
-  it('should properly set the given occasional automatic purpose', () => {
+  it('should properly set the given manual purpose with no recurrence', () => {
     const ts = { series: [{ properties: {} }] }
+    expect(setManualPurpose(ts, 'HOBBY')).toMatchObject({
+      aggregation: { purpose: 'HOBBY' },
+      series: [{ properties: { manual_purpose: 'HOBBY' } }]
+    })
+  })
+
+  it('should properly set the given manual purpose with recurrence', () => {
+    const ts = { series: [{ properties: { automatic_purpose: 'SPORT' } }] }
     expect(
-      setAutomaticPurpose(ts, 'HOBBY', { isRecurringTrip: false })
+      setManualPurpose(ts, 'HOBBY', { isRecurringTrip: true })
     ).toMatchObject({
-      aggregation: { purpose: 'HOBBY', recurring: false },
-      series: [{ properties: { automatic_purpose: 'HOBBY' } }]
+      aggregation: { purpose: 'SPORT', recurring: true },
+      series: [
+        { properties: { manual_purpose: 'HOBBY', automatic_purpose: 'SPORT' } }
+      ]
     })
   })
 })
