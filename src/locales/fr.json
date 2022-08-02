@@ -53,7 +53,13 @@
   "recurring": {
     "title": "Récurrence",
     "recurringTrip": "Déplacement habituel",
-    "ocasionnalTrip": "Déplacement occasionnel"
+    "ocasionnalTrip": "Déplacement occasionnel",
+    "confirmDialog": {
+      "title": "Faîtes-vous régulièrement ce déplacement ?",
+      "content": "Si oui, son motif sera considéré comme récurrent et son motif sera appliqué aux déplacements équivalents.",
+      "confirm": "Oui",
+      "decline": "Non"
+    }
   },
   "analysis": {
     "mode": "Émissions de CO2",
