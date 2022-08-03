@@ -1,3 +1,4 @@
+// @ts-check
 import log from 'cozy-logger'
 
 import { getManualPurpose, getAutomaticPurpose } from 'src/lib/trips'
@@ -25,7 +26,11 @@ export const filterByPurposeAndRecurrence = (timeseries, purpose) => {
 }
 
 // Similar trips = same start/end dipslay name
-const findSimilarTimeseries = async (client, timeserie, { oldPurpose }) => {
+const findSimilarTimeseries = async (
+  client,
+  timeserie,
+  { oldPurpose = null } = {}
+) => {
   const accountId = timeserie?.cozyMetadata?.sourceAccount
   const startPlaceDisplayName = timeserie?.aggregation?.startPlaceDisplayName
   const endPlaceDisplayName = timeserie?.aggregation?.endPlaceDisplayName
@@ -54,18 +59,13 @@ const findSimilarTimeseries = async (client, timeserie, { oldPurpose }) => {
 export const findClosestWaybackTrips = async (
   client,
   timeserie,
-  { oldPurpose }
+  { oldPurpose = null }
 ) => {
   const waybackTrips = []
   const accountId = timeserie.cozyMetadata.sourceAccount
   const startPlaceDisplayName = timeserie.aggregation.endPlaceDisplayName
   const endPlaceDisplayName = timeserie.aggregation.startPlaceDisplayName
-  if (
-    !accountId ||
-    !startPlaceDisplayName ||
-    !endPlaceDisplayName ||
-    !oldPurpose
-  ) {
+  if (!accountId || !startPlaceDisplayName || !endPlaceDisplayName) {
     throw new Error('Missing attributes to run query')
   }
   // Find closest wayback in the future
@@ -74,7 +74,6 @@ export const findClosestWaybackTrips = async (
       accountId,
       startPlaceDisplayName,
       endPlaceDisplayName,
-      purpose: oldPurpose,
       startDate: { $gt: timeserie.endDate },
       limit: 1
     }).definition
@@ -89,7 +88,7 @@ export const findClosestWaybackTrips = async (
       accountId,
       startPlaceDisplayName,
       endPlaceDisplayName,
-      purpose: oldPurpose,
+      // @ts-ignore
       startDate: { $lt: timeserie.startDate },
       limit: 1
     }).definition
@@ -158,7 +157,7 @@ export const setManuallyUpdatedTrip = timeserie => {
 export const setRecurringPurposes = (timeserie, similarTimeseries) => {
   const purpose = getManualPurpose(timeserie.series[0])
   if (!purpose) {
-    log.warn('No manual purpose set for the trip')
+    log('warn', 'No manual purpose set for the trip')
     return []
   }
 
@@ -183,7 +182,7 @@ export const runRecurringPurposes = async (client, { docId, oldPurpose }) => {
     return []
   }
   if (timeserie?.series.length != 1) {
-    throw new Error('error', 'The timeserie is malformed')
+    throw new Error('The timeserie is malformed')
   }
   if (!getManualPurpose(timeserie.series[0])) {
     log('error', 'No manual purpose found')
