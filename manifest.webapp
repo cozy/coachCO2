@@ -77,7 +77,7 @@
       "type": "node",
       "file": "services/timeseriesWithoutAggregateMigration/coachco2.js",
       "trigger": "@event io.cozy.timeseries.geojson:CREATED,UPDATED",
-      "debounce": "5m"
+      "debounce": "1m"
     },
     "dacc": {
       "type": "node",
@@ -86,7 +86,9 @@
     },
     "recurringPurposes": {
       "type": "node",
-      "file": "services/recurringPurposes/coachco2.js"
+      "file": "services/recurringPurposes/coachco2.js",
+      "trigger": "@event io.cozy.timeseries.geojson:CREATED",
+      "debounce": "2m"
     }
   }
 }

@@ -7,7 +7,7 @@ import {
   getAccountLabel,
   useAccountContext
 } from 'src/components/Providers/AccountProvider'
-import { buildTimeseriesQueryByAccountId } from 'src/queries/queries'
+import { buildTimeseriesQueryByAccountIdAndDate } from 'src/queries/queries'
 import { uploadFile } from 'src/lib/exportTripsToCSV'
 
 const useExportTripsToCSV = () => {
@@ -22,7 +22,7 @@ const useExportTripsToCSV = () => {
     isLoading: true
   })
 
-  const timeseriesQuery = buildTimeseriesQueryByAccountId({
+  const timeseriesQuery = buildTimeseriesQueryByAccountIdAndDate({
     accountId: account?._id,
     limitBy: 1000
   })

@@ -46,10 +46,16 @@ export const buildAggregatedTimeseriesQueryByAccountId = ({
   }
 })
 
-export const buildTimeseriesQueryByAccountId = ({ accountId }) => ({
+export const buildTimeseriesQueryByAccountIdAndDate = ({
+  accountId,
+  date = null
+}) => ({
   definition: Q(GEOJSON_DOCTYPE)
     .where({
-      'cozyMetadata.sourceAccount': accountId
+      'cozyMetadata.sourceAccount': accountId,
+      startDate: {
+        $gt: date
+      }
     })
     .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
     .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
@@ -133,6 +139,39 @@ export const buildTimeseriesWithoutAggregation = ({ limit = 1000 }) => ({
     .limitBy(limit)
 })
 
+export const buildOneYearOldTimeseriesWithAggregationByAccountId =
+  accountId => {
+    const dateOneYearAgoFromNow = startOfMonth(subYears(new Date(), 1))
+
+    return {
+      definition: Q(GEOJSON_DOCTYPE)
+        .where({
+          'cozyMetadata.sourceAccount': accountId,
+          startDate: {
+            $gte: dateOneYearAgoFromNow.toISOString()
+          }
+        })
+        .partialIndex({
+          aggregation: {
+            $exists: true
+          }
+        })
+        .select([
+          'startDate',
+          'endDate',
+          'aggregation',
+          'cozyMetadata.sourceAccount'
+        ])
+        .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
+        .sortBy([{ 'cozyMetadata.sourceAccount': 'asc' }, { startDate: 'asc' }])
+        .limitBy(1000),
+      options: {
+        as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/withAggregation/fromDate/${dateOneYearAgoFromNow.getFullYear()}-${dateOneYearAgoFromNow.getMonth()}`,
+        fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+      }
+    }
+  }
+
 // ---------- Node.js queries
 export const buildOldestTimeseriesQueryByAccountId = accountId => ({
   definition: Q(GEOJSON_DOCTYPE)
@@ -177,38 +216,20 @@ export const builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDate =
     }
   }
 
-export const buildOneYearOldTimeseriesWithAggregationByAccountId =
-  accountId => {
-    const dateOneYearAgoFromNow = startOfMonth(subYears(new Date(), 1))
-
-    return {
-      definition: Q(GEOJSON_DOCTYPE)
-        .where({
-          'cozyMetadata.sourceAccount': accountId,
-          startDate: {
-            $gte: dateOneYearAgoFromNow.toISOString()
-          }
-        })
-        .partialIndex({
-          aggregation: {
-            $exists: true
-          }
-        })
-        .select([
-          'startDate',
-          'endDate',
-          'aggregation',
-          'cozyMetadata.sourceAccount'
-        ])
-        .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
-        .sortBy([{ 'cozyMetadata.sourceAccount': 'asc' }, { startDate: 'asc' }])
-        .limitBy(1000),
-      options: {
-        as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/withAggregation/fromDate/${dateOneYearAgoFromNow.getFullYear()}-${dateOneYearAgoFromNow.getMonth()}`,
-        fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
-      }
-    }
+export const buildNewestRecurringTimeseriesQuery = ({ accountId }) => {
+  return {
+    definition: Q(GEOJSON_DOCTYPE)
+      .where({
+        'cozyMetadata.sourceAccount': accountId
+      })
+      .partialIndex({
+        'aggregation.recurring': true
+      })
+      .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
+      .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
+      .limitBy(1)
   }
+}
 
 // other doctypes -------------
 
