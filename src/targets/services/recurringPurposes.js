@@ -2,7 +2,10 @@ import CozyClient from 'cozy-client'
 import log from 'cozy-logger'
 import schema from 'src/doctypes'
 
-import { runRecurringPurposes } from 'src/lib/recurringPurposes'
+import {
+  runRecurringPurposesForManualTrip,
+  runRecurringPurposesForNewTrips
+} from 'src/lib/recurringPurposes'
 
 import fetch from 'node-fetch'
 global.fetch = fetch
@@ -18,12 +21,13 @@ const recurringPurposes = async () => {
 
   const fields = JSON.parse(process.env.COZY_FIELDS || '{}')
   const { docId, oldPurpose } = fields
-  if (!docId || !oldPurpose) {
-    log('error', 'No docId or purpose provided to the service')
-    return
+  if (docId && oldPurpose) {
+    log('info', 'Search for recurring trips after manual edit')
+    await runRecurringPurposesForManualTrip(client, { docId, oldPurpose })
+  } else {
+    log('info', 'Search for new recurring trips')
+    await runRecurringPurposesForNewTrips(client)
   }
-
-  await runRecurringPurposes(client, { docId, oldPurpose })
 }
 
 recurringPurposes().catch(e => {

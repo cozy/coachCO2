@@ -1,12 +1,15 @@
 import { createMockClient } from 'cozy-client'
 import { OTHER_PURPOSE } from 'src/constants'
 import {
-  runRecurringPurposes,
+  runRecurringPurposesForManualTrip,
   setRecurringPurposes,
   findAndSetWaybackRecurringTimeseries,
   findClosestWaybackTrips,
   findAndSetWaybackTimeserie,
-  filterByPurposeAndRecurrence
+  keepTripsWithSameRecurringPurpose,
+  findPurposeFromSimilarTimeserieAndWaybacks,
+  keepTripsWithRecurringPurposes,
+  runRecurringPurposesForNewTrips
 } from './recurringPurposes'
 
 const mockClient = createMockClient({})
@@ -44,7 +47,8 @@ const mockTimeserie = ({
 const mockSimilarTimeseries = ({
   startPlace = 'Bag End, The Shire',
   endPlace = 'Rivendell, Eastern Eriador',
-  manualPurpose
+  manualPurpose,
+  noPurpose
 } = {}) => {
   return [
     mockTimeserie({
@@ -53,7 +57,8 @@ const mockSimilarTimeseries = ({
       endDate: '2021-12-08',
       startPlace,
       endPlace,
-      manualPurpose
+      manualPurpose,
+      noPurpose
     }),
     mockTimeserie({
       id: 3,
@@ -61,7 +66,8 @@ const mockSimilarTimeseries = ({
       endDate: '2021-02-09',
       startPlace,
       endPlace,
-      manualPurpose
+      manualPurpose,
+      noPurpose
     })
   ]
 }
@@ -96,13 +102,14 @@ describe('setRecurringPurposes', () => {
   })
 })
 
-describe('runRecurringPurposes', () => {
+describe('runRecurringPurposesForManualTrip', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.resetAllMocks()
+    jest.spyOn(mockClient, 'saveAll').mockImplementation(trips => trips)
   })
   it('should do nothing if the timeserie is not found or miss fields', async () => {
     jest.spyOn(mockClient, 'query').mockResolvedValueOnce({ data: null })
-    let res = await runRecurringPurposes(mockClient, {
+    let res = await runRecurringPurposesForManualTrip(mockClient, {
       docId: 1,
       oldPurpose: 'SPORT'
     })
@@ -111,7 +118,7 @@ describe('runRecurringPurposes', () => {
     jest.spyOn(mockClient, 'query').mockResolvedValueOnce({
       data: { aggregation: {}, series: [{ properties: {} }] }
     })
-    res = await runRecurringPurposes(mockClient, {
+    res = await runRecurringPurposesForManualTrip(mockClient, {
       docId: 1,
       oldPurpose: 'SPORT'
     })
@@ -120,7 +127,7 @@ describe('runRecurringPurposes', () => {
     jest.spyOn(mockClient, 'query').mockResolvedValueOnce({
       data: { series: [{ properties: { manual_purpose: 'HOBBY' } }] }
     })
-    res = await runRecurringPurposes(mockClient, {
+    res = await runRecurringPurposesForManualTrip(mockClient, {
       docId: 1,
       oldPurpose: 'SPORT'
     })
@@ -132,7 +139,10 @@ describe('runRecurringPurposes', () => {
       .spyOn(mockClient, 'query')
       .mockResolvedValueOnce({ data: { series: {} } })
     await expect(() =>
-      runRecurringPurposes(mockClient, { docId: 1, oldPurpose: 'SPORT' })
+      runRecurringPurposesForManualTrip(mockClient, {
+        docId: 1,
+        oldPurpose: 'SPORT'
+      })
     ).rejects.toThrow()
   })
 
@@ -143,9 +153,8 @@ describe('runRecurringPurposes', () => {
     jest
       .spyOn(mockClient, 'queryAll')
       .mockResolvedValueOnce(mockSimilarTimeseries({ manualPurpose: 'SPORT' }))
-    jest.spyOn(mockClient, 'saveAll').mockResolvedValueOnce([])
 
-    const updated = await runRecurringPurposes(mockClient, {
+    const updated = await runRecurringPurposesForManualTrip(mockClient, {
       docId: 1,
       oldPurpose: 'SPORT'
     })
@@ -168,9 +177,109 @@ describe('runRecurringPurposes', () => {
   })
 })
 
+describe('runRecurringPurposesForNewTrips', () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+    jest.spyOn(mockClient, 'saveAll').mockImplementation(trips => trips)
+  })
+  it('should do nothing if no account is found', async () => {
+    jest.spyOn(mockClient, 'query').mockResolvedValueOnce({ data: null })
+    const res = await runRecurringPurposesForNewTrips(mockClient)
+    expect(res.length).toEqual(0)
+  })
+
+  it('should do nothing if no recurring timeserie is found', async () => {
+    jest
+      .spyOn(mockClient, 'query')
+      .mockResolvedValueOnce({ data: [{ account: { _id: 1 } }] })
+    jest.spyOn(mockClient, 'query').mockResolvedValueOnce({ data: null })
+    const res = await runRecurringPurposesForNewTrips(mockClient)
+    expect(res.length).toEqual(0)
+  })
+
+  it('should set purpose when similar timeseries have one', async () => {
+    jest
+      .spyOn(mockClient, 'query')
+      .mockResolvedValueOnce({ data: [{ account: { _id: 1 } }] })
+    jest
+      .spyOn(mockClient, 'query')
+      .mockResolvedValueOnce({ data: [{ startDate: '2022-01-01' }] })
+    jest.spyOn(mockClient, 'queryAll').mockResolvedValueOnce([
+      mockTimeserie({
+        id: 1,
+        startPlace: 'Paris',
+        endPlace: 'Berlin',
+        noPurpose: true
+      }),
+      mockTimeserie({
+        id: 2,
+        startPlace: 'Paris',
+        endPlace: 'San Francisco',
+        noPurpose: true
+      }),
+      mockTimeserie({
+        id: 3,
+        startPlace: 'Paris',
+        endPlace: 'Bruxelles',
+        noPurpose: true
+      }),
+      mockTimeserie({
+        id: 4,
+        startPlace: 'Paris',
+        endPlac: 'Paris',
+        noPurpose: true
+      })
+    ])
+    // Similar trip for Paris->Berlin
+    jest.spyOn(mockClient, 'queryAll').mockResolvedValueOnce([
+      mockTimeserie({
+        id: 10,
+        manualPurpose: 'SPORT',
+        recurring: true
+      })
+    ])
+    // Similar trip for Paris->Los Angeles
+    jest.spyOn(mockClient, 'queryAll').mockResolvedValueOnce([
+      mockTimeserie({
+        id: 11,
+        manualPurpose: 'HOBBY',
+        recurring: true
+      })
+    ])
+
+    // Similar trip for Paris->Bruxelles, with no purpose
+    jest.spyOn(mockClient, 'queryAll').mockResolvedValueOnce([
+      mockTimeserie({
+        id: 12,
+        noPurpose: true
+      })
+    ])
+    // Wayback for Paris->Bruxelles, with purpose
+    jest.spyOn(mockClient, 'queryAll').mockResolvedValueOnce([
+      mockTimeserie({
+        id: 13,
+        startPlace: 'Bruxelles',
+        endPlace: 'Paris',
+        manualPurpose: 'WORK'
+      })
+    ])
+    // No similar trip nor wayback for Paris->Paris
+    jest.spyOn(mockClient, 'queryAll').mockResolvedValueOnce([])
+    jest.spyOn(mockClient, 'queryAll').mockResolvedValueOnce([])
+
+    const res = await runRecurringPurposesForNewTrips(mockClient)
+    expect(res.length).toEqual(4)
+    expect(res[0].aggregation.purpose).toEqual('SPORT')
+    expect(res[1].aggregation.purpose).toEqual('HOBBY')
+    expect(res[2].aggregation.purpose).toEqual('WORK')
+    expect(res[3].aggregation.purpose).toEqual(null)
+    expect(res[3].aggregation.recurring).toEqual(true)
+  })
+})
+
 describe('findClosestWaybackTrips', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.resetAllMocks()
   })
   it('should find closest wayback trip in the future', async () => {
     jest.spyOn(mockClient, 'query').mockResolvedValueOnce({
@@ -233,7 +342,7 @@ describe('findClosestWaybackTrips', () => {
 
 describe('findAndSetWaybackTrips', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.resetAllMocks()
   })
   it('should do nothing when no wayback is found', async () => {
     jest.spyOn(mockClient, 'queryAll').mockResolvedValueOnce(null)
@@ -330,17 +439,17 @@ describe('findAndSetWaybackTrips', () => {
   })
 })
 
-describe('filterByPurpose', () => {
+describe('keepTripsWithSameRecurringPurpose', () => {
   it('should return trips with same purpose', () => {
     const timeseries = [
       mockTimeserie({ manualPurpose: 'WORK' }),
       mockTimeserie({ manualPurpose: 'SPORT' })
     ]
-    const sportTS = filterByPurposeAndRecurrence(timeseries, 'SPORT')
+    const sportTS = keepTripsWithSameRecurringPurpose(timeseries, 'SPORT')
     expect(sportTS.length).toEqual(1)
     expect(sportTS[0].aggregation.purpose).toEqual('SPORT')
 
-    const hobbyTS = filterByPurposeAndRecurrence(timeseries, 'HOBBY')
+    const hobbyTS = keepTripsWithSameRecurringPurpose(timeseries, 'HOBBY')
     expect(hobbyTS.length).toEqual(0)
   })
 
@@ -350,7 +459,7 @@ describe('filterByPurpose', () => {
       mockTimeserie({ noPurpose: true }),
       mockTimeserie({ manualPurpose: OTHER_PURPOSE })
     ]
-    const ts = filterByPurposeAndRecurrence(timeseries, OTHER_PURPOSE)
+    const ts = keepTripsWithSameRecurringPurpose(timeseries, OTHER_PURPOSE)
     expect(ts.length).toEqual(2)
     expect(ts[0].aggregation.purpose).toEqual(null)
     expect(ts[1].aggregation.purpose).toEqual(OTHER_PURPOSE)
@@ -362,9 +471,72 @@ describe('filterByPurpose', () => {
       mockTimeserie({ id: 2, manualPurpose: 'HOBBY', recurring: false }),
       mockTimeserie({ id: 3, manualPurpose: 'HOBBY' })
     ]
-    const ts = filterByPurposeAndRecurrence(timeseries, 'HOBBY')
+    const ts = keepTripsWithSameRecurringPurpose(timeseries, 'HOBBY')
     expect(ts.length).toEqual(2)
     expect(ts[0]._id).toEqual(1)
     expect(ts[1]._id).toEqual(3)
+  })
+})
+
+describe('keepTripsWithSameRecurringPurpose', () => {
+  it('should return trips with recurring purpose', () => {
+    const timeseries = [
+      mockTimeserie({ manualPurpose: 'WORK', recurring: true }),
+      mockTimeserie({ manualPurpose: 'SPORT', recurring: false }),
+      mockTimeserie({ noPurpose: true, recurring: true })
+    ]
+    const ts = keepTripsWithRecurringPurposes(timeseries)
+    expect(ts.length).toEqual(1)
+    expect(ts[0].aggregation.purpose).toEqual('WORK')
+  })
+})
+
+describe('findPurposeFromSimilarTimeserieAndWaybacks', () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+  it('should not find purpose when timeseries do not have one', async () => {
+    jest
+      .spyOn(mockClient, 'queryAll')
+      .mockResolvedValueOnce(mockSimilarTimeseries({ noPurpose: true }))
+    jest
+      .spyOn(mockClient, 'queryAll')
+      .mockResolvedValueOnce(mockSimilarTimeseries({ noPurpose: true }))
+
+    const timeserie = mockTimeserie({ noPurpose: true })
+    const purpose = await findPurposeFromSimilarTimeserieAndWaybacks(
+      mockClient,
+      timeserie
+    )
+    expect(purpose).toEqual(null)
+  })
+
+  it('should find purpose when similar timeserie do have one', async () => {
+    jest
+      .spyOn(mockClient, 'queryAll')
+      .mockResolvedValueOnce(mockSimilarTimeseries({ manualPurpose: 'WORK' }))
+
+    const timeserie = mockTimeserie({ noPurpose: true })
+    const purpose = await findPurposeFromSimilarTimeserieAndWaybacks(
+      mockClient,
+      timeserie
+    )
+    expect(purpose).toEqual('WORK')
+  })
+
+  it('should find purpose when wayback timeserie do have one', async () => {
+    jest
+      .spyOn(mockClient, 'queryAll')
+      .mockResolvedValueOnce(mockSimilarTimeseries({ noPurpose: true }))
+    jest
+      .spyOn(mockClient, 'queryAll')
+      .mockResolvedValueOnce(mockSimilarTimeseries({ manualPurpose: 'WORK' }))
+
+    const timeserie = mockTimeserie({ noPurpose: true })
+    const purpose = await findPurposeFromSimilarTimeserieAndWaybacks(
+      mockClient,
+      timeserie
+    )
+    expect(purpose).toEqual('WORK')
   })
 })
