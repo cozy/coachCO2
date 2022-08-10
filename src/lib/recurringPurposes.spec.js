@@ -20,6 +20,7 @@ const mockTimeserie = ({
   endDate,
   startPlace,
   endPlace,
+  totalDistance = 1000,
   recurring,
   manualPurpose,
   noPurpose = false
@@ -32,7 +33,8 @@ const mockTimeserie = ({
       startPlaceDisplayName: startPlace || 'Bag End, The Shire',
       endPlaceDisplayName: endPlace || 'Rivendell, Eastern Eriador',
       purpose: noPurpose ? null : manualPurpose || 'HOBBY',
-      recurring
+      recurring,
+      totalDistance
     },
     cozyMetadata: {
       sourceAccount: 'account-id'

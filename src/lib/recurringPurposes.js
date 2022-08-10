@@ -7,7 +7,7 @@ import {
   buildNewestRecurringTimeseriesQuery,
   buildSettingsQuery,
   buildTimeseriesQueryByAccountIdAndDate,
-  builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDate,
+  builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance,
   queryTimeserieByDocId
 } from 'src/queries/queries'
 import { OTHER_PURPOSE } from 'src/constants'
@@ -63,16 +63,20 @@ const queryTimeseriesByPlaceAndDate = async (
     accountId,
     startPlaceDisplayName,
     endPlaceDisplayName,
+    distance,
     _id,
     oldPurpose = null
   }
 ) => {
   const queryDef =
-    builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDate({
-      accountId,
-      startPlaceDisplayName,
-      endPlaceDisplayName
-    }).definition
+    builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance(
+      {
+        accountId,
+        startPlaceDisplayName,
+        endPlaceDisplayName,
+        distance
+      }
+    ).definition
   const results = await client.queryAll(queryDef)
   const timeseries = results.filter(ts => ts._id !== _id)
   return !oldPurpose
@@ -89,7 +93,13 @@ const findSimilarTimeseries = async (
   const accountId = timeserie?.cozyMetadata?.sourceAccount
   const startPlaceDisplayName = timeserie?.aggregation?.startPlaceDisplayName
   const endPlaceDisplayName = timeserie?.aggregation?.endPlaceDisplayName
-  if (!accountId || !startPlaceDisplayName || !endPlaceDisplayName) {
+  const distance = timeserie?.aggregation?.totalDistance
+  if (
+    !accountId ||
+    !startPlaceDisplayName ||
+    !endPlaceDisplayName ||
+    !distance
+  ) {
     throw new Error('Missing attributes to run query')
   }
   return queryTimeseriesByPlaceAndDate(client, {
@@ -97,6 +107,7 @@ const findSimilarTimeseries = async (
     startPlaceDisplayName,
     endPlaceDisplayName,
     oldPurpose,
+    distance,
     _id: timeserie._id
   })
 }
@@ -105,10 +116,12 @@ const findWaybackTimeseries = async (client, timeserie) => {
   const accountId = timeserie?.cozyMetadata?.sourceAccount
   const startPlaceDisplayName = timeserie.aggregation.endPlaceDisplayName
   const endPlaceDisplayName = timeserie.aggregation.startPlaceDisplayName
+  const distance = timeserie?.aggregation?.totalDistance
   return queryTimeseriesByPlaceAndDate(client, {
     accountId,
     startPlaceDisplayName,
     endPlaceDisplayName,
+    distance,
     _id: timeserie._id
   })
 }
@@ -119,21 +132,30 @@ export const findClosestWaybackTrips = async (
   { oldPurpose = null }
 ) => {
   const waybackTrips = []
-  const accountId = timeserie.cozyMetadata.sourceAccount
-  const startPlaceDisplayName = timeserie.aggregation.endPlaceDisplayName
-  const endPlaceDisplayName = timeserie.aggregation.startPlaceDisplayName
-  if (!accountId || !startPlaceDisplayName || !endPlaceDisplayName) {
+  const accountId = timeserie?.cozyMetadata?.sourceAccount
+  const startPlaceDisplayName = timeserie?.aggregation?.endPlaceDisplayName
+  const endPlaceDisplayName = timeserie?.aggregation?.startPlaceDisplayName
+  const distance = timeserie?.aggregation?.totalDistance
+  if (
+    !accountId ||
+    !startPlaceDisplayName ||
+    !endPlaceDisplayName ||
+    !distance
+  ) {
     throw new Error('Missing attributes to run query')
   }
   // Find closest wayback in the future
   const queryDefForward =
-    builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDate({
-      accountId,
-      startPlaceDisplayName,
-      endPlaceDisplayName,
-      startDate: { $gt: timeserie.endDate },
-      limit: 1
-    }).definition
+    builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance(
+      {
+        accountId,
+        startPlaceDisplayName,
+        endPlaceDisplayName,
+        distance,
+        startDate: { $gt: timeserie.endDate },
+        limit: 1
+      }
+    ).definition
   const resForward = await client.query(queryDefForward)
   const nextWayback = keepTripsWithSameRecurringPurpose(
     resForward?.data,
@@ -144,14 +166,17 @@ export const findClosestWaybackTrips = async (
   }
   // Find closest wayback in the past
   const queryDefBackward =
-    builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDate({
-      accountId,
-      startPlaceDisplayName,
-      endPlaceDisplayName,
-      // @ts-ignore
-      startDate: { $lt: timeserie.startDate },
-      limit: 1
-    }).definition
+    builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance(
+      {
+        accountId,
+        startPlaceDisplayName,
+        endPlaceDisplayName,
+        distance,
+        // @ts-ignore
+        startDate: { $lt: timeserie.startDate },
+        limit: 1
+      }
+    ).definition
   const resBackward = await client.query(queryDefBackward)
   const previousWayback = keepTripsWithSameRecurringPurpose(
     resBackward?.data,
