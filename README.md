@@ -27,15 +27,23 @@ Cozy's apps use a standard set of _npm scripts_ to run common tasks, like watch,
 
 ### Fixtures
 
-You can import fixtures to quickly deal with datas
+You can import fixtures to quickly deal with data:
 
 ```sh
 $ yarn fixtures
 ```
 
-### Services
+It is also possible to generate a random trip through:
+```
+yarn scripts:addTrip
+```
 
-You can run a migration service to add aggregation data on your timeseries.
+ℹ️ Please note that you need to run `yarn service:timeseriesWithoutAggregateMigration` after any insertion to make your trips usable in the app. See below for more details.
+
+
+### Aggregation service
+
+You can run a migration service to add aggregation data on your timeseries. This is necessary because the trips documents can be huge and negatively impact the app performances. Therefore, we rely on an aggregated trip view on the app side. If the aggregation is missing, the trip won't be displayed.
 
 ```sh
 $ yarn build
