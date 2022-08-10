@@ -9,6 +9,7 @@ import {
   ACCOUNTS_DOCTYPE,
   SETTINGS_DOCTYPE
 } from 'src/doctypes'
+import { TRIPS_DISTANCE_SIMILARITY_RATIO } from 'src/constants'
 
 const older30s = 30 * 1000
 
@@ -183,19 +184,26 @@ export const buildOldestTimeseriesQueryByAccountId = accountId => ({
     .limitBy(1)
 })
 
-export const builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDate =
+export const builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance =
   ({
     accountId,
     startPlaceDisplayName,
     endPlaceDisplayName,
+    distance,
     startDate = { $gt: null },
     limit = 1000
   }) => {
+    const maxDistance = distance + distance * TRIPS_DISTANCE_SIMILARITY_RATIO
+    const minDistance = distance - distance * TRIPS_DISTANCE_SIMILARITY_RATIO
     const selector = {
       'cozyMetadata.sourceAccount': accountId,
       'aggregation.startPlaceDisplayName': startPlaceDisplayName,
       'aggregation.endPlaceDisplayName': endPlaceDisplayName,
-      startDate
+      startDate,
+      'aggregation.totalDistance': {
+        $gte: minDistance,
+        $lte: maxDistance
+      }
     }
     return {
       definition: Q(GEOJSON_DOCTYPE)
@@ -204,13 +212,15 @@ export const builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDate =
           'cozyMetadata.sourceAccount',
           'aggregation.startPlaceDisplayName',
           'aggregation.endPlaceDisplayName',
-          'startDate'
+          'startDate',
+          'aggregation.totalDistance'
         ])
         .sortBy([
           { 'cozyMetadata.sourceAccount': 'asc' },
           { 'aggregation.startPlaceDisplayName': 'asc' },
           { 'aggregation.endPlaceDisplayName': 'asc' },
-          { startDate: 'asc' }
+          { startDate: 'asc' },
+          { 'aggregation.totalDistance': 'asc' }
         ])
         .limitBy(limit)
     }

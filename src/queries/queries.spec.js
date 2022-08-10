@@ -2,7 +2,8 @@ import MockDate from 'mockdate'
 
 import {
   buildTimeseriesQueryByDateAndAccountId,
-  buildOneYearOldTimeseriesWithAggregationByAccountId
+  buildOneYearOldTimeseriesWithAggregationByAccountId,
+  builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance
 } from './queries'
 
 describe('buildTimeseriesQueryByDateAndAccountId', () => {
@@ -94,6 +95,27 @@ describe('buildOneYearOldTimeseriesWithAggregationByAccountId', () => {
       },
       options: {
         as: 'io.cozy.timeseries.geojson/sourceAccount/accountId/withAggregation/fromDate/2019-0'
+      }
+    })
+  })
+})
+
+describe('builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance', () => {
+  it('should correctly set distance bounds', () => {
+    const query =
+      builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance(
+        {
+          distance: 500
+        }
+      )
+    expect(query).toMatchObject({
+      definition: {
+        selector: {
+          'aggregation.totalDistance': {
+            $gte: 450,
+            $lte: 550
+          }
+        }
       }
     })
   })
