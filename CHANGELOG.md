@@ -1,16 +1,22 @@
 # 0.9.0
 
+## ✨ Features
+
+* When a trip is edited with a manual purpose, automatically detect and set purpose to similar trips
+* New trips has an automatic purpose set if equivalent trip is found with a  purpose
+
+## 🐛 Bug Fixes
+
+* Fix app crashes due to missing field in query
+* Remove unused Contacts permission
+
 # 0.8.0
 
 ## ✨ Features
 
-* When a trip is edited with a manual purpose, automatically detect and set purpose to similar trips
-
 ## 🐛 Bug Fixes
 
 * Vertically center the trip map on mobile when opening it
-* Fix app crashes due to missing field in query
-* Remove unused Contacts permission
 
 ## 🔧 Tech
 
