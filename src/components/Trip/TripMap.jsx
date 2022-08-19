@@ -1,7 +1,7 @@
 // use http://leaflet-extras.github.io/leaflet-providers/preview/ to choose a tileLayer
 
 import React, { useEffect, useRef, useMemo, useState } from 'react'
-import { Map, TileLayer, GeoJSON } from 'react-leaflet'
+import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet'
 import { useTheme } from '@material-ui/core/styles'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -78,7 +78,7 @@ const TripMap = () => {
   }, [mapL, mapPanRatio])
 
   return (
-    <Map className="u-h-100" ref={mapRef} center={mapCenter} zoom={13}>
+    <MapContainer className="u-h-100" ref={mapRef} center={mapCenter} zoom={13}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -89,7 +89,7 @@ const TripMap = () => {
         pointToLayer={pointToLayer}
         style={style}
       />
-    </Map>
+    </MapContainer>
   )
 }
 
