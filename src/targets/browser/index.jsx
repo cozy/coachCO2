@@ -34,7 +34,7 @@ const generateClassName = createGenerateClassName({
 })
 
 const init = function () {
-  const { root, client, lang, polyglot } = setupApp()
+  const { container, client, lang, polyglot } = setupApp()
   render(
     <WebviewIntentProvider>
       <StylesProvider generateClassName={generateClassName}>
@@ -52,7 +52,7 @@ const init = function () {
         </CozyProvider>
       </StylesProvider>
     </WebviewIntentProvider>,
-    root
+    container
   )
 }
 
