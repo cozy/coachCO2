@@ -69,7 +69,7 @@
     "react": "18.2.0",
     "react-chartjs-2": "4.0.1",
     "react-dom": "18.2.0",
-    "react-leaflet": "2.8.0",
+    "react-leaflet": "4.0.1",
     "react-router-dom": "5.2.0"
   }
 }
