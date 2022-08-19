@@ -4,7 +4,7 @@ import 'cozy-ui/dist/cozy-ui.utils.min.css'
 import 'src/styles/index.styl'
 
 import React from 'react'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import {
   StylesProvider,
   createGenerateClassName
@@ -35,7 +35,8 @@ const generateClassName = createGenerateClassName({
 
 const init = function () {
   const { container, client, lang, polyglot } = setupApp()
-  render(
+  const root = createRoot(container)
+  root.render(
     <WebviewIntentProvider>
       <StylesProvider generateClassName={generateClassName}>
         <CozyProvider client={client}>
@@ -51,8 +52,7 @@ const init = function () {
           </AccountProvider>
         </CozyProvider>
       </StylesProvider>
-    </WebviewIntentProvider>,
-    container
+    </WebviewIntentProvider>
   )
 }
 
