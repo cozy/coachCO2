@@ -10,16 +10,32 @@ import Settings from 'src/components/Views/Settings'
 const AppRouteur = () => {
   return (
     <Switch>
-      <Route path="/trip/:timeserieId" component={Trip} />
-      <Route path="/trips" component={Trips} />
-      <Route path="/settings" component={Settings} />
-      <Route path="/analysis/modes/:mode" component={ModeAnalysis} />
-      <Route path="/analysis/modes" component={ModeAnalysis}></Route>
-      <Route path="/analysis/purposes/:purpose" component={PurposeAnalysis} />
-      <Route path="/analysis/purposes" component={PurposeAnalysis} />
-      <Redirect from="/analysis" to="/analysis/modes" />
-      <Redirect from="/" to="/trips" />
-      <Redirect from="*" to="/trips" />
+      <Route path="/trip/:timeserieId">
+        <Trip />
+      </Route>
+      <Route path="/trips">
+        <Trips />
+      </Route>
+      <Route path="/settings">
+        <Settings />
+      </Route>
+      <Route path="/analysis/modes/:mode">
+        <ModeAnalysis />
+      </Route>
+      <Route path="/analysis/modes">
+        <ModeAnalysis />
+      </Route>
+      <Route path="/analysis/purposes/:purpose">
+        <PurposeAnalysis />
+      </Route>
+      <Route path="/analysis/purposes">
+        <PurposeAnalysis />
+      </Route>
+      <Route
+        path="/analysis"
+        render={() => <Redirect to="/analysis/modes" />}
+      />
+      <Route path="*" render={() => <Redirect to="/trips" />} />
     </Switch>
   )
 }
