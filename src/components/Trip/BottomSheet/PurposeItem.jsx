@@ -1,5 +1,5 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'

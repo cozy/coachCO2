@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
 import Box from 'cozy-ui/transpiled/react/Box'
 import Paper from 'cozy-ui/transpiled/react/Paper'
@@ -28,7 +28,8 @@ const useStyles = makeStyles(theme => ({
   },
   leftDropdownButton: {
     borderTopLeftRadius: 1000,
-    borderBottomLeftRadius: 1000
+    borderBottomLeftRadius: 1000,
+    paddingRight: '2.5rem'
   },
   rightDropdownButton: {
     borderTopRightRadius: 1000,

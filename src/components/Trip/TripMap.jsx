@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useMemo, useState } from 'react'
 import { Map, TileLayer, GeoJSON } from 'react-leaflet'
-import { useTheme } from '@material-ui/core/styles'
+import { useTheme } from 'cozy-ui/transpiled/react/styles'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
