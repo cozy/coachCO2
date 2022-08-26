@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch, Redirect, HashRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import { hot } from 'react-hot-loader'
 
 import { Layout, Main, Content } from 'cozy-ui/transpiled/react/Layout'
@@ -7,12 +7,8 @@ import Sprite from 'cozy-ui/transpiled/react/Icon/Sprite'
 import Alerter from 'cozy-ui/transpiled/react/Alerter'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
+import AppRouteur from 'src/components/AppRouteur'
 import Sidebar from 'src/components/Sidebar'
-import Trips from 'src/components/Views/Trips'
-import Trip from 'src/components/Views/Trip'
-import ModeAnalysis from 'src/components/Views/ModeAnalysis'
-import PurposeAnalysis from 'src/components/Views/PurposeAnalysis'
-import Settings from 'src/components/Views/Settings'
 
 const App = () => {
   const { t } = useI18n()
@@ -23,21 +19,7 @@ const App = () => {
         <Sidebar />
         <Main>
           <Content>
-            <Switch>
-              <Route path="/trip/:timeserieId" component={Trip} />
-              <Route path="/trips" component={Trips} />
-              <Route path="/settings" component={Settings} />
-              <Route path="/analysis/modes/:mode" component={ModeAnalysis} />
-              <Route path="/analysis/modes" component={ModeAnalysis}></Route>
-              <Route
-                path="/analysis/purposes/:purpose"
-                component={PurposeAnalysis}
-              />
-              <Route path="/analysis/purposes" component={PurposeAnalysis} />
-              <Redirect from="/analysis" to="/analysis/modes" />
-              <Redirect from="/" to="/trips" />
-              <Redirect from="*" to="/trips" />
-            </Switch>
+            <AppRouteur />
           </Content>
         </Main>
         <Alerter t={t} />
