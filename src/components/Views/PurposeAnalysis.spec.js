@@ -9,7 +9,7 @@ import PurposeAnalysis from 'src/components/Views/PurposeAnalysis'
 
 jest.mock('react-router-dom', () => ({
   useParams: jest.fn().mockReturnValue(() => ({ purpose: '', mode: '' })),
-  useHistory: jest.fn()
+  useNavigate: jest.fn()
 }))
 jest.mock('cozy-ui/transpiled/react/I18n', () => ({
   useI18n: jest.fn(() => ({ t: jest.fn() }))

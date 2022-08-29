@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 
@@ -9,10 +9,10 @@ import TripDialogMobileContent from 'src/components/Trip/TripDialogMobileContent
 
 const TripDialogMobile = () => {
   const { timeserie } = useTrip()
-  const history = useHistory()
+  const navigate = useNavigate()
   const titleRef = useRef(null)
 
-  const historyBack = useCallback(() => history.goBack(), [history])
+  const historyBack = useCallback(() => navigate(-1), [navigate])
 
   return (
     <Dialog
