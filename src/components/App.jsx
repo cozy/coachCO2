@@ -1,6 +1,5 @@
 import React from 'react'
 import { HashRouter } from 'react-router-dom'
-import { hot } from 'react-hot-loader'
 
 import { Layout, Main, Content } from 'cozy-ui/transpiled/react/Layout'
 import Sprite from 'cozy-ui/transpiled/react/Icon/Sprite'
@@ -35,4 +34,4 @@ const App = () => {
   No need to use it anywhere else, it sould work for all
   child components
 */
-export default hot(module)(React.memo(App))
+export default React.memo(App)
