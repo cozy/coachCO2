@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import Paper from 'cozy-ui/transpiled/react/Paper'
 import { Tabs, Tab } from 'cozy-ui/transpiled/react/MuiTabs'
@@ -13,7 +13,7 @@ const a11yProps = index => ({
 })
 
 const TabsNav = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { pathname } = useLocation()
   const { t } = useI18n()
   const currentTabIndex = routes.indexOf(
@@ -21,7 +21,7 @@ const TabsNav = () => {
   )
 
   const handleChange = (_, value) => {
-    history.push(routes[value])
+    navigate(routes[value])
   }
 
   return (

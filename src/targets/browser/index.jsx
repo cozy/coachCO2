@@ -8,7 +8,7 @@ import { render } from 'react-dom'
 import {
   StylesProvider,
   createGenerateClassName
-} from '@material-ui/core/styles'
+} from 'cozy-ui/transpiled/react/styles'
 
 import { CozyProvider, RealTimeQueries } from 'cozy-client'
 import { I18n } from 'cozy-ui/transpiled/react/I18n'

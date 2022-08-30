@@ -27,9 +27,7 @@ import {
   SUBWAY_MODE,
   TRAIN_MODE,
   WALKING_MODE,
-  UNKNOWN_MODE
-} from 'src/constants'
-import {
+  UNKNOWN_MODE,
   HOME_PURPOSE,
   WORK_PURPOSE,
   SCHOOL_PURPOSE,

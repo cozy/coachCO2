@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -12,7 +12,7 @@ import SelectDatesWrapper from 'src/components/SelectDatesWrapper'
 
 const PurposeAnalysis = () => {
   const { t } = useI18n()
-  const history = useHistory()
+  const navigate = useNavigate()
   const { purpose } = useParams()
   const { isMobile } = useBreakpoints()
 
@@ -20,7 +20,7 @@ const PurposeAnalysis = () => {
     ? t(`trips.purposes.${purpose.toUpperCase()}`)
     : ''
 
-  const onBack = purpose ? history.goBack : undefined
+  const onBack = purpose ? () => navigate(-1) : undefined
 
   return (
     <SelectDatesProvider>
