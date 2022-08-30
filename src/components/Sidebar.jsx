@@ -7,14 +7,14 @@ import Nav, {
   NavItem,
   NavIcon,
   NavText,
-  genNavLink
+  genNavLinkForV6
 } from 'cozy-ui/transpiled/react/Nav'
 import CategoriesIcon from 'cozy-ui/transpiled/react/Icons/Categories'
 import SettingIcon from 'cozy-ui/transpiled/react/Icons/Setting'
 import PieChartIcon from 'cozy-ui/transpiled/react/Icons/PieChart'
 import Box from 'cozy-ui/transpiled/react/Box'
 
-const NavLink = genNavLink(RouterLink)
+const NavLink = genNavLinkForV6(RouterLink)
 
 const Sidebar = () => {
   const { t } = useI18n()

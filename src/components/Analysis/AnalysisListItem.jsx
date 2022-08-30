@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
@@ -30,7 +30,7 @@ const ItemIcon = ({ type, sortedTimeserieKey }) => {
 
 const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
   const { t } = useI18n()
-  const history = useHistory()
+  const navigate = useNavigate()
   const [sortedTimeserieKey, sortedTimeserieValue] = sortedTimeserie
   const travelCount = sortedTimeserieValue.timeseries.length
   const CO2 = sortedTimeserieValue.totalCO2
@@ -39,7 +39,7 @@ const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
   const isDisabled = travelCount === 0 && CO2 === 0
 
   const handleClick = () => {
-    return history.push(`/analysis/${type}/${sortedTimeserieKey}`)
+    return navigate(`/analysis/${type}/${sortedTimeserieKey}`)
   }
 
   return (

@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
 import Box from 'cozy-ui/transpiled/react/Box'
 import Paper from 'cozy-ui/transpiled/react/Paper'

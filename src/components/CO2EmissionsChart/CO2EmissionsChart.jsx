@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTheme } from '@material-ui/core'
+import { useTheme } from 'cozy-ui/transpiled/react/styles'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'

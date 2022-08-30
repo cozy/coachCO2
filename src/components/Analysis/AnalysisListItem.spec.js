@@ -1,21 +1,19 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import AppLike from 'test/AppLike'
 import AnalysisListItem from 'src/components/Analysis/AnalysisListItem'
 
-const history = {
-  push: x => {
-    // eslint-disable-next-line no-console
-    console.log('history push is called')
-    return x
-  }
+const navigate = x => {
+  // eslint-disable-next-line no-console
+  console.log('navigate is called')
+  return x
 }
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useHistory: jest.fn().mockReturnValue(history)
+  useNavigate: jest.fn().mockReturnValue(navigate)
 }))
 
 const setup = ({
@@ -44,24 +42,24 @@ describe('AnalysisListItem', () => {
     const { getByTestId } = setup({
       value: { timeseries: ['a'], totalCO2: 1 }
     })
-    useHistory.mockReturnValue(history)
+    useNavigate.mockReturnValue(navigate)
 
     fireEvent.click(getByTestId('ListItem'))
 
     // eslint-disable-next-line no-console
-    expect(console.log).toHaveBeenCalledWith('history push is called')
+    expect(console.log).toHaveBeenCalledWith('navigate is called')
   })
 
   it('should not push route if disabled', () => {
     const { getByTestId } = setup({
       value: { timeseries: [], totalCO2: 0 }
     })
-    useHistory.mockReturnValue(history)
+    useNavigate.mockReturnValue(navigate)
 
     fireEvent.click(getByTestId('ListItem'))
 
     // eslint-disable-next-line no-console
-    expect(console.log).not.toHaveBeenCalledWith('history push is called')
+    expect(console.log).not.toHaveBeenCalledWith('navigate is called')
   })
 
   it.each`

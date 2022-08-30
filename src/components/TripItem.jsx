@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
@@ -50,7 +50,7 @@ const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
 
 export const TripItem = ({ timeserie, hasDateHeader }) => {
   const { f } = useI18n()
-  const history = useHistory()
+  const navigate = useNavigate()
   const { mode } = useParams()
   const { isMobile } = useBreakpoints()
   const [showTripDialog, setShowTripDialog] = useState(false)
@@ -74,10 +74,10 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
 
   const handleClick = useCallback(() => {
     if (isMobile) {
-      return history.push(`/trip/${timeserie._id}`)
+      return navigate(`/trip/${timeserie._id}`)
     }
     setShowTripDialog(true)
-  }, [history, isMobile, timeserie._id])
+  }, [navigate, isMobile, timeserie._id])
 
   return (
     <>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -12,13 +12,13 @@ import SelectDatesWrapper from 'src/components/SelectDatesWrapper'
 
 const ModeAnalysis = () => {
   const { t } = useI18n()
-  const history = useHistory()
+  const navigate = useNavigate()
   const { mode } = useParams()
   const { isMobile } = useBreakpoints()
 
   const modeTitle = mode ? t(`trips.modes.${mode.toUpperCase()}`) : ''
 
-  const onBack = mode ? history.goBack : undefined
+  const onBack = mode ? () => navigate(-1) : undefined
 
   return (
     <SelectDatesProvider>
