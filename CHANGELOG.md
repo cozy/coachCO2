@@ -10,6 +10,10 @@
 * Fix app crashes due to missing field in query
 * Remove unused Contacts permission
 
+## 🔧 Tech
+
+* Upgrade react-router to v6
+
 # 0.8.0
 
 ## ✨ Features
@@ -17,8 +21,6 @@
 ## 🐛 Bug Fixes
 
 * Vertically center the trip map on mobile when opening it
-
-## 🔧 Tech
 
 # 0.7.0
 
