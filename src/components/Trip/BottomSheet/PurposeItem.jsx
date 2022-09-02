@@ -1,7 +1,6 @@
 import React from 'react'
 import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
-import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
 import ListItemAvatar from 'cozy-ui/transpiled/react/ListItemAvatar'
@@ -21,19 +20,17 @@ const PurposeItem = ({ purpose, onClick }) => {
   const styles = useStyles()
 
   return (
-    <List>
-      <ListItem className="u-c-pointer" onClick={onClick}>
-        <ListItemAvatar classes={{ root: styles.root }}>
-          <PurposeAvatar attribute={purpose} />
-        </ListItemAvatar>
-        <ListItemText
-          primary={t('purpose')}
-          primaryTypographyProps={{ variant: 'caption' }}
-          secondary={t(`trips.purposes.${purpose}`)}
-          secondaryTypographyProps={{ variant: 'body1', color: 'textPrimary' }}
-        />
-      </ListItem>
-    </List>
+    <ListItem className="u-c-pointer" onClick={onClick}>
+      <ListItemAvatar classes={{ root: styles.root }}>
+        <PurposeAvatar attribute={purpose} />
+      </ListItemAvatar>
+      <ListItemText
+        primary={t('purpose')}
+        primaryTypographyProps={{ variant: 'caption' }}
+        secondary={t(`trips.purposes.${purpose}`)}
+        secondaryTypographyProps={{ variant: 'body1', color: 'textPrimary' }}
+      />
+    </ListItem>
   )
 }
 

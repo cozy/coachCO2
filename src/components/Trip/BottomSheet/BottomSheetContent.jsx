@@ -4,6 +4,7 @@ import Timeline from '@material-ui/lab/Timeline'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
+import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import { BottomSheetItem } from 'cozy-ui/transpiled/react/BottomSheet'
 
@@ -59,11 +60,14 @@ const BottomSheetContent = () => {
       {/* TODO: Remove the Divider when we have the real desktop view */}
       {isDesktop && <Divider style={styles.divider} />}
       <BottomSheetItem disableGutters>
-        <PurposeItem purpose={purpose} onClick={openPurposeDialog} />
-      </BottomSheetItem>
-      {showPurposeDialog && <PurposeEditDialog onClose={closePurposeDialog} />}
-      <BottomSheetItem disableGutters>
-        <RecurringTripItem isRecurringTrip={isRecurring} purpose={purpose} />
+        <List>
+          <PurposeItem purpose={purpose} onClick={openPurposeDialog} />
+          {showPurposeDialog && (
+            <PurposeEditDialog onClose={closePurposeDialog} />
+          )}
+          <Divider variant="inset" component="li" />
+          <RecurringTripItem isRecurringTrip={isRecurring} purpose={purpose} />
+        </List>
       </BottomSheetItem>
     </>
   )
