@@ -19,7 +19,7 @@ const RecurringTripItem = ({ isRecurringTrip, purpose }) => {
           primary={t('recurring.title')}
           primaryTypographyProps={{ variant: 'caption' }}
           secondary={t(
-            `recurring.${isRecurringTrip ? 'recurringTrip' : 'ocasionnalTrip'}`
+            `recurring.${isRecurringTrip ? 'recurringTrip' : 'occasionalTrip'}`
           )}
           secondaryTypographyProps={{ variant: 'body1', color: 'textPrimary' }}
         />

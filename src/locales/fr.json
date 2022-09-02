@@ -53,10 +53,10 @@
   "recurring": {
     "title": "Récurrence",
     "recurringTrip": "Déplacement habituel",
-    "ocasionnalTrip": "Déplacement occasionnel",
+    "occasionalTrip": "Déplacement occasionnel",
     "confirmDialog": {
-      "title": "Faîtes-vous régulièrement ce déplacement ?",
-      "content": "Si oui, son motif sera considéré comme récurrent et son motif sera appliqué aux déplacements équivalents.",
+      "title": "Attribuer ce motif aux déplacements similaires ?",
+      "content": "En répondant oui, ce déplacement sera défini comme habituel et servira de référence pour automatiser la qualification de vos déplacement similaires.",
       "confirm": "Oui",
       "decline": "Non"
     }
