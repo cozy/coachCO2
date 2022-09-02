@@ -12,7 +12,7 @@ const RecurringTripItem = ({ isRecurringTrip, purpose }) => {
     return null
   }
   return (
-    <ListItem className="u-c-pointer">
+    <ListItem button>
       <ListItemText
         primary={t('recurring.title')}
         primaryTypographyProps={{ variant: 'caption' }}

@@ -60,7 +60,7 @@ const BottomSheetContent = () => {
       {/* TODO: Remove the Divider when we have the real desktop view */}
       {isDesktop && <Divider style={styles.divider} />}
       <BottomSheetItem disableGutters>
-        <List>
+        <List className="u-pv-half">
           <PurposeItem purpose={purpose} onClick={openPurposeDialog} />
           {showPurposeDialog && (
             <PurposeEditDialog onClose={closePurposeDialog} />

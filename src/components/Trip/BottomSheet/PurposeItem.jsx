@@ -20,7 +20,7 @@ const PurposeItem = ({ purpose, onClick }) => {
   const styles = useStyles()
 
   return (
-    <ListItem className="u-c-pointer" onClick={onClick}>
+    <ListItem button onClick={onClick}>
       <ListItemAvatar classes={{ root: styles.root }}>
         <PurposeAvatar attribute={purpose} />
       </ListItemAvatar>
