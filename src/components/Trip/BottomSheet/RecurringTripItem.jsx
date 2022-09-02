@@ -8,14 +8,14 @@ import { OTHER_PURPOSE } from 'src/constants'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import Refresh from 'cozy-ui/transpiled/react/Icons/Refresh'
 
-const RecurringTripItem = ({ isRecurringTrip, purpose }) => {
+const RecurringTripItem = ({ isRecurringTrip, purpose, onClick }) => {
   const { t } = useI18n()
 
   if (purpose === OTHER_PURPOSE) {
     return null
   }
   return (
-    <ListItem button>
+    <ListItem button onClick={onClick}>
       <ListItemIcon>
         <Icon icon={Refresh} />
       </ListItemIcon>
