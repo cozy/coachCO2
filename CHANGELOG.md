@@ -1,3 +1,13 @@
+# 0.10.0
+
+## ✨ Features
+
+* Add two new routes to open trip from analysis + change back navigation button behavior
+
+## 🐛 Bug Fixes
+
+## 🔧 Tech
+
 # 0.9.0
 
 ## ✨ Features
