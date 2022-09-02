@@ -13,9 +13,14 @@ const AppRouteur = () => {
       <Route path="trip/:timeserieId" element={<Trip />} />
       <Route path="trips" element={<Trips />} />
       <Route path="settings" element={<Settings />} />
+      <Route path="analysis/modes/:mode/trip/:timeserieId" element={<Trip />} />
       <Route path="analysis/modes" element={<ModeAnalysis />}>
         <Route path=":mode" element={<ModeAnalysis />} />
       </Route>
+      <Route
+        path="analysis/purposes/:purpose/trip/:timeserieId"
+        element={<Trip />}
+      />
       <Route path="analysis/purposes" element={<PurposeAnalysis />}>
         <Route path=":purpose" element={<PurposeAnalysis />} />
       </Route>
