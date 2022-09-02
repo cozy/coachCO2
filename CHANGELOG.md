@@ -4,6 +4,7 @@
 
 * When a trip is edited with a manual purpose, automatically detect and set purpose to similar trips
 * New trips has an automatic purpose set if equivalent trip is found with a  purpose
+* Allow to manually set that a trip is recurring or occasional
 
 ## 🐛 Bug Fixes
 
@@ -13,6 +14,7 @@
 ## 🔧 Tech
 
 * Upgrade react-router to v6
+* Update cozy-ui to 74.1.0
 
 # 0.8.0
 
