@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -48,7 +48,7 @@ const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
   )
 }
 
-export const TripItem = ({ timeserie, hasDateHeader }) => {
+export const TripItem = ({ timeserie, hasDateHeader, from }) => {
   const { f } = useI18n()
   const navigate = useNavigate()
   const { mode } = useParams()
@@ -72,12 +72,12 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
     [modes]
   )
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     if (isMobile) {
-      return navigate(`/trip/${timeserie._id}`)
+      navigate(`${from ?? ''}/trip/${timeserie._id}`)
     }
     setShowTripDialog(true)
-  }, [navigate, isMobile, timeserie._id])
+  }
 
   return (
     <>
