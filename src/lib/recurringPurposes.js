@@ -85,7 +85,7 @@ const queryTimeseriesByPlaceAndDate = async (
 }
 
 // Similar trips = same start/end dipslay name
-const findSimilarTimeseries = async (
+export const findSimilarTimeseries = async (
   client,
   timeserie,
   { oldPurpose = null } = {}
@@ -100,7 +100,11 @@ const findSimilarTimeseries = async (
     !endPlaceDisplayName ||
     !distance
   ) {
-    throw new Error('Missing attributes to run query')
+    log(
+      'error',
+      `Missing attributes to run similar trip query for trip ${timeserie._id}`
+    )
+    return []
   }
   return queryTimeseriesByPlaceAndDate(client, {
     accountId,
@@ -142,7 +146,11 @@ export const findClosestWaybackTrips = async (
     !endPlaceDisplayName ||
     !distance
   ) {
-    throw new Error('Missing attributes to run query')
+    log(
+      'error',
+      `Missing attributes to run wayback query for trip ${timeserie._id}`
+    )
+    return []
   }
   // Find closest wayback in the future
   const queryDefForward =
