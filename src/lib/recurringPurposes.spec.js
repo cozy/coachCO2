@@ -9,7 +9,8 @@ import {
   keepTripsWithSameRecurringPurpose,
   findPurposeFromSimilarTimeserieAndWaybacks,
   keepTripsWithRecurringPurposes,
-  runRecurringPurposesForNewTrips
+  runRecurringPurposesForNewTrips,
+  findSimilarTimeseries
 } from './recurringPurposes'
 
 const mockClient = createMockClient({})
@@ -340,6 +341,13 @@ describe('findClosestWaybackTrips', () => {
       aggregation: { purpose: 'HOBBY' }
     })
   })
+  it('should return empty array if timeserie is malformed', async () => {
+    const timeserie = { aggregation: {} }
+    const waybacks = await findClosestWaybackTrips(mockClient, timeserie, {
+      oldPurpose: 'HOBBY'
+    })
+    expect(waybacks).toEqual([])
+  })
 })
 
 describe('findAndSetWaybackTrips', () => {
@@ -540,5 +548,29 @@ describe('findPurposeFromSimilarTimeserieAndWaybacks', () => {
       timeserie
     )
     expect(purpose).toEqual('WORK')
+  })
+})
+
+describe('findSimilarTimeseries', () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+
+  it('should get similar timeseries', async () => {
+    jest
+      .spyOn(mockClient, 'queryAll')
+      .mockResolvedValueOnce(mockSimilarTimeseries({ manualPurpose: 'SPORT' }))
+    const timeserie = mockTimeserie({ manualPurpose: 'SPORT' })
+
+    const res = await findSimilarTimeseries(mockClient, timeserie)
+    expect(res.length).toEqual(2)
+  })
+
+  it('should return empty array if timeserie is malformed', async () => {
+    const timeserie = {
+      aggregation: {}
+    }
+    const res = await findSimilarTimeseries(mockClient, timeserie)
+    expect(res).toEqual([])
   })
 })
