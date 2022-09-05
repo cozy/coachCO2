@@ -18,7 +18,7 @@ const ModeAnalysis = () => {
 
   const modeTitle = mode ? t(`trips.modes.${mode.toUpperCase()}`) : ''
 
-  const onBack = mode ? () => navigate(-1) : undefined
+  const onBack = mode ? () => navigate('/analysis/modes') : undefined
 
   return (
     <SelectDatesProvider>
