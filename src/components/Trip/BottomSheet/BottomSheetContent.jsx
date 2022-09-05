@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 
 import Timeline from '@material-ui/lab/Timeline'
 
@@ -39,16 +39,10 @@ const BottomSheetContent = () => {
 
   const purpose = getTimeseriePurpose(timeserie)
   const isRecurring = timeserie?.aggregation?.recurring
-  const openPurposeDialog = useCallback(() => setShowPurposeDialog(true), [])
-  const closePurposeDialog = useCallback(() => setShowPurposeDialog(false), [])
-  const openRecurrenceDialog = useCallback(
-    () => setShowRecurrenceDialog(true),
-    []
-  )
-  const closeRecurrenceDialog = useCallback(
-    () => setShowRecurrenceDialog(false),
-    []
-  )
+  const openPurposeDialog = () => setShowPurposeDialog(true)
+  const closePurposeDialog = () => setShowPurposeDialog(false)
+  const openRecurrenceDialog = () => setShowRecurrenceDialog(true)
+  const closeRecurrenceDialog = () => setShowRecurrenceDialog(false)
 
   return (
     <>
