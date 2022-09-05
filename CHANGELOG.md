@@ -6,6 +6,8 @@
 
 ## 🐛 Bug Fixes
 
+* The recurring purposes service do not throw an error when display names are missing
+
 ## 🔧 Tech
 
 # 0.9.0
