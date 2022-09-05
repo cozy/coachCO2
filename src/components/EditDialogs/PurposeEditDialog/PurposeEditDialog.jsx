@@ -7,15 +7,14 @@ import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
 import { purposes } from 'src/components/helpers'
 import { PurposeAvatar } from 'src/components/Avatar'
 import { useTrip } from 'src/components/Providers/TripProvider'
-import { OTHER_PURPOSE, RECURRING_PURPOSES_SERVICE_NAME } from 'src/constants'
-import {
-  getTimeseriePurpose,
-  setAutomaticPurpose,
-  setManualPurpose
-} from 'src/lib/timeseries'
-import { startService } from 'src/lib/services'
+import { OTHER_PURPOSE } from 'src/constants'
+import { getTimeseriePurpose } from 'src/lib/timeseries'
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import { Button } from 'cozy-ui/transpiled/react/Button'
+import {
+  handleOccasionalTrip,
+  handleRecurringTrip
+} from 'src/components/EditDialogs/helpers'
 
 const makeOptions = t => {
   const options = purposes.map(purpose => ({
@@ -41,49 +40,16 @@ const PurposeEditDialog = ({ onClose }) => {
         setShowRecurringDialog(true)
         return
       }
-      handleRecurringTrip({ purpose: item.id, oldPurpose })
-
+      handleRecurringTrip({
+        client,
+        timeserie,
+        purpose: item.id,
+        oldPurpose
+      })
       onClose()
     },
     [client, timeserie, onClose]
   )
-
-  const saveTripWithPurpose = async ({ purpose, isRecurringTrip } = {}) => {
-    let newTimeserie = { ...timeserie }
-    if (isRecurringTrip) {
-      newTimeserie = setAutomaticPurpose(newTimeserie, purpose, {
-        isRecurringTrip
-      })
-    }
-    newTimeserie = setManualPurpose(newTimeserie, purpose, {
-      isRecurringTrip
-    })
-    await client.save(newTimeserie)
-  }
-
-  const handleOccasionalTrip = async () => {
-    await saveTripWithPurpose({
-      purpose: selectedPurpose,
-      isRecurringTrip: false
-    })
-    onClose()
-  }
-
-  const handleRecurringTrip = async ({ purpose, oldPurpose } = {}) => {
-    await saveTripWithPurpose({
-      purpose: purpose || selectedPurpose,
-      isRecurringTrip: true
-    })
-
-    // Start service to set the purpose to similar trips
-    startService(client, RECURRING_PURPOSES_SERVICE_NAME, {
-      fields: {
-        docId: timeserie._id,
-        oldPurpose: oldPurpose || getTimeseriePurpose(timeserie)
-      }
-    })
-    onClose()
-  }
 
   const isSelected = useMemo(
     () => item => {
@@ -107,12 +73,27 @@ const PurposeEditDialog = ({ onClose }) => {
             <Button
               theme="secondary"
               label={t('recurring.confirmDialog.decline')}
-              onClick={handleOccasionalTrip}
+              onClick={async () => {
+                await handleOccasionalTrip({
+                  client,
+                  timeserie,
+                  purpose: selectedPurpose
+                })
+                onClose()
+              }}
             />
             <Button
               theme="primary"
               label={t('recurring.confirmDialog.confirm')}
-              onClick={handleRecurringTrip}
+              onClick={async () => {
+                await handleRecurringTrip({
+                  client,
+                  timeserie,
+                  purpose: selectedPurpose,
+                  oldPurpose: getTimeseriePurpose(timeserie)
+                })
+                onClose()
+              }}
             />
           </>
         }

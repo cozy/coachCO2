@@ -53,13 +53,14 @@
   "recurring": {
     "title": "Recurrence",
     "recurringTrip": "Recurring trip",
-    "ocasionnalTrip": "Occasional trip",
+    "occasionalTrip": "Occasional trip",
     "confirmDialog": {
-      "title": "Is it a regular trip?",
-      "content": "If yes, this trip will be set as recurring and its purpose will be used for similar trips.",
+      "title": "Attribute this reason to similar trips?",
+      "content": "By answering yes, this trip will be defined as recurring and will be used as a reference to automate the qualification of your similar trips.",
       "confirm": "Yes",
       "decline": "No"
-    }
+    },
+    "tooltip": "If this trip is recurring, similar trips will automatically be referenced with the same reason."
   },
   "analysis": {
     "mode": "CO2 emissions",

@@ -1,30 +1,33 @@
 import React from 'react'
 
-import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
+import ListItemIcon from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemIcon'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { OTHER_PURPOSE } from 'src/constants'
+import Icon from 'cozy-ui/transpiled/react/Icon'
+import Refresh from 'cozy-ui/transpiled/react/Icons/Refresh'
 
-const RecurringTripItem = ({ isRecurringTrip, purpose }) => {
+const RecurringTripItem = ({ isRecurringTrip, purpose, onClick }) => {
   const { t } = useI18n()
 
   if (purpose === OTHER_PURPOSE) {
     return null
   }
   return (
-    <List>
-      <ListItem className="u-c-pointer">
-        <ListItemText
-          primary={t('recurring.title')}
-          primaryTypographyProps={{ variant: 'caption' }}
-          secondary={t(
-            `recurring.${isRecurringTrip ? 'recurringTrip' : 'ocasionnalTrip'}`
-          )}
-          secondaryTypographyProps={{ variant: 'body1', color: 'textPrimary' }}
-        />
-      </ListItem>
-    </List>
+    <ListItem button onClick={onClick}>
+      <ListItemIcon>
+        <Icon icon={Refresh} />
+      </ListItemIcon>
+      <ListItemText
+        primary={t('recurring.title')}
+        primaryTypographyProps={{ variant: 'caption' }}
+        secondary={t(
+          `recurring.${isRecurringTrip ? 'recurringTrip' : 'occasionalTrip'}`
+        )}
+        secondaryTypographyProps={{ variant: 'body1', color: 'textPrimary' }}
+      />
+    </ListItem>
   )
 }
 
