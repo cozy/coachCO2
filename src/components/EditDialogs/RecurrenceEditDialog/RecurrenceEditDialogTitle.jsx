@@ -18,8 +18,12 @@ const RecurrenceEditDialogTitle = () => {
   if (isMobile) {
     return (
       <List>
-        <ListItem>
+        <ListItem
+          className="u-mb-half u-pl-1-half"
+          style={{ minHeight: '3rem' }}
+        >
           <ListItemText
+            className="u-pv-0"
             primary={t('recurring.title')}
             primaryTypographyProps={{ variant: 'h6' }}
           />
