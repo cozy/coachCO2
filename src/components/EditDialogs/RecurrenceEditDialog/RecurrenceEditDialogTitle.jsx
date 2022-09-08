@@ -10,10 +10,20 @@ import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
 import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
 import ListItemSecondaryAction from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemSecondaryAction'
+import ClickAwayListener from 'cozy-ui/transpiled/react/ClickAwayListener'
 
 const RecurrenceEditDialogTitle = () => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
+  const [openOnMobile, setOpenOnMobile] = React.useState(false)
+
+  const handleClickAway = () => {
+    setOpenOnMobile(false)
+  }
+
+  const handleClick = () => {
+    setOpenOnMobile(!openOnMobile)
+  }
 
   if (isMobile) {
     return (
@@ -28,11 +38,22 @@ const RecurrenceEditDialogTitle = () => {
             primaryTypographyProps={{ variant: 'h6' }}
           />
           <ListItemSecondaryAction>
-            <Tooltip title={t('recurring.tooltip')} placement="top-end" arrow>
-              <IconButton>
-                <Icon icon={HelpOutlined} />
-              </IconButton>
-            </Tooltip>
+            <ClickAwayListener onClickAway={handleClickAway}>
+              <Tooltip
+                onClose={handleClickAway}
+                open={openOnMobile}
+                disableFocusListener
+                disableHoverListener
+                disableTouchListener
+                title={t('recurring.tooltip')}
+                placement="top-end"
+                arrow
+              >
+                <IconButton onClick={handleClick}>
+                  <Icon icon={HelpOutlined} />
+                </IconButton>
+              </Tooltip>
+            </ClickAwayListener>
           </ListItemSecondaryAction>
         </ListItem>
       </List>
