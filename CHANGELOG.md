@@ -2,11 +2,7 @@
 
 ## ✨ Features
 
-* Add two new routes to open trip from analysis + change back navigation button behavior
-
 ## 🐛 Bug Fixes
-
-* The recurring purposes service do not throw an error when display names are missing
 
 ## 🔧 Tech
 
@@ -17,11 +13,13 @@
 * When a trip is edited with a manual purpose, automatically detect and set purpose to similar trips
 * New trips has an automatic purpose set if equivalent trip is found with a  purpose
 * Allow to manually set that a trip is recurring or occasional
+* Add two new routes to open trip from analysis + change back navigation button behavior
 
 ## 🐛 Bug Fixes
 
 * Fix app crashes due to missing field in query
 * Remove unused Contacts permission
+* The recurring purposes service do not throw an error when display names are missing
 
 ## 🔧 Tech
 
