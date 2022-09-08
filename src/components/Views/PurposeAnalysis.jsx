@@ -20,7 +20,7 @@ const PurposeAnalysis = () => {
     ? t(`trips.purposes.${purpose.toUpperCase()}`)
     : ''
 
-  const onBack = purpose ? () => navigate(-1) : undefined
+  const onBack = purpose ? () => navigate('/analysis/purposes') : undefined
 
   return (
     <SelectDatesProvider>
