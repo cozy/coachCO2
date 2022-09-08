@@ -20,6 +20,7 @@
 * Fix app crashes due to missing field in query
 * Remove unused Contacts permission
 * The recurring purposes service do not throw an error when display names are missing
+* Display recurrence help tooltip on tap and not on hover on mobile
 
 ## 🔧 Tech
 
