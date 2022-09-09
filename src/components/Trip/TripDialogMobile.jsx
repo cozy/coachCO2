@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 
@@ -8,9 +8,11 @@ import { useTrip } from 'src/components/Providers/TripProvider'
 import TripDialogMobileContent from 'src/components/Trip/TripDialogMobileContent'
 
 const TripDialogMobile = () => {
+  const { timeserieId } = useParams()
   const { timeserie } = useTrip()
   const { pathname } = useLocation()
   const navigate = useNavigate()
+
   const titleRef = useRef(null)
 
   return (
@@ -18,10 +20,10 @@ const TripDialogMobile = () => {
       open
       transitionDuration={0}
       disableGutters
-      onBack={() => navigate(pathname.split('/trip')[0] || '/trips')}
       title={getEndPlaceDisplayName(timeserie)}
       titleRef={titleRef}
       content={<TripDialogMobileContent titleRef={titleRef} />}
+      onBack={() => navigate(pathname.split(`/${timeserieId}`)[0])}
     />
   )
 }
