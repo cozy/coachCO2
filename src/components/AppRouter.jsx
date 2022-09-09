@@ -14,7 +14,7 @@ const OutletWrapper = ({ Component }) => (
   </>
 )
 
-const AppRouteur = () => {
+const AppRouter = () => {
   const location = useLocation()
   const background = location?.state?.background
 
@@ -64,4 +64,4 @@ const AppRouteur = () => {
   )
 }
 
-export default AppRouteur
+export default AppRouter

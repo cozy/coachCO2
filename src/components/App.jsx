@@ -6,7 +6,7 @@ import Sprite from 'cozy-ui/transpiled/react/Icon/Sprite'
 import Alerter from 'cozy-ui/transpiled/react/Alerter'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
-import AppRouteur from 'src/components/AppRouteur'
+import AppRouter from 'src/components/AppRouter'
 import Sidebar from 'src/components/Sidebar'
 
 const App = () => {
@@ -18,7 +18,7 @@ const App = () => {
         <Sidebar />
         <Main>
           <Content>
-            <AppRouteur />
+            <AppRouter />
           </Content>
         </Main>
         <Alerter t={t} />
