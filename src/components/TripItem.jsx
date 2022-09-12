@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
@@ -11,7 +11,6 @@ import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import Typography from 'cozy-ui/transpiled/react/Typography'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import { PurposeAvatar } from 'src/components/Avatar'
 import {
@@ -25,7 +24,6 @@ import {
   computeAndFormatTotalCO2ByMode
 } from 'src/lib/timeseries'
 import { pickModeIcon } from 'src/components/helpers'
-import TripDialogDesktop from 'src/components/Trip/TripDialogDesktop'
 
 const styles = {
   co2: {
@@ -48,12 +46,11 @@ const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
   )
 }
 
-export const TripItem = ({ timeserie, hasDateHeader, from }) => {
+export const TripItem = ({ timeserie, hasDateHeader }) => {
   const { f } = useI18n()
+  const location = useLocation()
   const navigate = useNavigate()
   const { mode } = useParams()
-  const { isMobile } = useBreakpoints()
-  const [showTripDialog, setShowTripDialog] = useState(false)
 
   const purpose = getTimeseriePurpose(timeserie)
   const duration = getFormattedDuration(timeserie)
@@ -73,10 +70,9 @@ export const TripItem = ({ timeserie, hasDateHeader, from }) => {
   )
 
   const handleClick = () => {
-    if (isMobile) {
-      navigate(`${from ?? ''}/trip/${timeserie._id}`)
-    }
-    setShowTripDialog(true)
+    navigate(`${location.pathname}/${timeserie._id}`, {
+      state: { background: location }
+    })
   }
 
   return (
@@ -106,12 +102,6 @@ export const TripItem = ({ timeserie, hasDateHeader, from }) => {
         <Icon icon={RightIcon} color="var(--secondaryTextColor)" />
       </ListItem>
       <Divider />
-      {showTripDialog && (
-        <TripDialogDesktop
-          timeserieId={timeserie._id}
-          setShowTripDialog={setShowTripDialog}
-        />
-      )}
     </>
   )
 }

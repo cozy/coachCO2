@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { useParams, useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import cx from 'classnames'
 
 import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
@@ -18,7 +18,6 @@ import AnalysisListItem from 'src/components/Analysis/AnalysisListItem'
 import TripsList from 'src/components/TripsList'
 
 const LoadedPurposesList = ({ timeseries }) => {
-  const { pathname } = useLocation()
   const { purpose } = useParams()
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
@@ -81,7 +80,7 @@ const LoadedPurposesList = ({ timeseries }) => {
 
   return (
     <div className="u-mt-2">
-      <TripsList timeseries={tripsListTimeseries} from={pathname} />
+      <TripsList timeseries={tripsListTimeseries} />
     </div>
   )
 }

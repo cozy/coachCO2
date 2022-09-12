@@ -18,8 +18,7 @@ jest.mock('src/components/TripsList', () => () => (
   <div data-testid="TripsList" />
 ))
 jest.mock('react-router-dom', () => ({
-  useParams: jest.fn().mockReturnValue(() => ({ purpose: '', mode: '' })),
-  useLocation: jest.fn().mockReturnValue(() => ({ pathname: '' }))
+  useParams: jest.fn().mockReturnValue(() => ({ purpose: '', mode: '' }))
 }))
 jest.mock('src/components/Analysis/helpers')
 jest.mock('src/lib/timeseries')

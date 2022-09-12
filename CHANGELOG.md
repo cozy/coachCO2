@@ -2,6 +2,8 @@
 
 ## ✨ Features
 
+* New router to open trip on modal on a specific route on desktop
+
 ## 🐛 Bug Fixes
 
 ## 🔧 Tech
