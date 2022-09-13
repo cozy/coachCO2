@@ -10,8 +10,9 @@ import { I18n } from 'cozy-ui/transpiled/react/I18n'
 import MuiCozyTheme from 'cozy-ui/transpiled/react/MuiCozyTheme'
 import { BreakpointsProvider } from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
-import AccountProvider from 'src/components/Providers/AccountProvider'
 import { GEOJSON_DOCTYPE } from 'src/doctypes'
+import AccountProvider from 'src/components/Providers/AccountProvider'
+import SelectDatesProvider from 'src/components/Providers/SelectDatesProvider'
 
 /*
 With MUI V4, it is possible to generate deterministic class names.
@@ -31,11 +32,13 @@ const AppProviders = ({ client, lang, polyglot, children }) => {
         <CozyProvider client={client}>
           <RealTimeQueries doctype={GEOJSON_DOCTYPE} />
           <AccountProvider>
-            <I18n lang={lang} polyglot={polyglot}>
-              <MuiCozyTheme>
-                <BreakpointsProvider>{children}</BreakpointsProvider>
-              </MuiCozyTheme>
-            </I18n>
+            <SelectDatesProvider>
+              <I18n lang={lang} polyglot={polyglot}>
+                <MuiCozyTheme>
+                  <BreakpointsProvider>{children}</BreakpointsProvider>
+                </MuiCozyTheme>
+              </I18n>
+            </SelectDatesProvider>
           </AccountProvider>
         </CozyProvider>
       </StylesProvider>

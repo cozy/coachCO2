@@ -6,7 +6,6 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import Titlebar from 'src/components/Titlebar'
 import TabsNav from 'src/components/Analysis/TabsNav'
-import SelectDatesProvider from 'src/components/Providers/SelectDatesProvider'
 import PurposesList from 'src/components/Analysis/Purposes/PurposesList'
 import SelectDatesWrapper from 'src/components/SelectDatesWrapper'
 
@@ -23,12 +22,12 @@ const PurposeAnalysis = () => {
   const onBack = purpose ? () => navigate('/analysis/purposes') : undefined
 
   return (
-    <SelectDatesProvider>
+    <>
       <Titlebar label={purposeTitle} onBack={onBack} />
       {isMobile && <TabsNav />}
       <SelectDatesWrapper />
       <PurposesList />
-    </SelectDatesProvider>
+    </>
   )
 }
 
