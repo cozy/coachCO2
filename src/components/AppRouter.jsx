@@ -27,7 +27,10 @@ const AppRouter = () => {
 
         <Route path="settings" element={<Settings />} />
 
-        <Route path="analysis/modes" element={<ModeAnalysis />} />
+        <Route
+          path="analysis/modes"
+          element={<OutletWrapper Component={ModeAnalysis} />}
+        />
         <Route
           path="analysis/modes/:mode"
           element={<OutletWrapper Component={ModeAnalysis} />}
@@ -35,7 +38,10 @@ const AppRouter = () => {
           <Route path=":timeserieId" element={<Trip />} />
         </Route>
 
-        <Route path="analysis/purposes" element={<PurposeAnalysis />} />
+        <Route
+          path="analysis/purposes"
+          element={<OutletWrapper Component={PurposeAnalysis} />}
+        />
         <Route
           path="analysis/purposes/:purpose"
           element={<OutletWrapper Component={PurposeAnalysis} />}
