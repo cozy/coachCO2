@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useMemo } from 'react'
-import { TileLayer, GeoJSON } from 'react-leaflet'
+import { TileLayer, GeoJSON, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
@@ -36,11 +36,12 @@ const makeGeoJsonOptions = theme => ({
   }
 })
 
-const TripMapContent = ({ mapL }) => {
+const TripMapContent = () => {
   const geojsonRef = useRef()
   const { isMobile } = useBreakpoints()
   const theme = useTheme()
   const { timeserie } = useTrip()
+  const map = useMap()
 
   const { pointToLayer, style } = useMemo(
     () => makeGeoJsonOptions(theme),
@@ -53,20 +54,17 @@ const TripMapContent = ({ mapL }) => {
   )
 
   useEffect(() => {
-    if (geojsonRef.current) {
-      const geojsonL = geojsonRef.current.leafletElement
-      const bounds = geojsonL.getBounds()
-      const paddingTopLeft = [mapPadding, mapPadding]
-      const paddingBottomRight = [
-        mapPadding,
-        mapPadding + mapL.getSize().y * mapPanRatio
-      ]
-      mapL.fitBounds(bounds, {
-        paddingTopLeft,
-        paddingBottomRight
-      })
-    }
-  }, [mapL, mapPanRatio])
+    const bounds = geojsonRef.current.getBounds()
+    const paddingTopLeft = [mapPadding, mapPadding]
+    const paddingBottomRight = [
+      mapPadding,
+      mapPadding + map.getSize().y * mapPanRatio
+    ]
+    map.fitBounds(bounds, {
+      paddingTopLeft,
+      paddingBottomRight
+    })
+  }, [map, mapPanRatio])
 
   return (
     <>
