@@ -12,13 +12,13 @@ import AppProviders from 'src/components/AppProviders'
 import App from 'src/components/App'
 
 const init = function () {
-  const { root, client, lang, polyglot } = setupApp()
+  const { container, client, lang, polyglot } = setupApp()
 
   render(
     <AppProviders client={client} lang={lang} polyglot={polyglot}>
       <App />
     </AppProviders>,
-    root
+    container
   )
 }
 
