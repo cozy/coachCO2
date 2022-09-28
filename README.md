@@ -234,6 +234,7 @@ Every timeserie is automatically aggregated by a service, to sum up the `series`
     "modes": [
       "WALKING"
     ],
+    "purpose": "ENTERTAINMENT",
     "sections": [
       {
         "CO2": 0,
