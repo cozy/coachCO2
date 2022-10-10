@@ -4,11 +4,25 @@ import Switch from 'cozy-ui/transpiled/react/MuiCozyTheme/Switch'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import { makeStyles } from 'cozy-ui/transpiled/react/styles'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import useSettings from 'src/hooks/useSettings'
 
+const useStyles = makeStyles(() => ({
+  root: {
+    marginLeft: 0
+  },
+  labelPlacementStart: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  }
+}))
+
 const BikeGoalAlertSwitcher = () => {
   const { t } = useI18n()
+  const { isMobile } = useBreakpoints()
+  const classes = useStyles()
   const { isLoading, value, save } = useSettings('hideObjectivesAlerter')
 
   const handleChange = ev => {
@@ -16,19 +30,21 @@ const BikeGoalAlertSwitcher = () => {
   }
 
   return (
-    <FormControlLabel
-      className="u-ml-0"
-      label={
-        <Typography style={{ color: 'var(--infoColor)' }}>
-          {t('bikeGoal.settings.hideAlerter')}
-        </Typography>
-      }
-      labelPlacement="start"
-      checked={value}
-      disabled={isLoading}
-      onChange={handleChange}
-      control={<Switch color="primary" />}
-    />
+    <div>
+      <FormControlLabel
+        classes={classes}
+        label={
+          <Typography style={{ color: 'var(--infoColor)' }}>
+            {t('bikeGoal.settings.hideAlerter')}
+          </Typography>
+        }
+        labelPlacement={isMobile ? 'start' : 'end'}
+        checked={value}
+        disabled={isLoading}
+        onChange={handleChange}
+        control={<Switch color="primary" />}
+      />
+    </div>
   )
 }
 

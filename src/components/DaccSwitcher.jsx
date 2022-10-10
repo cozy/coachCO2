@@ -4,11 +4,25 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Label from 'cozy-ui/transpiled/react/Label'
 import Switch from 'cozy-ui/transpiled/react/MuiCozyTheme/Switch'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
+import { makeStyles } from 'cozy-ui/transpiled/react/styles'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import useSettings from 'src/hooks/useSettings'
 
+const useStyles = makeStyles(() => ({
+  root: {
+    marginLeft: 0
+  },
+  labelPlacementStart: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  }
+}))
+
 const DaccSwitcher = props => {
   const { t } = useI18n()
+  const { isMobile } = useBreakpoints()
+  const classes = useStyles()
   const { isLoading, value, save } = useSettings('allowSendDataToDacc')
 
   const handleChange = ev => {
@@ -19,9 +33,9 @@ const DaccSwitcher = props => {
     <div {...props}>
       <Label>{t('dacc.settings.label')}</Label>
       <FormControlLabel
-        className="u-ml-0"
+        classes={classes}
         label={t('dacc.settings.anonymous_participation')}
-        labelPlacement="start"
+        labelPlacement={isMobile ? 'start' : 'end'}
         checked={value}
         disabled={isLoading}
         onChange={handleChange}
