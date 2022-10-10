@@ -57,6 +57,7 @@ $ yarn service:timeseriesWithoutAggregateMigration
 
 `coachco2.admin-mode`: activate some hidden functions
 `coachco2.dacc-dev_v2`: to use dev version of DACC
+`coachco2.bikegoal.enabled`: to activate the "bike goal" feature
 
 
 ### Run it inside a Cozy using Docker
