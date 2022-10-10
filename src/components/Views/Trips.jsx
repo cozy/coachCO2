@@ -6,6 +6,7 @@ import {
   useQuery,
   useClient
 } from 'cozy-client'
+import flag from 'cozy-flags'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
@@ -22,6 +23,7 @@ import {
 import EmptyContent from 'src/components/EmptyContent'
 import CO2EmissionsChart from 'src/components/CO2EmissionsChart/CO2EmissionsChart'
 import DaccManager from 'src/components/DaccManager/DaccManager'
+import BikeGoal from 'src/components/Objectives/BikeGoal'
 
 const style = {
   divider: {
@@ -85,7 +87,12 @@ export const Trips = () => {
   return (
     <>
       <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />
-      {isMobile && <Divider style={style.divider} />}
+      {flag('coachco2.bikegoal.enabled') && (
+        <>
+          <BikeGoal />
+          {isMobile && <Divider style={style.divider} />}
+        </>
+      )}
       <CO2EmissionsChart />
       <DaccManager />
       {isMobile && <Divider style={style.divider} />}
