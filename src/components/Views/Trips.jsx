@@ -23,6 +23,13 @@ import EmptyContent from 'src/components/EmptyContent'
 import CO2EmissionsChart from 'src/components/CO2EmissionsChart/CO2EmissionsChart'
 import DaccManager from 'src/components/DaccManager/DaccManager'
 
+const style = {
+  divider: {
+    height: '12px',
+    backgroundColor: 'var(--defaultBackgroundColor)'
+  }
+}
+
 export const Trips = () => {
   const { account, isAccountLoading } = useAccountContext()
   const { t } = useI18n()
@@ -78,16 +85,10 @@ export const Trips = () => {
   return (
     <>
       <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />
+      {isMobile && <Divider style={style.divider} />}
       <CO2EmissionsChart />
       <DaccManager />
-      {isMobile && (
-        <Divider
-          style={{
-            height: '12px',
-            backgroundColor: 'var(--defaultBackgroundColor)'
-          }}
-        />
-      )}
+      {isMobile && <Divider style={style.divider} />}
       <TripsList timeseries={timeseries} />
       {timeseriesQueryLeft.hasMore && (
         <LoadMore
