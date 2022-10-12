@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import Label from 'cozy-ui/transpiled/react/Label'
 import Switch from 'cozy-ui/transpiled/react/MuiCozyTheme/Switch'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
+import Typography from 'cozy-ui/transpiled/react/Typography'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
@@ -19,22 +19,25 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const DaccSwitcher = props => {
+const BikeGoalAlertSwitcher = () => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const classes = useStyles()
-  const { isLoading, value, save } = useSettings('allowSendDataToDacc')
+  const { isLoading, value, save } = useSettings('hideObjectivesAlerter')
 
   const handleChange = ev => {
     save(ev.target.checked)
   }
 
   return (
-    <div {...props}>
-      <Label>{t('dacc.settings.label')}</Label>
+    <div>
       <FormControlLabel
         classes={classes}
-        label={t('dacc.settings.anonymous_participation')}
+        label={
+          <Typography style={{ color: 'var(--infoColor)' }}>
+            {t('bikeGoal.settings.hideAlerter')}
+          </Typography>
+        }
         labelPlacement={isMobile ? 'start' : 'end'}
         checked={value}
         disabled={isLoading}
@@ -45,4 +48,4 @@ const DaccSwitcher = props => {
   )
 }
 
-export default DaccSwitcher
+export default BikeGoalAlertSwitcher

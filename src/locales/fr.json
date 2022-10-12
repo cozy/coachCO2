@@ -150,5 +150,19 @@
       "yours": "Vos émissions",
       "average": "Moyennes des utilisateurs de l'app"
     }
+  },
+  "bikeGoal": {
+    "goals": "Objectifs",
+    "alert": {
+      "title": "Allez au bureau à vélo et recevez %{bountyAmount} !",
+      "text": "Dans le cadre du Forfait Mobilité Durable (FMD) mis en place par le gouvernement Français, allez travailler à vélo %{smart_count} jour dans l’année et recevez %{bountyAmount} ! |||| Dans le cadre du Forfait Mobilité Durable (FMD) mis en place par le gouvernement Français, allez travailler à vélo %{smart_count} jours dans l’année et recevez %{bountyAmount} !",
+      "actions": {
+        "participate": "Participer",
+        "discard": "non, merci"
+      }
+    },
+    "settings": {
+      "hideAlerter": "Masquer l'alerter de l'objectif vélo"
+    }
   }
 }
