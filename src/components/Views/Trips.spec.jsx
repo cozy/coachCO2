@@ -75,7 +75,7 @@ describe('Sidebar component', () => {
     expect(queryByTestId('EmptyContent')).toBeNull()
   })
 
-  it('should show a spinner if data query is loading, even if there is an account', () => {
+  it('should show the "empty page" if both queries are loaded, an account exists but no timeseries', () => {
     useAccountContext.mockReturnValue({
       account: { _id: 'accountId' },
       isAccountLoading: false
