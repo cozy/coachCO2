@@ -10,7 +10,7 @@ const BikeGoalAlertManager = () => {
   const { t } = useI18n()
   const {
     isLoading,
-    value: showGoals,
+    value: showGoals = true,
     save: setShowGoals
   } = useSettings('bikeGoal.showAlert')
 

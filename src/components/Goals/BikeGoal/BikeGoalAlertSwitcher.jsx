@@ -24,7 +24,7 @@ const BikeGoalAlertSwitcher = () => {
   const { isMobile } = useBreakpoints()
   const classes = useStyles()
 
-  const { isLoading, value, save } = useSettings('bikeGoal.showAlert')
+  const { isLoading, value = true, save } = useSettings('bikeGoal.showAlert')
 
   const handleChange = ev => {
     save(ev.target.checked)

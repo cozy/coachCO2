@@ -28,7 +28,7 @@ const DaccManager = () => {
 
   const CO2Emission = settings[0]?.CO2Emission || {}
 
-  const { showAlert, sendToDacc } = CO2Emission
+  const { showAlert = true, sendToDacc = false } = CO2Emission
 
   const handleOnDiscard = () => {
     client.save({

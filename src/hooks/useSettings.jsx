@@ -16,10 +16,10 @@ const useSettings = setting => {
   const isLoading = isQueryLoading(settingsQueryLeft)
 
   const value = isLoading
-    ? null
+    ? undefined
     : settings && settings[0]
     ? get(settings[0], setting)
-    : null
+    : undefined
 
   const save = async value => {
     const newSettings = {
