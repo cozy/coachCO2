@@ -27,7 +27,7 @@ const CO2EmissionDaccAlertSwitcher = props => {
   const { isLoading, value, save } = useSettings('CO2Emission.showAlert')
 
   const handleChange = ev => {
-    save(!ev.target.checked)
+    save(ev.target.checked)
   }
 
   return (
@@ -36,11 +36,11 @@ const CO2EmissionDaccAlertSwitcher = props => {
         classes={classes}
         label={
           <Typography style={{ color: 'var(--infoColor)' }}>
-            {t('dacc.settings.hideAlerter')}
+            {t('dacc.settings.showAlerter')}
           </Typography>
         }
         labelPlacement={isMobile ? 'start' : 'end'}
-        checked={!value}
+        checked={value}
         disabled={isLoading}
         onChange={handleChange}
         control={<Switch color="primary" />}
