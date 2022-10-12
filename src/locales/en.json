@@ -152,6 +152,9 @@
     }
   },
   "bikeGoal": {
+    "title": "Bike to work",
+    "goal_progression": "%{days}/%{daysToReach} days per year",
+    "achievement_certificate": "Certificate of achievement",
     "goals": "Objectives",
     "alert": {
       "title": "Ride your bike to work and receive %{bountyAmount}!",

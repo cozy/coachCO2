@@ -11,7 +11,7 @@ import Typography from 'cozy-ui/transpiled/react/Typography'
 import TripItem from 'src/components/TripItem'
 import { getStartDate } from 'src/lib/timeseries'
 
-export const TripsList = ({ timeseries }) => {
+export const TripsList = ({ timeseries, noHeader }) => {
   const { isMobile } = useBreakpoints()
   const { t } = useI18n()
 
@@ -27,7 +27,7 @@ export const TripsList = ({ timeseries }) => {
 
   return (
     <>
-      {isMobile && (
+      {isMobile && !noHeader && (
         <Paper
           className="u-ph-1"
           style={{ height: '4rem', display: 'flex', alignItems: 'center' }}
@@ -50,7 +50,8 @@ export const TripsList = ({ timeseries }) => {
 }
 
 TripsList.propTypes = {
-  timeseries: PropTypes.arrayOf(PropTypes.object).isRequired
+  timeseries: PropTypes.arrayOf(PropTypes.object).isRequired,
+  noHeader: PropTypes.bool
 }
 
 export default TripsList

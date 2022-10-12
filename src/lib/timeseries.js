@@ -10,6 +10,7 @@ import uniq from 'lodash/uniq'
 import subMonths from 'date-fns/subMonths'
 import startOfMonth from 'date-fns/startOfMonth'
 import dateFnsFormatDistance from 'date-fns/formatDistance'
+import differenceInDays from 'date-fns/differenceInDays'
 
 import { computeCO2Section, computeCaloriesSection } from 'src/lib/metrics'
 import {
@@ -452,4 +453,24 @@ export const computeMonthsAndCO2s = (timeseries, f) => {
   })
 
   return { months: formatedMonths, CO2s }
+}
+
+export const computeFirstAndLastDay = timeseries => {
+  let firstDay = getStartDate(timeseries[0])
+  let lastDay = getEndDate(timeseries[0])
+
+  timeseries.forEach(timeserie => {
+    const startDate = getStartDate(timeserie)
+    const endDate = getEndDate(timeserie)
+
+    firstDay = startDate < firstDay ? startDate : firstDay
+    lastDay = endDate > lastDay ? endDate : lastDay
+  })
+
+  return { firstDay, lastDay }
+}
+
+export const countDays = timeseries => {
+  const { firstDay, lastDay } = computeFirstAndLastDay(timeseries)
+  return differenceInDays(lastDay, firstDay)
 }

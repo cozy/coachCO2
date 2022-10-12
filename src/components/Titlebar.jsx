@@ -1,6 +1,7 @@
 /* global cozy */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import { useLocation } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -20,7 +21,7 @@ const pathnameToTitle = {
   '/settings': 'nav.settings'
 }
 
-const Titlebar = ({ label, onBack }) => {
+const Titlebar = ({ label, subtitle, onBack }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const { pathname } = useLocation()
@@ -55,7 +56,7 @@ const Titlebar = ({ label, onBack }) => {
   return (
     <div
       className={cx({
-        ['u-flex u-flex-items-center u-ml-2']: backAction
+        ['u-flex u-flex-items-baseline u-ml-2']: backAction
       })}
     >
       {backAction && (
@@ -63,16 +64,22 @@ const Titlebar = ({ label, onBack }) => {
           <Icon icon={Previous} size={16} />
         </IconButton>
       )}
-      <Typography
-        variant="h3"
+      <div
         className={cx('u-mv-1-half-s u-ml-1-s u-mv-2', {
           ['u-ml-2']: !backAction
         })}
       >
-        {title}
-      </Typography>
+        <Typography variant="h3">{title}</Typography>
+        {subtitle}
+      </div>
     </div>
   )
+}
+
+Titlebar.propTypes = {
+  label: PropTypes.string,
+  subtitle: PropTypes.node,
+  onBack: PropTypes.func
 }
 
 export default Titlebar
