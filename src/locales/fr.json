@@ -168,7 +168,8 @@
     },
     "settings": {
       "participation": "Participer à l'objectif “Aller au travail à vélo”",
-      "showAlerter": "Afficher l'alerter de l'objectif vélo"
+      "showAlerter": "Afficher l'alerter de l'objectif vélo",
+      "hideOnboarding": "Masquer l'embarquement d'objectif vélo"
     }
   }
 }

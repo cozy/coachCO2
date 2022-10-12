@@ -168,7 +168,8 @@
     },
     "settings": {
       "participation": "Participate to the goal “Bike to work”",
-      "showAlerter": "Show bike goals alerter"
+      "showAlerter": "Show bike goals alerter",
+      "hideOnboarding": "Hide bike goal onboarding"
     }
   }
 }

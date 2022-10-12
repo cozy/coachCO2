@@ -17,6 +17,7 @@ import CO2EmissionDaccAlertSwitcher from 'src/components/CO2EmissionDaccAlertSwi
 import AppVersionNumber from 'src/components/AppVersionNumber'
 import BikeGoalSwitcher from 'src/components/Goals/BikeGoal/BikeGoalSwitcher'
 import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
+import BikeGoalOnboardedSwitcher from 'src/components/Goals/BikeGoal/BikeGoalOnboardedSwitcher'
 
 export const Settings = () => {
   const { t } = useI18n()
@@ -44,6 +45,7 @@ export const Settings = () => {
             <>
               <CO2EmissionDaccAlertSwitcher className="u-mt-1-half-s" />
               <BikeGoalAlertSwitcher className="u-mt-1-half-s" />
+              <BikeGoalOnboardedSwitcher className="u-mt-1-half-s" />
             </>
           )}
         </div>
