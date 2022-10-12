@@ -1,15 +1,9 @@
 import React from 'react'
 
-import {
-  hasQueryBeenLoaded,
-  isQueryLoading,
-  useQuery,
-  useClient
-} from 'cozy-client'
+import { hasQueryBeenLoaded, isQueryLoading, useQuery } from 'cozy-client'
 import flag from 'cozy-flags'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
 import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
 
@@ -20,7 +14,7 @@ import {
   useAccountContext,
   getAccountLabel
 } from 'src/components/Providers/AccountProvider'
-import EmptyContent from 'src/components/EmptyContent'
+import SpinnerOrEmptyContent from 'src/components/SpinnerOrEmptyContent'
 import CO2EmissionsChart from 'src/components/CO2EmissionsChart/CO2EmissionsChart'
 import DaccManager from 'src/components/DaccManager/DaccManager'
 import BikeGoal from 'src/components/Goals/BikeGoal/BikeGoal'
@@ -35,7 +29,6 @@ const style = {
 export const Trips = () => {
   const { account, isAccountLoading } = useAccountContext()
   const { t } = useI18n()
-  const client = useClient()
   const { isMobile } = useBreakpoints()
 
   const timeseriesQuery = buildAggregatedTimeseriesQueryByAccountId({
@@ -54,33 +47,20 @@ export const Trips = () => {
     isQueryLoading(timeseriesQueryLeft) &&
     !hasQueryBeenLoaded(timeseriesQueryLeft)
 
-  if (isAccountLoading) {
-    return (
-      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
-    )
-  }
+  const isLoadingOrEmpty =
+    isAccountLoading ||
+    !account ||
+    isLoadingTimeseriesQuery ||
+    timeseries.length === 0
 
-  if (!account) {
+  if (isLoadingOrEmpty) {
     return (
-      <>
-        {isMobile && <Titlebar label={client.appMetadata.slug} />}
-        <EmptyContent />
-      </>
-    )
-  }
-
-  if (isLoadingTimeseriesQuery) {
-    return (
-      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
-    )
-  }
-
-  if (timeseries.length === 0) {
-    return (
-      <>
-        {isMobile && <Titlebar label={client.appMetadata.slug} />}
-        <EmptyContent />
-      </>
+      <SpinnerOrEmptyContent
+        account={account}
+        isAccountLoading={isAccountLoading}
+        isQueryLoading={isLoadingTimeseriesQuery}
+        timeseries={timeseries}
+      />
     )
   }
 
