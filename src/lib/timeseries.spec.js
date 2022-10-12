@@ -35,7 +35,9 @@ import {
   getFormattedTotalCalories,
   setAggregationPurpose,
   setAutomaticPurpose,
-  setManualPurpose
+  setManualPurpose,
+  computeFirstAndLastDay,
+  countDays
 } from 'src/lib/timeseries'
 
 describe('transformSerieToTrip', () => {
@@ -779,5 +781,37 @@ describe('set purpose', () => {
         { properties: { manual_purpose: 'HOBBY', automatic_purpose: 'SPORT' } }
       ]
     })
+  })
+})
+
+describe('computeFirstAndLastDay', () => {
+  it('should return first and last day', () => {
+    const timeseries = [
+      { startDate: '2021-01-01T00:00:00', endDate: '2021-01-02T00:00:00' },
+      { startDate: '2021-02-01T00:00:00', endDate: '2021-02-02T00:00:00' },
+      { startDate: '2021-03-01T00:00:00', endDate: '2021-03-02T00:00:00' }
+    ]
+
+    const res = computeFirstAndLastDay(timeseries)
+
+    expect(res).toStrictEqual({
+      firstDay: new Date('2021-01-01T00:00:00.000Z'),
+      lastDay: new Date('2021-03-02T00:00:00.000Z')
+    })
+  })
+})
+
+describe('countDays', () => {
+  it('should return the number of days covered by timeseries', () => {
+    const timeseries = [
+      { startDate: '2021-01-01T00:00:00', endDate: '2021-01-02T00:00:00' },
+      { startDate: '2021-02-01T00:00:00', endDate: '2021-02-02T00:00:00' },
+      { startDate: '2021-02-01T10:00:00', endDate: '2021-02-02T10:00:00' },
+      { startDate: '2021-03-01T00:00:00', endDate: '2021-03-02T00:00:00' }
+    ]
+
+    const res = countDays(timeseries)
+
+    expect(res).toBe(60)
   })
 })
