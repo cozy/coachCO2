@@ -1,6 +1,8 @@
 import endOfMonth from 'date-fns/endOfMonth'
 import startOfMonth from 'date-fns/startOfMonth'
 import subYears from 'date-fns/subYears'
+import startOfYear from 'date-fns/startOfYear'
+import endOfYear from 'date-fns/endOfYear'
 
 import CozyClient, { Q } from 'cozy-client'
 
@@ -12,6 +14,7 @@ import {
 import { TRIPS_DISTANCE_SIMILARITY_RATIO } from 'src/constants'
 
 const older30s = 30 * 1000
+const neverReload = 100000 * 1000
 
 // Timeseries doctype -------------
 
@@ -172,6 +175,56 @@ export const buildOneYearOldTimeseriesWithAggregationByAccountId =
       }
     }
   }
+
+export const buildOneYearBikeCommuteTimeseriesQueryByDateAndAccountId = (
+  { date, accountId },
+  enabled
+) => {
+  const startYearDate = startOfYear(date)
+  const endYearDate = endOfYear(date)
+
+  return {
+    definition: Q('io.cozy.timeseries.geojson')
+      .where({
+        'cozyMetadata.sourceAccount': accountId,
+        startDate: {
+          $gte: startYearDate.toISOString(),
+          $lte: endYearDate.toISOString()
+        },
+        'aggregation.purpose': 'COMMUTE',
+        'aggregation.modes': {
+          $elemMatch: {
+            $eq: 'BIKE'
+          }
+        }
+      })
+      .select([
+        'startDate',
+        'endDate',
+        'aggregation.modes',
+        'aggregation.purpose',
+        'cozyMetadata.sourceAccount'
+      ])
+      .indexFields([
+        'cozyMetadata.sourceAccount',
+        'startDate',
+        'aggregation.purpose',
+        'aggregation.modes'
+      ])
+      .sortBy([
+        { 'cozyMetadata.sourceAccount': 'desc' },
+        { startDate: 'desc' },
+        { 'aggregation.purpose': 'desc' },
+        { 'aggregation.modes': 'desc' }
+      ])
+      .limitBy(50),
+    options: {
+      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/OneYearBikeCommute/year/${startYearDate.getFullYear()}`,
+      fetchPolicy: CozyClient.fetchPolicies.olderThan(neverReload),
+      enabled
+    }
+  }
+}
 
 // ---------- Node.js queries
 export const buildOldestTimeseriesQueryByAccountId = accountId => ({
