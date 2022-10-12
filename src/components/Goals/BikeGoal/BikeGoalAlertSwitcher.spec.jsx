@@ -24,14 +24,18 @@ describe('BikeGoalAlertSwitcher', () => {
     expect(mockSave).toBeCalledTimes(1)
     expect(mockSave).toBeCalledWith({
       _type: SETTINGS_DOCTYPE,
-      hideObjectivesAlerter: true
+      bikeGoal: {
+        showAlert: false
+      }
     })
 
     fireEvent.click(switchBtn)
     expect(mockSave).toBeCalledTimes(2)
     expect(mockSave).toBeCalledWith({
       _type: SETTINGS_DOCTYPE,
-      hideObjectivesAlerter: false
+      bikeGoal: {
+        showAlert: true
+      }
     })
   })
 })

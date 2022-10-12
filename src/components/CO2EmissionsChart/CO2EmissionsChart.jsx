@@ -18,8 +18,9 @@ const CO2EmissionsChart = () => {
   const theme = useTheme()
   const { isMobile } = useBreakpoints()
   const { account } = useAccountContext()
+
   const { isLoading: isSettingsLoading, value: allowSendDataToDacc } =
-    useSettings('allowSendDataToDacc')
+    useSettings('CO2Emission.sendToDACC')
 
   const oneYearOldTimeseriesQuery =
     buildOneYearOldTimeseriesWithAggregationByAccountId(account?._id)

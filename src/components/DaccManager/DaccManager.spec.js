@@ -11,7 +11,11 @@ jest.mock('cozy-client/dist/hooks/useQuery', () => jest.fn())
 const setup = ({
   queryMock = {
     fetchStatus: 'loaded',
-    data: [{ hideDaccAlerter: false, allowSendDataToDacc: undefined }]
+    data: [
+      {
+        CO2Emission: { showAlert: true, sendToDacc: undefined }
+      }
+    ]
   }
 } = {}) => {
   useQuery.mockReturnValue(queryMock)
@@ -45,11 +49,15 @@ describe('DaccManager', () => {
   })
 
   describe('it should not show the banner', () => {
-    it('when hideDaccAlerter is true', () => {
+    it('when showAlert is true', () => {
       const { queryByText } = setup({
         queryMock: {
           fetchStatus: 'loaded',
-          data: [{ hideDaccAlerter: true, allowSendDataToDacc: undefined }]
+          data: [
+            {
+              CO2Emission: { showAlert: false, sendToDacc: undefined }
+            }
+          ]
         }
       })
 
@@ -60,11 +68,15 @@ describe('DaccManager', () => {
       ).toBeNull()
     })
 
-    it('when allowSendDataToDacc is true', () => {
+    it('when sendToDacc is true', () => {
       const { queryByText } = setup({
         queryMock: {
           fetchStatus: 'loaded',
-          data: [{ hideDaccAlerter: false, allowSendDataToDacc: true }]
+          data: [
+            {
+              CO2Emission: { showAlert: true, sendToDacc: true }
+            }
+          ]
         }
       })
 
@@ -75,11 +87,15 @@ describe('DaccManager', () => {
       ).toBeNull()
     })
 
-    it('when hideDaccAlerter and allowSendDataToDacc are both true', () => {
+    it('when showAlert and sendToDacc are both true', () => {
       const { queryByText } = setup({
         queryMock: {
           fetchStatus: 'loaded',
-          data: [{ hideDaccAlerter: true, allowSendDataToDacc: true }]
+          data: [
+            {
+              CO2Emission: { showAlert: false, sendToDacc: true }
+            }
+          ]
         }
       })
 

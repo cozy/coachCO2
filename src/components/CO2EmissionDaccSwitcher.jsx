@@ -23,7 +23,8 @@ const CO2EmissionDaccSwitcher = props => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const classes = useStyles()
-  const { isLoading, value, save } = useSettings('allowSendDataToDacc')
+
+  const { isLoading, value, save } = useSettings('CO2Emission.sendToDACC')
 
   const handleChange = ev => {
     save(ev.target.checked)

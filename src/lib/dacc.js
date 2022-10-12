@@ -199,7 +199,7 @@ export const sendMeasuresForAccount = async (client, account) => {
  */
 export const runDACCService = async client => {
   const settings = await client.queryAll(buildSettingsQuery().definition)
-  if (!settings || !settings[0].allowSendDataToDacc) {
+  if (!settings?.[0]?.CO2Emission?.sendToDacc) {
     log('info', 'The user did not give consent to send data to DACC')
     return false
   }

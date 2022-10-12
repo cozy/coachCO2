@@ -23,10 +23,11 @@ const BikeGoalAlertSwitcher = () => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const classes = useStyles()
-  const { isLoading, value, save } = useSettings('hideObjectivesAlerter')
+
+  const { isLoading, value, save } = useSettings('bikeGoal.showAlert')
 
   const handleChange = ev => {
-    save(ev.target.checked)
+    save(!ev.target.checked)
   }
 
   return (
@@ -39,7 +40,7 @@ const BikeGoalAlertSwitcher = () => {
           </Typography>
         }
         labelPlacement={isMobile ? 'start' : 'end'}
-        checked={value}
+        checked={!value}
         disabled={isLoading}
         onChange={handleChange}
         control={<Switch color="primary" />}
