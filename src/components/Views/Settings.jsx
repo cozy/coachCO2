@@ -13,7 +13,7 @@ import AccountSelector from 'src/components/AccountSelector'
 import DaccSwitcher from 'src/components/DaccSwitcher'
 import DaccAlerterSwitcher from 'src/components/DaccAlerterSwitcher'
 import AppVersionNumber from 'src/components/AppVersionNumber'
-import BikeGoalAlertSwitcher from 'src/components/Objectives/BikeGoalAlertSwitcher'
+import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
 
 export const Settings = () => {
   const { account } = useAccountContext()

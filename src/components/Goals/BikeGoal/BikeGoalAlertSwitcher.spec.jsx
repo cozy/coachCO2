@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react'
 
 import AppLike from 'test/AppLike'
 import { SETTINGS_DOCTYPE } from 'src/doctypes'
-import BikeGoalAlertSwitcher from 'src/components/Objectives/BikeGoalAlertSwitcher'
+import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
 
 jest.mock('cozy-client', () => ({
   ...jest.requireActual('cozy-client'),

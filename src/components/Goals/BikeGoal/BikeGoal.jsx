@@ -4,7 +4,7 @@ import Typography from 'cozy-ui/transpiled/react/Typography'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import useSettings from 'src/hooks/useSettings'
-import BikeGoalAlert from 'src/components/Objectives/BikeGoalAlert'
+import BikeGoalAlert from 'src/components/Goals/BikeGoal/BikeGoalAlert'
 
 const BikeGoal = () => {
   const { t } = useI18n()

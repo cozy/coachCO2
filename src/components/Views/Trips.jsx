@@ -23,7 +23,7 @@ import {
 import EmptyContent from 'src/components/EmptyContent'
 import CO2EmissionsChart from 'src/components/CO2EmissionsChart/CO2EmissionsChart'
 import DaccManager from 'src/components/DaccManager/DaccManager'
-import BikeGoal from 'src/components/Objectives/BikeGoal'
+import BikeGoal from 'src/components/Goals/BikeGoal/BikeGoal'
 
 const style = {
   divider: {
