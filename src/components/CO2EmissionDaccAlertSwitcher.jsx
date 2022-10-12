@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const DaccAlerterSwitcher = props => {
+const CO2EmissionDaccAlertSwitcher = props => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const classes = useStyles()
@@ -48,4 +48,4 @@ const DaccAlerterSwitcher = props => {
   )
 }
 
-export default DaccAlerterSwitcher
+export default CO2EmissionDaccAlertSwitcher

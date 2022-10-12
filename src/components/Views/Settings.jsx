@@ -10,8 +10,8 @@ import {
 import Titlebar from 'src/components/Titlebar'
 import CsvExporter from 'src/components/ExportCSV/CsvExporter'
 import AccountSelector from 'src/components/AccountSelector'
-import DaccSwitcher from 'src/components/DaccSwitcher'
-import DaccAlerterSwitcher from 'src/components/DaccAlerterSwitcher'
+import CO2EmissionDaccSwitcher from 'src/components/CO2EmissionDaccSwitcher'
+import CO2EmissionDaccAlertSwitcher from 'src/components/CO2EmissionDaccAlertSwitcher'
 import AppVersionNumber from 'src/components/AppVersionNumber'
 import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
 
@@ -30,10 +30,10 @@ export const Settings = () => {
       <div className="u-mh-1 u-mv-1-half">
         <AccountSelector />
         <div>
-          <DaccSwitcher className="u-mt-1-half" />
+          <CO2EmissionDaccSwitcher className="u-mt-1-half" />
           {flag('coachco2.admin-mode') && (
             <>
-              <DaccAlerterSwitcher className="u-mt-half-s" />
+              <CO2EmissionDaccAlertSwitcher className="u-mt-half-s" />
               <BikeGoalAlertSwitcher className="u-mt-half-s" />
             </>
           )}
