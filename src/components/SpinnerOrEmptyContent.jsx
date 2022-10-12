@@ -52,7 +52,7 @@ SpinnerOrEmptyContent.propTypes = {
   account: PropTypes.object,
   isAccountLoading: PropTypes.bool,
   isQueryLoading: PropTypes.bool,
-  timeseries: PropTypes.arrayOf(PropTypes.object).isRequired
+  timeseries: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default SpinnerOrEmptyContent

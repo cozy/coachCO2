@@ -20,7 +20,7 @@ const BikeGoalList = ({ className, timeseries, hasMore, fetchMore }) => {
 BikeGoalList.propTypes = {
   className: PropTypes.string,
   timeseries: PropTypes.arrayOf(PropTypes.object).isRequired,
-  hasMore: PropTypes.func,
+  hasMore: PropTypes.bool,
   fetchMore: PropTypes.func
 }
 
