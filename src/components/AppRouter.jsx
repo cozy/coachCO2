@@ -1,11 +1,14 @@
 import React from 'react'
 import { Routes, Route, Navigate, useLocation, Outlet } from 'react-router-dom'
 
+import flag from 'cozy-flags'
+
 import Trips from 'src/components/Views/Trips'
 import Trip from 'src/components/Views/Trip'
 import ModeAnalysis from 'src/components/Views/ModeAnalysis'
 import PurposeAnalysis from 'src/components/Views/PurposeAnalysis'
 import Settings from 'src/components/Views/Settings'
+import BikeGoal from 'src/components/Views/BikeGoal'
 
 const OutletWrapper = ({ Component }) => (
   <>
@@ -17,6 +20,7 @@ const OutletWrapper = ({ Component }) => (
 const AppRouter = () => {
   const location = useLocation()
   const background = location?.state?.background
+  const currentYear = new Date().getFullYear()
 
   return (
     <>
@@ -49,10 +53,26 @@ const AppRouter = () => {
           <Route path=":timeserieId" element={<Trip />} />
         </Route>
 
+        {flag('coachco2.bikegoal.enabled') && (
+          <Route
+            path="bikegoal/:year/trips"
+            element={<OutletWrapper Component={BikeGoal} />}
+          >
+            <Route path=":timeserieId" element={<Trip />} />
+          </Route>
+        )}
+
+        {/* // redirection */}
         <Route
           path="analysis"
           element={<Navigate replace to="/analysis/modes" />}
         />
+        {flag('coachco2.bikegoal.enabled') && (
+          <Route
+            path="bikegoal/*"
+            element={<Navigate replace to={`/bikegoal/${currentYear}/trips`} />}
+          />
+        )}
         <Route path="*" element={<Navigate replace to="/trips" />} />
       </Routes>
 
@@ -64,6 +84,12 @@ const AppRouter = () => {
             path="analysis/purposes/:purpose/:timeserieId"
             element={<Trip />}
           />
+          {flag('coachco2.bikegoal.enabled') && (
+            <Route
+              path="bikegoal/:year/trips/:timeserieId"
+              element={<Trip />}
+            />
+          )}
         </Routes>
       )}
     </>
