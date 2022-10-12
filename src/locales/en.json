@@ -14,6 +14,9 @@
     "select": "Select a device",
     "label": "Data source"
   },
+  "settings": {
+    "services": "Services"
+  },
   "trips": {
     "trips": "Trips",
     "from": "Trips from",
@@ -114,7 +117,6 @@
   },
   "dacc": {
     "settings": {
-      "label": "Data transmission",
       "anonymous_participation": "Participate anonymously in the calculation of average CO2 emissions",
       "showAlerter": "Show DACC alerter"
     },

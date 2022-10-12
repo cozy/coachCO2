@@ -1,6 +1,8 @@
 import React from 'react'
 
 import flag from 'cozy-flags'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Label from 'cozy-ui/transpiled/react/Label'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 import {
@@ -16,6 +18,7 @@ import AppVersionNumber from 'src/components/AppVersionNumber'
 import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
 
 export const Settings = () => {
+  const { t } = useI18n()
   const { account } = useAccountContext()
 
   if (!account) {
@@ -29,6 +32,7 @@ export const Settings = () => {
       <Titlebar />
       <div className="u-mh-1 u-mb-1">
         <AccountSelector className="u-mt-1" />
+        <Label>{t('settings.services')}</Label>
         <div className="u-mt-1">
           <CO2EmissionDaccSwitcher className="u-mt-half-s" />
           {flag('coachco2.admin-mode') && (

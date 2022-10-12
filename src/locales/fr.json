@@ -14,6 +14,9 @@
     "select": "Sélectionnez un appareil",
     "label": "Source des données"
   },
+  "settings": {
+    "services": "Services"
+  },
   "trips": {
     "trips": "Déplacements",
     "from": "Déplacements de",
@@ -114,7 +117,6 @@
   },
   "dacc": {
     "settings": {
-      "label": "Transmission des données",
       "anonymous_participation": "Participer anonymement au calcul des émissions moyennes de CO2",
       "showAlerter": "Afficher l'alerter DACC"
     },

@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import Label from 'cozy-ui/transpiled/react/Label'
 import Switch from 'cozy-ui/transpiled/react/MuiCozyTheme/Switch'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import { makeStyles } from 'cozy-ui/transpiled/react/styles'
@@ -36,7 +35,6 @@ const CO2EmissionDaccSwitcher = ({ className }) => {
 
   return (
     <div className={className}>
-      <Label>{t('dacc.settings.label')}</Label>
       <FormControlLabel
         classes={classes}
         label={t('dacc.settings.anonymous_participation')}
