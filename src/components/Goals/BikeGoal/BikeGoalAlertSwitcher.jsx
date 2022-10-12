@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const BikeGoalAlertSwitcher = () => {
+const BikeGoalAlertSwitcher = ({ className }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const classes = useStyles()
@@ -31,7 +31,7 @@ const BikeGoalAlertSwitcher = () => {
   }
 
   return (
-    <div>
+    <div className={className}>
       <FormControlLabel
         classes={classes}
         label={

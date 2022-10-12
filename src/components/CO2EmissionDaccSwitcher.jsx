@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const CO2EmissionDaccSwitcher = props => {
+const CO2EmissionDaccSwitcher = ({ className }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const classes = useStyles()
@@ -35,7 +35,7 @@ const CO2EmissionDaccSwitcher = props => {
   }
 
   return (
-    <div {...props}>
+    <div className={className}>
       <Label>{t('dacc.settings.label')}</Label>
       <FormControlLabel
         classes={classes}

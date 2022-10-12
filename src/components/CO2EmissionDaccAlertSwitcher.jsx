@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const CO2EmissionDaccAlertSwitcher = props => {
+const CO2EmissionDaccAlertSwitcher = ({ className }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const classes = useStyles()
@@ -31,7 +31,7 @@ const CO2EmissionDaccAlertSwitcher = props => {
   }
 
   return (
-    <div {...props}>
+    <div className={className}>
       <FormControlLabel
         classes={classes}
         label={

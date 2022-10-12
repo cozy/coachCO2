@@ -27,19 +27,19 @@ export const Settings = () => {
   return (
     <>
       <Titlebar />
-      <div className="u-mh-1 u-mv-1-half">
-        <AccountSelector />
-        <div>
-          <CO2EmissionDaccSwitcher className="u-mt-1-half" />
+      <div className="u-mh-1 u-mb-1">
+        <AccountSelector className="u-mt-1" />
+        <div className="u-mt-1">
+          <CO2EmissionDaccSwitcher className="u-mt-half-s" />
           {flag('coachco2.admin-mode') && (
             <>
-              <CO2EmissionDaccAlertSwitcher className="u-mt-half-s" />
-              <BikeGoalAlertSwitcher className="u-mt-half-s" />
+              <CO2EmissionDaccAlertSwitcher className="u-mt-1-half-s" />
+              <BikeGoalAlertSwitcher className="u-mt-1-half-s" />
             </>
           )}
         </div>
         <CsvExporter
-          className="u-mt-1-half"
+          className="u-mt-1"
           accountName={getAccountLabel(account)}
         />
         {flag('coachco2.admin-mode') && <AppVersionNumber />}
