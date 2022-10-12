@@ -152,6 +152,9 @@
     }
   },
   "bikeGoal": {
+    "title": "Aller au travail à vélo",
+    "goal_progression": "%{days}/%{daysToReach} jours par an",
+    "achievement_certificate": "Attestation de réussite",
     "goals": "Objectifs",
     "alert": {
       "title": "Allez au bureau à vélo et recevez %{bountyAmount} !",
