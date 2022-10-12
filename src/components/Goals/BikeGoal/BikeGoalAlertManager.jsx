@@ -6,7 +6,7 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import useSettings from 'src/hooks/useSettings'
 import BikeGoalAlert from 'src/components/Goals/BikeGoal/BikeGoalAlert'
 
-const BikeGoal = () => {
+const BikeGoalAlertManager = () => {
   const { t } = useI18n()
   const {
     isLoading,
@@ -36,4 +36,4 @@ const BikeGoal = () => {
   )
 }
 
-export default BikeGoal
+export default BikeGoalAlertManager
