@@ -15,6 +15,7 @@ import AccountSelector from 'src/components/AccountSelector'
 import CO2EmissionDaccSwitcher from 'src/components/CO2EmissionDaccSwitcher'
 import CO2EmissionDaccAlertSwitcher from 'src/components/CO2EmissionDaccAlertSwitcher'
 import AppVersionNumber from 'src/components/AppVersionNumber'
+import BikeGoalSwitcher from 'src/components/Goals/BikeGoal/BikeGoalSwitcher'
 import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
 
 export const Settings = () => {
@@ -34,7 +35,11 @@ export const Settings = () => {
         <AccountSelector className="u-mt-1" />
         <Label>{t('settings.services')}</Label>
         <div className="u-mt-1">
+          <Label>{t('settings.services')}</Label>
           <CO2EmissionDaccSwitcher className="u-mt-half-s" />
+          {flag('coachco2.bikegoal.enabled') && (
+            <BikeGoalSwitcher className="u-mt-1-half-s" />
+          )}
           {flag('coachco2.admin-mode') && (
             <>
               <CO2EmissionDaccAlertSwitcher className="u-mt-1-half-s" />
