@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { hasQueryBeenLoaded, isQueryLoading, useQuery } from 'cozy-client'
 import flag from 'cozy-flags'
@@ -30,6 +31,7 @@ export const Trips = () => {
   const { account, isAccountLoading } = useAccountContext()
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
+  const navigate = useNavigate()
 
   const timeseriesQuery = buildAggregatedTimeseriesQueryByAccountId({
     accountId: account?._id,
@@ -67,6 +69,15 @@ export const Trips = () => {
   return (
     <>
       <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />
+      {/* TODO: debug button to be removed */}
+      {flag('debug') && (
+        <button
+          className="u-p-1"
+          onClick={() => navigate('/bikegoal/2022/trips')}
+        >
+          go to bikeGoal
+        </button>
+      )}
       {flag('coachco2.bikegoal.enabled') && (
         <>
           <BikeGoalAlertManager />
