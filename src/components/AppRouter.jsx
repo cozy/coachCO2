@@ -9,6 +9,7 @@ import ModeAnalysis from 'src/components/Views/ModeAnalysis'
 import PurposeAnalysis from 'src/components/Views/PurposeAnalysis'
 import Settings from 'src/components/Views/Settings'
 import BikeGoal from 'src/components/Views/BikeGoal'
+import BikeGoalOnboarding from 'src/components/Views/BikeGoalOnboarding'
 
 const OutletWrapper = ({ Component }) => (
   <>
@@ -54,12 +55,19 @@ const AppRouter = () => {
         </Route>
 
         {flag('coachco2.bikegoal.enabled') && (
-          <Route
-            path="bikegoal/:year/trips"
-            element={<OutletWrapper Component={BikeGoal} />}
-          >
-            <Route path=":timeserieId" element={<Trip />} />
-          </Route>
+          <>
+            <Route
+              path="bikegoal/:year/trips"
+              element={<OutletWrapper Component={BikeGoal} />}
+            >
+              <Route path=":timeserieId" element={<Trip />} />
+            </Route>
+
+            <Route
+              path="bikegoal/onboarding"
+              element={<OutletWrapper Component={BikeGoalOnboarding} />}
+            />
+          </>
         )}
 
         {/* // redirection */}
@@ -85,10 +93,16 @@ const AppRouter = () => {
             element={<Trip />}
           />
           {flag('coachco2.bikegoal.enabled') && (
-            <Route
-              path="bikegoal/:year/trips/:timeserieId"
-              element={<Trip />}
-            />
+            <>
+              <Route
+                path="bikegoal/:year/trips/:timeserieId"
+                element={<Trip />}
+              />
+              <Route
+                path="bikegoal/onboarding"
+                element={<OutletWrapper Component={BikeGoalOnboarding} />}
+              />
+            </>
           )}
         </Routes>
       )}
