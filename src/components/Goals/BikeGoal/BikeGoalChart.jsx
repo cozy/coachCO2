@@ -4,19 +4,23 @@ import PropTypes from 'prop-types'
 import CircularChart from 'cozy-ui/transpiled/react/CircularChart'
 import Box from 'cozy-ui/transpiled/react/Box'
 
-import { makeGoalAchievementPercentage } from 'src/components/Goals/BikeGoal/helpers'
+import {
+  makeGoalAchievementPercentage,
+  makeIconSize
+} from 'src/components/Goals/BikeGoal/helpers'
 
-const BikeGoalChart = ({ className, timeseries }) => {
+const BikeGoalChart = ({ timeseries, size, ...props }) => {
   const goalAchievementPercentage = makeGoalAchievementPercentage(timeseries)
+  const iconSize = makeIconSize(size)
 
   return (
-    <div className={className}>
-      <CircularChart
-        primaryProps={{ value: goalAchievementPercentage, color: '#BA5AE8' }}
-      >
-        <Box fontSize="4.5rem">🚴</Box>
-      </CircularChart>
-    </div>
+    <CircularChart
+      size={size}
+      primaryProps={{ value: goalAchievementPercentage, color: '#BA5AE8' }}
+      {...props}
+    >
+      <Box fontSize={iconSize}>🚴</Box>
+    </CircularChart>
   )
 }
 

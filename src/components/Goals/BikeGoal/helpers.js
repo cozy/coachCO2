@@ -29,3 +29,14 @@ export const makeGoalAchievementPercentage = timeseries => {
 
   return Math.round((daysOrDaysToReach / daysToReach) * 100)
 }
+
+export const makeIconSize = size => {
+  switch (size) {
+    case 'medium':
+      return '3rem'
+    case 'small':
+      return '2.5rem'
+    default:
+      return '4.5rem'
+  }
+}

@@ -21,7 +21,9 @@ const BikeGoalDialogMobile = ({ timeseries, timeseriesQueryLeft }) => {
         <>
           <BikeGoalActions timeseries={timeseries} />
           <BikeGoalChart
-            className="u-flex u-flex-justify-center u-pt-1-half u-mt-3"
+            display="flex"
+            paddingTop="1.5rem"
+            marginTop="3rem"
             timeseries={timeseries}
           />
           <BikeGoalAchievement

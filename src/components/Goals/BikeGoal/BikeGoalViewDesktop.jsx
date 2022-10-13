@@ -23,7 +23,11 @@ const BikeGoalViewDesktop = ({ timeseries, timeseriesQueryLeft }) => {
       />
       <BikeGoalActions timeseries={timeseries} />
       <BikeGoalChart
-        className="u-flex u-flex-justify-end u-pos-absolute u-top-xl u-right-xl"
+        display="flex"
+        justifyContent="end"
+        position="absolute"
+        top="2rem"
+        right="2rem"
         timeseries={timeseries}
       />
       <BikeGoalList

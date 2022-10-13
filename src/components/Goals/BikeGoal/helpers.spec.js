@@ -1,7 +1,8 @@
 import {
   isGoalCompleted,
   countDaysOrDaysToReach,
-  makeGoalAchievementPercentage
+  makeGoalAchievementPercentage,
+  makeIconSize
 } from './helpers'
 
 jest.mock('cozy-flags', () => name => {
@@ -79,5 +80,16 @@ describe('makeGoalAchievementPercentage', () => {
     const res = makeGoalAchievementPercentage(timeseries)
 
     expect(res).toBe(100)
+  })
+})
+
+describe('makeIconSize', () => {
+  it.each`
+    value        | result
+    ${undefined} | ${'4.5rem'}
+    ${'medium'}  | ${'3rem'}
+    ${'small'}   | ${'2.5rem'}
+  `(`should return $result with $value size`, ({ value, result }) => {
+    expect(makeIconSize(value)).toBe(result)
   })
 })
