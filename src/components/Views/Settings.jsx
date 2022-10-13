@@ -31,7 +31,7 @@ export const Settings = () => {
 
   return (
     <>
-      <Titlebar />
+      <Titlebar label={t('nav.settings')} />
       <div className="u-mh-1 u-mb-1">
         <AccountSelector className="u-mt-1" />
         <Label>{t('settings.services')}</Label>

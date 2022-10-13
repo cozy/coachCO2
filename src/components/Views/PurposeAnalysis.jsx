@@ -17,7 +17,7 @@ const PurposeAnalysis = () => {
 
   const purposeTitle = purpose
     ? t(`trips.purposes.${purpose.toUpperCase()}`)
-    : ''
+    : t('analysis.purpose')
 
   const onBack = purpose ? () => navigate('/analysis/purposes') : undefined
 
