@@ -474,3 +474,9 @@ export const countDays = timeseries => {
   const { firstDay, lastDay } = computeFirstAndLastDay(timeseries)
   return differenceInDays(lastDay, firstDay)
 }
+
+export const getEarliestTimeserie = timeseries => {
+  return timeseries.reduce((prev, current) => {
+    return prev.startDate < current.startDate ? prev : current
+  })
+}

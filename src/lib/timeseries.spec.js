@@ -37,7 +37,8 @@ import {
   setAutomaticPurpose,
   setManualPurpose,
   computeFirstAndLastDay,
-  countDays
+  countDays,
+  getEarliestTimeserie
 } from 'src/lib/timeseries'
 
 describe('transformSerieToTrip', () => {
@@ -813,5 +814,22 @@ describe('countDays', () => {
     const res = countDays(timeseries)
 
     expect(res).toBe(60)
+  })
+})
+
+describe('getEarliestTimeserie', () => {
+  it('should return the number of days covered by timeseries', () => {
+    const timeseries = [
+      { startDate: '2022-01-01T00:00:00', endDate: '2022-01-01T00:00:00' },
+      { startDate: '2020-01-01T00:00:00', endDate: '2020-01-01T00:00:00' },
+      { startDate: '2021-01-01T00:00:00', endDate: '2021-01-01T00:00:00' }
+    ]
+
+    const res = getEarliestTimeserie(timeseries)
+
+    expect(res).toStrictEqual({
+      startDate: '2020-01-01T00:00:00',
+      endDate: '2020-01-01T00:00:00'
+    })
   })
 })
