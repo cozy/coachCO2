@@ -8,6 +8,7 @@ import Titlebar from 'src/components/Titlebar'
 import BikeGoalList from 'src/components/Goals/BikeGoal/BikeGoalList'
 import BikeGoalAchievement from 'src/components/Goals/BikeGoal/BikeGoalAchievement'
 import BikeGoalChart from 'src/components/Goals/BikeGoal/BikeGoalChart'
+import BikeGoalDateSelector from 'src/components/Goals/BikeGoal/DateSelector/BikeGoalDateSelector'
 
 const BikeGoalViewDesktop = ({ timeseries, timeseriesQueryLeft }) => {
   const { t } = useI18n()
@@ -20,6 +21,7 @@ const BikeGoalViewDesktop = ({ timeseries, timeseriesQueryLeft }) => {
         subtitle={<BikeGoalAchievement timeseries={timeseries} />}
         onBack={() => navigate('/')}
       />
+      <BikeGoalDateSelector timeseries={timeseries} />
       <BikeGoalChart
         className="u-flex u-flex-justify-end u-pos-absolute u-top-xl u-right-xl"
         timeseries={timeseries}
