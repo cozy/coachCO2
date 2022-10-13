@@ -2,10 +2,8 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router-dom'
 import cx from 'classnames'
 
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import MuiCozyTheme from 'cozy-ui/transpiled/react/MuiCozyTheme'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import BarTitle from 'cozy-ui/transpiled/react/BarTitle'
@@ -14,20 +12,10 @@ import Icon from 'cozy-ui/transpiled/react/Icon'
 import IconButton from 'cozy-ui/transpiled/react/IconButton'
 import Previous from 'cozy-ui/transpiled/react/Icons/Previous'
 
-const pathnameToTitle = {
-  '/trips': 'nav.trips',
-  '/analysis/modes': 'analysis.mode',
-  '/analysis/purposes': 'analysis.purpose',
-  '/settings': 'nav.settings'
-}
-
 const Titlebar = ({ label, subtitle, onBack }) => {
-  const { t } = useI18n()
   const { isMobile } = useBreakpoints()
-  const { pathname } = useLocation()
   const { BarCenter, BarLeft } = cozy.bar
 
-  const title = label || t(pathnameToTitle[pathname])
   const backAction = typeof onBack === 'function' ? onBack : undefined
 
   if (isMobile) {
@@ -46,7 +34,7 @@ const Titlebar = ({ label, subtitle, onBack }) => {
         )}
         <BarCenter>
           <MuiCozyTheme>
-            <BarTitle>{title}</BarTitle>
+            <BarTitle>{label}</BarTitle>
           </MuiCozyTheme>
         </BarCenter>
       </>
@@ -69,7 +57,7 @@ const Titlebar = ({ label, subtitle, onBack }) => {
           ['u-ml-2']: !backAction
         })}
       >
-        <Typography variant="h3">{title}</Typography>
+        <Typography variant="h3">{label}</Typography>
         {subtitle}
       </div>
     </div>

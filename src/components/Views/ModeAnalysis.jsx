@@ -15,7 +15,9 @@ const ModeAnalysis = () => {
   const { mode } = useParams()
   const { isMobile } = useBreakpoints()
 
-  const modeTitle = mode ? t(`trips.modes.${mode.toUpperCase()}`) : ''
+  const modeTitle = mode
+    ? t(`trips.modes.${mode.toUpperCase()}`)
+    : t('analysis.mode')
 
   const onBack = mode ? () => navigate('/analysis/modes') : undefined
 
