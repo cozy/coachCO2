@@ -7,6 +7,7 @@ import {
   // buildOneYearBikeCommuteTimeseriesQueryByDateAndAccountId,
   buildAggregatedTimeseriesQueryByAccountId
 } from 'src/queries/queries'
+// import { useBikeGoalDateContext } from 'src/components/Providers/BikeGoalDateProvider'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import SpinnerOrEmptyContent from 'src/components/SpinnerOrEmptyContent'
 import BikeGoalDialogMobile from 'src/components/Goals/BikeGoal/BikeGoalDialogMobile'
@@ -15,12 +16,13 @@ import BikeGoalViewDesktop from 'src/components/Goals/BikeGoal/BikeGoalViewDeskt
 const Bikegoal = () => {
   const { account, isAccountLoading } = useAccountContext()
   const { isMobile } = useBreakpoints()
-
   // TODO: uncomment this when the request return something
+  //
+  // const { date } = useBikeGoalDateContext()
   // const timeseriesQuery =
   //   buildOneYearBikeCommuteTimeseriesQueryByDateAndAccountId(
   //     {
-  //       date: new Date(),
+  //       date,
   //       accountId: account?._id
   //     },
   //     Boolean(account)
