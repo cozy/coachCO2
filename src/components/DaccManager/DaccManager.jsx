@@ -26,13 +26,18 @@ const DaccManager = () => {
     return null
   }
 
-  const { hideDaccAlerter, allowSendDataToDacc } = settings[0] || {}
+  const CO2Emission = settings[0]?.CO2Emission || {}
+
+  const { showAlert = true, sendToDacc = false } = CO2Emission
 
   const handleOnDiscard = () => {
     client.save({
       ...settings[0],
       _type: SETTINGS_DOCTYPE,
-      hideDaccAlerter: true
+      CO2Emission: {
+        ...CO2Emission,
+        showAlert: false
+      }
     })
   }
 
@@ -40,14 +45,17 @@ const DaccManager = () => {
     client.save({
       ...settings[0],
       _type: SETTINGS_DOCTYPE,
-      hideDaccAlerter: true,
-      allowSendDataToDacc: true
+      CO2Emission: {
+        ...CO2Emission,
+        showAlert: false,
+        sendToDACC: true
+      }
     })
   }
 
   return (
     <>
-      {!hideDaccAlerter && !allowSendDataToDacc && (
+      {showAlert && !sendToDacc && (
         <DaccBanner
           onDiscard={handleOnDiscard}
           onAccept={() => setShowCompareDialog(true)}

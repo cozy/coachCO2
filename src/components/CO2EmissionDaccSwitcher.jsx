@@ -3,7 +3,6 @@ import React from 'react'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Switch from 'cozy-ui/transpiled/react/MuiCozyTheme/Switch'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
-import Typography from 'cozy-ui/transpiled/react/Typography'
 import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
@@ -19,25 +18,26 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const DaccAlerterSwitcher = props => {
+const CO2EmissionDaccSwitcher = ({ className }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const classes = useStyles()
-  const { isLoading, value, save } = useSettings('hideDaccAlerter')
+
+  const {
+    isLoading,
+    value = false,
+    save
+  } = useSettings('CO2Emission.sendToDACC')
 
   const handleChange = ev => {
     save(ev.target.checked)
   }
 
   return (
-    <div {...props}>
+    <div className={className}>
       <FormControlLabel
         classes={classes}
-        label={
-          <Typography style={{ color: 'var(--infoColor)' }}>
-            {t('dacc.settings.hideAlerter')}
-          </Typography>
-        }
+        label={t('dacc.settings.anonymous_participation')}
         labelPlacement={isMobile ? 'start' : 'end'}
         checked={value}
         disabled={isLoading}
@@ -48,4 +48,4 @@ const DaccAlerterSwitcher = props => {
   )
 }
 
-export default DaccAlerterSwitcher
+export default CO2EmissionDaccSwitcher

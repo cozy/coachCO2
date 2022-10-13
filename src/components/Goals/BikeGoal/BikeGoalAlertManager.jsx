@@ -10,18 +10,18 @@ const BikeGoalAlertManager = () => {
   const { t } = useI18n()
   const {
     isLoading,
-    value: hideGoals,
-    save: setHideGoals
-  } = useSettings('hideObjectivesAlerter')
+    value: showGoals = true,
+    save: setShowGoals
+  } = useSettings('bikeGoal.showAlert')
 
   const onDiscard = () => {
-    setHideGoals(true)
+    setShowGoals(false)
   }
   const onParticipate = () => {
     // TODO
   }
 
-  if (!isLoading && hideGoals) return null
+  if (!isLoading && !showGoals) return null
 
   return (
     <>

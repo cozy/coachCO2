@@ -14,6 +14,9 @@
     "select": "Select a device",
     "label": "Data source"
   },
+  "settings": {
+    "services": "Services"
+  },
   "trips": {
     "trips": "Trips",
     "from": "Trips from",
@@ -114,9 +117,8 @@
   },
   "dacc": {
     "settings": {
-      "label": "Data transmission",
       "anonymous_participation": "Participate anonymously in the calculation of average CO2 emissions",
-      "hideAlerter": "Hide DACC alerter"
+      "showAlerter": "Show DACC alerter"
     },
     "tripsCard": {
       "label": "Compare your emissions to the average of other users of the application?",
@@ -165,7 +167,9 @@
       }
     },
     "settings": {
-      "hideAlerter": "Hide bike goals alerter"
+      "participation": "Participate to the goal “Bike to work”",
+      "showAlerter": "Show bike goals alerter",
+      "hideOnboarding": "Hide bike goal onboarding"
     }
   }
 }

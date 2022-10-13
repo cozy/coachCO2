@@ -58,7 +58,7 @@ describe('useSettings', () => {
   })
 
   describe('value', () => {
-    it('should return null if data from query is an empty array', () => {
+    it('should return undefined if data from query is an empty array', () => {
       useQuery.mockReturnValue({
         fetchStatus: 'loaded',
         data: []
@@ -70,7 +70,7 @@ describe('useSettings', () => {
         }
       } = setup('foo')
 
-      expect(value).toBe(null)
+      expect(value).toBe(undefined)
     })
 
     it('should return the value according to the key passed', () => {

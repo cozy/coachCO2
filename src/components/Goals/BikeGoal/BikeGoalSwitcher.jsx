@@ -1,8 +1,8 @@
 import React from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import Switch from 'cozy-ui/transpiled/react/MuiCozyTheme/Switch'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
-import Typography from 'cozy-ui/transpiled/react/Typography'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
@@ -19,28 +19,41 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const BikeGoalAlertSwitcher = ({ className }) => {
+const BikeGoalSwitcher = ({ className }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const classes = useStyles()
+  const location = useLocation()
+  const navigate = useNavigate()
 
-  const { isLoading, value = true, save } = useSettings('bikeGoal.showAlert')
+  const { isLoading: isOnboardedLoading, value: isOnboarded = false } =
+    useSettings('bikeGoal.onboarded')
+  const {
+    isLoading: isActivatedLoading,
+    value: isActivated = false,
+    save: saveActivated
+  } = useSettings('bikeGoal.activated')
 
-  const handleChange = ev => {
-    save(ev.target.checked)
+  const isChecked = isOnboarded && isActivated
+  const isLoading = isOnboardedLoading || isActivatedLoading
+
+  const handleChange = async ev => {
+    if (isOnboarded) {
+      await saveActivated(ev.target.checked)
+    } else {
+      navigate('/bikegoal/onboarding', {
+        state: { background: location }
+      })
+    }
   }
 
   return (
     <div className={className}>
       <FormControlLabel
         classes={classes}
-        label={
-          <Typography style={{ color: 'var(--infoColor)' }}>
-            {t('bikeGoal.settings.showAlerter')}
-          </Typography>
-        }
+        label={t('bikeGoal.settings.participation')}
         labelPlacement={isMobile ? 'start' : 'end'}
-        checked={value}
+        checked={isChecked}
         disabled={isLoading}
         onChange={handleChange}
         control={<Switch color="primary" />}
@@ -49,4 +62,4 @@ const BikeGoalAlertSwitcher = ({ className }) => {
   )
 }
 
-export default BikeGoalAlertSwitcher
+export default BikeGoalSwitcher

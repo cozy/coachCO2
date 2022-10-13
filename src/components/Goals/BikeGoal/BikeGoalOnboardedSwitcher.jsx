@@ -1,8 +1,8 @@
 import React from 'react'
 
 import Switch from 'cozy-ui/transpiled/react/MuiCozyTheme/Switch'
-import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import Typography from 'cozy-ui/transpiled/react/Typography'
+import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
@@ -19,15 +19,30 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const BikeGoalAlertSwitcher = ({ className }) => {
+const BikeGoalOnboardedSwitcher = ({ className }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const classes = useStyles()
 
-  const { isLoading, value = true, save } = useSettings('bikeGoal.showAlert')
+  const {
+    isLoading: isOnboardedLoading,
+    value: isOnboarded = false,
+    save: saveOnboarded
+  } = useSettings('bikeGoal.onboarded')
+  const {
+    isLoading: isActivatedLoading,
+    value: isActivated = false,
+    save: saveActivated
+  } = useSettings('bikeGoal.activated')
 
-  const handleChange = ev => {
-    save(ev.target.checked)
+  const isChecked = isOnboarded || isActivated
+  const isLoading = isOnboardedLoading || isActivatedLoading
+
+  const handleChange = async ev => {
+    if (isActivated) {
+      await saveActivated(ev.target.checked)
+    }
+    await saveOnboarded(ev.target.checked)
   }
 
   return (
@@ -36,11 +51,11 @@ const BikeGoalAlertSwitcher = ({ className }) => {
         classes={classes}
         label={
           <Typography style={{ color: 'var(--infoColor)' }}>
-            {t('bikeGoal.settings.showAlerter')}
+            {t('bikeGoal.settings.hideOnboarding')}
           </Typography>
         }
         labelPlacement={isMobile ? 'start' : 'end'}
-        checked={value}
+        checked={isChecked}
         disabled={isLoading}
         onChange={handleChange}
         control={<Switch color="primary" />}
@@ -49,4 +64,4 @@ const BikeGoalAlertSwitcher = ({ className }) => {
   )
 }
 
-export default BikeGoalAlertSwitcher
+export default BikeGoalOnboardedSwitcher

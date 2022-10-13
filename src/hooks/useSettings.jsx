@@ -1,3 +1,5 @@
+import get from 'lodash/get'
+import set from 'lodash/set'
 import { isQueryLoading, useClient, useQuery } from 'cozy-client'
 
 import { SETTINGS_DOCTYPE } from 'src/doctypes'
@@ -14,17 +16,18 @@ const useSettings = setting => {
   const isLoading = isQueryLoading(settingsQueryLeft)
 
   const value = isLoading
-    ? null
+    ? undefined
     : settings && settings[0]
-    ? settings[0][setting]
-    : null
+    ? get(settings[0], setting)
+    : undefined
 
-  const save = value => {
-    client.save({
+  const save = async value => {
+    const newSettings = {
       ...settings[0],
-      _type: SETTINGS_DOCTYPE,
-      [setting]: value
-    })
+      _type: SETTINGS_DOCTYPE
+    }
+    set(newSettings, setting, value)
+    await client.save(newSettings)
   }
 
   return { isLoading, value, save }
