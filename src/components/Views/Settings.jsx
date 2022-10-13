@@ -44,8 +44,12 @@ export const Settings = () => {
           {flag('coachco2.admin-mode') && (
             <>
               <CO2EmissionDaccAlertSwitcher className="u-mt-1-half-s" />
-              <BikeGoalAlertSwitcher className="u-mt-1-half-s" />
-              <BikeGoalOnboardedSwitcher className="u-mt-1-half-s" />
+              {flag('coachco2.bikegoal.enabled') && (
+                <>
+                  <BikeGoalAlertSwitcher className="u-mt-1-half-s" />
+                  <BikeGoalOnboardedSwitcher className="u-mt-1-half-s" />
+                </>
+              )}
             </>
           )}
         </div>
