@@ -18,7 +18,7 @@ import {
 import SpinnerOrEmptyContent from 'src/components/SpinnerOrEmptyContent'
 import CO2EmissionsChart from 'src/components/CO2EmissionsChart/CO2EmissionsChart'
 import DaccManager from 'src/components/DaccManager/DaccManager'
-import BikeGoalAlertManager from 'src/components/Goals/BikeGoal/BikeGoalAlertManager'
+import GoalsList from 'src/components/Goals/GoalsList'
 
 const style = {
   divider: {
@@ -80,7 +80,7 @@ export const Trips = () => {
       )}
       {flag('coachco2.bikegoal.enabled') && (
         <>
-          <BikeGoalAlertManager />
+          <GoalsList />
           {isMobile && <Divider style={style.divider} />}
         </>
       )}
