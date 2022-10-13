@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 
 import Typography from 'cozy-ui/transpiled/react/Typography'
 
-const makeStyles = ({ highlighted }) => ({
+const createStyles = ({ highlighted }) => ({
   infoBlock: {
     backgroundColor: highlighted ? 'var(--primaryColor)' : 'none',
     margin: '0.5rem'
@@ -15,7 +15,7 @@ const makeStyles = ({ highlighted }) => ({
 })
 
 const InfoBlock = ({ title, value, highlighted }) => {
-  const styles = useMemo(() => makeStyles({ highlighted }), [highlighted])
+  const styles = useMemo(() => createStyles({ highlighted }), [highlighted])
 
   return (
     <div
