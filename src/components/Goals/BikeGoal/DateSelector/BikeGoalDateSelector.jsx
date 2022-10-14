@@ -8,8 +8,7 @@ import ActionMenu, { ActionMenuItem } from 'cozy-ui/transpiled/react/ActionMenu'
 
 import { getEarliestTimeserie } from 'src/lib/timeseries'
 import { useBikeGoalDateContext } from 'src/components/Providers/BikeGoalDateProvider'
-import MobileButton from 'src/components/Goals/BikeGoal/DateSelector/MobileButton'
-import DesktopButton from 'src/components/Goals/BikeGoal/DateSelector/DesktopButton'
+import ActionButton from 'src/components/Goals/BikeGoal/DateSelector/ActionButton'
 
 const createStyles = ({ isMobile }) => ({
   actions: {
@@ -38,15 +37,13 @@ const BikeGoalDateSelector = ({ timeseries }) => {
     [latestDate, numberOfYears]
   )
 
-  const DateButton = isMobile ? MobileButton : DesktopButton
-
   return (
     <div
       ref={actionMenuAnchorRef}
       className="u-flex u-flex-justify-end u-pos-absolute u-top-m"
       style={styles.actions}
     >
-      <DateButton
+      <ActionButton
         label={date.getFullYear()}
         onClick={() => setShowMenu(v => !v)}
       />
