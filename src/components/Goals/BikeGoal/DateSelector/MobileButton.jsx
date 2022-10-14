@@ -12,7 +12,7 @@ const MobileButton = ({ label, onClick }) => {
 }
 
 MobileButton.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.number,
   onClick: PropTypes.func
 }
 

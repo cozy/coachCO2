@@ -17,7 +17,7 @@ const DesktopButton = ({ label, onClick }) => {
 }
 
 DesktopButton.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.number,
   onClick: PropTypes.func
 }
 
