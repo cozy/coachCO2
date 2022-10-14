@@ -1,8 +1,13 @@
 import flag from 'cozy-flags'
 import { countDays } from 'src/lib/timeseries'
 
-export const getDaysToReach = () =>
-  flag('coachco2.bikegoal.settings').daysToReach
+export const getDaysToReach = () => {
+  const daysToReach = flag('coachco2.bikegoal.settings')?.daysToReach
+  if (!daysToReach) {
+    throw new Error('Flag "coachco2.bikegoal.settings" must be used')
+  }
+  return daysToReach
+}
 
 export const getBountyAmount = () =>
   flag('coachco2.bikegoal.settings').bountyAmount
