@@ -7,7 +7,7 @@ import { IllustrationDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import BikeGoalList from 'src/components/Goals/BikeGoal/BikeGoalList'
 import BikeGoalAchievement from 'src/components/Goals/BikeGoal/BikeGoalAchievement'
 import BikeGoalChart from 'src/components/Goals/BikeGoal/BikeGoalChart'
-import BikeGoalDateSelector from 'src/components/Goals/BikeGoal/DateSelector/BikeGoalDateSelector'
+import BikeGoalActions from 'src/components/Goals/BikeGoal/BikeGoalActions'
 
 const BikeGoalDialogMobile = ({ timeseries, timeseriesQueryLeft }) => {
   const navigate = useNavigate()
@@ -19,7 +19,7 @@ const BikeGoalDialogMobile = ({ timeseries, timeseriesQueryLeft }) => {
       disableGutters
       content={
         <>
-          <BikeGoalDateSelector timeseries={timeseries} />
+          <BikeGoalActions timeseries={timeseries} />
           <BikeGoalChart
             className="u-flex u-flex-justify-center u-pt-1-half u-mt-3"
             timeseries={timeseries}
