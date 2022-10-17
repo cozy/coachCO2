@@ -185,8 +185,8 @@
         "text": "Congratulations, you have achieved the “Bike to Work” goal 🎉",
         "action": "Benefit from my %{bountyAmount}€ package"
       },
-      "title": "Ride your bike to work and receive %{bountyAmount}!",
-      "text": "As part of the Sustainable Mobility Package (SMP) set up by the French government, go to work by bike %{smart_count} day a year and receive %{bountyAmount}! |||| As part of the Sustainable Mobility Package (SMP) set up by the French government, go to work by bike %{smart_count} days a year and receive %{bountyAmount}!",
+      "title": "Ride your bike to work and receive %{bountyAmount}€!",
+      "text": "As part of the Sustainable Mobility Package (SMP) set up by the French government, go to work by bike %{smart_count} day a year and receive %{bountyAmount}€! |||| As part of the Sustainable Mobility Package (SMP) set up by the French government, go to work by bike %{smart_count} days a year and receive %{bountyAmount}€!",
       "actions": {
         "participate": "Participate",
         "discard": "No, thank you"
