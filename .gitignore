@@ -6,6 +6,10 @@ yarn-error.log
 # Build
 build/
 
+# konnector
+.token.json
+konnector-dev-config.json
+
 # Coverage
 coverage/
 
