@@ -1,6 +1,5 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import Alert from 'cozy-ui/transpiled/react/Alert'
@@ -8,12 +7,14 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import { getBountyAmont } from 'src/components/Goals/BikeGoal/helpers'
 import { useBikeGoalDateContext } from 'src/components/Providers/BikeGoalDateProvider'
+import useSettings from 'src/hooks/useSettings'
 
-const BikeGoalAlertSuccess = ({ setShowAlertSuccess }) => {
+const BikeGoalAlertSuccess = () => {
   const { t } = useI18n()
   const navigate = useNavigate()
   const location = useLocation()
   const { date } = useBikeGoalDateContext()
+  const { save: setShowAlertSuccess } = useSettings('bikeGoal.showAlertSuccess')
 
   const handleConfirm = () => {
     setShowAlertSuccess(false)
@@ -41,10 +42,6 @@ const BikeGoalAlertSuccess = ({ setShowAlertSuccess }) => {
       {t('bikeGoal.alert.success.text')}
     </Alert>
   )
-}
-
-BikeGoalAlertSuccess.propTypes = {
-  setShowAlertSuccess: PropTypes.func.isRequired
 }
 
 export default BikeGoalAlertSuccess

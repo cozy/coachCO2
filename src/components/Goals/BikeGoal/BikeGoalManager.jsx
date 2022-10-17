@@ -3,55 +3,46 @@ import React from 'react'
 import useSettings from 'src/hooks/useSettings'
 import BikeGoalAlertManager from 'src/components/Goals/BikeGoal/BikeGoalAlertManager'
 import BikeGoalSummary from 'src/components/Goals/BikeGoal/BikeGoalSummary'
-import { useAccountContext } from 'src/components/Providers/AccountProvider'
-import SpinnerOrEmptyContent from 'src/components/SpinnerOrEmptyContent'
-import { useTemporaryQueryForBikeGoal } from 'src/components/Goals/useTemporaryQueryForBikeGoal'
 import BikeGoalAlertSuccess from 'src/components/Goals/BikeGoal/BikeGoalAlertSuccess'
-import { isGoalCompleted } from 'src/components/Goals/BikeGoal/helpers'
+
+import Typography from 'cozy-ui/transpiled/react/Typography'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
+
+const style = {
+  divider: {
+    height: '12px',
+    backgroundColor: 'var(--defaultBackgroundColor)'
+  }
+}
 
 const BikeGoalManager = () => {
-  const { account, isAccountLoading } = useAccountContext()
-  const {
-    value: { activated, showAlert = true, showAlertSuccess = true }
-  } = useSettings('bikeGoal')
-  const { save: setShowAlertSuccess } = useSettings('bikeGoal.showAlertSuccess')
+  const { t } = useI18n()
+  const { isMobile } = useBreakpoints()
+  const { value } = useSettings('bikeGoal')
+  const { activated, showAlert = true, showAlertSuccess = true } = value
 
-  // TODO: uncomment this when the request return something
-  // const timeseriesQuery =
-  //   buildOneYearBikeCommuteTimeseriesQueryByDateAndAccountId(
-  //     {
-  //       date: new Date(),
-  //       accountId: account?._id
-  //     },
-  //     Boolean(account)
-  //   )
-
-  // TODO: remove this hooks when the above request will work
-  const { timeseries, isLoadingTimeseriesQuery, isLoadingOrEmpty } =
-    useTemporaryQueryForBikeGoal()
-
-  if (isLoadingOrEmpty) {
-    return (
-      <SpinnerOrEmptyContent
-        account={account}
-        isAccountLoading={isAccountLoading}
-        isQueryLoading={isLoadingTimeseriesQuery}
-        timeseries={timeseries}
-      />
-    )
-  }
-
-  if (showAlert) {
-    return <BikeGoalAlertManager />
-  }
-
-  if (activated) {
+  if (activated || showAlert) {
     return (
       <>
-        {isGoalCompleted(timeseries) && showAlertSuccess && (
-          <BikeGoalAlertSuccess setShowAlertSuccess={setShowAlertSuccess} />
+        <Typography
+          className="u-mb-1-s u-mt-1 u-mb-1-s u-mb-2 u-ml-1"
+          variant="h5"
+        >
+          {t('bikeGoal.goals')}
+        </Typography>
+
+        {showAlert && !activated && <BikeGoalAlertManager />}
+
+        {activated && (
+          <>
+            {showAlertSuccess && <BikeGoalAlertSuccess />}
+            <BikeGoalSummary />
+          </>
         )}
-        <BikeGoalSummary timeseries={timeseries} />
+
+        {isMobile && <Divider style={style.divider} />}
       </>
     )
   }
