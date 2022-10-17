@@ -155,7 +155,7 @@
   },
   "bikeGoal": {
     "title": "Aller au travail à vélo",
-    "goal_progression": "%{days}/%{daysToReach} jours par an",
+    "goal_progression": "%{days}/%{daysToReach} jours \npar an",
     "achievement_certificate": "Attestation de réussite",
     "goals": "Objectifs",
     "about": {
@@ -181,6 +181,10 @@
       "cancel": "Annuler"
     },
     "alert": {
+      "success": {
+        "text": "Félicitations, vous avez atteint l’objectif “Aller travailler à vélo” 🎉",
+        "action": "Bénéficier de mon forfait de %{bountyAmount}€"
+      },
       "title": "Allez au bureau à vélo et recevez %{bountyAmount} !",
       "text": "Dans le cadre du Forfait Mobilité Durable (FMD) mis en place par le gouvernement Français, allez travailler à vélo %{smart_count} jour dans l’année et recevez %{bountyAmount} ! |||| Dans le cadre du Forfait Mobilité Durable (FMD) mis en place par le gouvernement Français, allez travailler à vélo %{smart_count} jours dans l’année et recevez %{bountyAmount} !",
       "actions": {
