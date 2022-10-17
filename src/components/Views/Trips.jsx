@@ -78,12 +78,7 @@ export const Trips = () => {
           go to bikeGoal
         </button>
       )}
-      {flag('coachco2.bikegoal.enabled') && (
-        <>
-          <GoalsList />
-          {isMobile && <Divider style={style.divider} />}
-        </>
-      )}
+      {flag('coachco2.bikegoal.enabled') && <GoalsList />}
       <CO2EmissionsChart />
       <DaccManager />
       {isMobile && <Divider style={style.divider} />}
