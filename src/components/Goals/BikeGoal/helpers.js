@@ -4,6 +4,9 @@ import { countDays } from 'src/lib/timeseries'
 export const getDaysToReach = () =>
   flag('coachco2.bikegoal.settings').daysToReach
 
+export const getBountyAmount = () =>
+  flag('coachco2.bikegoal.settings').bountyAmount
+
 export const isGoalCompleted = timeseries => {
   return countDays(timeseries) >= getDaysToReach()
 }
