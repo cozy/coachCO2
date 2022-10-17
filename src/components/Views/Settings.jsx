@@ -18,6 +18,7 @@ import AppVersionNumber from 'src/components/AppVersionNumber'
 import BikeGoalSwitcher from 'src/components/Goals/BikeGoal/BikeGoalSwitcher'
 import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
 import BikeGoalOnboardedSwitcher from 'src/components/Goals/BikeGoal/BikeGoalOnboardedSwitcher'
+import BikeGoalAlertSuccessSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSuccessSwitcher'
 
 export const Settings = () => {
   const { t } = useI18n()
@@ -48,6 +49,7 @@ export const Settings = () => {
                 <>
                   <BikeGoalAlertSwitcher className="u-mt-1-half-s" />
                   <BikeGoalOnboardedSwitcher className="u-mt-1-half-s" />
+                  <BikeGoalAlertSuccessSwitcher className="u-mt-1-half-s" />
                 </>
               )}
             </>
