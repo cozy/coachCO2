@@ -173,6 +173,13 @@
         "content": "Une fois l’objectif atteint, un email vous sera envoyé avec un certificat à transmettre à votre employeur pour bénéficier de votre forfait  de %{bountyAmount}€ 🎉"
       }
     },
+    "deactivate": {
+      "deactivate": "Désactiver",
+      "title": "Souhaitez-vous vraiment ne plus participer à l’objectif ?",
+      "content": "Vous pourrez toujours choisir d’y participer à nouveau depuis les paramètres de l’application.",
+      "stop_participate": "Ne plus participer",
+      "cancel": "Annuler"
+    },
     "alert": {
       "title": "Allez au bureau à vélo et recevez %{bountyAmount} !",
       "text": "Dans le cadre du Forfait Mobilité Durable (FMD) mis en place par le gouvernement Français, allez travailler à vélo %{smart_count} jour dans l’année et recevez %{bountyAmount} ! |||| Dans le cadre du Forfait Mobilité Durable (FMD) mis en place par le gouvernement Français, allez travailler à vélo %{smart_count} jours dans l’année et recevez %{bountyAmount} !",

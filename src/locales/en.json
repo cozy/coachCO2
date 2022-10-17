@@ -173,6 +173,13 @@
         "content": "Once the goal is reached, an email will be sent to you with a certificate to send to your employer to benefit from your %{bountyAmount}€ package 🎉"
       }
     },
+    "deactivate": {
+      "deactivate": "Deactivate",
+      "title": "Do you really want to stop participating in the goal?",
+      "content": "You can always choose to participate again from the application settings.",
+      "stop_participate": "No longer participating",
+      "cancel": "Cancel"
+    },
     "alert": {
       "title": "Ride your bike to work and receive %{bountyAmount}!",
       "text": "As part of the Sustainable Mobility Package (SMP) set up by the French government, go to work by bike %{smart_count} day a year and receive %{bountyAmount}! |||| As part of the Sustainable Mobility Package (SMP) set up by the French government, go to work by bike %{smart_count} days a year and receive %{bountyAmount}!",
