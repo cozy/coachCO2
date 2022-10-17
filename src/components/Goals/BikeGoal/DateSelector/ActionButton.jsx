@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
@@ -7,7 +7,7 @@ import Icon from 'cozy-ui/transpiled/react/Icon'
 import BottomIcon from 'cozy-ui/transpiled/react/Icons/Bottom'
 import DropdownButton from 'cozy-ui/transpiled/react/DropdownButton'
 
-const ActionButton = ({ label, onClick }) => {
+const ActionButton = forwardRef(({ label, onClick }, ref) => {
   const { isMobile } = useBreakpoints()
 
   if (isMobile)
@@ -19,13 +19,16 @@ const ActionButton = ({ label, onClick }) => {
 
   return (
     <Button
+      ref={ref}
       variant="secondary"
       label={label}
       endIcon={<Icon icon={BottomIcon} size={14} />}
       onClick={onClick}
     />
   )
-}
+})
+
+ActionButton.displayName = 'ActionButton'
 
 ActionButton.propTypes = {
   label: PropTypes.number,

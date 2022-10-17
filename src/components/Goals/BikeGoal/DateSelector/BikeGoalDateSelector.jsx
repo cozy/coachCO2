@@ -3,26 +3,17 @@ import PropTypes from 'prop-types'
 import differenceInCalendarYears from 'date-fns/differenceInCalendarYears'
 import subYears from 'date-fns/subYears'
 
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import ActionMenu, { ActionMenuItem } from 'cozy-ui/transpiled/react/ActionMenu'
 
 import { getEarliestTimeserie } from 'src/lib/timeseries'
 import { useBikeGoalDateContext } from 'src/components/Providers/BikeGoalDateProvider'
 import ActionButton from 'src/components/Goals/BikeGoal/DateSelector/ActionButton'
 
-const createStyles = ({ isMobile }) => ({
-  actions: {
-    right: isMobile ? '1rem' : '13rem'
-  }
-})
-
 const BikeGoalDateSelector = ({ timeseries }) => {
-  const { isMobile } = useBreakpoints()
   const { date, setDate } = useBikeGoalDateContext()
   const actionMenuAnchorRef = useRef()
   const [showMenu, setShowMenu] = useState(false)
 
-  const styles = createStyles({ isMobile })
   const earliestDate = useMemo(
     () => new Date(getEarliestTimeserie(timeseries).startDate),
     [timeseries]
@@ -38,12 +29,9 @@ const BikeGoalDateSelector = ({ timeseries }) => {
   )
 
   return (
-    <div
-      ref={actionMenuAnchorRef}
-      className="u-flex u-flex-justify-end u-pos-absolute u-top-m"
-      style={styles.actions}
-    >
+    <>
       <ActionButton
+        ref={actionMenuAnchorRef}
         label={date.getFullYear()}
         onClick={() => setShowMenu(v => !v)}
       />
@@ -61,7 +49,7 @@ const BikeGoalDateSelector = ({ timeseries }) => {
           ))}
         </ActionMenu>
       )}
-    </div>
+    </>
   )
 }
 
