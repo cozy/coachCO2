@@ -9,8 +9,13 @@ export const getDaysToReach = () => {
   return daysToReach
 }
 
-export const getBountyAmount = () =>
-  flag('coachco2.bikegoal.settings').bountyAmount
+export const getBountyAmont = () => {
+  const bountyAmount = flag('coachco2.bikegoal.settings')?.bountyAmount
+  if (!bountyAmount) {
+    throw new Error('Flag "coachco2.bikegoal.settings" must be used')
+  }
+  return bountyAmount
+}
 
 export const isGoalCompleted = timeseries => {
   return countDays(timeseries) >= getDaysToReach()
