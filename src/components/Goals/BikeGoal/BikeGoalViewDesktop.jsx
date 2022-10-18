@@ -24,7 +24,6 @@ const BikeGoalViewDesktop = ({ timeseries, timeseriesQueryLeft }) => {
       <BikeGoalActions timeseries={timeseries} />
       <BikeGoalChart
         display="flex"
-        justifyContent="end"
         position="absolute"
         top="2rem"
         right="2rem"
