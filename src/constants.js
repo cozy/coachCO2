@@ -13,6 +13,7 @@ export const BUS_MODE = 'BUS'
 // https://github.com/e-mission/e-mission-phone/blob/f3348aef02c80219b56fac892445cd53ba665669/www/js/diary/list.js#L496
 export const HOME_PURPOSE = 'HOME'
 export const WORK_PURPOSE = 'WORK'
+export const COMMUTE_PURPOSE = 'COMMUTE'
 export const SCHOOL_PURPOSE = 'SCHOOL'
 export const SHOPPING_PURPOSE = 'SHOPPING'
 export const MEAL_PURPOSE = 'MEAL'

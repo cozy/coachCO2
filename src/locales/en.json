@@ -33,6 +33,7 @@
     "purposes": {
       "HOME": "Home",
       "WORK": "Work",
+      "COMMUTE": "Going to/from work",
       "SCHOOL": "School",
       "SHOPPING": "Shopping",
       "MEAL": "Meal",
