@@ -10,6 +10,7 @@ import PurposeAnalysis from 'src/components/Views/PurposeAnalysis'
 import Settings from 'src/components/Views/Settings'
 import BikeGoal from 'src/components/Views/BikeGoal'
 import BikeGoalOnboarding from 'src/components/Views/BikeGoalOnboarding'
+import BikeGoalAbout from 'src/components/Views/BikeGoalAbout'
 
 const OutletWrapper = ({ Component }) => (
   <>
@@ -62,7 +63,6 @@ const AppRouter = () => {
             >
               <Route path=":timeserieId" element={<Trip />} />
             </Route>
-
             <Route
               path="bikegoal/onboarding"
               element={<OutletWrapper Component={BikeGoalOnboarding} />}
@@ -100,8 +100,9 @@ const AppRouter = () => {
               />
               <Route
                 path="bikegoal/onboarding"
-                element={<OutletWrapper Component={BikeGoalOnboarding} />}
+                element={<BikeGoalOnboarding />}
               />
+              <Route path="bikegoal/about" element={<BikeGoalAbout />} />
             </>
           )}
         </Routes>
