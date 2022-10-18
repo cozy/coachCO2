@@ -158,6 +158,21 @@
     "goal_progression": "%{days}/%{daysToReach} jours par an",
     "achievement_certificate": "Attestation de réussite",
     "goals": "Objectifs",
+    "about": {
+      "title": "À propos de l’objectif",
+      "intro": {
+        "title": "Introduction",
+        "content": "Afin d’encourager le recours à des modes de transports alternatifs et durables, la mise en œuvre du forfait mobilités durables est entré en vigueur le 10 mai 2020.\n\nAinsi, les collaborateurs qui font le choix d’un mode de transport alternatif et durable pour leur trajet domicile-travail pourront bénéficier d’un forfait de %{bountyAmount}€ par an.\n\nVotre Coach CO2 vous aide à comptabiliser vos trajets domicile-travail à vélo et vous permet de générer l'attestation de réussite à transmettre à votre employeur !"
+      },
+      "how_trips_detected": {
+        "title": "Comment sont détectés mes trajets ?",
+        "content": "Vos trajets domicile-travail à vélo seront automatiquement détectés à partir de vos horaires et de votre vitesse.\n\nSi un trajet n’est pas automatiquement détecté en “travail”, ouvrez le détail du trajet et modifiez le motif du déplacement en “travail”.\n\nSi un trajet n’est pas automatiquement détecté en “vélo”, ouvrez le détail du trajet et modifiez le mode de transport en “vélo”."
+      },
+      "once_goal_reach": {
+        "title": "Que faire une fois l’objectif atteint",
+        "content": "Une fois l’objectif atteint, un email vous sera envoyé avec un certificat à transmettre à votre employeur pour bénéficier de votre forfait  de %{bountyAmount}€ 🎉"
+      }
+    },
     "alert": {
       "title": "Allez au bureau à vélo et recevez %{bountyAmount} !",
       "text": "Dans le cadre du Forfait Mobilité Durable (FMD) mis en place par le gouvernement Français, allez travailler à vélo %{smart_count} jour dans l’année et recevez %{bountyAmount} ! |||| Dans le cadre du Forfait Mobilité Durable (FMD) mis en place par le gouvernement Français, allez travailler à vélo %{smart_count} jours dans l’année et recevez %{bountyAmount} !",
