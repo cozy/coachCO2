@@ -10,7 +10,6 @@ import UnknownIcon from 'cozy-ui/transpiled/react/Icons/Unknow'
 // purpose icons
 import CompanyIcon from 'cozy-ui/transpiled/react/Icons/Company'
 import FitnessIcon from 'cozy-ui/transpiled/react/Icons/Fitness'
-import HomeIcon from 'cozy-ui/transpiled/react/Icons/Home'
 import MountainIcon from 'cozy-ui/transpiled/react/Icons/Mountain'
 import MovementIcon from 'cozy-ui/transpiled/react/Icons/Movement'
 import PeopleIcon from 'cozy-ui/transpiled/react/Icons/People'
@@ -28,8 +27,7 @@ import {
   TRAIN_MODE,
   WALKING_MODE,
   UNKNOWN_MODE,
-  HOME_PURPOSE,
-  WORK_PURPOSE,
+  COMMUTE_PURPOSE,
   SCHOOL_PURPOSE,
   SHOPPING_PURPOSE,
   MEAL_PURPOSE,
@@ -88,10 +86,8 @@ export const modeToColor = (mode = UNKNOWN_MODE) => {
 
   return colors[mode]
 }
-
 export const purposes = [
-  HOME_PURPOSE,
-  WORK_PURPOSE,
+  COMMUTE_PURPOSE,
   SCHOOL_PURPOSE,
   SHOPPING_PURPOSE,
   MEAL_PURPOSE,
@@ -104,9 +100,7 @@ export const purposes = [
 
 export const pickPurposeIcon = purpose => {
   switch (purpose) {
-    case HOME_PURPOSE:
-      return HomeIcon
-    case WORK_PURPOSE:
+    case COMMUTE_PURPOSE:
       return CompanyIcon
     case SCHOOL_PURPOSE:
       return SchoolIcon
@@ -131,8 +125,7 @@ export const pickPurposeIcon = purpose => {
 
 export const purposeToColor = (purpose = OTHER_PURPOSE) => {
   const colors = {
-    [HOME_PURPOSE]: '#F1B61E',
-    [WORK_PURPOSE]: '#BA5AE8',
+    [COMMUTE_PURPOSE]: '#BA5AE8',
     [SCHOOL_PURPOSE]: '#8978FF',
     [SHOPPING_PURPOSE]: '#FF7B5E',
     [MEAL_PURPOSE]: '#15CACD',

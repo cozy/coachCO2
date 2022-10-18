@@ -18,7 +18,12 @@ import {
   getManualPurpose,
   getAutomaticPurpose
 } from 'src/lib/trips'
-import { formatDistance, formatCO2, formatCalories } from 'src/lib/helpers'
+import {
+  formatDistance,
+  formatCO2,
+  formatCalories,
+  makeCommutePurpose
+} from 'src/lib/helpers'
 import { modes, purposes } from 'src/components/helpers'
 import { UNKNOWN_MODE, OTHER_PURPOSE } from 'src/constants'
 
@@ -105,7 +110,9 @@ export const computeAggregatedTimeseries = timeseries => {
       serie,
       'features[1].properties.display_name'
     )
-    const purpose = getManualPurpose(serie) || getAutomaticPurpose(serie)
+    const purposeWithCommute = makeCommutePurpose(
+      getManualPurpose(serie) || getAutomaticPurpose(serie)
+    )
 
     return {
       ...timeserie,
@@ -116,7 +123,7 @@ export const computeAggregatedTimeseries = timeseries => {
         totalCalories: totalSerieCalories,
         startPlaceDisplayName,
         endPlaceDisplayName,
-        purpose,
+        purpose: purposeWithCommute,
         modes,
         sections: computedSections
       }
@@ -226,10 +233,15 @@ export const sortTimeseriesByCO2GroupedByMode = aggregatedTimeseries => {
 // Purpose usages
 
 export const getTimeseriePurpose = timeserie => {
-  const purpose = get(timeserie, 'aggregation.purpose', '').toUpperCase()
-  const isSupportedPurpose = purposes.includes(purpose)
+  const originalPurpose = get(
+    timeserie,
+    'aggregation.purpose',
+    ''
+  ).toUpperCase()
+  const purposeWithCommute = makeCommutePurpose(originalPurpose)
+  const isSupportedPurpose = purposes.includes(purposeWithCommute)
 
-  return (isSupportedPurpose && purpose) || OTHER_PURPOSE
+  return (isSupportedPurpose && purposeWithCommute) || OTHER_PURPOSE
 }
 
 export const getTimeseriePurposeOld = timeserie => {
