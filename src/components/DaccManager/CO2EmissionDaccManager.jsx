@@ -70,6 +70,7 @@ const CO2EmissionDaccManager = () => {
       {showPermissionsDialog && (
         <DaccManager
           onClose={() => setShowPermissionsDialog(false)}
+          onRefuse={() => setShowPermissionsDialog(false)}
           onAccept={() => {
             handleOnAccept()
             setShowPermissionsDialog(false)

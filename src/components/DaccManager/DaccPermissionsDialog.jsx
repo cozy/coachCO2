@@ -19,6 +19,7 @@ import ExportIcon from 'src/assets/icons/icon-export.svg'
 const DaccPermissionsDialog = ({
   open,
   onClose,
+  onRefuse,
   onAccept,
   showDaccReasonsDialog
 }) => {
@@ -89,7 +90,7 @@ const DaccPermissionsDialog = ({
           <>
             <Button
               label={t('dacc.permissionsDialog.refuse')}
-              onClick={onClose}
+              onClick={onRefuse}
             />
             <Button
               label={t('dacc.permissionsDialog.accept')}
