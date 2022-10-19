@@ -6,13 +6,11 @@ import { SETTINGS_DOCTYPE } from 'src/doctypes'
 import { buildSettingsQuery } from 'src/queries/queries'
 import CO2EmissionDaccBanner from 'src/components/DaccBanner/CO2EmissionDaccBanner'
 import CO2EmissionDaccCompareDialog from 'src/components/DaccManager/CO2EmissionDaccCompareDialog'
-import DaccPermissionsDialog from 'src/components/DaccManager/DaccPermissionsDialog'
-import DaccReasonsDialog from 'src/components/DaccManager/DaccReasonsDialog'
+import DaccManager from 'src/components/DaccManager/DaccManager'
 
 const CO2EmissionDaccManager = () => {
   const [showCompareDialog, setShowCompareDialog] = useState(false)
   const [showPermissionsDialog, setShowPermissionsDialog] = useState(false)
-  const [showReasonsDialog, setShowReasonsDialog] = useState(false)
   const client = useClient()
   const settingsQuery = buildSettingsQuery()
   const { data: settings, ...settingsQueryLeft } = useQuery(
@@ -69,19 +67,15 @@ const CO2EmissionDaccManager = () => {
           setShowPermissionsDialog(true)
         }}
       />
-      <DaccPermissionsDialog
-        open={showPermissionsDialog}
-        onClose={() => setShowPermissionsDialog(false)}
-        onAccept={() => {
-          handleOnAccept()
-          setShowPermissionsDialog(false)
-        }}
-        showDaccReasonsDialog={() => setShowReasonsDialog(true)}
-      />
-      <DaccReasonsDialog
-        open={showReasonsDialog}
-        onClose={() => setShowReasonsDialog(false)}
-      />
+      {showPermissionsDialog && (
+        <DaccManager
+          onClose={() => setShowPermissionsDialog(false)}
+          onAccept={() => {
+            handleOnAccept()
+            setShowPermissionsDialog(false)
+          }}
+        />
+      )}
     </>
   )
 }
