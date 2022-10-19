@@ -1,20 +1,36 @@
-import React from 'react'
+import React, { useReducer } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import Button from 'cozy-ui/transpiled/react/Buttons'
+import Spinner from 'cozy-ui/transpiled/react/Spinner'
+
+import useSettings from 'src/hooks/useSettings'
 
 const BikeGoalOnboarding = () => {
   const { t } = useI18n()
   const location = useLocation()
   const navigate = useNavigate()
+  const [isBusy, toggleBusy] = useReducer(prev => !prev, false)
+  const {
+    isLoading,
+    value: bikeGoal = {},
+    save: setBikeGoal
+  } = useSettings('bikeGoal')
 
   const handleBack = () => {
     navigate(location.state.background)
   }
 
-  const handleForward = () => {
+  const handleForward = async () => {
+    toggleBusy()
+    await setBikeGoal({
+      ...bikeGoal,
+      onboarded: true,
+      activated: true,
+      showAlert: false
+    })
     navigate('/bikegoal')
   }
 
@@ -25,11 +41,22 @@ const BikeGoalOnboarding = () => {
       title={t('bikeGoal.onboarding.title')}
       content={
         <>
-          <div>⚠️ under construction ⚠️</div>
-          <Button
-            onClick={handleForward}
-            label={t('bikeGoal.onboarding.actions.finish')}
-          />
+          {isLoading && (
+            <Spinner
+              size="xxlarge"
+              className="u-flex u-flex-justify-center u-m-1"
+            />
+          )}
+          {!isLoading && (
+            <>
+              <div>⚠️ under construction ⚠️</div>
+              <Button
+                onClick={handleForward}
+                label={t('bikeGoal.onboarding.actions.finish')}
+                busy={isBusy}
+              />
+            </>
+          )}
         </>
       }
       onClose={handleBack}
