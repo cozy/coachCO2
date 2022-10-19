@@ -8,7 +8,11 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import DaccCompareSVG from 'src/assets/icons/dacc-compare.svg'
 
-const DaccDialogsManager = ({ open, onClose, showDaccPermissionsDialog }) => {
+const CO2EmissionDaccCompareDialog = ({
+  open,
+  onClose,
+  showDaccPermissionsDialog
+}) => {
   const { t } = useI18n()
 
   return (
@@ -42,4 +46,4 @@ const DaccDialogsManager = ({ open, onClose, showDaccPermissionsDialog }) => {
   )
 }
 
-export default DaccDialogsManager
+export default CO2EmissionDaccCompareDialog

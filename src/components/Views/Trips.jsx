@@ -17,7 +17,7 @@ import {
 } from 'src/components/Providers/AccountProvider'
 import SpinnerOrEmptyContent from 'src/components/SpinnerOrEmptyContent'
 import CO2EmissionsChart from 'src/components/CO2EmissionsChart/CO2EmissionsChart'
-import DaccManager from 'src/components/DaccManager/DaccManager'
+import CO2EmissionDaccManager from 'src/components/DaccManager/CO2EmissionDaccManager'
 import BikeGoalManager from 'src/components/Goals/BikeGoal/BikeGoalManager'
 
 const style = {
@@ -80,7 +80,7 @@ export const Trips = () => {
       )}
       {flag('coachco2.bikegoal.enabled') && <BikeGoalManager />}
       <CO2EmissionsChart />
-      <DaccManager />
+      <CO2EmissionDaccManager />
       {isMobile && <Divider style={style.divider} />}
       <TripsList timeseries={timeseries} />
       {timeseriesQueryLeft.hasMore && (

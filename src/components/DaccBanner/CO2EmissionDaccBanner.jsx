@@ -6,7 +6,7 @@ import Icon from 'cozy-ui/transpiled/react/Icon'
 import LightbulbIcon from 'cozy-ui/transpiled/react/Icons/Lightbulb'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
-const DaccBanner = ({ onDiscard, onAccept }) => {
+const CO2EmissionDaccBanner = ({ onDiscard, onAccept }) => {
   const { t } = useI18n()
 
   return (
@@ -41,4 +41,4 @@ const DaccBanner = ({ onDiscard, onAccept }) => {
   )
 }
 
-export default DaccBanner
+export default CO2EmissionDaccBanner

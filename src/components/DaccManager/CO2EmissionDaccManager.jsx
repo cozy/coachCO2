@@ -4,12 +4,12 @@ import { isQueryLoading, useClient, useQuery } from 'cozy-client'
 
 import { SETTINGS_DOCTYPE } from 'src/doctypes'
 import { buildSettingsQuery } from 'src/queries/queries'
-import DaccBanner from 'src/components/DaccBanner/DaccBanner'
-import DaccCompareDialog from 'src/components/DaccManager/DaccCompareDialog'
+import CO2EmissionDaccBanner from 'src/components/DaccBanner/CO2EmissionDaccBanner'
+import CO2EmissionDaccCompareDialog from 'src/components/DaccManager/CO2EmissionDaccCompareDialog'
 import DaccPermissionsDialog from 'src/components/DaccManager/DaccPermissionsDialog'
 import DaccReasonsDialog from 'src/components/DaccManager/DaccReasonsDialog'
 
-const DaccManager = () => {
+const CO2EmissionDaccManager = () => {
   const [showCompareDialog, setShowCompareDialog] = useState(false)
   const [showPermissionsDialog, setShowPermissionsDialog] = useState(false)
   const [showReasonsDialog, setShowReasonsDialog] = useState(false)
@@ -56,12 +56,12 @@ const DaccManager = () => {
   return (
     <>
       {showAlert && !sendToDacc && (
-        <DaccBanner
+        <CO2EmissionDaccBanner
           onDiscard={handleOnDiscard}
           onAccept={() => setShowCompareDialog(true)}
         />
       )}
-      <DaccCompareDialog
+      <CO2EmissionDaccCompareDialog
         open={showCompareDialog}
         onClose={() => setShowCompareDialog(false)}
         showDaccPermissionsDialog={() => {
@@ -86,4 +86,4 @@ const DaccManager = () => {
   )
 }
 
-export default DaccManager
+export default CO2EmissionDaccManager
