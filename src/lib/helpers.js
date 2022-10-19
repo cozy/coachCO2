@@ -1,4 +1,5 @@
 import humanizeDuration from 'humanize-duration'
+import { COMMUTE_PURPOSE, HOME_PURPOSE, WORK_PURPOSE } from 'src/constants'
 
 export const formatDistance = distance => {
   let unit = 'm'
@@ -76,4 +77,11 @@ export const averageSpeedKmH = speeds => {
   const avgSpeed = speeds.reduce((a, b) => a + b, 0) / speeds.length
   // The speed is given in m/s
   return avgSpeed * 3.6
+}
+
+export const makeCommutePurpose = purpose => {
+  if ([HOME_PURPOSE, WORK_PURPOSE].includes(purpose)) {
+    return COMMUTE_PURPOSE
+  }
+  return purpose
 }

@@ -15,7 +15,14 @@ import {
 } from 'test/mockTrip'
 
 import { purposes } from 'src/components/helpers'
-import { UNKNOWN_MODE } from 'src/constants'
+import {
+  COMMUTE_PURPOSE,
+  HOME_PURPOSE,
+  OTHER_PURPOSE,
+  SHOPPING_PURPOSE,
+  UNKNOWN_MODE,
+  WORK_PURPOSE
+} from 'src/constants'
 
 import {
   transformSerieToTrip,
@@ -423,11 +430,7 @@ describe('Aggregation', () => {
         makeTimeseriesAndTotalCO2ByPurposes(aggregatedTimeseries)
 
       expect(timeseriesSortedByPurposes).toEqual({
-        HOME: {
-          timeseries: expect.any(Array),
-          totalCO2: expect.any(Number)
-        },
-        WORK: {
+        COMMUTE: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
@@ -474,15 +477,15 @@ describe('Aggregation', () => {
         sortTimeseriesByCO2GroupedByPurpose(aggregatedTimeseries)
 
       expect(timeseriesSortedByCO2GroupedByPurpose).toEqual({
+        COMMUTE: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
         ENTERTAINMENT: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
         EXERCISE: {
-          timeseries: expect.any(Array),
-          totalCO2: expect.any(Number)
-        },
-        HOME: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
@@ -509,10 +512,6 @@ describe('Aggregation', () => {
         SHOPPING: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
-        },
-        WORK: {
-          timeseries: expect.any(Array),
-          totalCO2: expect.any(Number)
         }
       })
     })
@@ -520,43 +519,27 @@ describe('Aggregation', () => {
 })
 
 describe('getTimeseriePurpose', () => {
-  it('should return the purpose in upper case', () => {
-    const result = getTimeseriePurpose({
-      aggregation: { purpose: 'shopping' }
-    })
-
-    expect(result).toBe('SHOPPING')
-  })
-
-  it('should return the purpose', () => {
-    const result = getTimeseriePurpose({
-      aggregation: { purpose: 'SHOPPING' }
-    })
-
-    expect(result).toBe('SHOPPING')
-  })
-
-  it('should return other purpose when undefined', () => {
-    const result = getTimeseriePurpose({
-      aggregation: { purpose: undefined }
-    })
-
-    expect(result).toBe('OTHER_PURPOSE')
-  })
-
-  it('should return other purpose when not supported', () => {
-    const result = getTimeseriePurpose({
-      aggregation: { purpose: 'NOT_SUPPORTED_PURPOSE' }
-    })
-    expect(result).toBe('OTHER_PURPOSE')
-  })
-
-  it('should return other purpose when empty string', () => {
-    const result = getTimeseriePurpose({
-      aggregation: { purpose: '' }
-    })
-    expect(result).toBe('OTHER_PURPOSE')
-  })
+  it.each`
+    purpose                    | result
+    ${'shopping'}              | ${SHOPPING_PURPOSE}
+    ${SHOPPING_PURPOSE}        | ${SHOPPING_PURPOSE}
+    ${HOME_PURPOSE}            | ${COMMUTE_PURPOSE}
+    ${WORK_PURPOSE}            | ${COMMUTE_PURPOSE}
+    ${COMMUTE_PURPOSE}         | ${COMMUTE_PURPOSE}
+    ${undefined}               | ${OTHER_PURPOSE}
+    ${'NOT_SUPPORTED_PURPOSE'} | ${OTHER_PURPOSE}
+    ${"''"}                    | ${OTHER_PURPOSE}
+    ${OTHER_PURPOSE}           | ${OTHER_PURPOSE}
+  `(
+    `should return $result purpose with $purpose param`,
+    ({ purpose, result }) => {
+      expect(
+        getTimeseriePurpose({
+          aggregation: { purpose }
+        })
+      ).toBe(result)
+    }
+  )
 })
 
 describe('computeMonthsAndCO2s', () => {

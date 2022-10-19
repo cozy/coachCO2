@@ -33,6 +33,7 @@
     "purposes": {
       "HOME": "Domicile",
       "WORK": "Travail",
+      "COMMUTE": "Aller/Retour au travail",
       "SCHOOL": "École",
       "SHOPPING": "Achats",
       "MEAL": "Repas",
