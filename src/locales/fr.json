@@ -198,6 +198,12 @@
       "showAlerter": "Afficher l'alerter de l'objectif vélo",
       "hideOnboarding": "Masquer l'embarquement d'objectif vélo",
       "showAlerterSuccess": "Afficher l'alerte de succès de l'objectif vélo"
+    },
+    "onboarding": {
+      "title": "Forfait \"mobilités durables\"",
+      "actions": {
+        "finish": "Terminer"
+      }
     }
   }
 }
