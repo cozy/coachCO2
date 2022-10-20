@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import Button from 'cozy-ui/transpiled/react/Buttons'
@@ -102,6 +103,15 @@ const DaccPermissionsDialog = ({
       />
     </CozyTheme>
   )
+}
+
+DaccPermissionsDialog.propTypes = {
+  sharedDataLabel: PropTypes.string.isRequired,
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onRefuse: PropTypes.func.isRequired,
+  onAccept: PropTypes.func.isRequired,
+  showDaccReasonsDialog: PropTypes.func.isRequired
 }
 
 export default DaccPermissionsDialog

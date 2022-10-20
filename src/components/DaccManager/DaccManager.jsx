@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
 import DaccPermissionsDialog from 'src/components/DaccManager/DaccPermissionsDialog'
 import DaccReasonsDialog from 'src/components/DaccManager/DaccReasonsDialog'
@@ -21,6 +22,17 @@ const DaccManager = ({ onClose, onRefuse, onAccept, componentProps }) => {
       )}
     </>
   )
+}
+
+DaccManager.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onRefuse: PropTypes.func.isRequired,
+  onAccept: PropTypes.func.isRequired,
+  componentProps: PropTypes.shape({
+    DaccPermissionsDialog: PropTypes.shape({
+      sharedDataLabel: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
 }
 
 export default DaccManager

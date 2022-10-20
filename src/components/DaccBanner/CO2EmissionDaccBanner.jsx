@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Banner from 'cozy-ui/transpiled/react/Banner'
 import Button from 'cozy-ui/transpiled/react/Buttons'
@@ -39,6 +40,11 @@ const CO2EmissionDaccBanner = ({ onDiscard, onAccept }) => {
       disableIconStyles
     />
   )
+}
+
+CO2EmissionDaccBanner.propTypes = {
+  onDiscard: PropTypes.func.isRequired,
+  onAccept: PropTypes.func.isRequired
 }
 
 export default CO2EmissionDaccBanner

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import Button from 'cozy-ui/transpiled/react/Buttons'
@@ -44,6 +45,12 @@ const CO2EmissionDaccCompareDialog = ({
       }
     />
   )
+}
+
+CO2EmissionDaccCompareDialog.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  showDaccPermissionsDialog: PropTypes.func.isRequired
 }
 
 export default CO2EmissionDaccCompareDialog

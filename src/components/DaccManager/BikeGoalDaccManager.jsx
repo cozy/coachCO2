@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
@@ -21,6 +22,12 @@ const BikeGoalDaccManager = ({ onClose, onRefuse, onAccept }) => {
       }}
     />
   )
+}
+
+BikeGoalDaccManager.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onRefuse: PropTypes.func.isRequired,
+  onAccept: PropTypes.func.isRequired
 }
 
 export default BikeGoalDaccManager

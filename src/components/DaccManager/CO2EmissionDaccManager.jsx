@@ -73,4 +73,6 @@ const CO2EmissionDaccManager = () => {
   )
 }
 
+CO2EmissionDaccManager.propTypes = {}
+
 export default CO2EmissionDaccManager
