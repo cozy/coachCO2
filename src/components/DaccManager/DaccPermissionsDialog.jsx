@@ -17,6 +17,7 @@ import AnonymousIcon from 'src/assets/icons/icon-anonymous.svg'
 import ExportIcon from 'src/assets/icons/icon-export.svg'
 
 const DaccPermissionsDialog = ({
+  sharedDataLabel,
   open,
   onClose,
   onRefuse,
@@ -61,7 +62,7 @@ const DaccPermissionsDialog = ({
                     <ListItemText
                       primary={
                         <Typography variant="body2">
-                          {t('dacc.permissionsDialog.anonymized_emissions')}
+                          {sharedDataLabel}
                         </Typography>
                       }
                     />

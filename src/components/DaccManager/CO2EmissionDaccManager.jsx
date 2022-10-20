@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { isQueryLoading, useClient, useQuery } from 'cozy-client'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import { SETTINGS_DOCTYPE } from 'src/doctypes'
 import { buildSettingsQuery } from 'src/queries/queries'
@@ -9,6 +10,7 @@ import CO2EmissionDaccCompareDialog from 'src/components/DaccManager/CO2Emission
 import DaccManager from 'src/components/DaccManager/DaccManager'
 
 const CO2EmissionDaccManager = () => {
+  const { t } = useI18n()
   const [showCompareDialog, setShowCompareDialog] = useState(false)
   const [showPermissionsDialog, setShowPermissionsDialog] = useState(false)
   const client = useClient()
@@ -74,6 +76,11 @@ const CO2EmissionDaccManager = () => {
           onAccept={() => {
             handleOnAccept()
             setShowPermissionsDialog(false)
+          }}
+          componentProps={{
+            DaccPermissionsDialog: {
+              sharedDataLabel: t('dacc.permissionsDialog.anonymized_emissions')
+            }
           }}
         />
       )}
