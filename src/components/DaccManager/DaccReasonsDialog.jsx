@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -14,6 +15,11 @@ const DaccReasonsDialog = ({ open, onClose }) => {
       content={t('dacc.reasonsDialog.content')}
     />
   )
+}
+
+DaccReasonsDialog.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired
 }
 
 export default DaccReasonsDialog

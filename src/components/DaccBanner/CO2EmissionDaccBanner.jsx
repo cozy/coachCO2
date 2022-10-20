@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Banner from 'cozy-ui/transpiled/react/Banner'
 import Button from 'cozy-ui/transpiled/react/Buttons'
@@ -6,7 +7,7 @@ import Icon from 'cozy-ui/transpiled/react/Icon'
 import LightbulbIcon from 'cozy-ui/transpiled/react/Icons/Lightbulb'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
-const DaccBanner = ({ onDiscard, onAccept }) => {
+const CO2EmissionDaccBanner = ({ onDiscard, onAccept }) => {
   const { t } = useI18n()
 
   return (
@@ -41,4 +42,9 @@ const DaccBanner = ({ onDiscard, onAccept }) => {
   )
 }
 
-export default DaccBanner
+CO2EmissionDaccBanner.propTypes = {
+  onDiscard: PropTypes.func.isRequired,
+  onAccept: PropTypes.func.isRequired
+}
+
+export default CO2EmissionDaccBanner

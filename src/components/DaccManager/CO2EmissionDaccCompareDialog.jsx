@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import Button from 'cozy-ui/transpiled/react/Buttons'
@@ -8,7 +9,11 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import DaccCompareSVG from 'src/assets/icons/dacc-compare.svg'
 
-const DaccDialogsManager = ({ open, onClose, showDaccPermissionsDialog }) => {
+const CO2EmissionDaccCompareDialog = ({
+  open,
+  onClose,
+  showDaccPermissionsDialog
+}) => {
   const { t } = useI18n()
 
   return (
@@ -42,4 +47,10 @@ const DaccDialogsManager = ({ open, onClose, showDaccPermissionsDialog }) => {
   )
 }
 
-export default DaccDialogsManager
+CO2EmissionDaccCompareDialog.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  showDaccPermissionsDialog: PropTypes.func.isRequired
+}
+
+export default CO2EmissionDaccCompareDialog

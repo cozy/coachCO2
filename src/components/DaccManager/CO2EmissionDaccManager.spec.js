@@ -4,7 +4,7 @@ import { render, fireEvent } from '@testing-library/react'
 import { useQuery } from 'cozy-client'
 
 import AppLike from 'test/AppLike'
-import DaccManager from 'src/components/DaccManager/DaccManager'
+import CO2EmissionDaccManager from 'src/components/DaccManager/CO2EmissionDaccManager'
 
 jest.mock('cozy-client/dist/hooks/useQuery', () => jest.fn())
 
@@ -22,7 +22,7 @@ const setup = ({
 
   return render(
     <AppLike>
-      <DaccManager />
+      <CO2EmissionDaccManager />
     </AppLike>
   )
 }

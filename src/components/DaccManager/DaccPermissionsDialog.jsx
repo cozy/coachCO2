@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import Button from 'cozy-ui/transpiled/react/Buttons'
@@ -17,8 +18,10 @@ import AnonymousIcon from 'src/assets/icons/icon-anonymous.svg'
 import ExportIcon from 'src/assets/icons/icon-export.svg'
 
 const DaccPermissionsDialog = ({
+  sharedDataLabel,
   open,
   onClose,
+  onRefuse,
   onAccept,
   showDaccReasonsDialog
 }) => {
@@ -60,7 +63,7 @@ const DaccPermissionsDialog = ({
                     <ListItemText
                       primary={
                         <Typography variant="body2">
-                          {t('dacc.permissionsDialog.anonymized_emissions')}
+                          {sharedDataLabel}
                         </Typography>
                       }
                     />
@@ -89,7 +92,7 @@ const DaccPermissionsDialog = ({
           <>
             <Button
               label={t('dacc.permissionsDialog.refuse')}
-              onClick={onClose}
+              onClick={onRefuse}
             />
             <Button
               label={t('dacc.permissionsDialog.accept')}
@@ -100,6 +103,15 @@ const DaccPermissionsDialog = ({
       />
     </CozyTheme>
   )
+}
+
+DaccPermissionsDialog.propTypes = {
+  sharedDataLabel: PropTypes.string.isRequired,
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onRefuse: PropTypes.func.isRequired,
+  onAccept: PropTypes.func.isRequired,
+  showDaccReasonsDialog: PropTypes.func.isRequired
 }
 
 export default DaccPermissionsDialog
