@@ -205,6 +205,14 @@
       "actions": {
         "finish": "Terminer"
       }
+    },
+    "certificateGeneration": {
+      "title": "Félicitations, vous avez atteint l’objectif “Aller travailler à vélo”",
+      "content": "Une attestation a été générée pour attester de votre succès pour l’année %{year}. Transférez-la dès maintenant par email à votre employeur pour recevoir %{bountyAmount}€ !",
+      "actions": {
+        "show": "Certificat - Aller travailler à vélo.pdf",
+        "generate": "Générer une nouvelle attestation"
+      }
     }
   }
 }

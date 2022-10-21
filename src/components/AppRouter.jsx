@@ -11,7 +11,7 @@ import Settings from 'src/components/Views/Settings'
 import BikeGoal from 'src/components/Views/BikeGoal'
 import BikeGoalOnboarding from 'src/components/Views/BikeGoalOnboarding'
 import BikeGoalAbout from 'src/components/Views/BikeGoalAbout'
-import CertificateGeneration from 'src/components/Goals/BikeGoal/CertificateGeneration'
+import CertificateGeneration from 'src/components/Goals/BikeGoal/Certificate/CertificateGeneration'
 
 const OutletWrapper = ({ Component }) => (
   <>

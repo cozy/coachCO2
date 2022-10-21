@@ -1,4 +1,5 @@
 import React from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -18,6 +19,15 @@ import {
 const BikeGoalAchievement = ({ className, timeseries }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
+  const { year } = useParams()
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const handleClickAchievement = () => {
+    navigate(`/bikegoal/certificate/generate/${year}`, {
+      state: { background: location }
+    })
+  }
 
   return (
     <div className={className}>
@@ -40,9 +50,7 @@ const BikeGoalAchievement = ({ className, timeseries }) => {
             label={t('bikeGoal.achievement_certificate')}
             color="success"
             clickable
-            onClick={() => {
-              /* TODO */
-            }}
+            onClick={handleClickAchievement}
           />
         </div>
       )}

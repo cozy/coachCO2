@@ -26,7 +26,7 @@ const BikeGoalChart = ({ timeseries, size, ...props }) => {
 
 BikeGoalChart.propTypes = {
   className: PropTypes.string,
-  timeseries: PropTypes.arrayOf(PropTypes.object).isRequired
+  timeseries: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default BikeGoalChart

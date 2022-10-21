@@ -1,0 +1,23 @@
+@require 'settings/breakpoints.styl'
+
+.CertificateGeneration-root
+    background-color var(--paperBackgroundColor)
+    display flex
+    flex-direction column
+    text-align center
+    padding 2rem
+    border 1px solid var(--borderMainColor)
+    border-radius 1rem
+    position absolute
+    top 50%
+    left 1rem
+    right 1rem
+    transform translate(0, -50%)
+
+    +gt-mobile()
+        position relative
+        top 0
+        left 0
+        right 0
+        transform none
+        margin-top 6rem
