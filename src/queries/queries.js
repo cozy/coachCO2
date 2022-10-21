@@ -322,7 +322,7 @@ export const buildSettingsQuery = () => ({
   definition: Q(SETTINGS_DOCTYPE),
   options: {
     as: SETTINGS_DOCTYPE,
-    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(neverReload)
   }
 })
 
