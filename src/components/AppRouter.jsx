@@ -65,10 +65,6 @@ const AppRouter = () => {
             >
               <Route path=":timeserieId" element={<Trip />} />
             </Route>
-            <Route
-              path="bikegoal/onboarding"
-              element={<OutletWrapper Component={BikeGoalOnboarding} />}
-            />
           </>
         )}
 
