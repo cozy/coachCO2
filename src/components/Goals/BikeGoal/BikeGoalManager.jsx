@@ -20,8 +20,12 @@ const style = {
 const BikeGoalManager = () => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
-  const { value } = useSettings('bikeGoal')
-  const { activated, showAlert = true, showAlertSuccess = true } = value
+  const { value: bikeGoal = {} } = useSettings('bikeGoal')
+  const {
+    activated = false,
+    showAlert = true,
+    showAlertSuccess = true
+  } = bikeGoal
 
   if (activated || showAlert) {
     return (
