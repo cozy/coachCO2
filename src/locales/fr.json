@@ -194,6 +194,20 @@
         "discard": "non, merci"
       }
     },
+    "edit": {
+      "modify": "Modifier",
+      "title": "Modifier l'objectif",
+      "firstname": "Prénom",
+      "lastname": "Nom",
+      "workTime": "Temps de travail",
+      "workTime_full": "Temps plein",
+      "workTime_part": "Mi-temps ou temps partiel",
+      "workTimePercentage": "Pourcentage du temps de travail",
+      "compare_progress": "Comparer ma progression avec celle de mon entreprise",
+      "cancel": "Annuler",
+      "submit": "Ok",
+      "required": "Ce champ est obligatoire"
+    },
     "settings": {
       "participation": "Participer à l'objectif “Aller au travail à vélo”",
       "showAlerter": "Afficher l'alerter de l'objectif vélo",
