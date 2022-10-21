@@ -13,7 +13,7 @@ import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import FileTypePdfIcon from 'cozy-ui/transpiled/react/Icons/FileTypePdf'
 
 import BikeGoalChart from 'src/components/Goals/BikeGoal/BikeGoalChart'
-import { getBountyAmont } from 'src/components/Goals/BikeGoal/helpers'
+import { getBountyAmount } from 'src/components/Goals/BikeGoal/helpers'
 import { useBikeGoalDateContext } from 'src/components/Providers/BikeGoalDateProvider'
 
 import styles from 'src/components/Goals/BikeGoal/Certificate/CertificateGeneration.styl'
@@ -31,7 +31,7 @@ const CertificateGenerationContent = () => {
       </Typography>
       <Typography variant="body2" className="u-mv-1">
         {t('bikeGoal.certificateGeneration.content', {
-          bountyAmount: getBountyAmont(),
+          bountyAmount: getBountyAmount(),
           year: date.getFullYear()
         })}
       </Typography>
