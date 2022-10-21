@@ -7,7 +7,7 @@ import Alert from 'cozy-ui/transpiled/react/Alert'
 import AlertTitle from 'cozy-ui/transpiled/react/AlertTitle'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import LightbulbIcon from 'cozy-ui/transpiled/react/Icons/Lightbulb'
-import { getBountyAmont, getDaysToReach } from './helpers'
+import { getBountyAmount, getDaysToReach } from './helpers'
 
 const BikeGoalAlert = ({ onDiscard, onParticipate }) => {
   const { t } = useI18n()
@@ -33,10 +33,10 @@ const BikeGoalAlert = ({ onDiscard, onParticipate }) => {
       }
     >
       <AlertTitle>
-        {t('bikeGoal.alert.title', { bountyAmount: getBountyAmont() })}
+        {t('bikeGoal.alert.title', { bountyAmount: getBountyAmount() })}
       </AlertTitle>
       {t('bikeGoal.alert.text', {
-        bountyAmount: getBountyAmont(),
+        bountyAmount: getBountyAmount(),
         smart_count: getDaysToReach()
       })}
     </Alert>

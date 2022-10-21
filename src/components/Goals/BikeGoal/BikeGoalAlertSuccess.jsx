@@ -5,7 +5,7 @@ import Button from 'cozy-ui/transpiled/react/Buttons'
 import Alert from 'cozy-ui/transpiled/react/Alert'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
-import { getBountyAmont } from 'src/components/Goals/BikeGoal/helpers'
+import { getBountyAmount } from 'src/components/Goals/BikeGoal/helpers'
 import { useBikeGoalDateContext } from 'src/components/Providers/BikeGoalDateProvider'
 import useSettings from 'src/hooks/useSettings'
 
@@ -33,7 +33,7 @@ const BikeGoalAlertSuccess = () => {
           variant="text"
           color="success"
           label={t('bikeGoal.alert.success.action', {
-            bountyAmount: getBountyAmont()
+            bountyAmount: getBountyAmount()
           })}
           onClick={handleConfirm}
         />
