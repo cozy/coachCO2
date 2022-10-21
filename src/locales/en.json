@@ -194,6 +194,20 @@
         "discard": "No, thank you"
       }
     },
+    "edit": {
+      "modify": "Modify",
+      "title": "Modify the goal",
+      "firstname": "Firstname",
+      "lastname": "Lastname",
+      "workTime": "Work time",
+      "workTime_full": "Full time",
+      "workTime_part": "Half-time or part-time",
+      "workTimePercentage": "Percentage of working time",
+      "compare_progress": "Compare my progress with that of my company",
+      "cancel": "Cancel",
+      "submit": "Ok",
+      "required": "This field is required"
+    },
     "settings": {
       "participation": "Participate to the goal “Bike to work”",
       "showAlerter": "Show bike goals alerter",

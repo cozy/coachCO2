@@ -11,6 +11,7 @@ import Settings from 'src/components/Views/Settings'
 import BikeGoal from 'src/components/Views/BikeGoal'
 import BikeGoalOnboarding from 'src/components/Views/BikeGoalOnboarding'
 import BikeGoalAbout from 'src/components/Views/BikeGoalAbout'
+import BikeGoalEdit from 'src/components/Views/BikeGoalEdit'
 import CertificateGeneration from 'src/components/Goals/BikeGoal/Certificate/CertificateGeneration'
 
 const OutletWrapper = ({ Component }) => (
@@ -64,10 +65,6 @@ const AppRouter = () => {
             >
               <Route path=":timeserieId" element={<Trip />} />
             </Route>
-            <Route
-              path="bikegoal/onboarding"
-              element={<OutletWrapper Component={BikeGoalOnboarding} />}
-            />
           </>
         )}
 
@@ -104,6 +101,7 @@ const AppRouter = () => {
                 element={<BikeGoalOnboarding />}
               />
               <Route path="bikegoal/about" element={<BikeGoalAbout />} />
+              <Route path="bikegoal/edit" element={<BikeGoalEdit />} />
               <Route
                 path="bikegoal/certificate/generate/:year"
                 element={<CertificateGeneration />}

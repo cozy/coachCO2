@@ -9,6 +9,7 @@ import DotsIcon from 'cozy-ui/transpiled/react/Icons/Dots'
 import InfoIcon from 'cozy-ui/transpiled/react/Icons/Info'
 import ForbiddenIcon from 'cozy-ui/transpiled/react/Icons/Forbidden'
 import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
+import RenameIcon from 'cozy-ui/transpiled/react/Icons/Rename'
 
 import ActionButton from 'src/components/Goals/BikeGoal/OptionSelector/ActionButton'
 import DeactivationModal from 'src/components/Goals/BikeGoal/OptionSelector/DeactivationModal'
@@ -45,6 +46,16 @@ const BikeGoalOptionSelector = () => {
           onClose={() => setShowMenu(false)}
           popperOptions={{ placement: 'bottom-end' }}
         >
+          <ActionMenuItem
+            left={<Icon icon={RenameIcon} />}
+            onClick={() =>
+              navigate('/bikegoal/edit', {
+                state: { background: location }
+              })
+            }
+          >
+            {t('bikeGoal.edit.modify')}
+          </ActionMenuItem>
           <ActionMenuItem
             left={<Icon icon={InfoIcon} />}
             onClick={() =>
