@@ -81,6 +81,13 @@ describe('makeGoalAchievementPercentage', () => {
 
     expect(res).toBe(100)
   })
+
+  it('should return 100, if timeseries is undefined', () => {
+    const timeseries = undefined
+    const res = makeGoalAchievementPercentage(timeseries)
+
+    expect(res).toBe(100)
+  })
 })
 
 describe('makeIconSize', () => {
