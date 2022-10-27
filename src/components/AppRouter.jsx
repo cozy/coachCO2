@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 
 import flag from 'cozy-flags'
 
@@ -26,72 +26,77 @@ const AppRouter = () => {
   const currentYear = new Date().getFullYear()
 
   return (
-    <Routes>
-      <Route path="/" element={<AppLayout />}>
-        <Route path="trips" element={<OutletWrapper Component={Trips} />}>
-          <Route path=":timeserieId" element={<Trip />} />
-          <Route path="bikegoalonboarding" element={<BikeGoalOnboarding />} />
-        </Route>
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<AppLayout />}>
+          <Route path="trips" element={<OutletWrapper Component={Trips} />}>
+            <Route path=":timeserieId" element={<Trip />} />
+            <Route path="bikegoalonboarding" element={<BikeGoalOnboarding />} />
+          </Route>
 
-        <Route path="settings" element={<OutletWrapper Component={Settings} />}>
-          <Route path="bikegoalonboarding" element={<BikeGoalOnboarding />} />
-        </Route>
+          <Route
+            path="settings"
+            element={<OutletWrapper Component={Settings} />}
+          >
+            <Route path="bikegoalonboarding" element={<BikeGoalOnboarding />} />
+          </Route>
 
-        <Route
-          path="analysis/modes"
-          element={<OutletWrapper Component={ModeAnalysis} />}
-        />
-        <Route
-          path="analysis/modes/:mode"
-          element={<OutletWrapper Component={ModeAnalysis} />}
-        >
-          <Route path=":timeserieId" element={<Trip />} />
-        </Route>
+          <Route
+            path="analysis/modes"
+            element={<OutletWrapper Component={ModeAnalysis} />}
+          />
+          <Route
+            path="analysis/modes/:mode"
+            element={<OutletWrapper Component={ModeAnalysis} />}
+          >
+            <Route path=":timeserieId" element={<Trip />} />
+          </Route>
 
-        <Route
-          path="analysis/purposes"
-          element={<OutletWrapper Component={PurposeAnalysis} />}
-        />
-        <Route
-          path="analysis/purposes/:purpose"
-          element={<OutletWrapper Component={PurposeAnalysis} />}
-        >
-          <Route path=":timeserieId" element={<Trip />} />
-        </Route>
+          <Route
+            path="analysis/purposes"
+            element={<OutletWrapper Component={PurposeAnalysis} />}
+          />
+          <Route
+            path="analysis/purposes/:purpose"
+            element={<OutletWrapper Component={PurposeAnalysis} />}
+          >
+            <Route path=":timeserieId" element={<Trip />} />
+          </Route>
 
-        {flag('coachco2.bikegoal.enabled') && (
-          <>
-            <Route
-              path="bikegoal/:year/trips"
-              element={<OutletWrapper Component={BikeGoal} />}
-            >
-              <Route path=":timeserieId" element={<Trip />} />
-              <Route path="edit" element={<BikeGoalEdit />} />
-              <Route path="about" element={<BikeGoalAbout />} />
-              <Route path="onboarding" element={<BikeGoalOnboarding />} />
+          {flag('coachco2.bikegoal.enabled') && (
+            <>
               <Route
-                path="certificate/generate/:year"
-                element={<CertificateGeneration />}
-              />
-            </Route>
-          </>
-        )}
-      </Route>
+                path="bikegoal/:year/trips"
+                element={<OutletWrapper Component={BikeGoal} />}
+              >
+                <Route path=":timeserieId" element={<Trip />} />
+                <Route path="edit" element={<BikeGoalEdit />} />
+                <Route path="about" element={<BikeGoalAbout />} />
+                <Route path="onboarding" element={<BikeGoalOnboarding />} />
+                <Route
+                  path="certificate/generate/:year"
+                  element={<CertificateGeneration />}
+                />
+              </Route>
+            </>
+          )}
+        </Route>
 
-      {/* // redirection */}
-      <Route
-        path="analysis"
-        element={<Navigate replace to="/analysis/modes" />}
-      />
-      {flag('coachco2.bikegoal.enabled') && (
+        {/* // redirection */}
         <Route
-          path="bikegoal/*"
-          element={<Navigate replace to={`/bikegoal/${currentYear}/trips`} />}
+          path="analysis"
+          element={<Navigate replace to="/analysis/modes" />}
         />
-      )}
-      <Route path="/" element={<Navigate replace to="/trips" />} />
-      <Route path="*" element={<Navigate replace to="/trips" />} />
-    </Routes>
+        {flag('coachco2.bikegoal.enabled') && (
+          <Route
+            path="bikegoal/*"
+            element={<Navigate replace to={`/bikegoal/${currentYear}/trips`} />}
+          />
+        )}
+        <Route path="/" element={<Navigate replace to="/trips" />} />
+        <Route path="*" element={<Navigate replace to="/trips" />} />
+      </Routes>
+    </HashRouter>
   )
 }
 
