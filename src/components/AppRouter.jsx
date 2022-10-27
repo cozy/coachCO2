@@ -23,17 +23,19 @@ const OutletWrapper = ({ Component }) => (
 
 const AppRouter = () => {
   const location = useLocation()
-  const background = location?.state?.background
   const currentYear = new Date().getFullYear()
 
   return (
     <>
-      <Routes location={background || location}>
+      <Routes location={location}>
         <Route path="trips" element={<OutletWrapper Component={Trips} />}>
           <Route path=":timeserieId" element={<Trip />} />
+          <Route path="bikegoalonboarding" element={<BikeGoalOnboarding />} />
         </Route>
 
-        <Route path="settings" element={<Settings />} />
+        <Route path="settings" element={<OutletWrapper Component={Settings} />}>
+          <Route path="bikegoalonboarding" element={<BikeGoalOnboarding />} />
+        </Route>
 
         <Route
           path="analysis/modes"
@@ -64,6 +66,13 @@ const AppRouter = () => {
               element={<OutletWrapper Component={BikeGoal} />}
             >
               <Route path=":timeserieId" element={<Trip />} />
+              <Route path="edit" element={<BikeGoalEdit />} />
+              <Route path="about" element={<BikeGoalAbout />} />
+              <Route path="onboarding" element={<BikeGoalOnboarding />} />
+              <Route
+                path="certificate/generate/:year"
+                element={<CertificateGeneration />}
+              />
             </Route>
           </>
         )}
@@ -81,35 +90,6 @@ const AppRouter = () => {
         )}
         <Route path="*" element={<Navigate replace to="/trips" />} />
       </Routes>
-
-      {background && (
-        <Routes>
-          <Route path="trips/:timeserieId" element={<Trip />} />
-          <Route path="analysis/modes/:mode/:timeserieId" element={<Trip />} />
-          <Route
-            path="analysis/purposes/:purpose/:timeserieId"
-            element={<Trip />}
-          />
-          {flag('coachco2.bikegoal.enabled') && (
-            <>
-              <Route
-                path="bikegoal/:year/trips/:timeserieId"
-                element={<Trip />}
-              />
-              <Route
-                path="bikegoal/onboarding"
-                element={<BikeGoalOnboarding />}
-              />
-              <Route path="bikegoal/about" element={<BikeGoalAbout />} />
-              <Route path="bikegoal/edit" element={<BikeGoalEdit />} />
-              <Route
-                path="bikegoal/certificate/generate/:year"
-                element={<CertificateGeneration />}
-              />
-            </>
-          )}
-        </Routes>
-      )}
     </>
   )
 }

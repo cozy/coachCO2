@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import Button from 'cozy-ui/transpiled/react/Buttons'
@@ -11,7 +11,6 @@ import backgroundImage from 'src/assets/images/background.png'
 
 const CertificateGeneration = () => {
   const navigate = useNavigate()
-  const { state } = useLocation()
   const { isMobile } = useBreakpoints()
 
   return (
@@ -20,8 +19,8 @@ const CertificateGeneration = () => {
       background={`var(--paperBackgroundColor) repeat-x url(${backgroundImage})`}
       content={<CertificateGenerationContent />}
       {...(isMobile
-        ? { onBack: () => navigate(state.background) }
-        : { onClose: () => navigate(state.background) })}
+        ? { onBack: () => navigate('..') }
+        : { onClose: () => navigate('..') })}
       actions={<Button label="J'ai compris" onClick={() => {}} />}
       actionsLayout="column"
     />

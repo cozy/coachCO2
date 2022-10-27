@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
@@ -10,7 +10,6 @@ import useSettings from 'src/hooks/useSettings'
 
 const BikeGoalOnboarding = () => {
   const { t } = useI18n()
-  const location = useLocation()
   const navigate = useNavigate()
   const [isBusy, toggleBusy] = useReducer(prev => !prev, false)
   const {
@@ -20,7 +19,7 @@ const BikeGoalOnboarding = () => {
   } = useSettings('bikeGoal')
 
   const handleBack = () => {
-    navigate(location.state.background)
+    navigate('..')
   }
 
   const handleForward = async () => {
