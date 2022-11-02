@@ -63,7 +63,7 @@ const RecurrenceEditDialogTitle = () => {
   return (
     <div className="u-pt-1">
       {t('recurring.title')}
-      <Tooltip title={t('recurring.tooltip')} placement="top-center" arrow>
+      <Tooltip title={t('recurring.tooltip')} placement="top" arrow>
         <IconButton>
           <Icon icon={HelpOutlined} />
         </IconButton>
