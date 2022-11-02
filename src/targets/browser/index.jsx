@@ -9,7 +9,7 @@ import { createRoot } from 'react-dom/client'
 import setupApp from 'src/targets/browser/setupApp'
 import { register as registerServiceWorker } from 'src/targets/browser/serviceWorkerRegistration'
 import AppProviders from 'src/components/AppProviders'
-import App from 'src/components/App'
+import AppRouter from 'src/components/AppRouter'
 
 const init = function () {
   const { container, client, lang, polyglot } = setupApp()
@@ -17,7 +17,7 @@ const init = function () {
 
   root.render(
     <AppProviders client={client} lang={lang} polyglot={polyglot}>
-      <App />
+      <AppRouter />
     </AppProviders>
   )
 }

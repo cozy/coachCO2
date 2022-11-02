@@ -1,11 +1,10 @@
 import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import useSettings from 'src/hooks/useSettings'
 import BikeGoalAlert from 'src/components/Goals/BikeGoal/BikeGoalAlert'
 
 const BikeGoalAlertManager = () => {
-  const location = useLocation()
   const navigate = useNavigate()
   const {
     isLoading,
@@ -17,9 +16,7 @@ const BikeGoalAlertManager = () => {
     setShowGoals(false)
   }
   const onParticipate = () => {
-    navigate('/bikegoal/onboarding', {
-      state: { background: location }
-    })
+    navigate('bikegoalonboarding')
   }
 
   if (!isLoading && !showGoals) return null

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -20,13 +20,10 @@ const BikeGoalAchievement = ({ className, timeseries }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const { year } = useParams()
-  const location = useLocation()
   const navigate = useNavigate()
 
   const handleClickAchievement = () => {
-    navigate(`/bikegoal/certificate/generate/${year}`, {
-      state: { background: location }
-    })
+    navigate(`certificate/generate/${year}`)
   }
 
   return (

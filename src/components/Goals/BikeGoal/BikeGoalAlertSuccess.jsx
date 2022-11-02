@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import Alert from 'cozy-ui/transpiled/react/Alert'
@@ -12,15 +12,12 @@ import useSettings from 'src/hooks/useSettings'
 const BikeGoalAlertSuccess = () => {
   const { t } = useI18n()
   const navigate = useNavigate()
-  const location = useLocation()
   const { date } = useBikeGoalDateContext()
   const { save: setShowAlertSuccess } = useSettings('bikeGoal.showAlertSuccess')
 
   const handleConfirm = () => {
     setShowAlertSuccess(false)
-    navigate(`/bikegoal/certificate/generate/${date.getFullYear()}`, {
-      state: { background: location }
-    })
+    navigate(`certificate/generate/${date.getFullYear()}`)
   }
 
   return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import Switch from 'cozy-ui/transpiled/react/MuiCozyTheme/Switch'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
@@ -23,7 +23,6 @@ const BikeGoalSwitcher = ({ className }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const classes = useStyles()
-  const location = useLocation()
   const navigate = useNavigate()
 
   const { isLoading: isOnboardedLoading, value: isOnboarded = false } =
@@ -41,9 +40,7 @@ const BikeGoalSwitcher = ({ className }) => {
     if (isOnboarded) {
       await saveActivated(ev.target.checked)
     } else {
-      navigate('/bikegoal/onboarding', {
-        state: { background: location }
-      })
+      navigate('bikegoalonboarding')
     }
   }
 

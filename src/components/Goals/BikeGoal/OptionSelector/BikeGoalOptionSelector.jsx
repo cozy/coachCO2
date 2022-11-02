@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -25,7 +25,6 @@ const BikeGoalOptionSelector = () => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const actionMenuAnchorRef = useRef()
-  const location = useLocation()
   const navigate = useNavigate()
   const [showMenu, setShowMenu] = useState(false)
   const [showDeactivateModal, setShowDeactivateModal] = useState(false)
@@ -48,21 +47,13 @@ const BikeGoalOptionSelector = () => {
         >
           <ActionMenuItem
             left={<Icon icon={RenameIcon} />}
-            onClick={() =>
-              navigate('/bikegoal/edit', {
-                state: { background: location }
-              })
-            }
+            onClick={() => navigate('edit')}
           >
             {t('bikeGoal.edit.modify')}
           </ActionMenuItem>
           <ActionMenuItem
             left={<Icon icon={InfoIcon} />}
-            onClick={() =>
-              navigate('/bikegoal/about', {
-                state: { background: location }
-              })
-            }
+            onClick={() => navigate('about')}
           >
             {t('bikeGoal.about.title')}
           </ActionMenuItem>

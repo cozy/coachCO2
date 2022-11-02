@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
@@ -16,7 +16,6 @@ const createStyles = () => ({
 const BikeGoalOnboarding = () => {
   const { t } = useI18n()
   const navigate = useNavigate()
-  const location = useLocation()
   const bountyAmount = getBountyAmount()
 
   const styles = createStyles()
@@ -47,7 +46,7 @@ const BikeGoalOnboarding = () => {
           </Typography>
         </>
       }
-      onClose={() => navigate(location.state.background)}
+      onClose={() => navigate('..')}
     />
   )
 }

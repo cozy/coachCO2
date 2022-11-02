@@ -70,9 +70,7 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
   )
 
   const handleClick = () => {
-    navigate(`${location.pathname}/${timeserie._id}`, {
-      state: { background: location }
-    })
+    navigate(`${location.pathname}/${timeserie._id}`)
   }
 
   return (

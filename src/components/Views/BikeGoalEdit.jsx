@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
@@ -9,7 +9,6 @@ import ModificationModalContent from 'src/components/Goals/BikeGoal/Edit/Modific
 const BikeGoalEdit = () => {
   const { t } = useI18n()
   const navigate = useNavigate()
-  const location = useLocation()
 
   return (
     <Dialog
@@ -17,7 +16,7 @@ const BikeGoalEdit = () => {
       disableGutters
       title={t('bikeGoal.edit.title')}
       content={<ModificationModalContent />}
-      onBack={() => navigate(location.state.background)}
+      onBack={() => navigate('..')}
       onClose={() => navigate('/')}
     />
   )
