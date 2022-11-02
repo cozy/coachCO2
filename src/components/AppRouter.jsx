@@ -31,14 +31,24 @@ const AppRouter = () => {
         <Route path="/" element={<AppLayout />}>
           <Route path="trips" element={<OutletWrapper Component={Trips} />}>
             <Route path=":timeserieId" element={<Trip />} />
-            <Route path="bikegoalonboarding" element={<BikeGoalOnboarding />} />
+            {flag('coachco2.bikegoal.enabled') && (
+              <Route
+                path="bikegoalonboarding"
+                element={<BikeGoalOnboarding />}
+              />
+            )}
           </Route>
 
           <Route
             path="settings"
             element={<OutletWrapper Component={Settings} />}
           >
-            <Route path="bikegoalonboarding" element={<BikeGoalOnboarding />} />
+            {flag('coachco2.bikegoal.enabled') && (
+              <Route
+                path="bikegoalonboarding"
+                element={<BikeGoalOnboarding />}
+              />
+            )}
           </Route>
 
           <Route
@@ -72,7 +82,6 @@ const AppRouter = () => {
                 <Route path=":timeserieId" element={<Trip />} />
                 <Route path="edit" element={<BikeGoalEdit />} />
                 <Route path="about" element={<BikeGoalAbout />} />
-                <Route path="onboarding" element={<BikeGoalOnboarding />} />
                 <Route
                   path="certificate/generate/:year"
                   element={<CertificateGeneration />}
