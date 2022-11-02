@@ -145,7 +145,7 @@ describe('buildOneYearBikeCommuteTimeseriesQueryByDateAndAccountId', () => {
         selector: {
           'aggregation.modes': {
             $elemMatch: {
-              $eq: 'BIKE'
+              $eq: 'BICYCLING'
             }
           },
           'aggregation.purpose': 'COMMUTE',

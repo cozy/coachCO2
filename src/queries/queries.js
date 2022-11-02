@@ -11,7 +11,7 @@ import {
   ACCOUNTS_DOCTYPE,
   SETTINGS_DOCTYPE
 } from 'src/doctypes'
-import { TRIPS_DISTANCE_SIMILARITY_RATIO } from 'src/constants'
+import { TRIPS_DISTANCE_SIMILARITY_RATIO, BICYCLING_MODE } from 'src/constants'
 
 const older30s = 30 * 1000
 const neverReload = 100000 * 1000
@@ -194,7 +194,7 @@ export const buildOneYearBikeCommuteTimeseriesQueryByDateAndAccountId = (
         'aggregation.purpose': 'COMMUTE',
         'aggregation.modes': {
           $elemMatch: {
-            $eq: 'BIKE'
+            $eq: BICYCLING_MODE
           }
         }
       })
