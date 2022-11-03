@@ -15,7 +15,7 @@ const BikeGoalDialogMobile = ({ timeseries, timeseriesQueryLeft }) => {
   return (
     <IllustrationDialog
       open
-      onBack={() => navigate('/')}
+      onBack={() => navigate('/trips')}
       disableGutters
       content={
         <>

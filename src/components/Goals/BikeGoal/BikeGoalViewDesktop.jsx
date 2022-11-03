@@ -19,7 +19,7 @@ const BikeGoalViewDesktop = ({ timeseries, timeseriesQueryLeft }) => {
       <Titlebar
         label={t('bikeGoal.title')}
         subtitle={<BikeGoalAchievement timeseries={timeseries} />}
-        onBack={() => navigate('/')}
+        onBack={() => navigate('/trips')}
       />
       <BikeGoalActions timeseries={timeseries} />
       <BikeGoalChart
