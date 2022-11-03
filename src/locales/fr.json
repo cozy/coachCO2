@@ -203,7 +203,7 @@
       "workTime_full": "Temps plein",
       "workTime_part": "Mi-temps ou temps partiel",
       "workTimePercentage": "Pourcentage du temps de travail",
-      "compare_progress": "Comparer ma progression avec celle de mon entreprise",
+      "compare_progress": "Comparer ma progression avec celle de %{source}",
       "cancel": "Annuler",
       "submit": "Ok",
       "required": "Ce champ est obligatoire"
@@ -232,7 +232,7 @@
           "percentage": "Pourcentage"
         },
         "comparison": {
-          "comparisonLegend": "Il vous est possible d’afficher la progression moyenne des membres de votre entreprise qui participent à l’objectif. Pour cela, il vous sera demandé de participer également à la constituation de cette moyenne.\n\nVos données de progression seront agrégées et envoyées anonymement, elles ne contiendront aucun identifiant ni lieux.",
+          "comparisonLegend": "Il vous est possible d’afficher la progression moyenne des membres de %{source} qui participent à l’objectif. Pour cela, il vous sera demandé de participer également à la constituation de cette moyenne.\n\nVos données de progression seront agrégées et envoyées anonymement, elles ne contiendront aucun identifiant ni lieux.",
           "compare": "Comparer ma progression",
           "doNotCompare": "Ne pas comparer ma progression"
         }
@@ -245,6 +245,12 @@
         "show": "Certificat - Aller travailler à vélo.pdf",
         "generate": "Générer une nouvelle attestation"
       }
+    },
+    "employer": {
+      "my_company": "mon entreprise",
+      "your_company": "votre entreprise",
+      "my_collectivity": "ma collectivité",
+      "your_collectivity": "votre collectivité"
     }
   }
 }

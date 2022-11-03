@@ -11,6 +11,7 @@ import Radio from 'cozy-ui/transpiled/react/Radios'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 import useSettings from 'src/hooks/useSettings'
+import { getSource } from 'src/components/Goals/BikeGoal/helpers'
 import BikeGoalDaccManager from 'src/components/DaccManager/BikeGoalDaccManager'
 
 const createStyles = () => ({
@@ -30,6 +31,7 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
   } = useSettings('bikeGoal')
   const { onboardingStep = 0, sendToDacc = null } = bikeGoal
   const [unsavedSendToDacc, setUnsavedSendToDacc] = useState(sendToDacc)
+  const { sourceType, sourceIdentity } = getSource()
 
   const styles = createStyles()
 
@@ -62,7 +64,11 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
   return (
     <>
       <Step {...props} ref={ref}>
-        <StepLabel>{t('bikeGoal.edit.compare_progress')}</StepLabel>
+        <StepLabel>
+          {t('bikeGoal.edit.compare_progress', {
+            source: sourceIdentity ?? t(`bikeGoal.employer.my_${sourceType}`)
+          })}
+        </StepLabel>
         <StepContent>
           {isLoading ? (
             <Spinner
@@ -72,7 +78,10 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
           ) : (
             <>
               <Typography style={styles.typography}>
-                {t('bikeGoal.onboarding.steps.comparison.comparisonLegend')}
+                {t('bikeGoal.onboarding.steps.comparison.comparisonLegend', {
+                  source:
+                    sourceIdentity ?? t(`bikeGoal.employer.your_${sourceType}`)
+                })}
               </Typography>
               <RadioGroup className="u-mt-1">
                 <FormControlLabel
