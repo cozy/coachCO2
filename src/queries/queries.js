@@ -1,8 +1,6 @@
 import endOfMonth from 'date-fns/endOfMonth'
 import startOfMonth from 'date-fns/startOfMonth'
 import subYears from 'date-fns/subYears'
-import startOfYear from 'date-fns/startOfYear'
-import endOfYear from 'date-fns/endOfYear'
 
 import CozyClient, { Q } from 'cozy-client'
 
@@ -176,31 +174,22 @@ export const buildOneYearOldTimeseriesWithAggregationByAccountId =
     }
   }
 
-export const buildOneYearBikeCommuteTimeseriesQueryByDateAndAccountId = (
-  { date, accountId },
+export const buildBikeCommuteTimeseriesQueryByAccountId = (
+  { accountId },
   enabled
 ) => {
-  const startYearDate = startOfYear(date)
-  const endYearDate = endOfYear(date)
-
   return {
     definition: Q('io.cozy.timeseries.geojson')
       .where({
         'cozyMetadata.sourceAccount': accountId,
-        startDate: {
-          $gte: startYearDate.toISOString(),
-          $lte: endYearDate.toISOString()
-        },
+        startDate: { $gt: null },
         'aggregation.purpose': 'COMMUTE',
-        'aggregation.modes': {
-          $elemMatch: {
-            $eq: BICYCLING_MODE
-          }
-        }
+        'aggregation.modes': { $elemMatch: { $eq: BICYCLING_MODE } }
       })
       .select([
         'startDate',
         'endDate',
+        'aggregation',
         'aggregation.modes',
         'aggregation.purpose',
         'cozyMetadata.sourceAccount'
@@ -211,15 +200,10 @@ export const buildOneYearBikeCommuteTimeseriesQueryByDateAndAccountId = (
         'aggregation.purpose',
         'aggregation.modes'
       ])
-      .sortBy([
-        { 'cozyMetadata.sourceAccount': 'desc' },
-        { startDate: 'desc' },
-        { 'aggregation.purpose': 'desc' },
-        { 'aggregation.modes': 'desc' }
-      ])
-      .limitBy(50),
+      .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
+      .limitBy(1000),
     options: {
-      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/OneYearBikeCommute/year/${startYearDate.getFullYear()}`,
+      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/BikeCommute/`,
       fetchPolicy: CozyClient.fetchPolicies.olderThan(neverReload),
       enabled
     }
