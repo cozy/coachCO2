@@ -89,21 +89,24 @@ const AppRouter = () => {
               </Route>
             </>
           )}
-        </Route>
 
-        {/* // redirection */}
-        <Route
-          path="analysis"
-          element={<Navigate replace to="/analysis/modes" />}
-        />
-        {flag('coachco2.bikegoal.enabled') && (
+          {/* redirection */}
           <Route
-            path="bikegoal/*"
-            element={<Navigate replace to={`/bikegoal/${currentYear}/trips`} />}
+            path="analysis"
+            element={<Navigate replace to="/analysis/modes" />}
           />
-        )}
-        <Route path="/" element={<Navigate replace to="/trips" />} />
-        <Route path="*" element={<Navigate replace to="/trips" />} />
+          {flag('coachco2.bikegoal.enabled') && (
+            <Route
+              path="bikegoal"
+              element={
+                <Navigate replace to={`/bikegoal/${currentYear}/trips`} />
+              }
+            />
+          )}
+          <Route path="/" element={<Navigate replace to="/trips" />} />
+          <Route path="*" element={<Navigate replace to="/trips" />} />
+          {/* redirection - end */}
+        </Route>
       </Routes>
     </HashRouter>
   )
