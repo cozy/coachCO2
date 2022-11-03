@@ -10,7 +10,7 @@ import uniq from 'lodash/uniq'
 import subMonths from 'date-fns/subMonths'
 import startOfMonth from 'date-fns/startOfMonth'
 import dateFnsFormatDistance from 'date-fns/formatDistance'
-import differenceInDays from 'date-fns/differenceInDays'
+import addHours from 'date-fns/addHours'
 
 import { computeCO2Section, computeCaloriesSection } from 'src/lib/metrics'
 import {
@@ -467,24 +467,33 @@ export const computeMonthsAndCO2s = (timeseries, f) => {
   return { months: formatedMonths, CO2s }
 }
 
-export const computeFirstAndLastDay = timeseries => {
-  let firstDay = getStartDate(timeseries[0])
-  let lastDay = getEndDate(timeseries[0])
+export const countUniqDays = timeseries => {
+  let count = 0
 
-  timeseries.forEach(timeserie => {
-    const startDate = getStartDate(timeserie)
-    const endDate = getEndDate(timeserie)
-
-    firstDay = startDate < firstDay ? startDate : firstDay
-    lastDay = endDate > lastDay ? endDate : lastDay
+  const sortedTimeseriesByStartdateAsc = timeseries.sort((a, b) => {
+    return getStartDate(a) - getStartDate(b)
   })
 
-  return { firstDay, lastDay }
-}
+  sortedTimeseriesByStartdateAsc.forEach((timeserie, index) => {
+    if (index === 0) {
+      count++
+    } else {
+      const startDate = getStartDate(timeserie)
+      const prevTimeserie = sortedTimeseriesByStartdateAsc[index - 1]
+      const prevStartDate = getStartDate(prevTimeserie)
+      const prevStartDatePlus12Hours = addHours(prevStartDate, 12)
 
-export const countDays = timeseries => {
-  const { firstDay, lastDay } = computeFirstAndLastDay(timeseries)
-  return differenceInDays(lastDay, firstDay)
+      const isSameDay =
+        startDate.toDateString() === prevStartDate.toDateString()
+      const isIn12Hours = startDate < prevStartDatePlus12Hours
+
+      if (!isSameDay && !isIn12Hours) {
+        count++
+      }
+    }
+  })
+
+  return count
 }
 
 export const getEarliestTimeserie = timeseries => {

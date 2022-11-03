@@ -1,5 +1,5 @@
 import flag from 'cozy-flags'
-import { countDays } from 'src/lib/timeseries'
+import { countUniqDays } from 'src/lib/timeseries'
 
 export const getDaysToReach = () => {
   const daysToReach = flag('coachco2.bikegoal.settings')?.daysToReach
@@ -20,13 +20,13 @@ export const getBountyAmount = () => {
 export const isGoalCompleted = timeseries => {
   if (!timeseries || timeseries.length === 0) return false
 
-  return countDays(timeseries) >= getDaysToReach()
+  return countUniqDays(timeseries) >= getDaysToReach()
 }
 
 export const countDaysOrDaysToReach = timeseries => {
   if (!timeseries || timeseries.length === 0) return 0
 
-  const days = countDays(timeseries)
+  const days = countUniqDays(timeseries)
   const daysToReach = getDaysToReach()
 
   return days < daysToReach ? days : daysToReach

@@ -43,8 +43,7 @@ import {
   setAggregationPurpose,
   setAutomaticPurpose,
   setManualPurpose,
-  computeFirstAndLastDay,
-  countDays,
+  countUniqDays,
   getEarliestTimeserie,
   filterTimeseriesByYear
 } from 'src/lib/timeseries'
@@ -769,35 +768,50 @@ describe('set purpose', () => {
   })
 })
 
-describe('computeFirstAndLastDay', () => {
-  it('should return first and last day', () => {
+describe('countUniqDays', () => {
+  it('should return the number of days for which there is a timeserie', () => {
     const timeseries = [
-      { startDate: '2021-01-01T00:00:00', endDate: '2021-01-02T00:00:00' },
-      { startDate: '2021-02-01T00:00:00', endDate: '2021-02-02T00:00:00' },
-      { startDate: '2021-03-01T00:00:00', endDate: '2021-03-02T00:00:00' }
+      { startDate: '2021-03-01T00:00:00', endDate: '2021-03-01T01:00:00' },
+      { startDate: '2021-01-01T00:00:00', endDate: '2021-01-01T00:00:00' },
+      { startDate: '2021-02-01T00:00:00', endDate: '2021-02-02T00:00:00' }
     ]
 
-    const res = computeFirstAndLastDay(timeseries)
+    const res = countUniqDays(timeseries)
 
-    expect(res).toStrictEqual({
-      firstDay: new Date('2021-01-01T00:00:00.000Z'),
-      lastDay: new Date('2021-03-02T00:00:00.000Z')
-    })
+    expect(res).toBe(3)
   })
-})
 
-describe('countDays', () => {
-  it('should return the number of days covered by timeseries', () => {
+  it('should not count two timeseries for the same day', () => {
     const timeseries = [
-      { startDate: '2021-01-01T00:00:00', endDate: '2021-01-02T00:00:00' },
-      { startDate: '2021-02-01T00:00:00', endDate: '2021-02-02T00:00:00' },
-      { startDate: '2021-02-01T10:00:00', endDate: '2021-02-02T10:00:00' },
-      { startDate: '2021-03-01T00:00:00', endDate: '2021-03-02T00:00:00' }
+      { startDate: '2021-01-01T00:00:00', endDate: '2021-01-01T00:00:00' },
+      { startDate: '2021-01-01T01:00:00', endDate: '2021-01-01T02:00:00' }
     ]
 
-    const res = countDays(timeseries)
+    const res = countUniqDays(timeseries)
 
-    expect(res).toBe(60)
+    expect(res).toBe(1)
+  })
+
+  it('should not count a timeserie if another one starts the next day less than 12 hours later', () => {
+    const timeseries = [
+      { startDate: '2021-01-01T20:00:00', endDate: '2021-01-01T20:30:00' },
+      { startDate: '2021-01-02T01:00:00', endDate: '2021-01-01T01:30:00' }
+    ]
+
+    const res = countUniqDays(timeseries)
+
+    expect(res).toBe(1)
+  })
+
+  it('should count a timeserie if another one starts the next day more than 12 hours later', () => {
+    const timeseries = [
+      { startDate: '2021-01-01T20:00:00', endDate: '2021-01-01T20:30:00' },
+      { startDate: '2021-01-02T09:00:00', endDate: '2021-01-01T09:30:00' }
+    ]
+
+    const res = countUniqDays(timeseries)
+
+    expect(res).toBe(2)
   })
 })
 
