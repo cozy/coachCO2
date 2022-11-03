@@ -802,7 +802,7 @@ describe('countDays', () => {
 })
 
 describe('getEarliestTimeserie', () => {
-  it('should return the number of days covered by timeseries', () => {
+  it('should return the earliest timeserie', () => {
     const timeseries = [
       { startDate: '2022-01-01T00:00:00', endDate: '2022-01-01T00:00:00' },
       { startDate: '2020-01-01T00:00:00', endDate: '2020-01-01T00:00:00' },
