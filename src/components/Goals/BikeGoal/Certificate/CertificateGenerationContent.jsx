@@ -1,4 +1,5 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -14,14 +15,13 @@ import FileTypePdfIcon from 'cozy-ui/transpiled/react/Icons/FileTypePdf'
 
 import BikeGoalChart from 'src/components/Goals/BikeGoal/BikeGoalChart'
 import { getBountyAmount } from 'src/components/Goals/BikeGoal/helpers'
-import { useBikeGoalDateContext } from 'src/components/Providers/BikeGoalDateProvider'
 
 import styles from 'src/components/Goals/BikeGoal/Certificate/CertificateGeneration.styl'
 
 const CertificateGenerationContent = () => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
-  const { date } = useBikeGoalDateContext()
+  const { year } = useParams()
 
   return (
     <div className={styles['CertificateGeneration-root']}>
@@ -32,7 +32,7 @@ const CertificateGenerationContent = () => {
       <Typography variant="body2" className="u-mv-1">
         {t('bikeGoal.certificateGeneration.content', {
           bountyAmount: getBountyAmount(),
-          year: date.getFullYear()
+          year
         })}
       </Typography>
       <Paper>

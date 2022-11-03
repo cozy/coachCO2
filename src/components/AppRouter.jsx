@@ -83,7 +83,7 @@ const AppRouter = () => {
                 <Route path="edit" element={<BikeGoalEdit />} />
                 <Route path="about" element={<BikeGoalAbout />} />
                 <Route
-                  path="certificate/generate/:year"
+                  path="certificate/generate"
                   element={<CertificateGeneration />}
                 />
               </Route>

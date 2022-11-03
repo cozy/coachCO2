@@ -6,18 +6,17 @@ import Alert from 'cozy-ui/transpiled/react/Alert'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import { getBountyAmount } from 'src/components/Goals/BikeGoal/helpers'
-import { useBikeGoalDateContext } from 'src/components/Providers/BikeGoalDateProvider'
 import useSettings from 'src/hooks/useSettings'
 
 const BikeGoalAlertSuccess = () => {
   const { t } = useI18n()
   const navigate = useNavigate()
-  const { date } = useBikeGoalDateContext()
   const { save: setShowAlertSuccess } = useSettings('bikeGoal.showAlertSuccess')
 
   const handleConfirm = () => {
     setShowAlertSuccess(false)
-    navigate(`certificate/generate/${date.getFullYear()}`)
+    const currentYear = new Date().getFullYear().toString()
+    navigate(`/bikegoal/${currentYear}/trips/certificate/generate`)
   }
 
   return (
