@@ -31,7 +31,7 @@ const ActionButton = forwardRef(({ label, onClick }, ref) => {
 ActionButton.displayName = 'ActionButton'
 
 ActionButton.propTypes = {
-  label: PropTypes.number,
+  label: PropTypes.string,
   onClick: PropTypes.func
 }
 

@@ -18,10 +18,14 @@ export const getBountyAmount = () => {
 }
 
 export const isGoalCompleted = timeseries => {
+  if (!timeseries || timeseries.length === 0) return false
+
   return countDays(timeseries) >= getDaysToReach()
 }
 
 export const countDaysOrDaysToReach = timeseries => {
+  if (!timeseries || timeseries.length === 0) return 0
+
   const days = countDays(timeseries)
   const daysToReach = getDaysToReach()
 

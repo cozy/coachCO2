@@ -16,8 +16,7 @@ const BikeGoalEdit = () => {
       disableGutters
       title={t('bikeGoal.edit.title')}
       content={<ModificationModalContent />}
-      onBack={() => navigate('..')}
-      onClose={() => navigate('/')}
+      onClose={() => navigate('..')}
     />
   )
 }

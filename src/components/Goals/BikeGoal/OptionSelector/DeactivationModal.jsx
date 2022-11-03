@@ -17,7 +17,7 @@ const DeactivationModal = ({ open, onClose }) => {
   const handleDeactivation = () => {
     setIsBusy(true)
     save(false)
-    navigate('/')
+    navigate('/trips')
   }
 
   return (

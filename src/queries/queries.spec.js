@@ -4,7 +4,7 @@ import {
   buildTimeseriesQueryByDateAndAccountId,
   buildOneYearOldTimeseriesWithAggregationByAccountId,
   builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance,
-  buildOneYearBikeCommuteTimeseriesQueryByDateAndAccountId
+  buildBikeCommuteTimeseriesQueryByAccountId
 } from './queries'
 
 describe('buildTimeseriesQueryByDateAndAccountId', () => {
@@ -122,21 +122,10 @@ describe('builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDi
   })
 })
 
-describe('buildOneYearBikeCommuteTimeseriesQueryByDateAndAccountId', () => {
-  beforeEach(() => {
-    MockDate.set('2020-01-01')
-  })
-
-  afterEach(() => {
-    MockDate.reset()
-  })
-
+describe('buildBikeCommuteTimeseriesQueryByAccountId', () => {
   it('should use a well formated selector', () => {
-    const query = buildOneYearBikeCommuteTimeseriesQueryByDateAndAccountId(
-      {
-        date: new Date(),
-        accountId: 'accountId'
-      },
+    const query = buildBikeCommuteTimeseriesQueryByAccountId(
+      { accountId: 'accountId' },
       false
     )
 
@@ -145,15 +134,12 @@ describe('buildOneYearBikeCommuteTimeseriesQueryByDateAndAccountId', () => {
         selector: {
           'aggregation.modes': {
             $elemMatch: {
-              $eq: 'BIKE'
+              $eq: 'BICYCLING'
             }
           },
           'aggregation.purpose': 'COMMUTE',
           'cozyMetadata.sourceAccount': 'accountId',
-          startDate: {
-            $gte: '2020-01-01T00:00:00.000Z',
-            $lte: '2020-12-31T23:59:59.999Z'
-          }
+          startDate: { $gt: null }
         }
       }
     })

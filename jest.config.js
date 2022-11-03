@@ -2,7 +2,7 @@ process.env.TZ = 'UTC'
 
 module.exports = {
   testURL: 'http://localhost/',
-  moduleFileExtensions: ['js', 'jsx', 'json', 'styl'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'styl'],
   setupFiles: ['<rootDir>/test/jestLib/setup.js'],
   setupFilesAfterEnv: ['<rootDir>/test/jestLib/setupAfterEnv.js'],
   moduleDirectories: ['src', 'node_modules'],

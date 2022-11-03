@@ -45,7 +45,8 @@ import {
   setManualPurpose,
   computeFirstAndLastDay,
   countDays,
-  getEarliestTimeserie
+  getEarliestTimeserie,
+  filterTimeseriesByYear
 } from 'src/lib/timeseries'
 
 describe('transformSerieToTrip', () => {
@@ -814,5 +815,24 @@ describe('getEarliestTimeserie', () => {
       startDate: '2020-01-01T00:00:00',
       endDate: '2020-01-01T00:00:00'
     })
+  })
+})
+
+describe('filterTimeseriesByYear', () => {
+  it('should return only timeseries that match the year', () => {
+    const timeseries = [
+      { startDate: '2022-01-01T00:00:00', endDate: '2022-01-01T00:00:00' },
+      { startDate: '2020-01-01T00:00:00', endDate: '2020-01-01T00:00:00' },
+      { startDate: '2021-01-01T00:00:00', endDate: '2021-01-01T00:00:00' }
+    ]
+
+    const res = filterTimeseriesByYear(timeseries, '2021')
+
+    expect(res).toStrictEqual([
+      {
+        startDate: '2021-01-01T00:00:00',
+        endDate: '2021-01-01T00:00:00'
+      }
+    ])
   })
 })
