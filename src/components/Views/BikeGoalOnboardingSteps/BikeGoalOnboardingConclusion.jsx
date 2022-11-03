@@ -46,7 +46,8 @@ const BikeGoalOnboardingConclusion = forwardRef((props, ref) => {
       ...bikeGoal,
       onboarded: true,
       activated: true,
-      showAlert: false
+      showAlert: false,
+      showAlertSuccess: true
     })
     toggleBusy()
     navigate('/bikegoal')
