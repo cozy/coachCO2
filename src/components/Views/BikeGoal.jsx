@@ -1,35 +1,35 @@
 import React from 'react'
 
+import { isQueryLoading, useQueryAll } from 'cozy-client'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import SpinnerOrEmptyContent from 'src/components/SpinnerOrEmptyContent'
 import BikeGoalDialogMobile from 'src/components/Goals/BikeGoal/BikeGoalDialogMobile'
 import BikeGoalViewDesktop from 'src/components/Goals/BikeGoal/BikeGoalViewDesktop'
-import { useTemporaryQueryForBikeGoal } from 'src/components/Goals/useTemporaryQueryForBikeGoal'
+import { buildBikeCommuteTimeseriesQueryByAccountId } from 'src/queries/queries'
 
 const Bikegoal = () => {
   const { account, isAccountLoading } = useAccountContext()
   const { isMobile } = useBreakpoints()
-  // TODO: uncomment this when the request return something
-  //
-  // const { date } = useBikeGoalDateContext()
-  // const timeseriesQuery =
-  //   buildOneYearBikeCommuteTimeseriesQueryByDateAndAccountId(
-  //     {
-  //       date,
-  //       accountId: account?._id
-  //     },
-  //     Boolean(account)
-  //   )
 
-  // TODO: remove this hooks when the above request will work
-  const {
-    timeseries,
-    timeseriesQueryLeft,
-    isLoadingTimeseriesQuery,
-    isLoadingOrEmpty
-  } = useTemporaryQueryForBikeGoal()
+  const timeseriesQuery = buildBikeCommuteTimeseriesQueryByAccountId(
+    { accountId: account?._id },
+    Boolean(account)
+  )
+  const { data: timeseries, ...timeseriesQueryLeft } = useQueryAll(
+    timeseriesQuery.definition,
+    timeseriesQuery.options
+  )
+
+  const isLoadingTimeseriesQuery =
+    isQueryLoading(timeseriesQueryLeft) || timeseriesQueryLeft.hasMore
+
+  const isLoadingOrEmpty =
+    isAccountLoading ||
+    !account ||
+    isLoadingTimeseriesQuery ||
+    timeseries.length === 0
 
   if (isLoadingOrEmpty) {
     return (
