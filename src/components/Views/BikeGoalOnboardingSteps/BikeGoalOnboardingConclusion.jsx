@@ -4,6 +4,7 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
 import StepContent from 'cozy-ui/transpiled/react/StepContent'
 import Typography from 'cozy-ui/transpiled/react/Typography'
+import Button from 'cozy-ui/transpiled/react/Buttons'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 import useSettings from 'src/hooks/useSettings'
@@ -40,6 +41,16 @@ const BikeGoalOnboardingConclusion = forwardRef((props, ref) => {
             <Typography style={styles.typography}>
               {t('bikeGoal.about.once_goal_reach.content', { bountyAmount })}
             </Typography>
+            <div className="u-mt-1">
+              <Button
+                label={t('bikeGoal.onboarding.actions.finish')}
+              />
+              <Button
+                label={t('bikeGoal.onboarding.actions.previous')}
+                variant="text"
+                className="u-ml-half"
+              />
+            </div>
           </>
         )}
       </StepContent>

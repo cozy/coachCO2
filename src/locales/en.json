@@ -217,7 +217,9 @@
     "onboarding": {
       "title": "\"Sustainable mobility\" package",
       "actions": {
-        "finish": "Finish"
+        "finish": "Finish",
+        "previous": "Previous",
+        "next": "Next"
       },
       "steps": {
         "naming": {

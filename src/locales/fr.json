@@ -217,7 +217,9 @@
     "onboarding": {
       "title": "Forfait \"mobilités durables\"",
       "actions": {
-        "finish": "Terminer"
+        "finish": "Terminer",
+        "previous": "Précédent",
+        "next": "Suivant"
       },
       "steps": {
         "naming": {
