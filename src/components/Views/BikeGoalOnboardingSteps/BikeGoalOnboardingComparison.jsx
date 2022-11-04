@@ -47,6 +47,7 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
     await setBikeGoal({
       ...bikeGoal,
       onboardingStep: onboardingStep + 1,
+      sendToDacc: unsavedSendToDacc
     })
     toggleBusy()
   }
@@ -71,6 +72,7 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
                   control={
                     <Radio
                       checked={unsavedSendToDacc === true}
+                      onClick={() => setShowPermissionsDialog(true)}
                     />
                   }
                   label={t('bikeGoal.onboarding.steps.comparison.compare')}
@@ -80,6 +82,7 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
                   control={
                     <Radio
                       checked={unsavedSendToDacc === false}
+                      onClick={() => setUnsavedSendToDacc(false)}
                     />
                   }
                   label={t('bikeGoal.onboarding.steps.comparison.doNotCompare')}
@@ -110,9 +113,11 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
           onClose={() => setShowPermissionsDialog(false)}
           onRefuse={() => {
             setShowPermissionsDialog(false)
+            setUnsavedSendToDacc(false)
           }}
           onAccept={() => {
             setShowPermissionsDialog(false)
+            setUnsavedSendToDacc(true)
           }}
         />
       )}

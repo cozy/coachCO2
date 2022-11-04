@@ -44,6 +44,9 @@ const BikeGoalOnboardingConclusion = forwardRef((props, ref) => {
     toggleBusy()
     await setBikeGoal({
       ...bikeGoal,
+      onboarded: true,
+      activated: true,
+      showAlert: false
     })
     toggleBusy()
     navigate('/bikegoal')

@@ -45,6 +45,8 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
     await setBikeGoal({
       ...bikeGoal,
       onboardingStep: onboardingStep + 1,
+      workTime: unsavedWorkTime,
+      workTimePercentage: unsavedWorkTimePercentage
     })
     toggleBusy()
   }
@@ -68,6 +70,7 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
                 control={
                   <Radio
                     checked={unsavedWorkTime === 'full'}
+                    onClick={() => setUnsavedWorkTime('full')}
                   />
                 }
                 label={t('bikeGoal.edit.workTime_full')}
@@ -77,6 +80,7 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
                 control={
                   <Radio
                     checked={unsavedWorkTime === 'part'}
+                    onClick={() => setUnsavedWorkTime('part')}
                   />
                 }
                 label={t('bikeGoal.edit.workTime_part')}
@@ -105,6 +109,13 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
                         <Typography variant="body1">%</Typography>
                       </InputAdornment>
                     )
+                  }}
+                  onChange={event => {
+                    if (event.target.value.match(/^\d+$/)) {
+                      setUnsavedWorkTimePercentage(Number(event.target.value))
+                    } else {
+                      setUnsavedWorkTimePercentage(0)
+                    }
                   }}
                   className="u-db u-mt-1"
                 />

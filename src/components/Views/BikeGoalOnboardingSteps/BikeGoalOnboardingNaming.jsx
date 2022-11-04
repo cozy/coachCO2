@@ -36,6 +36,8 @@ const BikeGoalOnboardingNaming = forwardRef((props, ref) => {
     await setBikeGoal({
       ...bikeGoal,
       onboardingStep: onboardingStep + 1,
+      lastname: unsavedLastname,
+      firstname: unsavedFirstname
     })
     toggleBusy()
   }
@@ -58,12 +60,14 @@ const BikeGoalOnboardingNaming = forwardRef((props, ref) => {
               variant="outlined"
               label={t('bikeGoal.edit.lastname')}
               defaultValue={unsavedLastname}
+              onChange={event => setUnsavedLastname(event.target.value)}
               className="u-db u-mt-1"
             />
             <TextField
               variant="outlined"
               label={t('bikeGoal.edit.firstname')}
               defaultValue={unsavedFirstname}
+              onChange={event => setUnsavedFirstname(event.target.value)}
               className="u-db u-mt-1"
             />
             <div className="u-mt-1">
