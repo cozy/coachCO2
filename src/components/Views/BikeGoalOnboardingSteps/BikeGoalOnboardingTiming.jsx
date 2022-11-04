@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useReducer } from 'react'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
@@ -14,6 +14,7 @@ import useSettings from 'src/hooks/useSettings'
 
 const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
   const { t } = useI18n()
+  const [isBusy, toggleBusy] = useReducer(prev => !prev, false)
   const {
     isLoading,
     value: bikeGoal = {},
@@ -24,17 +25,21 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
   } = bikeGoal
 
   const handleBack = async () => {
+    toggleBusy()
     await setBikeGoal({
       ...bikeGoal,
       onboardingStep: onboardingStep - 1
     })
+    toggleBusy()
   }
 
   const handleForward = async () => {
+    toggleBusy()
     await setBikeGoal({
       ...bikeGoal,
       onboardingStep: onboardingStep + 1,
     })
+    toggleBusy()
   }
 
   return (
@@ -67,13 +72,16 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
               <Button
                 onClick={handleForward}
                 label={t('bikeGoal.onboarding.actions.next')}
+                disabled={isBusy}
               />
               <Button
                 onClick={handleBack}
                 label={t('bikeGoal.onboarding.actions.previous')}
+                disabled={isBusy}
                 variant="text"
                 className="u-ml-half"
               />
+              {isBusy && <Spinner className="u-ml-half" />}
             </div>
           </>
         )}
