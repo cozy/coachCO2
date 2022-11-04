@@ -1,36 +1,29 @@
-import React, { useReducer } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-import Button from 'cozy-ui/transpiled/react/Buttons'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
+import { Stepper } from 'cozy-ui/transpiled/react/Stepper'
 
 import useSettings from 'src/hooks/useSettings'
+import BikeGoalOnboardingComparison from 'src/components/Views/BikeGoalOnboardingSteps/BikeGoalOnboardingComparison'
+import BikeGoalOnboardingConclusion from 'src/components/Views/BikeGoalOnboardingSteps/BikeGoalOnboardingConclusion'
+import BikeGoalOnboardingDetection from 'src/components/Views/BikeGoalOnboardingSteps/BikeGoalOnboardingDetection'
+import BikeGoalOnboardingIntroduction from 'src/components/Views/BikeGoalOnboardingSteps/BikeGoalOnboardingIntroduction'
+import BikeGoalOnboardingNaming from 'src/components/Views/BikeGoalOnboardingSteps/BikeGoalOnboardingNaming'
+import BikeGoalOnboardingTiming from 'src/components/Views/BikeGoalOnboardingSteps/BikeGoalOnboardingTiming'
 
 const BikeGoalOnboarding = () => {
   const { t } = useI18n()
   const navigate = useNavigate()
-  const [isBusy, toggleBusy] = useReducer(prev => !prev, false)
-  const {
-    isLoading,
-    value: bikeGoal = {},
-    save: setBikeGoal
-  } = useSettings('bikeGoal')
+
+  const { isLoading, value: onboardingStep = 0 } = useSettings(
+    'bikeGoal.onboardingStep'
+  )
 
   const handleBack = () => {
     navigate('..')
-  }
-
-  const handleForward = async () => {
-    toggleBusy()
-    await setBikeGoal({
-      ...bikeGoal,
-      onboarded: true,
-      activated: true,
-      showAlert: false
-    })
-    navigate('/bikegoal')
   }
 
   return (
@@ -47,14 +40,14 @@ const BikeGoalOnboarding = () => {
             />
           )}
           {!isLoading && (
-            <>
-              <div>⚠️ under construction ⚠️</div>
-              <Button
-                onClick={handleForward}
-                label={t('bikeGoal.onboarding.actions.finish')}
-                busy={isBusy}
-              />
-            </>
+            <Stepper activeStep={onboardingStep} orientation="vertical">
+              <BikeGoalOnboardingIntroduction />
+              <BikeGoalOnboardingNaming />
+              <BikeGoalOnboardingTiming />
+              <BikeGoalOnboardingDetection />
+              <BikeGoalOnboardingComparison />
+              <BikeGoalOnboardingConclusion />
+            </Stepper>
           )}
         </>
       }
