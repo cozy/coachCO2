@@ -11,6 +11,7 @@ import Radio from 'cozy-ui/transpiled/react/Radios'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 import useSettings from 'src/hooks/useSettings'
+import BikeGoalDaccManager from 'src/components/DaccManager/BikeGoalDaccManager'
 
 const createStyles = () => ({
   typography: {
@@ -20,6 +21,7 @@ const createStyles = () => ({
 
 const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
   const { t } = useI18n()
+  const [showPermissionsDialog, setShowPermissionsDialog] = useState(false)
   const [isBusy, toggleBusy] = useReducer(prev => !prev, false)
   const {
     isLoading,
@@ -103,6 +105,17 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
           )}
         </StepContent>
       </Step>
+      {showPermissionsDialog && (
+        <BikeGoalDaccManager
+          onClose={() => setShowPermissionsDialog(false)}
+          onRefuse={() => {
+            setShowPermissionsDialog(false)
+          }}
+          onAccept={() => {
+            setShowPermissionsDialog(false)
+          }}
+        />
+      )}
     </>
   )
 })

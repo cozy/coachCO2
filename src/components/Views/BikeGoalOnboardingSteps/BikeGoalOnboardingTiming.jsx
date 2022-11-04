@@ -1,10 +1,12 @@
 import React, { forwardRef, useReducer, useState } from 'react'
+import InputAdornment from '@material-ui/core/InputAdornment'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
 import StepContent from 'cozy-ui/transpiled/react/StepContent'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import Button from 'cozy-ui/transpiled/react/Buttons'
+import TextField from 'cozy-ui/transpiled/react/MuiCozyTheme/TextField'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import RadioGroup from 'cozy-ui/transpiled/react/RadioGroup'
 import Radio from 'cozy-ui/transpiled/react/Radios'
@@ -78,6 +80,32 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
                 className="u-m-0"
               />
             </RadioGroup>
+            {unsavedWorkTime === 'part' && (
+              <>
+                <Typography className="u-mt-1">
+                  {t('bikeGoal.onboarding.steps.timing.percentageLegend')}
+                </Typography>
+                <TextField
+                  variant="outlined"
+                  type="number"
+                  inputProps={{
+                    min: '0',
+                    max: '100',
+                    step: '1',
+                    inputMode: 'numeric'
+                  }}
+                  label={t('bikeGoal.onboarding.steps.timing.percentage')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Typography variant="body1">%</Typography>
+                      </InputAdornment>
+                    )
+                  }}
+                  className="u-db u-mt-1"
+                />
+              </>
+            )}
             <div className="u-mt-1">
               <Button
                 onClick={handleForward}

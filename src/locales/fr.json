@@ -229,7 +229,9 @@
         "timing": {
           "timeLegend": "Vous disposez actuellement d’un contrat de travail à :",
           "fullTime": "Temps plein",
-          "partTime": "Mi-temps ou temps partiel"
+          "partTime": "Mi-temps ou temps partiel",
+          "percentageLegend": "Renseignez le pourcentage de votre temps de travail :",
+          "percentage": "Pourcentage"
         },
         "comparison": {
           "comparisonLegend": "Il vous est possible d’afficher la progression moyenne des membres de votre entreprise qui participent à l’objectif. Pour cela, il vous sera demandé de participer également à la constituation de cette moyenne.\n\nVos données de progression seront agrégées et envoyées anonymement, elles ne contiendront aucun identifiant ni lieux.",
