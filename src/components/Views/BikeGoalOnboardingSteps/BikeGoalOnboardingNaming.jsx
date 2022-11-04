@@ -1,4 +1,4 @@
-import React, { forwardRef, useReducer } from 'react'
+import React, { forwardRef, useReducer, useState } from 'react'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
@@ -18,7 +18,9 @@ const BikeGoalOnboardingNaming = forwardRef((props, ref) => {
     value: bikeGoal = {},
     save: setBikeGoal
   } = useSettings('bikeGoal')
-  const { onboardingStep = 0, } = bikeGoal
+  const { onboardingStep = 0, lastname = '', firstname = '' } = bikeGoal
+  const [unsavedLastname, setUnsavedLastname] = useState(lastname)
+  const [unsavedFirstname, setUnsavedFirstname] = useState(firstname)
 
   const handleBack = async () => {
     toggleBusy()
@@ -55,11 +57,13 @@ const BikeGoalOnboardingNaming = forwardRef((props, ref) => {
             <TextField
               variant="outlined"
               label={t('bikeGoal.edit.lastname')}
+              defaultValue={unsavedLastname}
               className="u-db u-mt-1"
             />
             <TextField
               variant="outlined"
               label={t('bikeGoal.edit.firstname')}
+              defaultValue={unsavedFirstname}
               className="u-db u-mt-1"
             />
             <div className="u-mt-1">

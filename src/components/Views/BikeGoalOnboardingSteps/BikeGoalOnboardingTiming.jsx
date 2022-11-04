@@ -1,4 +1,4 @@
-import React, { forwardRef, useReducer } from 'react'
+import React, { forwardRef, useReducer, useState } from 'react'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
@@ -22,7 +22,9 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
   } = useSettings('bikeGoal')
   const {
     onboardingStep = 0,
+    workTime = null,
   } = bikeGoal
+  const [unsavedWorkTime, setUnsavedWorkTime] = useState(workTime)
 
   const handleBack = async () => {
     toggleBusy()
@@ -58,12 +60,20 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
             </Typography>
             <RadioGroup className="u-mt-1">
               <FormControlLabel
-                control={<Radio />}
+                control={
+                  <Radio
+                    checked={unsavedWorkTime === 'full'}
+                  />
+                }
                 label={t('bikeGoal.onboarding.steps.timing.fullTime')}
                 className="u-m-0"
               />
               <FormControlLabel
-                control={<Radio />}
+                control={
+                  <Radio
+                    checked={unsavedWorkTime === 'part'}
+                  />
+                }
                 label={t('bikeGoal.onboarding.steps.timing.partTime')}
                 className="u-m-0"
               />

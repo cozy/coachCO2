@@ -1,4 +1,4 @@
-import React, { forwardRef, useReducer } from 'react'
+import React, { forwardRef, useReducer, useState } from 'react'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
@@ -26,7 +26,8 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
     value: bikeGoal = {},
     save: setBikeGoal
   } = useSettings('bikeGoal')
-  const { onboardingStep = 0, } = bikeGoal
+  const { onboardingStep = 0, sendToDacc = null } = bikeGoal
+  const [unsavedSendToDacc, setUnsavedSendToDacc] = useState(sendToDacc)
 
   const styles = createStyles()
 
@@ -65,12 +66,20 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
               </Typography>
               <RadioGroup className="u-mt-1">
                 <FormControlLabel
-                  control={<Radio />}
+                  control={
+                    <Radio
+                      checked={unsavedSendToDacc === true}
+                    />
+                  }
                   label={t('bikeGoal.onboarding.steps.comparison.compare')}
                   className="u-m-0"
                 />
                 <FormControlLabel
-                  control={<Radio />}
+                  control={
+                    <Radio
+                      checked={unsavedSendToDacc === false}
+                    />
+                  }
                   label={t('bikeGoal.onboarding.steps.comparison.doNotCompare')}
                   className="u-m-0"
                 />
