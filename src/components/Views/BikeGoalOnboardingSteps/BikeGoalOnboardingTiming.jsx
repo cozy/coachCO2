@@ -7,29 +7,46 @@ import Typography from 'cozy-ui/transpiled/react/Typography'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import RadioGroup from 'cozy-ui/transpiled/react/RadioGroup'
 import Radio from 'cozy-ui/transpiled/react/Radios'
+import Spinner from 'cozy-ui/transpiled/react/Spinner'
+
+import useSettings from 'src/hooks/useSettings'
 
 const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
   const { t } = useI18n()
+  const {
+    isLoading,
+    value: bikeGoal = {},
+    save: setBikeGoal
+  } = useSettings('bikeGoal')
 
   return (
     <Step {...props} ref={ref}>
       <StepLabel>{t('bikeGoal.edit.workTime')}</StepLabel>
       <StepContent>
-        <Typography>
-          {t('bikeGoal.onboarding.steps.timing.timeLegend')}
-        </Typography>
-        <RadioGroup className="u-mt-1">
-          <FormControlLabel
-            control={<Radio />}
-            label={t('bikeGoal.onboarding.steps.timing.fullTime')}
-            className="u-m-0"
+        {isLoading ? (
+          <Spinner
+            size="xxlarge"
+            className="u-flex u-flex-justify-center u-m-1"
           />
-          <FormControlLabel
-            control={<Radio />}
-            label={t('bikeGoal.onboarding.steps.timing.partTime')}
-            className="u-m-0"
-          />
-        </RadioGroup>
+        ) : (
+          <>
+            <Typography>
+              {t('bikeGoal.onboarding.steps.timing.timeLegend')}
+            </Typography>
+            <RadioGroup className="u-mt-1">
+              <FormControlLabel
+                control={<Radio />}
+                label={t('bikeGoal.onboarding.steps.timing.fullTime')}
+                className="u-m-0"
+              />
+              <FormControlLabel
+                control={<Radio />}
+                label={t('bikeGoal.onboarding.steps.timing.partTime')}
+                className="u-m-0"
+              />
+            </RadioGroup>
+          </>
+        )}
       </StepContent>
     </Step>
   )
