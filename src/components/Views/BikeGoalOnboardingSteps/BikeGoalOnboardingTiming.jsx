@@ -19,6 +19,23 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
     value: bikeGoal = {},
     save: setBikeGoal
   } = useSettings('bikeGoal')
+  const {
+    onboardingStep = 0,
+  } = bikeGoal
+
+  const handleBack = async () => {
+    await setBikeGoal({
+      ...bikeGoal,
+      onboardingStep: onboardingStep - 1
+    })
+  }
+
+  const handleForward = async () => {
+    await setBikeGoal({
+      ...bikeGoal,
+      onboardingStep: onboardingStep + 1,
+    })
+  }
 
   return (
     <Step {...props} ref={ref}>
@@ -48,9 +65,11 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
             </RadioGroup>
             <div className="u-mt-1">
               <Button
+                onClick={handleForward}
                 label={t('bikeGoal.onboarding.actions.next')}
               />
               <Button
+                onClick={handleBack}
                 label={t('bikeGoal.onboarding.actions.previous')}
                 variant="text"
                 className="u-ml-half"

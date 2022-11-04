@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
@@ -18,14 +19,30 @@ const createStyles = () => ({
 
 const BikeGoalOnboardingConclusion = forwardRef((props, ref) => {
   const { t } = useI18n()
+  const navigate = useNavigate()
   const {
     isLoading,
     value: bikeGoal = {},
     save: setBikeGoal
   } = useSettings('bikeGoal')
+  const { onboardingStep = 0 } = bikeGoal
   const bountyAmount = getBountyAmount()
 
   const styles = createStyles()
+
+  const handleBack = async () => {
+    await setBikeGoal({
+      ...bikeGoal,
+      onboardingStep: onboardingStep - 1
+    })
+  }
+
+  const handleForward = async () => {
+    await setBikeGoal({
+      ...bikeGoal,
+    })
+    navigate('/bikegoal')
+  }
 
   return (
     <Step {...props} ref={ref}>
@@ -43,9 +60,11 @@ const BikeGoalOnboardingConclusion = forwardRef((props, ref) => {
             </Typography>
             <div className="u-mt-1">
               <Button
+                onClick={handleForward}
                 label={t('bikeGoal.onboarding.actions.finish')}
               />
               <Button
+                onClick={handleBack}
                 label={t('bikeGoal.onboarding.actions.previous')}
                 variant="text"
                 className="u-ml-half"
