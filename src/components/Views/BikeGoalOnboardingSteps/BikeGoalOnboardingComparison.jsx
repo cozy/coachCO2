@@ -1,0 +1,50 @@
+import React, { forwardRef } from 'react'
+
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
+import StepContent from 'cozy-ui/transpiled/react/StepContent'
+import Typography from 'cozy-ui/transpiled/react/Typography'
+import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
+import RadioGroup from 'cozy-ui/transpiled/react/RadioGroup'
+import Radio from 'cozy-ui/transpiled/react/Radios'
+
+const createStyles = () => ({
+  typography: {
+    whiteSpace: 'pre-line'
+  }
+})
+
+const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
+  const { t } = useI18n()
+
+  const styles = createStyles()
+
+  return (
+    <>
+      <Step {...props} ref={ref}>
+        <StepLabel>{t('bikeGoal.edit.compare_progress')}</StepLabel>
+        <StepContent>
+          <Typography style={styles.typography}>
+            {t('bikeGoal.onboarding.steps.comparison.comparisonLegend')}
+          </Typography>
+          <RadioGroup className="u-mt-1">
+            <FormControlLabel
+              control={<Radio />}
+              label={t('bikeGoal.onboarding.steps.comparison.compare')}
+              className="u-m-0"
+            />
+            <FormControlLabel
+              control={<Radio />}
+              label={t('bikeGoal.onboarding.steps.comparison.doNotCompare')}
+              className="u-m-0"
+            />
+          </RadioGroup>
+        </StepContent>
+      </Step>
+    </>
+  )
+})
+
+BikeGoalOnboardingComparison.displayName = 'BikeGoalOnboardingComparison'
+
+export default BikeGoalOnboardingComparison

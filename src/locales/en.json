@@ -218,6 +218,22 @@
       "title": "\"Sustainable mobility\" package",
       "actions": {
         "finish": "Finish"
+      },
+      "steps": {
+        "naming": {
+          "title": "Lastname and firstname",
+          "nameLegend": "Fill in the following information:"
+        },
+        "timing": {
+          "timeLegend": "You currently have a employment contract:",
+          "fullTime": "Full-time",
+          "partTime": "Half-time or part-time"
+        },
+        "comparison": {
+          "comparisonLegend": "It is possible to display the average progression of the members of your company who participate in the goal. To do so, you will be asked to also participate in the establishment of this average. Your progression data will be aggregated and sent anonymously, and will not contain any identifiers or locations.",
+          "compare": "Compare my progression",
+          "doNotCompare": "Do not compare my progression"
+        }
       }
     },
     "certificateGeneration": {
