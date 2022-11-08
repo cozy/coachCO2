@@ -52,6 +52,13 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
     toggleBusy()
   }
 
+  const isForwardDisabled = () => {
+    if (unsavedSendToDacc == null) {
+      return true
+    }
+    return false
+  }
+
   return (
     <>
       <Step {...props} ref={ref}>
@@ -93,7 +100,7 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
                 <Button
                   onClick={handleForward}
                   label={t('bikeGoal.onboarding.actions.next')}
-                  disabled={isBusy}
+                  disabled={isBusy || isForwardDisabled()}
                 />
                 <Button
                   onClick={handleBack}

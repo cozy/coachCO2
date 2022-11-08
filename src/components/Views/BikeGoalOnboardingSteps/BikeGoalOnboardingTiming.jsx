@@ -51,6 +51,16 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
     toggleBusy()
   }
 
+  const isForwardDisabled = () => {
+    if (unsavedWorkTime == null) {
+      return true
+    }
+    if (unsavedWorkTime === 'part' && unsavedWorkTimePercentage === 0) {
+      return true
+    }
+    return false
+  }
+
   return (
     <Step {...props} ref={ref}>
       <StepLabel>{t('bikeGoal.edit.workTime')}</StepLabel>
@@ -125,7 +135,7 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
               <Button
                 onClick={handleForward}
                 label={t('bikeGoal.onboarding.actions.next')}
-                disabled={isBusy}
+                disabled={isBusy || isForwardDisabled()}
               />
               <Button
                 onClick={handleBack}

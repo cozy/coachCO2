@@ -42,6 +42,16 @@ const BikeGoalOnboardingNaming = forwardRef((props, ref) => {
     toggleBusy()
   }
 
+  const isForwardDisabled = () => {
+    if (unsavedFirstname === '') {
+      return true
+    }
+    if (unsavedLastname === '') {
+      return true
+    }
+    return false
+  }
+
   return (
     <Step {...props} ref={ref}>
       <StepLabel>{t('bikeGoal.onboarding.steps.naming.title')}</StepLabel>
@@ -74,7 +84,7 @@ const BikeGoalOnboardingNaming = forwardRef((props, ref) => {
               <Button
                 onClick={handleForward}
                 label={t('bikeGoal.onboarding.actions.next')}
-                disabled={isBusy}
+                disabled={isBusy || isForwardDisabled()}
               />
               <Button
                 onClick={handleBack}
