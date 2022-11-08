@@ -228,8 +228,6 @@
         },
         "timing": {
           "timeLegend": "You currently have a employment contract:",
-          "fullTime": "Full-time",
-          "partTime": "Half-time or part-time",
           "percentageLegend": "Fill in the percentage of your working time:",
           "percentage": "Percentage"
         },

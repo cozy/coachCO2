@@ -228,8 +228,6 @@
         },
         "timing": {
           "timeLegend": "Vous disposez actuellement d’un contrat de travail à :",
-          "fullTime": "Temps plein",
-          "partTime": "Mi-temps ou temps partiel",
           "percentageLegend": "Renseignez le pourcentage de votre temps de travail :",
           "percentage": "Pourcentage"
         },

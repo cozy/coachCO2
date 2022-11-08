@@ -25,8 +25,11 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
   const {
     onboardingStep = 0,
     workTime = null,
+    workTimePercentage = 0
   } = bikeGoal
   const [unsavedWorkTime, setUnsavedWorkTime] = useState(workTime)
+  const [unsavedWorkTimePercentage, setUnsavedWorkTimePercentage] =
+    useState(workTimePercentage)
 
   const handleBack = async () => {
     toggleBusy()
@@ -67,7 +70,7 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
                     checked={unsavedWorkTime === 'full'}
                   />
                 }
-                label={t('bikeGoal.onboarding.steps.timing.fullTime')}
+                label={t('bikeGoal.edit.workTime_full')}
                 className="u-m-0"
               />
               <FormControlLabel
@@ -76,7 +79,7 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
                     checked={unsavedWorkTime === 'part'}
                   />
                 }
-                label={t('bikeGoal.onboarding.steps.timing.partTime')}
+                label={t('bikeGoal.edit.workTime_part')}
                 className="u-m-0"
               />
             </RadioGroup>
@@ -95,6 +98,7 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
                     inputMode: 'numeric'
                   }}
                   label={t('bikeGoal.onboarding.steps.timing.percentage')}
+                  defaultValue={unsavedWorkTimePercentage}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
