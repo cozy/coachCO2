@@ -13,10 +13,10 @@ jest.mock('cozy-flags', () => name => {
 
 describe('isGoalCompleted', () => {
   it('should return true', () => {
-    const timeseries = [
-      { startDate: '2021-01-01T00:00:00', endDate: '2021-01-02T00:00:00' },
-      { startDate: '2021-03-01T00:00:00', endDate: '2021-03-02T00:00:00' }
-    ]
+    const timeseries = Array.from({ length: 30 }, (_, index) => ({
+      startDate: new Date(2021, 1, index + 1),
+      endDate: new Date(2021, 1, index + 1)
+    }))
 
     const res = isGoalCompleted(timeseries)
 
@@ -44,14 +44,14 @@ describe('countDaysOrDaysToReach', () => {
 
     const res = countDaysOrDaysToReach(timeseries)
 
-    expect(res).toBe(4)
+    expect(res).toBe(2)
   })
 
   it('should return the days to reach', () => {
-    const timeseries = [
-      { startDate: '2021-01-01T00:00:00', endDate: '2021-01-02T00:00:00' },
-      { startDate: '2021-06-01T00:00:00', endDate: '2021-06-01T00:00:00' }
-    ]
+    const timeseries = Array.from({ length: 40 }, (_, index) => ({
+      startDate: new Date(2021, 1, index + 1),
+      endDate: new Date(2021, 1, index + 1)
+    }))
 
     const res = countDaysOrDaysToReach(timeseries)
 
@@ -60,7 +60,7 @@ describe('countDaysOrDaysToReach', () => {
 })
 
 describe('makeGoalAchievementPercentage', () => {
-  it('should return 30', () => {
+  it('should return 7', () => {
     const timeseries = [
       { startDate: '2021-01-01T00:00:00', endDate: '2021-01-01T00:00:00' },
       { startDate: '2021-01-05T00:00:00', endDate: '2021-01-05T00:00:00' }
@@ -68,14 +68,14 @@ describe('makeGoalAchievementPercentage', () => {
 
     const res = makeGoalAchievementPercentage(timeseries)
 
-    expect(res).toBe(13)
+    expect(res).toBe(7)
   })
 
   it('should return 100', () => {
-    const timeseries = [
-      { startDate: '2021-01-01T00:00:00', endDate: '2021-01-02T00:00:00' },
-      { startDate: '2021-06-01T00:00:00', endDate: '2021-06-01T00:00:00' }
-    ]
+    const timeseries = Array.from({ length: 40 }, (_, index) => ({
+      startDate: new Date(2021, 1, index + 1),
+      endDate: new Date(2021, 1, index + 1)
+    }))
 
     const res = makeGoalAchievementPercentage(timeseries)
 
