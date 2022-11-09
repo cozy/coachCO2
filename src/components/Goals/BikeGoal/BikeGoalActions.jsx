@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import cx from 'classnames'
 
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
@@ -19,7 +20,9 @@ const BikeGoalActions = ({ timeseries }) => {
 
   return (
     <div
-      className="u-flex u-flex-justify-end u-pos-absolute u-top-m"
+      className={cx('u-flex u-flex-justify-end', {
+        'u-pos-absolute u-top-m': !isMobile
+      })}
       style={styles.actions}
     >
       <BikeGoalDateSelector timeseries={timeseries} />

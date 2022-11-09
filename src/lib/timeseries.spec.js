@@ -813,6 +813,20 @@ describe('countUniqDays', () => {
 
     expect(res).toBe(2)
   })
+
+  it('should not change order of initial timeseries', () => {
+    const timeseries = [
+      { startDate: '2021-01-02T00:00:00', endDate: '2021-01-02T00:00:00' },
+      { startDate: '2021-01-01T00:00:00', endDate: '2021-01-01T00:00:00' }
+    ]
+
+    countUniqDays(timeseries)
+
+    expect(timeseries[0]).toStrictEqual({
+      startDate: '2021-01-02T00:00:00',
+      endDate: '2021-01-02T00:00:00'
+    })
+  })
 })
 
 describe('getEarliestTimeserie', () => {

@@ -470,7 +470,7 @@ export const computeMonthsAndCO2s = (timeseries, f) => {
 export const countUniqDays = timeseries => {
   let count = 0
 
-  const sortedTimeseriesByStartdateAsc = timeseries.sort((a, b) => {
+  const sortedTimeseriesByStartdateAsc = [...timeseries].sort((a, b) => {
     return getStartDate(a) - getStartDate(b)
   })
 
