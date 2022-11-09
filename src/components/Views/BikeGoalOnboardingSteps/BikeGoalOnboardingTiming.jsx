@@ -6,13 +6,14 @@ import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
 import StepContent from 'cozy-ui/transpiled/react/StepContent'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import Button from 'cozy-ui/transpiled/react/Buttons'
-import TextField from 'cozy-ui/transpiled/react/MuiCozyTheme/TextField'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import RadioGroup from 'cozy-ui/transpiled/react/RadioGroup'
 import Radio from 'cozy-ui/transpiled/react/Radios'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 import useSettings from 'src/hooks/useSettings'
+import { toPercentage } from 'src/components/Goals/BikeGoal/Edit/helpers'
+import PercentageField from 'src/components/Goals/BikeGoal/Edit/PercentageField'
 
 const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
   const { t } = useI18n()
@@ -55,8 +56,13 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
     if (unsavedWorkTime == null) {
       return true
     }
-    if (unsavedWorkTime === 'part' && unsavedWorkTimePercentage === 0) {
-      return true
+    if (unsavedWorkTime === 'part') {
+      if (unsavedWorkTimePercentage == null) {
+        return true
+      }
+      if (unsavedWorkTimePercentage === 0) {
+        return true
+      }
     }
     return false
   }
@@ -103,15 +109,8 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
                   {t('bikeGoal.onboarding.steps.timing.percentageLegend')}
                 </Typography>
                 <div>
-                  <TextField
+                  <PercentageField
                     variant="outlined"
-                    type="number"
-                    inputProps={{
-                      min: '0',
-                      max: '100',
-                      step: '1',
-                      inputMode: 'numeric'
-                    }}
                     label={t('bikeGoal.onboarding.steps.timing.percentage')}
                     defaultValue={unsavedWorkTimePercentage}
                     InputProps={{
@@ -122,11 +121,9 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
                       )
                     }}
                     onChange={event => {
-                      if (event.target.value.match(/^\d+$/)) {
-                        setUnsavedWorkTimePercentage(Number(event.target.value))
-                      } else {
-                        setUnsavedWorkTimePercentage(0)
-                      }
+                      setUnsavedWorkTimePercentage(
+                        toPercentage(Number(event.target.value))
+                      )
                     }}
                     className="u-w-5 u-mt-1"
                   />
