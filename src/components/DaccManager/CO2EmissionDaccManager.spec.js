@@ -13,7 +13,7 @@ const setup = ({
     fetchStatus: 'loaded',
     data: [
       {
-        CO2Emission: { showAlert: true, sendToDacc: undefined }
+        CO2Emission: { showAlert: true, sendToDACC: undefined }
       }
     ]
   }
@@ -55,7 +55,7 @@ describe('DaccManager', () => {
           fetchStatus: 'loaded',
           data: [
             {
-              CO2Emission: { showAlert: false, sendToDacc: undefined }
+              CO2Emission: { showAlert: false, sendToDACC: undefined }
             }
           ]
         }
@@ -68,13 +68,13 @@ describe('DaccManager', () => {
       ).toBeNull()
     })
 
-    it('when sendToDacc is true', () => {
+    it('when sendToDACC is true', () => {
       const { queryByText } = setup({
         queryMock: {
           fetchStatus: 'loaded',
           data: [
             {
-              CO2Emission: { showAlert: true, sendToDacc: true }
+              CO2Emission: { showAlert: true, sendToDACC: true }
             }
           ]
         }
@@ -87,13 +87,13 @@ describe('DaccManager', () => {
       ).toBeNull()
     })
 
-    it('when showAlert and sendToDacc are both true', () => {
+    it('when showAlert and sendToDACC are both true', () => {
       const { queryByText } = setup({
         queryMock: {
           fetchStatus: 'loaded',
           data: [
             {
-              CO2Emission: { showAlert: false, sendToDacc: true }
+              CO2Emission: { showAlert: false, sendToDACC: true }
             }
           ]
         }

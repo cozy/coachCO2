@@ -21,7 +21,7 @@ const CO2EmissionDaccManager = () => {
     return null
   }
 
-  const { showAlert = true, sendToDacc = false } = CO2Emission
+  const { showAlert = true, sendToDACC = false } = CO2Emission
 
   const handleOnDiscard = () => {
     setCO2Emission({
@@ -40,7 +40,7 @@ const CO2EmissionDaccManager = () => {
 
   return (
     <>
-      {showAlert && !sendToDacc && (
+      {showAlert && !sendToDACC && (
         <CO2EmissionDaccBanner
           onDiscard={handleOnDiscard}
           onAccept={() => setShowCompareDialog(true)}

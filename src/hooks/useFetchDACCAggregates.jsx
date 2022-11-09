@@ -3,7 +3,7 @@ import { useClient } from 'cozy-client'
 
 import { fetchMonthlyAverageCO2FromDACCFor11Month } from 'src/lib/dacc'
 
-const useFetchDACCAggregates = allowSendDataToDacc => {
+const useFetchDACCAggregates = sendToDACC => {
   const client = useClient()
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState(null)
@@ -16,10 +16,10 @@ const useFetchDACCAggregates = allowSendDataToDacc => {
       setIsLoading(false)
       setData(averages)
     }
-    if (allowSendDataToDacc) {
+    if (sendToDACC) {
       fetchDataFromDACC()
     }
-  }, [client, allowSendDataToDacc])
+  }, [client, sendToDACC])
 
   return { isLoading, data }
 }

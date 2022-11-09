@@ -10,12 +10,12 @@ jest.mock('src/lib/dacc')
 
 const client = createMockClient({})
 
-const setup = ({ allowSendDataToDacc }) => {
+const setup = ({ sendToDACC }) => {
   const wrapper = ({ children }) => (
     <AppLike client={client}>{children}</AppLike>
   )
 
-  return renderHook(() => useFetchDACCAggregates(allowSendDataToDacc), {
+  return renderHook(() => useFetchDACCAggregates(sendToDACC), {
     wrapper
   })
 }
@@ -24,7 +24,7 @@ describe('useFetchDACCAggregates', () => {
   it('should return isLoading false and no data when dacc is not allowed', () => {
     fetchMonthlyAverageCO2FromDACCFor11Month.mockResolvedValue([{ avg: 42 }])
 
-    const { result } = setup({ allowSendDataToDacc: false })
+    const { result } = setup({ sendToDACC: false })
     expect(result.current.isLoading).toBe(false)
     expect(result.current.data).toBe(null)
   })
@@ -34,7 +34,7 @@ describe('useFetchDACCAggregates', () => {
       { avg: 42, sum: 58 },
       { avg: 64, sum: 102 }
     ])
-    const { result, waitForNextUpdate } = setup({ allowSendDataToDacc: true })
+    const { result, waitForNextUpdate } = setup({ sendToDACC: true })
     await waitForNextUpdate()
 
     expect(result.current.isLoading).toBe(false)
