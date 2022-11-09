@@ -102,33 +102,35 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
                 <Typography className="u-mt-1">
                   {t('bikeGoal.onboarding.steps.timing.percentageLegend')}
                 </Typography>
-                <TextField
-                  variant="outlined"
-                  type="number"
-                  inputProps={{
-                    min: '0',
-                    max: '100',
-                    step: '1',
-                    inputMode: 'numeric'
-                  }}
-                  label={t('bikeGoal.onboarding.steps.timing.percentage')}
-                  defaultValue={unsavedWorkTimePercentage}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Typography variant="body1">%</Typography>
-                      </InputAdornment>
-                    )
-                  }}
-                  onChange={event => {
-                    if (event.target.value.match(/^\d+$/)) {
-                      setUnsavedWorkTimePercentage(Number(event.target.value))
-                    } else {
-                      setUnsavedWorkTimePercentage(0)
-                    }
-                  }}
-                  className="u-db u-mt-1"
-                />
+                <div>
+                  <TextField
+                    variant="outlined"
+                    type="number"
+                    inputProps={{
+                      min: '0',
+                      max: '100',
+                      step: '1',
+                      inputMode: 'numeric'
+                    }}
+                    label={t('bikeGoal.onboarding.steps.timing.percentage')}
+                    defaultValue={unsavedWorkTimePercentage}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Typography variant="body1">%</Typography>
+                        </InputAdornment>
+                      )
+                    }}
+                    onChange={event => {
+                      if (event.target.value.match(/^\d+$/)) {
+                        setUnsavedWorkTimePercentage(Number(event.target.value))
+                      } else {
+                        setUnsavedWorkTimePercentage(0)
+                      }
+                    }}
+                    className="u-w-5 u-mt-1"
+                  />
+                </div>
               </>
             )}
             <div className="u-mt-1">

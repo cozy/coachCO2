@@ -66,20 +66,24 @@ const BikeGoalOnboardingNaming = forwardRef((props, ref) => {
             <Typography>
               {t('bikeGoal.onboarding.steps.naming.nameLegend')}
             </Typography>
-            <TextField
-              variant="outlined"
-              label={t('bikeGoal.edit.lastname')}
-              defaultValue={unsavedLastname}
-              onChange={event => setUnsavedLastname(event.target.value)}
-              className="u-db u-mt-1"
-            />
-            <TextField
-              variant="outlined"
-              label={t('bikeGoal.edit.firstname')}
-              defaultValue={unsavedFirstname}
-              onChange={event => setUnsavedFirstname(event.target.value)}
-              className="u-db u-mt-1"
-            />
+            <div>
+              <TextField
+                variant="outlined"
+                label={t('bikeGoal.edit.lastname')}
+                defaultValue={unsavedLastname}
+                onChange={event => setUnsavedLastname(event.target.value)}
+                className="u-w-5 u-mt-1"
+              />
+            </div>
+            <div>
+              <TextField
+                variant="outlined"
+                label={t('bikeGoal.edit.firstname')}
+                defaultValue={unsavedFirstname}
+                onChange={event => setUnsavedFirstname(event.target.value)}
+                className="u-w-5 u-mt-1"
+              />
+            </div>
             <div className="u-mt-1">
               <Button
                 onClick={handleForward}
