@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
 import Typography from 'cozy-ui/transpiled/react/Typography'
@@ -18,6 +19,7 @@ import { filterTimeseriesByYear } from 'src/lib/timeseries'
 
 const BikeGoalSummary = () => {
   const { t } = useI18n()
+  const navigate = useNavigate()
   const { account, isAccountLoading } = useAccountContext()
 
   const timeseriesQuery = buildBikeCommuteTimeseriesQueryByAccountId(
@@ -52,7 +54,8 @@ const BikeGoalSummary = () => {
     <>
       <Paper
         elevation={2}
-        className="u-flex u-flex-items-center u-mh-1-s u-mh-2 u-mb-1 u-flex-items-start"
+        className="u-flex u-flex-items-center u-mh-1-s u-mh-2 u-mb-1 u-flex-items-start u-c-pointer"
+        onClick={() => navigate(`/bikegoal/${currentYear}/trips`)}
       >
         <BikeGoalChart
           timeseries={timeseriesByYear}

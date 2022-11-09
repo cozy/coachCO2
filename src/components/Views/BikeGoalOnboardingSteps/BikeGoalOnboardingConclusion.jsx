@@ -50,7 +50,8 @@ const BikeGoalOnboardingConclusion = forwardRef((props, ref) => {
       showAlertSuccess: true
     })
     toggleBusy()
-    navigate('/bikegoal')
+    const currentYear = new Date().getFullYear().toString()
+    navigate(`/bikegoal/${currentYear}/trips`)
   }
 
   return (
