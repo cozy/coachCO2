@@ -7,6 +7,9 @@ import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import Radio from 'cozy-ui/transpiled/react/Radios'
 import RadioGroup from 'cozy-ui/transpiled/react/RadioGroup'
 
+import { toPercentage } from 'src/components/Goals/BikeGoal/Edit/helpers'
+import PercentageField from 'src/components/Goals/BikeGoal/Edit/PercentageField'
+
 const EditModalContent = ({ itemName, value, setValue }) => {
   const { t } = useI18n()
   const isError = !value
@@ -24,11 +27,9 @@ const EditModalContent = ({ itemName, value, setValue }) => {
   switch (itemName) {
     case 'workTimePercentage':
       return (
-        <TextField
+        <PercentageField
           {...commonProps}
-          type="number"
-          inputProps={{ inputMode: 'numeric' }}
-          onChange={ev => setValue(Number(ev.target.value))}
+          onChange={ev => setValue(toPercentage(Number(ev.target.value)))}
         />
       )
 

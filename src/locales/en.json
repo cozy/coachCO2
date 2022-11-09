@@ -203,7 +203,7 @@
       "workTime_full": "Full time",
       "workTime_part": "Half-time or part-time",
       "workTimePercentage": "Percentage of working time",
-      "compare_progress": "Compare my progress with that of my company",
+      "compare_progress": "Compare my progress with that of %{source}",
       "cancel": "Cancel",
       "submit": "Ok",
       "required": "This field is required"
@@ -217,7 +217,25 @@
     "onboarding": {
       "title": "\"Sustainable mobility\" package",
       "actions": {
-        "finish": "Finish"
+        "finish": "Finish",
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "steps": {
+        "naming": {
+          "title": "Lastname and firstname",
+          "nameLegend": "Fill in the following information:"
+        },
+        "timing": {
+          "timeLegend": "You currently have a employment contract:",
+          "percentageLegend": "Fill in the percentage of your working time:",
+          "percentage": "Percentage"
+        },
+        "comparison": {
+          "comparisonLegend": "It is possible to display the average progression of the members of %{source} who participate in the goal. To do so, you will be asked to also participate in the establishment of this average. Your progression data will be aggregated and sent anonymously, and will not contain any identifiers or locations.",
+          "compare": "Compare my progression",
+          "doNotCompare": "Do not compare my progression"
+        }
       }
     },
     "certificateGeneration": {
@@ -227,6 +245,12 @@
         "show": "Certificate - Bike to work.pdf",
         "generate": "Generate a new certificate"
       }
+    },
+    "employer": {
+      "my_company": "my company",
+      "your_company": "your company",
+      "my_collectivity": "my collectivity",
+      "your_collectivity": "your collectivity"
     }
   }
 }

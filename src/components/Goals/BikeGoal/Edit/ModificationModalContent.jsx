@@ -18,12 +18,14 @@ import BottomIcon from 'cozy-ui/transpiled/react/Icons/Bottom'
 import ClockOutlineIcon from 'cozy-ui/transpiled/react/Icons/ClockOutline'
 
 import useSettings from 'src/hooks/useSettings'
+import { getSource } from 'src/components/Goals/BikeGoal/helpers'
 import EditModal from 'src/components/Goals/BikeGoal/Edit/EditModal'
 
 const ModificationModalContent = () => {
   const { t } = useI18n()
   const [showEditModal, setShowEditModal] = useState('')
   const { isLoading, value: bikeGoal, save } = useSettings('bikeGoal')
+  const { sourceIdentity, sourceType } = getSource()
 
   const isPartTimeWork = bikeGoal.workTime === 'part'
 
@@ -129,7 +131,9 @@ const ModificationModalContent = () => {
           </ListItemIcon>
           <ListItemText
             ellipsis={false}
-            primary={t('bikeGoal.edit.compare_progress')}
+            primary={t('bikeGoal.edit.compare_progress', {
+              source: sourceIdentity ?? t(`bikeGoal.employer.my_${sourceType}`)
+            })}
           />
           <ListItemSecondaryAction>
             <Switch
