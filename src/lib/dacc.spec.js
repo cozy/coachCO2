@@ -287,7 +287,7 @@ describe('runDACCService', () => {
 
     jest
       .spyOn(mockClient, 'queryAll')
-      .mockResolvedValueOnce([{ CO2Emission: { sendToDacc: false } }])
+      .mockResolvedValueOnce([{ CO2Emission: { sendToDACC: false } }])
     shouldRestart = await dacc.runDACCService(mockClient)
     expect(sendMeasureToDACC).toHaveBeenCalledTimes(0)
     expect(shouldRestart).toBe(false)
@@ -296,7 +296,7 @@ describe('runDACCService', () => {
   it('should return false when there is no more measure to send', async () => {
     jest
       .spyOn(mockClient, 'queryAll')
-      .mockResolvedValueOnce([{ CO2Emission: { sendToDacc: true } }])
+      .mockResolvedValueOnce([{ CO2Emission: { sendToDACC: true } }])
     jest
       .spyOn(mockClient, 'queryAll')
       .mockResolvedValueOnce([
@@ -314,7 +314,7 @@ describe('runDACCService', () => {
   it('should return true when there are no more measure to send', async () => {
     jest
       .spyOn(mockClient, 'queryAll')
-      .mockResolvedValueOnce([{ CO2Emission: { sendToDacc: true } }])
+      .mockResolvedValueOnce([{ CO2Emission: { sendToDACC: true } }])
     jest
       .spyOn(mockClient, 'queryAll')
       .mockResolvedValueOnce([
