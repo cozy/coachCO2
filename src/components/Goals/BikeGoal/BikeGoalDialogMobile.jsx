@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { IllustrationDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
+import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 
 import BikeGoalList from 'src/components/Goals/BikeGoal/BikeGoalList'
 import BikeGoalAchievement from 'src/components/Goals/BikeGoal/BikeGoalAchievement'
@@ -17,13 +17,18 @@ const BikeGoalDialogMobile = ({ timeseries, timeseriesQueryLeft }) => {
   const timeseriesByYear = filterTimeseriesByYear(timeseries, year)
 
   return (
-    <IllustrationDialog
+    <Dialog
       open
-      onBack={() => navigate('/trips')}
+      onClose={() => navigate('/trips')}
       disableGutters
+      componentsProps={{
+        dialogTitle: {
+          className: 'u-p-0'
+        }
+      }}
+      title={<BikeGoalActions timeseries={timeseries} />}
       content={
         <>
-          <BikeGoalActions timeseries={timeseries} />
           <BikeGoalChart
             display="flex"
             paddingTop="1.5rem"
