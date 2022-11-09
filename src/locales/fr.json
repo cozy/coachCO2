@@ -243,7 +243,8 @@
       "content": "Une attestation a été générée pour attester de votre succès pour l’année %{year}. Transférez-la dès maintenant par email à votre employeur pour recevoir %{bountyAmount}€ !",
       "actions": {
         "show": "Certificat - Aller travailler à vélo.pdf",
-        "generate": "Générer une nouvelle attestation"
+        "generate": "Générer une nouvelle attestation",
+        "understood": "J'ai compris"
       }
     },
     "employer": {

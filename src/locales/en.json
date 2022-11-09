@@ -243,7 +243,8 @@
       "content": "A certificate has been generated as proof of your success for the year %{year}. Forward it now by email to your employer to receive %{bountyAmount}€ !",
       "actions": {
         "show": "Certificate - Bike to work.pdf",
-        "generate": "Generate a new certificate"
+        "generate": "Generate a new certificate",
+        "understood": "Understood"
       }
     },
     "employer": {

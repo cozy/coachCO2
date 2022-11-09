@@ -29,8 +29,8 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
     value: bikeGoal = {},
     save: setBikeGoal
   } = useSettings('bikeGoal')
-  const { onboardingStep = 0, sendToDacc = null } = bikeGoal
-  const [unsavedSendToDacc, setUnsavedSendToDacc] = useState(sendToDacc)
+  const { onboardingStep = 0, sendToDACC = null } = bikeGoal
+  const [unsavedSendToDACC, setUnsavedSendToDACC] = useState(sendToDACC)
   const { sourceType, sourceIdentity } = getSource()
 
   const styles = createStyles()
@@ -49,13 +49,13 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
     await setBikeGoal({
       ...bikeGoal,
       onboardingStep: onboardingStep + 1,
-      sendToDacc: unsavedSendToDacc
+      sendToDACC: unsavedSendToDACC
     })
     toggleBusy()
   }
 
   const isForwardDisabled = () => {
-    if (unsavedSendToDacc == null) {
+    if (unsavedSendToDACC == null) {
       return true
     }
     return false
@@ -87,7 +87,7 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
                 <FormControlLabel
                   control={
                     <Radio
-                      checked={unsavedSendToDacc === true}
+                      checked={unsavedSendToDACC === true}
                       onClick={() => setShowPermissionsDialog(true)}
                     />
                   }
@@ -97,8 +97,8 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
                 <FormControlLabel
                   control={
                     <Radio
-                      checked={unsavedSendToDacc === false}
-                      onClick={() => setUnsavedSendToDacc(false)}
+                      checked={unsavedSendToDACC === false}
+                      onClick={() => setUnsavedSendToDACC(false)}
                     />
                   }
                   label={t('bikeGoal.onboarding.steps.comparison.doNotCompare')}
@@ -129,11 +129,11 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
           onClose={() => setShowPermissionsDialog(false)}
           onRefuse={() => {
             setShowPermissionsDialog(false)
-            setUnsavedSendToDacc(false)
+            setUnsavedSendToDACC(false)
           }}
           onAccept={() => {
             setShowPermissionsDialog(false)
-            setUnsavedSendToDacc(true)
+            setUnsavedSendToDACC(true)
           }}
         />
       )}
