@@ -57,7 +57,12 @@ $ yarn service:timeseriesWithoutAggregateMigration
 
 `coachco2.admin-mode`: activate some hidden functions
 `coachco2.dacc-dev_v2`: to use dev version of DACC
-`coachco2.bikegoal.enabled`: to activate the "bike goal" feature
+`coachco2.bikegoal.enabled`: to activate the "bike goal" feature. To work properly `coachco2.bikegoal.settings` should be set too.
+`coachco2.bikegoal.settings`: to change settings by context. It's an object:
+  - **bountyAmount**: `<number>` - amount of the bonus granted
+  - **daysToReach**: `<number>` - number of days to be reached to benefit from the bonus
+  - **sourceType**: `"company" | "collectivity" | "custom"` - type of source entity issuing the bonus. ⚠️ If `custom` is used here, `sourceIdentity` is required
+  - **sourceIdentity** (required if `sourceType` === `custom`): `<string>` - name of the source entity
 
 
 ### Run it inside a Cozy using Docker
