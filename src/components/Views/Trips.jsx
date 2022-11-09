@@ -73,7 +73,10 @@ export const Trips = () => {
       {flag('debug') && (
         <button
           className="u-p-1"
-          onClick={() => navigate('/bikegoal/2022/trips')}
+          onClick={() => {
+            const currentYear = new Date().getFullYear().toString()
+            navigate(`/bikegoal/${currentYear}/trips`)
+          }}
         >
           go to bikeGoal
         </button>
