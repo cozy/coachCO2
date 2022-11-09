@@ -33,7 +33,7 @@
     "purposes": {
       "HOME": "Domicile",
       "WORK": "Travail",
-      "COMMUTE": "Aller/Retour au travail",
+      "COMMUTE": "Aller ou Retour au travail",
       "SCHOOL": "École",
       "SHOPPING": "Achats",
       "MEAL": "Repas",
@@ -168,7 +168,7 @@
       },
       "how_trips_detected": {
         "title": "Comment sont détectés mes trajets ?",
-        "content": "Vos trajets domicile-travail à vélo seront automatiquement détectés à partir de vos horaires et de votre vitesse.\n\nSi un trajet n’est pas automatiquement détecté en “travail”, ouvrez le détail du trajet et modifiez le motif du déplacement en “travail”.\n\nSi un trajet n’est pas automatiquement détecté en “vélo”, ouvrez le détail du trajet et modifiez le mode de transport en “vélo”."
+        "content": "Vos trajets domicile-travail à vélo seront automatiquement détectés à partir de vos horaires et de votre vitesse.\n\nSi un trajet n’est pas automatiquement détecté en “Aller ou Retour au travail”, ouvrez le détail du trajet et modifiez le motif du déplacement en “Aller ou Retour au travail”.\n\nSi un trajet n’est pas automatiquement détecté en “vélo”, ouvrez le détail du trajet et modifiez le mode de transport en “vélo”."
       },
       "once_goal_reach": {
         "title": "Que faire une fois l’objectif atteint",
@@ -188,7 +188,7 @@
         "action": "Bénéficier de mon forfait de %{bountyAmount}€"
       },
       "title": "Allez au bureau à vélo et recevez %{bountyAmount}€ !",
-      "text": "Dans le cadre du Forfait Mobilité Durable (FMD) mis en place par le gouvernement Français, allez travailler à vélo %{smart_count} jour dans l’année et recevez %{bountyAmount}€ ! |||| Dans le cadre du Forfait Mobilité Durable (FMD) mis en place par le gouvernement Français, allez travailler à vélo %{smart_count} jours dans l’année et recevez %{bountyAmount}€ !",
+      "text": "Dans le cadre du Forfait Mobilités Durables (FMD) mis en place par le gouvernement Français, allez travailler à vélo %{daysToReach} jours dans l’année et recevez %{bountyAmount}€ !",
       "actions": {
         "participate": "Participer",
         "discard": "non, merci"
@@ -232,7 +232,7 @@
           "percentage": "Pourcentage"
         },
         "comparison": {
-          "comparisonLegend": "Il vous est possible d’afficher la progression moyenne des membres de %{source} qui participent à l’objectif. Pour cela, il vous sera demandé de participer également à la constituation de cette moyenne.\n\nVos données de progression seront agrégées et envoyées anonymement, elles ne contiendront aucun identifiant ni lieux.",
+          "comparisonLegend": "Il vous est possible d’afficher la progression moyenne des membres de %{source} qui participent à l’objectif. Pour cela, il vous sera demandé de participer également à la constitution de cette moyenne.\n\nVos données de progression seront agrégées et envoyées anonymement, elles ne contiendront aucun identifiant ni lieux.",
           "compare": "Comparer ma progression",
           "doNotCompare": "Ne pas comparer ma progression"
         }

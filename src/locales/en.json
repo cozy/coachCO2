@@ -33,7 +33,7 @@
     "purposes": {
       "HOME": "Home",
       "WORK": "Work",
-      "COMMUTE": "Going to/from work",
+      "COMMUTE": "Going to or from work",
       "SCHOOL": "School",
       "SHOPPING": "Shopping",
       "MEAL": "Meal",
@@ -168,7 +168,7 @@
       },
       "how_trips_detected": {
         "title": "How are my trips detected?",
-        "content": "Your home-work bike trips will be automatically detected based on your schedule and speed.\n\nIf a trip is not automatically detected as \"work\", open the trip details and change the trip reason to \"work\".\n\nIf a trip is not automatically detected as \"bike\", open the trip detail and change the mode of transportation to \"bike\"."
+        "content": "Your home-work bike trips will be automatically detected based on your schedule and speed.\n\nIf a trip is not automatically detected as \"Going to or from work\", open the trip details and change the trip reason to \"Going to or from work\".\n\nIf a trip is not automatically detected as \"bike\", open the trip detail and change the mode of transportation to \"bike\"."
       },
       "once_goal_reach": {
         "title": "What to do once the goal is reached",
@@ -188,7 +188,7 @@
         "action": "Benefit from my %{bountyAmount}€ package"
       },
       "title": "Ride your bike to work and receive %{bountyAmount}€!",
-      "text": "As part of the Sustainable Mobility Package (SMP) set up by the French government, go to work by bike %{smart_count} day a year and receive %{bountyAmount}€! |||| As part of the Sustainable Mobility Package (SMP) set up by the French government, go to work by bike %{smart_count} days a year and receive %{bountyAmount}€!",
+      "text": "As part of the Sustainable Mobility Package (SMP) set up by the French government, go to work by bike %{daysToReach} days a year and receive %{bountyAmount}€!",
       "actions": {
         "participate": "Participate",
         "discard": "No, thank you"

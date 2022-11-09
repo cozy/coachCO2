@@ -37,7 +37,7 @@ const BikeGoalAlert = ({ onDiscard, onParticipate }) => {
       </AlertTitle>
       {t('bikeGoal.alert.text', {
         bountyAmount: getBountyAmount(),
-        smart_count: getDaysToReach()
+        daysToReach: getDaysToReach()
       })}
     </Alert>
   )
