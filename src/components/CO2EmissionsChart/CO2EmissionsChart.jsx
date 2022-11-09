@@ -19,7 +19,7 @@ const CO2EmissionsChart = () => {
   const { isMobile } = useBreakpoints()
   const { account } = useAccountContext()
 
-  const { isLoading: isSettingsLoading, value: allowSendDataToDacc = false } =
+  const { isLoading: isSettingsLoading, value: sendToDACC = false } =
     useSettings('CO2Emission.sendToDACC')
 
   const oneYearOldTimeseriesQuery =
@@ -32,7 +32,7 @@ const CO2EmissionsChart = () => {
     }
   )
 
-  const { data: globalAverages } = useFetchDACCAggregates(allowSendDataToDacc)
+  const { data: globalAverages } = useFetchDACCAggregates(sendToDACC)
 
   const isLoading =
     !account || isQueryLoading(queryResult) || queryResult.hasMore
@@ -41,13 +41,13 @@ const CO2EmissionsChart = () => {
     return null
   }
 
-  const showLegend = !isSettingsLoading && allowSendDataToDacc
+  const showLegend = !isSettingsLoading && sendToDACC
   const options = makeOptions(theme)
   const data = makeData({
     theme,
     isMobile,
     oneYearOldTimeseries,
-    allowSendDataToDacc,
+    sendToDACC,
     globalAverages,
     f,
     t

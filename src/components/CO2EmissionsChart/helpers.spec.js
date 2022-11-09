@@ -19,7 +19,7 @@ describe('makeData', () => {
     MockDate.reset()
   })
 
-  describe('allowSendDataToDacc is false', () => {
+  describe('sendToDACC is false', () => {
     it('should return well formated data', () => {
       const data = makeData({
         theme,
@@ -28,7 +28,7 @@ describe('makeData', () => {
           { startDate: '2022-10-07T00:00:00.000Z' },
           { startDate: '2022-09-08T00:00:00.000Z' }
         ],
-        allowSendDataToDacc: false,
+        sendToDACC: false,
         globalAverages: null,
         f: mockF,
         t: mockT
@@ -52,7 +52,7 @@ describe('makeData', () => {
       expect(data.datasets[0].backgroundColor).toBe('primaryMainColor')
     })
   })
-  describe('allowSendDataToDacc is true', () => {
+  describe('sendToDACC is true', () => {
     it('should return well formated data', () => {
       const data = makeData({
         theme,
@@ -61,7 +61,7 @@ describe('makeData', () => {
           { startDate: '2022-10-07T00:00:00.000Z' },
           { startDate: '2022-09-08T00:00:00.000Z' }
         ],
-        allowSendDataToDacc: true,
+        sendToDACC: true,
         globalAverages: [42, 96, 78],
         f: mockF,
         t: mockT

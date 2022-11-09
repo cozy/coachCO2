@@ -4,7 +4,7 @@ export const makeData = ({
   theme,
   isMobile,
   oneYearOldTimeseries,
-  allowSendDataToDacc,
+  sendToDACC,
   globalAverages,
   f,
   t
@@ -18,13 +18,13 @@ export const makeData = ({
         label: t('vericalBarChart.legend.yours'),
         backgroundColor: theme.palette.primary.main,
         borderRadius: isMobile ? 8 : 4,
-        barThickness: isMobile ? (allowSendDataToDacc ? 6 : 8) : 24,
+        barThickness: isMobile ? (sendToDACC ? 6 : 8) : 24,
         data: CO2s
       }
     ]
   }
 
-  if (allowSendDataToDacc) {
+  if (sendToDACC) {
     data.datasets.push({
       label: t('vericalBarChart.legend.average'),
       backgroundColor: theme.palette.border.main,
