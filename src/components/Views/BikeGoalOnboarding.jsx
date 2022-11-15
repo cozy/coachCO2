@@ -7,12 +7,12 @@ import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import { Stepper } from 'cozy-ui/transpiled/react/Stepper'
 
 import useSettings from 'src/hooks/useSettings'
-import BikeGoalOnboardingComparison from 'src/components/Views/BikeGoalOnboardingSteps/BikeGoalOnboardingComparison'
-import BikeGoalOnboardingConclusion from 'src/components/Views/BikeGoalOnboardingSteps/BikeGoalOnboardingConclusion'
-import BikeGoalOnboardingDetection from 'src/components/Views/BikeGoalOnboardingSteps/BikeGoalOnboardingDetection'
-import BikeGoalOnboardingIntroduction from 'src/components/Views/BikeGoalOnboardingSteps/BikeGoalOnboardingIntroduction'
-import BikeGoalOnboardingNaming from 'src/components/Views/BikeGoalOnboardingSteps/BikeGoalOnboardingNaming'
-import BikeGoalOnboardingTiming from 'src/components/Views/BikeGoalOnboardingSteps/BikeGoalOnboardingTiming'
+import BikeGoalOnboardingComparison from 'src/components/Goals/BikeGoal/BikeGoalOnboardingSteps/BikeGoalOnboardingComparison'
+import BikeGoalOnboardingConclusion from 'src/components/Goals/BikeGoal/BikeGoalOnboardingSteps/BikeGoalOnboardingConclusion'
+import BikeGoalOnboardingDetection from 'src/components/Goals/BikeGoal/BikeGoalOnboardingSteps/BikeGoalOnboardingDetection'
+import BikeGoalOnboardingIntroduction from 'src/components/Goals/BikeGoal/BikeGoalOnboardingSteps/BikeGoalOnboardingIntroduction'
+import BikeGoalOnboardingNaming from 'src/components/Goals/BikeGoal/BikeGoalOnboardingSteps/BikeGoalOnboardingNaming'
+import BikeGoalOnboardingTiming from 'src/components/Goals/BikeGoal/BikeGoalOnboardingSteps/BikeGoalOnboardingTiming'
 
 const BikeGoalOnboarding = () => {
   const { t } = useI18n()
