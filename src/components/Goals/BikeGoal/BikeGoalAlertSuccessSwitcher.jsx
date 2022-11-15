@@ -24,14 +24,10 @@ const BikeGoalAlertSuccessSwitcher = ({ className }) => {
   const { isMobile } = useBreakpoints()
   const classes = useStyles()
 
-  const {
-    isLoading,
-    value: showAlertSuccess = true,
-    save: setShowAlertSuccess
-  } = useSettings('bikeGoal.showAlertSuccess')
+  const { isLoading, value, save } = useSettings('bikeGoal.showAlertSuccess')
 
   const handleChange = ev => {
-    setShowAlertSuccess(ev.target.checked)
+    save(ev.target.checked)
   }
 
   return (
@@ -44,7 +40,7 @@ const BikeGoalAlertSuccessSwitcher = ({ className }) => {
           </Typography>
         }
         labelPlacement={isMobile ? 'start' : 'end'}
-        checked={showAlertSuccess}
+        checked={value}
         disabled={isLoading}
         onChange={handleChange}
         control={<Switch color="primary" />}
