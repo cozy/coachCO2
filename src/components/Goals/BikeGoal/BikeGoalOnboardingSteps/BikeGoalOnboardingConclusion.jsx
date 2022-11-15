@@ -21,6 +21,7 @@ const BikeGoalOnboardingConclusion = forwardRef((props, ref) => {
   const { t } = useI18n()
   const navigate = useNavigate()
   const [isBusy, toggleBusy] = useReducer(prev => !prev, false)
+
   const {
     isLoading,
     value: bikeGoal = {},
@@ -46,8 +47,7 @@ const BikeGoalOnboardingConclusion = forwardRef((props, ref) => {
       ...bikeGoal,
       onboarded: true,
       activated: true,
-      showAlert: false,
-      showAlertSuccess: true
+      showAlert: false
     })
     toggleBusy()
     const currentYear = new Date().getFullYear().toString()
