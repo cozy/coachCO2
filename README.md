@@ -27,25 +27,42 @@ Cozy's apps use a standard set of _npm scripts_ to run common tasks, like watch,
 
 ### Fixtures
 
-You can import fixtures to quickly deal with datas
+You can import fixtures to quickly deal with data:
 
 ```sh
 $ yarn fixtures
 ```
 
-### Services
+It is also possible to generate a random trip through:
+```
+yarn scripts:addTrip
+```
 
-You can run a migration service to add aggregation data on your timeseries.
+⚠️ You need to run `yarn service:timeseriesWithoutAggregateMigration` after any insertion to make your trips usable in the app. See below for more details.
+
+
+### Aggregation service
+
+You can run a migration service to add aggregation data on your timeseries. This is necessary because the trips documents can be huge and negatively impact the app performances. Therefore, we rely on an aggregated trip view on the app side. If the aggregation is missing, the trip won't be displayed.
+
+⚠️ You need to build the application before using services, to generate them.
 
 ```sh
 $ yarn build
 $ yarn service:timeseriesWithoutAggregateMigration
 ```
 
+
 ### Feature flags availables
 
 `coachco2.admin-mode`: activate some hidden functions
 `coachco2.dacc-dev_v2`: to use dev version of DACC
+`coachco2.bikegoal.enabled`: to activate the "bike goal" feature. To work properly `coachco2.bikegoal.settings` should be set too.
+`coachco2.bikegoal.settings`: to change settings by context. It's an object:
+  - **bountyAmount**: `<number>` - amount of the bonus granted
+  - **daysToReach**: `<number>` - number of days to be reached to benefit from the bonus
+  - **sourceType**: `"company" | "collectivity" | "custom"` - type of source entity issuing the bonus. ⚠️ If `custom` is used here, `sourceIdentity` is required
+  - **sourceIdentity** (required if `sourceType` === `custom`): `<string>` - name of the source entity
 
 
 ### Run it inside a Cozy using Docker
@@ -148,7 +165,8 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
           "$oid": "6248ec5e5d25e718233a509a"
         },
         "confidence_threshold": 0.65,
-        "manual_purpose": "ENTERTAINMENT" // Trip purpose set by the user
+        "manual_purpose": "ENTERTAINMENT", // Trip purpose set by the user
+        "automatic_purpose": "ENTERTAINMENT" // Trip purpose automatically detected
       },
       "features": [
         { // starting place
@@ -212,6 +230,41 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
 }
 ```
 
+### Aggregation
+
+Every timeserie is automatically aggregated by a service, to sum up the `series` content into an `aggregation` object, saved directly inside the `io.cozy.timeseries.geojson` document. Here is an example:
+
+```json
+{
+  "aggregation": {
+    "modes": [
+      "WALKING"
+    ],
+    "purpose": "ENTERTAINMENT",
+    "sections": [
+      {
+        "CO2": 0,
+        "avgSpeed": 5.204285178716263,
+        "calories": 22.83998061653227,
+        "distance": 377.40909178940984,
+        "duration": 210.9319999217987,
+        "id": "600772889801285fa1f3a7b6",
+        "mode": "WALKING",
+        "startDate": "2021-01-19T16:54:26.068Z",
+        "endDate": "2021-01-19T16:57:57.000Z"
+      }
+    ],
+    "startPlaceDisplayName": "Avenue Jean Guiton, La Rochelle",
+    "endPlaceDisplayName": "Rue Ampère, La Rochelle",
+    "totalCO2": 0,
+    "totalCalories": 22.83998061653227,
+    "totalDistance": 377.40909178940984,
+    "totalDuration": 210.9319999217987
+  }
+}
+
+```
+
 ## DACC
 
 This app uses the [DACC](https://github.com/cozy/DACC) to send and received anonymized contributions.
@@ -259,7 +312,7 @@ The lead maintainer for Coach CO2 is [cozy](https://github.com/cozy), send him/h
 
 You can reach the Cozy Community by:
 
-- Chatting with us on IRC [#cozycloud on Freenode][freenode]
+- Chatting with us on IRC [#cozycloud on Libera.Chat][libera]
 - Posting on our [Forum][forum]
 - Posting issues on the [Github repos][github]
 - Say Hi! on [Twitter][twitter]
@@ -288,7 +341,7 @@ Coach CO2 is developed by cozy and distributed under the [AGPL v3 license][agpl-
 [tx-signin]: https://www.transifex.com/signin/
 [tx-app]: https://www.transifex.com/cozy/<SLUG_TX>/dashboard/
 [tx-client]: http://docs.transifex.com/client/
-[freenode]: http://webchat.freenode.net/?randomnick=1&channels=%23cozycloud&uio=d4
+[libera]: https://web.libera.chat/#cozycloud
 [forum]: https://forum.cozy.io/
 [github]: https://github.com/cozy/
 [twitter]: https://twitter.com/cozycloud

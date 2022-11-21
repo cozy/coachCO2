@@ -3,7 +3,7 @@
   "slug": "coachco2",
   "icon": "icon.svg",
   "categories": [],
-  "version": "0.9.0",
+  "version": "0.10.0",
   "licence": "AGPL-3.0",
   "editor": "Cozy Cloud",
   "source": "https://github.com/cozy/coachCO2.git@build",
@@ -13,8 +13,8 @@
   },
   "default_locale": "fr",
   "langs": [
-    "en",
-    "fr"
+    "fr",
+    "en"
   ],
   "routes": {
     "/": {
@@ -66,13 +66,6 @@
         "PUT"
       ]
     },
-    "contacts": {
-      "description": "Used to manage your Coach CO2 settings",
-      "type": "io.cozy.contacts",
-      "verbs": [
-        "POST"
-      ]
-    },
     "jobs": {
       "description": "Used in services to start other services",
       "type": "io.cozy.jobs",
@@ -100,12 +93,18 @@
       "type": "node",
       "file": "services/timeseriesWithoutAggregateMigration/coachco2.js",
       "trigger": "@event io.cozy.timeseries.geojson:CREATED,UPDATED",
-      "debounce": "5m"
+      "debounce": "1m"
     },
     "dacc": {
       "type": "node",
       "file": "services/dacc/coachco2.js",
       "trigger": "@every 720h"
+    },
+    "recurringPurposes": {
+      "type": "node",
+      "file": "services/recurringPurposes/coachco2.js",
+      "trigger": "@event io.cozy.timeseries.geojson:CREATED",
+      "debounce": "2m"
     }
   },
   "locales": {
