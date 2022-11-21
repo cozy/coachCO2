@@ -203,7 +203,7 @@
       "workTime_full": "Temps plein",
       "workTime_part": "Mi-temps ou temps partiel",
       "workTimePercentage": "Pourcentage du temps de travail",
-      "compare_progress": "Comparer ma progression avec celle de %{source}",
+      "compare_progress": "Comparer ma progression avec celle %{source}",
       "cancel": "Annuler",
       "submit": "Ok",
       "required": "Ce champ est obligatoire"
@@ -232,7 +232,7 @@
           "percentage": "Pourcentage"
         },
         "comparison": {
-          "comparisonLegend": "Il vous est possible d’afficher la progression moyenne des membres de %{source} qui participent à l’objectif. Pour cela, il vous sera demandé de participer également à la constitution de cette moyenne.\n\nVos données de progression seront agrégées et envoyées anonymement, elles ne contiendront aucun identifiant ni lieux.",
+          "comparisonLegend": "Il vous est possible d’afficher la progression moyenne des membres %{source} qui participent à l’objectif. Pour cela, il vous sera demandé de participer également à la constitution de cette moyenne.\n\nVos données de progression seront agrégées et envoyées anonymement, elles ne contiendront aucun identifiant ni lieux.",
           "compare": "Comparer ma progression",
           "doNotCompare": "Ne pas comparer ma progression"
         }
@@ -248,10 +248,10 @@
       }
     },
     "employer": {
-      "my_company": "mon entreprise",
-      "your_company": "votre entreprise",
-      "my_collectivity": "ma collectivité",
-      "your_collectivity": "votre collectivité"
+      "my_company": "de mon entreprise",
+      "your_company": "de votre entreprise",
+      "my_collectivity": "de ma collectivité",
+      "your_collectivity": "de votre collectivité"
     }
   }
 }
