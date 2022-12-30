@@ -1,3 +1,9 @@
+# 0.9.1
+
+## 🐛 Bug Fixes
+
+* Prevent dacc service from crashing when there is no settings document
+
 # 0.9.0
 
 ## ✨ Features
