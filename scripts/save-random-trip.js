@@ -34,11 +34,12 @@ const main = async () => {
   const parser = new ArgumentParser()
   parser.addArgument('--source-account')
   parser.addArgument('--url', { defaultValue: 'http://cozy.localhost:8080' })
+  parser.addArgument('-u', {})
   const args = parser.parseArgs()
 
   const client = await createClientInteractive({
     scope: ['io.cozy.timeseries.geojson', 'io.cozy.accounts'],
-    uri: args.url,
+    uri: args.u || args.url,
     schema: {},
     oauth: {
       softwareID: 'io.cozy.client.cli'
