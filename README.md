@@ -27,10 +27,24 @@ Cozy's apps use a standard set of _npm scripts_ to run common tasks, like watch,
 
 ### Fixtures
 
-You can import fixtures to quickly deal with data:
+You can import fixtures to quickly deal with data.
+
+First, make sure you have the latest version of ACH installed
+
+```bash
+$ yarn global add cozy-ach
+```
+
+Finally, run the following command to import fixtures:
 
 ```sh
 $ yarn fixtures
+```
+
+Alternatively, if you do not wish to work on the default `http://cozy.localhost:8080` URL, please use the following command (the `-x` option is to disable the dry-run mode):
+
+```bash
+$ yarn fixtures --url http://coachco2.192-168-1-65.nip.io:8080 -x
 ```
 
 It is also possible to generate a random trip through:
@@ -45,6 +59,28 @@ yarn scripts:addTrip
 
 You can run a migration service to add aggregation data on your timeseries. This is necessary because the trips documents can be huge and negatively impact the app performances. Therefore, we rely on an aggregated trip view on the app side. If the aggregation is missing, the trip won't be displayed.
 
+⚠️ Make sure to update your development URL in `./konnector-dev-config.json` in the field `"COZY_URL"` if you do not wish to use the default URL `http://cozy.localhost:8080`.
+
+⚠️ Your instance database must contain in its `io.cozy.accounts` the following document as-is in order to be able to find the `geoseries` collections, please insert it manually or with a mango request into the associated database:
+
+```JSON
+{
+  "_id": "23f8af047dfc736c8b841f22eb00464f",
+  "account_type": "tracemob",
+  "auth": {
+    "credentials_encrypted": "sRDK6wGI9iAXo9P4bbMNjC6SA=",
+    "login": "test",
+    "providerId": "0"
+  },
+  "data": {
+    "lastSavedManualDate": "2021-11-17T09:23:51.280Z",
+    "lastSavedTripDate": "2021-12-01T16:23:15.179489-08:00"
+  },
+  "identifier": "login",
+  "state": null
+}
+```
+
 ⚠️ You need to build the application before using services, to generate them.
 
 ```sh
@@ -52,6 +88,8 @@ $ yarn build
 $ yarn service:timeseriesWithoutAggregateMigration
 ```
 
+⚠️ If the service is not working due to an invalid JWT token, please delete it from your filesystem and restart the service, it was probably created for another instance that the one you're querying for (the token path will be printed in the error message).
+You will then be prompted to login again, possibly from a `localhost:3333` server if your cozy-url is not ending with `localhost` or `tools`. It shouldn't be an issue unless you have a tight management of port forwarding in place.
 
 ### Feature flags availables
 
