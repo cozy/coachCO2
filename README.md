@@ -39,8 +39,8 @@ $ yarn fixtures
 Alternatively, if you do not wish to work on the default `http://cozy.localhost:8080` URL, please use the following commands:
 
 ```bash
-yarn ACH import accounts/tracemob.json --url http://coachco2.192-168-1-65.nip.io:8080  
-yarn ACH script timeseries/importGeojson --url http://coachco2.192-168-1-65.nip.io:8080
+yarn ACH import accounts/tracemob.json --url http://your_custom_url:port
+yarn ACH script timeseries/importGeojson --url http://your_custom_url:port
 ```
 
 Then you can generate a random trip by running
@@ -50,7 +50,7 @@ yarn scripts:addTrip
 
 Or if you don't use the defaut `http://cozy.localhost:8080`: 
 ```bash
-yarn script:addTrip --url http://coachco2.192-168-1-65.nip.io:8080
+yarn script:addTrip --url http://your_custom_url:port
 ```
 
 ⚠️ You need to run the `timeseriesWithoutAggregateMigration` services after any insertion to make your trips usable in the app. See [below](#Aggregation_service) for more details.
