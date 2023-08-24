@@ -45,7 +45,7 @@
     "cozy-ach": "^1.39.0",
     "cozy-bar": "7.16.0",
     "cozy-jobs-cli": "1.19.2",
-    "cozy-scripts": "^8.0.3",
+    "cozy-scripts": "^8.1.1",
     "eslint-config-cozy-app": "^4.1.1",
     "mockdate": "^3.0.5",
     "react-test-renderer": "18.2.0"
