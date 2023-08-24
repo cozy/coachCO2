@@ -51,8 +51,6 @@
     "react-test-renderer": "18.2.0"
   },
   "dependencies": {
-    "@material-ui/core": "4",
-    "@material-ui/lab": "^4.0.0-alpha.60",
     "chart.js": "3.7.1",
     "cozy-client": "^40.3.0",
     "cozy-device-helper": "^3.0.0",
@@ -60,7 +58,7 @@
     "cozy-intent": "^2.15.0",
     "cozy-logger": "^1.10.1",
     "cozy-realtime": "^5.0.0",
-    "cozy-ui": "^91.0.0",
+    "cozy-ui": "^91.1.1",
     "date-fns": "2.29.3",
     "humanize-duration": "3.27.1",
     "leaflet": "1.9.1",

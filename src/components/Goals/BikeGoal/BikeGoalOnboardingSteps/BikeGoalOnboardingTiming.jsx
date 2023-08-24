@@ -1,6 +1,6 @@
 import React, { forwardRef, useReducer, useState } from 'react'
-import InputAdornment from '@material-ui/core/InputAdornment'
 
+import InputAdornment from 'cozy-ui/transpiled/react/InputAdornment'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
 import StepContent from 'cozy-ui/transpiled/react/StepContent'
