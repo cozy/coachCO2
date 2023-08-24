@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Switch from 'cozy-ui/transpiled/react/MuiCozyTheme/Switch'
+import Switch from 'cozy-ui/transpiled/react/Switch'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'

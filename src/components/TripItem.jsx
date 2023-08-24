@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
-import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
-import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
-import ListItemIcon from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemIcon'
-import ListSubheader from 'cozy-ui/transpiled/react/MuiCozyTheme/ListSubheader'
+import ListItem from 'cozy-ui/transpiled/react/ListItem'
+import Divider from 'cozy-ui/transpiled/react/Divider'
+import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
+import ListSubheader from 'cozy-ui/transpiled/react/ListSubheader'
 import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
@@ -28,7 +28,8 @@ import { pickModeIcon } from 'src/components/helpers'
 const styles = {
   co2: {
     fontWeight: 700,
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    marginRight: '-1rem'
   },
   tripIcon: {
     marginRight: '4px'
@@ -80,7 +81,7 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
           {f(getStartDate(timeserie), 'dddd DD MMMM')}
         </ListSubheader>
       )}
-      <ListItem className="u-pl-1-s u-pl-2" button onClick={handleClick}>
+      <ListItem button onClick={handleClick}>
         <ListItemIcon>
           <PurposeAvatar attribute={purpose} />
         </ListItemIcon>
@@ -94,10 +95,12 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
             />
           }
         />
-        <Typography className="u-mh-half" style={styles.co2} variant="body2">
+        <Typography style={styles.co2} variant="body2">
           {formattedCO2}
         </Typography>
-        <Icon icon={RightIcon} color="var(--secondaryTextColor)" />
+        <ListItemIcon>
+          <Icon icon={RightIcon} color="var(--secondaryTextColor)" />
+        </ListItemIcon>
       </ListItem>
       <Divider />
     </>

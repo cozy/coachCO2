@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import TextField from 'cozy-ui/transpiled/react/MuiCozyTheme/TextField'
+import TextField from 'cozy-ui/transpiled/react/TextField'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import Radio from 'cozy-ui/transpiled/react/Radios'
 import RadioGroup from 'cozy-ui/transpiled/react/RadioGroup'

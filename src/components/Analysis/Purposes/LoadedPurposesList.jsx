@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import cx from 'classnames'
 
-import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
+import List from 'cozy-ui/transpiled/react/List'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import Box from 'cozy-ui/transpiled/react/Box'

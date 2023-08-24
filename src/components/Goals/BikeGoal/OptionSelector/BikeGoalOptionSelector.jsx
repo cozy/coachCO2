@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom'
 
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import ActionMenu, { ActionMenuItem } from 'cozy-ui/transpiled/react/ActionMenu'
+import ActionMenu, {
+  ActionMenuItem
+} from 'cozy-ui/transpiled/react/deprecated/ActionMenu'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import DotsIcon from 'cozy-ui/transpiled/react/Icons/Dots'
 import InfoIcon from 'cozy-ui/transpiled/react/Icons/Info'
 import ForbiddenIcon from 'cozy-ui/transpiled/react/Icons/Forbidden'
-import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
+import Divider from 'cozy-ui/transpiled/react/Divider'
 import RenameIcon from 'cozy-ui/transpiled/react/Icons/Rename'
 
 import ActionButton from 'src/components/Goals/BikeGoal/OptionSelector/ActionButton'

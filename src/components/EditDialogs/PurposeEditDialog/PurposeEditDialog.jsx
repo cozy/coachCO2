@@ -10,7 +10,7 @@ import { useTrip } from 'src/components/Providers/TripProvider'
 import { OTHER_PURPOSE } from 'src/constants'
 import { getTimeseriePurpose } from 'src/lib/timeseries'
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-import { Button } from 'cozy-ui/transpiled/react/Button'
+import { Button } from 'cozy-ui/transpiled/react/deprecated/Button'
 import {
   handleOccasionalTrip,
   handleRecurringTrip

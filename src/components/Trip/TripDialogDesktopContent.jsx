@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
+import Divider from 'cozy-ui/transpiled/react/Divider'
 
 import TripMap from 'src/components/Trip/TripMap'
 import BottomSheetHeaderContent from 'src/components/Trip/BottomSheet/BottomSheetHeaderContent'

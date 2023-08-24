@@ -6,7 +6,7 @@ import BottomSheet, {
   BottomSheetItem
 } from 'cozy-ui/transpiled/react/BottomSheet'
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
+import Divider from 'cozy-ui/transpiled/react/Divider'
 
 import { getTimeseriePurpose } from 'src/lib/timeseries'
 import { useTrip } from 'src/components/Providers/TripProvider'
@@ -40,7 +40,7 @@ const RecurrenceEditDialog = ({ onClose }) => {
   if (isMobile) {
     return (
       <BottomSheet onClose={onClose} backdrop>
-        <BottomSheetItem disableGutters>
+        <BottomSheetItem disableGutters disableElevation>
           <RecurrenceEditDialogTitle />
           <Divider />
           <RecurrenceEditDialogContent

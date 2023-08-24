@@ -5,7 +5,7 @@ import flag from 'cozy-flags'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
-import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
+import Divider from 'cozy-ui/transpiled/react/Divider'
 
 import { buildAggregatedTimeseriesQueryByAccountId } from 'src/queries/queries'
 import TripsList from 'src/components/TripsList'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import Switch from 'cozy-ui/transpiled/react/MuiCozyTheme/Switch'
+import Switch from 'cozy-ui/transpiled/react/Switch'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import { makeStyles } from 'cozy-ui/transpiled/react/styles'

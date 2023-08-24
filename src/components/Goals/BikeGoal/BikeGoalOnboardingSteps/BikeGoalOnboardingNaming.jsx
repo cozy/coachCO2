@@ -5,7 +5,7 @@ import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
 import StepContent from 'cozy-ui/transpiled/react/StepContent'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import Button from 'cozy-ui/transpiled/react/Buttons'
-import TextField from 'cozy-ui/transpiled/react/MuiCozyTheme/TextField'
+import TextField from 'cozy-ui/transpiled/react/TextField'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 import useSettings from 'src/hooks/useSettings'
