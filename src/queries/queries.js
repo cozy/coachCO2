@@ -209,6 +209,11 @@ export const buildBikeCommuteTimeseriesQueryByAccountId = (
   }
 }
 
+export const queryTimeserieByDocId = async (client, docId) => {
+  const res = await client.query(Q(GEOJSON_DOCTYPE).getById(docId))
+  return res?.data
+}
+
 // ---------- Node.js queries
 export const buildOldestTimeseriesQueryByAccountId = accountId => ({
   definition: Q(GEOJSON_DOCTYPE)
@@ -308,8 +313,3 @@ export const buildSettingsQuery = () => ({
     fetchPolicy: CozyClient.fetchPolicies.olderThan(neverReload)
   }
 })
-
-export const queryTimeserieByDocId = async (client, docId) => {
-  const res = await client.query(Q(GEOJSON_DOCTYPE).getById(docId))
-  return res?.data
-}
