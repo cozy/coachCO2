@@ -2,7 +2,9 @@ import React, { useRef, useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import ActionMenu, { ActionMenuItem } from 'cozy-ui/transpiled/react/ActionMenu'
+import ActionMenu, {
+  ActionMenuItem
+} from 'cozy-ui/transpiled/react/deprecated/ActionMenu'
 
 import ActionButton from 'src/components/Goals/BikeGoal/DateSelector/ActionButton'
 import { makeMenuDates } from 'src/components/Goals/BikeGoal/DateSelector/helpers'

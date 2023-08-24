@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 
 import { Layout, Main, Content } from 'cozy-ui/transpiled/react/Layout'
 import Sprite from 'cozy-ui/transpiled/react/Icon/Sprite'
-import Alerter from 'cozy-ui/transpiled/react/Alerter'
+import Alerter from 'cozy-ui/transpiled/react/deprecated/Alerter'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 import Sidebar from 'src/components/Sidebar'

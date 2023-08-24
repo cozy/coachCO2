@@ -4,7 +4,7 @@ import { isQueryLoading, useQuery, useQueryAll } from 'cozy-client'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
-import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
+import Divider from 'cozy-ui/transpiled/react/Divider'
 
 import { filterTimeseriesByYear } from 'src/lib/timeseries'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
+import Divider from 'cozy-ui/transpiled/react/Divider'
 import Paper from 'cozy-ui/transpiled/react/Paper'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import CircleFilledIcon from 'cozy-ui/transpiled/react/Icons/CircleFilled'

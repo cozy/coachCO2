@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import TextField from 'cozy-ui/transpiled/react/MuiCozyTheme/TextField'
+import TextField from 'cozy-ui/transpiled/react/TextField'
 
 const PercentageField = forwardRef((props, ref) => {
   return (

@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import Timeline from '@material-ui/lab/Timeline'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
-import List from 'cozy-ui/transpiled/react/MuiCozyTheme/List'
+import Divider from 'cozy-ui/transpiled/react/Divider'
+import List from 'cozy-ui/transpiled/react/List'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import { BottomSheetItem } from 'cozy-ui/transpiled/react/BottomSheet'
 
@@ -46,7 +46,7 @@ const BottomSheetContent = () => {
 
   return (
     <>
-      <BottomSheetItem disableGutters>
+      <BottomSheetItem disableGutters disableElevation>
         <Timeline className="u-pb-0 u-mb-0">
           <TimelineNode
             label={getStartPlaceDisplayName(timeserie)}
@@ -63,7 +63,7 @@ const BottomSheetContent = () => {
       </BottomSheetItem>
       {/* TODO: Remove the Divider when we have the real desktop view */}
       {isDesktop && <Divider style={styles.divider} />}
-      <BottomSheetItem disableGutters>
+      <BottomSheetItem disableGutters disableElevation>
         <List className="u-pv-half">
           <PurposeItem purpose={purpose} onClick={openPurposeDialog} />
           {showPurposeDialog && (

@@ -2,9 +2,9 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
-import ListItem from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItem'
-import Divider from 'cozy-ui/transpiled/react/MuiCozyTheme/Divider'
-import ListItemIcon from 'cozy-ui/transpiled/react/MuiCozyTheme/ListItemIcon'
+import ListItem from 'cozy-ui/transpiled/react/ListItem'
+import Divider from 'cozy-ui/transpiled/react/Divider'
+import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
@@ -46,7 +46,6 @@ const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
     <>
       <ListItem
         data-testid="ListItem"
-        className="u-pl-1-s u-pl-2"
         disabled={isDisabled}
         onClick={!isDisabled ? handleClick : undefined}
         button
@@ -58,11 +57,13 @@ const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
           primary={t(`trips.${type}.${sortedTimeserieKey}`)}
           secondary={`${CO2percent} · ${t('analysis.travels', travelCount)}`}
         />
-        <Typography className="u-mh-half" style={styles.co2} variant="body2">
+        <Typography style={styles.co2} variant="body2">
           {formatCO2(CO2)}
         </Typography>
         {!isDisabled && (
-          <Icon icon={RightIcon} color="var(--secondaryTextColor)" />
+          <ListItemIcon>
+            <Icon icon={RightIcon} color="var(--secondaryTextColor)" />
+          </ListItemIcon>
         )}
       </ListItem>
       <Divider />
