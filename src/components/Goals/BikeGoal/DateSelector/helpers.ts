@@ -12,7 +12,7 @@ import subYears from 'date-fns/subYears'
 
 import { getEarliestTimeserie } from 'src/lib/timeseries'
 
-export const makeMenuDates = (timeseries: Array<TimeSeries>): Array<string> => {
+export const makeMenuDates = (timeseries: TimeSeries[]): string[] => {
   const latestDate = new Date()
   if (!timeseries || timeseries.length === 0) {
     return [latestDate.getFullYear().toString()]
