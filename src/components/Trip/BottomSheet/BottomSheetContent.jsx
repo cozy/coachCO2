@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
-import Timeline from '@material-ui/lab/Timeline'
-
+import Timeline from 'cozy-ui/transpiled/react/Timeline'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Divider from 'cozy-ui/transpiled/react/Divider'
 import List from 'cozy-ui/transpiled/react/List'

@@ -2,12 +2,11 @@ import React, { useMemo } from 'react'
 import cx from 'classnames'
 
 import { makeStyles } from 'cozy-ui/transpiled/react/styles'
-import TimelineItem from '@material-ui/lab/TimelineItem'
-import TimelineSeparator from '@material-ui/lab/TimelineSeparator'
-import TimelineConnector from '@material-ui/lab/TimelineConnector'
-import TimelineContent from '@material-ui/lab/TimelineContent'
-import TimelineDot from '@material-ui/lab/TimelineDot'
-
+import TimelineItem from 'cozy-ui/transpiled/react//TimelineItem'
+import TimelineSeparator from 'cozy-ui/transpiled/react//TimelineSeparator'
+import TimelineConnector from 'cozy-ui/transpiled/react//TimelineConnector'
+import TimelineContent from 'cozy-ui/transpiled/react//TimelineContent'
+import TimelineDot from 'cozy-ui/transpiled/react//TimelineDot'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 
 const useStyles = makeStyles(theme => ({

@@ -1,8 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
-import Button from '@material-ui/core/Button'
 import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
+import Button from 'cozy-ui/transpiled/react/Button'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import BottomIcon from 'cozy-ui/transpiled/react/Icons/Bottom'
