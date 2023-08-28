@@ -15,7 +15,8 @@
     "label": "Source des données"
   },
   "settings": {
-    "services": "Services"
+    "services": "Services",
+    "debug": "Mode démo & débug"
   },
   "trips": {
     "trips": "Déplacements",
