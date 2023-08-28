@@ -1,9 +1,9 @@
 import get from 'lodash/get'
 import set from 'lodash/set'
-import { isQueryLoading, useClient, useQuery } from 'cozy-client'
-
 import { SETTINGS_DOCTYPE } from 'src/doctypes'
 import { buildSettingsQuery } from 'src/queries/queries'
+
+import { isQueryLoading, useClient, useQuery } from 'cozy-client'
 
 const useSettings = setting => {
   const client = useClient()

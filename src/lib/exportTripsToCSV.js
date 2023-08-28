@@ -1,9 +1,6 @@
-import sortBy from 'lodash/sortBy'
 import format from 'date-fns/format'
-
-import log from 'cozy-logger'
-import { models } from 'cozy-client'
-
+import sortBy from 'lodash/sortBy'
+import { COLUMNS_NAMES_CSV } from 'src/constants'
 import {
   getStartPlaceDisplayName,
   getEndPlaceDisplayName,
@@ -12,7 +9,10 @@ import {
   getTripStartDate,
   getTripEndDate
 } from 'src/lib/trips'
-import { COLUMNS_NAMES_CSV } from 'src/constants'
+
+import { models } from 'cozy-client'
+import log from 'cozy-logger'
+
 import { getOrCreateAppFolderWithReference } from './getOrCreateAppFolderWithReference'
 import { transformTimeseriesToTrips } from './timeseries'
 

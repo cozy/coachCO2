@@ -1,11 +1,10 @@
 import memoize from 'lodash/memoize'
-
-import { initTranslation } from 'cozy-ui/transpiled/react/I18n'
-
-import { getClient } from 'src/utils/client'
 import { getValues, initBar } from 'src/utils/bar'
+import { getClient } from 'src/utils/client'
+
 import flag from 'cozy-flags'
 import { RealtimePlugin } from 'cozy-realtime'
+import { initTranslation } from 'cozy-ui/transpiled/react/I18n'
 
 /**
  * Memoize this function in its own file so that it is correctly memoized

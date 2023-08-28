@@ -1,13 +1,12 @@
 import React, { useCallback, useMemo } from 'react'
+import { ModeAvatar } from 'src/components/Avatar'
+import { createGeojsonWithModifiedMode } from 'src/components/EditDialogs/ModeEditDialog/helpers'
+import { useTrip } from 'src/components/Providers/TripProvider'
+import { modes } from 'src/components/helpers'
 
 import { useClient } from 'cozy-client'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
-
-import { modes } from 'src/components/helpers'
-import { createGeojsonWithModifiedMode } from 'src/components/EditDialogs/ModeEditDialog/helpers'
-import { ModeAvatar } from 'src/components/Avatar'
-import { useTrip } from 'src/components/Providers/TripProvider'
 
 const makeOptions = t => {
   const options = modes.map(mode => ({

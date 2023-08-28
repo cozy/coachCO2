@@ -1,23 +1,4 @@
 // mode icons
-import BikeIcon from 'cozy-ui/transpiled/react/Icons/Bike'
-import BusIcon from 'cozy-ui/transpiled/react/Icons/Bus'
-import CarIcon from 'cozy-ui/transpiled/react/Icons/Car'
-import PlaneIcone from 'cozy-ui/transpiled/react/Icons/Plane'
-import SubwayIcon from 'cozy-ui/transpiled/react/Icons/Subway'
-import TrainIcon from 'cozy-ui/transpiled/react/Icons/Train'
-import WalkIcon from 'cozy-ui/transpiled/react/Icons/Walk'
-import UnknownIcon from 'cozy-ui/transpiled/react/Icons/Unknow'
-// purpose icons
-import CompanyIcon from 'cozy-ui/transpiled/react/Icons/Company'
-import FitnessIcon from 'cozy-ui/transpiled/react/Icons/Fitness'
-import MountainIcon from 'cozy-ui/transpiled/react/Icons/Mountain'
-import MovementIcon from 'cozy-ui/transpiled/react/Icons/Movement'
-import PeopleIcon from 'cozy-ui/transpiled/react/Icons/People'
-import RestaurantIcon from 'cozy-ui/transpiled/react/Icons/Restaurant'
-import RestoreIcon from 'cozy-ui/transpiled/react/Icons/Restore'
-import SchoolIcon from 'cozy-ui/transpiled/react/Icons/School'
-import ShopIcon from 'cozy-ui/transpiled/react/Icons/Shop'
-
 import {
   AIR_MODE,
   BICYCLING_MODE,
@@ -37,6 +18,25 @@ import {
   ENTERTAINMENT_PURPOSE,
   OTHER_PURPOSE
 } from 'src/constants'
+
+import BikeIcon from 'cozy-ui/transpiled/react/Icons/Bike'
+import BusIcon from 'cozy-ui/transpiled/react/Icons/Bus'
+import CarIcon from 'cozy-ui/transpiled/react/Icons/Car'
+// purpose icons
+import CompanyIcon from 'cozy-ui/transpiled/react/Icons/Company'
+import FitnessIcon from 'cozy-ui/transpiled/react/Icons/Fitness'
+import MountainIcon from 'cozy-ui/transpiled/react/Icons/Mountain'
+import MovementIcon from 'cozy-ui/transpiled/react/Icons/Movement'
+import PeopleIcon from 'cozy-ui/transpiled/react/Icons/People'
+import PlaneIcone from 'cozy-ui/transpiled/react/Icons/Plane'
+import RestaurantIcon from 'cozy-ui/transpiled/react/Icons/Restaurant'
+import RestoreIcon from 'cozy-ui/transpiled/react/Icons/Restore'
+import SchoolIcon from 'cozy-ui/transpiled/react/Icons/School'
+import ShopIcon from 'cozy-ui/transpiled/react/Icons/Shop'
+import SubwayIcon from 'cozy-ui/transpiled/react/Icons/Subway'
+import TrainIcon from 'cozy-ui/transpiled/react/Icons/Train'
+import UnknownIcon from 'cozy-ui/transpiled/react/Icons/Unknow'
+import WalkIcon from 'cozy-ui/transpiled/react/Icons/Walk'
 
 export const modes = [
   AIR_MODE,

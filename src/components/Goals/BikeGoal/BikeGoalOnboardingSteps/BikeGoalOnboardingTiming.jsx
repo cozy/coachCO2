@@ -1,19 +1,18 @@
 import React, { forwardRef, useReducer, useState } from 'react'
+import PercentageField from 'src/components/Goals/BikeGoal/Edit/PercentageField'
+import { toPercentage } from 'src/components/Goals/BikeGoal/Edit/helpers'
+import useSettings from 'src/hooks/useSettings'
 
-import InputAdornment from 'cozy-ui/transpiled/react/InputAdornment'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
-import StepContent from 'cozy-ui/transpiled/react/StepContent'
-import Typography from 'cozy-ui/transpiled/react/Typography'
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import InputAdornment from 'cozy-ui/transpiled/react/InputAdornment'
 import RadioGroup from 'cozy-ui/transpiled/react/RadioGroup'
 import Radio from 'cozy-ui/transpiled/react/Radios'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
-
-import useSettings from 'src/hooks/useSettings'
-import { toPercentage } from 'src/components/Goals/BikeGoal/Edit/helpers'
-import PercentageField from 'src/components/Goals/BikeGoal/Edit/PercentageField'
+import StepContent from 'cozy-ui/transpiled/react/StepContent'
+import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
+import Typography from 'cozy-ui/transpiled/react/Typography'
 
 const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
   const { t } = useI18n()

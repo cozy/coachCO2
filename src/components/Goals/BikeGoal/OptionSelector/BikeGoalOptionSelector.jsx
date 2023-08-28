@@ -1,20 +1,19 @@
 import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import ActionButton from 'src/components/Goals/BikeGoal/OptionSelector/ActionButton'
+import DeactivationModal from 'src/components/Goals/BikeGoal/OptionSelector/DeactivationModal'
 
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import Divider from 'cozy-ui/transpiled/react/Divider'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Icon from 'cozy-ui/transpiled/react/Icon'
+import DotsIcon from 'cozy-ui/transpiled/react/Icons/Dots'
+import ForbiddenIcon from 'cozy-ui/transpiled/react/Icons/Forbidden'
+import InfoIcon from 'cozy-ui/transpiled/react/Icons/Info'
+import RenameIcon from 'cozy-ui/transpiled/react/Icons/Rename'
 import ActionMenu, {
   ActionMenuItem
 } from 'cozy-ui/transpiled/react/deprecated/ActionMenu'
-import Icon from 'cozy-ui/transpiled/react/Icon'
-import DotsIcon from 'cozy-ui/transpiled/react/Icons/Dots'
-import InfoIcon from 'cozy-ui/transpiled/react/Icons/Info'
-import ForbiddenIcon from 'cozy-ui/transpiled/react/Icons/Forbidden'
-import Divider from 'cozy-ui/transpiled/react/Divider'
-import RenameIcon from 'cozy-ui/transpiled/react/Icons/Rename'
-
-import ActionButton from 'src/components/Goals/BikeGoal/OptionSelector/ActionButton'
-import DeactivationModal from 'src/components/Goals/BikeGoal/OptionSelector/DeactivationModal'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 const createStyles = ({ isMobile }) => ({
   divider: {

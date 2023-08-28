@@ -1,18 +1,8 @@
-import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
+import React, { useMemo } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
-
-import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
-import ListItem from 'cozy-ui/transpiled/react/ListItem'
-import Divider from 'cozy-ui/transpiled/react/Divider'
-import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
-import ListSubheader from 'cozy-ui/transpiled/react/ListSubheader'
-import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import Icon from 'cozy-ui/transpiled/react/Icon'
-import Typography from 'cozy-ui/transpiled/react/Typography'
-
 import { PurposeAvatar } from 'src/components/Avatar'
+import { pickModeIcon } from 'src/components/helpers'
 import {
   getEndPlaceDisplayName,
   getStartDate,
@@ -23,7 +13,16 @@ import {
   getFormattedTotalCO2,
   computeAndFormatTotalCO2ByMode
 } from 'src/lib/timeseries'
-import { pickModeIcon } from 'src/components/helpers'
+
+import Divider from 'cozy-ui/transpiled/react/Divider'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Icon from 'cozy-ui/transpiled/react/Icon'
+import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
+import ListItem from 'cozy-ui/transpiled/react/ListItem'
+import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
+import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
+import ListSubheader from 'cozy-ui/transpiled/react/ListSubheader'
+import Typography from 'cozy-ui/transpiled/react/Typography'
 
 const styles = {
   co2: {

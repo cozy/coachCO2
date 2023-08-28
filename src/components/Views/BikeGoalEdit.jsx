@@ -1,10 +1,9 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-
 import ModificationModalContent from 'src/components/Goals/BikeGoal/Edit/ModificationModalContent'
+
+import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 const BikeGoalEdit = () => {
   const { t } = useI18n()

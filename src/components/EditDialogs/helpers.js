@@ -1,6 +1,6 @@
 import { RECURRING_PURPOSES_SERVICE_NAME } from 'src/constants'
-import { setAutomaticPurpose, setManualPurpose } from 'src/lib/timeseries'
 import { startService } from 'src/lib/services'
+import { setAutomaticPurpose, setManualPurpose } from 'src/lib/timeseries'
 const saveTripWithPurpose = async ({
   client,
   timeserie,

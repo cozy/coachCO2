@@ -1,31 +1,30 @@
-import merge from 'lodash/merge'
-import keyBy from 'lodash/keyBy'
-import sortBy from 'lodash/sortBy'
-import fromPairs from 'lodash/fromPairs'
-import toPairs from 'lodash/toPairs'
-import get from 'lodash/get'
-import set from 'lodash/set'
-import sumBy from 'lodash/sumBy'
-import uniq from 'lodash/uniq'
-import subMonths from 'date-fns/subMonths'
-import startOfMonth from 'date-fns/startOfMonth'
-import dateFnsFormatDistance from 'date-fns/formatDistance'
 import addHours from 'date-fns/addHours'
-
-import { computeCO2Section, computeCaloriesSection } from 'src/lib/metrics'
-import {
-  getSectionsFromTrip,
-  getManualPurpose,
-  getAutomaticPurpose
-} from 'src/lib/trips'
+import dateFnsFormatDistance from 'date-fns/formatDistance'
+import startOfMonth from 'date-fns/startOfMonth'
+import subMonths from 'date-fns/subMonths'
+import fromPairs from 'lodash/fromPairs'
+import get from 'lodash/get'
+import keyBy from 'lodash/keyBy'
+import merge from 'lodash/merge'
+import set from 'lodash/set'
+import sortBy from 'lodash/sortBy'
+import sumBy from 'lodash/sumBy'
+import toPairs from 'lodash/toPairs'
+import uniq from 'lodash/uniq'
+import { modes, purposes } from 'src/components/helpers'
+import { UNKNOWN_MODE, OTHER_PURPOSE } from 'src/constants'
 import {
   formatDistance,
   formatCO2,
   formatCalories,
   makeCommutePurpose
 } from 'src/lib/helpers'
-import { modes, purposes } from 'src/components/helpers'
-import { UNKNOWN_MODE, OTHER_PURPOSE } from 'src/constants'
+import { computeCO2Section, computeCaloriesSection } from 'src/lib/metrics'
+import {
+  getSectionsFromTrip,
+  getManualPurpose,
+  getAutomaticPurpose
+} from 'src/lib/trips'
 
 export const collectFeaturesByOid = geojson => {
   const res = {}

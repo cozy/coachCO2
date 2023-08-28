@@ -1,15 +1,14 @@
 import {
+  getSectionsFromTrip,
+  getManualPurpose,
+  getFeatureMode
+} from 'src/lib/trips'
+import {
   mockFeature,
   mockFeatureCollection,
   mockSerie,
   modeProps
 } from 'test/mockTrip'
-
-import {
-  getSectionsFromTrip,
-  getManualPurpose,
-  getFeatureMode
-} from 'src/lib/trips'
 
 const mockedFeatures = () => [
   mockFeature('featureId01'),

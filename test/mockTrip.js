@@ -1,5 +1,4 @@
 import cloneDeep from 'lodash/cloneDeep'
-
 import { GEOJSON_DOCTYPE } from 'src/doctypes'
 
 export const tripTemplate = {

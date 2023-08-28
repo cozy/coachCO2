@@ -6,12 +6,11 @@ import React, {
   useMemo,
   useCallback
 } from 'react'
+import { saveAccountToSettings } from 'src/components/Providers/helpers'
+import useAccountForProvider from 'src/components/Providers/useAccountForProvider'
+import { buildSettingsQuery, buildAccountQuery } from 'src/queries/queries'
 
 import { isQueryLoading, useClient, useQuery } from 'cozy-client'
-
-import useAccountForProvider from 'src/components/Providers/useAccountForProvider'
-import { saveAccountToSettings } from 'src/components/Providers/helpers'
-import { buildSettingsQuery, buildAccountQuery } from 'src/queries/queries'
 
 export const AccountContext = createContext()
 

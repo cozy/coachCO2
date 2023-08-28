@@ -1,7 +1,8 @@
-import { models } from 'cozy-client'
 import { uploadFile } from 'src/lib/exportTripsToCSV'
 import { getOrCreateAppFolderWithReference } from 'src/lib/getOrCreateAppFolderWithReference'
 import { mockTimeserie, mockSerie } from 'test/mockTrip'
+
+import { models } from 'cozy-client'
 
 const {
   file: { uploadFileWithConflictStrategy }

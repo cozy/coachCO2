@@ -1,11 +1,12 @@
 /* eslint-disable react/display-name */
 
-import React from 'react'
 import { render } from '@testing-library/react'
-import PurposesList from './PurposesList'
+import React from 'react'
+import { buildTimeseriesQueryByDateAndAccountId } from 'src/queries/queries'
+
 import { isQueryLoading, useQueryAll } from 'cozy-client'
 
-import { buildTimeseriesQueryByDateAndAccountId } from 'src/queries/queries'
+import PurposesList from './PurposesList'
 
 jest.mock('src/components/Providers/AccountProvider', () => ({
   ...jest.requireActual('src/components/Providers/AccountProvider'),
@@ -25,8 +26,9 @@ jest.mock('src/queries/queries')
 jest.mock(
   'src/components/Analysis/Purposes/LoadedPurposesList',
   () =>
-    ({ timeseries }) =>
+    ({ timeseries }) => (
       <div data-testid="LoadedPurposesList" data-timeseries={timeseries} />
+    )
 )
 jest.mock('src/components/Providers/SelectDatesProvider', () => ({
   useSelectDatesContext: jest.fn(() => ({ selectedDate: '' }))

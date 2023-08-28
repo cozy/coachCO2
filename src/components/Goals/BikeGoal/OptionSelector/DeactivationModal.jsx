@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import useSettings from 'src/hooks/useSettings'
 
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-
-import useSettings from 'src/hooks/useSettings'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 const DeactivationModal = ({ open, onClose }) => {
   const { t } = useI18n()

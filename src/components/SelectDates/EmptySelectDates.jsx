@@ -1,13 +1,13 @@
-import React from 'react'
 import cx from 'classnames'
-import { makeStyles } from 'cozy-ui/transpiled/react/styles'
+import React from 'react'
 
 import Box from 'cozy-ui/transpiled/react/Box'
-import Paper from 'cozy-ui/transpiled/react/Paper'
-import IconButton from 'cozy-ui/transpiled/react/IconButton'
 import Icon from 'cozy-ui/transpiled/react/Icon'
-import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
+import IconButton from 'cozy-ui/transpiled/react/IconButton'
 import LeftIcon from 'cozy-ui/transpiled/react/Icons/Left'
+import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
+import Paper from 'cozy-ui/transpiled/react/Paper'
+import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
 const useStyles = makeStyles(theme => ({
   paper: {

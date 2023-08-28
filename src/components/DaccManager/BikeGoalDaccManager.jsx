@@ -1,9 +1,8 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
+import DaccManager from 'src/components/DaccManager/DaccManager'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-
-import DaccManager from 'src/components/DaccManager/DaccManager'
 
 const BikeGoalDaccManager = ({ onClose, onRefuse, onAccept }) => {
   const { t } = useI18n()

@@ -1,7 +1,7 @@
 import MockDate from 'mockdate'
+import { mockF, mockT } from 'test/lib/I18n'
 
 import { makeData } from './helpers'
-import { mockF, mockT } from 'test/lib/I18n'
 
 const theme = {
   palette: {

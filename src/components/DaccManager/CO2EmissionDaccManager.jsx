@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-
-import useSettings from 'src/hooks/useSettings'
 import CO2EmissionDaccBanner from 'src/components/DaccBanner/CO2EmissionDaccBanner'
 import CO2EmissionDaccCompareDialog from 'src/components/DaccManager/CO2EmissionDaccCompareDialog'
 import DaccManager from 'src/components/DaccManager/DaccManager'
+import useSettings from 'src/hooks/useSettings'
+
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 const CO2EmissionDaccManager = () => {
   const { t } = useI18n()

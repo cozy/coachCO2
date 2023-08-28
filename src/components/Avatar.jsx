@@ -1,7 +1,4 @@
 import React from 'react'
-
-import UiAvatar from 'cozy-ui/transpiled/react/Avatar'
-
 import {
   pickPurposeIcon,
   purposeToColor,
@@ -9,6 +6,8 @@ import {
   modeToColor
 } from 'src/components/helpers'
 import { OTHER_PURPOSE } from 'src/constants'
+
+import UiAvatar from 'cozy-ui/transpiled/react/Avatar'
 
 const makeStyle = ({ faded, color }) => {
   return faded

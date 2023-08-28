@@ -1,19 +1,18 @@
 import React from 'react'
 import { HashRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
-
-import flag from 'cozy-flags'
-
 import AppLayout from 'src/components/AppLayout'
-import Trips from 'src/components/Views/Trips'
-import Trip from 'src/components/Views/Trip'
+import CertificateGeneration from 'src/components/Goals/BikeGoal/Certificate/CertificateGeneration'
+import BikeGoal from 'src/components/Views/BikeGoal'
+import BikeGoalAbout from 'src/components/Views/BikeGoalAbout'
+import BikeGoalEdit from 'src/components/Views/BikeGoalEdit'
+import BikeGoalOnboarding from 'src/components/Views/BikeGoalOnboarding'
 import ModeAnalysis from 'src/components/Views/ModeAnalysis'
 import PurposeAnalysis from 'src/components/Views/PurposeAnalysis'
 import Settings from 'src/components/Views/Settings'
-import BikeGoal from 'src/components/Views/BikeGoal'
-import BikeGoalOnboarding from 'src/components/Views/BikeGoalOnboarding'
-import BikeGoalAbout from 'src/components/Views/BikeGoalAbout'
-import BikeGoalEdit from 'src/components/Views/BikeGoalEdit'
-import CertificateGeneration from 'src/components/Goals/BikeGoal/Certificate/CertificateGeneration'
+import Trip from 'src/components/Views/Trip'
+import Trips from 'src/components/Views/Trips'
+
+import flag from 'cozy-flags'
 
 const OutletWrapper = ({ Component }) => (
   <>

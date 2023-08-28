@@ -1,19 +1,4 @@
 import MockDate from 'mockdate'
-
-import { mockF } from 'test/lib/I18n'
-import {
-  mockTimeserie,
-  mockSerie,
-  mockStartPlaceFeature,
-  mockEndPlaceFeature,
-  makePlaneFeature,
-  mockFeatureCollection,
-  makeCarFeature,
-  makeWalkingFeature,
-  makeStartPlaceFeature,
-  makeEndPlaceFeature
-} from 'test/mockTrip'
-
 import { purposes } from 'src/components/helpers'
 import {
   COMMUTE_PURPOSE,
@@ -23,7 +8,6 @@ import {
   UNKNOWN_MODE,
   WORK_PURPOSE
 } from 'src/constants'
-
 import {
   transformSerieToTrip,
   transformTimeseriesToTrips,
@@ -47,6 +31,19 @@ import {
   getEarliestTimeserie,
   filterTimeseriesByYear
 } from 'src/lib/timeseries'
+import { mockF } from 'test/lib/I18n'
+import {
+  mockTimeserie,
+  mockSerie,
+  mockStartPlaceFeature,
+  mockEndPlaceFeature,
+  makePlaneFeature,
+  mockFeatureCollection,
+  makeCarFeature,
+  makeWalkingFeature,
+  makeStartPlaceFeature,
+  makeEndPlaceFeature
+} from 'test/mockTrip'
 
 describe('transformSerieToTrip', () => {
   it('should return correct value', () => {

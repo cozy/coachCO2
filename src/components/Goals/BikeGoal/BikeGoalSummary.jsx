@@ -1,21 +1,20 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-
-import { isQueryLoading, useQueryAll } from 'cozy-client'
-import Typography from 'cozy-ui/transpiled/react/Typography'
-import Paper from 'cozy-ui/transpiled/react/Paper'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import Spinner from 'cozy-ui/transpiled/react/Spinner'
-
 import BikeGoalChart from 'src/components/Goals/BikeGoal/BikeGoalChart'
 import {
   getDaysToReach,
   isGoalCompleted,
   countDaysOrDaysToReach
 } from 'src/components/Goals/BikeGoal/helpers'
-import { buildBikeCommuteTimeseriesQueryByAccountId } from 'src/queries/queries'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { filterTimeseriesByYear } from 'src/lib/timeseries'
+import { buildBikeCommuteTimeseriesQueryByAccountId } from 'src/queries/queries'
+
+import { isQueryLoading, useQueryAll } from 'cozy-client'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Paper from 'cozy-ui/transpiled/react/Paper'
+import Spinner from 'cozy-ui/transpiled/react/Spinner'
+import Typography from 'cozy-ui/transpiled/react/Typography'
 
 const BikeGoalSummary = () => {
   const { t } = useI18n()

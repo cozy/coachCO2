@@ -1,7 +1,6 @@
 'use strict'
-import React from 'react'
 import { render } from '@testing-library/react'
-
+import React from 'react'
 import Sidebar from 'src/components/Sidebar'
 import AppLike from 'test/AppLike'
 

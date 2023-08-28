@@ -1,6 +1,6 @@
+import 'leaflet/dist/leaflet.css'
 import React from 'react'
 import { MapContainer } from 'react-leaflet'
-import 'leaflet/dist/leaflet.css'
 
 import TripMapContent from './TripMapContent'
 

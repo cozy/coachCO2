@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
-
-import { isQueryLoading, useQueryAll, useClient } from 'cozy-client'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-
 import {
   getAccountLabel,
   useAccountContext
 } from 'src/components/Providers/AccountProvider'
-import { buildTimeseriesQueryByAccountIdAndDate } from 'src/queries/queries'
 import { uploadFile } from 'src/lib/exportTripsToCSV'
+import { buildTimeseriesQueryByAccountIdAndDate } from 'src/queries/queries'
+
+import { isQueryLoading, useQueryAll, useClient } from 'cozy-client'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 const useExportTripsToCSV = () => {
   const { t } = useI18n()

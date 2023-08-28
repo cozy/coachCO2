@@ -1,14 +1,10 @@
 import React, { useState } from 'react'
-
-import Timeline from 'cozy-ui/transpiled/react/Timeline'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import Divider from 'cozy-ui/transpiled/react/Divider'
-import List from 'cozy-ui/transpiled/react/List'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
-import { BottomSheetItem } from 'cozy-ui/transpiled/react/BottomSheet'
-
+import PurposeEditDialog from 'src/components/EditDialogs/PurposeEditDialog'
+import RecurrenceEditDialog from 'src/components/EditDialogs/RecurrenceEditDialog'
+import { useTrip } from 'src/components/Providers/TripProvider'
 import TimelineNode from 'src/components/Timeline/TimelineNode'
 import TimelineSections from 'src/components/Timeline/TimelineSections'
+import PurposeItem from 'src/components/Trip/BottomSheet/PurposeItem'
 import { formatDate } from 'src/lib/helpers'
 import {
   getEndPlaceDisplayName,
@@ -17,11 +13,15 @@ import {
   getEndDate,
   getTimeseriePurpose
 } from 'src/lib/timeseries'
-import { useTrip } from 'src/components/Providers/TripProvider'
-import PurposeItem from 'src/components/Trip/BottomSheet/PurposeItem'
-import PurposeEditDialog from 'src/components/EditDialogs/PurposeEditDialog'
+
+import { BottomSheetItem } from 'cozy-ui/transpiled/react/BottomSheet'
+import Divider from 'cozy-ui/transpiled/react/Divider'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import List from 'cozy-ui/transpiled/react/List'
+import Timeline from 'cozy-ui/transpiled/react/Timeline'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+
 import RecurringTripItem from './RecurringTripItem'
-import RecurrenceEditDialog from 'src/components/EditDialogs/RecurrenceEditDialog'
 
 const styles = {
   divider: {

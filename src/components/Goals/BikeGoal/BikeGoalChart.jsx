@@ -1,13 +1,12 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-
-import CircularChart from 'cozy-ui/transpiled/react/CircularChart'
-import Box from 'cozy-ui/transpiled/react/Box'
-
+import React from 'react'
 import {
   makeGoalAchievementPercentage,
   makeIconSize
 } from 'src/components/Goals/BikeGoal/helpers'
+
+import Box from 'cozy-ui/transpiled/react/Box'
+import CircularChart from 'cozy-ui/transpiled/react/CircularChart'
 
 const BikeGoalChart = ({ timeseries, size, ...props }) => {
   const goalAchievementPercentage = makeGoalAchievementPercentage(timeseries)

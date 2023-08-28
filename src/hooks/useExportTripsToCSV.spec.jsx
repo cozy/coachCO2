@@ -1,14 +1,13 @@
-import React from 'react'
 import { renderHook } from '@testing-library/react-hooks'
+import React from 'react'
+import useExportTripsToCSV from 'src/hooks/useExportTripsToCSV'
+import AppLike from 'test/AppLike'
+import { mockSerie, mockTimeserie } from 'test/mockTrip'
 
 import { createMockClient, useQuery, models } from 'cozy-client'
 const {
   file: { uploadFileWithConflictStrategy }
 } = models
-
-import AppLike from 'test/AppLike'
-import { mockSerie, mockTimeserie } from 'test/mockTrip'
-import useExportTripsToCSV from 'src/hooks/useExportTripsToCSV'
 
 jest.mock('src/lib/getOrCreateAppFolderWithReference', () => ({
   getOrCreateAppFolderWithReference: jest.fn(() => ({ _id: 'folderID' }))

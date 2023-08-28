@@ -1,12 +1,11 @@
 import React from 'react'
+import LoadedPurposesList from 'src/components/Analysis/Purposes/LoadedPurposesList'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
+import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
+import { buildTimeseriesQueryByDateAndAccountId } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
-
-import { buildTimeseriesQueryByDateAndAccountId } from 'src/queries/queries'
-import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
-import { useAccountContext } from 'src/components/Providers/AccountProvider'
-import LoadedPurposesList from 'src/components/Analysis/Purposes/LoadedPurposesList'
 
 const PurposesList = () => {
   const { account } = useAccountContext()

@@ -1,8 +1,7 @@
 import get from 'lodash/get'
 import memoize from 'lodash/memoize'
-
-import { UNKNOWN_MODE } from 'src/constants'
 import { modes } from 'src/components/helpers'
+import { UNKNOWN_MODE } from 'src/constants'
 import { averageSpeedKmH } from 'src/lib/helpers'
 
 export const getManualPurpose = trip => {

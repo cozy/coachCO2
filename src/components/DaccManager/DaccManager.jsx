@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-
+import React, { useState } from 'react'
 import DaccPermissionsDialog from 'src/components/DaccManager/DaccPermissionsDialog'
 import DaccReasonsDialog from 'src/components/DaccManager/DaccReasonsDialog'
 

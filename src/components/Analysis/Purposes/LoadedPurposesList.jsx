@@ -1,21 +1,20 @@
+import cx from 'classnames'
 import React, { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
-import cx from 'classnames'
-
-import List from 'cozy-ui/transpiled/react/List'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
-import Box from 'cozy-ui/transpiled/react/Box'
-import PieChart from 'cozy-ui/transpiled/react/PieChart'
-
+import AnalysisListItem from 'src/components/Analysis/AnalysisListItem'
+import { makeChartProps } from 'src/components/Analysis/helpers'
+import TripsList from 'src/components/TripsList'
+import { formatCO2 } from 'src/lib/helpers'
 import {
   sortTimeseriesByCO2GroupedByPurpose,
   computeCO2Timeseries
 } from 'src/lib/timeseries'
-import { formatCO2 } from 'src/lib/helpers'
-import { makeChartProps } from 'src/components/Analysis/helpers'
-import AnalysisListItem from 'src/components/Analysis/AnalysisListItem'
-import TripsList from 'src/components/TripsList'
+
+import Box from 'cozy-ui/transpiled/react/Box'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import List from 'cozy-ui/transpiled/react/List'
+import PieChart from 'cozy-ui/transpiled/react/PieChart'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 const LoadedPurposesList = ({ timeseries }) => {
   const { purpose } = useParams()

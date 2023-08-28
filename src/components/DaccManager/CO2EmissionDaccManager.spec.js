@@ -1,10 +1,9 @@
-import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
+import React from 'react'
+import CO2EmissionDaccManager from 'src/components/DaccManager/CO2EmissionDaccManager'
+import AppLike from 'test/AppLike'
 
 import { useQuery } from 'cozy-client'
-
-import AppLike from 'test/AppLike'
-import CO2EmissionDaccManager from 'src/components/DaccManager/CO2EmissionDaccManager'
 
 jest.mock('cozy-client/dist/hooks/useQuery', () => jest.fn())
 

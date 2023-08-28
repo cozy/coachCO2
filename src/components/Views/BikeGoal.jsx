@@ -1,13 +1,12 @@
 import React from 'react'
+import BikeGoalDialogMobile from 'src/components/Goals/BikeGoal/BikeGoalDialogMobile'
+import BikeGoalViewDesktop from 'src/components/Goals/BikeGoal/BikeGoalViewDesktop'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
+import SpinnerOrEmptyContent from 'src/components/SpinnerOrEmptyContent'
+import { buildBikeCommuteTimeseriesQueryByAccountId } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
-
-import { useAccountContext } from 'src/components/Providers/AccountProvider'
-import SpinnerOrEmptyContent from 'src/components/SpinnerOrEmptyContent'
-import BikeGoalDialogMobile from 'src/components/Goals/BikeGoal/BikeGoalDialogMobile'
-import BikeGoalViewDesktop from 'src/components/Goals/BikeGoal/BikeGoalViewDesktop'
-import { buildBikeCommuteTimeseriesQueryByAccountId } from 'src/queries/queries'
 
 const Bikegoal = () => {
   const { account, isAccountLoading } = useAccountContext()

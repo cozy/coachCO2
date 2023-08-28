@@ -1,12 +1,11 @@
 import React from 'react'
-
-import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
-import ListItem from 'cozy-ui/transpiled/react/ListItem'
-import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-
 import { PurposeAvatar } from 'src/components/Avatar'
 import { OTHER_PURPOSE } from 'src/constants'
+
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import ListItem from 'cozy-ui/transpiled/react/ListItem'
+import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
+import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 
 const PurposeItem = ({ purpose, onClick }) => {
   const { t } = useI18n()

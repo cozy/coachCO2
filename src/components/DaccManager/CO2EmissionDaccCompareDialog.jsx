@@ -1,13 +1,12 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-
-import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-import Button from 'cozy-ui/transpiled/react/Buttons'
-import Typography from 'cozy-ui/transpiled/react/Typography'
-import Icon from 'cozy-ui/transpiled/react/Icon'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-
+import React from 'react'
 import DaccCompareSVG from 'src/assets/icons/dacc-compare.svg'
+
+import Button from 'cozy-ui/transpiled/react/Buttons'
+import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Icon from 'cozy-ui/transpiled/react/Icon'
+import Typography from 'cozy-ui/transpiled/react/Typography'
 
 const CO2EmissionDaccCompareDialog = ({
   open,

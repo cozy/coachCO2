@@ -1,12 +1,13 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 
-import Button from 'cozy-ui/transpiled/react/Buttons'
-import Icon from 'cozy-ui/transpiled/react/Icon'
 import Alert from 'cozy-ui/transpiled/react/Alert'
 import AlertTitle from 'cozy-ui/transpiled/react/AlertTitle'
+import Button from 'cozy-ui/transpiled/react/Buttons'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Icon from 'cozy-ui/transpiled/react/Icon'
 import LightbulbIcon from 'cozy-ui/transpiled/react/Icons/Lightbulb'
+
 import { getBountyAmount, getDaysToReach } from './helpers'
 
 const BikeGoalAlert = ({ onDiscard, onParticipate }) => {

@@ -1,13 +1,12 @@
 import React from 'react'
-
-import SelectBox from 'cozy-ui/transpiled/react/SelectBox'
-import Label from 'cozy-ui/transpiled/react/Label'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-
 import {
   useAccountContext,
   getAccountLabel
 } from 'src/components/Providers/AccountProvider'
+
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Label from 'cozy-ui/transpiled/react/Label'
+import SelectBox from 'cozy-ui/transpiled/react/SelectBox'
 
 const AccountSelector = props => {
   const { t } = useI18n()
