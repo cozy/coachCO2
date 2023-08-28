@@ -15,7 +15,8 @@
     "label": "Data source"
   },
   "settings": {
-    "services": "Services"
+    "services": "Services",
+    "debug": "Demo & debug mode"
   },
   "trips": {
     "trips": "Trips",

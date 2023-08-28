@@ -34,14 +34,20 @@ export const Settings = () => {
       <Titlebar label={t('nav.settings')} />
       <div className="u-mh-1 u-mb-1">
         <AccountSelector className="u-mt-1" />
-        <Label>{t('settings.services')}</Label>
         <div className="u-mt-1">
           <Label>{t('settings.services')}</Label>
           <CO2EmissionDaccSwitcher className="u-mt-half-s" />
           {flag('coachco2.bikegoal.enabled') && (
             <BikeGoalSwitcher className="u-mt-1-half-s" />
           )}
-          {flag('coachco2.admin-mode') && (
+        </div>
+        <CsvExporter
+          className="u-mt-1"
+          accountName={getAccountLabel(account)}
+        />
+        {flag('coachco2.admin-mode') && (
+          <div className="u-mt-1">
+            <Label>{t('settings.debug')}</Label>
             <>
               <CO2EmissionDaccAlertSwitcher className="u-mt-1-half-s" />
               {flag('coachco2.bikegoal.enabled') && (
@@ -52,12 +58,8 @@ export const Settings = () => {
                 </>
               )}
             </>
-          )}
-        </div>
-        <CsvExporter
-          className="u-mt-1"
-          accountName={getAccountLabel(account)}
-        />
+          </div>
+        )}
         {flag('coachco2.admin-mode') && <AppVersionNumber />}
       </div>
     </>
