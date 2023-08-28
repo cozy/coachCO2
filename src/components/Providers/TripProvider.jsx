@@ -1,4 +1,5 @@
 import React, { useMemo, useContext } from 'react'
+
 import { sortTimeserieSections } from './helpers'
 
 export const TripContext = React.createContext()

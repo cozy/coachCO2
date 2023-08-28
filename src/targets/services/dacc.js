@@ -1,12 +1,12 @@
-import CozyClient from 'cozy-client'
-import log from 'cozy-logger'
+import fetch from 'node-fetch'
+import { DACC_SERVICE_NAME } from 'src/constants'
 import schema from 'src/doctypes'
-
 import { runDACCService } from 'src/lib/dacc'
 import { startService } from 'src/lib/services'
-import { DACC_SERVICE_NAME } from 'src/constants'
 
-import fetch from 'node-fetch'
+import CozyClient from 'cozy-client'
+import log from 'cozy-logger'
+
 global.fetch = fetch
 
 const dacc = async () => {

@@ -1,24 +1,23 @@
-import React, { useMemo } from 'react'
-import PropTypes from 'prop-types'
 import cx from 'classnames'
-import { makeStyles } from 'cozy-ui/transpiled/react/styles'
-
-import Box from 'cozy-ui/transpiled/react/Box'
-import Paper from 'cozy-ui/transpiled/react/Paper'
-import IconButton from 'cozy-ui/transpiled/react/IconButton'
-import Icon from 'cozy-ui/transpiled/react/Icon'
-import Divider from 'cozy-ui/transpiled/react/Divider'
-import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
-import LeftIcon from 'cozy-ui/transpiled/react/Icons/Left'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-
+import PropTypes from 'prop-types'
+import React, { useMemo } from 'react'
+import DropdownMenuButton from 'src/components/SelectDates/DropdownMenuButton'
 import {
   computeMonths,
   computeYears,
   makeNewDate,
   isDisableNextPreviousButton
 } from 'src/components/SelectDates/helpers'
-import DropdownMenuButton from 'src/components/SelectDates/DropdownMenuButton'
+
+import Box from 'cozy-ui/transpiled/react/Box'
+import Divider from 'cozy-ui/transpiled/react/Divider'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Icon from 'cozy-ui/transpiled/react/Icon'
+import IconButton from 'cozy-ui/transpiled/react/IconButton'
+import LeftIcon from 'cozy-ui/transpiled/react/Icons/Left'
+import RightIcon from 'cozy-ui/transpiled/react/Icons/Right'
+import Paper from 'cozy-ui/transpiled/react/Paper'
+import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
 const useStyles = makeStyles(theme => ({
   paper: {

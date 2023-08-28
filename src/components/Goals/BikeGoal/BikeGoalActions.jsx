@@ -1,11 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import cx from 'classnames'
-
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
-
+import PropTypes from 'prop-types'
+import React from 'react'
 import BikeGoalDateSelector from 'src/components/Goals/BikeGoal/DateSelector/BikeGoalDateSelector'
 import BikeGoalOptionSelector from 'src/components/Goals/BikeGoal/OptionSelector/BikeGoalOptionSelector'
+
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 const createStyles = ({ isMobile }) => ({
   actions: {

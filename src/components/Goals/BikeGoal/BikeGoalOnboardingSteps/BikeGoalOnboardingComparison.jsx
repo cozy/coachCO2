@@ -1,18 +1,17 @@
 import React, { forwardRef, useReducer, useState } from 'react'
+import BikeGoalDaccManager from 'src/components/DaccManager/BikeGoalDaccManager'
+import { getSource } from 'src/components/Goals/BikeGoal/helpers'
+import useSettings from 'src/hooks/useSettings'
 
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
-import StepContent from 'cozy-ui/transpiled/react/StepContent'
-import Typography from 'cozy-ui/transpiled/react/Typography'
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import RadioGroup from 'cozy-ui/transpiled/react/RadioGroup'
 import Radio from 'cozy-ui/transpiled/react/Radios'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
-
-import useSettings from 'src/hooks/useSettings'
-import { getSource } from 'src/components/Goals/BikeGoal/helpers'
-import BikeGoalDaccManager from 'src/components/DaccManager/BikeGoalDaccManager'
+import StepContent from 'cozy-ui/transpiled/react/StepContent'
+import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
+import Typography from 'cozy-ui/transpiled/react/Typography'
 
 const createStyles = () => ({
   typography: {

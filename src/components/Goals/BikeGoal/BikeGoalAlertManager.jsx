@@ -1,8 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-
-import useSettings from 'src/hooks/useSettings'
 import BikeGoalAlert from 'src/components/Goals/BikeGoal/BikeGoalAlert'
+import useSettings from 'src/hooks/useSettings'
 
 const BikeGoalAlertManager = () => {
   const navigate = useNavigate()

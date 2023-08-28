@@ -1,16 +1,16 @@
 import React from 'react'
 
+import ClickAwayListener from 'cozy-ui/transpiled/react/ClickAwayListener'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import IconButton from 'cozy-ui/transpiled/react/IconButton'
-import Tooltip from 'cozy-ui/transpiled/react/Tooltip'
 import HelpOutlined from 'cozy-ui/transpiled/react/Icons/HelpOutlined'
-import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import List from 'cozy-ui/transpiled/react/List'
 import ListItem from 'cozy-ui/transpiled/react/ListItem'
 import ListItemSecondaryAction from 'cozy-ui/transpiled/react/ListItemSecondaryAction'
-import ClickAwayListener from 'cozy-ui/transpiled/react/ClickAwayListener'
+import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
+import Tooltip from 'cozy-ui/transpiled/react/Tooltip'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 const RecurrenceEditDialogTitle = () => {
   const { t } = useI18n()

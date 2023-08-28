@@ -1,13 +1,13 @@
-import CozyClient from 'cozy-client'
-import log from 'cozy-logger'
+import fetch from 'node-fetch'
 import schema from 'src/doctypes'
-
 import {
   runRecurringPurposesForManualTrip,
   runRecurringPurposesForNewTrips
 } from 'src/lib/recurringPurposes'
 
-import fetch from 'node-fetch'
+import CozyClient from 'cozy-client'
+import log from 'cozy-logger'
+
 global.fetch = fetch
 
 /**

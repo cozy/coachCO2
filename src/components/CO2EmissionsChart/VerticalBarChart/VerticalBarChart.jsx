@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -6,6 +5,7 @@ import {
   BarElement,
   Tooltip
 } from 'chart.js'
+import React from 'react'
 import { Bar } from 'react-chartjs-2'
 
 import Typography from 'cozy-ui/transpiled/react/Typography'

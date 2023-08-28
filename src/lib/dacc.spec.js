@@ -1,9 +1,11 @@
-import { createMockClient, models } from 'cozy-client'
-const { sendMeasureToDACC, fetchAggregatesFromDACC } = models.dacc
-import { DACC_REMOTE_DOCTYPE } from 'src/doctypes'
-import { DACC_MEASURE_NAME_CO2_MONTHLY } from 'src/constants'
-import * as dacc from './dacc'
 import MockDate from 'mockdate'
+const { sendMeasureToDACC, fetchAggregatesFromDACC } = models.dacc
+import { DACC_MEASURE_NAME_CO2_MONTHLY } from 'src/constants'
+import { DACC_REMOTE_DOCTYPE } from 'src/doctypes'
+
+import { createMockClient, models } from 'cozy-client'
+
+import * as dacc from './dacc'
 
 jest.mock('cozy-client', () => ({
   ...jest.requireActual('cozy-client'),

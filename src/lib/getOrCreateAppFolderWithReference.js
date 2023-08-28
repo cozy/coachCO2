@@ -1,6 +1,6 @@
-import { models } from 'cozy-client'
-
 import { APPS_DOCTYPE } from 'src/doctypes'
+
+import { models } from 'cozy-client'
 
 const { MAGIC_FOLDERS, ensureMagicFolder, getReferencedFolder } = models.folder
 const APP_DIR_REF = `${APPS_DOCTYPE}/coachco2`

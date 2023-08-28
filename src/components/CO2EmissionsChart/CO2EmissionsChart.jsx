@@ -1,17 +1,16 @@
 import React from 'react'
-import { useTheme } from 'cozy-ui/transpiled/react/styles'
+import ChartLegend from 'src/components/CO2EmissionsChart/VerticalBarChart/ChartLegend'
+import VerticalBarChart from 'src/components/CO2EmissionsChart/VerticalBarChart/VerticalBarChart'
+import { makeOptions, makeData } from 'src/components/CO2EmissionsChart/helpers'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
+import useFetchDACCAggregates from 'src/hooks/useFetchDACCAggregates'
+import useSettings from 'src/hooks/useSettings'
+import { buildOneYearOldTimeseriesWithAggregationByAccountId } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
-
-import useSettings from 'src/hooks/useSettings'
-import useFetchDACCAggregates from 'src/hooks/useFetchDACCAggregates'
-import { buildOneYearOldTimeseriesWithAggregationByAccountId } from 'src/queries/queries'
-import { useAccountContext } from 'src/components/Providers/AccountProvider'
-import ChartLegend from 'src/components/CO2EmissionsChart/VerticalBarChart/ChartLegend'
-import VerticalBarChart from 'src/components/CO2EmissionsChart/VerticalBarChart/VerticalBarChart'
-import { makeOptions, makeData } from 'src/components/CO2EmissionsChart/helpers'
+import { useTheme } from 'cozy-ui/transpiled/react/styles'
 
 const CO2EmissionsChart = () => {
   const { t, f } = useI18n()

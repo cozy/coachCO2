@@ -1,24 +1,23 @@
 import React from 'react'
-
-import flag from 'cozy-flags'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import Label from 'cozy-ui/transpiled/react/Label'
-import Spinner from 'cozy-ui/transpiled/react/Spinner'
-
+import AccountSelector from 'src/components/AccountSelector'
+import AppVersionNumber from 'src/components/AppVersionNumber'
+import CO2EmissionDaccAlertSwitcher from 'src/components/CO2EmissionDaccAlertSwitcher'
+import CO2EmissionDaccSwitcher from 'src/components/CO2EmissionDaccSwitcher'
+import CsvExporter from 'src/components/ExportCSV/CsvExporter'
+import BikeGoalAlertSuccessSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSuccessSwitcher'
+import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
+import BikeGoalOnboardedSwitcher from 'src/components/Goals/BikeGoal/BikeGoalOnboardedSwitcher'
+import BikeGoalSwitcher from 'src/components/Goals/BikeGoal/BikeGoalSwitcher'
 import {
   useAccountContext,
   getAccountLabel
 } from 'src/components/Providers/AccountProvider'
 import Titlebar from 'src/components/Titlebar'
-import CsvExporter from 'src/components/ExportCSV/CsvExporter'
-import AccountSelector from 'src/components/AccountSelector'
-import CO2EmissionDaccSwitcher from 'src/components/CO2EmissionDaccSwitcher'
-import CO2EmissionDaccAlertSwitcher from 'src/components/CO2EmissionDaccAlertSwitcher'
-import AppVersionNumber from 'src/components/AppVersionNumber'
-import BikeGoalSwitcher from 'src/components/Goals/BikeGoal/BikeGoalSwitcher'
-import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
-import BikeGoalOnboardedSwitcher from 'src/components/Goals/BikeGoal/BikeGoalOnboardedSwitcher'
-import BikeGoalAlertSuccessSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSuccessSwitcher'
+
+import flag from 'cozy-flags'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Label from 'cozy-ui/transpiled/react/Label'
+import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 export const Settings = () => {
   const { t } = useI18n()

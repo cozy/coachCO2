@@ -1,8 +1,8 @@
 // @ts-check
-import log from 'cozy-logger'
-
-import { getManualPurpose, getAutomaticPurpose } from 'src/lib/trips'
+import { set } from 'lodash'
+import { OTHER_PURPOSE } from 'src/constants'
 import { setAutomaticPurpose } from 'src/lib/timeseries'
+import { getManualPurpose, getAutomaticPurpose } from 'src/lib/trips'
 import {
   buildNewestRecurringTimeseriesQuery,
   buildSettingsQuery,
@@ -10,8 +10,8 @@ import {
   builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance,
   queryTimeserieByDocId
 } from 'src/queries/queries'
-import { OTHER_PURPOSE } from 'src/constants'
-import { set } from 'lodash'
+
+import log from 'cozy-logger'
 
 /**
  * Filter timeseries to keep those with recurring purposes

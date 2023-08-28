@@ -1,11 +1,10 @@
 /* eslint-disable react/display-name */
 
-import React from 'react'
 import { render } from '@testing-library/react'
+import React from 'react'
+import PurposeAnalysis from 'src/components/Views/PurposeAnalysis'
 
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
-
-import PurposeAnalysis from 'src/components/Views/PurposeAnalysis'
 
 jest.mock('react-router-dom', () => ({
   useParams: jest.fn().mockReturnValue(() => ({ purpose: '', mode: '' })),

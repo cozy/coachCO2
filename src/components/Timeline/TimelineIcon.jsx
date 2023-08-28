@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { makeStyles } from 'cozy-ui/transpiled/react/styles'
-import TimelineItem from 'cozy-ui/transpiled/react/TimelineItem'
-import TimelineSeparator from 'cozy-ui/transpiled/react/TimelineSeparator'
+import Avatar from 'cozy-ui/transpiled/react/Avatar'
 import TimelineConnector from 'cozy-ui/transpiled/react/TimelineConnector'
 import TimelineContent from 'cozy-ui/transpiled/react/TimelineContent'
 import TimelineDot from 'cozy-ui/transpiled/react/TimelineDot'
+import TimelineItem from 'cozy-ui/transpiled/react/TimelineItem'
+import TimelineSeparator from 'cozy-ui/transpiled/react/TimelineSeparator'
 import Typography from 'cozy-ui/transpiled/react/Typography'
-import Avatar from 'cozy-ui/transpiled/react/Avatar'
+import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
 const useStyles = makeStyles(theme => ({
   iconItem: {

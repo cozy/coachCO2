@@ -1,14 +1,13 @@
-import React, { useEffect, useRef, useMemo } from 'react'
-import { TileLayer, GeoJSON, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-
-import { useTheme } from 'cozy-ui/transpiled/react/styles'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
-
+import React, { useEffect, useRef, useMemo } from 'react'
+import { TileLayer, GeoJSON, useMap } from 'react-leaflet'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import { bottomSheetSettings } from 'src/components/Trip/TripDialogMobileContent'
 import { getGeoJSONData } from 'src/lib/timeseries'
+
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import { useTheme } from 'cozy-ui/transpiled/react/styles'
 
 import './tripmap.styl'
 

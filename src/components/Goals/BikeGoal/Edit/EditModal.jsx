@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-import Spinner from 'cozy-ui/transpiled/react/Spinner'
-import Button from 'cozy-ui/transpiled/react/Buttons'
-
-import useSettings from 'src/hooks/useSettings'
+import React, { useState } from 'react'
 import EditModalContent from 'src/components/Goals/BikeGoal/Edit/EditModalContent'
+import useSettings from 'src/hooks/useSettings'
+
+import Button from 'cozy-ui/transpiled/react/Buttons'
+import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 const BikeGoalEdit = ({ itemName, onClose }) => {
   const { t } = useI18n()

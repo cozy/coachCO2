@@ -1,9 +1,9 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import Paper from 'cozy-ui/transpiled/react/Paper'
-import { Tabs, Tab } from 'cozy-ui/transpiled/react/MuiTabs'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import { Tabs, Tab } from 'cozy-ui/transpiled/react/MuiTabs'
+import Paper from 'cozy-ui/transpiled/react/Paper'
 
 const routes = ['/analysis/modes', '/analysis/purposes']
 

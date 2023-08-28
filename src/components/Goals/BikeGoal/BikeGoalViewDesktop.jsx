@@ -1,15 +1,14 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import BikeGoalAchievement from 'src/components/Goals/BikeGoal/BikeGoalAchievement'
+import BikeGoalActions from 'src/components/Goals/BikeGoal/BikeGoalActions'
+import BikeGoalChart from 'src/components/Goals/BikeGoal/BikeGoalChart'
+import BikeGoalList from 'src/components/Goals/BikeGoal/BikeGoalList'
+import Titlebar from 'src/components/Titlebar'
+import { filterTimeseriesByYear } from 'src/lib/timeseries'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-
-import Titlebar from 'src/components/Titlebar'
-import BikeGoalList from 'src/components/Goals/BikeGoal/BikeGoalList'
-import BikeGoalAchievement from 'src/components/Goals/BikeGoal/BikeGoalAchievement'
-import BikeGoalChart from 'src/components/Goals/BikeGoal/BikeGoalChart'
-import BikeGoalActions from 'src/components/Goals/BikeGoal/BikeGoalActions'
-import { filterTimeseriesByYear } from 'src/lib/timeseries'
 
 const BikeGoalViewDesktop = ({ timeseries, timeseriesQueryLeft }) => {
   const { t } = useI18n()

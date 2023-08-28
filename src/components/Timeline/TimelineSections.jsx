@@ -1,17 +1,16 @@
 import React, { useCallback, useState } from 'react'
-
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-
+import ModeEditDialog from 'src/components/EditDialogs/ModeEditDialog'
+import { useTrip } from 'src/components/Providers/TripProvider'
 import TimelineIcon from 'src/components/Timeline/TimelineIcon'
+import { pickModeIcon } from 'src/components/helpers'
 import {
   formatDistance,
   formatDuration,
   formatAvgSpeed,
   formatDate
 } from 'src/lib/helpers'
-import { pickModeIcon } from 'src/components/helpers'
-import ModeEditDialog from 'src/components/EditDialogs/ModeEditDialog'
-import { useTrip } from 'src/components/Providers/TripProvider'
+
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 const TimelineSections = () => {
   const { timeserie } = useTrip()

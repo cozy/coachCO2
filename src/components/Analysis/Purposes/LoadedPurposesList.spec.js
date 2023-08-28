@@ -1,18 +1,17 @@
 /* eslint-disable react/display-name */
 
-import React from 'react'
 import { render } from '@testing-library/react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
-
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-
+import LoadedPurposesList from 'src/components/Analysis/Purposes/LoadedPurposesList'
+import { makeChartProps } from 'src/components/Analysis/helpers'
 import {
   sortTimeseriesByCO2GroupedByPurpose,
   computeCO2Timeseries,
   transformTimeseriesToTrips
 } from 'src/lib/timeseries'
-import { makeChartProps } from 'src/components/Analysis/helpers'
-import LoadedPurposesList from 'src/components/Analysis/Purposes/LoadedPurposesList'
+
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 jest.mock('src/components/TripsList', () => () => (
   <div data-testid="TripsList" />
@@ -29,29 +28,27 @@ jest.mock('cozy-ui/transpiled/react/I18n')
 jest.mock(
   'src/components/Analysis/AnalysisListItem',
   () =>
-    ({ type, sortedTimeserie, totalCO2 }) =>
-      (
-        <div
-          data-testid="AnalysisListItem"
-          data-test-type={type}
-          data-timeserie={sortedTimeserie}
-          data-total={totalCO2}
-        />
-      )
+    ({ type, sortedTimeserie, totalCO2 }) => (
+      <div
+        data-testid="AnalysisListItem"
+        data-test-type={type}
+        data-timeserie={sortedTimeserie}
+        data-total={totalCO2}
+      />
+    )
 )
 jest.mock(
   'cozy-ui/transpiled/react/PieChart',
   () =>
-    ({ data, options, primaryText, secondaryText }) =>
-      (
-        <div
-          data-testid="PieChart"
-          data-test={data}
-          data-options={options}
-          data-primarytext={primaryText}
-          data-secondarytext={secondaryText}
-        />
-      )
+    ({ data, options, primaryText, secondaryText }) => (
+      <div
+        data-testid="PieChart"
+        data-test={data}
+        data-options={options}
+        data-primarytext={primaryText}
+        data-secondarytext={secondaryText}
+      />
+    )
 )
 
 describe('LoadedPurposesList', () => {

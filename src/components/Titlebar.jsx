@@ -1,16 +1,16 @@
 /* global cozy */
 
-import React from 'react'
-import PropTypes from 'prop-types'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
+import React from 'react'
 
-import MuiCozyTheme from 'cozy-ui/transpiled/react/MuiCozyTheme'
-import Typography from 'cozy-ui/transpiled/react/Typography'
 import BarTitle from 'cozy-ui/transpiled/react/BarTitle'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import IconButton from 'cozy-ui/transpiled/react/IconButton'
 import Previous from 'cozy-ui/transpiled/react/Icons/Previous'
+import MuiCozyTheme from 'cozy-ui/transpiled/react/MuiCozyTheme'
+import Typography from 'cozy-ui/transpiled/react/Typography'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 const Titlebar = ({ label, subtitle, onBack }) => {
   const { isMobile } = useBreakpoints()

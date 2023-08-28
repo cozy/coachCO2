@@ -1,12 +1,11 @@
 import React, { useMemo, useEffect } from 'react'
-
-import { isQueryLoading, useQueryAll } from 'cozy-client'
-
-import { buildAggregatedTimeseriesQueryByAccountId } from 'src/queries/queries'
-import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
+import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
 import SelectDatesWithLoader from 'src/components/SelectDates/SelectDatesWithLoader'
 import { makeLatestDate } from 'src/components/SelectDates/helpers'
+import { buildAggregatedTimeseriesQueryByAccountId } from 'src/queries/queries'
+
+import { isQueryLoading, useQueryAll } from 'cozy-client'
 
 const computeOptions = (isLoading, timeseries) => {
   if (isLoading) return null

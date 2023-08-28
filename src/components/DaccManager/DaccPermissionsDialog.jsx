@@ -1,21 +1,20 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-
-import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-import Button from 'cozy-ui/transpiled/react/Buttons'
-import CozyTheme from 'cozy-ui/transpiled/react/CozyTheme'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import Typography from 'cozy-ui/transpiled/react/Typography'
-import Icon from 'cozy-ui/transpiled/react/Icon'
-import Paper from 'cozy-ui/transpiled/react/Paper'
-import List from 'cozy-ui/transpiled/react/List'
-import ListItem from 'cozy-ui/transpiled/react/ListItem'
-import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
-import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
-
+import React from 'react'
 import DaccPermissionsSVG from 'src/assets/icons/dacc-permissions.svg'
 import AnonymousIcon from 'src/assets/icons/icon-anonymous.svg'
 import ExportIcon from 'src/assets/icons/icon-export.svg'
+
+import Button from 'cozy-ui/transpiled/react/Buttons'
+import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
+import CozyTheme from 'cozy-ui/transpiled/react/CozyTheme'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Icon from 'cozy-ui/transpiled/react/Icon'
+import List from 'cozy-ui/transpiled/react/List'
+import ListItem from 'cozy-ui/transpiled/react/ListItem'
+import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
+import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
+import Paper from 'cozy-ui/transpiled/react/Paper'
+import Typography from 'cozy-ui/transpiled/react/Typography'
 
 const DaccPermissionsDialog = ({
   sharedDataLabel,

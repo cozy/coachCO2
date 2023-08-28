@@ -1,14 +1,13 @@
 import React, { forwardRef, useReducer, useState } from 'react'
-
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
-import StepContent from 'cozy-ui/transpiled/react/StepContent'
-import Typography from 'cozy-ui/transpiled/react/Typography'
-import Button from 'cozy-ui/transpiled/react/Buttons'
-import TextField from 'cozy-ui/transpiled/react/TextField'
-import Spinner from 'cozy-ui/transpiled/react/Spinner'
-
 import useSettings from 'src/hooks/useSettings'
+
+import Button from 'cozy-ui/transpiled/react/Buttons'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import Spinner from 'cozy-ui/transpiled/react/Spinner'
+import StepContent from 'cozy-ui/transpiled/react/StepContent'
+import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
+import TextField from 'cozy-ui/transpiled/react/TextField'
+import Typography from 'cozy-ui/transpiled/react/Typography'
 
 const BikeGoalOnboardingNaming = forwardRef((props, ref) => {
   const { t } = useI18n()

@@ -1,10 +1,9 @@
-import React from 'react'
 import { renderHook } from '@testing-library/react-hooks'
-
+import React from 'react'
 import AppLike from 'test/AppLike'
 
-import useAccountForProvider from './useAccountForProvider'
 import { saveAccountToSettings } from './helpers'
+import useAccountForProvider from './useAccountForProvider'
 
 jest.mock('./helpers', () => ({
   saveAccountToSettings: jest.fn()

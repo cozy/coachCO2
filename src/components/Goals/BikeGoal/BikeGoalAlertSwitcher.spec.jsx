@@ -1,11 +1,10 @@
-import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
+import React from 'react'
+import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
+import { SETTINGS_DOCTYPE } from 'src/doctypes'
+import AppLike from 'test/AppLike'
 
 import { useQuery } from 'cozy-client'
-
-import AppLike from 'test/AppLike'
-import { SETTINGS_DOCTYPE } from 'src/doctypes'
-import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
 
 jest.mock('cozy-client/dist/hooks/useQuery', () => jest.fn())
 

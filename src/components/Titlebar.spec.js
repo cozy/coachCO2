@@ -1,11 +1,10 @@
 /* eslint-disable react/display-name */
 
-import React from 'react'
 import { render } from '@testing-library/react'
+import React from 'react'
+import Titlebar from 'src/components/Titlebar'
 
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
-
-import Titlebar from 'src/components/Titlebar'
 
 jest.mock('react-router-dom', () => ({
   useLocation: jest.fn(() => ({ pathname: '' }))

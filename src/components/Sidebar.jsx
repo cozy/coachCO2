@@ -1,18 +1,18 @@
 import React from 'react'
 import { NavLink as RouterLink } from 'react-router-dom'
 
+import Box from 'cozy-ui/transpiled/react/Box'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import UISidebar from 'cozy-ui/transpiled/react/Sidebar'
+import CategoriesIcon from 'cozy-ui/transpiled/react/Icons/Categories'
+import PieChartIcon from 'cozy-ui/transpiled/react/Icons/PieChart'
+import SettingIcon from 'cozy-ui/transpiled/react/Icons/Setting'
 import Nav, {
   NavItem,
   NavIcon,
   NavText,
   genNavLinkForV6
 } from 'cozy-ui/transpiled/react/Nav'
-import CategoriesIcon from 'cozy-ui/transpiled/react/Icons/Categories'
-import SettingIcon from 'cozy-ui/transpiled/react/Icons/Setting'
-import PieChartIcon from 'cozy-ui/transpiled/react/Icons/PieChart'
-import Box from 'cozy-ui/transpiled/react/Box'
+import UISidebar from 'cozy-ui/transpiled/react/Sidebar'
 
 const NavLink = genNavLinkForV6(RouterLink)
 

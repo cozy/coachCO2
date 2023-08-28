@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from 'cozy-ui/transpiled/react/styles'
+import React, { useState, useEffect } from 'react'
+import DropdownButton from 'src/components/SelectDates/DropdownButton'
 
 import Menu from 'cozy-ui/transpiled/react/Menu'
 import MenuItem from 'cozy-ui/transpiled/react/MenuItem'
-import DropdownButton from 'src/components/SelectDates/DropdownButton'
+import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
 const useStyles = makeStyles(() => ({
   paper: {

@@ -1,18 +1,8 @@
-import log from 'cozy-logger'
-import flag from 'cozy-flags'
-import { models } from 'cozy-client'
 import addMonths from 'date-fns/addMonths'
-import subMonths from 'date-fns/subMonths'
-import startOfMonth from 'date-fns/startOfMonth'
-import isThisMonth from 'date-fns/isThisMonth'
 import format from 'date-fns/format'
-import {
-  buildAccountQuery,
-  buildTimeseriesQueryByDateAndAccountId,
-  buildOldestTimeseriesQueryByAccountId,
-  buildSettingsQuery
-} from 'src/queries/queries'
-import { computeCO2Timeseries } from 'src/lib/timeseries'
+import isThisMonth from 'date-fns/isThisMonth'
+import startOfMonth from 'date-fns/startOfMonth'
+import subMonths from 'date-fns/subMonths'
 import {
   APP_SLUG,
   DACC_MEASURE_NAME_CO2_MONTHLY,
@@ -22,6 +12,17 @@ import {
 } from 'src/constants'
 import { DACC_REMOTE_DOCTYPE, DACC_REMOTE_DOCTYPE_DEV } from 'src/doctypes'
 import { startService } from 'src/lib/services'
+import { computeCO2Timeseries } from 'src/lib/timeseries'
+import {
+  buildAccountQuery,
+  buildTimeseriesQueryByDateAndAccountId,
+  buildOldestTimeseriesQueryByAccountId,
+  buildSettingsQuery
+} from 'src/queries/queries'
+
+import { models } from 'cozy-client'
+import flag from 'cozy-flags'
+import log from 'cozy-logger'
 
 const { sendMeasureToDACC, fetchAggregatesFromDACC } = models.dacc
 

@@ -1,12 +1,11 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-
-import Button from 'cozy-ui/transpiled/react/Buttons'
-import Alert from 'cozy-ui/transpiled/react/Alert'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-
 import { getBountyAmount } from 'src/components/Goals/BikeGoal/helpers'
 import useSettings from 'src/hooks/useSettings'
+
+import Alert from 'cozy-ui/transpiled/react/Alert'
+import Button from 'cozy-ui/transpiled/react/Buttons'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 const BikeGoalAlertSuccess = () => {
   const { t } = useI18n()

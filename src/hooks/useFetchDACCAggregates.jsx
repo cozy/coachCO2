@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useClient } from 'cozy-client'
-
 import { fetchMonthlyAverageCO2FromDACCFor11Month } from 'src/lib/dacc'
+
+import { useClient } from 'cozy-client'
 
 const useFetchDACCAggregates = sendToDACC => {
   const client = useClient()

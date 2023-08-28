@@ -1,9 +1,10 @@
-import CozyClient from 'cozy-client'
-import log from 'cozy-logger'
+import fetch from 'node-fetch'
 import schema from 'src/doctypes'
 import { computeAggregatedTimeseries } from 'src/lib/timeseries'
 import { buildTimeseriesWithoutAggregation } from 'src/queries/queries'
-import fetch from 'node-fetch'
+
+import CozyClient from 'cozy-client'
+import log from 'cozy-logger'
 global.fetch = fetch
 
 const BATCH_DOCS_LIMIT = 1000 // to avoid processing too many files and get timeouts

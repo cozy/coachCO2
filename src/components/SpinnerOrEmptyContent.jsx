@@ -1,12 +1,11 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
+import EmptyContent from 'src/components/EmptyContent'
+import Titlebar from 'src/components/Titlebar'
 
 import { useClient } from 'cozy-client'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
-
-import Titlebar from 'src/components/Titlebar'
-import EmptyContent from 'src/components/EmptyContent'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 const SpinnerOrEmptyContent = ({
   account,

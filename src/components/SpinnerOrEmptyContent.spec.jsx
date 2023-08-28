@@ -1,8 +1,8 @@
-import React from 'react'
 import { render } from '@testing-library/react'
+import React from 'react'
+import AppLike from 'test/AppLike'
 
 import SpinnerOrEmptyContent from './SpinnerOrEmptyContent'
-import AppLike from 'test/AppLike'
 
 const setup = ({
   account,

@@ -1,6 +1,6 @@
-import { useClient } from 'cozy-client'
-
 import { saveAccountToSettings } from 'src/components/Providers/helpers'
+
+import { useClient } from 'cozy-client'
 
 const useAccountForProvider = (settings, accounts, selectedAccount) => {
   const client = useClient()

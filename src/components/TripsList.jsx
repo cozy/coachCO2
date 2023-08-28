@@ -1,15 +1,14 @@
-import React, { useCallback } from 'react'
-import PropTypes from 'prop-types'
 import isSameDay from 'date-fns/isSameDay'
-
-import List from 'cozy-ui/transpiled/react/List'
-import Paper from 'cozy-ui/transpiled/react/Paper'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
-import Typography from 'cozy-ui/transpiled/react/Typography'
-
+import PropTypes from 'prop-types'
+import React, { useCallback } from 'react'
 import TripItem from 'src/components/TripItem'
 import { getStartDate } from 'src/lib/timeseries'
+
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import List from 'cozy-ui/transpiled/react/List'
+import Paper from 'cozy-ui/transpiled/react/Paper'
+import Typography from 'cozy-ui/transpiled/react/Typography'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 export const TripsList = ({ timeseries, noHeader }) => {
   const { isMobile } = useBreakpoints()

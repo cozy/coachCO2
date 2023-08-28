@@ -1,16 +1,14 @@
 import React from 'react'
-
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-
+import { useTrip } from 'src/components/Providers/TripProvider'
 import InfoBlock from 'src/components/Trip/BottomSheet/InfoBlock'
-
 import {
   getFormattedDuration,
   getFormattedDistance,
   getFormattedTotalCO2,
   getFormattedTotalCalories
 } from 'src/lib/timeseries'
-import { useTrip } from 'src/components/Providers/TripProvider'
+
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 const BottomSheetHeaderContent = () => {
   const { timeserie } = useTrip()

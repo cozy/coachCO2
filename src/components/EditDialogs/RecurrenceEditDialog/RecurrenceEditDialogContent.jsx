@@ -1,11 +1,11 @@
 import React from 'react'
 
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import Radio from 'cozy-ui/transpiled/react/Radios'
-import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import List from 'cozy-ui/transpiled/react/List'
 import ListItem from 'cozy-ui/transpiled/react/ListItem'
 import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
+import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
+import Radio from 'cozy-ui/transpiled/react/Radios'
 
 const RecurrenceEditDialogContent = ({ recurring, setRecurring }) => {
   const { t } = useI18n()

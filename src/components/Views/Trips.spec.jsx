@@ -1,12 +1,12 @@
 /* eslint-disable react/display-name */
 
-import React from 'react'
 import { render } from '@testing-library/react'
+import React from 'react'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
+import AppLike from 'test/AppLike'
 
 import { useQuery } from 'cozy-client'
 
-import AppLike from 'test/AppLike'
-import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import Trips from './Trips'
 
 jest.mock('cozy-client/dist/hooks/useQuery', () => jest.fn())

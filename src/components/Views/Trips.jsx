@@ -1,23 +1,22 @@
 import React from 'react'
-
-import { hasQueryBeenLoaded, isQueryLoading, useQuery } from 'cozy-client'
-import flag from 'cozy-flags'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
-import Divider from 'cozy-ui/transpiled/react/Divider'
-
-import { buildAggregatedTimeseriesQueryByAccountId } from 'src/queries/queries'
-import TripsList from 'src/components/TripsList'
-import Titlebar from 'src/components/Titlebar'
+import CO2EmissionsChart from 'src/components/CO2EmissionsChart/CO2EmissionsChart'
+import CO2EmissionDaccManager from 'src/components/DaccManager/CO2EmissionDaccManager'
+import BikeGoalManager from 'src/components/Goals/BikeGoal/BikeGoalManager'
 import {
   useAccountContext,
   getAccountLabel
 } from 'src/components/Providers/AccountProvider'
 import SpinnerOrEmptyContent from 'src/components/SpinnerOrEmptyContent'
-import CO2EmissionsChart from 'src/components/CO2EmissionsChart/CO2EmissionsChart'
-import CO2EmissionDaccManager from 'src/components/DaccManager/CO2EmissionDaccManager'
-import BikeGoalManager from 'src/components/Goals/BikeGoal/BikeGoalManager'
+import Titlebar from 'src/components/Titlebar'
+import TripsList from 'src/components/TripsList'
+import { buildAggregatedTimeseriesQueryByAccountId } from 'src/queries/queries'
+
+import { hasQueryBeenLoaded, isQueryLoading, useQuery } from 'cozy-client'
+import flag from 'cozy-flags'
+import Divider from 'cozy-ui/transpiled/react/Divider'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 const style = {
   divider: {

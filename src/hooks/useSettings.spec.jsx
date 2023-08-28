@@ -1,10 +1,10 @@
-import React from 'react'
 import { renderHook } from '@testing-library/react-hooks'
+import React from 'react'
+import { SETTINGS_DOCTYPE } from 'src/doctypes'
+import AppLike from 'test/AppLike'
 
 import { createMockClient, useQuery } from 'cozy-client'
 
-import { SETTINGS_DOCTYPE } from 'src/doctypes'
-import AppLike from 'test/AppLike'
 import useSettings from './useSettings'
 
 jest.mock('cozy-client/dist/hooks/useQuery', () => jest.fn())

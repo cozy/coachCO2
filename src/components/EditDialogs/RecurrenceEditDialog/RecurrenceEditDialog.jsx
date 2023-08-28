@@ -1,21 +1,20 @@
 import React from 'react'
-import { useClient } from 'cozy-client'
+import RecurrenceEditDialogContent from 'src/components/EditDialogs/RecurrenceEditDialog/RecurrenceEditDialogContent'
+import RecurrenceEditDialogTitle from 'src/components/EditDialogs/RecurrenceEditDialog/RecurrenceEditDialogTitle'
+import {
+  handleOccasionalTrip,
+  handleRecurringTrip
+} from 'src/components/EditDialogs/helpers'
+import { useTrip } from 'src/components/Providers/TripProvider'
+import { getTimeseriePurpose } from 'src/lib/timeseries'
 
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import { useClient } from 'cozy-client'
 import BottomSheet, {
   BottomSheetItem
 } from 'cozy-ui/transpiled/react/BottomSheet'
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import Divider from 'cozy-ui/transpiled/react/Divider'
-
-import { getTimeseriePurpose } from 'src/lib/timeseries'
-import { useTrip } from 'src/components/Providers/TripProvider'
-import {
-  handleOccasionalTrip,
-  handleRecurringTrip
-} from 'src/components/EditDialogs/helpers'
-import RecurrenceEditDialogTitle from 'src/components/EditDialogs/RecurrenceEditDialog/RecurrenceEditDialogTitle'
-import RecurrenceEditDialogContent from 'src/components/EditDialogs/RecurrenceEditDialog/RecurrenceEditDialogContent'
+import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 const RecurrenceEditDialog = ({ onClose }) => {
   const { isMobile } = useBreakpoints()

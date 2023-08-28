@@ -1,20 +1,19 @@
 import React, { useCallback, useMemo, useState } from 'react'
-
-import { useClient } from 'cozy-client'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
-
-import { purposes } from 'src/components/helpers'
 import { PurposeAvatar } from 'src/components/Avatar'
-import { useTrip } from 'src/components/Providers/TripProvider'
-import { OTHER_PURPOSE } from 'src/constants'
-import { getTimeseriePurpose } from 'src/lib/timeseries'
-import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-import { Button } from 'cozy-ui/transpiled/react/deprecated/Button'
 import {
   handleOccasionalTrip,
   handleRecurringTrip
 } from 'src/components/EditDialogs/helpers'
+import { useTrip } from 'src/components/Providers/TripProvider'
+import { purposes } from 'src/components/helpers'
+import { OTHER_PURPOSE } from 'src/constants'
+import { getTimeseriePurpose } from 'src/lib/timeseries'
+
+import { useClient } from 'cozy-client'
+import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
+import { Button } from 'cozy-ui/transpiled/react/deprecated/Button'
 
 const makeOptions = t => {
   const options = purposes.map(purpose => ({

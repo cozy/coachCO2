@@ -5,12 +5,11 @@
 // TODO: remove eslint-disable by convert 'src/lib/timeseries' in TS
 // or at least getEarliestTimeserie
 
-import type { TimeSeries } from 'cozy-client/types/models/timeseries'
-
 import differenceInCalendarYears from 'date-fns/differenceInCalendarYears'
 import subYears from 'date-fns/subYears'
-
 import { getEarliestTimeserie } from 'src/lib/timeseries'
+
+import type { TimeSeries } from 'cozy-client/types/models/timeseries'
 
 export const makeMenuDates = (timeseries: TimeSeries[]): string[] => {
   const latestDate = new Date()

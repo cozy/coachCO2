@@ -1,9 +1,8 @@
-import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
-
-import AppLike from 'test/AppLike'
 import AnalysisListItem from 'src/components/Analysis/AnalysisListItem'
+import AppLike from 'test/AppLike'
 
 const navigate = x => {
   // eslint-disable-next-line no-console

@@ -1,13 +1,12 @@
-import React, { useRef, useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
+import React, { useRef, useState, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import ActionButton from 'src/components/Goals/BikeGoal/DateSelector/ActionButton'
+import { makeMenuDates } from 'src/components/Goals/BikeGoal/DateSelector/helpers'
 
 import ActionMenu, {
   ActionMenuItem
 } from 'cozy-ui/transpiled/react/deprecated/ActionMenu'
-
-import ActionButton from 'src/components/Goals/BikeGoal/DateSelector/ActionButton'
-import { makeMenuDates } from 'src/components/Goals/BikeGoal/DateSelector/helpers'
 
 const BikeGoalDateSelector = ({ timeseries }) => {
   const { year } = useParams()

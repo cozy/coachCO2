@@ -1,5 +1,6 @@
-import flag from 'cozy-flags'
 import { countUniqDays } from 'src/lib/timeseries'
+
+import flag from 'cozy-flags'
 
 export const getDaysToReach = () => {
   const daysToReach = flag('coachco2.bikegoal.settings')?.daysToReach

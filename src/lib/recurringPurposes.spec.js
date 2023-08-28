@@ -1,5 +1,7 @@
-import { createMockClient } from 'cozy-client'
 import { OTHER_PURPOSE } from 'src/constants'
+
+import { createMockClient } from 'cozy-client'
+
 import {
   runRecurringPurposesForManualTrip,
   setRecurringPurposes,

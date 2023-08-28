@@ -1,12 +1,11 @@
 import React, { useMemo, useState, useEffect } from 'react'
+import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
+import BottomSheetHeaderContent from 'src/components/Trip/BottomSheet/BottomSheetHeaderContent'
+import TripMap from 'src/components/Trip/TripMap'
 
 import BottomSheet, {
   BottomSheetHeader
 } from 'cozy-ui/transpiled/react/BottomSheet'
-
-import BottomSheetHeaderContent from 'src/components/Trip/BottomSheet/BottomSheetHeaderContent'
-import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
-import TripMap from 'src/components/Trip/TripMap'
 
 export const bottomSheetSettings = {
   mediumHeightRatio: 0.66

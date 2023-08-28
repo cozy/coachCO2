@@ -1,18 +1,17 @@
 import React from 'react'
-import {
-  StylesProvider,
-  createGenerateClassName
-} from 'cozy-ui/transpiled/react/styles'
+import AccountProvider from 'src/components/Providers/AccountProvider'
+import SelectDatesProvider from 'src/components/Providers/SelectDatesProvider'
+import { GEOJSON_DOCTYPE, SETTINGS_DOCTYPE } from 'src/doctypes'
 
 import { CozyProvider, RealTimeQueries } from 'cozy-client'
 import { WebviewIntentProvider } from 'cozy-intent'
 import { I18n } from 'cozy-ui/transpiled/react/I18n'
 import MuiCozyTheme from 'cozy-ui/transpiled/react/MuiCozyTheme'
 import { BreakpointsProvider } from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
-
-import { GEOJSON_DOCTYPE, SETTINGS_DOCTYPE } from 'src/doctypes'
-import AccountProvider from 'src/components/Providers/AccountProvider'
-import SelectDatesProvider from 'src/components/Providers/SelectDatesProvider'
+import {
+  StylesProvider,
+  createGenerateClassName
+} from 'cozy-ui/transpiled/react/styles'
 
 /*
 With MUI V4, it is possible to generate deterministic class names.

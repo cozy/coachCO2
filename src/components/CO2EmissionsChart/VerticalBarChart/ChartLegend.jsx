@@ -1,11 +1,11 @@
 import React from 'react'
 
 import Divider from 'cozy-ui/transpiled/react/Divider'
-import Paper from 'cozy-ui/transpiled/react/Paper'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import CircleFilledIcon from 'cozy-ui/transpiled/react/Icons/CircleFilled'
+import Paper from 'cozy-ui/transpiled/react/Paper'
 import Typography from 'cozy-ui/transpiled/react/Typography'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 
 const paperStyle = {
   minHeight: '48px',

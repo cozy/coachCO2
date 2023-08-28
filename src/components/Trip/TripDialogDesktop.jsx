@@ -1,11 +1,10 @@
 import React from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
-
-import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-
-import { getEndPlaceDisplayName } from 'src/lib/timeseries'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import TripDialogDesktopContent from 'src/components/Trip/TripDialogDesktopContent'
+import { getEndPlaceDisplayName } from 'src/lib/timeseries'
+
+import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 
 const TripDialogDesktop = () => {
   const { timeserieId } = useParams()

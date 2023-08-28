@@ -1,10 +1,9 @@
 import React from 'react'
+import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
+import BottomSheetHeaderContent from 'src/components/Trip/BottomSheet/BottomSheetHeaderContent'
+import TripMap from 'src/components/Trip/TripMap'
 
 import Divider from 'cozy-ui/transpiled/react/Divider'
-
-import TripMap from 'src/components/Trip/TripMap'
-import BottomSheetHeaderContent from 'src/components/Trip/BottomSheet/BottomSheetHeaderContent'
-import BottomSheetContent from 'src/components/Trip/BottomSheet/BottomSheetContent'
 
 const styles = {
   map: {
