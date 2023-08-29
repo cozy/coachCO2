@@ -4,12 +4,11 @@ import React, { useEffect, useRef, useMemo } from 'react'
 import { TileLayer, GeoJSON, useMap } from 'react-leaflet'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import { bottomSheetSettings } from 'src/components/Trip/TripDialogMobileContent'
+import styles from 'src/components/Trip/tripmap.styl'
 import { getGeoJSONData } from 'src/lib/timeseries'
 
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 import { useTheme } from 'cozy-ui/transpiled/react/styles'
-
-import './tripmap.styl'
 
 const mapPadding = 16
 
@@ -25,10 +24,10 @@ const makeGeoJsonOptions = theme => ({
       icon: L.divIcon({
         html: `<div></div>`,
         iconSize: [12, 12],
-        className: `cozy-leaflet-markers ${
+        className: `${styles['cozy-leaflet-markers']} ${
           feature.properties.feature_type === 'end_place'
-            ? 'cozy-leaflet-markers-end'
-            : 'cozy-leaflet-markers-start'
+            ? `${styles['cozy-leaflet-markers-end']}`
+            : `${styles['cozy-leaflet-markers-start']}`
         }`
       })
     })
