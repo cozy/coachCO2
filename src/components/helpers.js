@@ -261,3 +261,21 @@ export const getAverageCO2PerKmByMode = mode => {
       return UNKNOWN_AVERAGE_CO2_KG_PER_KM
   }
 }
+
+/**
+ * Returns the value in gram for a given kg value.
+ * @param {number} value
+ * @returns {number} value in gram
+ */
+const makeKgToGram = value => {
+  return parseFloat(value) * 1000
+}
+
+/**
+ * Returns the CO2 emission in gram per km for a given mode.
+ * @param {string} mode
+ * @returns {number} CO2 emission in gram per km
+ */
+export const modeToCO2PerKm = mode => {
+  return Math.round(makeKgToGram(getAverageCO2PerKmByMode(mode)))
+}
