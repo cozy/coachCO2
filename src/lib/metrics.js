@@ -1,3 +1,4 @@
+import { getAverageCO2PerKmByMode } from 'src/components/helpers'
 import {
   AIR_MODE,
   BICYCLING_AVERAGE_CO2_KG_PER_KM,
@@ -6,7 +7,6 @@ import {
   BICYCLING_MODE,
   BUS_ELECTRIC_CO2_KG_PER_KM,
   BUS_ELECTRIC_MODE,
-  BUS_MEDIUM_AGGLOMERATION_CO2_KG_PER_KM,
   BUS_MODE,
   CARPOOL_CO2_KG_PER_KM,
   CARPOOL_ELECTRIC_CO2_KG_PER_KM,
@@ -45,8 +45,6 @@ import {
   SLOW_BICYCLING_MAX_SPEED,
   SLOW_WALKING_MAX_SPEED,
   SUBWAY_MODE,
-  SUBWAY_TRAM_TROLLEYBUS_MEDIUM_AGGLOMERATION_CO2_KG_PER_KM,
-  TRAIN_HIGHLINE_CO2_KG_PER_KM,
   TRAIN_MODE,
   UNKNOWN_AVERAGE_CO2_KG_PER_KM,
   UNKNOWN_MODE,
@@ -85,8 +83,7 @@ export const computeCO2Section = section => {
       totalCO2 += distance * BUS_ELECTRIC_CO2_KG_PER_KM
       break
     case BUS_MODE:
-      // TODO: should depends on the area
-      totalCO2 += distance * BUS_MEDIUM_AGGLOMERATION_CO2_KG_PER_KM
+      totalCO2 += distance * getAverageCO2PerKmByMode(BUS_MODE)
       break
     case CAR_ELECTRIC_MODE:
       totalCO2 += distance * CAR_ELECTRIC_CO2_KG_PER_KM
@@ -114,13 +111,10 @@ export const computeCO2Section = section => {
       totalCO2 += distance * SCOOTER_AVERAGE_CO2_KG_PER_KM
       break
     case SUBWAY_MODE:
-      // TODO: should depends on the area
-      totalCO2 +=
-        distance * SUBWAY_TRAM_TROLLEYBUS_MEDIUM_AGGLOMERATION_CO2_KG_PER_KM
+      totalCO2 += distance * getAverageCO2PerKmByMode(SUBWAY_MODE)
       break
     case TRAIN_MODE:
-      // TODO: should depends on train type
-      totalCO2 += distance * TRAIN_HIGHLINE_CO2_KG_PER_KM
+      totalCO2 += distance * getAverageCO2PerKmByMode(TRAIN_MODE)
       break
     case UNKNOWN_MODE:
       totalCO2 += distance * UNKNOWN_AVERAGE_CO2_KG_PER_KM

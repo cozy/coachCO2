@@ -17,15 +17,32 @@ import {
   EXERCISE_PURPOSE,
   ENTERTAINMENT_PURPOSE,
   OTHER_PURPOSE,
+  CAR_AVERAGE_CO2_KG_PER_KM,
+  ALL_PLANE_CO2_KG_PER_KM,
+  ALL_TRAIN_CO2_KG_PER_KM,
+  ALL_SUBWAY_TRAM_CO2_KG_PER_KM,
+  ALL_BUS_CO2_KG_PER_KM,
+  BUS_ELECTRIC_CO2_KG_PER_KM,
   BUS_ELECTRIC_MODE,
   CAR_ELECTRIC_MODE,
+  CAR_ELECTRIC_CO2_KG_PER_KM,
   CARPOOL_ELECTRIC_MODE,
   CARPOOL_MODE,
+  CARPOOL_CO2_KG_PER_KM,
   BICYCLING_ELECTRIC_MODE,
   SCOOTER_ELECTRIC_MODE,
+  BICYCLING_AVERAGE_CO2_KG_PER_KM,
+  BICYCLING_ELECTRIC_AVERAGE_CO2_KG_PER_KM,
+  SCOOTER_ELECTRIC_AVERAGE_CO2_KG_PER_KM,
   SCOOTER_MODE,
+  SCOOTER_AVERAGE_CO2_KG_PER_KM,
+  WALKING_AVERAGE_CO2_KG_PER_KM,
+  UNKNOWN_AVERAGE_CO2_KG_PER_KM,
+  CARPOOL_ELECTRIC_CO2_KG_PER_KM,
   MOTO_INF_250_MODE,
-  MOTO_SUP_250_MODE
+  MOTO_SUP_250_MODE,
+  MOTO_INF_250_CO2_KG_PER_KM,
+  MOTO_SUP_250_CO2_KG_PER_KM
 } from 'src/constants'
 
 import BikeIcon from 'cozy-ui/transpiled/react/Icons/Bike'
@@ -192,5 +209,55 @@ export const purposeToColor = (purpose = OTHER_PURPOSE) => {
       return '#A4A7AC'
     default:
       return '#A4A7AC'
+  }
+}
+
+/**
+ * Returns the average CO2 emission in kg per km for a given mode.
+ * @param {string} mode
+ * @returns {number} CO2 emission in kg per km
+ */
+export const getAverageCO2PerKmByMode = mode => {
+  const getAverage = arr => {
+    return parseFloat((arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(5))
+  }
+
+  switch (mode) {
+    case AIR_MODE:
+      return getAverage(ALL_PLANE_CO2_KG_PER_KM)
+    case BICYCLING_ELECTRIC_MODE:
+      return BICYCLING_ELECTRIC_AVERAGE_CO2_KG_PER_KM
+    case BICYCLING_MODE:
+      return BICYCLING_AVERAGE_CO2_KG_PER_KM
+    case BUS_ELECTRIC_MODE:
+      return BUS_ELECTRIC_CO2_KG_PER_KM
+    case BUS_MODE:
+      return getAverage(ALL_BUS_CO2_KG_PER_KM)
+    case CAR_ELECTRIC_MODE:
+      return CAR_ELECTRIC_CO2_KG_PER_KM
+    case CAR_MODE:
+      return CAR_AVERAGE_CO2_KG_PER_KM
+    case CARPOOL_ELECTRIC_MODE:
+      return CARPOOL_ELECTRIC_CO2_KG_PER_KM
+    case CARPOOL_MODE:
+      return CARPOOL_CO2_KG_PER_KM
+    case MOTO_INF_250_MODE:
+      return MOTO_INF_250_CO2_KG_PER_KM
+    case MOTO_SUP_250_MODE:
+      return MOTO_SUP_250_CO2_KG_PER_KM
+    case SCOOTER_ELECTRIC_MODE:
+      return SCOOTER_ELECTRIC_AVERAGE_CO2_KG_PER_KM
+    case SCOOTER_MODE:
+      return SCOOTER_AVERAGE_CO2_KG_PER_KM
+    case SUBWAY_MODE:
+      return getAverage(ALL_SUBWAY_TRAM_CO2_KG_PER_KM)
+    case TRAIN_MODE:
+      return getAverage(ALL_TRAIN_CO2_KG_PER_KM)
+    case UNKNOWN_MODE:
+      return UNKNOWN_AVERAGE_CO2_KG_PER_KM
+    case WALKING_MODE:
+      return WALKING_AVERAGE_CO2_KG_PER_KM
+    default:
+      return UNKNOWN_AVERAGE_CO2_KG_PER_KM
   }
 }
