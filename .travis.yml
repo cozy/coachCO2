@@ -1,7 +1,6 @@
-dist: focal
 language: node_js
-node_js:
-  - '16'
+dist: jammy
+cache: yarn
 branches:
   only:
   - master
@@ -15,10 +14,6 @@ env:
     # REGISTRY_TOKEN for yarn cozyPublish script
     # to generate yours : travis encrypt REGISTRY_TOKEN=<your_REGISTRY_TOKEN> -r cozy/coachCO2
     # N.B.: the --org option is needed only for public repositories
-cache:
-  yarn: true
-  directories:
-  - node_modules
 stages:
   - prebuild
   - build
