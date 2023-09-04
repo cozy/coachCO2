@@ -38,6 +38,7 @@
   "homepage": "https://github.com/cozy/coachCO2#README",
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.11",
+    "@babel/polyfill": "^7.12.1",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "13.4.0",
     "@testing-library/react-hooks": "8.0.1",
