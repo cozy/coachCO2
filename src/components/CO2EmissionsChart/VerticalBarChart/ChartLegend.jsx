@@ -6,6 +6,8 @@ import Icon from 'cozy-ui/transpiled/react/Icon'
 import CircleFilledIcon from 'cozy-ui/transpiled/react/Icons/CircleFilled'
 import Paper from 'cozy-ui/transpiled/react/Paper'
 import Typography from 'cozy-ui/transpiled/react/Typography'
+import { alpha } from 'cozy-ui/transpiled/react/styles'
+import { useTheme } from 'cozy-ui/transpiled/react/styles'
 
 const paperStyle = {
   minHeight: '48px',
@@ -15,6 +17,7 @@ const paperStyle = {
 
 const ChartLegend = () => {
   const { t } = useI18n()
+  const theme = useTheme()
 
   return (
     <>
@@ -42,7 +45,7 @@ const ChartLegend = () => {
         <Icon
           className="u-mr-half"
           icon={CircleFilledIcon}
-          color="var(--borderMainColor)"
+          color={alpha(theme.palette.primary.main, 0.24)}
           size={8}
         />
         <Typography display="inline" variant="caption" color="textPrimary">

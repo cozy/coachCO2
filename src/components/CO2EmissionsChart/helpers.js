@@ -1,5 +1,7 @@
 import { computeMonthsAndCO2s } from 'src/lib/timeseries'
 
+import { alpha } from 'cozy-ui/transpiled/react/styles'
+
 export const makeData = ({
   theme,
   isMobile,
@@ -27,7 +29,7 @@ export const makeData = ({
   if (sendToDACC) {
     data.datasets.push({
       label: t('vericalBarChart.legend.average'),
-      backgroundColor: theme.palette.border.main,
+      backgroundColor: alpha(theme.palette.primary.main, 0.24),
       borderRadius: isMobile ? 8 : 4,
       barPercentage: isMobile ? 0.55 : 0.85,
       data: globalAverages

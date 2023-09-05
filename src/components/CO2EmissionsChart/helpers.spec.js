@@ -5,8 +5,8 @@ import { makeData } from './helpers'
 
 const theme = {
   palette: {
-    border: { main: 'borderMainColor' },
-    primary: { main: 'primaryMainColor' }
+    border: { main: '#fff' },
+    primary: { main: '#000' }
   }
 }
 
@@ -49,9 +49,10 @@ describe('makeData', () => {
         'NOV'
       ])
       expect(data.datasets.length).toEqual(1)
-      expect(data.datasets[0].backgroundColor).toBe('primaryMainColor')
+      expect(data.datasets[0].backgroundColor).toBe('#000')
     })
   })
+
   describe('sendToDACC is true', () => {
     it('should return well formated data', () => {
       const data = makeData({
@@ -82,8 +83,8 @@ describe('makeData', () => {
         'NOV'
       ])
       expect(data.datasets.length).toEqual(2)
-      expect(data.datasets[0].backgroundColor).toBe('primaryMainColor')
-      expect(data.datasets[1].backgroundColor).toBe('borderMainColor')
+      expect(data.datasets[0].backgroundColor).toBe('#000')
+      expect(data.datasets[1].backgroundColor).toBe('rgba(0, 0, 0, 0.24)')
     })
   })
 })
