@@ -1,7 +1,11 @@
 import MockDate from 'mockdate'
 import { mockF, mockT } from 'test/lib/I18n'
 
+import flag from 'cozy-flags'
+
 import { makeData } from './helpers'
+
+jest.mock('cozy-flags')
 
 const theme = {
   palette: {
@@ -55,6 +59,8 @@ describe('makeData', () => {
 
   describe('sendToDACC is true', () => {
     it('should return well formated data', () => {
+      flag.mockReturnValue(false)
+
       const data = makeData({
         theme,
         oneYearOldTimeseries: [

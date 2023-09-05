@@ -48,7 +48,7 @@ Then you can generate a random trip by running
 yarn scripts:addTrip
 ```
 
-Or if you don't use the defaut `http://cozy.localhost:8080`: 
+Or if you don't use the defaut `http://cozy.localhost:8080`:
 ```bash
 yarn script:addTrip --url http://your_custom_url:port
 ```
@@ -74,10 +74,11 @@ You will then be prompted to login again, possibly from a `localhost:3333` serve
 
 ### Feature flags availables
 
-`coachco2.admin-mode`: activate some hidden functions
-`coachco2.dacc-dev_v2`: to use dev version of DACC
-`coachco2.bikegoal.enabled`: to activate the "bike goal" feature. To work properly `coachco2.bikegoal.settings` should be set too.
-`coachco2.bikegoal.settings`: to change settings by context. It's an object:
+- `coachco2.admin-mode`: activate some hidden functions
+- `coachco2.fake-dacc-datas.enabled`: use same data for DACC in CO2 emissions chart
+- `coachco2.dacc-dev_v2`: to use dev version of DACC
+- `coachco2.bikegoal.enabled`: to activate the "bike goal" feature. To work properly `coachco2.bikegoal.settings` should be set too.
+- `coachco2.bikegoal.settings`: to change settings by context. It's an object:
   - **bountyAmount**: `<number>` - amount of the bonus granted
   - **daysToReach**: `<number>` - number of days to be reached to benefit from the bonus
   - **sourceType**: `"company" | "collectivity" | "custom"` - type of source entity issuing the bonus. ⚠️ If `custom` is used here, `sourceIdentity` is required

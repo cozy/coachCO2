@@ -1,5 +1,6 @@
 import { computeMonthsAndCO2s } from 'src/lib/timeseries'
 
+import flag from 'cozy-flags'
 import { alpha } from 'cozy-ui/transpiled/react/styles'
 
 export const makeData = ({
@@ -32,7 +33,7 @@ export const makeData = ({
       backgroundColor: alpha(theme.palette.primary.main, 0.24),
       borderRadius: isMobile ? 8 : 4,
       barPercentage: isMobile ? 0.55 : 0.85,
-      data: globalAverages
+      data: flag('coachco2.fake-dacc-datas.enabled') ? CO2s : globalAverages
     })
   }
 
