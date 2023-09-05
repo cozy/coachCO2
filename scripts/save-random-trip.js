@@ -1,6 +1,7 @@
-const { createClientInteractive, Q } = require('cozy-client')
 const { ArgumentParser } = require('argparse')
 const subSeconds = require('date-fns/subSeconds')
+
+const { createClientInteractive, Q } = require('cozy-client')
 
 global.fetch = require('node-fetch') // in the browser we have native fetch
 
@@ -57,7 +58,7 @@ const main = async () => {
     }
     if (accounts.length > 1) {
       console.warn(
-        'Several tracemob accounts found: please provide one with --source_account'
+        'Several tracemob accounts found: please provide one with --source-account'
       )
       console.log(
         'Accounts found:',
