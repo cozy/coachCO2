@@ -14,6 +14,12 @@ import StepContent from 'cozy-ui/transpiled/react/StepContent'
 import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 
+const createStyles = () => ({
+  typography: {
+    whiteSpace: 'pre-line'
+  }
+})
+
 const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
   const { t } = useI18n()
   const [isBusy, toggleBusy] = useReducer(prev => !prev, false)
@@ -30,6 +36,7 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
   const [unsavedWorkTime, setUnsavedWorkTime] = useState(workTime)
   const [unsavedWorkTimePercentage, setUnsavedWorkTimePercentage] =
     useState(workTimePercentage)
+  const styles = createStyles()
 
   const handleBack = async () => {
     toggleBusy()
@@ -104,7 +111,7 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
             </RadioGroup>
             {unsavedWorkTime === 'part' && (
               <>
-                <Typography className="u-mt-1">
+                <Typography className="u-mt-1" style={styles.typography}>
                   {t('bikeGoal.onboarding.steps.timing.percentageLegend')}
                 </Typography>
                 <div>

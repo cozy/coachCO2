@@ -225,11 +225,11 @@
       "steps": {
         "naming": {
           "title": "Lastname and firstname",
-          "nameLegend": "Fill in the following information:"
+          "nameLegend": "The first and last names entered will be used to generate the certificate of achievement once the objective has been reached. Please fill in the following information:"
         },
         "timing": {
           "timeLegend": "You currently have a employment contract:",
-          "percentageLegend": "Fill in the percentage of your working time:",
+          "percentageLegend": "The amount of the bonus depends on the number of hours worked. For part-time employees working 50% or more, the amount of the bonus will be the same as for a full-time employee. For employees working less than 50%, the amount of the bonus will be calculated pro rata to the time worked.\n\nFill in the percentage of your working time:",
           "percentage": "Percentage"
         },
         "comparison": {
