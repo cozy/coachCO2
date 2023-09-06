@@ -225,11 +225,11 @@
       "steps": {
         "naming": {
           "title": "Nom et prénom",
-          "nameLegend": "Renseignez les informations suivantes :"
+          "nameLegend": "Le nom et le prénom renseigné seront utilisés pour générer l'attestation de réussite une fois l'objectif atteint. Merci de remplir les informations suivantes :"
         },
         "timing": {
           "timeLegend": "Vous disposez actuellement d’un contrat de travail à :",
-          "percentageLegend": "Renseignez le pourcentage de votre temps de travail :",
+          "percentageLegend": "Le montant de la prime est modulé selon le temps de travail. Pour les salariés à temps partiel dont la durée du travail est égale ou supérieure à 50% le montant de la prime sera la même que pour un salarié à temps plein. Pour les salariés travaillant moins de 50% le montant de la prime sera calculé au prorata du temps travaillé.\n\nRenseignez le pourcentage de votre temps de travail :",
           "percentage": "Pourcentage"
         },
         "comparison": {
