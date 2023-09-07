@@ -273,5 +273,13 @@
       "my_collectivity": "of my collectivity",
       "your_collectivity": "of your collectivity"
     }
+  },
+  "DialogDefaultMode": {
+    "primary": "Set as default transport for this category?",
+    "secondary": "The transport mode will automatically be selected as default for all future trips detected for this transport type.",
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel"
+    }
   }
 }
