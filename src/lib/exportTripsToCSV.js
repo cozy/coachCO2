@@ -9,6 +9,7 @@ import {
   getTripStartDate,
   getTripEndDate
 } from 'src/lib/trips'
+import { buildSettingsQuery } from 'src/queries/queries'
 
 import { models } from 'cozy-client'
 import log from 'cozy-logger'
@@ -43,12 +44,20 @@ export const convertTripsToCSV = tripsData => {
 }
 
 /**
+ * @param {import('cozy-client/types/CozyClient').default} client
  * @param {object} trips
  * @returns {object}
  */
-export const makeTripsForExport = trips => {
+export const makeTripsForExport = async (client, trips) => {
+  const settingsQuery = buildSettingsQuery()
+  const { data: settings } = await client.query(
+    settingsQuery.definition,
+    settingsQuery.options
+  )
+  const appSetting = settings?.[0] || {}
+
   const result = trips.flatMap(trip => {
-    const sectionsInfo = getSectionsFromTrip(trip)
+    const sectionsInfo = getSectionsFromTrip(trip, appSetting)
 
     return sectionsInfo.map(sectionInfo => {
       const sectionData = {
@@ -91,12 +100,11 @@ export const makeTripsForExport = trips => {
  * @returns {Promise<{ appDir: object | null, fileCreated: object | null, isLoading: boolean }>}
  */
 export const uploadFile = async ({ client, t, timeseries, accountName }) => {
-  const trips = transformTimeseriesToTrips(timeseries)
-  const tripsData = makeTripsForExport(trips)
-  const tripsCSV = convertTripsToCSV(tripsData)
-  const CSVFilename = makeCSVFilename(accountName, t)
-
   try {
+    const trips = transformTimeseriesToTrips(timeseries)
+    const tripsData = await makeTripsForExport(client, trips)
+    const tripsCSV = convertTripsToCSV(tripsData)
+    const CSVFilename = makeCSVFilename(accountName, t)
     const folder = await getOrCreateAppFolderWithReference(client, t)
     const { data } = await uploadFileWithConflictStrategy(client, tripsCSV, {
       name: CSVFilename,

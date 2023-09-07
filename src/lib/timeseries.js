@@ -69,9 +69,10 @@ export const transformTimeseriesToTrips = timeseries => {
 /**
  * Add aggregates for all timeseries by computing section's data
  * @param {array} timeseries - Timeseries to be aggregated
+ * @param {object} appSetting - The app settings
  * @returns {array} The aggregated timeseries
  */
-export const computeAggregatedTimeseries = timeseries => {
+export const computeAggregatedTimeseries = (timeseries, appSetting) => {
   const aggregatedTimeseries = timeseries.map(timeserie => {
     const serie = timeserie.series[0]
     let totalSerieCO2 = 0
@@ -79,7 +80,7 @@ export const computeAggregatedTimeseries = timeseries => {
     let totalSerieDuration = 0
     let totalSerieCalories = 0
     const modes = []
-    const sections = getSectionsFromTrip(serie)
+    const sections = getSectionsFromTrip(serie, appSetting)
 
     const computedSections = sections.map(section => {
       const summarySection = {

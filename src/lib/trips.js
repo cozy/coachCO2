@@ -1,6 +1,6 @@
 import get from 'lodash/get'
 import memoize from 'lodash/memoize'
-import { modes } from 'src/components/helpers'
+import { modeToCategory, modes } from 'src/components/helpers'
 import { UNKNOWN_MODE } from 'src/constants'
 import { averageSpeedKmH } from 'src/lib/helpers'
 
@@ -21,11 +21,16 @@ export const getEndPlaceDisplayName = trip => {
 }
 
 /**
- * manual_mode is created when the user edit the feature mode manualy
+ * Returns the mode of a feature
+ * manual mode is created when the user edit the feature mode manualy
+ * sensed mode is created by the prediction algorithm
+ * default mode is created by the user in the settings
  * @param {object} feature - The feature from a section
+ * @param {object} appSetting - The app settings
  * @returns The feature's mode depending on whether it has been changed manually
  */
-export const getFeatureMode = feature => {
+export const getFeatureMode = (feature, appSetting) => {
+  const { defaultTransportModeByGroup } = appSetting || {}
   const manualMode = get(feature, 'properties.manual_mode', '').toUpperCase()
   const sensedOriginalMode = get(
     feature,
@@ -35,17 +40,25 @@ export const getFeatureMode = feature => {
 
   const isSupportedManualMode = modes.includes(manualMode)
 
+  const isSupportedDefaultMode = modes.some(
+    mode => defaultTransportModeByGroup?.[modeToCategory(mode)] === mode
+  )
+  const defaultMode = modes.find(
+    mode => defaultTransportModeByGroup?.[modeToCategory(mode)] === mode
+  )
+
   const sensedMode = sensedOriginalMode.split('PREDICTEDMODETYPES.')[1]
   const isSupportedSensedMode = modes.includes(sensedMode)
 
   return (
     (isSupportedManualMode && manualMode) ||
+    (isSupportedDefaultMode && defaultMode) ||
     (isSupportedSensedMode && sensedMode) ||
     UNKNOWN_MODE
   )
 }
 
-const getSectionFromFeatureColl = featureCollection => {
+const getSectionFromFeatureColl = (featureCollection, appSetting) => {
   return featureCollection.features.map(feature => {
     const startDate = get(feature, 'properties.start_fmt_time')
     const endDate = get(feature, 'properties.end_fmt_time')
@@ -53,7 +66,7 @@ const getSectionFromFeatureColl = featureCollection => {
 
     return {
       id: feature.id,
-      mode: getFeatureMode(feature),
+      mode: getFeatureMode(feature, appSetting),
       coordinates: get(feature, 'geometry.coordinates'),
       timestamps: get(feature, 'properties.timestamps'),
       distance: get(feature, 'properties.distance'), // in meters
@@ -67,10 +80,10 @@ const getSectionFromFeatureColl = featureCollection => {
   })
 }
 
-export const getSectionsFromTrip = memoize(trip => {
+export const getSectionsFromTrip = memoize((trip, appSetting) => {
   return trip.features
     .filter(feature => feature.type === 'FeatureCollection')
-    .flatMap(getSectionFromFeatureColl)
+    .flatMap(featureColl => getSectionFromFeatureColl(featureColl, appSetting))
 })
 
 export const getTripStartDate = trip => {
