@@ -18,6 +18,23 @@ export const TRAIN_MODE = 'TRAIN'
 export const UNKNOWN_MODE = 'UNKNOWN'
 export const WALKING_MODE = 'WALKING'
 
+export const BICYCLING_CATEGORY = {
+  name: 'BICYCLING_CATEGORY',
+  modes: [BICYCLING_MODE, BICYCLING_ELECTRIC_MODE, SCOOTER_ELECTRIC_MODE]
+}
+export const MOTO_CATEGORY = {
+  name: 'MOTO_CATEGORY',
+  modes: [SCOOTER_MODE, MOTO_INF_250_MODE, MOTO_SUP_250_MODE]
+}
+export const CAR_CATEGORY = {
+  name: 'CAR_CATEGORY',
+  modes: [CAR_MODE, CAR_ELECTRIC_MODE, CARPOOL_MODE, CARPOOL_ELECTRIC_MODE]
+}
+export const PUBLIC_TRANSPORT_CATEGORY = {
+  name: 'PUBLIC_TRANSPORT_CATEGORY',
+  modes: [BUS_MODE, BUS_ELECTRIC_MODE, TRAIN_MODE, SUBWAY_MODE]
+}
+
 // list of available purposes here
 // https://github.com/e-mission/e-mission-phone/blob/f3348aef02c80219b56fac892445cd53ba665669/www/js/diary/list.js#L496
 export const HOME_PURPOSE = 'HOME'

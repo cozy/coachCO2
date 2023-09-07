@@ -38,7 +38,13 @@
       "SUBWAY": "Subway",
       "TRAIN": "Train",
       "UNKNOWN": "Unknown",
-      "WALKING": "Walking"
+      "WALKING": "Walking",
+      "categories": {
+        "BICYCLING_CATEGORY": "Bike, scooter",
+        "CAR_CATEGORY": "Car",
+        "MOTO_CATEGORY": "Motorcycle, moped",
+        "PUBLIC_TRANSPORT_CATEGORY": "Transports en commun"
+      }
     },
     "purposes": {
       "HOME": "Home",

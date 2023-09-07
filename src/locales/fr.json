@@ -38,7 +38,13 @@
       "SUBWAY": "Métro",
       "TRAIN": "Train",
       "UNKNOWN": "Non reconnu",
-      "WALKING": "Marche"
+      "WALKING": "Marche",
+      "categories": {
+        "BICYCLING_CATEGORY": "Vélo, trotinette",
+        "CAR_CATEGORY": "Voiture",
+        "MOTO_CATEGORY": "Moto, scooter",
+        "PUBLIC_TRANSPORT_CATEGORY": "Transports en commun"
+      }
     },
     "purposes": {
       "HOME": "Domicile",

@@ -42,7 +42,11 @@ import {
   MOTO_INF_250_MODE,
   MOTO_SUP_250_MODE,
   MOTO_INF_250_CO2_KG_PER_KM,
-  MOTO_SUP_250_CO2_KG_PER_KM
+  MOTO_SUP_250_CO2_KG_PER_KM,
+  BICYCLING_CATEGORY,
+  PUBLIC_TRANSPORT_CATEGORY,
+  CAR_CATEGORY,
+  MOTO_CATEGORY
 } from 'src/constants'
 
 import BikeIcon from 'cozy-ui/transpiled/react/Icons/Bike'
@@ -278,4 +282,36 @@ const makeKgToGram = value => {
  */
 export const modeToCO2PerKm = mode => {
   return Math.round(makeKgToGram(getAverageCO2PerKmByMode(mode)))
+}
+
+/**
+ *
+ */
+export const modeToCategory = mode => {
+  switch (mode) {
+    case AIR_MODE:
+    case WALKING_MODE:
+    case UNKNOWN_MODE:
+      return null
+    case BICYCLING_ELECTRIC_MODE:
+    case BICYCLING_MODE:
+    case SCOOTER_ELECTRIC_MODE:
+      return BICYCLING_CATEGORY.name
+    case BUS_ELECTRIC_MODE:
+    case BUS_MODE:
+    case SUBWAY_MODE:
+    case TRAIN_MODE:
+      return PUBLIC_TRANSPORT_CATEGORY.name
+    case CAR_ELECTRIC_MODE:
+    case CAR_MODE:
+    case CARPOOL_ELECTRIC_MODE:
+    case CARPOOL_MODE:
+      return CAR_CATEGORY.name
+    case MOTO_INF_250_MODE:
+    case MOTO_SUP_250_MODE:
+    case SCOOTER_MODE:
+      return MOTO_CATEGORY.name
+    default:
+      return null
+  }
 }
