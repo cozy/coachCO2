@@ -1,11 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import BikeGoalChart from 'src/components/Goals/BikeGoal/BikeGoalChart'
-import {
-  getDaysToReach,
-  isGoalCompleted,
-  countDaysOrDaysToReach
-} from 'src/components/Goals/BikeGoal/helpers'
+import BikeGoalSummaryYearlyItem from 'src/components/Goals/BikeGoal/BikeGoalSummaryYearlyItem'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { filterTimeseriesByYear } from 'src/lib/timeseries'
 import { buildBikeCommuteTimeseriesQueryByAccountId } from 'src/queries/queries'
@@ -15,6 +11,11 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Paper from 'cozy-ui/transpiled/react/Paper'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import Typography from 'cozy-ui/transpiled/react/Typography'
+
+const style = {
+  paper: { gap: '1rem' },
+  div: { height: 65 }
+}
 
 const BikeGoalSummary = () => {
   const { t } = useI18n()
@@ -53,29 +54,20 @@ const BikeGoalSummary = () => {
     <>
       <Paper
         elevation={2}
-        className="u-flex u-flex-items-center u-mh-1-s u-mh-2 u-mb-1 u-flex-items-start u-c-pointer"
+        className="u-flex u-flex-items-start-s u-flex-items-center u-mh-1-s u-mh-2 u-mb-1 u-p-1 u-c-pointer"
+        style={style.paper}
         onClick={() => navigate(`/bikegoal/${currentYear}/trips`)}
       >
-        <BikeGoalChart
-          timeseries={timeseriesByYear}
-          paddingTop="1rem"
-          paddingLeft="1.5rem"
-          size="small"
-        />
-        <div className="u-ml-1">
+        <div style={style.div}>
+          <BikeGoalChart timeseries={timeseriesByYear} size="small" />
+        </div>
+        <div>
           <Typography variant="h6">{t('bikeGoal.title')}</Typography>
-          <Typography
+          <BikeGoalSummaryYearlyItem
+            timeseriesByYear={timeseriesByYear}
             variant="caption"
-            style={{
-              whiteSpace: 'pre-line',
-              color: isGoalCompleted(timeseriesByYear) && 'var(--successColor)'
-            }}
-          >
-            {t('bikeGoal.goal_progression', {
-              days: countDaysOrDaysToReach(timeseriesByYear),
-              daysToReach: getDaysToReach()
-            })}
-          </Typography>
+            preLine
+          />
         </div>
       </Paper>
     </>

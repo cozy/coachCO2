@@ -158,7 +158,10 @@
   },
   "bikeGoal": {
     "title": "Aller au travail à vélo",
-    "goal_progression": "%{days}/%{daysToReach} jours \npar an",
+    "yearly_goal_progression": "%{days}/%{daysToReach} jours \npar an",
+    "goal_progression": "%{days}/%{daysToReach} jours",
+    "my_progression": "Ma progression annuelle",
+    "average_progression": "Progression moyenne du groupe",
     "achievement_certificate": "Attestation de réussite",
     "goals": "Objectifs",
     "about": {

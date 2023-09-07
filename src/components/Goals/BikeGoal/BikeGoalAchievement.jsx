@@ -1,11 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import {
-  getDaysToReach,
-  isGoalCompleted,
-  countDaysOrDaysToReach
-} from 'src/components/Goals/BikeGoal/helpers'
+import BikeGoalSummaryYearlyItem from 'src/components/Goals/BikeGoal/BikeGoalSummaryYearlyItem'
+import { isGoalCompleted } from 'src/components/Goals/BikeGoal/helpers'
 
 import Chip from 'cozy-ui/transpiled/react/Chips'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -26,17 +23,10 @@ const BikeGoalAchievement = ({ className, timeseries }) => {
   return (
     <div className={className}>
       {isMobile && <Typography variant="h3">{t('bikeGoal.title')}</Typography>}
-      <Typography
+      <BikeGoalSummaryYearlyItem
         className="u-mt-half"
-        style={{
-          color: isGoalCompleted(timeseries) && 'var(--successColor)'
-        }}
-      >
-        {t('bikeGoal.goal_progression', {
-          days: countDaysOrDaysToReach(timeseries),
-          daysToReach: getDaysToReach()
-        })}
-      </Typography>
+        timeseriesByYear={timeseries}
+      />
       {isGoalCompleted(timeseries) && (
         <div className="u-mt-1">
           <Chip
