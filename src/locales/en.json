@@ -19,6 +19,7 @@
     "debug": "Demo & debug mode"
   },
   "trips": {
+    "default": "default",
     "trips": "Trips",
     "from": "Trips from",
     "modes": {

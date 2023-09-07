@@ -22,6 +22,7 @@
     "trips": "Déplacements",
     "from": "Déplacements de",
     "modes": {
+      "default": "défaut",
       "AIR_OR_HSR": "Avion",
       "BICYCLING_ELECTRIC": "Vélo électrique",
       "BICYCLING": "Vélo",
