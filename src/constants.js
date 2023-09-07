@@ -12,7 +12,7 @@ export const CARPOOL_MODE = 'CARPOOL'
 export const MOTO_INF_250_MODE = 'MOTO_INF_250'
 export const MOTO_SUP_250_MODE = 'MOTO_SUP_250'
 export const SCOOTER_ELECTRIC_MODE = 'SCOOTER_ELECTRIC'
-export const SCOOTER_MODE = 'SCOOTER'
+export const MOPED_MODE = 'MOPED'
 export const SUBWAY_MODE = 'SUBWAY'
 export const TRAIN_MODE = 'TRAIN'
 export const UNKNOWN_MODE = 'UNKNOWN'
@@ -24,7 +24,7 @@ export const BICYCLING_CATEGORY = {
 }
 export const MOTO_CATEGORY = {
   name: 'MOTO_CATEGORY',
-  modes: [SCOOTER_MODE, MOTO_INF_250_MODE, MOTO_SUP_250_MODE]
+  modes: [MOPED_MODE, MOTO_INF_250_MODE, MOTO_SUP_250_MODE]
 }
 export const CAR_CATEGORY = {
   name: 'CAR_CATEGORY',
@@ -160,9 +160,9 @@ export const BICYCLING_ELECTRIC_AVERAGE_CO2_KG_PER_KM = 0
 export const SCOOTER_ELECTRIC_AVERAGE_CO2_KG_PER_KM = 0
 
 /**
- * Scooter and motorcycle CO2 values.
+ * Moped and motorcycle CO2 values.
  */
-export const SCOOTER_AVERAGE_CO2_KG_PER_KM = 0.064
+export const MOPED_AVERAGE_CO2_KG_PER_KM = 0.064
 
 /**
  * Walking, unknown CO2 values.

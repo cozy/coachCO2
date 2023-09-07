@@ -34,8 +34,8 @@ import {
   BICYCLING_AVERAGE_CO2_KG_PER_KM,
   BICYCLING_ELECTRIC_AVERAGE_CO2_KG_PER_KM,
   SCOOTER_ELECTRIC_AVERAGE_CO2_KG_PER_KM,
-  SCOOTER_MODE,
-  SCOOTER_AVERAGE_CO2_KG_PER_KM,
+  MOPED_MODE,
+  MOPED_AVERAGE_CO2_KG_PER_KM,
   WALKING_AVERAGE_CO2_KG_PER_KM,
   UNKNOWN_AVERAGE_CO2_KG_PER_KM,
   CARPOOL_ELECTRIC_CO2_KG_PER_KM,
@@ -81,7 +81,7 @@ export const modes = [
   MOTO_INF_250_MODE,
   MOTO_SUP_250_MODE,
   SCOOTER_ELECTRIC_MODE,
-  SCOOTER_MODE,
+  MOPED_MODE,
   SUBWAY_MODE,
   TRAIN_MODE,
   UNKNOWN_MODE,
@@ -106,7 +106,7 @@ export const pickModeIcon = mode => {
     case MOTO_INF_250_MODE:
     case MOTO_SUP_250_MODE:
     case SCOOTER_ELECTRIC_MODE:
-    case SCOOTER_MODE:
+    case MOPED_MODE:
       return UnknownIcon
     case SUBWAY_MODE:
       return SubwayIcon
@@ -139,7 +139,7 @@ export const modeToColor = (mode = UNKNOWN_MODE) => {
     case MOTO_INF_250_MODE:
     case MOTO_SUP_250_MODE:
     case SCOOTER_ELECTRIC_MODE:
-    case SCOOTER_MODE:
+    case MOPED_MODE:
       return '#A4A7AC'
     case SUBWAY_MODE:
       return '#8978FF'
@@ -251,8 +251,8 @@ export const getAverageCO2PerKmByMode = mode => {
       return MOTO_SUP_250_CO2_KG_PER_KM
     case SCOOTER_ELECTRIC_MODE:
       return SCOOTER_ELECTRIC_AVERAGE_CO2_KG_PER_KM
-    case SCOOTER_MODE:
-      return SCOOTER_AVERAGE_CO2_KG_PER_KM
+    case MOPED_MODE:
+      return MOPED_AVERAGE_CO2_KG_PER_KM
     case SUBWAY_MODE:
       return getAverage(ALL_SUBWAY_TRAM_CO2_KG_PER_KM)
     case TRAIN_MODE:
@@ -309,7 +309,7 @@ export const modeToCategory = mode => {
       return CAR_CATEGORY.name
     case MOTO_INF_250_MODE:
     case MOTO_SUP_250_MODE:
-    case SCOOTER_MODE:
+    case MOPED_MODE:
       return MOTO_CATEGORY.name
     default:
       return null
