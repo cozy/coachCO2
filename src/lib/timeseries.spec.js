@@ -309,11 +309,47 @@ describe('Aggregation', () => {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
+        BICYCLING_ELECTRIC: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
         BUS: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
+        BUS_ELECTRIC: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
         CAR: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        CARPOOL: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        CARPOOL_ELECTRIC: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        CAR_ELECTRIC: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        MOPED: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        MOTO_INF_250: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        MOTO_SUP_250: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        SCOOTER_ELECTRIC: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
