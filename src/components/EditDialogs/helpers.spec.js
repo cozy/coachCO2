@@ -9,6 +9,13 @@ import {
   WALKING_MODE
 } from 'src/constants'
 
+jest.mock('cozy-ui/transpiled/react/styles', () => ({
+  ...jest.requireActual('cozy-ui/transpiled/react/styles'),
+  useTheme: () => ({
+    palette: { primary: { main: '#000' } }
+  })
+}))
+
 describe('makeOptions', () => {
   const t = jest.fn(x => x)
   describe('Without default mode and action', () => {

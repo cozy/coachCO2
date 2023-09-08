@@ -116,7 +116,7 @@ const makeOption = (t, mode, opts = {}) => {
     id: mode,
     title,
     isChecked: false,
-    icon: ModeAvatar({ attribute: icon || mode }),
+    icon: ModeAvatar({ attribute: icon || mode, defaultColor: true }),
     ...(withDescription && {
       description: `${modeToCO2PerKm(mode)} g/km`
     }),
