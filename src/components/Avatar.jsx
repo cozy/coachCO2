@@ -8,6 +8,7 @@ import {
 import { OTHER_PURPOSE } from 'src/constants'
 
 import UiAvatar from 'cozy-ui/transpiled/react/Avatar'
+import { useTheme } from 'cozy-ui/transpiled/react/styles'
 
 const makeStyle = ({ faded, color }) => {
   return faded
@@ -37,11 +38,13 @@ export const PurposeAvatar = ({ attribute }) => {
   )
 }
 
-export const ModeAvatar = ({ attribute }) => {
+export const ModeAvatar = ({ attribute, defaultColor }) => {
+  const theme = useTheme()
+
   return (
     <Avatar
       icon={pickModeIcon(attribute)}
-      color={modeToColor(attribute)}
+      color={defaultColor ? theme.palette.primary.main : modeToColor(attribute)}
       faded
     />
   )
