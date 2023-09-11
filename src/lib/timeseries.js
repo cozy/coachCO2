@@ -453,10 +453,11 @@ export const computeMonthsAndCO2s = (timeseries, f) => {
   const formatedMonths = months.map(month => f(month, 'MMM').toUpperCase())
 
   const CO2s = months.map((month, index) => {
+    const isLastMonth = index === months.length - 1
     const filteredTimeseries = timeseries.filter(
       timeserie =>
         new Date(timeserie.startDate) >= month &&
-        new Date(timeserie.startDate) < months[index + 1]
+        (isLastMonth ? true : new Date(timeserie.startDate) < months[index + 1])
     )
 
     const sum = sumBy(filteredTimeseries, 'aggregation.totalCO2')
