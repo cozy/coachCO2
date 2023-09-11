@@ -74,3 +74,6 @@ export const makeIconSize = size => {
       return '4.5rem'
   }
 }
+
+// TODO: right function should be create by @paultranvan soon
+export const getDaccAverageDays = () => 0.5
