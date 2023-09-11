@@ -9,7 +9,11 @@ import { filterTimeseriesByYear } from 'src/lib/timeseries'
 
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 
-const BikeGoalDialogMobile = ({ timeseries, timeseriesQueryLeft }) => {
+const BikeGoalDialogMobile = ({
+  timeseries,
+  timeseriesQueryLeft,
+  sendToDACC
+}) => {
   const navigate = useNavigate()
   const { year } = useParams()
 
@@ -33,10 +37,12 @@ const BikeGoalDialogMobile = ({ timeseries, timeseriesQueryLeft }) => {
             paddingTop="1.5rem"
             marginTop="3rem"
             timeseries={timeseriesByYear}
+            sendToDACC={sendToDACC}
           />
           <BikeGoalAchievement
             className="u-flex u-flex-column u-flex-items-center"
             timeseries={timeseriesByYear}
+            sendToDACC={sendToDACC}
           />
           <BikeGoalList
             className="u-mt-2"
