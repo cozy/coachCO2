@@ -214,9 +214,10 @@
     },
     "settings": {
       "participation": "Participate to the goal “Bike to work”",
-      "showAlerter": "Show bike goals alerter",
-      "hideOnboarding": "Hide bike goal onboarding",
-      "showAlerterSuccess": "Show the bike goal success alert"
+      "showAlerter": "Bike goal: Show bike goals alerter",
+      "hideOnboarding": "Bike goal: Hide bike goal onboarding",
+      "sendToDACC": "Bike goal: activate DACC",
+      "showAlerterSuccess": "Bike goal: Show the bike goal success alert"
     },
     "onboarding": {
       "title": "\"Sustainable mobility\" package",
