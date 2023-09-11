@@ -1,6 +1,8 @@
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import BikeGoalSummaryDaccItems from 'src/components/Goals/BikeGoal/BikeGoalSummaryDaccItems'
 import BikeGoalSummaryYearlyItem from 'src/components/Goals/BikeGoal/BikeGoalSummaryYearlyItem'
 import { isGoalCompleted } from 'src/components/Goals/BikeGoal/helpers'
 
@@ -11,7 +13,13 @@ import FileOutlineIcon from 'cozy-ui/transpiled/react/Icons/FileOutline'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
-const BikeGoalAchievement = ({ className, timeseries }) => {
+const style = {
+  BikeGoalSummaryItem: {
+    flex: '1 1 0'
+  }
+}
+
+const BikeGoalAchievement = ({ className, timeseries, sendToDACC }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const navigate = useNavigate()
@@ -22,11 +30,24 @@ const BikeGoalAchievement = ({ className, timeseries }) => {
 
   return (
     <div className={className}>
-      {isMobile && <Typography variant="h3">{t('bikeGoal.title')}</Typography>}
-      <BikeGoalSummaryYearlyItem
-        className="u-mt-half"
-        timeseriesByYear={timeseries}
-      />
+      {isMobile && (
+        <Typography className="u-mb-half" variant="h3">
+          {t('bikeGoal.title')}
+        </Typography>
+      )}
+      {sendToDACC ? (
+        <BikeGoalSummaryDaccItems
+          className={cx('u-mt-half', { 'u-ph-1 u-ta-center': isMobile })}
+          timeseries={timeseries}
+          body1={isMobile}
+          componentsProps={{ BikeGoalSummaryItem: style.BikeGoalSummaryItem }}
+        />
+      ) : (
+        <BikeGoalSummaryYearlyItem
+          className="u-mt-half"
+          timeseriesByYear={timeseries}
+        />
+      )}
       {isGoalCompleted(timeseries) && (
         <div className="u-mt-1">
           <Chip

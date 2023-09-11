@@ -1,12 +1,16 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import BikeGoalChart from 'src/components/Goals/BikeGoal/BikeGoalChart'
+import BikeGoalSummaryDaccItems from 'src/components/Goals/BikeGoal/BikeGoalSummaryDaccItems'
 import BikeGoalSummaryYearlyItem from 'src/components/Goals/BikeGoal/BikeGoalSummaryYearlyItem'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { filterTimeseriesByYear } from 'src/lib/timeseries'
-import { buildBikeCommuteTimeseriesQueryByAccountId } from 'src/queries/queries'
+import {
+  buildBikeCommuteTimeseriesQueryByAccountId,
+  buildSettingsQuery
+} from 'src/queries/queries'
 
-import { isQueryLoading, useQueryAll } from 'cozy-client'
+import { isQueryLoading, useQueryAll, useQuery } from 'cozy-client'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Paper from 'cozy-ui/transpiled/react/Paper'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
@@ -22,6 +26,13 @@ const BikeGoalSummary = () => {
   const navigate = useNavigate()
   const { account, isAccountLoading } = useAccountContext()
 
+  const settingsQuery = buildSettingsQuery()
+  const { data: settings, ...settingsQueryLeft } = useQuery(
+    settingsQuery.definition,
+    settingsQuery.options
+  )
+  const isSettingsLoading = isQueryLoading(settingsQueryLeft)
+
   const timeseriesQuery = buildBikeCommuteTimeseriesQueryByAccountId(
     { accountId: account?._id },
     Boolean(account)
@@ -34,7 +45,8 @@ const BikeGoalSummary = () => {
   const isLoadingTimeseriesQuery =
     isQueryLoading(timeseriesQueryLeft) || timeseriesQueryLeft.hasMore
 
-  const isLoading = isAccountLoading || isLoadingTimeseriesQuery
+  const isLoading =
+    isAccountLoading || isLoadingTimeseriesQuery || isSettingsLoading
 
   if (isLoading) {
     return (
@@ -49,6 +61,7 @@ const BikeGoalSummary = () => {
 
   const currentYear = new Date().getFullYear().toString()
   const timeseriesByYear = filterTimeseriesByYear(timeseries, currentYear)
+  const sendToDACC = !!settings?.[0].bikeGoal?.sendToDACC
 
   return (
     <>
@@ -59,15 +72,23 @@ const BikeGoalSummary = () => {
         onClick={() => navigate(`/bikegoal/${currentYear}/trips`)}
       >
         <div style={style.div}>
-          <BikeGoalChart timeseries={timeseriesByYear} size="small" />
+          <BikeGoalChart
+            timeseries={timeseriesByYear}
+            sendToDACC={sendToDACC}
+            size="small"
+          />
         </div>
         <div>
           <Typography variant="h6">{t('bikeGoal.title')}</Typography>
-          <BikeGoalSummaryYearlyItem
-            timeseriesByYear={timeseriesByYear}
-            variant="caption"
-            preLine
-          />
+          {sendToDACC ? (
+            <BikeGoalSummaryDaccItems timeseries={timeseriesByYear} />
+          ) : (
+            <BikeGoalSummaryYearlyItem
+              timeseriesByYear={timeseriesByYear}
+              variant="caption"
+              preLine
+            />
+          )}
         </div>
       </Paper>
     </>

@@ -2,13 +2,14 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import {
   makeGoalAchievementPercentage,
-  makeIconSize
+  makeIconSize,
+  makeDaccAchievementPercentage
 } from 'src/components/Goals/BikeGoal/helpers'
 
 import Box from 'cozy-ui/transpiled/react/Box'
 import CircularChart from 'cozy-ui/transpiled/react/CircularChart'
 
-const BikeGoalChart = ({ timeseries, size, ...props }) => {
+const BikeGoalChart = ({ timeseries, sendToDACC, size, ...props }) => {
   const goalAchievementPercentage = makeGoalAchievementPercentage(timeseries)
   const iconSize = makeIconSize(size)
 
@@ -16,6 +17,12 @@ const BikeGoalChart = ({ timeseries, size, ...props }) => {
     <CircularChart
       size={size}
       primaryProps={{ value: goalAchievementPercentage, color: '#BA5AE8' }}
+      {...(sendToDACC && {
+        secondaryProps: {
+          value: makeDaccAchievementPercentage(),
+          color: '#BA5AE83D'
+        }
+      })}
       {...props}
     >
       <Box fontSize={iconSize}>🚴</Box>
