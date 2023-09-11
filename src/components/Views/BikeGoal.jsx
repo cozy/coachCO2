@@ -3,14 +3,24 @@ import BikeGoalDialogMobile from 'src/components/Goals/BikeGoal/BikeGoalDialogMo
 import BikeGoalViewDesktop from 'src/components/Goals/BikeGoal/BikeGoalViewDesktop'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import SpinnerOrEmptyContent from 'src/components/SpinnerOrEmptyContent'
-import { buildBikeCommuteTimeseriesQueryByAccountId } from 'src/queries/queries'
+import {
+  buildBikeCommuteTimeseriesQueryByAccountId,
+  buildSettingsQuery
+} from 'src/queries/queries'
 
-import { isQueryLoading, useQueryAll } from 'cozy-client'
+import { isQueryLoading, useQueryAll, useQuery } from 'cozy-client'
 import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
 
 const Bikegoal = () => {
   const { account, isAccountLoading } = useAccountContext()
   const { isMobile } = useBreakpoints()
+
+  const settingsQuery = buildSettingsQuery()
+  const { data: settings, ...settingsQueryLeft } = useQuery(
+    settingsQuery.definition,
+    settingsQuery.options
+  )
+  const isSettingsLoading = isQueryLoading(settingsQueryLeft)
 
   const timeseriesQuery = buildBikeCommuteTimeseriesQueryByAccountId(
     { accountId: account?._id },
@@ -25,6 +35,7 @@ const Bikegoal = () => {
     isQueryLoading(timeseriesQueryLeft) || timeseriesQueryLeft.hasMore
 
   const isLoadingOrEmpty =
+    isSettingsLoading ||
     isAccountLoading ||
     !account ||
     isLoadingTimeseriesQuery ||
@@ -41,11 +52,14 @@ const Bikegoal = () => {
     )
   }
 
+  const sendToDACC = !!settings?.[0].bikeGoal?.sendToDACC
+
   if (isMobile) {
     return (
       <BikeGoalDialogMobile
         timeseries={timeseries}
         timeseriesQueryLeft={timeseriesQueryLeft}
+        sendToDACC={sendToDACC}
       />
     )
   }
@@ -54,6 +68,7 @@ const Bikegoal = () => {
     <BikeGoalViewDesktop
       timeseries={timeseries}
       timeseriesQueryLeft={timeseriesQueryLeft}
+      sendToDACC={sendToDACC}
     />
   )
 }
