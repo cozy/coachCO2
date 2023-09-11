@@ -34,7 +34,7 @@
     "purposes": {
       "HOME": "Domicile",
       "WORK": "Travail",
-      "COMMUTE": "Aller ou Retour au travail",
+      "COMMUTE": "Aller-retour au travail",
       "SCHOOL": "École",
       "SHOPPING": "Achats",
       "MEAL": "Repas",
@@ -169,11 +169,11 @@
       },
       "how_trips_detected": {
         "title": "Comment sont détectés mes trajets ?",
-        "content": "Vos trajets domicile-travail à vélo seront automatiquement détectés à partir de vos horaires et de votre vitesse.\n\nSi un trajet n’est pas automatiquement détecté en “Aller ou Retour au travail”, ouvrez le détail du trajet et modifiez le motif du déplacement en “Aller ou Retour au travail”.\n\nSi un trajet n’est pas automatiquement détecté en “vélo”, ouvrez le détail du trajet et modifiez le mode de transport en “vélo”."
+        "content": "Vos trajets domicile-travail à vélo seront automatiquement détectés à partir de vos horaires et de votre vitesse.\n\nSi un trajet n’est pas automatiquement détecté en “Aller-retour au travail”, ouvrez le détail du trajet et modifiez le motif du déplacement en “Aller-retour au travail”.\n\nSi un trajet n’est pas automatiquement détecté en “vélo”, ouvrez le détail du trajet et modifiez le mode de transport en “vélo”."
       },
       "once_goal_reach": {
         "title": "Que faire une fois l’objectif atteint",
-        "content": "Une fois l’objectif atteint, un email vous sera envoyé avec un certificat à transmettre à votre employeur pour bénéficier de votre forfait  de %{bountyAmount}€ 🎉"
+        "content": "Une fois l’objectif atteint, il vous sera possible de générer une attestation de réussite à transmettre à votre employeur pour bénéficier de votre forfait  de %{bountyAmount}€ 🎉"
       }
     },
     "deactivate": {
@@ -204,7 +204,7 @@
       "workTime_full": "Temps plein",
       "workTime_part": "Mi-temps ou temps partiel",
       "workTimePercentage": "Pourcentage du temps de travail",
-      "compare_progress": "Comparer ma progression avec celle %{source}",
+      "compare_progress": "Comparer ma progression avec %{source}",
       "cancel": "Annuler",
       "submit": "Ok",
       "required": "Ce champ est obligatoire"

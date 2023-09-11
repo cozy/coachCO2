@@ -173,7 +173,7 @@
       },
       "once_goal_reach": {
         "title": "What to do once the goal is reached",
-        "content": "Once the goal is reached, an email will be sent to you with a certificate to send to your employer to benefit from your %{bountyAmount}€ package 🎉"
+        "content": "Once the goal is reached, you will be able to generate a certificate of achievement to send to your employer to benefit from your %{bountyAmount}€ package 🎉"
       }
     },
     "deactivate": {
