@@ -6,6 +6,7 @@ import CO2EmissionDaccSwitcher from 'src/components/CO2EmissionDaccSwitcher'
 import CsvExporter from 'src/components/ExportCSV/CsvExporter'
 import BikeGoalAlertSuccessSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSuccessSwitcher'
 import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
+import BikeGoalDaccSwitcher from 'src/components/Goals/BikeGoal/BikeGoalDaccSwitcher'
 import BikeGoalOnboardedSwitcher from 'src/components/Goals/BikeGoal/BikeGoalOnboardedSwitcher'
 import BikeGoalSwitcher from 'src/components/Goals/BikeGoal/BikeGoalSwitcher'
 import {
@@ -55,6 +56,7 @@ export const Settings = () => {
                   <BikeGoalAlertSwitcher className="u-mt-1-half-s" />
                   <BikeGoalOnboardedSwitcher className="u-mt-1-half-s" />
                   <BikeGoalAlertSuccessSwitcher className="u-mt-1-half-s" />
+                  <BikeGoalDaccSwitcher className="u-mt-1-half-s" />
                 </>
               )}
             </>

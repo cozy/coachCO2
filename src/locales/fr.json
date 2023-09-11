@@ -216,6 +216,7 @@
       "participation": "Participer à l'objectif “Aller au travail à vélo”",
       "showAlerter": "Objectif vélo : afficher l'alerter sur la homepage",
       "hideOnboarding": "Objectif vélo : masquer l'onboarding",
+      "sendToDACC": "Objectif vélo : activer le DACC",
       "showAlerterSuccess": "Objectif vélo : forcer l'affichage de l'alerte de succès sur la homepage"
     },
     "onboarding": {
