@@ -1,13 +1,22 @@
 export const APP_SLUG = 'coachco2'
 
 export const AIR_MODE = 'AIR_OR_HSR'
+export const BICYCLING_ELECTRIC_MODE = 'BICYCLING_ELECTRIC'
 export const BICYCLING_MODE = 'BICYCLING'
+export const BUS_ELECTRIC_MODE = 'BUS_ELECTRIC'
+export const BUS_MODE = 'BUS'
+export const CAR_ELECTRIC_MODE = 'CAR_ELECTRIC'
 export const CAR_MODE = 'CAR'
+export const CARPOOL_ELECTRIC_MODE = 'CARPOOL_ELECTRIC'
+export const CARPOOL_MODE = 'CARPOOL'
+export const MOTO_INF_250_MODE = 'MOTO_INF_250'
+export const MOTO_SUP_250_MODE = 'MOTO_SUP_250'
+export const SCOOTER_ELECTRIC_MODE = 'SCOOTER_ELECTRIC'
+export const SCOOTER_MODE = 'SCOOTER'
 export const SUBWAY_MODE = 'SUBWAY'
 export const TRAIN_MODE = 'TRAIN'
-export const WALKING_MODE = 'WALKING'
 export const UNKNOWN_MODE = 'UNKNOWN'
-export const BUS_MODE = 'BUS'
+export const WALKING_MODE = 'WALKING'
 
 // list of available purposes here
 // https://github.com/e-mission/e-mission-phone/blob/f3348aef02c80219b56fac892445cd53ba665669/www/js/diary/list.js#L496
@@ -100,6 +109,27 @@ export const CAR_AVERAGE_CO2_KG_PER_KM = 0.192
 // https://www.bilans-ges.ademe.fr/en/basecarbone/donnees-consulter/liste-element/categorie/493
 // Note the manufacture is not included to remain consistent with other values
 export const CAR_ELECTRIC_CO2_KG_PER_KM = 0.0198
+
+export const CARPOOL_ELECTRIC_CO2_KG_PER_KM = 0.0099 // CAR_ELECTRIC_CO2_KG_PER_KM / 2
+export const CARPOOL_CO2_KG_PER_KM = 0.096 // CAR_AVERAGE_CO2_KG_PER_KM / 2
+
+/**
+ * Bicycling, electric bicycling & scooter CO2 values.
+ */
+export const BICYCLING_AVERAGE_CO2_KG_PER_KM = 0
+export const BICYCLING_ELECTRIC_AVERAGE_CO2_KG_PER_KM = 0
+export const SCOOTER_ELECTRIC_AVERAGE_CO2_KG_PER_KM = 0
+
+/**
+ * Scooter and motorcycle CO2 values.
+ */
+export const SCOOTER_AVERAGE_CO2_KG_PER_KM = 0.064
+
+/**
+ * Walking, unknown CO2 values.
+ */
+export const WALKING_AVERAGE_CO2_KG_PER_KM = 0
+export const UNKNOWN_AVERAGE_CO2_KG_PER_KM = 0
 
 /**
  * Calories-related constants

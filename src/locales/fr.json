@@ -23,13 +23,22 @@
     "from": "Déplacements de",
     "modes": {
       "AIR_OR_HSR": "Avion",
+      "BICYCLING_ELECTRIC": "Vélo électrique",
       "BICYCLING": "Vélo",
+      "BUS_ELECTRIC": "Bus électrique",
+      "BUS": "Bus",
+      "CAR_ELECTRIC": "Voiture électrique",
       "CAR": "Voiture",
+      "CARPOOL_ELECTRIC": "Covoiturage électrique",
+      "CARPOOL": "Covoiturage",
+      "MOTO_INF_250": "Moto < 250cm3",
+      "MOTO_SUP_250": "Moto > 250cm3",
+      "SCOOTER_ELECTRIC": "Trottinette électrique",
+      "SCOOTER": "Cyclomoteur",
       "SUBWAY": "Métro",
       "TRAIN": "Train",
       "UNKNOWN": "Non reconnu",
-      "WALKING": "Marche",
-      "BUS": "Bus"
+      "WALKING": "Marche"
     },
     "purposes": {
       "HOME": "Domicile",
