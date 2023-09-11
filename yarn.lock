@@ -5130,19 +5130,21 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
-cozy-ach@^1.39.0:
-  version "1.39.0"
-  resolved "https://registry.yarnpkg.com/cozy-ach/-/cozy-ach-1.39.0.tgz#d59e326034d7d9a804f88e04895cb0d568725e06"
-  integrity sha512-+mMZab5/GtZnxRAE0GxvX+FbYKW4MPGbUwIdIWPtSU1jZgZwDp+vhEH+QJkgXn7FQoEUNuoyjhUb3nRyk3eBkQ==
+cozy-ach@^1.49.0:
+  version "1.49.0"
+  resolved "https://registry.yarnpkg.com/cozy-ach/-/cozy-ach-1.49.0.tgz#5a73672ad449f5bafc37b90f7a7761ae7d29b731"
+  integrity sha512-fyqvQGkwshP+F/bo6RANpjCEd7/eyZc4cO+KtWiVh3CZK4TWJI8M8qlg6o+vxUmQkKtkeEglXJM6SS41gzykpQ==
   dependencies:
     babel-runtime "6.26.0"
     btoa "1.2.1"
     colors "^1.3.3"
     commander "^2.19.0"
     core-js "3.0.0"
-    cozy-client "^26.0.2"
+    cozy-client "^29.1.3"
     cozy-client-js "^0.15.0"
+    cozy-device-helper "^2.1.0"
     cozy-doctypes "1.39.0"
+    cozy-flags "^2.8.7"
     date-fns "1.30.1"
     directory-tree "^2.2.1"
     dummy-json "^2.0.0"
@@ -5242,7 +5244,7 @@ cozy-client@13.8.3:
     sift "^6.0.0"
     url-search-params-polyfill "^7.0.0"
 
-cozy-client@29.2.0, cozy-client@^29.1.2:
+cozy-client@29.2.0, cozy-client@^29.1.2, cozy-client@^29.1.3:
   version "29.2.0"
   resolved "https://registry.yarnpkg.com/cozy-client/-/cozy-client-29.2.0.tgz#d474fd4268311ae7e23af4966e189a83d348a4ab"
   integrity sha512-BtWTB+s+YIqPxvvvyrWELVBxVuVfDeI7RFEU2gn+tU4Ef2AKLuciy3hBX14tuHiAB6U+FHYpqCDK2JW8SdNo8w==
@@ -5257,32 +5259,6 @@ cozy-client@29.2.0, cozy-client@^29.1.2:
     microee "^0.0.6"
     node-fetch "^2.6.1"
     node-polyglot "2.4.2"
-    open "7.4.2"
-    prop-types "^15.6.2"
-    react-redux "^7.2.0"
-    redux "3 || 4"
-    redux-thunk "^2.3.0"
-    server-destroy "^1.0.1"
-    sift "^6.0.0"
-    url-search-params-polyfill "^8.0.0"
-
-cozy-client@^26.0.2:
-  version "26.0.2"
-  resolved "https://registry.yarnpkg.com/cozy-client/-/cozy-client-26.0.2.tgz#e4af51d1b5afbf86d6ac1d32438f482c905a187c"
-  integrity sha512-Ofc5MEQLKh7fld1tty0bm/1ZI/K0AUjn9NusFfScv7ij+16kWN6GQevWm6uEV2OK8ev9L8oS2FT4IonK0LsFBw==
-  dependencies:
-    "@cozy/minilog" "1.0.0"
-    "@types/jest" "^26.0.20"
-    "@types/lodash" "^4.14.170"
-    btoa "^1.2.1"
-    cozy-device-helper "^1.12.0"
-    cozy-flags "2.7.1"
-    cozy-logger "^1.6.0"
-    cozy-stack-client "^26.0.0"
-    json-stable-stringify "^1.0.1"
-    lodash "^4.17.13"
-    microee "^0.0.6"
-    node-fetch "^2.6.1"
     open "7.4.2"
     prop-types "^15.6.2"
     react-redux "^7.2.0"
@@ -5324,7 +5300,7 @@ cozy-device-helper@1.8.0:
   dependencies:
     lodash "4.17.15"
 
-cozy-device-helper@^1.12.0, cozy-device-helper@^1.7.3:
+cozy-device-helper@^1.7.3:
   version "1.16.0"
   resolved "https://registry.yarnpkg.com/cozy-device-helper/-/cozy-device-helper-1.16.0.tgz#76f124724b340cac222d33789787e3c841f4b123"
   integrity sha512-VcHkceUaYT79wu0wiYR8BrcTloVqY+GrLMGgJAFPdH1d8r3Vzcs3v/juor77TTOPcYEWuG702U93kx1u5rXpCg==
@@ -5365,13 +5341,6 @@ cozy-doctypes@^1.83.8:
     es6-promise-pool "^2.5.0"
     lodash "^4.17.19"
     prop-types "^15.7.2"
-
-cozy-flags@2.7.1:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/cozy-flags/-/cozy-flags-2.7.1.tgz#f37251fee248ef9bef079a22bc52954f1a892dfc"
-  integrity sha512-TtVhuyMSRADRr4q5LSaRjq6u03S5m1zkZRc8n3q8bfad86FizqGC02m3e/Zh4kWTwnsO0pVW+mzeVSsBqDVT/g==
-  dependencies:
-    microee "^0.0.6"
 
 cozy-flags@^2.8.7:
   version "2.8.7"
@@ -5584,16 +5553,6 @@ cozy-stack-client@^13.8.3:
   resolved "https://registry.yarnpkg.com/cozy-stack-client/-/cozy-stack-client-13.20.2.tgz#2ff55f93dca809b7ec82ec0afc88a3bc041383c1"
   integrity sha512-9j52p+0/kw5CAO42hPCqjV1ESwU/My79bfjF96wZRrGMFAciL+gGQy4wVeTpPlYvWIGIIbchFrUl8rQVkMVWYA==
   dependencies:
-    detect-node "^2.0.4"
-    mime "^2.4.0"
-    qs "^6.7.0"
-
-cozy-stack-client@^26.0.0:
-  version "26.0.0"
-  resolved "https://registry.yarnpkg.com/cozy-stack-client/-/cozy-stack-client-26.0.0.tgz#172b031429943984b4293300eb67e345ab95fc63"
-  integrity sha512-UpUuKL+RNYkCOLmL45STKAnmVUzhf6cQ0A9mSHYP9DCPdrt3B6M90E2sRdYg47NLt0Pbb3hvEO3QOpL/WVi2sg==
-  dependencies:
-    cozy-flags "2.7.1"
     detect-node "^2.0.4"
     mime "^2.4.0"
     qs "^6.7.0"
