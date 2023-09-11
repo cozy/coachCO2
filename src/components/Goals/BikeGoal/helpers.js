@@ -77,3 +77,12 @@ export const makeIconSize = size => {
 
 // TODO: right function should be create by @paultranvan soon
 export const getDaccAverageDays = () => 0.5
+
+export const makeDaccAchievementPercentage = () => {
+  const daccAverageDays = getDaccAverageDays()
+  const daysToReach = getDaysToReach()
+  const daysToUse =
+    daccAverageDays > daysToReach ? daysToReach : daccAverageDays
+
+  return Math.round((daysToUse / daysToReach) * 100)
+}
