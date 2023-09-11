@@ -23,13 +23,22 @@
     "from": "Trips from",
     "modes": {
       "AIR_OR_HSR": "Plane",
+      "BICYCLING_ELECTRIC": "Electric bike",
       "BICYCLING": "Bike",
+      "BUS_ELECTRIC": "Electric bus",
+      "BUS": "Bus",
+      "CAR_ELECTRIC": "Electric car",
       "CAR": "Car",
+      "CARPOOL_ELECTRIC": "Electric carpooling",
+      "CARPOOL": "Carpooling",
+      "MOTO_INF_250": "Moto < 250cm3",
+      "MOTO_SUP_250": "Moto > 250cm3",
+      "SCOOTER_ELECTRIC": "Electric scooter",
+      "SCOOTER": "Moped",
       "SUBWAY": "Subway",
       "TRAIN": "Train",
       "UNKNOWN": "Unknown",
-      "WALKING": "Walking",
-      "BUS": "Bus"
+      "WALKING": "Walking"
     },
     "purposes": {
       "HOME": "Home",

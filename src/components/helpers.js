@@ -16,7 +16,16 @@ import {
   PERSONALMED_PURPOSE,
   EXERCISE_PURPOSE,
   ENTERTAINMENT_PURPOSE,
-  OTHER_PURPOSE
+  OTHER_PURPOSE,
+  BUS_ELECTRIC_MODE,
+  CAR_ELECTRIC_MODE,
+  CARPOOL_ELECTRIC_MODE,
+  CARPOOL_MODE,
+  BICYCLING_ELECTRIC_MODE,
+  SCOOTER_ELECTRIC_MODE,
+  SCOOTER_MODE,
+  MOTO_INF_250_MODE,
+  MOTO_SUP_250_MODE
 } from 'src/constants'
 
 import BikeIcon from 'cozy-ui/transpiled/react/Icons/Bike'
@@ -40,33 +49,52 @@ import WalkIcon from 'cozy-ui/transpiled/react/Icons/Walk'
 
 export const modes = [
   AIR_MODE,
+  BICYCLING_ELECTRIC_MODE,
   BICYCLING_MODE,
+  BUS_ELECTRIC_MODE,
   BUS_MODE,
+  CAR_ELECTRIC_MODE,
   CAR_MODE,
+  CARPOOL_ELECTRIC_MODE,
+  CARPOOL_MODE,
+  MOTO_INF_250_MODE,
+  MOTO_SUP_250_MODE,
+  SCOOTER_ELECTRIC_MODE,
+  SCOOTER_MODE,
   SUBWAY_MODE,
   TRAIN_MODE,
-  WALKING_MODE,
-  UNKNOWN_MODE
+  UNKNOWN_MODE,
+  WALKING_MODE
 ]
 
 export const pickModeIcon = mode => {
   switch (mode) {
     case AIR_MODE:
       return PlaneIcone
+    case BICYCLING_ELECTRIC_MODE:
     case BICYCLING_MODE:
       return BikeIcon
-    case CAR_MODE:
-      return CarIcon
+    case BUS_ELECTRIC_MODE:
     case BUS_MODE:
       return BusIcon
+    case CAR_ELECTRIC_MODE:
+    case CAR_MODE:
+    case CARPOOL_ELECTRIC_MODE:
+    case CARPOOL_MODE:
+      return CarIcon
+    case MOTO_INF_250_MODE:
+    case MOTO_SUP_250_MODE:
+    case SCOOTER_ELECTRIC_MODE:
+    case SCOOTER_MODE:
+      return UnknownIcon
     case SUBWAY_MODE:
       return SubwayIcon
     case TRAIN_MODE:
       return TrainIcon
-    case WALKING_MODE:
-      return WalkIcon
     case UNKNOWN_MODE:
       return UnknownIcon
+    case WALKING_MODE:
+      return WalkIcon
     default:
       return UnknownIcon
   }
@@ -76,12 +104,22 @@ export const modeToColor = (mode = UNKNOWN_MODE) => {
   switch (mode) {
     case AIR_MODE:
       return '#F05759'
+    case BICYCLING_ELECTRIC_MODE:
     case BICYCLING_MODE:
       return '#15CACD'
+    case BUS_ELECTRIC_MODE:
     case BUS_MODE:
       return '#BA5AE8'
+    case CAR_ELECTRIC_MODE:
     case CAR_MODE:
+    case CARPOOL_ELECTRIC_MODE:
+    case CARPOOL_MODE:
       return '#FF7B5E'
+    case MOTO_INF_250_MODE:
+    case MOTO_SUP_250_MODE:
+    case SCOOTER_ELECTRIC_MODE:
+    case SCOOTER_MODE:
+      return '#A4A7AC'
     case SUBWAY_MODE:
       return '#8978FF'
     case TRAIN_MODE:
@@ -94,6 +132,7 @@ export const modeToColor = (mode = UNKNOWN_MODE) => {
       return '#A4A7AC'
   }
 }
+
 export const purposes = [
   COMMUTE_PURPOSE,
   SCHOOL_PURPOSE,
