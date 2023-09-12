@@ -348,6 +348,11 @@ export const getFormattedTotalCalories = timeserie => {
   return formatCalories(totalCalories)
 }
 
+export const getformattedEndDate = (timeserie, f) => {
+  const date = f(getEndDate(timeserie), 'dddd D MMMM YYYY')
+  return date.charAt(0).toUpperCase() + date.slice(1)
+}
+
 /**
  * Set an automatic purpose and the aggregation purpose.
  * An automatic purpose implies a recurring trip.

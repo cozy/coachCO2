@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import TripDialogDesktopContent from 'src/components/Trip/TripDialogDesktopContent'
-import { getEndPlaceDisplayName, getEndDate } from 'src/lib/timeseries'
+import { getEndPlaceDisplayName, getformattedEndDate } from 'src/lib/timeseries'
 
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
@@ -15,8 +15,6 @@ const TripDialogDesktop = () => {
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
-  const date = f(getEndDate(timeserie), 'dddd D MMMM YYYY')
-
   return (
     <Dialog
       open
@@ -25,7 +23,7 @@ const TripDialogDesktop = () => {
         <>
           {getEndPlaceDisplayName(timeserie)}
           <Typography className="u-mt-half" variant="caption">
-            {date}
+            {getformattedEndDate(timeserie, f)}
           </Typography>
         </>
       }
