@@ -37,7 +37,7 @@ const LoadedModesList = ({ timeseries }) => {
     () =>
       mode
         ? timeseriesSortedByModes[mode].timeseries.sort((a, b) =>
-            a.startDate.localeCompare(b.startDate)
+            b.startDate.localeCompare(a.startDate)
           )
         : [],
     [mode, timeseriesSortedByModes]
