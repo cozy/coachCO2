@@ -26,6 +26,7 @@ export const DialogDefaultMode = ({ item, onClose, onConfirm }) => {
     settingsQuery.definition,
     settingsQuery.options
   )
+  // Loading management is not required here because this request is initiated at the app base.
   const defaultTransportModeByGroup = settings[0]?.defaultTransportModeByGroup
   const defaultCheck = defaultTransportModeByGroup?.[modeToCategory(item.id)]
 
@@ -69,8 +70,8 @@ export const DialogDefaultMode = ({ item, onClose, onConfirm }) => {
               <Checkbox checked={isChecked} />
             </ListItemIcon>
             <ListItemText
-              primary={t('DialogDefaultMode.primary')}
-              secondary={t('DialogDefaultMode.secondary')}
+              primary={t('Modes.DefaultDialog.primary')}
+              secondary={t('Modes.DefaultDialog.secondary')}
             />
           </ListItem>
         </List>
@@ -85,12 +86,12 @@ export const DialogDefaultMode = ({ item, onClose, onConfirm }) => {
           style={{ gap: '1rem' }}
         >
           <Button
-            label={t('DialogDefaultMode.actions.cancel')}
+            label={t('Modes.DefaultDialog.actions.cancel')}
             variant="secondary"
             onClick={onClose}
           />
           <Button
-            label={t('DialogDefaultMode.actions.save')}
+            label={t('Modes.DefaultDialog.actions.save')}
             busy={isBusy}
             onClick={handleConfirm}
             disabled={!isSaveDisabled}
