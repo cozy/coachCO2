@@ -129,7 +129,6 @@ const ModificationModalContent = () => {
             <Icon icon={CompareIcon} />
           </ListItemIcon>
           <ListItemText
-            ellipsis={false}
             primary={t('bikeGoal.edit.compare_progress', {
               source: sourceIdentity ?? t(`bikeGoal.employer.my_${sourceType}`)
             })}
