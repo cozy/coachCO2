@@ -223,7 +223,7 @@
       "workTime_full": "Temps plein",
       "workTime_part": "Mi-temps ou temps partiel",
       "workTimePercentage": "Pourcentage du temps de travail",
-      "compare_progress": "Comparer ma progression avec %{source}",
+      "compare_progress": "Comparer ma progression avec le groupe : %{source}",
       "cancel": "Annuler",
       "submit": "Ok",
       "required": "Ce champ est obligatoire"
