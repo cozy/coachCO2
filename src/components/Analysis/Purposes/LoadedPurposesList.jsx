@@ -37,7 +37,7 @@ const LoadedPurposesList = ({ timeseries }) => {
     () =>
       purpose
         ? timeseriesSortedByPurposes[purpose].timeseries.sort((a, b) =>
-            a.startDate.localeCompare(b.startDate)
+            b.startDate.localeCompare(a.startDate)
           )
         : [],
     [purpose, timeseriesSortedByPurposes]
