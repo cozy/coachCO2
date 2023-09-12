@@ -2,9 +2,7 @@ import MockDate from 'mockdate'
 import { purposes } from 'src/components/helpers'
 import {
   COMMUTE_PURPOSE,
-  HOME_PURPOSE,
   OTHER_PURPOSE,
-  SHOPPING_PURPOSE,
   UNKNOWN_MODE,
   WORK_PURPOSE
 } from 'src/constants'
@@ -463,11 +461,15 @@ describe('Aggregation', () => {
         makeTimeseriesAndTotalCO2ByPurposes(aggregatedTimeseries)
 
       expect(timeseriesSortedByPurposes).toEqual({
+        WORK: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
         COMMUTE: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
-        SCHOOL: {
+        TRAVEL: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
@@ -475,11 +477,10 @@ describe('Aggregation', () => {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
-        MEAL: {
+        SPORT: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
-
         PERSONAL_MED: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
@@ -522,7 +523,11 @@ describe('Aggregation', () => {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
-        MEAL: {
+        WORK: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        SPORT: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
@@ -538,7 +543,7 @@ describe('Aggregation', () => {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
-        SCHOOL: {
+        TRAVEL: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
@@ -554,10 +559,7 @@ describe('Aggregation', () => {
 describe('getTimeseriePurpose', () => {
   it.each`
     purpose                    | result
-    ${'shopping'}              | ${SHOPPING_PURPOSE}
-    ${SHOPPING_PURPOSE}        | ${SHOPPING_PURPOSE}
-    ${HOME_PURPOSE}            | ${COMMUTE_PURPOSE}
-    ${WORK_PURPOSE}            | ${COMMUTE_PURPOSE}
+    ${WORK_PURPOSE}            | ${WORK_PURPOSE}
     ${COMMUTE_PURPOSE}         | ${COMMUTE_PURPOSE}
     ${undefined}               | ${OTHER_PURPOSE}
     ${'NOT_SUPPORTED_PURPOSE'} | ${OTHER_PURPOSE}

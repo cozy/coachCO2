@@ -9,9 +9,10 @@ import {
   WALKING_MODE,
   UNKNOWN_MODE,
   COMMUTE_PURPOSE,
-  SCHOOL_PURPOSE,
+  WORK_PURPOSE,
   SHOPPING_PURPOSE,
-  MEAL_PURPOSE,
+  TRAVEL_PURPOSE,
+  SPORT_PURPOSE,
   PICKDROP_PURPOSE,
   PERSONALMED_PURPOSE,
   EXERCISE_PURPOSE,
@@ -54,6 +55,7 @@ import BikeIcon from 'cozy-ui/transpiled/react/Icons/Bike'
 import BusIcon from 'cozy-ui/transpiled/react/Icons/Bus'
 import CarIcon from 'cozy-ui/transpiled/react/Icons/Car'
 import CarpoolingIcon from 'cozy-ui/transpiled/react/Icons/Carpooling'
+import CocktailIcon from 'cozy-ui/transpiled/react/Icons/Cocktail'
 import CompanyIcon from 'cozy-ui/transpiled/react/Icons/Company'
 import ElectricBikeIcon from 'cozy-ui/transpiled/react/Icons/ElectricBike'
 import ElectricCarIcon from 'cozy-ui/transpiled/react/Icons/ElectricCar'
@@ -65,14 +67,14 @@ import MountainIcon from 'cozy-ui/transpiled/react/Icons/Mountain'
 import MovementIcon from 'cozy-ui/transpiled/react/Icons/Movement'
 import PeopleIcon from 'cozy-ui/transpiled/react/Icons/People'
 import PlaneIcone from 'cozy-ui/transpiled/react/Icons/Plane'
-import RestaurantIcon from 'cozy-ui/transpiled/react/Icons/Restaurant'
 import RestoreIcon from 'cozy-ui/transpiled/react/Icons/Restore'
-import SchoolIcon from 'cozy-ui/transpiled/react/Icons/School'
 import ShopIcon from 'cozy-ui/transpiled/react/Icons/Shop'
+import SportBagIcon from 'cozy-ui/transpiled/react/Icons/SportBag'
 import SubwayIcon from 'cozy-ui/transpiled/react/Icons/Subway'
 import TrainIcon from 'cozy-ui/transpiled/react/Icons/Train'
 import UnknownIcon from 'cozy-ui/transpiled/react/Icons/Unknow'
 import WalkIcon from 'cozy-ui/transpiled/react/Icons/Walk'
+import WorkIcon from 'cozy-ui/transpiled/react/Icons/Work'
 
 export const modes = [
   AIR_MODE,
@@ -178,13 +180,14 @@ export const modeToColor = mode => {
 
 export const purposes = [
   COMMUTE_PURPOSE,
-  SCHOOL_PURPOSE,
+  WORK_PURPOSE,
   SHOPPING_PURPOSE,
-  MEAL_PURPOSE,
   PERSONALMED_PURPOSE,
+  PICKDROP_PURPOSE,
+  SPORT_PURPOSE,
   EXERCISE_PURPOSE,
   ENTERTAINMENT_PURPOSE,
-  PICKDROP_PURPOSE,
+  TRAVEL_PURPOSE,
   OTHER_PURPOSE
 ]
 
@@ -192,20 +195,22 @@ export const pickPurposeIcon = purpose => {
   switch (purpose) {
     case COMMUTE_PURPOSE:
       return CompanyIcon
-    case SCHOOL_PURPOSE:
-      return SchoolIcon
+    case WORK_PURPOSE:
+      return WorkIcon
     case SHOPPING_PURPOSE:
       return ShopIcon
-    case MEAL_PURPOSE:
-      return RestaurantIcon
+    case TRAVEL_PURPOSE:
+      return MountainIcon
     case PERSONALMED_PURPOSE:
       return PeopleIcon
     case EXERCISE_PURPOSE:
       return FitnessIcon
     case ENTERTAINMENT_PURPOSE:
-      return MountainIcon
+      return CocktailIcon
     case PICKDROP_PURPOSE:
       return RestoreIcon
+    case SPORT_PURPOSE:
+      return SportBagIcon
     case OTHER_PURPOSE:
       return MovementIcon
     default:
@@ -218,11 +223,11 @@ export const purposeToColor = purpose => {
   switch (purpose) {
     case COMMUTE_PURPOSE:
       return '#BA5AE8'
-    case SCHOOL_PURPOSE:
+    case WORK_PURPOSE:
       return '#8978FF'
     case SHOPPING_PURPOSE:
       return '#FF7B5E'
-    case MEAL_PURPOSE:
+    case TRAVEL_PURPOSE:
       return '#15CACD'
     case PERSONALMED_PURPOSE:
       return '#1CAAE8'
@@ -232,6 +237,8 @@ export const purposeToColor = purpose => {
       return '#F85AA8'
     case PICKDROP_PURPOSE:
       return '#C78542'
+    case SPORT_PURPOSE:
+      return '#B3BF26'
     case OTHER_PURPOSE:
       return '#A4A7AC'
     default:
