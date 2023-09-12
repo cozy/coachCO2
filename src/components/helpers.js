@@ -49,6 +49,7 @@ import {
   MOTO_CATEGORY
 } from 'src/constants'
 
+import log from 'cozy-logger'
 import BikeIcon from 'cozy-ui/transpiled/react/Icons/Bike'
 import BusIcon from 'cozy-ui/transpiled/react/Icons/Bus'
 import CarIcon from 'cozy-ui/transpiled/react/Icons/Car'
@@ -128,11 +129,12 @@ export const pickModeIcon = mode => {
     case WALKING_MODE:
       return WalkIcon
     default:
-      return UnknownIcon
+      log('info', `Unknown mode ${mode}`, 'pickModeIcon')
+      return pickModeIcon(UNKNOWN_MODE)
   }
 }
 
-export const modeToColor = (mode = UNKNOWN_MODE) => {
+export const modeToColor = mode => {
   switch (mode) {
     case AIR_MODE:
       return '#F05759'
@@ -169,7 +171,8 @@ export const modeToColor = (mode = UNKNOWN_MODE) => {
     case WALKING_MODE:
       return '#21B930'
     default:
-      return '#A4A7AC'
+      log('info', `Unknown mode ${mode}`, 'modeToColor')
+      return modeToColor(UNKNOWN_MODE)
   }
 }
 
@@ -206,11 +209,12 @@ export const pickPurposeIcon = purpose => {
     case OTHER_PURPOSE:
       return MovementIcon
     default:
-      return MovementIcon
+      log('info', `Unknown purpose ${purpose}`, 'pickPurposeIcon')
+      return pickPurposeIcon(OTHER_PURPOSE)
   }
 }
 
-export const purposeToColor = (purpose = OTHER_PURPOSE) => {
+export const purposeToColor = purpose => {
   switch (purpose) {
     case COMMUTE_PURPOSE:
       return '#BA5AE8'
@@ -231,7 +235,8 @@ export const purposeToColor = (purpose = OTHER_PURPOSE) => {
     case OTHER_PURPOSE:
       return '#A4A7AC'
     default:
-      return '#A4A7AC'
+      log('info', `Unknown purpose ${purpose}`, 'purposeToColor')
+      return purposeToColor(OTHER_PURPOSE)
   }
 }
 
@@ -304,7 +309,10 @@ export const modeToCO2PerKm = mode => {
 }
 
 /**
+ * Return the category of a given mode.
  *
+ * @param {string} mode
+ * @returns {string} category
  */
 export const modeToCategory = mode => {
   switch (mode) {
@@ -331,6 +339,7 @@ export const modeToCategory = mode => {
     case MOPED_MODE:
       return MOTO_CATEGORY.name
     default:
-      return null
+      log('info', `Unknown mode ${mode}`, 'modeToCategory')
+      return modeToCategory(UNKNOWN_MODE)
   }
 }

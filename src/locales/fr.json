@@ -275,12 +275,14 @@
       "your_collectivity": "de votre collectivité"
     }
   },
-  "DialogDefaultMode": {
-    "primary": "Définir comme transport par défaut pour cette catégorie ?",
-    "secondary": "Le mode de transport sera automatiquement sélectionné comme par défaut pour tous les futurs trajets détectés pour ce type de transport.",
-    "actions": {
-      "save": "Enregistrer",
-      "cancel": "Annuler"
+  "Modes": {
+    "DefaultDialog": {
+      "primary": "Définir comme transport par défaut pour cette catégorie ?",
+      "secondary": "Le mode de transport sera automatiquement sélectionné comme par défaut pour tous les futurs trajets détectés pour ce type de transport.",
+      "actions": {
+        "save": "Enregistrer",
+        "cancel": "Annuler"
+      }
     }
   }
 }
