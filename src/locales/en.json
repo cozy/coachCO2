@@ -223,7 +223,7 @@
       "workTime_full": "Full time",
       "workTime_part": "Half-time or part-time",
       "workTimePercentage": "Percentage of working time",
-      "compare_progress": "Compare my progress with that %{source}",
+      "compare_progress": "Compare my progress with the group: %{source}",
       "cancel": "Cancel",
       "submit": "Ok",
       "required": "This field is required"
