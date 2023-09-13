@@ -35,16 +35,14 @@ export const PUBLIC_TRANSPORT_CATEGORY = {
   modes: [BUS_MODE, BUS_ELECTRIC_MODE, TRAIN_MODE, SUBWAY_MODE]
 }
 
-// list of available purposes here
-// https://github.com/e-mission/e-mission-phone/blob/f3348aef02c80219b56fac892445cd53ba665669/www/js/diary/list.js#L496
-export const HOME_PURPOSE = 'HOME'
+// list of available purposes
 export const WORK_PURPOSE = 'WORK'
 export const COMMUTE_PURPOSE = 'COMMUTE'
-export const SCHOOL_PURPOSE = 'SCHOOL'
 export const SHOPPING_PURPOSE = 'SHOPPING'
-export const MEAL_PURPOSE = 'MEAL'
+export const TRAVEL_PURPOSE = 'TRAVEL'
 export const PERSONALMED_PURPOSE = 'PERSONAL_MED'
 export const EXERCISE_PURPOSE = 'EXERCISE'
+export const SPORT_PURPOSE = 'SPORT'
 export const ENTERTAINMENT_PURPOSE = 'ENTERTAINMENT'
 export const PICKDROP_PURPOSE = 'PICK_DROP'
 export const OTHER_PURPOSE = 'OTHER_PURPOSE'

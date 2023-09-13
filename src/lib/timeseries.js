@@ -13,12 +13,7 @@ import toPairs from 'lodash/toPairs'
 import uniq from 'lodash/uniq'
 import { modes, purposes } from 'src/components/helpers'
 import { UNKNOWN_MODE, OTHER_PURPOSE } from 'src/constants'
-import {
-  formatDistance,
-  formatCO2,
-  formatCalories,
-  makeCommutePurpose
-} from 'src/lib/helpers'
+import { formatDistance, formatCO2, formatCalories } from 'src/lib/helpers'
 import { computeCO2Section, computeCaloriesSection } from 'src/lib/metrics'
 import {
   getSectionsFromTrip,
@@ -110,9 +105,6 @@ export const computeAggregatedTimeseries = (timeseries, appSetting) => {
       serie,
       'features[1].properties.display_name'
     )
-    const purposeWithCommute = makeCommutePurpose(
-      getManualPurpose(serie) || getAutomaticPurpose(serie)
-    )
 
     return {
       ...timeserie,
@@ -123,7 +115,7 @@ export const computeAggregatedTimeseries = (timeseries, appSetting) => {
         totalCalories: totalSerieCalories,
         startPlaceDisplayName,
         endPlaceDisplayName,
-        purpose: purposeWithCommute,
+        purpose: getManualPurpose(serie) || getAutomaticPurpose(serie),
         modes,
         sections: computedSections
       }
@@ -238,10 +230,9 @@ export const getTimeseriePurpose = timeserie => {
     'aggregation.purpose',
     ''
   ).toUpperCase()
-  const purposeWithCommute = makeCommutePurpose(originalPurpose)
-  const isSupportedPurpose = purposes.includes(purposeWithCommute)
+  const isSupportedPurpose = purposes.includes(originalPurpose)
 
-  return (isSupportedPurpose && purposeWithCommute) || OTHER_PURPOSE
+  return (isSupportedPurpose && originalPurpose) || OTHER_PURPOSE
 }
 
 export const getTimeseriePurposeOld = timeserie => {
