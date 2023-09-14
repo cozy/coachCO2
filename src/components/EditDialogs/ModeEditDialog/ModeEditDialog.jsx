@@ -11,7 +11,7 @@ import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
 
 const ModeEditDialog = ({ section, onClose }) => {
-  const [defaultModeDialog, setDefaultModeDialog] = useState(null)
+  const [defaultMode, setDefaultMode] = useState(null)
   const { t } = useI18n()
   const client = useClient()
   const { timeserie } = useTrip()
@@ -44,7 +44,7 @@ const ModeEditDialog = ({ section, onClose }) => {
   )
 
   const handleActionClick = ({ item }) => {
-    setDefaultModeDialog(item)
+    setDefaultMode(item)
   }
   const options = makeOptions(t, {
     defaultModes,
@@ -63,11 +63,11 @@ const ModeEditDialog = ({ section, onClose }) => {
         isSelected={isSelected}
         options={options}
       />
-      {!!defaultModeDialog && (
+      {!!defaultMode && (
         <DialogDefaultMode
-          item={defaultModeDialog}
-          onClose={() => setDefaultModeDialog(null)}
-          onConfirm={() => handleSelect(defaultModeDialog)}
+          item={defaultMode}
+          onClose={() => setDefaultMode(null)}
+          onConfirm={() => handleSelect(defaultMode)}
         />
       )}
     </>
