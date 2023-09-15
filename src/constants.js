@@ -18,6 +18,11 @@ export const TRAIN_MODE = 'TRAIN'
 export const UNKNOWN_MODE = 'UNKNOWN'
 export const WALKING_MODE = 'WALKING'
 
+// Additional modes, see https://github.com/e-mission/e-mission-server/blob/gis-based-mode-detection/emission/core/wrapper/motionactivity.py
+export const IN_VEHICLE_MODE = 'IN_VEHICLE'
+export const ON_FOOT_MODE = 'ON_FOOT'
+export const RUNNING_MODE = 'RUNNING'
+
 export const BICYCLING_CATEGORY = {
   name: 'BICYCLING_CATEGORY',
   modes: [BICYCLING_MODE, BICYCLING_ELECTRIC_MODE, SCOOTER_ELECTRIC_MODE]
@@ -28,7 +33,13 @@ export const MOTO_CATEGORY = {
 }
 export const CAR_CATEGORY = {
   name: 'CAR_CATEGORY',
-  modes: [CAR_MODE, CAR_ELECTRIC_MODE, CARPOOL_MODE, CARPOOL_ELECTRIC_MODE]
+  modes: [
+    CAR_MODE,
+    IN_VEHICLE_MODE,
+    CAR_ELECTRIC_MODE,
+    CARPOOL_MODE,
+    CARPOOL_ELECTRIC_MODE
+  ]
 }
 export const PUBLIC_TRANSPORT_CATEGORY = {
   name: 'PUBLIC_TRANSPORT_CATEGORY',

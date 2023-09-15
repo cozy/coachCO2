@@ -323,6 +323,10 @@ describe('Aggregation', () => {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
+        IN_VEHICLE: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
         CARPOOL: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
@@ -347,7 +351,15 @@ describe('Aggregation', () => {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
+        ON_FOOT: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
         SCOOTER_ELECTRIC: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
+        RUNNING: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
