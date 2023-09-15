@@ -62,6 +62,7 @@ const ModeEditDialog = ({ section, onClose }) => {
         onSelect={handleSelect}
         isSelected={isSelected}
         options={options}
+        ellipsis={false}
       />
       {!!defaultMode && (
         <DialogDefaultMode
