@@ -47,7 +47,9 @@ export const getFeatureMode = (feature, appSetting) => {
     mode => defaultTransportModeByGroup?.[modeToCategory(mode)] === mode
   )
 
-  const sensedMode = sensedOriginalMode.split('PREDICTEDMODETYPES.')[1]
+  const sensedMode =
+    sensedOriginalMode.split('PREDICTEDMODETYPES.')[1] ||
+    sensedOriginalMode.split('MOTIONTYPES.')[1]
   const isSupportedSensedMode = modes.includes(sensedMode)
 
   return (

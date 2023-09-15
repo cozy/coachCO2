@@ -149,4 +149,22 @@ describe('getFeatureMode', () => {
 
     expect(result).toBe('UNKNOWN')
   })
+
+  it('should return the sensed mode for both prefix', () => {
+    let result = getFeatureMode({
+      properties: {
+        sensed_mode: 'PredictedModeTypes.CAR'
+      }
+    })
+
+    expect(result).toBe('CAR')
+
+    result = getFeatureMode({
+      properties: {
+        sensed_mode: 'MotionTypes.IN_VEHICLE'
+      }
+    })
+
+    expect(result).toBe('IN_VEHICLE')
+  })
 })

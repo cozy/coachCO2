@@ -7,6 +7,9 @@ import {
   SUBWAY_MODE,
   TRAIN_MODE,
   WALKING_MODE,
+  RUNNING_MODE,
+  ON_FOOT_MODE,
+  IN_VEHICLE_MODE,
   UNKNOWN_MODE,
   COMMUTE_PURPOSE,
   WORK_PURPOSE,
@@ -84,6 +87,7 @@ export const modes = [
   BUS_MODE,
   CAR_ELECTRIC_MODE,
   CAR_MODE,
+  IN_VEHICLE_MODE,
   CARPOOL_ELECTRIC_MODE,
   CARPOOL_MODE,
   MOTO_INF_250_MODE,
@@ -92,8 +96,10 @@ export const modes = [
   MOPED_MODE,
   SUBWAY_MODE,
   TRAIN_MODE,
-  UNKNOWN_MODE,
-  WALKING_MODE
+  WALKING_MODE,
+  ON_FOOT_MODE,
+  RUNNING_MODE,
+  UNKNOWN_MODE
 ]
 
 export const pickModeIcon = mode => {
@@ -106,13 +112,14 @@ export const pickModeIcon = mode => {
       return BikeIcon
     case BUS_ELECTRIC_MODE:
       return BusIcon
+    case CAR_MODE:
+    case IN_VEHICLE_MODE:
+      return CarIcon
     case BUS_MODE:
       return BusIcon
     case CAR_ELECTRIC_MODE:
     case CARPOOL_ELECTRIC_MODE:
       return ElectricCarIcon
-    case CAR_MODE:
-      return CarIcon
     case CARPOOL_MODE:
       return CarpoolingIcon
     case MOTO_INF_250_MODE:
@@ -126,10 +133,12 @@ export const pickModeIcon = mode => {
       return SubwayIcon
     case TRAIN_MODE:
       return TrainIcon
+    case WALKING_MODE:
+    case ON_FOOT_MODE:
+    case RUNNING_MODE:
+      return WalkIcon
     case UNKNOWN_MODE:
       return UnknownIcon
-    case WALKING_MODE:
-      return WalkIcon
     default:
       log('info', `Unknown mode ${mode}`, 'pickModeIcon')
       return pickModeIcon(UNKNOWN_MODE)
@@ -153,6 +162,7 @@ export const modeToColor = mode => {
     case CAR_ELECTRIC_MODE:
       return '#FC881C'
     case CAR_MODE:
+    case IN_VEHICLE_MODE:
       return '#FF7B5E'
     case CARPOOL_ELECTRIC_MODE:
       return '#80A5E1'
@@ -171,6 +181,8 @@ export const modeToColor = mode => {
     case UNKNOWN_MODE:
       return '#A4A7AC'
     case WALKING_MODE:
+    case ON_FOOT_MODE:
+    case RUNNING_MODE:
       return '#21B930'
     default:
       log('info', `Unknown mode ${mode}`, 'modeToColor')
@@ -271,6 +283,7 @@ export const getAverageCO2PerKmByMode = mode => {
     case CAR_ELECTRIC_MODE:
       return CAR_ELECTRIC_CO2_KG_PER_KM
     case CAR_MODE:
+    case IN_VEHICLE_MODE:
       return CAR_AVERAGE_CO2_KG_PER_KM
     case CARPOOL_ELECTRIC_MODE:
       return CARPOOL_ELECTRIC_CO2_KG_PER_KM
@@ -291,6 +304,8 @@ export const getAverageCO2PerKmByMode = mode => {
     case UNKNOWN_MODE:
       return UNKNOWN_AVERAGE_CO2_KG_PER_KM
     case WALKING_MODE:
+    case ON_FOOT_MODE:
+    case RUNNING_MODE:
       return WALKING_AVERAGE_CO2_KG_PER_KM
     default:
       return UNKNOWN_AVERAGE_CO2_KG_PER_KM
@@ -325,6 +340,8 @@ export const modeToCategory = mode => {
   switch (mode) {
     case AIR_MODE:
     case WALKING_MODE:
+    case ON_FOOT_MODE:
+    case RUNNING_MODE:
     case UNKNOWN_MODE:
       return null
     case BICYCLING_ELECTRIC_MODE:
@@ -338,6 +355,7 @@ export const modeToCategory = mode => {
       return PUBLIC_TRANSPORT_CATEGORY.name
     case CAR_ELECTRIC_MODE:
     case CAR_MODE:
+    case IN_VEHICLE_MODE:
     case CARPOOL_ELECTRIC_MODE:
     case CARPOOL_MODE:
       return CAR_CATEGORY.name

@@ -47,9 +47,12 @@ import {
   SUBWAY_MODE,
   TRAIN_MODE,
   UNKNOWN_AVERAGE_CO2_KG_PER_KM,
+  IN_VEHICLE_MODE,
   UNKNOWN_MODE,
   WALKING_AVERAGE_CO2_KG_PER_KM,
-  WALKING_MODE
+  WALKING_MODE,
+  ON_FOOT_MODE,
+  RUNNING_MODE
 } from 'src/constants'
 
 /**
@@ -89,6 +92,7 @@ export const computeCO2Section = section => {
       totalCO2 += distance * CAR_ELECTRIC_CO2_KG_PER_KM
       break
     case CAR_MODE:
+    case IN_VEHICLE_MODE:
       // TODO: should depends on the energy type + number of passengers
       totalCO2 += distance * CAR_AVERAGE_CO2_KG_PER_KM
       break
@@ -120,6 +124,8 @@ export const computeCO2Section = section => {
       totalCO2 += distance * UNKNOWN_AVERAGE_CO2_KG_PER_KM
       break
     case WALKING_MODE:
+    case RUNNING_MODE:
+    case ON_FOOT_MODE:
       totalCO2 += distance * WALKING_AVERAGE_CO2_KG_PER_KM
       break
     default:
@@ -151,6 +157,8 @@ export const computeCaloriesSection = section => {
   let MET
   switch (section.mode) {
     case WALKING_MODE:
+    case ON_FOOT_MODE:
+    case RUNNING_MODE:
       if (speed <= SLOW_WALKING_MAX_SPEED) {
         MET = MET_WALKING_SLOW
       } else if (speed <= MEDIUM_WALKING_MAX_SPEED) {
