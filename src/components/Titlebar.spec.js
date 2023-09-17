@@ -4,12 +4,12 @@ import { render } from '@testing-library/react'
 import React from 'react'
 import Titlebar from 'src/components/Titlebar'
 
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
 jest.mock('react-router-dom', () => ({
   useLocation: jest.fn(() => ({ pathname: '' }))
 }))
-jest.mock('cozy-ui/transpiled/react/I18n', () => ({
+jest.mock('cozy-ui/transpiled/react/providers/I18n', () => ({
   useI18n: jest.fn(() => ({ t: jest.fn() }))
 }))
 jest.mock('cozy-ui/transpiled/react/IconButton', () => ({ children }) => (
@@ -18,7 +18,7 @@ jest.mock('cozy-ui/transpiled/react/IconButton', () => ({ children }) => (
 jest.mock('cozy-ui/transpiled/react/MuiCozyTheme', () => ({ children }) => (
   <div data-testid="MuiCozyTheme">{children}</div>
 ))
-jest.mock('cozy-ui/transpiled/react/hooks/useBreakpoints', () =>
+jest.mock('cozy-ui/transpiled/react/providers/Breakpoints', () =>
   jest.fn(() => ({ isMobile: false }))
 )
 jest.mock('cozy-ui/transpiled/react/Typography', () => ({ children }) => (

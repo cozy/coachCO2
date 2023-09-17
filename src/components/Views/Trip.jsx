@@ -7,7 +7,7 @@ import { buildTimeserieQueryById } from 'src/queries/queries'
 
 import { isQueryLoading, useQuery } from 'cozy-client'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
 const Trip = () => {
   const { isMobile } = useBreakpoints()

@@ -16,9 +16,9 @@ import {
 import Titlebar from 'src/components/Titlebar'
 
 import flag from 'cozy-flags'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Label from 'cozy-ui/transpiled/react/Label'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 export const Settings = () => {
   const { t } = useI18n()

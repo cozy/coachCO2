@@ -1,10 +1,10 @@
 import React from 'react'
 import { getDaysToReach } from 'src/components/Goals/BikeGoal/helpers'
 
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import CircleFilledIcon from 'cozy-ui/transpiled/react/Icons/CircleFilled'
 import Typography from 'cozy-ui/transpiled/react/Typography'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const createStyle = isSuccess => ({
   color: isSuccess && 'var(--successColor)'

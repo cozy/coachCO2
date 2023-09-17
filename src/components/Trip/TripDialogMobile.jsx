@@ -5,8 +5,8 @@ import TripDialogMobileContent from 'src/components/Trip/TripDialogMobileContent
 import { getEndPlaceDisplayName, getformattedEndDate } from 'src/lib/timeseries'
 
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Typography from 'cozy-ui/transpiled/react/Typography'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const TripDialogMobile = () => {
   const { f } = useI18n()

@@ -4,16 +4,16 @@ import { render } from '@testing-library/react'
 import React from 'react'
 import PurposeAnalysis from 'src/components/Views/PurposeAnalysis'
 
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
 jest.mock('react-router-dom', () => ({
   useParams: jest.fn().mockReturnValue(() => ({ purpose: '', mode: '' })),
   useNavigate: jest.fn()
 }))
-jest.mock('cozy-ui/transpiled/react/I18n', () => ({
+jest.mock('cozy-ui/transpiled/react/providers/I18n', () => ({
   useI18n: jest.fn(() => ({ t: jest.fn() }))
 }))
-jest.mock('cozy-ui/transpiled/react/hooks/useBreakpoints', () =>
+jest.mock('cozy-ui/transpiled/react/providers/Breakpoints', () =>
   jest.fn(() => ({ isMobile: false }))
 )
 jest.mock('src/components/Titlebar', () => () => <div data-testid="Titlebar" />)

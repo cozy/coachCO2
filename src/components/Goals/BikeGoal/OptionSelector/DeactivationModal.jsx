@@ -5,7 +5,7 @@ import useSettings from 'src/hooks/useSettings'
 
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const DeactivationModal = ({ open, onClose }) => {
   const { t } = useI18n()

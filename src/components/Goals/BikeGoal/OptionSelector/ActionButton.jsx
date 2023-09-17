@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react'
 
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import IconButton from 'cozy-ui/transpiled/react/IconButton'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
 const ActionButton = forwardRef(({ label, onClick }, ref) => {
   const { isMobile } = useBreakpoints()

@@ -4,7 +4,7 @@ import React from 'react'
 import BikeGoalDateSelector from 'src/components/Goals/BikeGoal/DateSelector/BikeGoalDateSelector'
 import BikeGoalOptionSelector from 'src/components/Goals/BikeGoal/OptionSelector/BikeGoalOptionSelector'
 
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
 const createStyles = ({ isMobile }) => ({
   actions: {

@@ -7,7 +7,7 @@ import { bottomSheetSettings } from 'src/components/Trip/TripDialogMobileContent
 import styles from 'src/components/Trip/tripmap.styl'
 import { getGeoJSONData } from 'src/lib/timeseries'
 
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useTheme } from 'cozy-ui/transpiled/react/styles'
 
 const mapPadding = 16

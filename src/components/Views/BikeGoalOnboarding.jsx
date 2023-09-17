@@ -9,9 +9,9 @@ import BikeGoalOnboardingTiming from 'src/components/Goals/BikeGoal/BikeGoalOnbo
 import useSettings from 'src/hooks/useSettings'
 
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import { Stepper } from 'cozy-ui/transpiled/react/Stepper'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const BikeGoalOnboarding = () => {
   const { t } = useI18n()

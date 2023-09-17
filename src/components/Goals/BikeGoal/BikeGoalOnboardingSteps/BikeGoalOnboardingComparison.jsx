@@ -5,13 +5,13 @@ import useSettings from 'src/hooks/useSettings'
 
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import RadioGroup from 'cozy-ui/transpiled/react/RadioGroup'
 import Radio from 'cozy-ui/transpiled/react/Radios'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import StepContent from 'cozy-ui/transpiled/react/StepContent'
 import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
 import Typography from 'cozy-ui/transpiled/react/Typography'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const createStyles = () => ({
   typography: {

@@ -4,7 +4,6 @@ import ActionButton from 'src/components/Goals/BikeGoal/OptionSelector/ActionBut
 import DeactivationModal from 'src/components/Goals/BikeGoal/OptionSelector/DeactivationModal'
 
 import Divider from 'cozy-ui/transpiled/react/Divider'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import DotsIcon from 'cozy-ui/transpiled/react/Icons/Dots'
 import ForbiddenIcon from 'cozy-ui/transpiled/react/Icons/Forbidden'
@@ -13,7 +12,8 @@ import RenameIcon from 'cozy-ui/transpiled/react/Icons/Rename'
 import ActionMenu, {
   ActionMenuItem
 } from 'cozy-ui/transpiled/react/deprecated/ActionMenu'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const createStyles = ({ isMobile }) => ({
   divider: {

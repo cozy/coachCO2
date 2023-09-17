@@ -5,8 +5,8 @@ import useSettings from 'src/hooks/useSettings'
 
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const BikeGoalEdit = ({ itemName, onClose }) => {
   const { t } = useI18n()

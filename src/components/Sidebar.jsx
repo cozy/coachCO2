@@ -2,7 +2,6 @@ import React from 'react'
 import { NavLink as RouterLink } from 'react-router-dom'
 
 import Box from 'cozy-ui/transpiled/react/Box'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import CategoriesIcon from 'cozy-ui/transpiled/react/Icons/Categories'
 import PieChartIcon from 'cozy-ui/transpiled/react/Icons/PieChart'
 import SettingIcon from 'cozy-ui/transpiled/react/Icons/Setting'
@@ -13,6 +12,7 @@ import Nav, {
   genNavLinkForV6
 } from 'cozy-ui/transpiled/react/Nav'
 import UISidebar from 'cozy-ui/transpiled/react/Sidebar'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const NavLink = genNavLinkForV6(RouterLink)
 

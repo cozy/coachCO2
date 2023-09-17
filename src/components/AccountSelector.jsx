@@ -4,9 +4,9 @@ import {
   getAccountLabel
 } from 'src/components/Providers/AccountProvider'
 
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Label from 'cozy-ui/transpiled/react/Label'
 import SelectBox from 'cozy-ui/transpiled/react/SelectBox'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const AccountSelector = props => {
   const { t } = useI18n()

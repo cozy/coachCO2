@@ -4,7 +4,7 @@ import CO2EmissionDaccCompareDialog from 'src/components/DaccManager/CO2Emission
 import DaccManager from 'src/components/DaccManager/DaccManager'
 import useSettings from 'src/hooks/useSettings'
 
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const CO2EmissionDaccManager = () => {
   const { t } = useI18n()

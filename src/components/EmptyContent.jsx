@@ -2,8 +2,8 @@ import React from 'react'
 import EmptySvg from 'src/assets/icons/empty.svg'
 
 import Empty from 'cozy-ui/transpiled/react/Empty'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const EmptyContent = () => {
   const { t } = useI18n()

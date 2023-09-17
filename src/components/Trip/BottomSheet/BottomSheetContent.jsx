@@ -16,10 +16,10 @@ import {
 
 import { BottomSheetItem } from 'cozy-ui/transpiled/react/BottomSheet'
 import Divider from 'cozy-ui/transpiled/react/Divider'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import List from 'cozy-ui/transpiled/react/List'
 import Timeline from 'cozy-ui/transpiled/react/Timeline'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 import RecurringTripItem from './RecurringTripItem'
 

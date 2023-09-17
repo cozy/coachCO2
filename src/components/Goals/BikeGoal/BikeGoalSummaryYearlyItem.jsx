@@ -5,8 +5,8 @@ import {
   countDaysOrDaysToReach
 } from 'src/components/Goals/BikeGoal/helpers'
 
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Typography from 'cozy-ui/transpiled/react/Typography'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const createStyle = ({ timeseriesByYear, preLine }) => ({
   whiteSpace: preLine && 'pre-line',

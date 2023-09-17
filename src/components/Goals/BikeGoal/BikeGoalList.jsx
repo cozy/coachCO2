@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import TripsList from 'src/components/TripsList'
 
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const BikeGoalList = ({ className, timeseries, hasMore, fetchMore }) => {
   const { t } = useI18n()
