@@ -77,7 +77,7 @@ const getSectionFromFeatureColl = (featureCollection, appSetting) => {
       startDate: startDate ? new Date(startDate) : startDate,
       endDate: endDate ? new Date(endDate) : endDate,
       speeds, // in m/s (Array)
-      averageSpeed: speeds ? averageSpeedKmH(speeds) : undefined // in km/h
+      avgSpeed: speeds ? averageSpeedKmH(speeds) : undefined // in km/h
     }
   })
 }

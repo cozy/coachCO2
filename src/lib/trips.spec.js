@@ -42,7 +42,7 @@ describe('getSectionsFromTrip', () => {
 
   it.each`
     trips    | property
-    ${trips} | ${'averageSpeed'}
+    ${trips} | ${'avgSpeed'}
     ${trips} | ${'coordinates'}
     ${trips} | ${'distance'}
     ${trips} | ${'distances'}
