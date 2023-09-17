@@ -52,9 +52,13 @@ export const getFeatureMode = (feature, appSetting) => {
     sensedOriginalMode.split('MOTIONTYPES.')[1]
   const isSupportedSensedMode = modes.includes(sensedMode)
 
+  const defaultMode = modes.find(
+    mode => defaultTransportModeByGroup?.[modeToCategory(sensedMode)] === mode
+  )
+
   return (
     (isSupportedManualMode && manualMode) ||
-    (isSupportedDefaultMode && defaultMode) ||
+    (!!defaultMode && defaultMode) ||
     (isSupportedSensedMode && sensedMode) ||
     UNKNOWN_MODE
   )
