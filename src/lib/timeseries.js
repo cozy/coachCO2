@@ -83,7 +83,7 @@ export const computeAggregatedTimeseries = (timeseries, appSetting) => {
         endDate: section.endDate,
         CO2: computeCO2Section(section),
         calories: computeCaloriesSection(section),
-        avgSpeed: section.averageSpeed,
+        avgSpeed: section.avgSpeed,
         duration: section.duration,
         distance: section.distance,
         mode: section.mode,

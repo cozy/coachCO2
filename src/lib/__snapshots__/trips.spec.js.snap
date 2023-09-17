@@ -3,7 +3,7 @@
 exports[`getSectionsFromTrip should return correct sections 1`] = `
 Array [
   Object {
-    "averageSpeed": 16.158880604162004,
+    "avgSpeed": 16.158880604162004,
     "coordinates": Array [
       Array [
         2.31251,
@@ -41,7 +41,7 @@ Array [
     ],
   },
   Object {
-    "averageSpeed": 0.3289624723613862,
+    "avgSpeed": 0.3289624723613862,
     "coordinates": Array [
       Array [
         2.31251,
@@ -79,7 +79,7 @@ Array [
     ],
   },
   Object {
-    "averageSpeed": 2.9874387058354404,
+    "avgSpeed": 2.9874387058354404,
     "coordinates": Array [
       Array [
         2.31251,
