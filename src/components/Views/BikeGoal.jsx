@@ -9,7 +9,7 @@ import {
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll, useQuery } from 'cozy-client'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
 const Bikegoal = () => {
   const { account, isAccountLoading } = useAccountContext()

@@ -5,7 +5,7 @@ import Titlebar from 'src/components/Titlebar'
 
 import { useClient } from 'cozy-client'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
 const SpinnerOrEmptyContent = ({
   account,

@@ -6,8 +6,6 @@ import ExportIcon from 'src/assets/icons/icon-export.svg'
 
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-import CozyTheme from 'cozy-ui/transpiled/react/CozyTheme'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import List from 'cozy-ui/transpiled/react/List'
 import ListItem from 'cozy-ui/transpiled/react/ListItem'
@@ -15,6 +13,8 @@ import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import Paper from 'cozy-ui/transpiled/react/Paper'
 import Typography from 'cozy-ui/transpiled/react/Typography'
+import CozyTheme from 'cozy-ui/transpiled/react/providers/CozyTheme'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const DaccPermissionsDialog = ({
   sharedDataLabel,

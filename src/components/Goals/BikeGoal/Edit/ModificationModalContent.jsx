@@ -4,7 +4,6 @@ import { getSource } from 'src/components/Goals/BikeGoal/helpers'
 import useSettings from 'src/hooks/useSettings'
 
 import Divider from 'cozy-ui/transpiled/react/Divider'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import BottomIcon from 'cozy-ui/transpiled/react/Icons/Bottom'
 import ClockOutlineIcon from 'cozy-ui/transpiled/react/Icons/ClockOutline'
@@ -19,6 +18,7 @@ import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import Switch from 'cozy-ui/transpiled/react/Switch'
 import Typography from 'cozy-ui/transpiled/react/Typography'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const ModificationModalContent = () => {
   const { t } = useI18n()

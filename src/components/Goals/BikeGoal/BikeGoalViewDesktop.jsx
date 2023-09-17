@@ -8,7 +8,7 @@ import BikeGoalList from 'src/components/Goals/BikeGoal/BikeGoalList'
 import Titlebar from 'src/components/Titlebar'
 import { filterTimeseriesByYear } from 'src/lib/timeseries'
 
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const BikeGoalViewDesktop = ({
   timeseries,

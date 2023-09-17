@@ -4,9 +4,9 @@ import React from 'react'
 import Alert from 'cozy-ui/transpiled/react/Alert'
 import AlertTitle from 'cozy-ui/transpiled/react/AlertTitle'
 import Button from 'cozy-ui/transpiled/react/Buttons'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import LightbulbIcon from 'cozy-ui/transpiled/react/Icons/Lightbulb'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 import { getBountyAmount, getDaysToReach } from './helpers'
 

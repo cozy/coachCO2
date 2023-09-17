@@ -11,10 +11,10 @@ import {
 } from 'src/lib/timeseries'
 
 import Box from 'cozy-ui/transpiled/react/Box'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import List from 'cozy-ui/transpiled/react/List'
 import PieChart from 'cozy-ui/transpiled/react/PieChart'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const LoadedPurposesList = ({ timeseries }) => {
   const { purpose } = useParams()

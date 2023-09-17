@@ -8,8 +8,8 @@ import useSettings from 'src/hooks/useSettings'
 import { buildOneYearOldTimeseriesWithAggregationByAccountId } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 import { useTheme } from 'cozy-ui/transpiled/react/styles'
 
 const CO2EmissionsChart = () => {

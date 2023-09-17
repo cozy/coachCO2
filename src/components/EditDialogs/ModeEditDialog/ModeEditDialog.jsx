@@ -7,7 +7,7 @@ import { useTrip } from 'src/components/Providers/TripProvider'
 import { buildSettingsQuery } from 'src/queries/queries'
 
 import { useClient, useQuery } from 'cozy-client'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
 
 const ModeEditDialog = ({ section, onClose }) => {

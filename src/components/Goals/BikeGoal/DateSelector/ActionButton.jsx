@@ -5,7 +5,7 @@ import Button from 'cozy-ui/transpiled/react/Buttons'
 import DropdownButton from 'cozy-ui/transpiled/react/DropdownButton'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import BottomIcon from 'cozy-ui/transpiled/react/Icons/Bottom'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
 const ActionButton = forwardRef(({ label, onClick }, ref) => {
   const { isMobile } = useBreakpoints()

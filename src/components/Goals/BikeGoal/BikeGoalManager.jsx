@@ -12,9 +12,9 @@ import {
 
 import { isQueryLoading, useQuery, useQueryAll } from 'cozy-client'
 import Divider from 'cozy-ui/transpiled/react/Divider'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Typography from 'cozy-ui/transpiled/react/Typography'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const style = {
   divider: {

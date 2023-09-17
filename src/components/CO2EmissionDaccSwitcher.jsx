@@ -2,9 +2,9 @@ import React from 'react'
 import useSettings from 'src/hooks/useSettings'
 
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Switch from 'cozy-ui/transpiled/react/Switch'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
 const useStyles = makeStyles(() => ({

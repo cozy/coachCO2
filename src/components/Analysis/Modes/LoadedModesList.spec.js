@@ -11,7 +11,7 @@ import {
   transformTimeseriesToTrips
 } from 'src/lib/timeseries'
 
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 jest.mock('src/components/TripsList', () => () => (
   <div data-testid="TripsList" />
@@ -21,10 +21,10 @@ jest.mock('react-router-dom', () => ({
 }))
 jest.mock('src/components/Analysis/helpers')
 jest.mock('src/lib/timeseries')
-jest.mock('cozy-ui/transpiled/react/hooks/useBreakpoints', () => () => ({
+jest.mock('cozy-ui/transpiled/react/providers/Breakpoints', () => () => ({
   isMobile: false
 }))
-jest.mock('cozy-ui/transpiled/react/I18n')
+jest.mock('cozy-ui/transpiled/react/providers/I18n')
 jest.mock(
   'src/components/Analysis/AnalysisListItem',
   () =>

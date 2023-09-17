@@ -3,9 +3,9 @@ import React from 'react'
 
 import Banner from 'cozy-ui/transpiled/react/Banner'
 import Button from 'cozy-ui/transpiled/react/Buttons'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import LightbulbIcon from 'cozy-ui/transpiled/react/Icons/Lightbulb'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const CO2EmissionDaccBanner = ({ onDiscard, onAccept }) => {
   const { t } = useI18n()

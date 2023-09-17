@@ -170,7 +170,7 @@ export const makeOptions = (t, { defaultModes, action } = {}) => {
         )
       }),
       makeOption(t, AIR_MODE, { withInfo: true }),
-      makeOption(t, UNKNOWN_MODE)
+      makeOption(t, UNKNOWN_MODE, { withInfo: true })
     ]
   }
 }

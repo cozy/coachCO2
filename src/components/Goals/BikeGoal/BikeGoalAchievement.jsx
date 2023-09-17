@@ -7,11 +7,11 @@ import BikeGoalSummaryYearlyItem from 'src/components/Goals/BikeGoal/BikeGoalSum
 import { isGoalCompleted } from 'src/components/Goals/BikeGoal/helpers'
 
 import Chip from 'cozy-ui/transpiled/react/Chips'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import FileOutlineIcon from 'cozy-ui/transpiled/react/Icons/FileOutline'
 import Typography from 'cozy-ui/transpiled/react/Typography'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const style = {
   BikeGoalSummaryItem: {

@@ -10,7 +10,7 @@ import IconButton from 'cozy-ui/transpiled/react/IconButton'
 import Previous from 'cozy-ui/transpiled/react/Icons/Previous'
 import MuiCozyTheme from 'cozy-ui/transpiled/react/MuiCozyTheme'
 import Typography from 'cozy-ui/transpiled/react/Typography'
-import useBreakpoints from 'cozy-ui/transpiled/react/hooks/useBreakpoints'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
 const Titlebar = ({ label, subtitle, onBack }) => {
   const { isMobile } = useBreakpoints()

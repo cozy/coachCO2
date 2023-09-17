@@ -7,7 +7,7 @@ import { uploadFile } from 'src/lib/exportTripsToCSV'
 import { buildTimeseriesQueryByAccountIdAndDate } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll, useClient } from 'cozy-client'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const useExportTripsToCSV = () => {
   const { t } = useI18n()

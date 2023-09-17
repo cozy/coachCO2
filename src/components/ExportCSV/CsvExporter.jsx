@@ -2,8 +2,8 @@ import React, { memo, useState } from 'react'
 import ExportDialog from 'src/components/ExportCSV/ExportDialog'
 
 import Buttons from 'cozy-ui/transpiled/react/Buttons'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Label from 'cozy-ui/transpiled/react/Label'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 export const CsvExporter = ({ accountName, ...props }) => {
   const { t } = useI18n()
