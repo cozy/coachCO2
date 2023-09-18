@@ -30,6 +30,7 @@
       "BUS": "Bus",
       "CAR_ELECTRIC": "Electric car",
       "CAR": "Car",
+      "IN_VEHICLE": "Vehicle",
       "CARPOOL_ELECTRIC": "Electric carpooling",
       "CARPOOL": "Carpooling",
       "MOTO_INF_250": "Moto < 250cm3",
@@ -40,6 +41,8 @@
       "TRAIN": "Train",
       "UNKNOWN": "Unknown",
       "WALKING": "Walking",
+      "ON_FOOT": "Walking",
+      "RUNNING": "Running",
       "categories": {
         "BICYCLING_CATEGORY": "Bike, scooter",
         "CAR_CATEGORY": "Car",
