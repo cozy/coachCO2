@@ -13,7 +13,8 @@ import {
   ACCOUNTS_DOCTYPE,
   SETTINGS_DOCTYPE,
   CONTACTS_DOCTYPE,
-  FILES_DOCTYPE
+  FILES_DOCTYPE,
+  KONNECTORS_DOCTYPE
 } from 'src/doctypes'
 
 import CozyClient, { Q } from 'cozy-client'
@@ -355,5 +356,13 @@ export const buildFileQueryById = fileId => ({
   options: {
     as: `${FILES_DOCTYPE}/${fileId}`,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(neverReload)
+  }
+})
+
+export const buildOpenPathKonnectorQuery = () => ({
+  definition: Q('io.cozy.konnectors').getById('openpath'),
+  options: {
+    as: `${KONNECTORS_DOCTYPE}/openpath`,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
