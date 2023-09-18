@@ -30,6 +30,7 @@
       "BUS": "Bus",
       "CAR_ELECTRIC": "Voiture électrique",
       "CAR": "Voiture",
+      "IN_VEHICLE": "Véhicule",
       "CARPOOL_ELECTRIC": "Covoiturage électrique",
       "CARPOOL": "Covoiturage",
       "MOTO_INF_250": "Moto < 250cm3",
@@ -40,6 +41,8 @@
       "TRAIN": "Train",
       "UNKNOWN": "Non reconnu",
       "WALKING": "Marche",
+      "ON_FOOT": "Marche",
+      "RUNNING": "Course",
       "categories": {
         "BICYCLING_CATEGORY": "Vélo, trotinette",
         "CAR_CATEGORY": "Voiture",
