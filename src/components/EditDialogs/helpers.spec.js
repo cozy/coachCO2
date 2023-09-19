@@ -3,7 +3,6 @@ import {
   AIR_MODE,
   BICYCLING_CATEGORY,
   CAR_CATEGORY,
-  MOTO_CATEGORY,
   PUBLIC_TRANSPORT_CATEGORY,
   UNKNOWN_MODE,
   WALKING_MODE
@@ -42,15 +41,6 @@ describe('makeOptions', () => {
       expect(bicyclingCategory.children.length).toBe(
         BICYCLING_CATEGORY.modes.length
       )
-    })
-
-    it('returns an object with children array containing moto category', () => {
-      const options = makeOptions(t)
-      const motoCategory = options.children.find(
-        option => option.id === `categories.${MOTO_CATEGORY.name}`
-      )
-      expect(motoCategory).toBeDefined()
-      expect(motoCategory.children.length).toBe(MOTO_CATEGORY.modes.length)
     })
 
     it('returns an object with children array containing car category', () => {

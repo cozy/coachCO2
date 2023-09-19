@@ -49,8 +49,7 @@ import {
   MOTO_SUP_250_CO2_KG_PER_KM,
   BICYCLING_CATEGORY,
   PUBLIC_TRANSPORT_CATEGORY,
-  CAR_CATEGORY,
-  MOTO_CATEGORY
+  CAR_CATEGORY
 } from 'src/constants'
 
 import log from 'cozy-logger'
@@ -358,11 +357,10 @@ export const modeToCategory = mode => {
     case IN_VEHICLE_MODE:
     case CARPOOL_ELECTRIC_MODE:
     case CARPOOL_MODE:
-      return CAR_CATEGORY.name
     case MOTO_INF_250_MODE:
     case MOTO_SUP_250_MODE:
     case MOPED_MODE:
-      return MOTO_CATEGORY.name
+      return CAR_CATEGORY.name
     default:
       log('info', `Unknown mode ${mode}`, 'modeToCategory')
       return modeToCategory(UNKNOWN_MODE)
