@@ -49,7 +49,9 @@ import {
   MOTO_SUP_250_CO2_KG_PER_KM,
   BICYCLING_CATEGORY,
   PUBLIC_TRANSPORT_CATEGORY,
-  CAR_CATEGORY
+  CAR_CATEGORY,
+  PLANE_CO2_KG_PER_KM_SHORT,
+  PLANE_CO2_KG_PER_KM_LONG
 } from 'src/constants'
 
 import log from 'cozy-logger'
@@ -318,6 +320,20 @@ export const getAverageCO2PerKmByMode = mode => {
  */
 const makeKgToGram = value => {
   return parseFloat(value) * 1000
+}
+
+/**
+ * Returns the CO2 emission in gram per km for a given mode.
+ * @param {string} mode
+ * @returns {string} CO2 emission in gram per km formatted
+ */
+export const formattedModeToCO2PerKm = mode => {
+  if (mode === AIR_MODE) {
+    return `(${makeKgToGram(PLANE_CO2_KG_PER_KM_LONG)}~${makeKgToGram(
+      PLANE_CO2_KG_PER_KM_SHORT
+    )}) g/km`
+  }
+  return `${modeToCO2PerKm(mode)} g/km`
 }
 
 /**
