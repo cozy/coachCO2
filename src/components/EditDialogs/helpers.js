@@ -162,11 +162,7 @@ export const makeOptions = (t, { defaultModes, action } = {}) => {
       makeOption(t, `categories.${PUBLIC_TRANSPORT_CATEGORY.name}`, {
         icon: BUS_MODE,
         children: PUBLIC_TRANSPORT_CATEGORY.modes.map(mode =>
-          makeOption(t, mode, {
-            withDescription: true,
-            action,
-            defaultModes
-          })
+          makeOption(t, mode, { withDescription: true })
         )
       }),
       makeOption(t, AIR_MODE, { withInfo: true }),
