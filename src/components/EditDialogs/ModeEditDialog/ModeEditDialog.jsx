@@ -67,7 +67,7 @@ const ModeEditDialog = ({ section, onClose }) => {
         <DialogDefaultMode
           item={defaultMode}
           onClose={() => setDefaultMode(null)}
-          onConfirm={() => handleSelect(defaultMode)}
+          onConfirm={onClose}
         />
       )}
     </>
