@@ -1,5 +1,5 @@
 import { ModeAvatar } from 'src/components/Avatar'
-import { modeToCO2PerKm } from 'src/components/helpers'
+import { formattedModeToCO2PerKm } from 'src/components/helpers'
 import {
   AIR_MODE,
   BICYCLING_CATEGORY,
@@ -116,9 +116,9 @@ const makeOption = (t, mode, opts = {}) => {
     isChecked: false,
     icon: ModeAvatar({ attribute: icon || mode, defaultColor: true }),
     ...(withDescription && {
-      description: `${modeToCO2PerKm(mode)} g/km`
+      description: formattedModeToCO2PerKm(mode)
     }),
-    ...(withInfo && { info: `${modeToCO2PerKm(mode)} g/km` }),
+    ...(withInfo && { info: formattedModeToCO2PerKm(mode) }),
     ...(action && { action }),
     ...(children && { children })
   }
