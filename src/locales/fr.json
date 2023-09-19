@@ -45,8 +45,7 @@
       "RUNNING": "Course",
       "categories": {
         "BICYCLING_CATEGORY": "Vélo, trotinette",
-        "CAR_CATEGORY": "Voiture",
-        "MOTO_CATEGORY": "Moto, scooter",
+        "CAR_CATEGORY": "Voiture, moto, scooter",
         "PUBLIC_TRANSPORT_CATEGORY": "Transports en commun"
       }
     },

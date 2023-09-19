@@ -45,8 +45,7 @@
       "RUNNING": "Running",
       "categories": {
         "BICYCLING_CATEGORY": "Bike, scooter",
-        "CAR_CATEGORY": "Car",
-        "MOTO_CATEGORY": "Motorcycle, moped",
+        "CAR_CATEGORY": "Car, motorcycle, moped",
         "PUBLIC_TRANSPORT_CATEGORY": "Transports en commun"
       }
     },

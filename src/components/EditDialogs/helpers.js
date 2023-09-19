@@ -7,10 +7,8 @@ import {
   BUS_MODE,
   CAR_CATEGORY,
   CAR_MODE,
-  MOTO_CATEGORY,
   PUBLIC_TRANSPORT_CATEGORY,
   RECURRING_PURPOSES_SERVICE_NAME,
-  MOPED_MODE,
   UNKNOWN_MODE,
   WALKING_MODE
 } from 'src/constants'
@@ -144,16 +142,6 @@ export const makeOptions = (t, { defaultModes, action } = {}) => {
       makeOption(t, `categories.${BICYCLING_CATEGORY.name}`, {
         icon: BICYCLING_MODE,
         children: BICYCLING_CATEGORY.modes.map(mode =>
-          makeOption(t, mode, {
-            withDescription: true,
-            action,
-            defaultModes
-          })
-        )
-      }),
-      makeOption(t, `categories.${MOTO_CATEGORY.name}`, {
-        icon: MOPED_MODE,
-        children: MOTO_CATEGORY.modes.map(mode =>
           makeOption(t, mode, {
             withDescription: true,
             action,
