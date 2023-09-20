@@ -7,8 +7,8 @@ import { useTrip } from 'src/components/Providers/TripProvider'
 import { buildSettingsQuery } from 'src/queries/queries'
 
 import { useClient, useQuery } from 'cozy-client'
-import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const ModeEditDialog = ({ section, onClose }) => {
   const [defaultMode, setDefaultMode] = useState(null)
@@ -29,13 +29,12 @@ const ModeEditDialog = ({ section, onClose }) => {
       const newTimeserie = createGeojsonWithModifiedMode({
         timeserie,
         sectionId: section.id,
-        mode: item.id,
-        appSetting
+        mode: item.id
       })
       await client.save(newTimeserie)
       onClose()
     },
-    [client, timeserie, onClose, section.id, appSetting]
+    [client, timeserie, onClose, section.id]
   )
 
   const isSelected = useMemo(

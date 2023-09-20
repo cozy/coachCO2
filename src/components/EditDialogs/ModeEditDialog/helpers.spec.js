@@ -1,6 +1,32 @@
 import { createGeojsonWithModifiedMode } from './helpers'
 
 const timeserie = {
+  aggregation: {
+    sections: [
+      {
+        CO2: 0,
+        avgSpeed: 5,
+        calories: 1200,
+        distance: 1234,
+        duration: 302,
+        endDate: '2023-12-07T20:15:26.000Z',
+        id: 'sectionId1',
+        mode: 'WALKING',
+        startDate: '2023-12-07T19:55:04.759Z'
+      },
+      {
+        CO2: 0,
+        avgSpeed: 4,
+        calories: 3600,
+        distance: 3690,
+        duration: 702,
+        endDate: '2023-12-07T20:15:26.000Z',
+        id: 'sectionId2',
+        mode: 'WALKING',
+        startDate: '2023-12-07T19:55:04.759Z'
+      }
+    ]
+  },
   series: [
     {
       type: 'FeatureCollection',
