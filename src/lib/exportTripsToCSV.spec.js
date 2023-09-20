@@ -28,7 +28,7 @@ describe('uploadFile', () => {
   const t = jest.fn()
   const mockClient = (mockData = []) => {
     const client = {
-      query: jest.fn(() => ({
+      fetchQueryAndGetFromState: jest.fn(() => ({
         data: [mockData]
       }))
     }
