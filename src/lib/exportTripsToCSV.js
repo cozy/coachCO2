@@ -49,10 +49,8 @@ export const convertTripsToCSV = tripsData => {
  * @returns {object}
  */
 export const makeTripsForExport = async (client, trips) => {
-  const settingsQuery = buildSettingsQuery()
-  const { data: settings } = await client.query(
-    settingsQuery.definition,
-    settingsQuery.options
+  const { data: settings } = await client.fetchQueryAndGetFromState(
+    buildSettingsQuery()
   )
   const appSetting = settings?.[0] || {}
 
