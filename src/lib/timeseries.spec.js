@@ -27,8 +27,10 @@ import {
   setManualPurpose,
   countUniqDays,
   getEarliestTimeserie,
-  filterTimeseriesByYear
+  filterTimeseriesByYear,
+  updateSectionMode
 } from 'src/lib/timeseries'
+import { getSectionsFromTrip } from 'src/lib/trips'
 import { mockF } from 'test/lib/I18n'
 import {
   mockTimeserie,
@@ -187,7 +189,49 @@ describe('Aggregation', () => {
     mockTimeserie('timeserieId02', [serie02])
   ]
 
-  const aggregatedTimeseries = computeAggregatedTimeseries(timeseries)
+  const makeSectionFromServiceMock = timeserie => {
+    const serie = timeserie.series[0]
+    return getSectionsFromTrip(serie)
+  }
+
+  const aggregatedTimeseries = computeAggregatedTimeseries(
+    timeseries,
+    makeSectionFromServiceMock
+  )
+
+  describe('updateSectionMode', () => {
+    it('should update section mode', () => {
+      const timeserie = {
+        aggregation: {
+          sections: [
+            {
+              id: 'sectionId01',
+              mode: 'BICYCLE'
+            },
+            {
+              id: 'sectionId02',
+              mode: 'WALK'
+            }
+          ]
+        }
+      }
+      const result = updateSectionMode({
+        timeserie,
+        sectionId: 'sectionId01',
+        mode: 'WALK'
+      })
+      expect(result).toEqual([
+        {
+          id: 'sectionId01',
+          mode: 'WALK'
+        },
+        {
+          id: 'sectionId02',
+          mode: 'WALK'
+        }
+      ])
+    })
+  })
 
   describe('computeAggregatedTimeseries', () => {
     it('should return same number of entities', () => {
@@ -242,8 +286,8 @@ describe('Aggregation', () => {
         sections: [
           { id: 'CarFeature02', calories: 0 },
           { id: 'CarFeature02', calories: 0 },
-          { id: 'WalkingFeature01', calories: 23.388749999999998 },
-          { id: 'WalkingFeature01', calories: 23.388749999999998 }
+          { id: 'WalkingFeature01', calories: 81.860625 },
+          { id: 'WalkingFeature01', calories: 81.860625 }
         ]
       })
     })
@@ -269,7 +313,7 @@ describe('Aggregation', () => {
         totalCalories: 0
       })
       expect(aggregatedTimeseries[1].aggregation).toMatchObject({
-        totalCalories: 46.777499999999996
+        totalCalories: 163.72125
       })
     })
     it('should have the start/end display names in the timeseries aggregates', () => {

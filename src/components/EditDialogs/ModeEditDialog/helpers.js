@@ -1,6 +1,9 @@
 import cloneDeep from 'lodash/cloneDeep'
 import set from 'lodash/set'
-import { computeAggregatedTimeseries } from 'src/lib/timeseries'
+import {
+  computeAggregatedTimeseries,
+  updateSectionMode
+} from 'src/lib/timeseries'
 
 /**
  * Create a new timeserie with the section mode updated
@@ -13,8 +16,7 @@ import { computeAggregatedTimeseries } from 'src/lib/timeseries'
 export const createGeojsonWithModifiedMode = ({
   timeserie,
   sectionId,
-  mode,
-  appSetting
+  mode
 }) => {
   const matchedSection = timeserie.series
     .flatMap((serie, serieIndex) => {
@@ -49,9 +51,12 @@ export const createGeojsonWithModifiedMode = ({
       `series[${serieIndex}].features[${firstIndex}].features[${secondIndex}]`,
       modifiedFeature
     )
+    const makeSections = timeserie => {
+      return updateSectionMode({ timeserie, sectionId, mode })
+    }
     const timeserieWithUpdatedAggregation = computeAggregatedTimeseries(
       [updatedTimeserie],
-      appSetting
+      makeSections
     )[0]
     return timeserieWithUpdatedAggregation
   }

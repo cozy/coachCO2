@@ -15,11 +15,7 @@ import { modes, purposes } from 'src/components/helpers'
 import { UNKNOWN_MODE, OTHER_PURPOSE } from 'src/constants'
 import { formatDistance, formatCO2, formatCalories } from 'src/lib/helpers'
 import { computeCO2Section, computeCaloriesSection } from 'src/lib/metrics'
-import {
-  getSectionsFromTrip,
-  getManualPurpose,
-  getAutomaticPurpose
-} from 'src/lib/trips'
+import { getManualPurpose, getAutomaticPurpose } from 'src/lib/trips'
 
 export const collectFeaturesByOid = geojson => {
   const res = {}
@@ -62,12 +58,36 @@ export const transformTimeseriesToTrips = timeseries => {
 }
 
 /**
+ * Update section of aggregated timeseries with new mode
+ * @param {object} opts - Object with sectionId and mode
+ * @param {object} opts.timeserie - Current timeserie
+ * @param {string} opts.sectionId - The section id to be updated
+ * @param {string} opts.mode - The mode to be updated
+ * @returns {array} The updated sections
+ */
+export const updateSectionMode = ({ timeserie, sectionId, mode }) => {
+  const { sections: currentSections } = timeserie.aggregation
+
+  const currentSection = currentSections.find(
+    section => section.id === sectionId
+  )
+  const currentSectionUpdated = Object.assign({}, currentSection, {
+    mode
+  })
+  const currentSectionsUpdated = currentSections.map(section =>
+    section.id === sectionId ? currentSectionUpdated : section
+  )
+
+  return currentSectionsUpdated
+}
+
+/**
  * Add aggregates for all timeseries by computing section's data
  * @param {array} timeseries - Timeseries to be aggregated
- * @param {object} appSetting - The app settings
+ * @param {Function} makeSection - Callback to get sections from timeserie
  * @returns {array} The aggregated timeseries
  */
-export const computeAggregatedTimeseries = (timeseries, appSetting) => {
+export const computeAggregatedTimeseries = (timeseries, makeSections) => {
   const aggregatedTimeseries = timeseries.map(timeserie => {
     const serie = timeserie.series[0]
     let totalSerieCO2 = 0
@@ -75,7 +95,7 @@ export const computeAggregatedTimeseries = (timeseries, appSetting) => {
     let totalSerieDuration = 0
     let totalSerieCalories = 0
     const modes = []
-    const sections = getSectionsFromTrip(serie, appSetting)
+    const sections = makeSections(timeserie)
 
     const computedSections = sections.map(section => {
       const summarySection = {

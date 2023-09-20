@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 import schema from 'src/doctypes'
 import { computeAggregatedTimeseries } from 'src/lib/timeseries'
+import { getSectionsFromTrip } from 'src/lib/trips'
 import {
   buildSettingsQuery,
   buildTimeseriesWithoutAggregation
@@ -35,8 +36,16 @@ const migrateTimeSeriesWithoutAggregation = async () => {
   }
   log('info', `Found ${resp.data.length} timeseries to migrate...`)
 
+  const makeSections = timeserie => {
+    const serie = timeserie.series[0]
+    return getSectionsFromTrip(serie, appSetting)
+  }
+
   // Compute aggregation for all retrieved timeseries
-  const migratedTimeseries = computeAggregatedTimeseries(resp.data, appSetting)
+  const migratedTimeseries = computeAggregatedTimeseries(
+    resp.data,
+    makeSections
+  )
 
   // Save the migrated timeseries
   for (const timeserie of migratedTimeseries) {
