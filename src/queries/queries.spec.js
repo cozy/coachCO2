@@ -129,18 +129,51 @@ describe('buildBikeCommuteTimeseriesQueryByAccountId', () => {
       false
     )
 
-    expect(query).toMatchObject({
+    expect(query).toEqual({
       definition: {
-        selector: {
+        bookmark: undefined,
+        cursor: undefined,
+        doctype: 'io.cozy.timeseries.geojson',
+        fields: [
+          'startDate',
+          'endDate',
+          'aggregation',
+          'aggregation.modes',
+          'aggregation.purpose',
+          'cozyMetadata.sourceAccount'
+        ],
+        id: undefined,
+        ids: undefined,
+        includes: undefined,
+        indexedFields: ['cozyMetadata.sourceAccount', 'startDate'],
+        limit: 1000,
+        partialFilter: {
           'aggregation.modes': {
-            $elemMatch: {
-              $eq: 'BICYCLING'
-            }
+            $in: ['BICYCLING', 'BICYCLING_ELECTRIC', 'SCOOTER_ELECTRIC']
           },
-          'aggregation.purpose': 'COMMUTE',
+          'aggregation.purpose': 'COMMUTE'
+        },
+        referenced: undefined,
+        selector: {
           'cozyMetadata.sourceAccount': 'accountId',
-          startDate: { $gt: null }
-        }
+          startDate: {
+            $gt: null
+          }
+        },
+        skip: undefined,
+        sort: [
+          {
+            'cozyMetadata.sourceAccount': 'desc'
+          },
+          {
+            startDate: 'desc'
+          }
+        ]
+      },
+      options: {
+        as: 'io.cozy.timeseries.geojson/sourceAccount/accountId/BikeCommute/',
+        enabled: false,
+        fetchPolicy: expect.any(Function)
       }
     })
   })
