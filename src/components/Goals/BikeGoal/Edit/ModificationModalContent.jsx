@@ -124,7 +124,7 @@ const ModificationModalContent = () => {
           </>
         )}
 
-        <ListItem button onClick={handleSendToDACC}>
+        <ListItem ellipsis={false} button onClick={handleSendToDACC}>
           <ListItemIcon>
             <Icon icon={CompareIcon} />
           </ListItemIcon>
