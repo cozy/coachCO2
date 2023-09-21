@@ -1,7 +1,13 @@
 import endOfMonth from 'date-fns/endOfMonth'
 import startOfMonth from 'date-fns/startOfMonth'
 import subYears from 'date-fns/subYears'
-import { TRIPS_DISTANCE_SIMILARITY_RATIO, BICYCLING_MODE } from 'src/constants'
+import {
+  TRIPS_DISTANCE_SIMILARITY_RATIO,
+  BICYCLING_MODE,
+  BICYCLING_ELECTRIC_MODE,
+  SCOOTER_ELECTRIC_MODE,
+  COMMUTE_PURPOSE
+} from 'src/constants'
 import {
   GEOJSON_DOCTYPE,
   ACCOUNTS_DOCTYPE,
@@ -178,12 +184,16 @@ export const buildBikeCommuteTimeseriesQueryByAccountId = (
   enabled
 ) => {
   return {
-    definition: Q('io.cozy.timeseries.geojson')
+    definition: Q(GEOJSON_DOCTYPE)
       .where({
         'cozyMetadata.sourceAccount': accountId,
-        startDate: { $gt: null },
-        'aggregation.purpose': 'COMMUTE',
-        'aggregation.modes': { $elemMatch: { $eq: BICYCLING_MODE } }
+        startDate: { $gt: null }
+      })
+      .partialIndex({
+        'aggregation.purpose': COMMUTE_PURPOSE,
+        'aggregation.modes': {
+          $in: [BICYCLING_MODE, BICYCLING_ELECTRIC_MODE, SCOOTER_ELECTRIC_MODE]
+        }
       })
       .select([
         'startDate',
@@ -193,12 +203,7 @@ export const buildBikeCommuteTimeseriesQueryByAccountId = (
         'aggregation.purpose',
         'cozyMetadata.sourceAccount'
       ])
-      .indexFields([
-        'cozyMetadata.sourceAccount',
-        'startDate',
-        'aggregation.purpose',
-        'aggregation.modes'
-      ])
+      .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
       .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
       .limitBy(1000),
     options: {
