@@ -15,7 +15,7 @@ const BikeGoalAlertSuccess = () => {
   const handleConfirm = () => {
     setShowAlertSuccess(false)
     const currentYear = new Date().getFullYear().toString()
-    navigate(`/bikegoal/${currentYear}/trips/certificate/generate`)
+    navigate(`${currentYear}/certificate/generate`)
   }
 
   return (

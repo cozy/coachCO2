@@ -29,6 +29,10 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<AppLayout />}>
           <Route path="trips" element={<OutletWrapper Component={Trips} />}>
+            <Route
+              path=":year/certificate/generate"
+              element={<CertificateGeneration />}
+            />
             <Route path=":timeserieId" element={<Trip />} />
             {flag('coachco2.bikegoal.enabled') && (
               <Route
