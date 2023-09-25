@@ -1,6 +1,9 @@
 {
   "name": "coachco2",
   "version": "0.11.0",
+  "engines": {
+    "node": "~20"
+  },
   "scripts": {
     "analyze": "COZY_SCRIPTS_ANALYZER=true yarn build",
     "lint": "yarn lint:js && yarn lint:styles",
@@ -49,7 +52,7 @@
     "cozy-ach": "^1.49.0",
     "cozy-bar": "7.16.0",
     "cozy-jobs-cli": "1.19.2",
-    "cozy-scripts": "^8.1.1",
+    "cozy-scripts": "^8.1.2",
     "eslint": "8.48.0",
     "eslint-config-cozy-app": "6.1.0",
     "eslint-config-prettier": "9.0.0",
