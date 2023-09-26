@@ -1,5 +1,7 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { PurposeAvatar } from 'src/components/Avatar'
+import ContactToPlaceDialog from 'src/components/ContactToPlace/ContactToPlaceDialog'
+import { openContactToPlaceModalOrClose } from 'src/components/EditDialogs/PurposeEditDialog/helpers'
 import {
   handleOccasionalTrip,
   handleRecurringTrip
@@ -24,31 +26,18 @@ const makeOptions = t => {
   return { children: options }
 }
 
-const PurposeEditDialog = ({ onClose }) => {
+const PurposeEditDialog = ({ onSuccessMessage, onClose }) => {
+  const [ContactToPlaceType, setContactToPlaceType] = useState()
   const [showRecurringDialog, setShowRecurringDialog] = useState(false)
   const [selectedPurpose, setSelectedPurpose] = useState(null)
   const { t } = useI18n()
   const client = useClient()
   const { timeserie } = useTrip()
 
-  const handleSelect = useCallback(
-    async item => {
-      setSelectedPurpose(item.id)
-      const oldPurpose = getTimeseriePurpose(timeserie)
-      if (oldPurpose !== OTHER_PURPOSE) {
-        setShowRecurringDialog(true)
-        return
-      }
-      handleRecurringTrip({
-        client,
-        timeserie,
-        purpose: item.id,
-        oldPurpose
-      })
-      onClose()
-    },
-    [client, timeserie, onClose]
-  )
+  const handleSelect = async item => {
+    setSelectedPurpose(item.id)
+    setShowRecurringDialog(true)
+  }
 
   const isSelected = useMemo(
     () => item => {
@@ -63,8 +52,7 @@ const PurposeEditDialog = ({ onClose }) => {
   if (showRecurringDialog) {
     return (
       <ConfirmDialog
-        open={showRecurringDialog}
-        onClose={onClose}
+        open
         title={t('recurring.confirmDialog.title')}
         content={t('recurring.confirmDialog.content')}
         actions={
@@ -78,7 +66,13 @@ const PurposeEditDialog = ({ onClose }) => {
                   timeserie,
                   purpose: selectedPurpose
                 })
-                onClose()
+                openContactToPlaceModalOrClose({
+                  timeserie,
+                  selectedPurpose,
+                  setContactToPlaceType,
+                  setShowRecurringDialog,
+                  onClose
+                })
               }}
             />
             <Button
@@ -91,14 +85,32 @@ const PurposeEditDialog = ({ onClose }) => {
                   purpose: selectedPurpose,
                   oldPurpose: getTimeseriePurpose(timeserie)
                 })
-                onClose()
+                openContactToPlaceModalOrClose({
+                  timeserie,
+                  selectedPurpose,
+                  setContactToPlaceType,
+                  setShowRecurringDialog,
+                  onClose
+                })
               }}
             />
           </>
         }
+        onClose={onClose}
       />
     )
   }
+
+  if (ContactToPlaceType) {
+    return (
+      <ContactToPlaceDialog
+        type={ContactToPlaceType}
+        onSuccessMessage={onSuccessMessage}
+        onClose={onClose}
+      />
+    )
+  }
+
   return (
     <NestedSelectModal
       title={t('tripEdit.selectPurpose')}
