@@ -11,7 +11,8 @@ import {
 import {
   GEOJSON_DOCTYPE,
   ACCOUNTS_DOCTYPE,
-  SETTINGS_DOCTYPE
+  SETTINGS_DOCTYPE,
+  CONTACTS_DOCTYPE
 } from 'src/doctypes'
 
 import CozyClient, { Q } from 'cozy-client'
@@ -74,7 +75,9 @@ export const buildTimeseriesQueryByAccountIdAndDate = ({
 })
 
 export const buildTimeserieQueryById = timeserieId => ({
-  definition: Q(GEOJSON_DOCTYPE).getById(timeserieId),
+  definition: Q(GEOJSON_DOCTYPE)
+    .getById(timeserieId)
+    .include(['startPlaceContact', 'endPlaceContact']),
   options: {
     as: `${GEOJSON_DOCTYPE}/${timeserieId}`,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s),
@@ -316,5 +319,14 @@ export const buildSettingsQuery = () => ({
   options: {
     as: SETTINGS_DOCTYPE,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(neverReload)
+  }
+})
+
+export const buildContactsQueryById = contactId => ({
+  definition: Q(CONTACTS_DOCTYPE).getById(contactId),
+  options: {
+    as: `${CONTACTS_DOCTYPE}/${contactId}`,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s),
+    singleDocData: true
   }
 })
