@@ -66,6 +66,25 @@
     "calories": "Calories",
     "co2": "CO2"
   },
+  "contactToPlace": {
+    "saveStartPlace": "Save the starting point?",
+    "saveEndPlace": "Save the arrival point?",
+    "tooltip": "To automate this categorisation in the future, save this address in a contact record",
+    "submit": "Save",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "dismiss": "No, thanks",
+    "contact": "Contact",
+    "label": "Label",
+    "noLabel": "No label",
+    "custom": "Customised",
+    "customLabel": "Custom label",
+    "home": "Home",
+    "work": "Work",
+    "error": "Specify which contact to save the address under",
+    "addSuccess": "The addresses have been registered",
+    "removeSuccess": "The addresses have been deleted"
+  },
   "loadMore": "Load more trips",
   "tripEdit": {
     "selectMode": "Modify the transportation mode",
