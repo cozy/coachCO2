@@ -8,7 +8,7 @@ import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-const TripDialogMobile = () => {
+const TripDialogMobile = ({ onSuccessMessage }) => {
   const { f } = useI18n()
   const { timeserieId } = useParams()
   const { timeserie } = useTrip()
@@ -30,7 +30,12 @@ const TripDialogMobile = () => {
         </>
       }
       titleRef={titleRef}
-      content={<TripDialogMobileContent titleRef={titleRef} />}
+      content={
+        <TripDialogMobileContent
+          titleRef={titleRef}
+          onSuccessMessage={onSuccessMessage}
+        />
+      }
       onBack={() => navigate(pathname.split(`/${timeserieId}`)[0])}
     />
   )
