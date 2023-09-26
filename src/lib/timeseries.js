@@ -324,6 +324,21 @@ export const getEndPlaceDisplayName = timeserie => {
   return get(timeserie, 'aggregation.endPlaceDisplayName')
 }
 
+export const getPlaceDisplayName = (timeserie, type) => {
+  return type === 'start'
+    ? getStartPlaceDisplayName(timeserie)
+    : getEndPlaceDisplayName(timeserie)
+}
+
+export const getPlaceCoordinates = (timeserie, type) => {
+  const geojson = getGeoJSONData(timeserie)
+  return [...geojson.properties[`${type}_loc`].coordinates].reverse().toString()
+}
+
+export const getFormattedPlaceCoordinates = (timeserie, type) => {
+  return getPlaceCoordinates(timeserie, type).replace(',', ', ')
+}
+
 export const getGeoJSONData = timeserie => {
   return get(timeserie, 'series[0]')
 }
