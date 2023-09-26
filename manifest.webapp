@@ -42,7 +42,18 @@
     },
     "accounts": {
       "description": "Required to get konnector account",
-      "type": "io.cozy.accounts"
+      "type": "io.cozy.accounts",
+      "verbs": ["GET", "POST", "PUT"]
+    },
+    "konnectors": {
+      "description": "Required to create your mobility konnector account",
+      "type": "io.cozy.konnectors",
+      "verbs": ["GET"]
+    },
+    "triggers": {
+      "description": "Required to create your mobility konnector account",
+      "type": "io.cozy.triggers",
+      "verbs": ["GET", "POST"]
     },
     "files": {
       "description": "Required to access the files for saved your export of trips",
