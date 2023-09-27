@@ -43,7 +43,23 @@
       "type": "io.cozy.accounts",
       "verbs": [
         "GET",
+        "POST",
         "PUT"
+      ]
+    },
+    "konnectors": {
+      "description": "Required to create your mobility konnector account",
+      "type": "io.cozy.konnectors",
+      "verbs": [
+        "GET"
+      ]
+    },
+    "triggers": {
+      "description": "Required to create your mobility konnector account",
+      "type": "io.cozy.triggers",
+      "verbs": [
+        "GET",
+        "POST"
       ]
     },
     "files": {
