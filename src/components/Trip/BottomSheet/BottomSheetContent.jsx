@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import ContactToPlaceDialog from 'src/components/ContactToPlace/ContactToPlaceDialog'
 import PurposeEditDialog from 'src/components/EditDialogs/PurposeEditDialog'
 import RecurrenceEditDialog from 'src/components/EditDialogs/RecurrenceEditDialog'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import TimelineNode from 'src/components/Timeline/TimelineNode'
 import TimelineSections from 'src/components/Timeline/TimelineSections'
 import PurposeItem from 'src/components/Trip/BottomSheet/PurposeItem'
+import { COMMUTE_PURPOSE } from 'src/constants'
 import { formatDate } from 'src/lib/helpers'
 import {
   getEndPlaceDisplayName,
@@ -29,15 +31,18 @@ const styles = {
   }
 }
 
-const BottomSheetContent = () => {
+const BottomSheetContent = ({ onSuccessMessage }) => {
   const { f, lang } = useI18n()
   const { timeserie } = useTrip()
   const { isDesktop } = useBreakpoints()
   const [showPurposeDialog, setShowPurposeDialog] = useState(false)
   const [showRecurrenceDialog, setShowRecurrenceDialog] = useState(false)
+  const [ContactToPlaceType, setContactToPlaceType] = useState('')
 
   const purpose = getTimeseriePurpose(timeserie)
+  const isCommute = purpose === COMMUTE_PURPOSE
   const isRecurring = timeserie?.aggregation?.recurring
+
   const openPurposeDialog = () => setShowPurposeDialog(true)
   const closePurposeDialog = () => setShowPurposeDialog(false)
   const openRecurrenceDialog = () => setShowRecurrenceDialog(true)
@@ -51,12 +56,16 @@ const BottomSheetContent = () => {
             label={getStartPlaceDisplayName(timeserie)}
             endLabel={formatDate({ f, lang, date: getStartDate(timeserie) })}
             type="start"
+            onClick={
+              isCommute ? () => setContactToPlaceType('start') : undefined
+            }
           />
           <TimelineSections />
           <TimelineNode
             label={getEndPlaceDisplayName(timeserie)}
             endLabel={formatDate({ f, lang, date: getEndDate(timeserie) })}
             type="end"
+            onClick={isCommute ? () => setContactToPlaceType('end') : undefined}
           />
         </Timeline>
       </BottomSheetItem>
@@ -66,7 +75,10 @@ const BottomSheetContent = () => {
         <List className="u-pv-half">
           <PurposeItem purpose={purpose} onClick={openPurposeDialog} />
           {showPurposeDialog && (
-            <PurposeEditDialog onClose={closePurposeDialog} />
+            <PurposeEditDialog
+              onSuccessMessage={onSuccessMessage}
+              onClose={closePurposeDialog}
+            />
           )}
           <Divider variant="inset" component="li" />
           <RecurringTripItem
@@ -79,6 +91,13 @@ const BottomSheetContent = () => {
           )}
         </List>
       </BottomSheetItem>
+      {!!ContactToPlaceType && (
+        <ContactToPlaceDialog
+          type={ContactToPlaceType}
+          onSuccessMessage={onSuccessMessage}
+          onClose={() => setContactToPlaceType('')}
+        />
+      )}
     </>
   )
 }

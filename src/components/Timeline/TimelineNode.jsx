@@ -1,11 +1,11 @@
 import cx from 'classnames'
 import React, { useMemo } from 'react'
 
-import TimelineConnector from 'cozy-ui/transpiled/react//TimelineConnector'
-import TimelineContent from 'cozy-ui/transpiled/react//TimelineContent'
-import TimelineDot from 'cozy-ui/transpiled/react//TimelineDot'
-import TimelineItem from 'cozy-ui/transpiled/react//TimelineItem'
-import TimelineSeparator from 'cozy-ui/transpiled/react//TimelineSeparator'
+import TimelineConnector from 'cozy-ui/transpiled/react/TimelineConnector'
+import TimelineContent from 'cozy-ui/transpiled/react/TimelineContent'
+import TimelineDot from 'cozy-ui/transpiled/react/TimelineDot'
+import TimelineItem from 'cozy-ui/transpiled/react/TimelineItem'
+import TimelineSeparator from 'cozy-ui/transpiled/react/TimelineSeparator'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
@@ -26,7 +26,8 @@ const useStyles = makeStyles(theme => ({
     '&::before': {
       padding: 0,
       flexGrow: 0
-    }
+    },
+    cursor: ({ onClick }) => (onClick ? 'pointer' : undefined)
   },
   contentWrapper: {
     display: 'flex',
@@ -37,13 +38,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const TimelineNode = ({ label, endLabel, type }) => {
-  const classes = useStyles()
+const TimelineNode = ({ label, endLabel, type, onClick }) => {
+  const classes = useStyles({ onClick })
   const isNotEndNode = useMemo(() => type !== 'end', [type])
   const isStartNode = useMemo(() => type === 'start', [type])
 
   return (
-    <TimelineItem className={classes.item}>
+    <TimelineItem className={classes.item} onClick={onClick}>
       <TimelineSeparator>
         <TimelineDot
           className={cx({

@@ -1,5 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep'
 import set from 'lodash/set'
+import { hasRelationshipByType } from 'src/components/ContactToPlace/helpers'
+import { COMMUTE_PURPOSE } from 'src/constants'
 
 export const createGeojsonWithModifiedPurpose = ({
   timeserie,
@@ -24,4 +26,27 @@ export const createGeojsonWithModifiedPurpose = ({
   }
 
   return timeserie
+}
+
+export const openContactToPlaceModalOrClose = ({
+  timeserie,
+  selectedPurpose,
+  setContactToPlaceType,
+  setShowRecurringDialog,
+  onClose
+}) => {
+  const isCommute = selectedPurpose === COMMUTE_PURPOSE
+
+  if (isCommute) {
+    if (!hasRelationshipByType(timeserie, 'start')) {
+      setContactToPlaceType('start')
+    } else if (!hasRelationshipByType(timeserie, 'end')) {
+      setContactToPlaceType('end')
+    } else {
+      onClose()
+    }
+    setShowRecurringDialog(false)
+  } else {
+    onClose()
+  }
 }

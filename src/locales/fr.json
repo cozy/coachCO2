@@ -66,6 +66,25 @@
     "calories": "Calories",
     "co2": "CO2"
   },
+  "contactToPlace": {
+    "saveStartPlace": "Enregistrer le point de départ ?",
+    "saveEndPlace": "Enregistrer le point d'arrivée ?",
+    "tooltip": "Pour automatiser cette catégorisation à l'avenir, enregistrer cette adresse dans une fiche contact",
+    "submit": "Enregistrer",
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "dismiss": "Non, merci",
+    "contact": "Contact",
+    "label": "Libellé",
+    "noLabel": "Aucun libellé",
+    "custom": "Personnalisé",
+    "customLabel": "Libellé personnalisé",
+    "home": "Domicile",
+    "work": "Travail",
+    "error": "Préciser sous quel contact enregistrer l'adresse",
+    "addSuccess": "Les adresses ont bien été enregistrées",
+    "removeSuccess": "Les adresses ont bien été supprimées"
+  },
   "loadMore": "Charger plus de trajets",
   "tripEdit": {
     "selectMode": "Modifier le mode de transport",

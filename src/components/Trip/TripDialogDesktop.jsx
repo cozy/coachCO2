@@ -8,7 +8,7 @@ import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-const TripDialogDesktop = () => {
+const TripDialogDesktop = ({ onSuccessMessage }) => {
   const { f } = useI18n()
   const { timeserieId } = useParams()
   const { timeserie } = useTrip()
@@ -27,7 +27,7 @@ const TripDialogDesktop = () => {
           </Typography>
         </>
       }
-      content={<TripDialogDesktopContent />}
+      content={<TripDialogDesktopContent onSuccessMessage={onSuccessMessage} />}
       onClose={() => navigate(pathname.split(`/${timeserieId}`)[0])}
     />
   )
