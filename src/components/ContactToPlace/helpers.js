@@ -34,7 +34,7 @@ export const getLabelByType = ({ contact, timeserie, type }) => {
     contact,
     timeserie,
     type
-  })?.address.type
+  })?.address?.type
 }
 
 export const getRelationshipByType = (timeserie, type) => {
