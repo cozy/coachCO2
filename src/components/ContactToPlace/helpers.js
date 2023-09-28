@@ -83,7 +83,7 @@ export const addAddressToContact = ({
   return {
     ...contact,
     address: [
-      ...contact.address,
+      ...(contact.address || []),
       {
         id: addressId,
         type: label,

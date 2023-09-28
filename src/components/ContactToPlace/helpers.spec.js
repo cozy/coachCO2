@@ -70,4 +70,29 @@ describe('addAddressToContact', () => {
       ]
     })
   })
+
+  it('should add address even if no address by default', () => {
+    const newContact = addAddressToContact({
+      contact: { _id: 'contactId' },
+      addressId: '123',
+      label: 'Work',
+      timeserie: {
+        aggregation: { startPlaceDisplayName: 'StartPlace' },
+        series: [{ properties: { start_loc: { coordinates: ['02', '48'] } } }]
+      },
+      type: 'start'
+    })
+
+    expect(newContact).toStrictEqual({
+      _id: 'contactId',
+      address: [
+        {
+          id: '123',
+          formattedAddress: 'StartPlace',
+          geo: { geo: '48,02' },
+          type: 'Work'
+        }
+      ]
+    })
+  })
 })
