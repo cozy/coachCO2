@@ -1,4 +1,4 @@
-import { getLabelByType } from './helpers'
+import { getLabelByType, addAddressToContact } from './helpers'
 
 describe('getLabelByType', () => {
   it('shoud return type of matched contact address', () => {
@@ -41,5 +41,33 @@ describe('getLabelByType', () => {
     })
 
     expect(label).toBeUndefined()
+  })
+})
+
+describe('addAddressToContact', () => {
+  it('should add address to existing ones', () => {
+    const newContact = addAddressToContact({
+      contact: { _id: 'contactId', address: [{ id: 'addressOne' }] },
+      addressId: '123',
+      label: 'Work',
+      timeserie: {
+        aggregation: { startPlaceDisplayName: 'StartPlace' },
+        series: [{ properties: { start_loc: { coordinates: ['02', '48'] } } }]
+      },
+      type: 'start'
+    })
+
+    expect(newContact).toStrictEqual({
+      _id: 'contactId',
+      address: [
+        { id: 'addressOne' },
+        {
+          id: '123',
+          formattedAddress: 'StartPlace',
+          geo: { geo: '48,02' },
+          type: 'Work'
+        }
+      ]
+    })
   })
 })

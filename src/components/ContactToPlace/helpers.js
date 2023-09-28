@@ -73,16 +73,14 @@ const createUUID = () => {
   return uuid
 }
 
-const createRelationship = async ({
-  client,
+export const addAddressToContact = ({
   contact,
+  addressId,
+  label,
   timeserie,
-  type,
-  label
+  type
 }) => {
-  const addressId = getRandomUUID() || createUUID()
-
-  const { data: newContact } = await client.save({
+  return {
     ...contact,
     address: [
       ...contact.address,
@@ -93,7 +91,27 @@ const createRelationship = async ({
         geo: { geo: getPlaceCoordinates(timeserie, type) }
       }
     ]
+  }
+}
+
+const createRelationship = async ({
+  client,
+  contact,
+  timeserie,
+  type,
+  label
+}) => {
+  const addressId = getRandomUUID() || createUUID()
+
+  const contactToSave = addAddressToContact({
+    contact,
+    addressId,
+    label,
+    timeserie,
+    type
   })
+
+  const { data: newContact } = await client.save(contactToSave)
 
   const { data: newTimeserie } = await getRelationshipByType(
     timeserie,
