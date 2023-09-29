@@ -297,10 +297,11 @@ export const buildAccountQuery = ({
   withOnlyLogin = true
 } = {}) => {
   const queryDef = Q(ACCOUNTS_DOCTYPE)
-    .where({
-      account_type: 'tracemob'
+    .partialIndex({
+      account_type: {
+        $or: ['tracemob', 'openpath']
+      }
     })
-    .indexFields(['account_type'])
     .limitBy(limit)
   if (withOnlyLogin) {
     queryDef.select(['auth.login', 'account_type'])
