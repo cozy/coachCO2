@@ -1,9 +1,18 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import BikeGoalChart from 'src/components/Goals/BikeGoal/BikeGoalChart'
 import styles from 'src/components/Goals/BikeGoal/Certificate/CertificateGeneration.styl'
-import { getBountyAmount } from 'src/components/Goals/BikeGoal/helpers'
+import { PDFCertificate } from 'src/components/Goals/BikeGoal/Certificate/PDFCertificate/PDFCertificate'
+import { savePdfCertificate } from 'src/components/Goals/BikeGoal/Certificate/helpers'
+import {
+  getBountyAmount,
+  getDaysToReach,
+  getSource
+} from 'src/components/Goals/BikeGoal/helpers'
+import { fetchCurrentUser } from 'src/lib/fetchCurrentUser'
 
+import { useClient } from 'cozy-client'
+import { getDisplayName } from 'cozy-client/dist/models/contact'
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import FileTypePdfIcon from 'cozy-ui/transpiled/react/Icons/FileTypePdf'
@@ -16,10 +25,37 @@ import Typography from 'cozy-ui/transpiled/react/Typography'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-const CertificateGenerationContent = () => {
-  const { t } = useI18n()
+const CertificateGenerationContent = ({ certificate }) => {
+  const { t, lang } = useI18n()
+  const client = useClient()
   const { isMobile } = useBreakpoints()
   const { year } = useParams()
+  const navigate = useNavigate()
+  const [isBusy, setIsBusy] = useState(false)
+
+  const handleCertificateGeneration = async () => {
+    setIsBusy(true)
+    const { sourceIdentity } = getSource()
+    const currentUser = await fetchCurrentUser(client)
+
+    const pdfDocument = (
+      <PDFCertificate
+        t={t}
+        username={getDisplayName(currentUser)}
+        daysToReach={getDaysToReach()}
+        sourceIdentity={sourceIdentity}
+        year={year}
+        lang={lang}
+      />
+    )
+    await savePdfCertificate({ client, t, pdfDocument, year })
+
+    setIsBusy(false)
+  }
+
+  const generateButtonLabel = certificate
+    ? t('bikeGoal.certificateGeneration.actions.regenerate')
+    : t('bikeGoal.certificateGeneration.actions.generate')
 
   return (
     <div className={styles['CertificateGeneration-root']}>
@@ -33,25 +69,30 @@ const CertificateGenerationContent = () => {
           year
         })}
       </Typography>
-      <Paper>
-        <List>
-          <ListItem>
-            <ListItemIcon>
-              <Icon icon={FileTypePdfIcon} size={32} />
-            </ListItemIcon>
-            <ListItemText
-              primary={t('bikeGoal.certificateGeneration.actions.show')}
-            />
-          </ListItem>
-        </List>
-      </Paper>
+      {!!certificate && !isBusy && (
+        <Paper
+          onClick={() => {
+            navigate({
+              pathname: `../certificate/${certificate._id}`
+            })
+          }}
+        >
+          <List>
+            <ListItem>
+              <ListItemIcon>
+                <Icon icon={FileTypePdfIcon} size={32} />
+              </ListItemIcon>
+              <ListItemText primary={certificate.name} />
+            </ListItem>
+          </List>
+        </Paper>
+      )}
       <Button
         variant="text"
-        label={t('bikeGoal.certificateGeneration.actions.generate')}
+        label={generateButtonLabel}
         className="u-mt-half u-fz-xsmall"
-        onClick={() => {
-          // TODO
-        }}
+        onClick={handleCertificateGeneration}
+        busy={isBusy}
       />
     </div>
   )
