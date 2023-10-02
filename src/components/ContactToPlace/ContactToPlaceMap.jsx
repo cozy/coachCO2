@@ -13,18 +13,18 @@ const mapStyle = {
   borderRadius: 8
 }
 
-const ContactToPlaceMap = () => {
+const ContactToPlaceMap = ({ type }) => {
   const [bounds, setBounds] = useState()
   const { timeserie } = useTrip()
   const map = useMap()
 
   useEffect(() => {
     const latLng = [
-      ...getGeoJSONData(timeserie).properties.end_loc.coordinates
+      ...getGeoJSONData(timeserie).properties[`${type}_loc`].coordinates
     ].reverse()
     map.setView(latLng)
     setBounds(map.getBounds())
-  }, [timeserie, map])
+  }, [timeserie, map, type])
 
   return (
     <>
@@ -46,7 +46,7 @@ const ContactToPlaceMap = () => {
   )
 }
 
-const ContactToPlaceMapWrapper = () => {
+const ContactToPlaceMapWrapper = ({ type }) => {
   return (
     <>
       <MapContainer
@@ -55,7 +55,7 @@ const ContactToPlaceMapWrapper = () => {
         zoom={13}
         zoomControl={false}
       >
-        <ContactToPlaceMap />
+        <ContactToPlaceMap type={type} />
       </MapContainer>
     </>
   )

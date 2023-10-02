@@ -27,7 +27,7 @@ const ContactToPlaceDialogContent = ({
 
   return (
     <>
-      <ContactToPlaceMap />
+      <ContactToPlaceMap type={type} />
       <List>
         <ListItem gutters="disabled">
           <ListItemIcon>
