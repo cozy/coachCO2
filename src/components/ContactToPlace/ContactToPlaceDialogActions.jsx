@@ -48,7 +48,7 @@ const ContactToPlaceDialogActions = ({
   const handleDelete = async () => {
     onSuccessMessage(t('contactToPlace.removeSuccess'))
     onClose()
-    await removeRelationship({ client, timeserie, type })
+    await removeRelationship({ client, timeserie, type, contact })
   }
 
   return (

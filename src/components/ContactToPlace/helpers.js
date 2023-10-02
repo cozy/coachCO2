@@ -1,3 +1,4 @@
+import remove from 'lodash/remove'
 import set from 'lodash/set'
 import unset from 'lodash/unset'
 import { getPlaceCoordinates, getPlaceDisplayName } from 'src/lib/timeseries'
@@ -45,7 +46,22 @@ export const hasRelationshipByType = (timeserie, type) => {
   return getRelationshipByType(timeserie, type)?.data
 }
 
-export const removeRelationship = async ({ client, timeserie, type }) => {
+export const removeRelationship = async ({
+  client,
+  timeserie,
+  type,
+  contact
+}) => {
+  const { address } = getContactAddressAndIndexFromRelationships({
+    contact,
+    timeserie,
+    type
+  })
+
+  remove(contact.address, val => val.id && val.id === address.id)
+
+  await client.save(contact)
+
   const { data: newTimeserie } = await getRelationshipByType(
     timeserie,
     type
