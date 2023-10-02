@@ -148,10 +148,18 @@ export const saveRelationship = async ({
   type,
   timeserie,
   contact,
-  label
+  label,
+  isSameContact
 }) => {
-  return hasRelationshipByType(timeserie, type)
-    ? updateRelationship({ client, contact, timeserie, type, label })
+  return isSameContact
+    ? updateRelationship({
+        client,
+        contact,
+        timeserie,
+        type,
+        label,
+        isSameContact
+      })
     : createRelationship({
         client,
         contact,

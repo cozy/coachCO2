@@ -24,7 +24,7 @@ const ContactToPlaceDialogActions = ({
   const { timeserie } = useTrip()
   const client = useClient()
 
-  const showDelete = fetchedContact && fetchedContact === contact
+  const isSameContact = fetchedContact && fetchedContact === contact
 
   const handleSubmit = async () => {
     if (!contact) {
@@ -33,7 +33,14 @@ const ContactToPlaceDialogActions = ({
 
     onSuccessMessage(t('contactToPlace.addSuccess'))
     onClose()
-    await saveRelationship({ client, type, timeserie, contact, label })
+    await saveRelationship({
+      client,
+      type,
+      timeserie,
+      contact,
+      label,
+      isSameContact
+    })
   }
 
   const handleCloseError = () => setShowError(false)
@@ -46,7 +53,7 @@ const ContactToPlaceDialogActions = ({
 
   return (
     <>
-      {showDelete ? (
+      {isSameContact ? (
         <Button
           variant="secondary"
           label={t('contactToPlace.delete')}
