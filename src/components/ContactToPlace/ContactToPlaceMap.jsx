@@ -6,17 +6,24 @@ import { useTrip } from 'src/components/Providers/TripProvider'
 import { getGeoJSONData } from 'src/lib/timeseries'
 
 import Icon from 'cozy-ui/transpiled/react/Icon'
+import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
 const mapCenter = [51.505, -0.09]
 const mapStyle = {
   height: 128,
   borderRadius: 8
 }
+const useStyles = makeStyles({
+  icon: {
+    filter: 'drop-shadow(0 5px 8px rgba(29,33,42,0.12))'
+  }
+})
 
 const ContactToPlaceMap = ({ type }) => {
   const [bounds, setBounds] = useState()
   const { timeserie } = useTrip()
   const map = useMap()
+  const styles = useStyles()
 
   useEffect(() => {
     const latLng = [
@@ -35,6 +42,7 @@ const ContactToPlaceMap = ({ type }) => {
       {bounds && (
         <SVGOverlay bounds={bounds}>
           <Icon
+            className={styles.icon}
             icon={LocationIcon}
             size={48}
             x="calc(50% - 24px)"
