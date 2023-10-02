@@ -8,8 +8,8 @@ import { useTrip } from 'src/components/Providers/TripProvider'
 import { useClient } from 'cozy-client'
 import Alert from 'cozy-ui/transpiled/react/Alert'
 import Button from 'cozy-ui/transpiled/react/Buttons'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Snackbar from 'cozy-ui/transpiled/react/Snackbar'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const ContactToPlaceDialogActions = ({
   contact,

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { getDisplayName } from 'cozy-client/dist/models/contact'
 import ContactsListModal from 'cozy-ui/transpiled/react/ContactsListModal'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import BottomIcon from 'cozy-ui/transpiled/react/Icons/Bottom'
 import PeopleIcon from 'cozy-ui/transpiled/react/Icons/People'

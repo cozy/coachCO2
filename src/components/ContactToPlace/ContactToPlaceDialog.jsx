@@ -12,13 +12,13 @@ import { buildContactsQueryById } from 'src/queries/queries'
 import { useQuery, isQueryLoading } from 'cozy-client'
 import ClickAwayListener from 'cozy-ui/transpiled/react/ClickAwayListener'
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import IconButton from 'cozy-ui/transpiled/react/IconButton'
 import HelpOutlined from 'cozy-ui/transpiled/react/Icons/HelpOutlined'
 import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import Tooltip from 'cozy-ui/transpiled/react/Tooltip'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const ContactToPlaceDialog = ({ type, onSuccessMessage, onClose }) => {
   const [contact, setContact] = useState()
