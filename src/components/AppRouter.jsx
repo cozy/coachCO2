@@ -14,6 +14,8 @@ import Trips from 'src/components/Views/Trips'
 
 import flag from 'cozy-flags'
 
+import FilesViewerWithQuery from './FileViewerWithQuery'
+
 const OutletWrapper = ({ Component }) => (
   <>
     <Component />
@@ -29,6 +31,10 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<AppLayout />}>
           <Route path="trips" element={<OutletWrapper Component={Trips} />}>
+            <Route
+              path="certificate/:fileId"
+              element={<FilesViewerWithQuery />}
+            />
             <Route
               path=":year/certificate/generate"
               element={<CertificateGeneration />}
@@ -82,6 +88,10 @@ const AppRouter = () => {
                 path="bikegoal/:year/trips"
                 element={<OutletWrapper Component={BikeGoal} />}
               >
+                <Route
+                  path="certificate/:fileId"
+                  element={<FilesViewerWithQuery />}
+                />
                 <Route path=":timeserieId" element={<Trip />} />
                 <Route path="edit" element={<BikeGoalEdit />} />
                 <Route path="about" element={<BikeGoalAbout />} />
