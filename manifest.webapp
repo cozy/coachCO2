@@ -102,6 +102,16 @@
         "POST"
       ],
       "description": "Remote-doctype required to send anonymized CO2 contributions, for developement purposes"
+    },
+    "contacts": {
+      "type": "io.cozy.contacts",
+      "verbs": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "description": "Used to link contacts to geojson timeseries"
     }
   },
   "services": {
