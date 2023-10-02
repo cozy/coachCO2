@@ -13,20 +13,15 @@ import Snackbar from 'cozy-ui/transpiled/react/Snackbar'
 import { useAlert } from 'cozy-ui/transpiled/react/providers/Alert'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-const ContactToPlaceDialogActions = ({
-  contact,
-  fetchedContact,
-  label,
-  onClose
-}) => {
+const ContactToPlaceDialogActions = () => {
   const [showError, setShowError] = useState(false)
-  const { type } = useContactToPlace()
+  const { type, isSameContact, contact, setType, label } = useContactToPlace()
   const { t } = useI18n()
   const { timeserie } = useTrip()
   const client = useClient()
   const { showAlert } = useAlert()
 
-  const isSameContact = fetchedContact && fetchedContact === contact
+  const onClose = () => setType()
 
   const handleSubmit = async () => {
     if (!contact) {

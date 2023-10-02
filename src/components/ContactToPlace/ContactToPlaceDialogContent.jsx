@@ -17,14 +17,9 @@ import ListItem from 'cozy-ui/transpiled/react/ListItem'
 import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 
-const ContactToPlaceDialogContent = ({
-  contact,
-  setContact,
-  label,
-  setLabel
-}) => {
+const ContactToPlaceDialogContent = () => {
   const { timeserie } = useTrip()
-  const { type } = useContactToPlace()
+  const { type, contact } = useContactToPlace()
 
   return (
     <>
@@ -40,15 +35,11 @@ const ContactToPlaceDialogContent = ({
           />
         </ListItem>
         <Divider className="u-ml-3" />
-        <ContactItem
-          contact={contact}
-          setContact={setContact}
-          setLabel={setLabel}
-        />
+        <ContactItem />
         {contact && (
           <>
             <Divider className="u-ml-3" />
-            <LabelItem label={label} setLabel={setLabel} />
+            <LabelItem />
           </>
         )}
       </List>
