@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import {
   saveRelationship,
-  removeRelationship
+  removeRelationship,
+  hasRelationshipByType
 } from 'src/components/ContactToPlace/helpers'
 import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 import { useTrip } from 'src/components/Providers/TripProvider'
@@ -29,7 +30,11 @@ const ContactToPlaceDialogActions = () => {
     }
 
     showAlert(t('contactToPlace.addSuccess'), 'success')
-    onClose()
+    if (type === 'start' && !hasRelationshipByType(timeserie, 'end')) {
+      setType('end')
+    } else {
+      onClose()
+    }
     await saveRelationship({
       client,
       type,

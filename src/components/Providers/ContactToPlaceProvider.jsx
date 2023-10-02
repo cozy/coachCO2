@@ -60,8 +60,9 @@ const ContactToPlaceProvider = ({ children }) => {
   }, [type])
 
   useEffect(() => {
-    if (previousType !== undefined && !type) {
+    if (previousType !== type) {
       setContact()
+      setLabel()
     }
   }, [type])
 
