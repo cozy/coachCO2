@@ -6,7 +6,11 @@ import { getPlaceCoordinates, getPlaceDisplayName } from 'src/lib/timeseries'
 import { getRandomUUID } from 'cozy-ui/transpiled/react/helpers/getRandomUUID'
 
 export const getRelationshipKey = type => {
-  return type === 'start' ? 'startPlaceContact' : 'endPlaceContact'
+  return type === 'start'
+    ? 'startPlaceContact'
+    : type === 'end'
+    ? 'endPlaceContact'
+    : null
 }
 
 export const getContactAddressAndIndexFromRelationships = ({
