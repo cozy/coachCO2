@@ -3,6 +3,7 @@ import {
   saveRelationship,
   removeRelationship
 } from 'src/components/ContactToPlace/helpers'
+import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 import { useTrip } from 'src/components/Providers/TripProvider'
 
 import { useClient } from 'cozy-client'
@@ -15,11 +16,11 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 const ContactToPlaceDialogActions = ({
   contact,
   fetchedContact,
-  type,
   label,
   onClose
 }) => {
   const [showError, setShowError] = useState(false)
+  const { type } = useContactToPlace()
   const { t } = useI18n()
   const { timeserie } = useTrip()
   const client = useClient()

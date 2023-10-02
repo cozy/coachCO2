@@ -6,6 +6,7 @@ import {
   getRelationshipByType,
   getLabelByType
 } from 'src/components/ContactToPlace/helpers'
+import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import { buildContactsQueryById } from 'src/queries/queries'
 
@@ -20,7 +21,8 @@ import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import Tooltip from 'cozy-ui/transpiled/react/Tooltip'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-const ContactToPlaceDialog = ({ type, onClose }) => {
+const ContactToPlaceDialog = () => {
+  const { type, setType } = useContactToPlace()
   const [contact, setContact] = useState()
   const [showTooltip, setShowTooltip] = useState(false)
   const [label, setLabel] = useState()
@@ -77,7 +79,6 @@ const ContactToPlaceDialog = ({ type, onClose }) => {
           />
         ) : (
           <ContactToPlaceDialogContent
-            type={type}
             contact={contact}
             setContact={setContact}
             label={label}
@@ -89,12 +90,11 @@ const ContactToPlaceDialog = ({ type, onClose }) => {
         <ContactToPlaceDialogActions
           contact={contact}
           fetchedContact={fetchedContact}
-          type={type}
           label={label}
-          onClose={onClose}
+          onClose={() => setType('')}
         />
       }
-      onClose={onClose}
+      onClose={() => setType('')}
     />
   )
 }

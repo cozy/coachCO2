@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
+import ContactToPlaceProvider from 'src/components/Providers/ContactToPlaceProvider'
 import TripProvider from 'src/components/Providers/TripProvider'
 import TripDialog from 'src/components/Trip/TripDialog'
 import { buildTimeserieQueryById } from 'src/queries/queries'
@@ -27,7 +28,9 @@ const Trip = () => {
 
   return (
     <TripProvider timeserie={data}>
-      <TripDialog />
+      <ContactToPlaceProvider>
+        <TripDialog />
+      </ContactToPlaceProvider>
     </TripProvider>
   )
 }

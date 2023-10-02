@@ -2,6 +2,7 @@ import 'leaflet/dist/leaflet.css'
 import React, { useEffect, useState } from 'react'
 import { MapContainer, TileLayer, useMap, SVGOverlay } from 'react-leaflet'
 import LocationIcon from 'src/assets/icons/location.svg'
+import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import { getGeoJSONData } from 'src/lib/timeseries'
 
@@ -19,9 +20,10 @@ const useStyles = makeStyles({
   }
 })
 
-const ContactToPlaceMap = ({ type }) => {
+const ContactToPlaceMap = () => {
   const [bounds, setBounds] = useState()
   const { timeserie } = useTrip()
+  const { type } = useContactToPlace()
   const map = useMap()
   const styles = useStyles()
 
@@ -54,7 +56,7 @@ const ContactToPlaceMap = ({ type }) => {
   )
 }
 
-const ContactToPlaceMapWrapper = ({ type }) => {
+const ContactToPlaceMapWrapper = () => {
   return (
     <>
       <MapContainer
@@ -63,7 +65,7 @@ const ContactToPlaceMapWrapper = ({ type }) => {
         zoom={13}
         zoomControl={false}
       >
-        <ContactToPlaceMap type={type} />
+        <ContactToPlaceMap />
       </MapContainer>
     </>
   )

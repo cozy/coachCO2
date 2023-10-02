@@ -2,6 +2,7 @@ import React from 'react'
 import ContactItem from 'src/components/ContactToPlace/ContactItem'
 import ContactToPlaceMap from 'src/components/ContactToPlace/ContactToPlaceMap'
 import LabelItem from 'src/components/ContactToPlace/LabelItem'
+import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import {
   getFormattedPlaceCoordinates,
@@ -20,14 +21,14 @@ const ContactToPlaceDialogContent = ({
   contact,
   setContact,
   label,
-  setLabel,
-  type
+  setLabel
 }) => {
   const { timeserie } = useTrip()
+  const { type } = useContactToPlace()
 
   return (
     <>
-      <ContactToPlaceMap type={type} />
+      <ContactToPlaceMap />
       <List>
         <ListItem gutters="disabled">
           <ListItemIcon>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import ContactToPlaceDialog from 'src/components/ContactToPlace/ContactToPlaceDialog'
 import PurposeEditDialog from 'src/components/EditDialogs/PurposeEditDialog'
 import RecurrenceEditDialog from 'src/components/EditDialogs/RecurrenceEditDialog'
+import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import TimelineNode from 'src/components/Timeline/TimelineNode'
 import TimelineSections from 'src/components/Timeline/TimelineSections'
@@ -34,10 +34,10 @@ const styles = {
 const BottomSheetContent = () => {
   const { f, lang } = useI18n()
   const { timeserie } = useTrip()
+  const { setType } = useContactToPlace()
   const { isDesktop } = useBreakpoints()
   const [showPurposeDialog, setShowPurposeDialog] = useState(false)
   const [showRecurrenceDialog, setShowRecurrenceDialog] = useState(false)
-  const [contactToPlaceType, setContactToPlaceType] = useState('')
 
   const purpose = getTimeseriePurpose(timeserie)
   const isCommute = purpose === COMMUTE_PURPOSE
@@ -56,16 +56,14 @@ const BottomSheetContent = () => {
             label={getStartPlaceDisplayName(timeserie)}
             endLabel={formatDate({ f, lang, date: getStartDate(timeserie) })}
             type="start"
-            onClick={
-              isCommute ? () => setContactToPlaceType('start') : undefined
-            }
+            onClick={isCommute ? () => setType('start') : undefined}
           />
           <TimelineSections />
           <TimelineNode
             label={getEndPlaceDisplayName(timeserie)}
             endLabel={formatDate({ f, lang, date: getEndDate(timeserie) })}
             type="end"
-            onClick={isCommute ? () => setContactToPlaceType('end') : undefined}
+            onClick={isCommute ? () => setType('end') : undefined}
           />
         </Timeline>
       </BottomSheetItem>
@@ -88,12 +86,6 @@ const BottomSheetContent = () => {
           )}
         </List>
       </BottomSheetItem>
-      {!!contactToPlaceType && (
-        <ContactToPlaceDialog
-          type={contactToPlaceType}
-          onClose={() => setContactToPlaceType('')}
-        />
-      )}
     </>
   )
 }
