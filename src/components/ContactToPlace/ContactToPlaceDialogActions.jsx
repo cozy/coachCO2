@@ -9,6 +9,7 @@ import { useClient } from 'cozy-client'
 import Alert from 'cozy-ui/transpiled/react/Alert'
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import Snackbar from 'cozy-ui/transpiled/react/Snackbar'
+import { useAlert } from 'cozy-ui/transpiled/react/providers/Alert'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const ContactToPlaceDialogActions = ({
@@ -16,13 +17,13 @@ const ContactToPlaceDialogActions = ({
   fetchedContact,
   type,
   label,
-  onSuccessMessage,
   onClose
 }) => {
   const [showError, setShowError] = useState(false)
   const { t } = useI18n()
   const { timeserie } = useTrip()
   const client = useClient()
+  const { showAlert } = useAlert()
 
   const isSameContact = fetchedContact && fetchedContact === contact
 
@@ -31,7 +32,7 @@ const ContactToPlaceDialogActions = ({
       return setShowError(true)
     }
 
-    onSuccessMessage(t('contactToPlace.addSuccess'))
+    showAlert(t('contactToPlace.addSuccess'), 'success')
     onClose()
     await saveRelationship({
       client,
@@ -46,7 +47,7 @@ const ContactToPlaceDialogActions = ({
   const handleCloseError = () => setShowError(false)
 
   const handleDelete = async () => {
-    onSuccessMessage(t('contactToPlace.removeSuccess'))
+    showAlert(t('contactToPlace.removeSuccess'), 'success')
     onClose()
     await removeRelationship({ client, timeserie, type, contact })
   }

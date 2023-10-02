@@ -10,7 +10,7 @@ import Typography from 'cozy-ui/transpiled/react/Typography'
 import { useBreakpoints } from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-const TripDialog = ({ onSuccessMessage }) => {
+const TripDialog = () => {
   const { f } = useI18n()
   const { isMobile } = useBreakpoints()
   const { timeserieId } = useParams()
@@ -40,12 +40,9 @@ const TripDialog = ({ onSuccessMessage }) => {
       titleRef={titleRef}
       content={
         isMobile ? (
-          <TripDialogMobileContent
-            titleRef={titleRef}
-            onSuccessMessage={onSuccessMessage}
-          />
+          <TripDialogMobileContent titleRef={titleRef} />
         ) : (
-          <TripDialogDesktopContent onSuccessMessage={onSuccessMessage} />
+          <TripDialogDesktopContent />
         )
       }
       onClose={() => navigate(pathname.split(`/${timeserieId}`)[0])}

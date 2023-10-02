@@ -1,6 +1,5 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
-import SuccessSnackbar from 'src/components/ContactToPlace/SuccessSnackbar'
 import TripProvider from 'src/components/Providers/TripProvider'
 import TripDialog from 'src/components/Trip/TripDialog'
 import { buildTimeserieQueryById } from 'src/queries/queries'
@@ -9,8 +8,6 @@ import { isQueryLoading, useQuery } from 'cozy-client'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 const Trip = () => {
-  const [ContactToPlaceSuccessMessage, setContactToPlaceSuccessMessage] =
-    useState('')
   const { pathname } = useLocation()
   const timeserieId = useMemo(() => pathname.split('/').pop(), [pathname])
 
@@ -30,11 +27,7 @@ const Trip = () => {
 
   return (
     <TripProvider timeserie={data}>
-      <TripDialog onSuccessMessage={setContactToPlaceSuccessMessage} />
-      <SuccessSnackbar
-        message={ContactToPlaceSuccessMessage}
-        onClose={() => setContactToPlaceSuccessMessage('')}
-      />
+      <TripDialog />
     </TripProvider>
   )
 }

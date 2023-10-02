@@ -20,7 +20,7 @@ import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import Tooltip from 'cozy-ui/transpiled/react/Tooltip'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-const ContactToPlaceDialog = ({ type, onSuccessMessage, onClose }) => {
+const ContactToPlaceDialog = ({ type, onClose }) => {
   const [contact, setContact] = useState()
   const [showTooltip, setShowTooltip] = useState(false)
   const [label, setLabel] = useState()
@@ -91,7 +91,6 @@ const ContactToPlaceDialog = ({ type, onSuccessMessage, onClose }) => {
           fetchedContact={fetchedContact}
           type={type}
           label={label}
-          onSuccessMessage={onSuccessMessage}
           onClose={onClose}
         />
       }

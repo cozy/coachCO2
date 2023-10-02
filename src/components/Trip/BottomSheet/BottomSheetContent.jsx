@@ -31,7 +31,7 @@ const styles = {
   }
 }
 
-const BottomSheetContent = ({ onSuccessMessage }) => {
+const BottomSheetContent = () => {
   const { f, lang } = useI18n()
   const { timeserie } = useTrip()
   const { isDesktop } = useBreakpoints()
@@ -75,10 +75,7 @@ const BottomSheetContent = ({ onSuccessMessage }) => {
         <List className="u-pv-half">
           <PurposeItem purpose={purpose} onClick={openPurposeDialog} />
           {showPurposeDialog && (
-            <PurposeEditDialog
-              onSuccessMessage={onSuccessMessage}
-              onClose={closePurposeDialog}
-            />
+            <PurposeEditDialog onClose={closePurposeDialog} />
           )}
           <Divider variant="inset" component="li" />
           <RecurringTripItem
@@ -94,7 +91,6 @@ const BottomSheetContent = ({ onSuccessMessage }) => {
       {!!contactToPlaceType && (
         <ContactToPlaceDialog
           type={contactToPlaceType}
-          onSuccessMessage={onSuccessMessage}
           onClose={() => setContactToPlaceType('')}
         />
       )}
