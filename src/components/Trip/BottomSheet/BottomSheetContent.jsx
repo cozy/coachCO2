@@ -37,7 +37,7 @@ const BottomSheetContent = ({ onSuccessMessage }) => {
   const { isDesktop } = useBreakpoints()
   const [showPurposeDialog, setShowPurposeDialog] = useState(false)
   const [showRecurrenceDialog, setShowRecurrenceDialog] = useState(false)
-  const [ContactToPlaceType, setContactToPlaceType] = useState('')
+  const [contactToPlaceType, setContactToPlaceType] = useState('')
 
   const purpose = getTimeseriePurpose(timeserie)
   const isCommute = purpose === COMMUTE_PURPOSE
@@ -91,9 +91,9 @@ const BottomSheetContent = ({ onSuccessMessage }) => {
           )}
         </List>
       </BottomSheetItem>
-      {!!ContactToPlaceType && (
+      {!!contactToPlaceType && (
         <ContactToPlaceDialog
-          type={ContactToPlaceType}
+          type={contactToPlaceType}
           onSuccessMessage={onSuccessMessage}
           onClose={() => setContactToPlaceType('')}
         />

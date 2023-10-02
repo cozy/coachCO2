@@ -27,7 +27,7 @@ const makeOptions = t => {
 }
 
 const PurposeEditDialog = ({ onSuccessMessage, onClose }) => {
-  const [ContactToPlaceType, setContactToPlaceType] = useState()
+  const [contactToPlaceType, setContactToPlaceType] = useState()
   const [showRecurringDialog, setShowRecurringDialog] = useState(false)
   const [selectedPurpose, setSelectedPurpose] = useState(null)
   const { t } = useI18n()
@@ -101,10 +101,10 @@ const PurposeEditDialog = ({ onSuccessMessage, onClose }) => {
     )
   }
 
-  if (ContactToPlaceType) {
+  if (contactToPlaceType) {
     return (
       <ContactToPlaceDialog
-        type={ContactToPlaceType}
+        type={contactToPlaceType}
         onSuccessMessage={onSuccessMessage}
         onClose={onClose}
       />
