@@ -13,7 +13,7 @@ import ActionsMenuMobileHeader from 'cozy-ui/transpiled/react/ActionsMenu/Action
 import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import BottomIcon from 'cozy-ui/transpiled/react/Icons/Bottom'
-import PeopleIcon from 'cozy-ui/transpiled/react/Icons/People'
+import LabelOutlinedIcon from 'cozy-ui/transpiled/react/Icons/LabelOutlined'
 import ListItem from 'cozy-ui/transpiled/react/ListItem'
 import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
@@ -41,7 +41,7 @@ const LabelItem = ({ label, setLabel }) => {
         onClick={() => setShowLabelMenu(true)}
       >
         <ListItemIcon>
-          <Icon icon={PeopleIcon} />
+          <Icon icon={LabelOutlinedIcon} />
         </ListItemIcon>
         <ListItemText primary={label || t('contactToPlace.noLabel')} />
         <ListItemIcon>
