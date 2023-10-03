@@ -34,6 +34,14 @@ export const getContactAddressAndIndexFromRelationships = ({
   return { address, index }
 }
 
+export const getCategoryByType = ({ contact, timeserie, type }) => {
+  return getContactAddressAndIndexFromRelationships({
+    contact,
+    timeserie,
+    type
+  })?.address?.geo?.cozyCategory
+}
+
 export const getLabelByType = ({ contact, timeserie, type }) => {
   return getContactAddressAndIndexFromRelationships({
     contact,
@@ -84,7 +92,8 @@ export const addAddressToContact = ({
   addressId,
   label,
   timeserie,
-  type
+  type,
+  category
 }) => {
   return {
     ...contact,
@@ -94,7 +103,10 @@ export const addAddressToContact = ({
         id: addressId,
         type: label,
         formattedAddress: getPlaceDisplayName(timeserie, type),
-        geo: { geo: getPlaceCoordinates(timeserie, type) }
+        geo: {
+          geo: getPlaceCoordinates(timeserie, type),
+          cozyCategory: category
+        }
       }
     ]
   }
@@ -105,7 +117,8 @@ const createRelationship = async ({
   contact,
   timeserie,
   type,
-  label
+  label,
+  category
 }) => {
   const addressId = getRandomUUID()
 
@@ -114,7 +127,8 @@ const createRelationship = async ({
     addressId,
     label,
     timeserie,
-    type
+    type,
+    category
   })
 
   const { data: newContact } = await client.save(contactToSave)
@@ -136,7 +150,8 @@ const updateRelationship = async ({
   contact,
   timeserie,
   type,
-  label
+  label,
+  category
 }) => {
   const { index } = getContactAddressAndIndexFromRelationships({
     contact,
@@ -145,6 +160,7 @@ const updateRelationship = async ({
   })
 
   set(contact, `address[${index}].type`, label)
+  set(contact, `address[${index}].geo.cozyCategory`, category)
 
   await client.save(contact)
 }
@@ -155,7 +171,8 @@ export const saveRelationship = async ({
   timeserie,
   contact,
   label,
-  isSameContact
+  isSameContact,
+  category
 }) => {
   return isSameContact
     ? updateRelationship({
@@ -164,13 +181,15 @@ export const saveRelationship = async ({
         timeserie,
         type,
         label,
-        isSameContact
+        isSameContact,
+        category
       })
     : createRelationship({
         client,
         contact,
         timeserie,
         type,
-        label
+        label,
+        category
       })
 }

@@ -50,6 +50,7 @@ describe('addAddressToContact', () => {
       contact: { _id: 'contactId', address: [{ id: 'addressOne' }] },
       addressId: '123',
       label: 'Work',
+      category: 'work',
       timeserie: {
         aggregation: { startPlaceDisplayName: 'StartPlace' },
         series: [{ properties: { start_loc: { coordinates: ['02', '48'] } } }]
@@ -64,7 +65,7 @@ describe('addAddressToContact', () => {
         {
           id: '123',
           formattedAddress: 'StartPlace',
-          geo: { geo: '48,02' },
+          geo: { geo: '48,02', cozyCategory: 'work' },
           type: 'Work'
         }
       ]
@@ -76,6 +77,7 @@ describe('addAddressToContact', () => {
       contact: { _id: 'contactId' },
       addressId: '123',
       label: 'Work',
+      category: 'work',
       timeserie: {
         aggregation: { startPlaceDisplayName: 'StartPlace' },
         series: [{ properties: { start_loc: { coordinates: ['02', '48'] } } }]
@@ -89,7 +91,7 @@ describe('addAddressToContact', () => {
         {
           id: '123',
           formattedAddress: 'StartPlace',
-          geo: { geo: '48,02' },
+          geo: { geo: '48,02', cozyCategory: 'work' },
           type: 'Work'
         }
       ]

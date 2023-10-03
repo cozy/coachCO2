@@ -10,13 +10,13 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 export const noLabel = () => {
   const NoLabelActionComponent = forwardRef(({ onClick, ...props }, ref) => {
     const { t } = useI18n()
-    const { label, setLabel } = useContactToPlace()
+    const { label, setLabel, setCategory } = useContactToPlace()
 
     return (
       <ActionsMenuItem
         {...props}
         ref={ref}
-        onClick={() => onClick({ setLabel })}
+        onClick={() => onClick({ setLabel, setCategory })}
       >
         <ListItemIcon>
           <Radio checked={label === undefined} />
@@ -30,8 +30,9 @@ export const noLabel = () => {
 
   return {
     name: 'noLabel',
-    action: (_, { setLabel }) => {
+    action: (_, { setLabel, setCategory }) => {
       setLabel()
+      setCategory()
     },
     Component: NoLabelActionComponent
   }
