@@ -20,6 +20,14 @@ const useStyles = makeStyles({
   }
 })
 
+const setMapBounds = ({ map, timeserie, type, setBounds }) => {
+  const latLng = [
+    ...getGeoJSONData(timeserie).properties[`${type}_loc`].coordinates
+  ].reverse()
+  map.setView(latLng)
+  setBounds(map.getBounds())
+}
+
 const ContactToPlaceMap = () => {
   const [bounds, setBounds] = useState()
   const { timeserie } = useTrip()
@@ -28,11 +36,7 @@ const ContactToPlaceMap = () => {
   const styles = useStyles()
 
   useEffect(() => {
-    const latLng = [
-      ...getGeoJSONData(timeserie).properties[`${type}_loc`].coordinates
-    ].reverse()
-    map.setView(latLng)
-    setBounds(map.getBounds())
+    setMapBounds({ map, timeserie, type, setBounds })
   }, [timeserie, map, type])
 
   return (
