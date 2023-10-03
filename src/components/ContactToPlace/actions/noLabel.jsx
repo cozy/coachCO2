@@ -1,17 +1,23 @@
 import React, { forwardRef } from 'react'
+import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 
 import ActionsMenuItem from 'cozy-ui/transpiled/react/ActionsMenu/ActionsMenuItem'
-import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import Radio from 'cozy-ui/transpiled/react/Radios'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-export const noLabel = ({ label, setLabel }) => {
-  const NoLabelActionComponent = forwardRef((props, ref) => {
+export const noLabel = () => {
+  const NoLabelActionComponent = forwardRef(({ onClick, ...props }, ref) => {
     const { t } = useI18n()
+    const { label, setLabel } = useContactToPlace()
 
     return (
-      <ActionsMenuItem {...props} ref={ref}>
+      <ActionsMenuItem
+        {...props}
+        ref={ref}
+        onClick={() => onClick({ setLabel })}
+      >
         <ListItemIcon>
           <Radio checked={label === undefined} />
         </ListItemIcon>
@@ -24,10 +30,9 @@ export const noLabel = ({ label, setLabel }) => {
 
   return {
     name: 'noLabel',
-    action: () => {
-      setLabel(undefined)
+    action: (_, { setLabel }) => {
+      setLabel()
     },
-    disabled: false,
     Component: NoLabelActionComponent
   }
 }

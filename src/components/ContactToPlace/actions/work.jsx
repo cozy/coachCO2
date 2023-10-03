@@ -1,21 +1,24 @@
 import React, { forwardRef } from 'react'
+import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 
 import ActionsMenuItem from 'cozy-ui/transpiled/react/ActionsMenu/ActionsMenuItem'
-import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import Radio from 'cozy-ui/transpiled/react/Radios'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-export const work = ({ label, setLabel }) => {
+export const work = () => {
   const WorkActionComponent = forwardRef(({ onClick, ...props }, ref) => {
     const { t } = useI18n()
+    const { label, setLabel } = useContactToPlace()
+
     const compLabel = t('contactToPlace.work')
 
     return (
       <ActionsMenuItem
         {...props}
         ref={ref}
-        onClick={() => onClick({ compLabel })}
+        onClick={() => onClick({ compLabel, setLabel })}
       >
         <ListItemIcon>
           <Radio checked={label === compLabel} />
@@ -29,10 +32,9 @@ export const work = ({ label, setLabel }) => {
 
   return {
     name: 'work',
-    action: (_, { compLabel }) => {
+    action: (_, { compLabel, setLabel }) => {
       setLabel(compLabel)
     },
-    disabled: false,
     Component: WorkActionComponent
   }
 }
