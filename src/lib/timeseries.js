@@ -327,7 +327,9 @@ export const getEndPlaceDisplayName = timeserie => {
 export const getPlaceDisplayName = (timeserie, type) => {
   return type === 'start'
     ? getStartPlaceDisplayName(timeserie)
-    : getEndPlaceDisplayName(timeserie)
+    : type === 'end'
+    ? getEndPlaceDisplayName(timeserie)
+    : null
 }
 
 export const getPlaceCoordinates = (timeserie, type) => {
