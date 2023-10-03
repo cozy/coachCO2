@@ -36,7 +36,19 @@ const PurposeEditDialog = ({ onClose }) => {
 
   const handleSelect = async item => {
     setSelectedPurpose(item.id)
-    setShowRecurringDialog(true)
+    const oldPurpose = getTimeseriePurpose(timeserie)
+
+    if (oldPurpose !== OTHER_PURPOSE) {
+      setShowRecurringDialog(true)
+    } else {
+      await handleRecurringTrip({
+        client,
+        timeserie,
+        purpose: item.id,
+        oldPurpose
+      })
+      onClose()
+    }
   }
 
   const isSelected = useMemo(
