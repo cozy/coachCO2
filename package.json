@@ -83,7 +83,7 @@
     "cozy-logger": "^1.10.1",
     "cozy-realtime": "^5.0.0",
     "cozy-sharing": "^10.0.0",
-    "cozy-ui": "^93.5.0",
+    "cozy-ui": "^95.0.0",
     "date-fns": "2.29.3",
     "humanize-duration": "3.27.1",
     "leaflet": "1.9.1",
