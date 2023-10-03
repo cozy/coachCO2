@@ -41,14 +41,11 @@ const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
     return navigate(`/analysis/${type}/${sortedTimeserieKey}`)
   }
 
+  if (isDisabled) return null
+
   return (
     <>
-      <ListItem
-        data-testid="ListItem"
-        disabled={isDisabled}
-        onClick={!isDisabled ? handleClick : undefined}
-        button
-      >
+      <ListItem data-testid="ListItem" onClick={handleClick} button>
         <ListItemIcon>
           <ItemIcon type={type} sortedTimeserieKey={sortedTimeserieKey} />
         </ListItemIcon>
@@ -59,11 +56,9 @@ const AnalysisListItem = ({ sortedTimeserie, totalCO2, type }) => {
         <Typography style={styles.co2} variant="body2">
           {formatCO2(CO2)}
         </Typography>
-        {!isDisabled && (
-          <ListItemIcon>
-            <Icon icon={RightIcon} color="var(--secondaryTextColor)" />
-          </ListItemIcon>
-        )}
+        <ListItemIcon>
+          <Icon icon={RightIcon} color="var(--secondaryTextColor)" />
+        </ListItemIcon>
       </ListItem>
       <Divider />
     </>
