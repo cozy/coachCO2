@@ -24,12 +24,10 @@ const LabelItem = () => {
   const [showLabelMenu, setShowLabelMenu] = useState(false)
   const anchorRef = useRef(null)
   const { t } = useI18n()
-  const { label, setLabel } = useContactToPlace()
+  const { label } = useContactToPlace()
 
   const actions = makeActions([noLabel, home, work, customLabel], {
-    label,
-    showCustomLabelModal: () => setShowCustomLabelModal(true),
-    setLabel
+    showCustomLabelModal: () => setShowCustomLabelModal(true)
   })
 
   return (
