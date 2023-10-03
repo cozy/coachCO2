@@ -49,33 +49,9 @@ describe('AnalysisListItem', () => {
     expect(console.log).toHaveBeenCalledWith('navigate is called')
   })
 
-  it('should not push route if disabled', () => {
-    const { getByTestId } = setup({
-      value: { timeseries: [], totalCO2: 0 }
-    })
-    useNavigate.mockReturnValue(navigate)
+  it('should return null if disabled', () => {
+    const { queryByTestId } = setup()
 
-    fireEvent.click(getByTestId('ListItem'))
-
-    // eslint-disable-next-line no-console
-    expect(console.log).not.toHaveBeenCalledWith('navigate is called')
+    expect(queryByTestId('ListItem')).toBeNull()
   })
-
-  it.each`
-    timeseries | totalCO2 | result
-    ${[]}      | ${0}     | ${true}
-    ${['a']}   | ${0}     | ${false}
-    ${[]}      | ${1}     | ${false}
-    ${['a']}   | ${1}     | ${false}
-  `(
-    `should set "disabled" to $result if the parameters "timeseries" = $timeseries & "totalCO2" = $totalCO2`,
-    ({ timeseries, totalCO2, result }) => {
-      const { queryByTestId } = setup({
-        value: { timeseries, totalCO2 }
-      })
-      expect(queryByTestId('ListItem').getAttribute('aria-disabled')).toEqual(
-        `${result}`
-      )
-    }
-  )
 })
