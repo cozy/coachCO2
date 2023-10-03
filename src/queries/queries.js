@@ -12,7 +12,8 @@ import {
   GEOJSON_DOCTYPE,
   ACCOUNTS_DOCTYPE,
   SETTINGS_DOCTYPE,
-  CONTACTS_DOCTYPE
+  CONTACTS_DOCTYPE,
+  FILES_DOCTYPE
 } from 'src/doctypes'
 
 import CozyClient, { Q } from 'cozy-client'
@@ -329,5 +330,30 @@ export const buildContactsQueryById = contactId => ({
     as: `${CONTACTS_DOCTYPE}/${contactId}`,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s),
     singleDocData: true
+  }
+})
+
+export const buildLastFileCreatedByCCO2Query = () => ({
+  definition: Q(FILES_DOCTYPE)
+    .partialIndex({
+      'cozyMetadata.createdByApp': 'coachco2',
+      class: 'pdf',
+      type: 'file',
+      trashed: false
+    })
+    .indexFields(['cozyMetadata.updatedAt'])
+    .sortBy([{ 'cozyMetadata.updatedAt': 'desc' }])
+    .limitBy(1),
+  options: {
+    as: FILES_DOCTYPE,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(neverReload)
+  }
+})
+
+export const buildFileQueryById = fileId => ({
+  definition: () => Q(FILES_DOCTYPE).getById(fileId),
+  options: {
+    as: `${FILES_DOCTYPE}/${fileId}`,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(neverReload)
   }
 })
