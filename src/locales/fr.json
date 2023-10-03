@@ -284,7 +284,8 @@
       "content": "Une attestation a été générée pour attester de votre succès pour l’année %{year}. Transférez-la dès maintenant par email à votre employeur pour recevoir %{bountyAmount}€ !",
       "actions": {
         "show": "Certificat - Aller travailler à vélo.pdf",
-        "generate": "Générer une nouvelle attestation",
+        "generate": "Générer une attestation",
+        "regenerate": "Générer une nouvelle attestation",
         "understood": "J'ai compris"
       }
     },
@@ -304,5 +305,15 @@
         "cancel": "Annuler"
       }
     }
+  },
+  "PDF": {
+    "name": "Attestation - Aller travailler à vélo (%{year}).pdf",
+    "title": "Attestation sur l'Honneur\n de Réussite du Forfait\n Mobilité Durable",
+    "date": "Le %{currentDateFormatted} à %{currentTimeFormatted}",
+    "recipient": "Destinataire : %{sourceIdentity}",
+    "paragraph01": "Je soussigné(e) %{username} certifie sur l’honneur avoir atteint l'objectif forfait mobilités durables de %{daysToReach} jours en effectuant mes déplacements du domicile vers mon travail en vélo du 1er janvier au 31 décembre %{year}.",
+    "paragraph02": "En plus de cette attestation, je tiens à disposition de mon employeur tout justificatif utile d'utilisation effective du vélo comme les relevés de facture ou de paiement, d’assurances ou d’entretien de mon vélo.",
+    "paragraph03": "Fait pour servir et valoir ce que de droit.",
+    "signature": "Signature : %{username}"
   }
 }
