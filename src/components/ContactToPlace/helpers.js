@@ -20,7 +20,7 @@ export const getContactAddressAndIndexFromRelationships = ({
 }) => {
   let index
 
-  const address = contact.address.find((address, idx) => {
+  const address = contact?.address?.find((address, idx) => {
     if (
       address.id ===
       timeserie.relationships[getRelationshipKey(type)]?.data?.metadata

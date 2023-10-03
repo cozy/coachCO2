@@ -1,4 +1,4 @@
-import React, { useMemo, useContext, useState, useEffect, useRef } from 'react'
+import React, { useMemo, useContext, useState, useEffect } from 'react'
 import ContactToPlaceDialog from 'src/components/ContactToPlace/ContactToPlaceDialog'
 import {
   getRelationshipByType,
@@ -24,7 +24,6 @@ export const useContactToPlace = () => {
 
 const ContactToPlaceProvider = ({ children }) => {
   const [type, setType] = useState()
-  const previousType = useRef(null)
   const [contact, setContact] = useState()
   const [label, setLabel] = useState()
   const { timeserie } = useTrip()
@@ -56,28 +55,9 @@ const ContactToPlaceProvider = ({ children }) => {
   )
 
   useEffect(() => {
-    previousType.current = type
-  }, [type])
-
-  useEffect(() => {
-    if (previousType !== type) {
-      setContact()
-      setLabel()
-    }
-  }, [type])
-
-  useEffect(() => {
-    if (!isLoading && !fetchedContact) {
-      setContact(fetchedContact)
-    }
-  }, [fetchedContact, isLoading])
-
-  useEffect(() => {
-    if (!isLoading && contact === undefined && fetchedContact !== undefined) {
-      setContact(fetchedContact)
-      setLabel(getLabelByType({ contact: fetchedContact, timeserie, type }))
-    }
-  }, [isLoading, contact, fetchedContact, timeserie, type])
+    setContact(fetchedContact)
+    setLabel(getLabelByType({ contact: fetchedContact, timeserie, type }))
+  }, [type, fetchedContact, timeserie])
 
   return (
     <ContactToPlaceContext.Provider value={value}>
