@@ -6,6 +6,7 @@ import {
   handleOccasionalTrip,
   handleRecurringTrip
 } from 'src/components/EditDialogs/helpers'
+import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import { purposes } from 'src/components/helpers'
 import { OTHER_PURPOSE } from 'src/constants'
@@ -27,12 +28,12 @@ const makeOptions = t => {
 }
 
 const PurposeEditDialog = ({ onClose }) => {
-  const [contactToPlaceType, setContactToPlaceType] = useState()
   const [showRecurringDialog, setShowRecurringDialog] = useState(false)
   const [selectedPurpose, setSelectedPurpose] = useState(null)
   const { t } = useI18n()
   const client = useClient()
   const { timeserie } = useTrip()
+  const { type, setType } = useContactToPlace()
 
   const handleSelect = async item => {
     setSelectedPurpose(item.id)
@@ -81,7 +82,7 @@ const PurposeEditDialog = ({ onClose }) => {
                 openContactToPlaceModalOrClose({
                   timeserie,
                   selectedPurpose,
-                  setContactToPlaceType,
+                  setContactToPlaceType: setType,
                   setShowRecurringDialog,
                   onClose
                 })
@@ -100,7 +101,7 @@ const PurposeEditDialog = ({ onClose }) => {
                 openContactToPlaceModalOrClose({
                   timeserie,
                   selectedPurpose,
-                  setContactToPlaceType,
+                  setContactToPlaceType: setType,
                   setShowRecurringDialog,
                   onClose
                 })
@@ -113,8 +114,8 @@ const PurposeEditDialog = ({ onClose }) => {
     )
   }
 
-  if (contactToPlaceType) {
-    return <ContactToPlaceDialog type={contactToPlaceType} onClose={onClose} />
+  if (type) {
+    return <ContactToPlaceDialog onClose={onClose} />
   }
 
   return (
