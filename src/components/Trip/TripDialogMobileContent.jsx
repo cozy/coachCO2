@@ -17,7 +17,7 @@ const makeMapStyles = ({ toolbarHeight }) => ({
   }
 })
 
-const TripDialogMobileContent = ({ titleRef, onSuccessMessage }) => {
+const TripDialogMobileContent = ({ titleRef }) => {
   const [toolbarHeight, setToolbarHeight] = useState(0)
 
   const toolbarProps = useMemo(
@@ -45,7 +45,7 @@ const TripDialogMobileContent = ({ titleRef, onSuccessMessage }) => {
         <BottomSheetHeader className="u-h-3 u-pb-half">
           <BottomSheetHeaderContent />
         </BottomSheetHeader>
-        <BottomSheetContent onSuccessMessage={onSuccessMessage} />
+        <BottomSheetContent />
       </BottomSheet>
     </>
   )

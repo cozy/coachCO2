@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
+import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import TextField from 'cozy-ui/transpiled/react/TextField'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-const CustomLabelDialog = ({ setLabel, onClose }) => {
-  const { t } = useI18n()
+const CustomLabelDialog = ({ onClose }) => {
   const [value, setValue] = useState()
+  const { t } = useI18n()
+  const { setLabel } = useContactToPlace()
 
   const handleClick = () => {
     setLabel(value)

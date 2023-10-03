@@ -2,29 +2,38 @@ import 'leaflet/dist/leaflet.css'
 import React, { useEffect, useState } from 'react'
 import { MapContainer, TileLayer, useMap, SVGOverlay } from 'react-leaflet'
 import LocationIcon from 'src/assets/icons/location.svg'
+import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import { getGeoJSONData } from 'src/lib/timeseries'
 
 import Icon from 'cozy-ui/transpiled/react/Icon'
+import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
 const mapCenter = [51.505, -0.09]
 const mapStyle = {
   height: 128,
   borderRadius: 8
 }
+const useStyles = makeStyles({
+  icon: {
+    filter: 'drop-shadow(0 5px 8px rgba(29,33,42,0.12))'
+  }
+})
 
 const ContactToPlaceMap = () => {
   const [bounds, setBounds] = useState()
   const { timeserie } = useTrip()
+  const { type } = useContactToPlace()
   const map = useMap()
+  const styles = useStyles()
 
   useEffect(() => {
     const latLng = [
-      ...getGeoJSONData(timeserie).properties.end_loc.coordinates
+      ...getGeoJSONData(timeserie).properties[`${type}_loc`].coordinates
     ].reverse()
     map.setView(latLng)
     setBounds(map.getBounds())
-  }, [timeserie, map])
+  }, [timeserie, map, type])
 
   return (
     <>
@@ -35,6 +44,7 @@ const ContactToPlaceMap = () => {
       {bounds && (
         <SVGOverlay bounds={bounds}>
           <Icon
+            className={styles.icon}
             icon={LocationIcon}
             size={48}
             x="calc(50% - 24px)"

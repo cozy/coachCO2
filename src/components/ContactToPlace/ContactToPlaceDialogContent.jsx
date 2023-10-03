@@ -2,6 +2,7 @@ import React from 'react'
 import ContactItem from 'src/components/ContactToPlace/ContactItem'
 import ContactToPlaceMap from 'src/components/ContactToPlace/ContactToPlaceMap'
 import LabelItem from 'src/components/ContactToPlace/LabelItem'
+import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import {
   getFormattedPlaceCoordinates,
@@ -16,14 +17,9 @@ import ListItem from 'cozy-ui/transpiled/react/ListItem'
 import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 
-const ContactToPlaceDialogContent = ({
-  contact,
-  setContact,
-  label,
-  setLabel,
-  type
-}) => {
+const ContactToPlaceDialogContent = () => {
   const { timeserie } = useTrip()
+  const { type, contact } = useContactToPlace()
 
   return (
     <>
@@ -39,15 +35,11 @@ const ContactToPlaceDialogContent = ({
           />
         </ListItem>
         <Divider className="u-ml-3" />
-        <ContactItem
-          contact={contact}
-          setContact={setContact}
-          setLabel={setLabel}
-        />
+        <ContactItem />
         {contact && (
           <>
             <Divider className="u-ml-3" />
-            <LabelItem label={label} setLabel={setLabel} />
+            <LabelItem />
           </>
         )}
       </List>

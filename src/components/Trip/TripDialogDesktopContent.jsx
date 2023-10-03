@@ -15,7 +15,7 @@ const styles = {
   }
 }
 
-const TripDialogDesktopContent = ({ onSuccessMessage }) => {
+const TripDialogDesktopContent = () => {
   return (
     <>
       <div style={styles.map}>
@@ -25,7 +25,7 @@ const TripDialogDesktopContent = ({ onSuccessMessage }) => {
         <BottomSheetHeaderContent />
       </div>
       <Divider style={styles.divider} />
-      <BottomSheetContent onSuccessMessage={onSuccessMessage} />
+      <BottomSheetContent />
     </>
   )
 }

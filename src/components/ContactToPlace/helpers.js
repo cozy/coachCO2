@@ -1,3 +1,4 @@
+import remove from 'lodash/remove'
 import set from 'lodash/set'
 import unset from 'lodash/unset'
 import { getPlaceCoordinates, getPlaceDisplayName } from 'src/lib/timeseries'
@@ -5,7 +6,11 @@ import { getPlaceCoordinates, getPlaceDisplayName } from 'src/lib/timeseries'
 import { getRandomUUID } from 'cozy-ui/transpiled/react/helpers/getRandomUUID'
 
 export const getRelationshipKey = type => {
-  return type === 'start' ? 'startPlaceContact' : 'endPlaceContact'
+  return type === 'start'
+    ? 'startPlaceContact'
+    : type === 'end'
+    ? 'endPlaceContact'
+    : null
 }
 
 export const getContactAddressAndIndexFromRelationships = ({
@@ -34,7 +39,7 @@ export const getLabelByType = ({ contact, timeserie, type }) => {
     contact,
     timeserie,
     type
-  })?.address.type
+  })?.address?.type
 }
 
 export const getRelationshipByType = (timeserie, type) => {
@@ -45,7 +50,22 @@ export const hasRelationshipByType = (timeserie, type) => {
   return getRelationshipByType(timeserie, type)?.data
 }
 
-export const removeRelationship = async ({ client, timeserie, type }) => {
+export const removeRelationship = async ({
+  client,
+  timeserie,
+  type,
+  contact
+}) => {
+  const { address } = getContactAddressAndIndexFromRelationships({
+    contact,
+    timeserie,
+    type
+  })
+
+  remove(contact.address, val => val.id && val.id === address.id)
+
+  await client.save(contact)
+
   const { data: newTimeserie } = await getRelationshipByType(
     timeserie,
     type
@@ -59,18 +79,25 @@ export const removeRelationship = async ({ client, timeserie, type }) => {
   await client.save(newTimeserie)
 }
 
-// TODO should be in cozy-ui
-const createUUID = () => {
-  const func = c => {
-    var r = (dt + Math.random() * 16) % 16 | 0
-    dt = Math.floor(dt / 16)
-    return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16)
+export const addAddressToContact = ({
+  contact,
+  addressId,
+  label,
+  timeserie,
+  type
+}) => {
+  return {
+    ...contact,
+    address: [
+      ...(contact.address || []),
+      {
+        id: addressId,
+        type: label,
+        formattedAddress: getPlaceDisplayName(timeserie, type),
+        geo: { geo: getPlaceCoordinates(timeserie, type) }
+      }
+    ]
   }
-
-  var dt = new Date().getTime()
-  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, func)
-
-  return uuid
 }
 
 const createRelationship = async ({
@@ -80,20 +107,17 @@ const createRelationship = async ({
   type,
   label
 }) => {
-  const addressId = getRandomUUID() || createUUID()
+  const addressId = getRandomUUID()
 
-  const { data: newContact } = await client.save({
-    ...contact,
-    address: [
-      ...contact.address,
-      {
-        id: addressId,
-        type: label,
-        formattedAddress: getPlaceDisplayName(timeserie, type),
-        geo: { geo: getPlaceCoordinates(timeserie, type) }
-      }
-    ]
+  const contactToSave = addAddressToContact({
+    contact,
+    addressId,
+    label,
+    timeserie,
+    type
   })
+
+  const { data: newContact } = await client.save(contactToSave)
 
   const { data: newTimeserie } = await getRelationshipByType(
     timeserie,
@@ -130,10 +154,18 @@ export const saveRelationship = async ({
   type,
   timeserie,
   contact,
-  label
+  label,
+  isSameContact
 }) => {
-  return hasRelationshipByType(timeserie, type)
-    ? updateRelationship({ client, contact, timeserie, type, label })
+  return isSameContact
+    ? updateRelationship({
+        client,
+        contact,
+        timeserie,
+        type,
+        label,
+        isSameContact
+      })
     : createRelationship({
         client,
         contact,

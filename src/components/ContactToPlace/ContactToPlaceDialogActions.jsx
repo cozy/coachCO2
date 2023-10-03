@@ -1,52 +1,61 @@
 import React, { useState } from 'react'
 import {
   saveRelationship,
-  removeRelationship
+  removeRelationship,
+  hasRelationshipByType
 } from 'src/components/ContactToPlace/helpers'
+import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 import { useTrip } from 'src/components/Providers/TripProvider'
 
 import { useClient } from 'cozy-client'
 import Alert from 'cozy-ui/transpiled/react/Alert'
 import Button from 'cozy-ui/transpiled/react/Buttons'
-import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Snackbar from 'cozy-ui/transpiled/react/Snackbar'
+import { useAlert } from 'cozy-ui/transpiled/react/providers/Alert'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-const ContactToPlaceDialogActions = ({
-  contact,
-  fetchedContact,
-  type,
-  label,
-  onSuccessMessage,
-  onClose
-}) => {
+const ContactToPlaceDialogActions = () => {
   const [showError, setShowError] = useState(false)
+  const { type, isSameContact, contact, setType, label } = useContactToPlace()
   const { t } = useI18n()
   const { timeserie } = useTrip()
   const client = useClient()
+  const { showAlert } = useAlert()
 
-  const showDelete = fetchedContact && fetchedContact === contact
+  const onClose = () => setType()
 
   const handleSubmit = async () => {
     if (!contact) {
       return setShowError(true)
     }
 
-    onSuccessMessage(t('contactToPlace.addSuccess'))
-    onClose()
-    await saveRelationship({ client, type, timeserie, contact, label })
+    showAlert(t('contactToPlace.addSuccess'), 'success')
+    if (type === 'start' && !hasRelationshipByType(timeserie, 'end')) {
+      setType('end')
+    } else {
+      onClose()
+    }
+    await saveRelationship({
+      client,
+      type,
+      timeserie,
+      contact,
+      label,
+      isSameContact
+    })
   }
 
   const handleCloseError = () => setShowError(false)
 
   const handleDelete = async () => {
-    onSuccessMessage(t('contactToPlace.removeSuccess'))
+    showAlert(t('contactToPlace.removeSuccess'), 'success')
     onClose()
-    await removeRelationship({ client, timeserie, type })
+    await removeRelationship({ client, timeserie, type, contact })
   }
 
   return (
     <>
-      {showDelete ? (
+      {isSameContact ? (
         <Button
           variant="secondary"
           label={t('contactToPlace.delete')}
