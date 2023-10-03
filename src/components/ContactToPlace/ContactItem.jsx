@@ -14,7 +14,7 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 const ContactItem = () => {
   const [showContactModal, setShowContactModal] = useState(false)
   const { t } = useI18n()
-  const { contact, setContact, setLabel } = useContactToPlace()
+  const { contact, setContact, setLabel, setCategory } = useContactToPlace()
 
   return (
     <>
@@ -44,6 +44,7 @@ const ContactItem = () => {
           onItemClick={contact => {
             setContact(contact)
             setLabel(t('contactToPlace.home'))
+            setCategory('home')
           }}
         />
       )}

@@ -16,7 +16,8 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const ContactToPlaceDialogActions = () => {
   const [showError, setShowError] = useState(false)
-  const { type, isSameContact, contact, setType, label } = useContactToPlace()
+  const { type, isSameContact, contact, setType, label, category } =
+    useContactToPlace()
   const { t } = useI18n()
   const { timeserie } = useTrip()
   const client = useClient()
@@ -41,7 +42,8 @@ const ContactToPlaceDialogActions = () => {
       timeserie,
       contact,
       label,
-      isSameContact
+      isSameContact,
+      category
     })
   }
 

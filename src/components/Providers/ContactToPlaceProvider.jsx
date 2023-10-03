@@ -2,7 +2,8 @@ import React, { useMemo, useContext, useState, useEffect } from 'react'
 import ContactToPlaceDialog from 'src/components/ContactToPlace/ContactToPlaceDialog'
 import {
   getRelationshipByType,
-  getLabelByType
+  getLabelByType,
+  getCategoryByType
 } from 'src/components/ContactToPlace/helpers'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import { buildContactsQueryById } from 'src/queries/queries'
@@ -26,6 +27,7 @@ const ContactToPlaceProvider = ({ children }) => {
   const [type, setType] = useState()
   const [contact, setContact] = useState()
   const [label, setLabel] = useState()
+  const [category, setCategory] = useState()
   const { timeserie } = useTrip()
 
   const contactId = getRelationshipByType(timeserie, type)?.data?._id || ' '
@@ -49,14 +51,17 @@ const ContactToPlaceProvider = ({ children }) => {
       setContact,
       label,
       setLabel,
-      isSameContact
+      isSameContact,
+      category,
+      setCategory
     }),
-    [type, contact, label, isSameContact]
+    [type, contact, label, isSameContact, category]
   )
 
   useEffect(() => {
     setContact(fetchedContact)
     setLabel(getLabelByType({ contact: fetchedContact, timeserie, type }))
+    setCategory(getCategoryByType({ contact: fetchedContact, timeserie, type }))
   }, [type, fetchedContact, timeserie])
 
   return (

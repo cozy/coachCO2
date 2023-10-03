@@ -9,10 +9,11 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 const CustomLabelDialog = ({ onClose }) => {
   const [value, setValue] = useState()
   const { t } = useI18n()
-  const { setLabel } = useContactToPlace()
+  const { setLabel, setCategory } = useContactToPlace()
 
   const handleClick = () => {
     setLabel(value)
+    setCategory()
     onClose()
   }
 

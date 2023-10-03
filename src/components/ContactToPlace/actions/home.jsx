@@ -10,7 +10,7 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 export const home = () => {
   const HomeComponent = forwardRef(({ onClick, ...props }, ref) => {
     const { t } = useI18n()
-    const { label, setLabel } = useContactToPlace()
+    const { label, setLabel, setCategory } = useContactToPlace()
 
     const compLabel = t('contactToPlace.home')
 
@@ -18,7 +18,7 @@ export const home = () => {
       <ActionsMenuItem
         {...props}
         ref={ref}
-        onClick={() => onClick({ compLabel, setLabel })}
+        onClick={() => onClick({ compLabel, setLabel, setCategory })}
       >
         <ListItemIcon>
           <Radio checked={label === compLabel} />
@@ -32,8 +32,9 @@ export const home = () => {
 
   return {
     name: 'home',
-    action: (_, { compLabel, setLabel }) => {
+    action: (_, { compLabel, setLabel, setCategory }) => {
       setLabel(compLabel)
+      setCategory('home')
     },
     Component: HomeComponent
   }
