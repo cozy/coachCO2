@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { getOpenPathAccountName } from 'src/components/GeolocationTracking/helpers'
 import { buildOpenPathKonnectorQuery } from 'src/queries/queries'
 
 import { useClient } from 'cozy-client'
@@ -25,7 +26,7 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
   const webviewIntent = useWebviewIntent()
   const client = useClient()
   const { isMobile } = useBreakpoints()
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
 
   const classes = useStyles()
 
@@ -53,9 +54,12 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
 
         const flow = new ConnectionFlow(client, null, konnector)
 
-        const date = new Date()
-
-        const newLogin = `${deviceName} ${date.toLocaleDateString('fr-FR')}`
+        const newLogin = await getOpenPathAccountName({
+          client,
+          t,
+          lang,
+          deviceName
+        })
         const newPassword = getRandomUUID()
 
         await flow.createAccountSilently({

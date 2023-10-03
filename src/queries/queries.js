@@ -366,3 +366,20 @@ export const buildOpenPathKonnectorQuery = () => ({
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
+
+export const buildAccountQueryByLogin = login => ({
+  definition: Q(ACCOUNTS_DOCTYPE)
+    .where({
+      'auth.login': login
+    })
+    .partialIndex({
+      account_type: {
+        $or: ['tracemob', 'openpath']
+      }
+    })
+    .indexFields(['auth.login'])
+    .select(['auth.login', 'account_type']),
+  options: {
+    as: `${ACCOUNTS_DOCTYPE}/account_type/login/${login}`
+  }
+})

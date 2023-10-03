@@ -301,7 +301,8 @@
       "enable": "Memorise my journeys",
       "sendLogs": "Send Geoloc logs",
       "forceUploadData": "Force Upload Data",
-      "copyIdentifier": "Copy OpenPATH Identifier"
+      "copyIdentifier": "Copy OpenPATH Identifier",
+      "createdOn": "created on"
     }
   },
   "Modes": {
