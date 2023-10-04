@@ -316,6 +316,14 @@ export const getEndDate = timeserie => {
   return timeserie.endDate ? new Date(timeserie.endDate) : null
 }
 
+export const getPlaceDate = (timeserie, type) => {
+  return type === 'start'
+    ? getStartDate(timeserie)
+    : type === 'end'
+    ? getEndDate(timeserie)
+    : null
+}
+
 export const getStartPlaceDisplayName = timeserie => {
   return get(timeserie, 'aggregation.startPlaceDisplayName')
 }
