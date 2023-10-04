@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const TimelineNode = ({ label, endLabel, type, onClick }) => {
+const TimelineNode = ({ primary, secondary, endLabel, type, onClick }) => {
   const classes = useStyles({ onClick })
   const isNotEndNode = useMemo(() => type !== 'end', [type])
   const isStartNode = useMemo(() => type === 'start', [type])
@@ -58,7 +58,12 @@ const TimelineNode = ({ label, endLabel, type, onClick }) => {
       </TimelineSeparator>
       <TimelineContent>
         <div className={classes.contentWrapper}>
-          <Typography className="u-flex-grow-1">{label}</Typography>
+          <div className="u-flex-grow-1">
+            <Typography>{primary}</Typography>
+            {secondary && (
+              <Typography variant="caption">{secondary}</Typography>
+            )}
+          </div>
           <Typography
             className={classes.endLabel}
             variant="body2"

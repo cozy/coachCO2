@@ -53,14 +53,14 @@ const BottomSheetContent = () => {
       <BottomSheetItem disableGutters disableElevation>
         <Timeline className="u-pb-0 u-mb-0">
           <TimelineNode
-            label={getStartPlaceDisplayName(timeserie)}
+            primary={getStartPlaceDisplayName(timeserie)}
             endLabel={formatDate({ f, lang, date: getStartDate(timeserie) })}
             type="start"
             onClick={isCommute ? () => setType('start') : undefined}
           />
           <TimelineSections />
           <TimelineNode
-            label={getEndPlaceDisplayName(timeserie)}
+            primary={getEndPlaceDisplayName(timeserie)}
             endLabel={formatDate({ f, lang, date: getEndDate(timeserie) })}
             type="end"
             onClick={isCommute ? () => setType('end') : undefined}
