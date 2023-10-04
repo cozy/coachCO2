@@ -1,4 +1,13 @@
-import { getLabelByType, addAddressToContact } from './helpers'
+import get from 'lodash/get'
+import locales from 'src/locales/en.json'
+
+import {
+  getLabelByType,
+  addAddressToContact,
+  getPlaceLabelByContact
+} from './helpers'
+
+const t = x => get(locales, x)
 
 describe('getLabelByType', () => {
   it('shoud return type of matched contact address', () => {
@@ -96,5 +105,180 @@ describe('addAddressToContact', () => {
         }
       ]
     })
+  })
+})
+
+describe('getPlaceLabelByContact', () => {
+  const type = 'start'
+
+  describe('if contact is myself', () => {
+    it('should return `At home`', () => {
+      const contact = {
+        displayName: 'John Connor',
+        me: true,
+        address: [{ id: '123', type: 'Home', geo: { cozyCategory: 'home' } }]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceLabelByContact({ timeserie, type, t })).toBe('At home')
+    })
+
+    it('should return `Work`', () => {
+      const contact = {
+        displayName: 'John Connor',
+        me: true,
+        address: [{ id: '123', type: 'Work', geo: { cozyCategory: 'work' } }]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceLabelByContact({ timeserie, type, t })).toBe('Work')
+    })
+
+    it('should return the label', () => {
+      const contact = {
+        displayName: 'John Connor',
+        me: true,
+        address: [{ id: '123', type: 'custom' }]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceLabelByContact({ timeserie, type, t })).toBe('custom')
+    })
+
+    it('should return the display name', () => {
+      const contact = {
+        displayName: 'John Connor',
+        me: true,
+        address: [{ id: '123' }]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceLabelByContact({ timeserie, type, t })).toBe('John Connor')
+    })
+  })
+
+  describe('if contact is not myself', () => {
+    it('should return `At contact name`', () => {
+      const contact = {
+        displayName: 'Sarah Connor',
+        address: [{ id: '123', type: 'Home', geo: { cozyCategory: 'home' } }]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceLabelByContact({ timeserie, type, t })).toBe(
+        'At Sarah Connor'
+      )
+    })
+
+    it('should return contact name and work', () => {
+      const contact = {
+        displayName: 'Sarah Connor',
+        address: [{ id: '123', type: 'Work', geo: { cozyCategory: 'work' } }]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceLabelByContact({ timeserie, type, t })).toBe(
+        'Sarah Connor (Work)'
+      )
+    })
+
+    it('should contact name and label', () => {
+      const contact = {
+        displayName: 'Sarah Connor',
+        address: [{ id: '123', type: 'custom' }]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceLabelByContact({ timeserie, type, t })).toBe(
+        'Sarah Connor (custom)'
+      )
+    })
+
+    it('should return contact name', () => {
+      const contact = {
+        displayName: 'Sarah Connor',
+        address: [{ id: '123' }]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceLabelByContact({ timeserie, type, t })).toBe(
+        'Sarah Connor'
+      )
+    })
+  })
+
+  it('should return null if no contact', () => {
+    const timeserie = {
+      startPlaceContact: {},
+      relationships: {
+        startPlaceContact: {}
+      }
+    }
+
+    expect(getPlaceLabelByContact({ timeserie, type, t })).toBe(null)
   })
 })

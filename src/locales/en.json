@@ -83,7 +83,9 @@
     "work": "Work",
     "error": "Specify which contact to save the address under",
     "addSuccess": "The addresses have been registered",
-    "removeSuccess": "The addresses have been deleted"
+    "removeSuccess": "The addresses have been deleted",
+    "at": "At",
+    "atHome": "At home"
   },
   "loadMore": "Load more trips",
   "tripEdit": {

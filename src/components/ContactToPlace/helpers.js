@@ -3,6 +3,7 @@ import set from 'lodash/set'
 import unset from 'lodash/unset'
 import { getPlaceCoordinates, getPlaceDisplayName } from 'src/lib/timeseries'
 
+import { getDisplayName } from 'cozy-client/dist/models/contact'
 import { getRandomUUID } from 'cozy-ui/transpiled/react/helpers/getRandomUUID'
 
 export const getRelationshipKey = type => {
@@ -55,7 +56,33 @@ export const getRelationshipByType = (timeserie, type) => {
 }
 
 export const hasRelationshipByType = (timeserie, type) => {
-  return getRelationshipByType(timeserie, type)?.data
+  return !!getRelationshipByType(timeserie, type)?.data
+}
+
+export const getPlaceLabelByContact = ({ timeserie, type, t }) => {
+  const contact = getRelationshipByType(timeserie, type)?.data
+
+  if (!contact) {
+    return null
+  }
+
+  const isMyself = !!contact.me
+  const category = getCategoryByType({ timeserie, type, contact })
+  const label = getLabelByType({ timeserie, type, contact })
+  const displayName = getDisplayName(contact)
+  const isHome = category === 'home'
+
+  if (isHome) {
+    return isMyself
+      ? t('contactToPlace.atHome')
+      : `${t('contactToPlace.at')} ${displayName}`
+  }
+
+  if (!label) {
+    return displayName
+  }
+
+  return isMyself ? label : `${displayName} (${label})`
 }
 
 export const removeRelationship = async ({
