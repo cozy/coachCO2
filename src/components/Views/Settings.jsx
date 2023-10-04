@@ -6,6 +6,7 @@ import CO2EmissionDaccSwitcher from 'src/components/CO2EmissionDaccSwitcher'
 import CsvExporter from 'src/components/ExportCSV/CsvExporter'
 import GeolocationTrackingSettings from 'src/components/GeolocationTracking/GeolocationTrackingSettings'
 import GeolocationTrackingSwitcher from 'src/components/GeolocationTracking/GeolocationTrackingSwitcher'
+import { isGeolocationTrackingEnabled } from 'src/components/GeolocationTracking/helpers'
 import BikeGoalAlertSuccessSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSuccessSwitcher'
 import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
 import BikeGoalDaccSwitcher from 'src/components/Goals/BikeGoal/BikeGoalDaccSwitcher'
@@ -17,7 +18,6 @@ import {
 } from 'src/components/Providers/AccountProvider'
 import Titlebar from 'src/components/Titlebar'
 
-import { isFlagshipApp } from 'cozy-device-helper'
 import flag from 'cozy-flags'
 import Label from 'cozy-ui/transpiled/react/Label'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
@@ -32,11 +32,6 @@ export const Settings = () => {
       <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
     )
   }
-
-  const isGeolocationTrackingEnabled =
-    isFlagshipApp() &&
-    flag('coachco2.GPSMemory.enabled') &&
-    window?.cozy?.flagship?.geolocation_tracking_available
 
   return (
     <>
