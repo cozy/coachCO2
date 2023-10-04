@@ -56,7 +56,7 @@ export const getRelationshipByType = (timeserie, type) => {
 }
 
 export const hasRelationshipByType = (timeserie, type) => {
-  return getRelationshipByType(timeserie, type)?.data
+  return !!getRelationshipByType(timeserie, type)?.data
 }
 
 export const getPlaceLabelByContact = ({ timeserie, type, t }) => {
