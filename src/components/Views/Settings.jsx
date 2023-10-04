@@ -4,6 +4,9 @@ import AppVersionNumber from 'src/components/AppVersionNumber'
 import CO2EmissionDaccAlertSwitcher from 'src/components/CO2EmissionDaccAlertSwitcher'
 import CO2EmissionDaccSwitcher from 'src/components/CO2EmissionDaccSwitcher'
 import CsvExporter from 'src/components/ExportCSV/CsvExporter'
+import GeolocationTrackingSettings from 'src/components/GeolocationTracking/GeolocationTrackingSettings'
+import GeolocationTrackingSwitcher from 'src/components/GeolocationTracking/GeolocationTrackingSwitcher'
+import { isGeolocationTrackingEnabled } from 'src/components/GeolocationTracking/helpers'
 import BikeGoalAlertSuccessSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSuccessSwitcher'
 import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
 import BikeGoalDaccSwitcher from 'src/components/Goals/BikeGoal/BikeGoalDaccSwitcher'
@@ -37,6 +40,9 @@ export const Settings = () => {
         <AccountSelector className="u-mt-1" />
         <div className="u-mt-1">
           <Label>{t('settings.services')}</Label>
+          {isGeolocationTrackingEnabled && (
+            <GeolocationTrackingSwitcher className="u-mt-half-s" />
+          )}
           <CO2EmissionDaccSwitcher className="u-mt-half-s" />
           {flag('coachco2.bikegoal.enabled') && (
             <BikeGoalSwitcher className="u-mt-1-half-s" />
@@ -61,6 +67,9 @@ export const Settings = () => {
               )}
             </>
           </div>
+        )}
+        {isGeolocationTrackingEnabled && flag('coachco2.admin-mode') && (
+          <GeolocationTrackingSettings />
         )}
         {flag('coachco2.admin-mode') && <AppVersionNumber />}
       </div>

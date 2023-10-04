@@ -298,6 +298,15 @@
       "your_collectivity": "de votre collectivité"
     }
   },
+  "geolocationTracking": {
+    "settings": {
+      "enable": "Mémoriser mes déplacements",
+      "sendLogs": "Envoyer les logs de Geoloc",
+      "forceUploadData": "Forcer l'upload des données",
+      "copyIdentifier": "Copier l'identifiant OpenPATH",
+      "createdOn": "créé le"
+    }
+  },
   "Modes": {
     "DefaultDialog": {
       "primary": "Définir comme transport par défaut pour cette catégorie ?",

@@ -75,6 +75,7 @@
     "chart.js": "3.7.1",
     "classnames": "2.3.2",
     "cozy-client": "^41.2.0",
+    "copy-text-to-clipboard": "3.2.0",
     "cozy-device-helper": "^3.0.0",
     "cozy-flags": "^3.0.1",
     "cozy-harvest-lib": "^18.0.0",
