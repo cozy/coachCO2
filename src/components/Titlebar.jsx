@@ -8,9 +8,9 @@ import BarTitle from 'cozy-ui/transpiled/react/BarTitle'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import IconButton from 'cozy-ui/transpiled/react/IconButton'
 import Previous from 'cozy-ui/transpiled/react/Icons/Previous'
-import MuiCozyTheme from 'cozy-ui/transpiled/react/MuiCozyTheme'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
+import CozyTheme from 'cozy-ui/transpiled/react/providers/CozyTheme'
 
 const Titlebar = ({ label, subtitle, onBack }) => {
   const { isMobile } = useBreakpoints()
@@ -33,9 +33,9 @@ const Titlebar = ({ label, subtitle, onBack }) => {
           </BarLeft>
         )}
         <BarCenter>
-          <MuiCozyTheme>
+          <CozyTheme className="u-w-100">
             <BarTitle>{label}</BarTitle>
-          </MuiCozyTheme>
+          </CozyTheme>
         </BarCenter>
       </>
     )
