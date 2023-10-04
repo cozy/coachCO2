@@ -322,7 +322,7 @@
     "title": "Certificate of Honor\n of Success of the\n Sustainable Mobility Package",
     "date": "%{currentDateFormatted} at %{currentTimeFormatted}",
     "recipient": "Recipient : %{sourceIdentity}",
-    "paragraph01": "I, %{username}, certify on my honor that I have achieved the %{daysToReach} days sustainable mobility package objective by traveling from home to work by bike from January 1 to %{date}.",
+    "paragraph01": "I, %{username}, certify on my honor that I have achieved the %{daysToReach} days sustainable mobility package objective by traveling from home to work by bike from January 1 to %{year}.",
     "paragraph02": "In addition to this certificate, I provide my employer with any useful proof of actual use of the bicycle, such as invoice or payment statements, insurance or maintenance of my bicycle.",
     "paragraph03": "Made to serve and assert what is right.",
     "signature": "Signature : %{username}"
