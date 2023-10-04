@@ -83,7 +83,9 @@
     "work": "Travail",
     "error": "Préciser sous quel contact enregistrer l'adresse",
     "addSuccess": "Les adresses ont bien été enregistrées",
-    "removeSuccess": "Les adresses ont bien été supprimées"
+    "removeSuccess": "Les adresses ont bien été supprimées",
+    "at": "Chez",
+    "atHome": "Chez moi"
   },
   "loadMore": "Charger plus de trajets",
   "tripEdit": {
