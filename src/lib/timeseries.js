@@ -334,11 +334,14 @@ export const getPlaceDisplayName = (timeserie, type) => {
 
 export const getPlaceCoordinates = (timeserie, type) => {
   const geojson = getGeoJSONData(timeserie)
-  return [...geojson.properties[`${type}_loc`].coordinates].reverse().toString()
+  return [...geojson.properties[`${type}_loc`].coordinates]
 }
 
 export const getFormattedPlaceCoordinates = (timeserie, type) => {
-  return getPlaceCoordinates(timeserie, type).replace(',', ', ')
+  return getPlaceCoordinates(timeserie, type)
+    .reverse()
+    .toString()
+    .replace(',', ', ')
 }
 
 export const getGeoJSONData = timeserie => {

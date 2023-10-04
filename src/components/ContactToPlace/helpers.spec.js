@@ -65,7 +65,7 @@ describe('addAddressToContact', () => {
         {
           id: '123',
           formattedAddress: 'StartPlace',
-          geo: { geo: '48,02', cozyCategory: 'work' },
+          geo: { geo: ['02', '48'], cozyCategory: 'work' },
           type: 'Work'
         }
       ]
@@ -91,7 +91,7 @@ describe('addAddressToContact', () => {
         {
           id: '123',
           formattedAddress: 'StartPlace',
-          geo: { geo: '48,02', cozyCategory: 'work' },
+          geo: { geo: ['02', '48'], cozyCategory: 'work' },
           type: 'Work'
         }
       ]
