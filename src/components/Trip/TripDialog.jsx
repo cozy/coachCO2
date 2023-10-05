@@ -4,7 +4,10 @@ import { getPlaceLabelByContact } from 'src/components/ContactToPlace/helpers'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import TripDialogDesktopContent from 'src/components/Trip/TripDialogDesktopContent'
 import TripDialogMobileContent from 'src/components/Trip/TripDialogMobileContent'
-import { getEndPlaceDisplayName, getformattedEndDate } from 'src/lib/timeseries'
+import {
+  getEndPlaceDisplayName,
+  getformattedStartDate
+} from 'src/lib/timeseries'
 
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import Typography from 'cozy-ui/transpiled/react/Typography'
@@ -35,7 +38,7 @@ const TripDialog = () => {
             variant="caption"
             align={isMobile ? 'center' : undefined}
           >
-            {getformattedEndDate(timeserie, f)}
+            {getformattedStartDate(timeserie, f)}
           </Typography>
         </>
       }
