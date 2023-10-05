@@ -1,7 +1,12 @@
 import React from 'react'
 import AccountProvider from 'src/components/Providers/AccountProvider'
 import SelectDatesProvider from 'src/components/Providers/SelectDatesProvider'
-import { FILES_DOCTYPE, GEOJSON_DOCTYPE, SETTINGS_DOCTYPE } from 'src/doctypes'
+import {
+  CONTACTS_DOCTYPE,
+  FILES_DOCTYPE,
+  GEOJSON_DOCTYPE,
+  SETTINGS_DOCTYPE
+} from 'src/doctypes'
 
 import { CozyProvider, RealTimeQueries } from 'cozy-client'
 import { WebviewIntentProvider } from 'cozy-intent'
@@ -33,6 +38,7 @@ const AppProviders = ({ client, lang, polyglot, children }) => {
           <RealTimeQueries doctype={GEOJSON_DOCTYPE} />
           <RealTimeQueries doctype={SETTINGS_DOCTYPE} />
           <RealTimeQueries doctype={FILES_DOCTYPE} />
+          <RealTimeQueries doctype={CONTACTS_DOCTYPE} />
           <AccountProvider>
             <SelectDatesProvider>
               <I18n lang={lang} polyglot={polyglot}>
