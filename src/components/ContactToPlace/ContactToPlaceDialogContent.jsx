@@ -10,6 +10,7 @@ import {
 } from 'src/lib/timeseries'
 
 import Divider from 'cozy-ui/transpiled/react/Divider'
+import { useI18n } from 'cozy-ui/transpiled/react/I18n'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import LocationIcon from 'cozy-ui/transpiled/react/Icons/Location'
 import List from 'cozy-ui/transpiled/react/List'
@@ -20,6 +21,7 @@ import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 const ContactToPlaceDialogContent = () => {
   const { timeserie } = useTrip()
   const { type, contact } = useContactToPlace()
+  const { t } = useI18n()
 
   return (
     <>
@@ -31,7 +33,7 @@ const ContactToPlaceDialogContent = () => {
           </ListItemIcon>
           <ListItemText
             primary={getPlaceDisplayName(timeserie, type)}
-            secondary={getFormattedPlaceCoordinates(timeserie, type)}
+            secondary={getFormattedPlaceCoordinates({ timeserie, type, t })}
           />
         </ListItem>
         <Divider className="u-ml-3" />

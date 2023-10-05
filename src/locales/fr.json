@@ -85,7 +85,9 @@
     "addSuccess": "Les adresses ont bien été enregistrées",
     "removeSuccess": "Les adresses ont bien été supprimées",
     "at": "Chez",
-    "atHome": "Chez moi"
+    "atHome": "Chez moi",
+    "lat": "lat.",
+    "long": "long."
   },
   "loadMore": "Charger plus de trajets",
   "tripEdit": {

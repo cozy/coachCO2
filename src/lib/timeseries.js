@@ -345,11 +345,14 @@ export const getPlaceCoordinates = (timeserie, type) => {
   return [...geojson.properties[`${type}_loc`].coordinates]
 }
 
-export const getFormattedPlaceCoordinates = (timeserie, type) => {
-  return getPlaceCoordinates(timeserie, type)
-    .reverse()
-    .toString()
-    .replace(',', ', ')
+export const getFormattedPlaceCoordinates = ({ timeserie, type, t }) => {
+  return (
+    `${t('contactToPlace.lat')}: ` +
+    getPlaceCoordinates(timeserie, type)
+      .reverse()
+      .toString()
+      .replace(',', `, ${t('contactToPlace.long')}: `)
+  )
 }
 
 export const getGeoJSONData = timeserie => {
