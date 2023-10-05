@@ -48,7 +48,12 @@ const PurposeEditDialog = ({ onClose }) => {
         purpose: item.id,
         oldPurpose
       })
-      onClose()
+      openContactToPlaceModalOrClose({
+        timeserie,
+        selectedPurpose: item.id,
+        setContactToPlaceType: setType,
+        onClose
+      })
     }
   }
 
@@ -83,7 +88,6 @@ const PurposeEditDialog = ({ onClose }) => {
                   timeserie,
                   selectedPurpose,
                   setContactToPlaceType: setType,
-                  setShowRecurringDialog,
                   onClose
                 })
               }}
@@ -102,7 +106,6 @@ const PurposeEditDialog = ({ onClose }) => {
                   timeserie,
                   selectedPurpose,
                   setContactToPlaceType: setType,
-                  setShowRecurringDialog,
                   onClose
                 })
               }}

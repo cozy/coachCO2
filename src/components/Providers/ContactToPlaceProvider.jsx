@@ -62,7 +62,7 @@ const ContactToPlaceProvider = ({ children }) => {
     setContact(fetchedContact)
     setLabel(getLabelByType({ contact: fetchedContact, timeserie, type }))
     setCategory(getCategoryByType({ contact: fetchedContact, timeserie, type }))
-  }, [type, fetchedContact, timeserie])
+  }, [type, fetchedContact?._id, timeserie?._id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <ContactToPlaceContext.Provider value={value}>

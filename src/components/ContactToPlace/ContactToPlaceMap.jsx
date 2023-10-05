@@ -9,6 +9,7 @@ import { getGeoJSONData } from 'src/lib/timeseries'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
+const SVG_SIZE = 48
 const mapCenter = [51.505, -0.09]
 const mapStyle = {
   height: 128,
@@ -20,23 +21,27 @@ const useStyles = makeStyles({
   }
 })
 
-const setMapBounds = ({ map, timeserie, type, setBounds }) => {
+const setMapBounds = ({ map, timeserie, type, setBounds, setSVGPositions }) => {
   const latLng = [
     ...getGeoJSONData(timeserie).properties[`${type}_loc`].coordinates
   ].reverse()
   map.setView(latLng)
-  setBounds(map.getBounds())
+  const mapBounds = map.getBounds()
+  const { x, y } = map.getSize()
+  setBounds(mapBounds)
+  setSVGPositions({ x: x / 2 - SVG_SIZE / 2, y: y / 2 - SVG_SIZE })
 }
 
 const ContactToPlaceMap = () => {
   const [bounds, setBounds] = useState()
+  const [SVGPositions, setSVGPositions] = useState({ x: 0, y: 0 })
   const { timeserie } = useTrip()
   const { type } = useContactToPlace()
   const map = useMap()
   const styles = useStyles()
 
   useEffect(() => {
-    setMapBounds({ map, timeserie, type, setBounds })
+    setMapBounds({ map, timeserie, type, setBounds, setSVGPositions })
   }, [timeserie, map, type])
 
   return (
@@ -50,9 +55,9 @@ const ContactToPlaceMap = () => {
           <Icon
             className={styles.icon}
             icon={LocationIcon}
-            size={48}
-            x="calc(50% - 24px)"
-            y="calc(50% - 48px)"
+            size={SVG_SIZE}
+            x={SVGPositions.x}
+            y={SVGPositions.y}
           />
         </SVGOverlay>
       )}
@@ -66,8 +71,11 @@ const ContactToPlaceMapWrapper = () => {
       <MapContainer
         style={mapStyle}
         center={mapCenter}
-        zoom={13}
+        zoom={17}
         zoomControl={false}
+        doubleClickZoom={false}
+        boxZoom={false}
+        scrollWheelZoom={false}
       >
         <ContactToPlaceMap />
       </MapContainer>
