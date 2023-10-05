@@ -85,7 +85,9 @@
     "addSuccess": "The addresses have been registered",
     "removeSuccess": "The addresses have been deleted",
     "at": "At",
-    "atHome": "At home"
+    "atHome": "At home",
+    "lat": "lat.",
+    "long": "long."
   },
   "loadMore": "Load more trips",
   "tripEdit": {
