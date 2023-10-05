@@ -201,7 +201,13 @@ export const saveRelationship = async ({
   isSameContact,
   category
 }) => {
-  return isSameContact
+  const { address } = getContactAddressAndIndexFromRelationships({
+    contact,
+    timeserie,
+    type
+  })
+
+  return isSameContact && !!address
     ? updateRelationship({
         client,
         contact,
