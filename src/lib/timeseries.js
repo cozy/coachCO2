@@ -396,6 +396,11 @@ export const getformattedEndDate = (timeserie, f) => {
   return date.charAt(0).toUpperCase() + date.slice(1)
 }
 
+export const getformattedStartDate = (timeserie, f) => {
+  const date = f(getStartDate(timeserie), 'dddd D MMMM YYYY')
+  return date.charAt(0).toUpperCase() + date.slice(1)
+}
+
 /**
  * Set an automatic purpose and the aggregation purpose.
  * An automatic purpose implies a recurring trip.
