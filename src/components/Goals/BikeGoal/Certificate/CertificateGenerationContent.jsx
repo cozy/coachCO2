@@ -76,6 +76,7 @@ const CertificateGenerationContent = ({ certificate }) => {
               pathname: `../certificate/${certificate._id}`
             })
           }}
+          className="u-c-pointer"
         >
           <List>
             <ListItem>
