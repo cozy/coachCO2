@@ -48,7 +48,12 @@ const PurposeEditDialog = ({ onClose }) => {
         purpose: item.id,
         oldPurpose
       })
-      onClose()
+      openContactToPlaceModalOrClose({
+        timeserie,
+        selectedPurpose: item.id,
+        setContactToPlaceType: setType,
+        onClose
+      })
     }
   }
 
