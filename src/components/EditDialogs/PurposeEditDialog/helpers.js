@@ -32,7 +32,6 @@ export const openContactToPlaceModalOrClose = ({
   timeserie,
   selectedPurpose,
   setContactToPlaceType,
-  setShowRecurringDialog,
   onClose
 }) => {
   const isCommute = selectedPurpose === COMMUTE_PURPOSE
@@ -42,11 +41,7 @@ export const openContactToPlaceModalOrClose = ({
       setContactToPlaceType('start')
     } else if (!hasRelationshipByType(timeserie, 'end')) {
       setContactToPlaceType('end')
-    } else {
-      onClose()
     }
-    setShowRecurringDialog(false)
-  } else {
-    onClose()
   }
+  onClose()
 }
