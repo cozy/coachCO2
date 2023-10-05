@@ -35,56 +35,62 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
 
   const handleGeolocationTrackingChange = async () => {
     if (isGeolocationTrackingEnabled) {
-      // disable geolocation tracking
-      await webviewIntent.call('setGeolocationTracking', false)
+      await disableGeolocationTracking()
     } else {
-      // create account if necessary
-      let geolocationTrackingId = await getGeolocationTrackingId()
-
-      if (geolocationTrackingId === null) {
-        const { deviceName } = await webviewIntent.call('getDeviceInfo')
-
-        const openPathKonnectorQuery = buildOpenPathKonnectorQuery()
-        const {
-          data: { attributes: konnector }
-        } = await client.query(
-          openPathKonnectorQuery.definition,
-          openPathKonnectorQuery.options
-        )
-
-        const flow = new ConnectionFlow(client, null, konnector)
-
-        const newLogin = await getOpenPathAccountName({
-          client,
-          t,
-          lang,
-          deviceName
-        })
-        const newPassword = getRandomUUID()
-
-        await flow.createAccountSilently({
-          konnector,
-          vaultClient: null,
-          cipherId: null,
-          trigger: null,
-          account: null,
-          userCredentials: {
-            login: newLogin,
-            password: newPassword,
-            providerId: '1' // Cozy Provider
-          }
-        })
-
-        await setGeolocationTrackingId(newPassword)
-      }
-
-      // enable geolocation tracking
-      await webviewIntent.call('setGeolocationTracking', true)
+      await enableGeolocationTracking()
     }
 
-    // refresh UI
     const { enabled } = await getGeolocationTrackingStatus()
     setIsGeolocationTrackingEnabled(enabled)
+  }
+
+  const disableGeolocationTracking = async () => {
+    await webviewIntent.call('setGeolocationTracking', false)
+  }
+
+  const enableGeolocationTracking = async () => {
+    // create account if necessary
+    let geolocationTrackingId = await getGeolocationTrackingId()
+
+    if (geolocationTrackingId === null) {
+      const { deviceName } = await webviewIntent.call('getDeviceInfo')
+
+      const openPathKonnectorQuery = buildOpenPathKonnectorQuery()
+      const {
+        data: { attributes: konnector }
+      } = await client.query(
+        openPathKonnectorQuery.definition,
+        openPathKonnectorQuery.options
+      )
+
+      const flow = new ConnectionFlow(client, null, konnector)
+
+      const newLogin = await getOpenPathAccountName({
+        client,
+        t,
+        lang,
+        deviceName
+      })
+      const newPassword = getRandomUUID()
+
+      await flow.createAccountSilently({
+        konnector,
+        vaultClient: null,
+        cipherId: null,
+        trigger: null,
+        account: null,
+        userCredentials: {
+          login: newLogin,
+          password: newPassword,
+          providerId: '1' // Cozy Provider
+        }
+      })
+
+      await setGeolocationTrackingId(newPassword)
+    }
+
+    // enable geolocation tracking
+    await webviewIntent.call('setGeolocationTracking', true)
   }
 
   const getGeolocationTrackingId = async () => {
