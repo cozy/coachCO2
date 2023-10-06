@@ -1,18 +1,22 @@
-import { OTHER_PURPOSE } from 'src/constants'
+import {
+  HOME_ADDRESS_CATEGORY,
+  OTHER_PURPOSE,
+  WORK_ADDRESS_CATEGORY
+} from 'src/constants'
 
 import { createMockClient } from 'cozy-client'
 
 import {
   runRecurringPurposesForManualTrip,
   setRecurringPurposes,
-  findAndSetWaybackRecurringTimeseries,
-  findClosestWaybackTrips,
-  findAndSetWaybackTimeserie,
   keepTripsWithSameRecurringPurpose,
   findPurposeFromSimilarTimeserieAndWaybacks,
   keepTripsWithRecurringPurposes,
   runRecurringPurposesForNewTrips,
-  findSimilarTimeseries
+  areSimiliarTimeseriesByCoordinates,
+  findStartAndEnd,
+  shouldSetCommutePurpose,
+  findSimilarRecurringTimeseries
 } from './recurringPurposes'
 
 const mockClient = createMockClient({})
@@ -23,6 +27,8 @@ const mockTimeserie = ({
   endDate,
   startPlace,
   endPlace,
+  startCoordinates,
+  endCoordinates,
   totalDistance = 1000,
   recurring,
   manualPurpose,
@@ -42,7 +48,18 @@ const mockTimeserie = ({
     cozyMetadata: {
       sourceAccount: 'account-id'
     },
-    series: [{ properties: {} }]
+    series: [
+      {
+        properties: {
+          start_loc: {
+            coordinates: startCoordinates || [-0.8119085, 46.4536633]
+          },
+          end_loc: {
+            coordinates: endCoordinates || [-0.7519085, 46.4536633]
+          }
+        }
+      }
+    ]
   }
   if (manualPurpose && !noPurpose) {
     ts.series[0].properties.manual_purpose = manualPurpose
@@ -235,6 +252,8 @@ describe('runRecurringPurposesForNewTrips', () => {
         noPurpose: true
       })
     ])
+    // Contacts
+    jest.spyOn(mockClient, 'queryAll').mockResolvedValueOnce([])
     // Similar trip for Paris->Berlin
     jest.spyOn(mockClient, 'queryAll').mockResolvedValueOnce([
       mockTimeserie({
@@ -279,175 +298,6 @@ describe('runRecurringPurposesForNewTrips', () => {
     expect(res[2].aggregation.purpose).toEqual('WORK')
     expect(res[3].aggregation.purpose).toEqual(null)
     expect(res[3].aggregation.recurring).toEqual(true)
-  })
-})
-
-describe('findClosestWaybackTrips', () => {
-  beforeEach(() => {
-    jest.resetAllMocks()
-  })
-  it('should find closest wayback trip in the future', async () => {
-    jest.spyOn(mockClient, 'query').mockResolvedValueOnce({
-      data: [
-        mockTimeserie({
-          startPlace: 'Mount Doom, Mordor',
-          endPlace: 'Bag End, The Shire',
-          startDate: '2021-02-01',
-          endDate: '2022-02-01'
-        })
-      ]
-    })
-    const waybacks = await findClosestWaybackTrips(
-      mockClient,
-      mockTimeserie({
-        startPlace: 'Bag End, The Shire',
-        endPlace: 'Mount Doom, Mordor',
-        startDate: '2019-01-01',
-        endDate: '2020-01-01'
-      }),
-      { oldPurpose: 'HOBBY' }
-    )
-    expect(waybacks.length).toEqual(1)
-    expect(waybacks[0]).toMatchObject({
-      startDate: '2021-02-01',
-      endDate: '2022-02-01',
-      aggregation: { purpose: 'HOBBY' }
-    })
-  })
-  it('should find closest wayback trip in the past', async () => {
-    jest.spyOn(mockClient, 'query').mockResolvedValueOnce({ data: [] })
-    jest.spyOn(mockClient, 'query').mockResolvedValueOnce({
-      data: [
-        mockTimeserie({
-          startPlace: 'Mount Doom, Mordor',
-          endPlace: 'Bag End, The Shire',
-          startDate: '2018-02-01',
-          endDate: '2019-02-01'
-        })
-      ]
-    })
-    const waybacks = await findClosestWaybackTrips(
-      mockClient,
-      mockTimeserie({
-        startPlace: 'Bag End, The Shire',
-        endPlace: 'Mount Doom, Mordor',
-        startDate: '2019-01-01',
-        endDate: '2020-01-01'
-      }),
-      { oldPurpose: 'HOBBY' }
-    )
-    expect(waybacks.length).toEqual(1)
-    expect(waybacks[0]).toMatchObject({
-      startDate: '2018-02-01',
-      endDate: '2019-02-01',
-      aggregation: { purpose: 'HOBBY' }
-    })
-  })
-  it('should return empty array if timeserie is malformed', async () => {
-    const timeserie = { aggregation: {} }
-    const waybacks = await findClosestWaybackTrips(mockClient, timeserie, {
-      oldPurpose: 'HOBBY'
-    })
-    expect(waybacks).toEqual([])
-  })
-})
-
-describe('findAndSetWaybackTrips', () => {
-  beforeEach(() => {
-    jest.resetAllMocks()
-  })
-  it('should do nothing when no wayback is found', async () => {
-    jest.spyOn(mockClient, 'queryAll').mockResolvedValueOnce(null)
-    const trips = await findAndSetWaybackRecurringTimeseries(
-      mockClient,
-      mockTimeserie(),
-      mockSimilarTimeseries(),
-      { oldPurpose: 'HOBBY', waybackInitialTimeseries: [] }
-    )
-    expect(trips).toEqual([])
-  })
-
-  it('should find and set purpose to wayback trips for initial trip', async () => {
-    jest.spyOn(mockClient, 'query').mockResolvedValueOnce({
-      data: [
-        mockTimeserie({
-          startPlace: 'Mount Doom, Mordor',
-          endPlace: 'Bag End, The Shire'
-        })
-      ]
-    })
-    jest.spyOn(mockClient, 'query').mockResolvedValueOnce({ data: [] })
-    const trips = await findAndSetWaybackTimeserie(
-      mockClient,
-      mockTimeserie({
-        startPlace: 'Bag End, The Shire',
-        endPlace: 'Mount Doom, Mordor',
-        manualPurpose: 'WORK'
-      }),
-      { oldPurpose: 'HOBBY', similarTimeseries: [] }
-    )
-    expect(trips.length).toEqual(1)
-    expect(trips[0]).toMatchObject({
-      aggregation: {
-        startPlaceDisplayName: 'Mount Doom, Mordor',
-        endPlaceDisplayName: 'Bag End, The Shire'
-      },
-      series: [
-        {
-          properties: {
-            automatic_purpose: 'WORK'
-          }
-        }
-      ]
-    })
-  })
-  it('should find and set purpose to wayback trips for similar trips', async () => {
-    jest.spyOn(mockClient, 'query').mockResolvedValueOnce({
-      data: [
-        mockTimeserie({
-          id: 3,
-          startPlace: 'Grey Havens, Lindon',
-          endPlace: 'Valinor'
-        })
-      ]
-    })
-    jest.spyOn(mockClient, 'query').mockResolvedValueOnce({
-      data: [
-        mockTimeserie({
-          id: 4,
-          startPlace: 'Grey Havens, Lindon',
-          endPlace: 'Valinor'
-        })
-      ]
-    })
-    jest.spyOn(mockClient, 'query').mockResolvedValueOnce({ data: [] })
-    const trips = await findAndSetWaybackRecurringTimeseries(
-      mockClient,
-      mockTimeserie({
-        startPlace: 'Valinor',
-        endPlace: 'Grey Havens, Lindon',
-        manualPurpose: 'PICK_DROP'
-      }),
-      mockSimilarTimeseries({
-        startPlace: 'Valinor',
-        endPlace: 'Grey Havens, Lindon'
-      }),
-      { oldPurpose: 'HOBBY', waybackInitialTimeseries: [] }
-    )
-    expect(trips.length).toEqual(2)
-    expect(trips[0]).toMatchObject({
-      aggregation: {
-        startPlaceDisplayName: 'Grey Havens, Lindon',
-        endPlaceDisplayName: 'Valinor'
-      },
-      series: [
-        {
-          properties: {
-            automatic_purpose: 'PICK_DROP'
-          }
-        }
-      ]
-    })
   })
 })
 
@@ -553,7 +403,7 @@ describe('findPurposeFromSimilarTimeserieAndWaybacks', () => {
   })
 })
 
-describe('findSimilarTimeseries', () => {
+describe('findSimilarRecurringTimeseries', () => {
   beforeEach(() => {
     jest.resetAllMocks()
   })
@@ -564,7 +414,7 @@ describe('findSimilarTimeseries', () => {
       .mockResolvedValueOnce(mockSimilarTimeseries({ manualPurpose: 'SPORT' }))
     const timeserie = mockTimeserie({ manualPurpose: 'SPORT' })
 
-    const res = await findSimilarTimeseries(mockClient, timeserie)
+    const res = await findSimilarRecurringTimeseries(mockClient, timeserie)
     expect(res.length).toEqual(2)
   })
 
@@ -572,7 +422,162 @@ describe('findSimilarTimeseries', () => {
     const timeserie = {
       aggregation: {}
     }
-    const res = await findSimilarTimeseries(mockClient, timeserie)
+    const res = await findSimilarRecurringTimeseries(mockClient, timeserie)
     expect(res).toEqual([])
+  })
+})
+
+describe('areSimiliarTimeseriesByCoordinates', () => {
+  it('should not return true when timeseries are far away', () => {
+    const ts1 = mockTimeserie({
+      startCoordinates: [0.0, 0.0],
+      endCoordinates: [1.0, 1.0]
+    })
+    const ts2 = mockTimeserie({
+      startCoordinates: [20.0, 20.0],
+      endCoordinates: [21.0, 21.0]
+    })
+
+    expect(areSimiliarTimeseriesByCoordinates(ts1, ts2)).toEqual(false)
+  })
+
+  it('should return true when timeseries are close enough', () => {
+    const ts1 = mockTimeserie({
+      startCoordinates: [0.0, 0.0],
+      endCoordinates: [1.0, 1.0]
+    })
+    const ts2 = mockTimeserie({
+      startCoordinates: [0.0001, 0.0001],
+      endCoordinates: [1.0001, 1.0001]
+    })
+
+    expect(areSimiliarTimeseriesByCoordinates(ts1, ts2)).toEqual(true)
+  })
+
+  it('should return true when timeseries are close enough, with reverse start/end', () => {
+    const ts1 = mockTimeserie({
+      startCoordinates: [0.0, 0.0],
+      endCoordinates: [1.0, 1.0]
+    })
+    const ts2 = mockTimeserie({
+      startCoordinates: [1.0001, 1.0001],
+      endCoordinates: [0.0001, 0.0001]
+    })
+
+    expect(areSimiliarTimeseriesByCoordinates(ts1, ts2)).toEqual(true)
+  })
+})
+
+describe('findStartAndEnd', () => {
+  it('should return empty objects when no contacts are found', () => {
+    const ts = mockTimeserie({
+      startCoordinates: [-3.01, 6.9],
+      endCoordinates: [19.9, 20.01]
+    })
+    const { matchingStart, matchingEnd } = findStartAndEnd(ts, [])
+    expect(matchingStart).toEqual(null)
+    expect(matchingEnd).toEqual(null)
+  })
+
+  it('should find the exact matching start and end places', () => {
+    const ts = mockTimeserie({
+      startCoordinates: [-3, 7],
+      endCoordinates: [20, 20]
+    })
+    const mockContacts = [
+      {
+        name: 'toto',
+        address: [
+          {
+            id: 1,
+            geo: {
+              geo: [20, 20]
+            }
+          }
+        ]
+      },
+      {
+        name: 'tutu',
+        address: [
+          {
+            id: 2,
+            geo: {
+              geo: [46, 1]
+            }
+          },
+          {
+            id: 3,
+            geo: {
+              geo: [-3, 7]
+            }
+          }
+        ]
+      }
+    ]
+    const { matchingStart, matchingEnd } = findStartAndEnd(ts, mockContacts)
+    expect(matchingStart.contact).toEqual(mockContacts[1])
+    expect(matchingStart.address).toEqual(mockContacts[1].address[1])
+
+    expect(matchingEnd.contact).toEqual(mockContacts[0])
+    expect(matchingEnd.address).toEqual(mockContacts[0].address[0])
+  })
+  it('should find the close matching start and end places', () => {
+    const ts = mockTimeserie({
+      startCoordinates: [45.999, 1.001],
+      endCoordinates: [20.001, 19.999]
+    })
+    const mockContacts = [
+      {
+        name: 'toto',
+        address: [
+          {
+            id: 1,
+            geo: {
+              geo: [20, 20]
+            }
+          }
+        ]
+      },
+      {
+        name: 'tutu',
+        address: [
+          {
+            id: 2,
+            geo: {
+              geo: [46, 1]
+            }
+          }
+        ]
+      }
+    ]
+    const { matchingStart, matchingEnd } = findStartAndEnd(ts, mockContacts)
+    expect(matchingStart.contact).toEqual(mockContacts[1])
+    expect(matchingStart.address).toEqual(mockContacts[1].address[0])
+
+    expect(matchingEnd.contact).toEqual(mockContacts[0])
+    expect(matchingEnd.address).toEqual(mockContacts[0].address[0])
+  })
+})
+
+describe('shouldSetCommutePurpose', () => {
+  it('should set the commute purpose', () => {
+    let start = { address: { geo: { cozyCategory: HOME_ADDRESS_CATEGORY } } }
+    let end = { address: { geo: { cozyCategory: WORK_ADDRESS_CATEGORY } } }
+    expect(shouldSetCommutePurpose(start, end)).toEqual(true)
+    start = { address: { geo: { cozyCategory: WORK_ADDRESS_CATEGORY } } }
+    end = { address: { geo: { cozyCategory: HOME_ADDRESS_CATEGORY } } }
+    expect(shouldSetCommutePurpose(start, end)).toEqual(true)
+  })
+  it('should not set the commute purpose', () => {
+    let start = { address: { geo: { cozyCategory: HOME_ADDRESS_CATEGORY } } }
+    let end = { address: { geo: { cozyCategory: HOME_ADDRESS_CATEGORY } } }
+    expect(shouldSetCommutePurpose(start, end)).toEqual(false)
+    start = { address: { geo: { cozyCategory: WORK_ADDRESS_CATEGORY } } }
+    end = { address: { geo: { cozyCategory: WORK_ADDRESS_CATEGORY } } }
+    expect(shouldSetCommutePurpose(start, end)).toEqual(false)
+    start = { address: { geo: {} } }
+    end = { address: {} }
+    expect(shouldSetCommutePurpose(start, end)).toEqual(false)
+    expect(shouldSetCommutePurpose(null, null)).toEqual(false)
   })
 })

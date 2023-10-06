@@ -1,17 +1,247 @@
-// @ts-check
 import { set } from 'lodash'
-import { OTHER_PURPOSE } from 'src/constants'
-import { setAutomaticPurpose } from 'src/lib/timeseries'
+import {
+  COMMUTE_PURPOSE,
+  HOME_ADDRESS_CATEGORY,
+  OTHER_PURPOSE,
+  WORK_ADDRESS_CATEGORY
+} from 'src/constants'
+import { CONTACTS_DOCTYPE } from 'src/doctypes'
+import {
+  getEndPlaceCoordinates,
+  getStartPlaceCoordinates,
+  setAutomaticPurpose
+} from 'src/lib/timeseries'
 import { getManualPurpose, getAutomaticPurpose } from 'src/lib/trips'
 import {
+  buildContactsWithGeoCoordinates,
   buildNewestRecurringTimeseriesQuery,
+  buildRecurringTimeseriesByStartAndEndPointRange,
   buildSettingsQuery,
   buildTimeseriesQueryByAccountIdAndDate,
-  builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance,
+  queryContactByDocId,
   queryTimeserieByDocId
 } from 'src/queries/queries'
 
+import { models } from 'cozy-client'
 import log from 'cozy-logger'
+
+const { deltaLatitude, deltaLongitude, geodesicDistance } = models.geo
+
+const MAX_SPATIAL_THRESHOLD_M = 200
+
+const findContactsWithGeo = async client => {
+  const queryDef = buildContactsWithGeoCoordinates().definition
+  const contacts = await client.queryAll(queryDef)
+  return contacts
+}
+
+export const findClosestStartAndEnd = (timeserie, contacts) => {
+  const startCoordinates = getStartPlaceCoordinates(timeserie)
+  const endCoordinates = getEndPlaceCoordinates(timeserie)
+  let closestStart = {},
+    closestEnd = {}
+  let minStartDistance = Number.MAX_SAFE_INTEGER,
+    minEndDistance = Number.MAX_SAFE_INTEGER
+  for (const contact of contacts) {
+    for (const address of contact.address) {
+      const addressCoordinates = {
+        lon: address.geo.geo[0],
+        lat: address.geo.geo[1]
+      }
+      const startPlaceDistance = geodesicDistance(
+        startCoordinates,
+        addressCoordinates
+      )
+
+      const endPlaceDistance = geodesicDistance(
+        endCoordinates,
+        addressCoordinates
+      )
+
+      if (startPlaceDistance < minStartDistance) {
+        closestStart = {
+          distance: startPlaceDistance,
+          contact,
+          address,
+          newCoordinates: startCoordinates
+        }
+        minStartDistance = startPlaceDistance
+      }
+      if (endPlaceDistance < minEndDistance) {
+        closestEnd = {
+          distance: endPlaceDistance,
+          contact,
+          address,
+          newCoordinates: endCoordinates
+        }
+        minEndDistance = endPlaceDistance
+      }
+    }
+  }
+  return { closestStart, closestEnd }
+}
+
+const setAddressContactRelationShip = ({
+  timeserie,
+  contact,
+  addressId,
+  relType
+}) => {
+  const newRel = {
+    [relType]: {
+      data: {
+        _id: contact._id,
+        _type: CONTACTS_DOCTYPE,
+        metadata: {
+          addressId
+        }
+      }
+    }
+  }
+  const timeserieWithRel = {
+    ...timeserie,
+    relationships: { ...(timeserie.relationships || {}), ...newRel }
+  }
+
+  return timeserieWithRel
+}
+
+const updateAddressCoordinates = async ({
+  client,
+  newCoordinates,
+  contact,
+  addressId
+}) => {
+  // Query contact to get latest rev
+  const newContact = await queryContactByDocId(client, contact._id)
+  let addressIdx = -1
+  for (let i = 0; newContact.address.length; i++) {
+    if (newContact.address[i].id === addressId) {
+      addressIdx = i
+      break
+    }
+  }
+  if (addressIdx < 0) {
+    log('warn', `No address ${addressId} found on contact ${contact._id}`)
+    return null
+  }
+
+  const currCoordinates = newContact.address[addressIdx].geo?.geo
+  const currCount = newContact.address[addressIdx].geo?.count || 0
+  const currSum = newContact.address[addressIdx].geo?.sum || [0, 0]
+  const newSumLon = currSum[0] + newCoordinates.lon
+  const newSumLat = currSum[1] + newCoordinates.lat
+
+  if (!currCoordinates) {
+    newContact.address[addressIdx].geo.geo = [
+      newCoordinates.lon,
+      newCoordinates.lat
+    ]
+  } else {
+    // XXX - This is an incremental average of longitudes and latitudes, that does not
+    // take into consideration of curvature of the Earth. Hence, this is an approximation.
+    // We consider this is acceptable as the coordinates are supposed to be very close, i.e. few meters.
+    // For more precise computations, one should typically use a geodesic center of all the points.
+
+    const count = currCount + 1
+    const avgLon = newSumLon / count
+    const avgLat = newSumLat / count
+
+    newContact.address[addressIdx].geo.geo = [avgLon, avgLat]
+    log('info', `New address coordinates set : ${[avgLon, avgLat]}`)
+    log(
+      'info',
+      `Distance from previous coordinates: ${geodesicDistance(
+        { lon: currCoordinates[0], lat: currCoordinates[1] },
+        { lon: newCoordinates.lon, lat: newCoordinates.lat }
+      )}`
+    )
+  }
+
+  newContact.address[addressIdx].geo.count = currCount + 1
+  newContact.address[addressIdx].geo.sum = [newSumLon, newSumLat]
+
+  log(
+    'info',
+    `Update contact ${contact.displayName} on address ${contact.address[addressIdx].formattedAddress}`
+  )
+  return client.save(newContact)
+}
+
+export const findStartAndEnd = (timeserie, contacts) => {
+  const { closestStart, closestEnd } = findClosestStartAndEnd(
+    timeserie,
+    contacts
+  )
+  let matchingStart = null,
+    matchingEnd = null
+  if (closestStart?.distance < MAX_SPATIAL_THRESHOLD_M) {
+    matchingStart = closestStart
+  }
+  if (closestEnd?.distance < MAX_SPATIAL_THRESHOLD_M) {
+    matchingEnd = closestEnd
+  }
+  return { matchingStart, matchingEnd }
+}
+
+export const shouldSetCommutePurpose = (start, end) => {
+  if (!start || !end) {
+    return false
+  }
+  const startCategory = start.address?.geo?.cozyCategory
+  const endCategory = end.address?.geo?.cozyCategory
+  // Only support for commute for now, but might evolve in the future
+  if (
+    (startCategory === HOME_ADDRESS_CATEGORY &&
+      endCategory === WORK_ADDRESS_CATEGORY) ||
+    (startCategory === WORK_ADDRESS_CATEGORY &&
+      endCategory === HOME_ADDRESS_CATEGORY)
+  ) {
+    return true
+  }
+  return false
+}
+
+const isDistanceLessThanThreshold = (point1, point2) => {
+  const distance = geodesicDistance(point1, point2)
+  return distance < MAX_SPATIAL_THRESHOLD_M
+}
+
+export const areSimiliarTimeseriesByCoordinates = (refTs, compareTs) => {
+  const startRefCoordinates = getStartPlaceCoordinates(refTs)
+  const endRefCoordinates = getEndPlaceCoordinates(refTs)
+
+  const startCompareCoordinates = getStartPlaceCoordinates(compareTs)
+  const endCompareCoordinates = getEndPlaceCoordinates(compareTs)
+
+  const closeStart = isDistanceLessThanThreshold(
+    startRefCoordinates,
+    startCompareCoordinates
+  )
+  const closeEnd = isDistanceLessThanThreshold(
+    endRefCoordinates,
+    endCompareCoordinates
+  )
+
+  if (closeStart && closeEnd) {
+    return true
+  }
+
+  const closeWaybackStart = isDistanceLessThanThreshold(
+    startRefCoordinates,
+    endCompareCoordinates
+  )
+  const closeWaybackEnd = isDistanceLessThanThreshold(
+    endRefCoordinates,
+    startCompareCoordinates
+  )
+
+  if (closeWaybackStart && closeWaybackEnd) {
+    return true
+  }
+
+  return false
+}
 
 /**
  * Filter timeseries to keep those with recurring purposes
@@ -57,189 +287,70 @@ export const keepTripsWithSameRecurringPurpose = (timeseries, purpose) => {
     : []
 }
 
-const queryTimeseriesByPlaceAndDate = async (
+const queryRecurringTimeseriesWithCloseStartOrEnd = async (
   client,
-  {
-    accountId,
-    startPlaceDisplayName,
-    endPlaceDisplayName,
-    distance,
-    _id,
-    oldPurpose = null
-  }
+  { accountId, startCoord, endCoord }
 ) => {
-  const queryDef =
-    builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance(
-      {
-        accountId,
-        startPlaceDisplayName,
-        endPlaceDisplayName,
-        distance
-      }
-    ).definition
+  const deltaLat = deltaLatitude(MAX_SPATIAL_THRESHOLD_M)
+  const deltaLon = deltaLongitude(deltaLat, MAX_SPATIAL_THRESHOLD_M)
+
+  const minLonStart = startCoord.lon - deltaLon
+  const maxLonStart = startCoord.lon + deltaLon
+  const minLatStart = startCoord.lat - deltaLon
+  const maxLatStart = startCoord.lat + deltaLon
+
+  const minLonEnd = endCoord.lon - deltaLon
+  const maxLonEnd = endCoord.lon + deltaLon
+  const minLatEnd = endCoord.lat - deltaLon
+  const maxLatEnd = endCoord.lat + deltaLon
+
+  const queryDef = buildRecurringTimeseriesByStartAndEndPointRange({
+    accountId,
+    minLatStart,
+    maxLatStart,
+    minLonStart,
+    maxLonStart,
+    minLonEnd,
+    maxLonEnd,
+    minLatEnd,
+    maxLatEnd
+  }).definition
+
   const results = await client.queryAll(queryDef)
-  const timeseries = results.filter(ts => ts._id !== _id)
-  return !oldPurpose
-    ? keepTripsWithRecurringPurposes(timeseries)
-    : keepTripsWithSameRecurringPurpose(timeseries, oldPurpose)
+  return results || []
 }
 
-// Similar trips = same start/end dipslay name
-export const findSimilarTimeseries = async (
+// Similar trips = close start/end point
+export const findSimilarRecurringTimeseries = async (
   client,
   timeserie,
-  { oldPurpose = null } = {}
+  { isWayBack = false, oldPurpose } = {}
 ) => {
   const accountId = timeserie?.cozyMetadata?.sourceAccount
-  const startPlaceDisplayName = timeserie?.aggregation?.startPlaceDisplayName
-  const endPlaceDisplayName = timeserie?.aggregation?.endPlaceDisplayName
-  const distance = timeserie?.aggregation?.totalDistance
-  if (
-    !accountId ||
-    !startPlaceDisplayName ||
-    !endPlaceDisplayName ||
-    !distance
-  ) {
+  const startCoord = isWayBack
+    ? getEndPlaceCoordinates(timeserie)
+    : getStartPlaceCoordinates(timeserie)
+  const endCoord = isWayBack
+    ? getStartPlaceCoordinates(timeserie)
+    : getEndPlaceCoordinates(timeserie)
+
+  if (!accountId || !startCoord || !endCoord) {
     log(
       'error',
       `Missing attributes to run similar trip query for trip ${timeserie._id}`
     )
     return []
   }
-  return queryTimeseriesByPlaceAndDate(client, {
+  const results = await queryRecurringTimeseriesWithCloseStartOrEnd(client, {
     accountId,
-    startPlaceDisplayName,
-    endPlaceDisplayName,
-    oldPurpose,
-    distance,
-    _id: timeserie._id
+    startCoord,
+    endCoord
   })
-}
-
-const findWaybackTimeseries = async (client, timeserie) => {
-  const accountId = timeserie?.cozyMetadata?.sourceAccount
-  const startPlaceDisplayName = timeserie.aggregation.endPlaceDisplayName
-  const endPlaceDisplayName = timeserie.aggregation.startPlaceDisplayName
-  const distance = timeserie?.aggregation?.totalDistance
-  return queryTimeseriesByPlaceAndDate(client, {
-    accountId,
-    startPlaceDisplayName,
-    endPlaceDisplayName,
-    distance,
-    _id: timeserie._id
-  })
-}
-
-export const findClosestWaybackTrips = async (
-  client,
-  timeserie,
-  { oldPurpose = null }
-) => {
-  const waybackTrips = []
-  const accountId = timeserie?.cozyMetadata?.sourceAccount
-  const startPlaceDisplayName = timeserie?.aggregation?.endPlaceDisplayName
-  const endPlaceDisplayName = timeserie?.aggregation?.startPlaceDisplayName
-  const distance = timeserie?.aggregation?.totalDistance
-  if (
-    !accountId ||
-    !startPlaceDisplayName ||
-    !endPlaceDisplayName ||
-    !distance
-  ) {
-    log(
-      'error',
-      `Missing attributes to run wayback query for trip ${timeserie._id}`
-    )
-    return []
-  }
-  // Find closest wayback in the future
-  const queryDefForward =
-    builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance(
-      {
-        accountId,
-        startPlaceDisplayName,
-        endPlaceDisplayName,
-        distance,
-        startDate: { $gt: timeserie.endDate },
-        limit: 1
-      }
-    ).definition
-  const resForward = await client.query(queryDefForward)
-  const nextWayback = keepTripsWithSameRecurringPurpose(
-    resForward?.data,
-    oldPurpose
-  )
-  if (nextWayback.length > 0) {
-    waybackTrips.push(nextWayback[0])
-  }
-  // Find closest wayback in the past
-  const queryDefBackward =
-    builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance(
-      {
-        accountId,
-        startPlaceDisplayName,
-        endPlaceDisplayName,
-        distance,
-        // @ts-ignore
-        startDate: { $lt: timeserie.startDate },
-        limit: 1
-      }
-    ).definition
-  const resBackward = await client.query(queryDefBackward)
-  const previousWayback = keepTripsWithSameRecurringPurpose(
-    resBackward?.data,
-    oldPurpose
-  )
-  if (previousWayback.length > 0) {
-    waybackTrips.push(previousWayback[0])
-  }
-  return waybackTrips
-}
-
-export const findAndSetWaybackTimeserie = async (
-  client,
-  initialTimeserie,
-  { oldPurpose }
-) => {
-  const waybackTrips = []
-  const closestInitialWaybackTrips = await findClosestWaybackTrips(
-    client,
-    initialTimeserie,
-    { oldPurpose }
-  )
-  if (closestInitialWaybackTrips.length > 0) {
-    const purpose = initialTimeserie?.aggregation?.purpose
-    for (const waybackTrip of closestInitialWaybackTrips) {
-      waybackTrips.push(setAutomaticPurpose(waybackTrip, purpose))
-    }
-  }
-  return waybackTrips
-}
-
-export const findAndSetWaybackRecurringTimeseries = async (
-  client,
-  initialTimeserie,
-  recurringTimeseries,
-  { oldPurpose, waybackInitialTimeseries }
-) => {
-  const waybacks = {}
-  const waybackInitialIds = waybackInitialTimeseries.map(ts => ts._id)
-  for (const trip of recurringTimeseries) {
-    // Find way-back trips
-    const closestWaybackTrips = await findClosestWaybackTrips(client, trip, {
-      oldPurpose
-    })
-    for (const waybackTrip of closestWaybackTrips) {
-      if (
-        !waybacks[waybackTrip._id] &&
-        !waybackInitialIds.includes(waybackTrip._id)
-      ) {
-        // Avoid duplicates
-        waybacks[waybackTrip._id] = waybackTrip
-      }
-    }
-  }
-  return setRecurringPurposes(initialTimeserie, Object.values(waybacks))
+  const similarTimeseries = results.filter(ts => ts._id !== timeserie._id)
+  log('info', `Found ${similarTimeseries.length} similar timeseries`)
+  return !oldPurpose
+    ? keepTripsWithRecurringPurposes(similarTimeseries)
+    : keepTripsWithSameRecurringPurpose(similarTimeseries, oldPurpose)
 }
 
 export const setManuallyUpdatedTrip = timeserie => {
@@ -275,25 +386,97 @@ const getTimeserieWithPurpose = timeseries => {
   })
 }
 
-const isLoopTrip = timeserie => {
-  return (
-    timeserie?.aggregation?.startPlaceDisplayName ===
-    timeserie?.aggregation?.endPlaceDisplayName
-  )
-}
-
 export const findPurposeFromSimilarTimeserieAndWaybacks = async (
   client,
   timeserie
 ) => {
-  const similarTimeseries = await findSimilarTimeseries(client, timeserie)
+  const similarTimeseries = await findSimilarRecurringTimeseries(
+    client,
+    timeserie
+  )
+  log('info', `Found ${similarTimeseries.length} similar timeseries`)
+
   let tsWithPurpose = getTimeserieWithPurpose(similarTimeseries)
+
   if (!tsWithPurpose) {
     // if no similar trips with purpose found, try with waybacks trips
-    const waybackTimeseries = await findWaybackTimeseries(client, timeserie)
+    const waybackTimeseries = await findSimilarRecurringTimeseries(
+      client,
+      timeserie,
+      {
+        isWayBack: true
+      }
+    )
+    log('info', `Found ${waybackTimeseries.length} wayback timeseries`)
     tsWithPurpose = getTimeserieWithPurpose(waybackTimeseries)
   }
   return tsWithPurpose?.aggregation?.purpose || null
+}
+
+/**
+ * Try to set a purpose to a timeserie, from existing contacts' addresses
+ *
+ * It is based on the geo coordinates. If a match is found on the start or end
+ * address, a relationship is added, and the contact geo information is updated
+ * with the trip coordinates, to incrementally improve the geolocation precision.
+ *
+ * @param {object} client - The cozy client instance
+ * @param {object} timeserie - The timeserie to categorize
+ * @param {Array<object>} contacts - The contacts with geo information
+ * @returns {object} The timeserie to update
+ */
+const findPurposeFromContactAddresses = async (client, timeserie, contacts) => {
+  const { matchingStart, matchingEnd } = await findStartAndEnd(
+    timeserie,
+    contacts
+  )
+  let newTimeserie = { ...timeserie }
+  if (!matchingStart && !matchingEnd) {
+    log('info', 'No matching start and end places for this trip')
+    return newTimeserie
+  }
+
+  if (matchingStart) {
+    log('info', 'Found a matching start place: add relationship')
+    newTimeserie = setAddressContactRelationShip({
+      timeserie: newTimeserie,
+      contact: matchingStart.contact,
+      addressId: matchingStart.address.id,
+      relType: 'startPlaceContact'
+    })
+    // Update contact start address
+    await updateAddressCoordinates({
+      client,
+      newCoordinates: matchingStart.newCoordinates,
+      contact: matchingStart.contact,
+      addressId: matchingStart.address.id
+    })
+  }
+  if (matchingEnd) {
+    log('info', 'Found a matching end place: add relationship')
+    newTimeserie = setAddressContactRelationShip({
+      timeserie: newTimeserie,
+      contact: matchingEnd.contact,
+      addressId: matchingEnd.address.id,
+      relType: 'endPlaceContact'
+    })
+    // Update contact end address
+    await updateAddressCoordinates({
+      client,
+      newCoordinates: matchingEnd.newCoordinates,
+      contact: matchingEnd.contact,
+      addressId: matchingEnd.address.id
+    })
+  }
+
+  if (shouldSetCommutePurpose(matchingStart, matchingEnd)) {
+    log(
+      'info',
+      `Set COMMUTE purpose for trip ${timeserie._id} because of similar start and end places`
+    )
+    newTimeserie = setAutomaticPurpose(newTimeserie, COMMUTE_PURPOSE)
+  }
+  return newTimeserie
 }
 
 const findRecurringTripsFromTimeserie = async (
@@ -316,50 +499,37 @@ const findRecurringTripsFromTimeserie = async (
     log('warn', 'Timeserie without aggregation')
     return []
   }
-  // Find similar trips and set their purpose
-  const similarTimeseries = await findSimilarTimeseries(client, timeserie, {
-    oldPurpose
-  })
-  const similarTimeseriesToUpdate = setRecurringPurposes(
+  // Find similar trips
+  const similarTimeseries = await findSimilarRecurringTimeseries(
+    client,
     timeserie,
-    similarTimeseries
+    {
+      oldPurpose
+    }
   )
   log('info', `Found ${similarTimeseries.length} similar timeseries`)
+  // Find similar wayback trips
+  const similarWaybackTimeseries = await findSimilarRecurringTimeseries(
+    client,
+    timeserie,
+    {
+      oldPurpose,
+      isWayBack: true
+    }
+  )
+  log(
+    'info',
+    `Found ${similarWaybackTimeseries.length} similar wayback timeseries`
+  )
+
+  // Set recurring purposes for similar trips
+  const similarTimeseriesToUpdate = setRecurringPurposes(timeserie, [
+    ...similarTimeseries,
+    ...similarWaybackTimeseries
+  ])
   const updatedTS = setManuallyUpdatedTrip(timeserie)
 
-  let timeseriesToUpdate = []
-  if (!isLoopTrip(timeserie)) {
-    // Find wayback trips (with reverse start/end place) and set their purpose
-    const waybackInitialTimeseries = await findAndSetWaybackTimeserie(
-      client,
-      timeserie,
-      { oldPurpose }
-    )
-
-    const recurringWaybackTimeseries =
-      await findAndSetWaybackRecurringTimeseries(
-        client,
-        updatedTS,
-        similarTimeseries,
-        { oldPurpose, waybackInitialTimeseries }
-      )
-    log(
-      'info',
-      `Found ${
-        waybackInitialTimeseries.length + recurringWaybackTimeseries.length
-      } wayback timeseries`
-    )
-    timeseriesToUpdate = [
-      updatedTS,
-      ...similarTimeseriesToUpdate,
-      ...waybackInitialTimeseries,
-      ...recurringWaybackTimeseries
-    ]
-  } else {
-    // Do not search for wayback for loop trips
-    timeseriesToUpdate = [updatedTS, ...similarTimeseriesToUpdate]
-  }
-
+  const timeseriesToUpdate = [updatedTS, ...similarTimeseriesToUpdate]
   return timeseriesToUpdate
 }
 
@@ -406,22 +576,39 @@ export const runRecurringPurposesForNewTrips = async client => {
   let nTripsWithAutoPurpose = 0
   const timeseriesToUpdate = []
 
-  for (const timeserie of timeseries) {
-    const newPurpose = await findPurposeFromSimilarTimeserieAndWaybacks(
-      client,
-      timeserie
-    )
-    let newTS
-    if (newPurpose) {
-      // Set automatic purpose if a a purpose is found in older similar timeserie
-      newTS = setAutomaticPurpose(timeserie, newPurpose)
-      nTripsWithAutoPurpose++
-    } else {
+  if (timeseries.length > 0) {
+    const contactsWithGeo = await findContactsWithGeo(client)
+    log('info', `Found ${contactsWithGeo.length} contacts with geo info`)
+
+    for (const timeserie of timeseries) {
+      log('info', `Try to set a recurring purpose to ${timeserie._id}...`)
+      let newTS
+      // First, try to find purpose by contact's addresses
+      newTS = await findPurposeFromContactAddresses(
+        client,
+        timeserie,
+        contactsWithGeo
+      )
+      const foundPurpose = newTS?.aggregation?.purpose
+      if (!foundPurpose) {
+        // If no purpose found by addresses, try to find purpose by similar timeseries
+        const newPurpose = await findPurposeFromSimilarTimeserieAndWaybacks(
+          client,
+          timeserie
+        )
+        if (newPurpose) {
+          log('info', `Found automatic purpose: ${newPurpose}`)
+          // Set automatic purpose if a purpose is found in older similar timeserie
+          newTS = setAutomaticPurpose(newTS, newPurpose)
+          nTripsWithAutoPurpose++
+        }
+      }
       // Set recurring for trips without purpose, as they might be used for future purposes
-      newTS = set(timeserie, 'aggregation.recurring', true)
+      newTS = set(newTS, 'aggregation.recurring', true)
+      timeseriesToUpdate.push(newTS)
     }
-    timeseriesToUpdate.push(newTS)
   }
+
   log('info', `Set ${nTripsWithAutoPurpose} trips with automatic purpose`)
   return saveTrips(client, timeseriesToUpdate)
 }
@@ -448,5 +635,6 @@ export const runRecurringPurposesForManualTrip = async (
     timeserie,
     { oldPurpose }
   )
+  log('info', `Found ${timeseriesToUpdate.length} to update...`)
   return saveTrips(client, timeseriesToUpdate)
 }
