@@ -56,6 +56,10 @@ export const ENTERTAINMENT_PURPOSE = 'ENTERTAINMENT'
 export const PICKDROP_PURPOSE = 'PICK_DROP'
 export const OTHER_PURPOSE = 'OTHER_PURPOSE'
 
+// list of address categories
+export const HOME_ADDRESS_CATEGORY = 'home'
+export const WORK_ADDRESS_CATEGORY = 'work'
+
 /**
  * Transporation CO2 constants, given in kg per km.
  * All values come from ADEME: https://www.bilans-ges.ademe.fr/

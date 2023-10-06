@@ -1,6 +1,7 @@
 import remove from 'lodash/remove'
 import set from 'lodash/set'
 import unset from 'lodash/unset'
+import { HOME_ADDRESS_CATEGORY } from 'src/constants'
 import { getPlaceCoordinates, getPlaceDisplayName } from 'src/lib/timeseries'
 
 import { getDisplayName } from 'cozy-client/dist/models/contact'
@@ -70,7 +71,7 @@ export const getPlaceLabelByContact = ({ timeserie, type, t }) => {
   const category = getCategoryByType({ timeserie, type, contact })
   const label = getLabelByType({ timeserie, type, contact })
   const displayName = getDisplayName(contact)
-  const isHome = category === 'home'
+  const isHome = category === HOME_ADDRESS_CATEGORY
 
   if (isHome) {
     return isMyself

@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react'
 import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
+import { WORK_ADDRESS_CATEGORY } from 'src/constants'
 
 import ActionsMenuItem from 'cozy-ui/transpiled/react/ActionsMenu/ActionsMenuItem'
 import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
@@ -31,10 +32,10 @@ export const work = () => {
   WorkActionComponent.displayName = 'WorkActionComponent'
 
   return {
-    name: 'work',
+    name: WORK_ADDRESS_CATEGORY,
     action: (_, { compLabel, setLabel, setCategory }) => {
       setLabel(compLabel)
-      setCategory('work')
+      setCategory(WORK_ADDRESS_CATEGORY)
     },
     Component: WorkActionComponent
   }
