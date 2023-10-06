@@ -3,8 +3,10 @@ import { getOpenPathAccountName } from 'src/components/GeolocationTracking/helpe
 import { buildOpenPathKonnectorQuery } from 'src/queries/queries'
 
 import { useClient } from 'cozy-client'
+import { isAndroid, isIOS } from 'cozy-device-helper'
 import ConnectionFlow from 'cozy-harvest-lib/dist/models/ConnectionFlow'
 import { useWebviewIntent } from 'cozy-intent'
+import { AllowLocationDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import Switch from 'cozy-ui/transpiled/react/Switch'
 import { getRandomUUID } from 'cozy-ui/transpiled/react/helpers/getRandomUUID'
@@ -32,6 +34,30 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
 
   const [isGeolocationTrackingEnabled, setIsGeolocationTrackingEnabled] =
     useState(false)
+  const [showLocationRequestableDialog, setShowLocationRequestableDialog] =
+    useState(false)
+  const [showLocationRefusedDialog, setShowLocationRefusedDialog] =
+    useState(false)
+
+  const checkPermissionsBeforeHandleGeolocationTrackingChange =
+    async permissions => {
+      // we do not care about permissions when we want to disable geolocation tracking
+      if (isGeolocationTrackingEnabled) {
+        await handleGeolocationTrackingChange()
+        return
+      }
+
+      let checkedPermissions =
+        permissions || (await checkGeolocationTrackingPermissions())
+
+      if (checkedPermissions.granted) {
+        await handleGeolocationTrackingChange()
+      } else if (checkedPermissions.canRequest) {
+        setShowLocationRequestableDialog(true)
+      } else {
+        setShowLocationRefusedDialog(true)
+      }
+    }
 
   const handleGeolocationTrackingChange = async () => {
     if (isGeolocationTrackingEnabled) {
@@ -91,6 +117,19 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
 
     // enable geolocation tracking
     await webviewIntent.call('setGeolocationTracking', true)
+
+    /*
+      Special case because iOS permissions are managed by the native geolocation plugin contrary to Android permissions.
+      So if the user refused permissions, plugin is enabled but can not work so we disable
+      it directly and show the location refused modal to avoid confusion for the user.
+    */
+    if (isIOS()) {
+      let afterEnablingPermissions = await checkGeolocationTrackingPermissions()
+      if (!afterEnablingPermissions.granted) {
+        await webviewIntent.call('setGeolocationTracking', false)
+        setShowLocationRefusedDialog(true)
+      }
+    }
   }
 
   const getGeolocationTrackingId = async () => {
@@ -104,6 +143,18 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
   const getGeolocationTrackingStatus = useCallback(async () => {
     return await webviewIntent.call('getGeolocationTrackingStatus')
   }, [webviewIntent])
+
+  const checkGeolocationTrackingPermissions = async () => {
+    return await webviewIntent.call('checkPermissions', 'geolocationTracking')
+  }
+
+  const requestGeolocationTrackingPermissions = async () => {
+    return await webviewIntent.call('requestPermissions', 'geolocationTracking')
+  }
+
+  const openAppOSSettings = async () => {
+    return await webviewIntent.call('openAppOSSettings')
+  }
 
   useEffect(() => {
     const doAsync = async () => {
@@ -125,9 +176,49 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
         label={t('geolocationTracking.settings.enable')}
         labelPlacement={isMobile ? 'start' : 'end'}
         checked={isGeolocationTrackingEnabled}
-        onChange={handleGeolocationTrackingChange}
+        onChange={() => checkPermissionsBeforeHandleGeolocationTrackingChange()}
         control={<Switch color="primary" />}
       />
+      {showLocationRequestableDialog && (
+        <AllowLocationDialog
+          onAllow={async () => {
+            setShowLocationRequestableDialog(false)
+
+            /*
+              Special case because Android need to request permissions to check if they have been refused.
+              So we need to request them to call again the checkPermissionsBeforeHandleGeolocationTrackingChange method
+              with the correct permissions.
+            */
+            if (isAndroid()) {
+              const newPermissions =
+                await requestGeolocationTrackingPermissions()
+
+              await checkPermissionsBeforeHandleGeolocationTrackingChange(
+                newPermissions
+              )
+            } else {
+              await handleGeolocationTrackingChange()
+            }
+          }}
+          onClose={() => {
+            setShowLocationRequestableDialog(false)
+          }}
+        />
+      )}
+      {showLocationRefusedDialog && (
+        <AllowLocationDialog
+          onAllow={() => {
+            setShowLocationRefusedDialog(false)
+            openAppOSSettings()
+          }}
+          onClose={() => {
+            setShowLocationRefusedDialog(false)
+          }}
+          description={t(
+            'geolocationTracking.locationRefusedDialog.description'
+          )}
+        />
+      )}
     </div>
   )
 }
