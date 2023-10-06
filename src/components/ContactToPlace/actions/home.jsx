@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react'
 import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
+import { HOME_ADDRESS_CATEGORY } from 'src/constants'
 
 import ActionsMenuItem from 'cozy-ui/transpiled/react/ActionsMenu/ActionsMenuItem'
 import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
@@ -31,10 +32,10 @@ export const home = () => {
   HomeComponent.displayName = 'HomeComponent'
 
   return {
-    name: 'home',
+    name: HOME_ADDRESS_CATEGORY,
     action: (_, { compLabel, setLabel, setCategory }) => {
       setLabel(compLabel)
-      setCategory('home')
+      setCategory(HOME_ADDRESS_CATEGORY)
     },
     Component: HomeComponent
   }

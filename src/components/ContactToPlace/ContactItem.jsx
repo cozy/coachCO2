@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
+import { HOME_ADDRESS_CATEGORY } from 'src/constants'
 
 import { getDisplayName } from 'cozy-client/dist/models/contact'
 import ContactsListModal from 'cozy-ui/transpiled/react/ContactsListModal'
@@ -44,7 +45,7 @@ const ContactItem = () => {
           onItemClick={contact => {
             setContact(contact)
             setLabel(t('contactToPlace.home'))
-            setCategory('home')
+            setCategory(HOME_ADDRESS_CATEGORY)
           }}
         />
       )}
