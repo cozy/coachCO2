@@ -321,7 +321,7 @@
   },
   "PDF": {
     "name": "Certificate - Cycling to work (%{year}).pdf",
-    "title": "Certificate of Honor\n of Success of the\n Sustainable Mobility Package",
+    "title": "Certificate on honor\n of the success of the objective\n of the Sustainable Mobility Package",
     "date": "%{currentDateFormatted} at %{currentTimeFormatted}",
     "recipient": "Recipient : %{sourceIdentity}",
     "paragraph01": "I, %{username}, certify on my honor that I have achieved the %{daysToReach} days sustainable mobility package objective by traveling from home to work by bike from January 1 to %{year}.",
