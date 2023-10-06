@@ -167,15 +167,15 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
         "start_loc": { // starting point coordinates
           "type": "Point",
           "coordinates": [
-            -0.8119085,
-            46.4536633
+            -0.8119085, // longitude
+            46.4536633 // latitude
           ]
         },
         "end_loc": { // ending point coordinates
           "type": "Point",
           "coordinates": [
-            -0.8119085,
-            46.4536633
+            -0.8119085, // longitude
+            46.4536633 // latitude
           ]
         },
         "start_place": {
@@ -193,7 +193,7 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
           "type": "Feature",
           "geometry": {
             "type": "Point",
-            "coordinates": [-0.8119085, 46.4536633]
+            "coordinates": [-0.8119085, 46.4536633] // longitude, latitude
           },
           "id": "6248ec5d5d25e718264a4099",
           "properties": {
@@ -208,7 +208,7 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
           "type": "Feature",
           "geometry": {
             "type": "Point",
-            "coordinates": [-0.7519085, 46.4536633]
+            "coordinates": [-0.7519085, 46.4536633] // longitude, latitude
           },
           "id": "6248ec5e5d25e718264a409a",
           "properties": {
@@ -276,6 +276,16 @@ Every timeserie is automatically aggregated by a service, to sum up the `series`
     ],
     "startPlaceDisplayName": "Avenue Jean Guiton, La Rochelle",
     "endPlaceDisplayName": "Rue Ampère, La Rochelle",
+    "coordinates": {
+      "startPoint": {
+        "lon": -0.8119085,
+        "lat": 46.4536633 
+      },
+      "endPoint": {
+        "lon": -0.7519085,
+        "lat": 46.4536633
+      }
+    },
     "totalCO2": 0,
     "totalCalories": 22.83998061653227,
     "totalDistance": 377.40909178940984,

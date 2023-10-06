@@ -125,6 +125,10 @@ export const computeAggregatedTimeseries = (timeseries, makeSections) => {
       serie,
       'features[1].properties.display_name'
     )
+    const coordinates = {
+      startPoint: getStartPlaceCoordinates(timeserie),
+      endPoint: getEndPlaceCoordinates(timeserie)
+    }
 
     return {
       ...timeserie,
@@ -135,6 +139,7 @@ export const computeAggregatedTimeseries = (timeseries, makeSections) => {
         totalCalories: totalSerieCalories,
         startPlaceDisplayName,
         endPlaceDisplayName,
+        coordinates,
         purpose: getManualPurpose(serie) || getAutomaticPurpose(serie),
         modes,
         sections: computedSections
@@ -554,4 +559,18 @@ export const filterTimeseriesByYear = (timeseries, year) => {
   return timeseries.filter(
     timeserie => new Date(timeserie.startDate).getFullYear().toString() === year
   )
+}
+
+export const getStartPlaceCoordinates = timeserie => {
+  return {
+    lon: timeserie?.series?.[0]?.properties?.start_loc?.coordinates?.[0],
+    lat: timeserie?.series?.[0]?.properties?.start_loc?.coordinates?.[1]
+  }
+}
+
+export const getEndPlaceCoordinates = timeserie => {
+  return {
+    lon: timeserie?.series?.[0]?.properties?.end_loc?.coordinates?.[0],
+    lat: timeserie?.series?.[0]?.properties?.end_loc?.coordinates?.[1]
+  }
 }
