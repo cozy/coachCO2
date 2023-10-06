@@ -28,7 +28,9 @@ import {
   countUniqDays,
   getEarliestTimeserie,
   filterTimeseriesByYear,
-  updateSectionMode
+  updateSectionMode,
+  getStartPlaceCoordinates,
+  getEndPlaceCoordinates
 } from 'src/lib/timeseries'
 import { getSectionsFromTrip } from 'src/lib/trips'
 import { mockF } from 'test/lib/I18n'
@@ -954,5 +956,47 @@ describe('filterTimeseriesByYear', () => {
         endDate: '2021-01-01T00:00:00'
       }
     ])
+  })
+})
+
+describe('get start/end place coordinates', () => {
+  const timeserie = {
+    series: [
+      {
+        properties: {
+          start_loc: {
+            coordinates: [-0.8119085, 46.4536633]
+          },
+          end_loc: {
+            coordinates: [46.4536633, -0.8119085]
+          }
+        }
+      }
+    ]
+  }
+  const timeseriesWithNoCoordinates = {
+    series: [
+      {
+        properties: {}
+      }
+    ]
+  }
+  it('should return correct lon and lat for start place', () => {
+    expect(getStartPlaceCoordinates(timeserie)).toEqual({
+      lon: -0.8119085,
+      lat: 46.4536633
+    })
+  })
+  it('should return empty when there is no start place', () => {
+    expect(getStartPlaceCoordinates(timeseriesWithNoCoordinates)).toEqual({})
+  })
+  it('should return correct lon and lat for end place', () => {
+    expect(getEndPlaceCoordinates(timeserie)).toEqual({
+      lat: -0.8119085,
+      lon: 46.4536633
+    })
+  })
+  it('should return empty when there is no start place', () => {
+    expect(getEndPlaceCoordinates(timeseriesWithNoCoordinates)).toEqual({})
   })
 })
