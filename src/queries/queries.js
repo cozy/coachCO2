@@ -2,7 +2,6 @@ import endOfMonth from 'date-fns/endOfMonth'
 import startOfMonth from 'date-fns/startOfMonth'
 import subYears from 'date-fns/subYears'
 import {
-  TRIPS_DISTANCE_SIMILARITY_RATIO,
   BICYCLING_MODE,
   BICYCLING_ELECTRIC_MODE,
   SCOOTER_ELECTRIC_MODE,
@@ -224,6 +223,10 @@ export const queryTimeserieByDocId = async (client, docId) => {
   return res?.data
 }
 
+export const queryContactByDocId = async (client, docId) => {
+  const res = await client.query(Q(CONTACTS_DOCTYPE).getById(docId))
+  return res?.data
+}
 // ---------- Node.js queries
 export const buildOldestTimeseriesQueryByAccountId = accountId => ({
   definition: Q(GEOJSON_DOCTYPE)
@@ -234,48 +237,6 @@ export const buildOldestTimeseriesQueryByAccountId = accountId => ({
     .sortBy([{ 'cozyMetadata.sourceAccount': 'asc' }, { startDate: 'asc' }])
     .limitBy(1)
 })
-
-export const builTimeserieQueryByAccountIdAndStartPlaceAndEndPlaceAndStartDateAndDistance =
-  ({
-    accountId,
-    startPlaceDisplayName,
-    endPlaceDisplayName,
-    distance,
-    startDate = { $gt: null },
-    limit = 1000
-  }) => {
-    const maxDistance = distance + distance * TRIPS_DISTANCE_SIMILARITY_RATIO
-    const minDistance = distance - distance * TRIPS_DISTANCE_SIMILARITY_RATIO
-    const selector = {
-      'cozyMetadata.sourceAccount': accountId,
-      'aggregation.startPlaceDisplayName': startPlaceDisplayName,
-      'aggregation.endPlaceDisplayName': endPlaceDisplayName,
-      startDate,
-      'aggregation.totalDistance': {
-        $gte: minDistance,
-        $lte: maxDistance
-      }
-    }
-    return {
-      definition: Q(GEOJSON_DOCTYPE)
-        .where(selector)
-        .indexFields([
-          'cozyMetadata.sourceAccount',
-          'aggregation.startPlaceDisplayName',
-          'aggregation.endPlaceDisplayName',
-          'startDate',
-          'aggregation.totalDistance'
-        ])
-        .sortBy([
-          { 'cozyMetadata.sourceAccount': 'asc' },
-          { 'aggregation.startPlaceDisplayName': 'asc' },
-          { 'aggregation.endPlaceDisplayName': 'asc' },
-          { startDate: 'asc' },
-          { 'aggregation.totalDistance': 'asc' }
-        ])
-        .limitBy(limit)
-    }
-  }
 
 export const buildNewestRecurringTimeseriesQuery = ({ accountId }) => {
   return {
@@ -289,6 +250,72 @@ export const buildNewestRecurringTimeseriesQuery = ({ accountId }) => {
       .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
       .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
       .limitBy(1)
+  }
+}
+
+export const buildRecurringTimeseriesByStartAndEndPointRange = ({
+  accountId,
+  minLatStart,
+  maxLatStart,
+  minLonStart,
+  maxLonStart,
+  minLonEnd,
+  maxLonEnd,
+  minLatEnd,
+  maxLatEnd,
+  limit = 1000
+}) => {
+  return {
+    definition: Q(GEOJSON_DOCTYPE)
+      .where({
+        'cozyMetadata.sourceAccount': accountId,
+        'aggregation.coordinates.startPoint.lon': {
+          $gte: minLonStart,
+          $lte: maxLonStart
+        },
+        'aggregation.coordinates.startPoint.lat': {
+          $gte: minLatStart,
+          $lte: maxLatStart
+        },
+        'aggregation.coordinates.endPoint.lon': {
+          $gte: minLonEnd,
+          $lte: maxLonEnd
+        },
+        'aggregation.coordinates.endPoint.lat': {
+          $gte: minLatEnd,
+          $lte: maxLatEnd
+        }
+      })
+      .partialIndex({
+        'aggregation.recurring': true
+      })
+      .indexFields([
+        'cozyMetadata.sourceAccount',
+        'aggregation.coordinates.startPoint.lon',
+        'aggregation.coordinates.startPoint.lat',
+        'aggregation.coordinates.endPoint.lon',
+        'aggregation.coordinates.endPoint.lat'
+      ])
+      .limitBy(limit)
+  }
+}
+
+export const buildContactsWithGeoCoordinates = ({ limit = 1000 } = {}) => {
+  return {
+    definition: Q(CONTACTS_DOCTYPE)
+      .partialIndex({
+        address: {
+          $elemMatch: {
+            'geo.geo': {
+              $exists: true
+            }
+          }
+        }
+      })
+      .limitBy(limit),
+    options: {
+      as: `${CONTACTS_DOCTYPE}/withGeoCoordinates`
+    }
   }
 }
 
