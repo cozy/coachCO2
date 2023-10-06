@@ -38,6 +38,13 @@
         "GET"
       ]
     },
+    "konnectors": {
+      "description": "Required to create your mobility konnector account",
+      "type": "io.cozy.konnectors",
+      "verbs": [
+        "GET"
+      ]
+    },
     "accounts": {
       "description": "Required to get konnector account",
       "type": "io.cozy.accounts",
@@ -47,24 +54,20 @@
         "PUT"
       ]
     },
-    "konnectors": {
-      "description": "Required to create your mobility konnector account",
-      "type": "io.cozy.konnectors",
-      "verbs": [
-        "GET"
-      ]
-    },
     "triggers": {
-      "description": "Required to create your mobility konnector account",
-      "type": "io.cozy.triggers",
-      "verbs": [
-        "GET",
-        "POST"
-      ]
+      "description": "Required to display additional information in the viewer and for the notification service",
+      "type": "io.cozy.triggers"
     },
     "files": {
       "description": "Required to access the files for saved your export of trips",
       "type": "io.cozy.files",
+      "verbs": [
+        "ALL"
+      ]
+    },
+    "sharings": {
+      "description": "Required to have access to the sharings in realtime",
+      "type": "io.cozy.sharings",
       "verbs": [
         "ALL"
       ]
@@ -104,14 +107,14 @@
       "description": "Remote-doctype required to send anonymized CO2 contributions, for developement purposes"
     },
     "contacts": {
-      "type": "io.cozy.contacts",
+      "type": "io.cozy.contacts.*",
       "verbs": [
         "GET",
         "POST",
         "PUT",
         "DELETE"
       ],
-      "description": "Used to link contacts to geojson timeseries"
+      "description": "Used to link contacts to geojson timeseries and sharing documents"
     }
   },
   "services": {
