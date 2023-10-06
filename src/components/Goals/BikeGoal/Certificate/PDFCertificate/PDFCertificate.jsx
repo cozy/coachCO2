@@ -96,7 +96,14 @@ export const PDFCertificate = ({
     month: 'long',
     day: 'numeric'
   })
-  const currentTimeFormatted = `${currentDate.getHours()}h${currentDate.getMinutes()}`
+
+  const currentTimeFormatted = currentDate
+    .toLocaleTimeString(lang, {
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+    .replace(':', 'h')
 
   return (
     <Document>
