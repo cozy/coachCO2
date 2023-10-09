@@ -112,8 +112,34 @@ const updateAddressCoordinates = async ({
   contact,
   addressId
 }) => {
+  let newContact
+  try {
+    const contactToUpdate = setNewAddressCoordinates({
+      newCoordinates,
+      contact,
+      addressId
+    })
+    newContact = await client.save(contactToUpdate)
+  } catch (err) {
+    if (err.status === 409) {
+      log('info', 'Got conflict on contact update... Retry...')
+      const conflictedContact = await queryContactByDocId(client, contact._id)
+      const updatedContact = setNewAddressCoordinates({
+        newCoordinates,
+        contact: conflictedContact,
+        addressId
+      })
+      newContact = await client.save(updatedContact)
+    } else {
+      throw new Error('Error while saving contact: ', err)
+    }
+  }
+  return newContact
+}
+
+const setNewAddressCoordinates = ({ newCoordinates, contact, addressId }) => {
+  const newContact = { ...contact }
   // Query contact to get latest rev
-  const newContact = await queryContactByDocId(client, contact._id)
   let addressIdx = -1
   for (let i = 0; newContact.address.length; i++) {
     if (newContact.address[i].id === addressId) {
@@ -160,12 +186,11 @@ const updateAddressCoordinates = async ({
 
   newContact.address[addressIdx].geo.count = currCount + 1
   newContact.address[addressIdx].geo.sum = [newSumLon, newSumLat]
-
   log(
     'info',
     `Update contact ${contact.displayName} on address ${contact.address[addressIdx].formattedAddress}`
   )
-  return client.save(newContact)
+  return newContact
 }
 
 export const findStartAndEnd = (timeserie, contacts) => {
@@ -347,7 +372,6 @@ export const findSimilarRecurringTimeseries = async (
     endCoord
   })
   const similarTimeseries = results.filter(ts => ts._id !== timeserie._id)
-  log('info', `Found ${similarTimeseries.length} similar timeseries`)
   return !oldPurpose
     ? keepTripsWithRecurringPurposes(similarTimeseries)
     : keepTripsWithSameRecurringPurpose(similarTimeseries, oldPurpose)
