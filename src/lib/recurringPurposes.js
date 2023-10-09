@@ -445,9 +445,9 @@ export const findPurposeFromSimilarTimeserieAndWaybacks = async (
  * with the trip coordinates, to incrementally improve the geolocation precision.
  *
  * @param {object} client - The cozy client instance
- * @param {object} timeserie - The timeserie to categorize
- * @param {Array<object>} contacts - The contacts with geo information
- * @returns {object} The timeserie to update
+ * @param {import('./types').TimeseriesGeoJSON} timeserie - The timeserie to categorize
+ * @param {Array<import('./types').Contact>} contacts - The contacts with geo information
+ * @returns {import('./types').TimeseriesGeoJSON} The timeserie to update
  */
 const findPurposeFromContactAddresses = async (client, timeserie, contacts) => {
   const { matchingStart, matchingEnd } = await findStartAndEnd(
@@ -571,7 +571,7 @@ const saveTrips = async (client, timeseriesToUpdate) => {
  * created trips.
  *
  * @param {object} client - The cozy-client instance
- * @returns {Promise<Array>} The updated trips
+ * @returns {Promise<Array<import('./types').TimeseriesGeoJSON>>} The updated trips
  */
 export const runRecurringPurposesForNewTrips = async client => {
   const settings = await client.query(buildSettingsQuery().definition)
@@ -645,7 +645,7 @@ export const runRecurringPurposesForNewTrips = async client => {
  * @param {object} params
  * @param {string} params.docId - The trip docId
  * @param {string} params.oldPurpose - The trip purpose before the manual change
- * @returns {Promise<Array>} The updated trips
+ * @returns {Promise<Array<import('./types').TimeseriesGeoJSON>>} The updated trips
  */
 export const runRecurringPurposesForManualTrip = async (
   client,
