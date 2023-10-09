@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useGeolocationTracking } from 'src/components/GeolocationTracking/GeolocationTrackingProvider'
 import { getOpenPathAccountName } from 'src/components/GeolocationTracking/helpers'
 import { buildOpenPathKonnectorQuery } from 'src/queries/queries'
 
 import { useClient } from 'cozy-client'
 import { isAndroid } from 'cozy-device-helper'
 import ConnectionFlow from 'cozy-harvest-lib/dist/models/ConnectionFlow'
-import { useWebviewIntent } from 'cozy-intent'
 import { AllowLocationDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import Switch from 'cozy-ui/transpiled/react/Switch'
@@ -25,7 +25,16 @@ const useStyles = makeStyles({
 })
 
 export const GeolocationTrackingSwitcher = ({ className }) => {
-  const webviewIntent = useWebviewIntent()
+  const {
+    setGeolocationTracking,
+    getGeolocationTrackingStatus,
+    getGeolocationTrackingId,
+    setGeolocationTrackingId,
+    checkGeolocationTrackingPermissions,
+    requestGeolocationTrackingPermissions,
+    openAppOSSettings,
+    getDeviceInfo
+  } = useGeolocationTracking()
   const client = useClient()
   const { isMobile } = useBreakpoints()
   const { t, lang } = useI18n()
@@ -71,7 +80,7 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
   }
 
   const disableGeolocationTracking = async () => {
-    await webviewIntent.call('setGeolocationTracking', false)
+    await setGeolocationTracking(false)
   }
 
   const enableGeolocationTracking = async () => {
@@ -79,7 +88,7 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
     let geolocationTrackingId = await getGeolocationTrackingId()
 
     if (geolocationTrackingId === null) {
-      const { deviceName } = await webviewIntent.call('getDeviceInfo')
+      const { deviceName } = await getDeviceInfo()
 
       const openPathKonnectorQuery = buildOpenPathKonnectorQuery()
       const {
@@ -116,31 +125,7 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
     }
 
     // enable geolocation tracking
-    await webviewIntent.call('setGeolocationTracking', true)
-  }
-
-  const getGeolocationTrackingId = async () => {
-    return await webviewIntent.call('getGeolocationTrackingId')
-  }
-
-  const setGeolocationTrackingId = async newId => {
-    return await webviewIntent.call('setGeolocationTrackingId', newId)
-  }
-
-  const getGeolocationTrackingStatus = useCallback(async () => {
-    return await webviewIntent.call('getGeolocationTrackingStatus')
-  }, [webviewIntent])
-
-  const checkGeolocationTrackingPermissions = async () => {
-    return await webviewIntent.call('checkPermissions', 'geolocationTracking')
-  }
-
-  const requestGeolocationTrackingPermissions = async () => {
-    return await webviewIntent.call('requestPermissions', 'geolocationTracking')
-  }
-
-  const openAppOSSettings = async () => {
-    return await webviewIntent.call('openAppOSSettings')
+    await setGeolocationTracking(true)
   }
 
   useEffect(() => {
@@ -150,11 +135,7 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
     }
 
     doAsync()
-  }, [
-    webviewIntent,
-    getGeolocationTrackingStatus,
-    isGeolocationTrackingEnabled
-  ])
+  }, [getGeolocationTrackingStatus, isGeolocationTrackingEnabled])
 
   return (
     <div className={className}>

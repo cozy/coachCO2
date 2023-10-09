@@ -4,6 +4,7 @@ import AppVersionNumber from 'src/components/AppVersionNumber'
 import CO2EmissionDaccAlertSwitcher from 'src/components/CO2EmissionDaccAlertSwitcher'
 import CO2EmissionDaccSwitcher from 'src/components/CO2EmissionDaccSwitcher'
 import CsvExporter from 'src/components/ExportCSV/CsvExporter'
+import { GeolocationTrackingProvider } from 'src/components/GeolocationTracking/GeolocationTrackingProvider'
 import GeolocationTrackingSettings from 'src/components/GeolocationTracking/GeolocationTrackingSettings'
 import GeolocationTrackingSwitcher from 'src/components/GeolocationTracking/GeolocationTrackingSwitcher'
 import { isGeolocationTrackingEnabled } from 'src/components/GeolocationTracking/helpers'
@@ -77,4 +78,12 @@ export const Settings = () => {
   )
 }
 
-export default Settings
+const WrappedSettings = () => {
+  return (
+    <GeolocationTrackingProvider>
+      <Settings />
+    </GeolocationTrackingProvider>
+  )
+}
+
+export default WrappedSettings
