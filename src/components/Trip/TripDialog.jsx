@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { getPlaceLabelByContact } from 'src/components/ContactToPlace/helpers'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import TripDialogDesktopContent from 'src/components/Trip/TripDialogDesktopContent'
 import TripDialogMobileContent from 'src/components/Trip/TripDialogMobileContent'
@@ -11,7 +12,7 @@ import { useBreakpoints } from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const TripDialog = () => {
-  const { f } = useI18n()
+  const { t, f } = useI18n()
   const { isMobile } = useBreakpoints()
   const { timeserieId } = useParams()
   const { timeserie } = useTrip()
@@ -27,7 +28,8 @@ const TripDialog = () => {
       disableGutters={isMobile}
       title={
         <>
-          {getEndPlaceDisplayName(timeserie)}
+          {getPlaceLabelByContact({ timeserie, type: 'end', t }) ||
+            getEndPlaceDisplayName(timeserie)}
           <Typography
             className="u-mt-half"
             variant="caption"
