@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useGeolocationTracking } from 'src/components/GeolocationTracking/GeolocationTrackingProvider'
-import { getOpenPathAccountName } from 'src/components/GeolocationTracking/helpers'
-import { buildOpenPathKonnectorQuery } from 'src/queries/queries'
+import { createOpenPathAccount } from 'src/components/GeolocationTracking/helpers'
 
 import { useClient } from 'cozy-client'
 import { isAndroid } from 'cozy-device-helper'
-import ConnectionFlow from 'cozy-harvest-lib/dist/models/ConnectionFlow'
 import { AllowLocationDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import Switch from 'cozy-ui/transpiled/react/Switch'
-import { getRandomUUID } from 'cozy-ui/transpiled/react/helpers/getRandomUUID'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 import { makeStyles } from 'cozy-ui/transpiled/react/styles'
@@ -90,38 +87,14 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
     if (geolocationTrackingId === null) {
       const { deviceName } = await getDeviceInfo()
 
-      const openPathKonnectorQuery = buildOpenPathKonnectorQuery()
-      const {
-        data: { attributes: konnector }
-      } = await client.query(
-        openPathKonnectorQuery.definition,
-        openPathKonnectorQuery.options
-      )
-
-      const flow = new ConnectionFlow(client, null, konnector)
-
-      const newLogin = await getOpenPathAccountName({
+      const { password } = await createOpenPathAccount({
         client,
         t,
         lang,
         deviceName
       })
-      const newPassword = getRandomUUID()
 
-      await flow.createAccountSilently({
-        konnector,
-        vaultClient: null,
-        cipherId: null,
-        trigger: null,
-        account: null,
-        userCredentials: {
-          login: newLogin,
-          password: newPassword,
-          providerId: '1' // Cozy Provider
-        }
-      })
-
-      await setGeolocationTrackingId(newPassword)
+      await setGeolocationTrackingId(password)
     }
 
     // enable geolocation tracking

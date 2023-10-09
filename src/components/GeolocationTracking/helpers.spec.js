@@ -1,5 +1,11 @@
 import { getOpenPathAccountName } from './helpers'
 
+jest.mock('cozy-harvest-lib/dist/models/ConnectionFlow', () => {
+  return {
+    default: jest.fn()
+  }
+})
+
 const t = () => 'créé le'
 
 describe('getOpenPathAccountName', () => {

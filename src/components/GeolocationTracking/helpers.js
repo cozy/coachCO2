@@ -1,7 +1,55 @@
-import { buildAccountQueryByLogin } from 'src/queries/queries'
+import {
+  buildAccountQueryByLogin,
+  buildOpenPathKonnectorQuery
+} from 'src/queries/queries'
 
 import { isFlagshipApp } from 'cozy-device-helper'
 import flag from 'cozy-flags'
+import ConnectionFlow from 'cozy-harvest-lib/dist/models/ConnectionFlow'
+import { getRandomUUID } from 'cozy-ui/transpiled/react/helpers/getRandomUUID'
+
+export const createOpenPathAccount = async ({
+  client,
+  t,
+  lang,
+  deviceName
+}) => {
+  const openPathKonnectorQuery = buildOpenPathKonnectorQuery()
+  const {
+    data: { attributes: konnector }
+  } = await client.query(
+    openPathKonnectorQuery.definition,
+    openPathKonnectorQuery.options
+  )
+
+  const flow = new ConnectionFlow(client, null, konnector)
+
+  const newLogin = await getOpenPathAccountName({
+    client,
+    t,
+    lang,
+    deviceName
+  })
+  const newPassword = getRandomUUID()
+
+  await flow.createAccountSilently({
+    konnector,
+    vaultClient: null,
+    cipherId: null,
+    trigger: null,
+    account: null,
+    userCredentials: {
+      login: newLogin,
+      password: newPassword,
+      providerId: '1' // Cozy Provider
+    }
+  })
+
+  return {
+    login: newLogin,
+    password: newPassword
+  }
+}
 
 export const getOpenPathAccountName = async ({
   client,
