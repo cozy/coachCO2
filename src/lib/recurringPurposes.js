@@ -29,6 +29,26 @@ const { deltaLatitude, deltaLongitude, geodesicDistance } = models.geo
 
 const MAX_SPATIAL_THRESHOLD_M = 200
 
+/**
+ * Recurring purposes categorization service.
+ *
+ * This is used to automatically set purpose for new incoming trips, based on previous
+ * similar trips.
+ * The reasoning is the following: a user has recurring trips, with same start and end places.
+ * Then, it makes sense to set the same purpose for those similar trips.
+ * To find similar trips, we rely on the start and end coordinates of the trip. If we find a previous trip
+ * with close coordinates (with a spatial threshold to handle small GPS errors) and with a purpose, we use
+ * the same purpose for the trip.
+ * We also take advantage of saved contact's address with geo information: if we find contacts with such
+ * information, and if the address is close enough to the start or end place, we add a relationship on the
+ * trip with the address' contact.
+ * Then, if both the start and end addresses are found, and if the addresses includes a cozyCategory, we can
+ * apply some rules: typically, a HOME start address and a WORK end address will result in a COMMUTE purpose.
+ *
+ * Note that the contats' addresses are updated with the matching trip coordinates, to incrementally improve
+ * the coordinates precision.
+ */
+
 const findContactsWithGeo = async client => {
   const queryDef = buildContactsWithGeoCoordinates().definition
   const contacts = await client.queryAll(queryDef)
@@ -139,7 +159,6 @@ const updateAddressCoordinates = async ({
 
 const setNewAddressCoordinates = ({ newCoordinates, contact, addressId }) => {
   const newContact = { ...contact }
-  // Query contact to get latest rev
   let addressIdx = -1
   for (let i = 0; newContact.address.length; i++) {
     if (newContact.address[i].id === addressId) {
