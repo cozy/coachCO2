@@ -129,12 +129,12 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
   }
 
   useEffect(() => {
-    const doAsync = async () => {
+    const fetchGeolocationTrackingStatus = async () => {
       const { enabled } = await getGeolocationTrackingStatus()
       setIsGeolocationTrackingEnabled(enabled)
     }
 
-    doAsync()
+    fetchGeolocationTrackingStatus()
   }, [getGeolocationTrackingStatus, isGeolocationTrackingEnabled])
 
   return (
