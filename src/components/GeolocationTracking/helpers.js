@@ -27,7 +27,5 @@ export const getOpenPathAccountName = async ({
   )} ${new Date().toLocaleDateString(lang)}`
 }
 
-export const isGeolocationTrackingEnabled =
-  isFlagshipApp() &&
-  flag('coachco2.GPSMemory.enabled') &&
-  window?.cozy?.flagship?.geolocation_tracking_available
+export const isGeolocationTrackingPossible =
+  isFlagshipApp() && flag('coachco2.GPSMemory.enabled')

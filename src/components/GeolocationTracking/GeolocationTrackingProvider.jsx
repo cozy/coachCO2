@@ -1,11 +1,36 @@
-import React, { createContext, useContext } from 'react'
+import React, { useState, useEffect, createContext, useContext } from 'react'
+import { isGeolocationTrackingPossible } from 'src/components/GeolocationTracking/helpers'
 
 import { useWebviewIntent } from 'cozy-intent'
 
 const GeolocationTrackingContext = createContext(null)
 
+const FEATURE_NAME = 'geolocationTracking'
+
 export const GeolocationTrackingProvider = ({ children }) => {
   const webviewIntent = useWebviewIntent()
+
+  const [isGeolocationTrackingAvailable, setIsGeolocationTrackingAvailable] =
+    useState(false)
+
+  useEffect(() => {
+    const checkGeolocationTrackingAvailability = async () => {
+      try {
+        const isAvailable = await webviewIntent.call(
+          'isAvailable',
+          FEATURE_NAME
+        )
+
+        setIsGeolocationTrackingAvailable(isAvailable)
+      } catch {
+        /* if isAvailable is not implemented it will throw an error */
+      }
+    }
+
+    if (isGeolocationTrackingPossible) {
+      checkGeolocationTrackingAvailability()
+    }
+  }, [webviewIntent])
 
   const setGeolocationTracking = async enabled => {
     return await webviewIntent.call('setGeolocationTracking', enabled)
@@ -50,6 +75,7 @@ export const GeolocationTrackingProvider = ({ children }) => {
   return (
     <GeolocationTrackingContext.Provider
       value={{
+        isGeolocationTrackingAvailable,
         setGeolocationTracking,
         getGeolocationTrackingStatus,
         getGeolocationTrackingId,
