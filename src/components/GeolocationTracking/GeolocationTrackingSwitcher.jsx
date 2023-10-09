@@ -3,7 +3,7 @@ import { getOpenPathAccountName } from 'src/components/GeolocationTracking/helpe
 import { buildOpenPathKonnectorQuery } from 'src/queries/queries'
 
 import { useClient } from 'cozy-client'
-import { isAndroid, isIOS } from 'cozy-device-helper'
+import { isAndroid } from 'cozy-device-helper'
 import ConnectionFlow from 'cozy-harvest-lib/dist/models/ConnectionFlow'
 import { useWebviewIntent } from 'cozy-intent'
 import { AllowLocationDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
@@ -117,19 +117,6 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
 
     // enable geolocation tracking
     await webviewIntent.call('setGeolocationTracking', true)
-
-    /*
-      Special case because iOS permissions are managed by the native geolocation plugin contrary to Android permissions.
-      So if the user refused permissions, plugin is enabled but can not work so we disable
-      it directly and show the location refused modal to avoid confusion for the user.
-    */
-    if (isIOS()) {
-      let afterEnablingPermissions = await checkGeolocationTrackingPermissions()
-      if (!afterEnablingPermissions.granted) {
-        await webviewIntent.call('setGeolocationTracking', false)
-        setShowLocationRefusedDialog(true)
-      }
-    }
   }
 
   const getGeolocationTrackingId = async () => {
