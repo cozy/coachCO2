@@ -72,10 +72,8 @@ export const getPlaceLabelByContact = ({ timeserie, type, t }) => {
   const displayName = getDisplayName(contact)
   const isHome = category === 'home'
 
-  if (isHome) {
-    return isMyself
-      ? t('contactToPlace.atHome')
-      : `${t('contactToPlace.at')} ${displayName}`
+  if (isHome && isMyself) {
+    return t('contactToPlace.atHome')
   }
 
   if (!label) {

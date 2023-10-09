@@ -206,7 +206,7 @@ describe('getPlaceLabelByContact', () => {
       }
 
       expect(getPlaceLabelByContact({ timeserie, type, t })).toBe(
-        'At Sarah Connor'
+        'Sarah Connor (Home)'
       )
     })
 
