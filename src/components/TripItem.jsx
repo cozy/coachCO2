@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, { useMemo } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { PurposeAvatar } from 'src/components/Avatar'
+import { getPlaceLabelByContact } from 'src/components/ContactToPlace/helpers'
 import { pickModeIcon } from 'src/components/helpers'
 import {
   getEndPlaceDisplayName,
@@ -47,7 +48,7 @@ const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
 }
 
 export const TripItem = ({ timeserie, hasDateHeader }) => {
-  const { f } = useI18n()
+  const { t, f } = useI18n()
   const location = useLocation()
   const navigate = useNavigate()
   const { mode } = useParams()
@@ -85,7 +86,10 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
           <PurposeAvatar attribute={purpose} />
         </ListItemIcon>
         <ListItemText
-          primary={getEndPlaceDisplayName(timeserie)}
+          primary={
+            getPlaceLabelByContact({ timeserie, type: 'end', t }) ||
+            getEndPlaceDisplayName(timeserie)
+          }
           secondary={
             <TripItemSecondary
               tripModeIcons={tripModeIcons}
