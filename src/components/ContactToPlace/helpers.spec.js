@@ -1,10 +1,15 @@
 import get from 'lodash/get'
 import locales from 'src/locales/en.json'
 
+import CompanyIcon from 'cozy-ui/transpiled/react/Icons/Company'
+import HomeIcon from 'cozy-ui/transpiled/react/Icons/Home'
+import PeopleIcon from 'cozy-ui/transpiled/react/Icons/People'
+
 import {
   getLabelByType,
   addAddressToContact,
-  getPlaceLabelByContact
+  getPlaceLabelByContact,
+  getPlaceColorAndIconByContact
 } from './helpers'
 
 const t = x => get(locales, x)
@@ -280,5 +285,153 @@ describe('getPlaceLabelByContact', () => {
     }
 
     expect(getPlaceLabelByContact({ timeserie, type, t })).toBe(null)
+  })
+})
+
+describe('getPlaceColorAndIconByContact', () => {
+  const type = 'start'
+
+  describe('if contact is myself', () => {
+    it('should return work icon and color', () => {
+      const contact = {
+        displayName: 'John Connor',
+        me: true,
+        address: [{ id: '123', type: 'Work', geo: { cozyCategory: 'work' } }]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceColorAndIconByContact(timeserie, type)).toStrictEqual({
+        color: '#BA5AE8',
+        Icon: CompanyIcon
+      })
+    })
+
+    it('should return people icon and color', () => {
+      const contact = {
+        displayName: 'John Connor',
+        me: true,
+        address: [{ id: '123', type: 'Custom' }]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceColorAndIconByContact(timeserie, type)).toStrictEqual({
+        color: '#F05759',
+        Icon: PeopleIcon
+      })
+    })
+
+    it('should return home icon and color', () => {
+      const contact = {
+        displayName: 'John Connor',
+        me: true,
+        address: [{ id: '123', type: 'Home', geo: { cozyCategory: 'home' } }]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceColorAndIconByContact(timeserie, type)).toStrictEqual({
+        color: '#F1B61E',
+        Icon: HomeIcon
+      })
+    })
+  })
+
+  describe('if contact is myself', () => {
+    it('should return work icon and color', () => {
+      const contact = {
+        displayName: 'Sarah Connor',
+        address: [{ id: '123', type: 'Work', geo: { cozyCategory: 'work' } }]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceColorAndIconByContact(timeserie, type)).toStrictEqual({
+        color: '#BA5AE8',
+        Icon: CompanyIcon
+      })
+    })
+
+    it('should return people icon and color', () => {
+      const contact = {
+        displayName: 'Sarah Connor',
+        address: [{ id: '123', type: 'Custom' }]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceColorAndIconByContact(timeserie, type)).toStrictEqual({
+        color: '#F05759',
+        Icon: PeopleIcon
+      })
+    })
+
+    it('should return home icon and color', () => {
+      const contact = {
+        displayName: 'Sarah Connor',
+        address: [{ id: '123', type: 'Home', geo: { cozyCategory: 'home' } }]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceColorAndIconByContact(timeserie, type)).toStrictEqual({
+        color: '#F05759',
+        Icon: PeopleIcon
+      })
+    })
+  })
+
+  it('should return empty object if no contact', () => {
+    const timeserie = {
+      startPlaceContact: {},
+      relationships: {
+        startPlaceContact: {}
+      }
+    }
+
+    expect(getPlaceColorAndIconByContact(timeserie, type)).toStrictEqual({})
   })
 })

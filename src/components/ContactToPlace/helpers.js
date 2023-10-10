@@ -4,6 +4,9 @@ import unset from 'lodash/unset'
 import { getPlaceCoordinates, getPlaceDisplayName } from 'src/lib/timeseries'
 
 import { getDisplayName } from 'cozy-client/dist/models/contact'
+import CompanyIcon from 'cozy-ui/transpiled/react/Icons/Company'
+import HomeIcon from 'cozy-ui/transpiled/react/Icons/Home'
+import PeopleIcon from 'cozy-ui/transpiled/react/Icons/People'
 import { getRandomUUID } from 'cozy-ui/transpiled/react/helpers/getRandomUUID'
 
 export const getRelationshipKey = type => {
@@ -57,6 +60,28 @@ export const getRelationshipByType = (timeserie, type) => {
 
 export const hasRelationshipByType = (timeserie, type) => {
   return !!getRelationshipByType(timeserie, type)?.data
+}
+
+export const getPlaceColorAndIconByContact = (timeserie, type) => {
+  const contact = getRelationshipByType(timeserie, type)?.data
+
+  if (!contact) {
+    return {}
+  }
+
+  const isMyself = !!contact.me
+  const category = getCategoryByType({ timeserie, type, contact })
+  const isHome = category === 'home'
+
+  if (isHome && isMyself) {
+    return { color: '#F1B61E', Icon: HomeIcon }
+  }
+
+  if (category === 'work') {
+    return { color: '#BA5AE8', Icon: CompanyIcon }
+  }
+
+  return { color: '#F05759', Icon: PeopleIcon }
 }
 
 export const getPlaceLabelByContact = ({ timeserie, type, t }) => {

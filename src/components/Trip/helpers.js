@@ -22,12 +22,5 @@ export const makeGeoJsonOptions = theme => ({
         }`
       })
     })
-  },
-  markerIcon: (latlng, Icon) => {
-    return L.marker(latlng, {
-      icon: L.divIcon({
-        html: `${Icon()}`
-      })
-    })
   }
 })

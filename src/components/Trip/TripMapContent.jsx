@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useMemo } from 'react'
 import { TileLayer, GeoJSON, useMap } from 'react-leaflet'
 import { useTrip } from 'src/components/Providers/TripProvider'
 import { bottomSheetSettings } from 'src/components/Trip/TripDialogMobileContent'
+import TripMapContactMarker from 'src/components/Trip/TripMapContactMarker'
 import { MAP_PADDING, makeGeoJsonOptions } from 'src/components/Trip/helpers'
 import { getGeoJSONData } from 'src/lib/timeseries'
 
@@ -51,6 +52,8 @@ const TripMapContent = () => {
         pointToLayer={pointToLayer}
         style={style}
       />
+      <TripMapContactMarker type="start" />
+      <TripMapContactMarker type="end" />
     </>
   )
 }
