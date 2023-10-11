@@ -29,12 +29,13 @@ const ModeEditDialog = ({ section, onClose }) => {
       const newTimeserie = createGeojsonWithModifiedMode({
         timeserie,
         sectionId: section.id,
-        mode: item.id
+        mode: item.id,
+        t
       })
       await client.save(newTimeserie)
       onClose()
     },
-    [client, timeserie, onClose, section.id]
+    [client, timeserie, onClose, section.id, t]
   )
 
   const isSelected = useMemo(

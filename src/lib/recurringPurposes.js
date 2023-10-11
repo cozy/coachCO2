@@ -12,7 +12,8 @@ import {
   getEndPlaceCoordinates,
   getStartPlaceCoordinates,
   isLoopTrip,
-  setAutomaticPurpose
+  setAutomaticPurpose,
+  makeAggregationTitle
 } from 'src/lib/timeseries'
 import { getManualPurpose, getAutomaticPurpose } from 'src/lib/trips'
 import {
@@ -647,11 +648,21 @@ const findRecurringTripsFromTimeserie = async (
   return timeseriesToUpdate
 }
 
-const saveTrips = async (client, timeseriesToUpdate) => {
+const saveTrips = async ({ client, timeseriesToUpdate, t }) => {
   if (timeseriesToUpdate.length > 0) {
     log('info', `${timeseriesToUpdate.length} trips to update`)
+
+    for (const timeserie of timeseriesToUpdate) {
+      set(
+        timeserie,
+        'aggregation.automaticTitle',
+        makeAggregationTitle(timeserie, t)
+      )
+    }
+
     return client.saveAll(timeseriesToUpdate)
   }
+
   log('info', `No trip to update`)
   return []
 }
@@ -663,7 +674,7 @@ const saveTrips = async (client, timeseriesToUpdate) => {
  * @param {import("cozy-client/dist/index").CozyClient} client - The cozy-client instance
  * @returns {Promise<Array<TimeSerie>>} The updated trips
  */
-export const runRecurringPurposesForNewTrips = async client => {
+export const runRecurringPurposesForNewTrips = async (client, t) => {
   const settings = await client.query(buildSettingsQuery().definition)
   const accountId = settings.data?.[0]?.account?._id
   if (!accountId) {
@@ -727,7 +738,7 @@ export const runRecurringPurposesForNewTrips = async client => {
   }
 
   log('info', `Set ${nTripsWithAutoPurpose} trips with automatic purpose`)
-  return saveTrips(client, timeseriesToUpdate)
+  return saveTrips({ client, timeseriesToUpdate, t })
 }
 
 /**
@@ -742,7 +753,8 @@ export const runRecurringPurposesForNewTrips = async client => {
  */
 export const runRecurringPurposesForManualTrip = async (
   client,
-  { docId, oldPurpose }
+  { docId, oldPurpose },
+  t
 ) => {
   // A new purpose has been manually set: look for existing trips to update
   const timeserie = await queryTimeserieByDocId(client, docId)
@@ -753,5 +765,5 @@ export const runRecurringPurposesForManualTrip = async (
     { oldPurpose }
   )
   log('info', `Found ${timeseriesToUpdate.length} to update...`)
-  return saveTrips(client, timeseriesToUpdate)
+  return saveTrips({ client, timeseriesToUpdate, t })
 }

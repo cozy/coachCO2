@@ -4,11 +4,14 @@ import {
   runRecurringPurposesForManualTrip,
   runRecurringPurposesForNewTrips
 } from 'src/lib/recurringPurposes'
+import { initPolyglot } from 'src/lib/services'
 
 import CozyClient from 'cozy-client'
 import log from 'cozy-logger'
 
 global.fetch = fetch
+
+const { t } = initPolyglot()
 
 /**
  * This service detects recurring trips and set automatic purpose.
@@ -23,10 +26,10 @@ const recurringPurposes = async () => {
   const { docId, oldPurpose } = fields
   if (docId && oldPurpose) {
     log('info', 'Search for recurring trips after manual edit')
-    await runRecurringPurposesForManualTrip(client, { docId, oldPurpose })
+    await runRecurringPurposesForManualTrip(client, { docId, oldPurpose }, t)
   } else {
     log('info', 'Search for new recurring trips')
-    await runRecurringPurposesForNewTrips(client)
+    await runRecurringPurposesForNewTrips(client, t)
   }
 }
 

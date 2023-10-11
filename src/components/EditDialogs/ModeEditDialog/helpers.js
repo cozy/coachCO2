@@ -16,7 +16,8 @@ import {
 export const createGeojsonWithModifiedMode = ({
   timeserie,
   sectionId,
-  mode
+  mode,
+  t
 }) => {
   const matchedSection = timeserie.series
     .flatMap((serie, serieIndex) => {
@@ -51,13 +52,17 @@ export const createGeojsonWithModifiedMode = ({
       `series[${serieIndex}].features[${firstIndex}].features[${secondIndex}]`,
       modifiedFeature
     )
+
     const makeSections = timeserie => {
       return updateSectionMode({ timeserie, sectionId, mode })
     }
-    const timeserieWithUpdatedAggregation = computeAggregatedTimeseries(
-      [updatedTimeserie],
-      makeSections
-    )[0]
+
+    const timeserieWithUpdatedAggregation = computeAggregatedTimeseries({
+      timeseries: [updatedTimeserie],
+      makeSections,
+      t
+    })[0]
+
     return timeserieWithUpdatedAggregation
   }
 

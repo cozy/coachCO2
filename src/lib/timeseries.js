@@ -125,9 +125,14 @@ export const makeAggregationTitle = (timeserie, t) => {
  * Add aggregates for all timeseries by computing section's data
  * @param {array} timeseries - Timeseries to be aggregated
  * @param {Function} makeSection - Callback to get sections from timeserie
+ * @param {Function} t - Translate function
  * @returns {array} The aggregated timeseries
  */
-export const computeAggregatedTimeseries = (timeseries, makeSections) => {
+export const computeAggregatedTimeseries = ({
+  timeseries,
+  makeSections,
+  t
+}) => {
   const aggregatedTimeseries = timeseries.map(timeserie => {
     const serie = timeserie.series[0]
     let totalSerieCO2 = 0
@@ -173,6 +178,7 @@ export const computeAggregatedTimeseries = (timeseries, makeSections) => {
     return {
       ...timeserie,
       aggregation: {
+        automaticTitle: makeAggregationTitle(timeserie, t),
         totalCO2: totalSerieCO2,
         totalDistance: totalSerieDistance,
         totalDuration: totalSerieDuration,

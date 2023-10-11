@@ -202,10 +202,11 @@ describe('Aggregation', () => {
     return getSectionsFromTrip(serie)
   }
 
-  const aggregatedTimeseries = computeAggregatedTimeseries(
+  const aggregatedTimeseries = computeAggregatedTimeseries({
     timeseries,
-    makeSectionFromServiceMock
-  )
+    makeSections: makeSectionFromServiceMock,
+    t
+  })
 
   describe('updateSectionMode', () => {
     it('should update section mode', () => {
