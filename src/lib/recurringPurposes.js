@@ -1,14 +1,17 @@
 import { set } from 'lodash'
 import {
   COMMUTE_PURPOSE,
+  COORDINATES_DISTANCE_THRESHOLD_M,
   HOME_ADDRESS_CATEGORY,
   OTHER_PURPOSE,
+  TRIPS_DISTANCE_SIMILARITY_RATIO,
   WORK_ADDRESS_CATEGORY
 } from 'src/constants'
 import { CONTACTS_DOCTYPE } from 'src/doctypes'
 import {
   getEndPlaceCoordinates,
   getStartPlaceCoordinates,
+  isLoopTrip,
   setAutomaticPurpose
 } from 'src/lib/timeseries'
 import { getManualPurpose, getAutomaticPurpose } from 'src/lib/trips'
@@ -26,8 +29,6 @@ import { models } from 'cozy-client'
 import log from 'cozy-logger'
 
 const { deltaLatitude, deltaLongitude, geodesicDistance } = models.geo
-
-const MAX_SPATIAL_THRESHOLD_M = 200
 
 /**
  * Recurring purposes categorization service.
@@ -222,10 +223,10 @@ export const findStartAndEnd = (timeserie, contacts) => {
   )
   let matchingStart = null,
     matchingEnd = null
-  if (closestStart?.distance < MAX_SPATIAL_THRESHOLD_M) {
+  if (closestStart?.distance < COORDINATES_DISTANCE_THRESHOLD_M) {
     matchingStart = closestStart
   }
-  if (closestEnd?.distance < MAX_SPATIAL_THRESHOLD_M) {
+  if (closestEnd?.distance < COORDINATES_DISTANCE_THRESHOLD_M) {
     matchingEnd = closestEnd
   }
   return { matchingStart, matchingEnd }
@@ -251,7 +252,7 @@ export const shouldSetCommutePurpose = (start, end) => {
 
 const isDistanceLessThanThreshold = (point1, point2) => {
   const distance = geodesicDistance(point1, point2)
-  return distance < MAX_SPATIAL_THRESHOLD_M
+  return distance < COORDINATES_DISTANCE_THRESHOLD_M
 }
 
 export const areSimiliarTimeseriesByCoordinates = (refTs, compareTs) => {
@@ -338,8 +339,8 @@ const queryRecurringTimeseriesWithCloseStartOrEnd = async (
   client,
   { accountId, startCoord, endCoord }
 ) => {
-  const deltaLat = deltaLatitude(MAX_SPATIAL_THRESHOLD_M)
-  const deltaLon = deltaLongitude(deltaLat, MAX_SPATIAL_THRESHOLD_M)
+  const deltaLat = deltaLatitude(COORDINATES_DISTANCE_THRESHOLD_M)
+  const deltaLon = deltaLongitude(deltaLat, COORDINATES_DISTANCE_THRESHOLD_M)
 
   const minLonStart = startCoord.lon - deltaLon
   const maxLonStart = startCoord.lon + deltaLon
@@ -367,7 +368,37 @@ const queryRecurringTimeseriesWithCloseStartOrEnd = async (
   return results || []
 }
 
-// Similar trips = close start/end point
+export const filterTripsBasedOnDistance = (timeseries, baseDistance) => {
+  const maxDistance =
+    baseDistance + baseDistance * TRIPS_DISTANCE_SIMILARITY_RATIO
+  const minDistance =
+    baseDistance - baseDistance * TRIPS_DISTANCE_SIMILARITY_RATIO
+  return timeseries.filter(ts => {
+    return (
+      ts.aggregation?.totalDistance >= minDistance &&
+      ts.aggregation?.totalDistance <= maxDistance
+    )
+  })
+}
+
+const postFilterResults = (results, timeserie, { oldPurpose }) => {
+  let similarTimeseries = results.filter(ts => ts._id !== timeserie._id)
+
+  similarTimeseries = !oldPurpose
+    ? keepTripsWithRecurringPurposes(similarTimeseries)
+    : keepTripsWithSameRecurringPurpose(similarTimeseries, oldPurpose)
+
+  if (isLoopTrip(timeserie)) {
+    log('info', 'Detected loop trip')
+    // Filter out trips with a too high distance difference
+    // This is done only for loop trips, that are particular: it makes less sense
+    // to only on start and end points, so we add a distance filter to keep
+    // similar trips.
+    // Note this is far from perfect and should eventually be improved
+    similarTimeseries = filterTripsBasedOnDistance(similarTimeseries)
+  }
+  return similarTimeseries
+}
 
 /**
  * Find similar recurring timeseries, notably based on their coordinates.

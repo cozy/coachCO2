@@ -13,7 +13,8 @@ jest.mock('cozy-client', () => ({
     dacc: {
       sendMeasureToDACC: jest.fn(),
       fetchAggregatesFromDACC: jest.fn()
-    }
+    },
+    geo: { geodesicDistance: jest.fn() }
   }
 }))
 jest.mock('cozy-flags')

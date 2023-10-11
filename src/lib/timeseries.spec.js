@@ -30,7 +30,8 @@ import {
   filterTimeseriesByYear,
   updateSectionMode,
   getStartPlaceCoordinates,
-  getEndPlaceCoordinates
+  getEndPlaceCoordinates,
+  isLoopTrip
 } from 'src/lib/timeseries'
 import { getSectionsFromTrip } from 'src/lib/trips'
 import { mockF } from 'test/lib/I18n'
@@ -998,5 +999,49 @@ describe('get start/end place coordinates', () => {
   })
   it('should return empty when there is no start place', () => {
     expect(getEndPlaceCoordinates(timeseriesWithNoCoordinates)).toEqual({})
+  })
+})
+
+describe('is Loop trip', () => {
+  it('should return true when start and end points are close enough', () => {
+    const timeserie = {
+      aggregation: {
+        coordinates: {
+          startPoint: {
+            lat: 46.4536633,
+            lon: -0.8119085
+          },
+          endPoint: {
+            lat: 46.4536632,
+            lon: -0.8119086
+          }
+        }
+      }
+    }
+    expect(isLoopTrip(timeserie)).toEqual(true)
+  })
+  it('should return false when start and end points are too far', () => {
+    const timeserie = {
+      aggregation: {
+        coordinates: {
+          startPoint: {
+            lat: 46.4536633,
+            lon: -0.8119085
+          },
+          endPoint: {
+            lon: 46.4536633,
+            lat: -0.8119085
+          }
+        }
+      }
+    }
+    expect(isLoopTrip(timeserie)).toEqual(false)
+  })
+  it('should return false when coordinates are missing', () => {
+    expect(
+      isLoopTrip({
+        coordinates: {}
+      })
+    ).toEqual(false)
   })
 })
