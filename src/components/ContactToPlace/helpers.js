@@ -2,7 +2,11 @@ import remove from 'lodash/remove'
 import set from 'lodash/set'
 import unset from 'lodash/unset'
 import { HOME_ADDRESS_CATEGORY } from 'src/constants'
-import { getPlaceCoordinates, getPlaceDisplayName } from 'src/lib/timeseries'
+import {
+  getPlaceCoordinates,
+  getPlaceDisplayName,
+  makeAggregationTitle
+} from 'src/lib/timeseries'
 
 import { getDisplayName } from 'cozy-client/dist/models/contact'
 import { getRandomUUID } from 'cozy-ui/transpiled/react/helpers/getRandomUUID'
@@ -144,7 +148,8 @@ const createRelationship = async ({
   timeserie,
   type,
   label,
-  category
+  category,
+  t
 }) => {
   const addressId = getRandomUUID()
 
@@ -164,6 +169,12 @@ const createRelationship = async ({
     type
   ).add(newContact)
 
+  set(
+    newTimeserie,
+    'aggregation.automaticTitle',
+    makeAggregationTitle(newTimeserie, t)
+  )
+
   set(newTimeserie, `relationships.${getRelationshipKey(type)}.data.metadata`, {
     addressId
   })
@@ -177,7 +188,8 @@ const updateRelationship = async ({
   timeserie,
   type,
   label,
-  category
+  category,
+  t
 }) => {
   const { index } = getContactAddressAndIndexFromRelationships({
     contact,
@@ -189,6 +201,14 @@ const updateRelationship = async ({
   set(contact, `address[${index}].geo.cozyCategory`, category)
 
   await client.save(contact)
+
+  set(
+    timeserie,
+    'aggregation.automaticTitle',
+    makeAggregationTitle(timeserie, t)
+  )
+
+  await client.save(timeserie)
 }
 
 export const saveRelationship = async ({
@@ -198,7 +218,8 @@ export const saveRelationship = async ({
   contact,
   label,
   isSameContact,
-  category
+  category,
+  t
 }) => {
   const { address } = getContactAddressAndIndexFromRelationships({
     contact,
@@ -214,7 +235,8 @@ export const saveRelationship = async ({
         type,
         label,
         isSameContact,
-        category
+        category,
+        t
       })
     : createRelationship({
         client,
@@ -222,6 +244,7 @@ export const saveRelationship = async ({
         timeserie,
         type,
         label,
-        category
+        category,
+        t
       })
 }

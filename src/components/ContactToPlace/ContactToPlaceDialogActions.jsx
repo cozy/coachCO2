@@ -43,7 +43,8 @@ const ContactToPlaceDialogActions = () => {
       contact,
       label,
       isSameContact,
-      category
+      category,
+      t
     })
   }
 
