@@ -1,12 +1,16 @@
 import copy from 'copy-text-to-clipboard'
 import React from 'react'
+import { useGeolocationTracking } from 'src/components/GeolocationTracking/GeolocationTrackingProvider'
 
-import { useWebviewIntent } from 'cozy-intent'
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 export const GeolocationTrackingSettings = () => {
-  const webviewIntent = useWebviewIntent()
+  const {
+    getGeolocationTrackingId,
+    sendGeolocationTrackingLogs,
+    forceUploadGeolocationTrackingData
+  } = useGeolocationTracking()
   const { t } = useI18n()
 
   const copyGeolocationTrackingId = async () => {
@@ -15,18 +19,6 @@ export const GeolocationTrackingSettings = () => {
     if (geolocationTrackingId) {
       copy(geolocationTrackingId)
     }
-  }
-
-  const getGeolocationTrackingId = async () => {
-    return await webviewIntent.call('getGeolocationTrackingId')
-  }
-
-  const sendGeolocationTrackingLogs = async () => {
-    await webviewIntent.call('sendGeolocationTrackingLogs')
-  }
-
-  const forceUploadGeolocationTrackingData = async () => {
-    await webviewIntent.call('forceUploadGeolocationTrackingData')
   }
 
   return (
