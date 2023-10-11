@@ -26,6 +26,9 @@ const main = async () => {
     .where({
       startDate: {
         $gt: fromDate
+      },
+      aggregation: {
+        $exists: true
       }
     })
     .limitBy(null)
