@@ -479,6 +479,22 @@ describe('findStartAndEnd', () => {
     expect(matchingEnd).toEqual(null)
   })
 
+  it('should not consider addresses without geo info', () => {
+    const mockContact = [
+      {
+        name: 'toto',
+        address: [
+          {
+            id: 1
+          }
+        ]
+      }
+    ]
+    const { matchingStart, matchingEnd } = findStartAndEnd({}, mockContact)
+    expect(matchingStart).toEqual(null)
+    expect(matchingEnd).toEqual(null)
+  })
+
   it('should find the exact matching start and end places', () => {
     const ts = mockTimeserie({
       startCoordinates: [-3, 7],

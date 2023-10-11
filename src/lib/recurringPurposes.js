@@ -64,6 +64,9 @@ export const findClosestStartAndEnd = (timeserie, contacts) => {
     minEndDistance = Number.MAX_SAFE_INTEGER
   for (const contact of contacts) {
     for (const address of contact.address) {
+      if (!address?.geo?.geo) {
+        continue
+      }
       const addressCoordinates = {
         lon: address.geo.geo[0],
         lat: address.geo.geo[1]
