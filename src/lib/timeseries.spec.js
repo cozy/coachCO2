@@ -1254,6 +1254,192 @@ describe('makeAggregationTitle', () => {
       )
     })
   })
+
+  describe('without aggregation attribute', () => {
+    describe('without contact linked to places', () => {
+      const makeTimeserie = (startPlaceDisplayName, endPlaceDisplayName) => ({
+        series: [
+          {
+            features: [
+              {
+                properties: {
+                  display_name: startPlaceDisplayName
+                }
+              },
+              {
+                properties: {
+                  display_name: endPlaceDisplayName
+                }
+              }
+            ]
+          }
+        ]
+      })
+
+      it('should return end place name', () => {
+        const timeserie = makeTimeserie(
+          'Place hugo, Lyon',
+          'Rue des lilas, Lyon'
+        )
+
+        expect(makeAggregationTitle(timeserie, t)).toBe('Rue des lilas, Lyon')
+      })
+
+      it('should return start and end cities', () => {
+        const timeserie = makeTimeserie(
+          'Place hugo, Lyon',
+          'Rue des lilas, Paris'
+        )
+
+        expect(makeAggregationTitle(timeserie, t)).toBe('Lyon > Paris')
+      })
+
+      it('should return start city', () => {
+        const timeserie = makeTimeserie('Place hugo, Lyon', 'Rue des lilas')
+
+        expect(makeAggregationTitle(timeserie, t)).toBe('Lyon >')
+      })
+
+      it('should return end city', () => {
+        const timeserie = makeTimeserie('Place hugo', 'Rue des lilas, Paris')
+
+        expect(makeAggregationTitle(timeserie, t)).toBe('> Paris')
+      })
+
+      it('should return end place name', () => {
+        const timeserie = makeTimeserie('Place hugo', 'Rue des lilas')
+
+        expect(makeAggregationTitle(timeserie, t)).toBe('Rue des lilas')
+      })
+    })
+
+    describe('with contact linked to places', () => {
+      const contact1 = {
+        displayName: 'John Connor',
+        address: [{ id: '123', type: 'Home', geo: { cozyCategory: 'home' } }]
+      }
+      const contact2 = {
+        displayName: 'Sarah Connor',
+        address: [{ id: '456', type: 'Work', geo: { cozyCategory: 'work' } }]
+      }
+
+      const makeTimeserie = (
+        startPlaceDisplayName,
+        endPlaceDisplayName,
+        withContact1,
+        withContact2
+      ) => ({
+        series: [
+          {
+            features: [
+              {
+                properties: {
+                  display_name: startPlaceDisplayName
+                }
+              },
+              {
+                properties: {
+                  display_name: endPlaceDisplayName
+                }
+              }
+            ]
+          }
+        ],
+        ...(withContact1 && { startPlaceContact: { data: contact1 } }),
+        ...(withContact2 && { endPlaceContact: { data: contact2 } }),
+        relationships: {
+          ...(withContact1 && {
+            startPlaceContact: {
+              data: { metadata: { addressId: '123' } }
+            }
+          }),
+          ...(withContact2 && {
+            endPlaceContact: {
+              data: { metadata: { addressId: '456' } }
+            }
+          })
+        }
+      })
+
+      it('should return start and end name', () => {
+        const timeserie = makeTimeserie(
+          'Place hugo, Lyon',
+          'Rue des lilas, Lyon',
+          true,
+          true
+        )
+
+        expect(makeAggregationTitle(timeserie, t)).toBe(
+          'John Connor (Home) > Sarah Connor (Work)'
+        )
+      })
+
+      it('should return start and end name', () => {
+        const timeserie = makeTimeserie(
+          'Place hugo, Lyon',
+          'Rue des lilas, Paris',
+          true,
+          true
+        )
+
+        expect(makeAggregationTitle(timeserie, t)).toBe(
+          'John Connor (Home) > Sarah Connor (Work)'
+        )
+      })
+
+      it('should return start place name and end name', () => {
+        const timeserie = makeTimeserie(
+          'Place hugo, Lyon',
+          'Rue des lilas',
+          false,
+          true
+        )
+
+        expect(makeAggregationTitle(timeserie, t)).toBe(
+          'Place hugo, Lyon > Sarah Connor (Work)'
+        )
+      })
+
+      it('should return start place name and end name', () => {
+        const timeserie = makeTimeserie(
+          'Place hugo',
+          'Rue des lilas',
+          false,
+          true
+        )
+
+        expect(makeAggregationTitle(timeserie, t)).toBe(
+          'Place hugo > Sarah Connor (Work)'
+        )
+      })
+
+      it('should return start and end name', () => {
+        const timeserie = makeTimeserie(
+          'Place hugo, Lyon',
+          'Rue des lilas',
+          true,
+          true
+        )
+
+        expect(makeAggregationTitle(timeserie, t)).toBe(
+          'John Connor (Home) > Sarah Connor (Work)'
+        )
+      })
+
+      it('should return start and end name', () => {
+        const timeserie = makeTimeserie(
+          'Place hugo',
+          'Rue des lilas, Paris',
+          true,
+          true
+        )
+
+        expect(makeAggregationTitle(timeserie, t)).toBe(
+          'John Connor (Home) > Sarah Connor (Work)'
+        )
+      })
+    })
+  })
 })
 
 describe('getTitle', () => {

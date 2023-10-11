@@ -162,19 +162,6 @@ export const computeAggregatedTimeseries = ({
       return summarySection
     })
 
-    const startPlaceDisplayName = get(
-      serie,
-      'features[0].properties.display_name'
-    )
-    const endPlaceDisplayName = get(
-      serie,
-      'features[1].properties.display_name'
-    )
-    const coordinates = {
-      startPoint: getStartPlaceCoordinates(timeserie),
-      endPoint: getEndPlaceCoordinates(timeserie)
-    }
-
     return {
       ...timeserie,
       aggregation: {
@@ -183,9 +170,12 @@ export const computeAggregatedTimeseries = ({
         totalDistance: totalSerieDistance,
         totalDuration: totalSerieDuration,
         totalCalories: totalSerieCalories,
-        startPlaceDisplayName,
-        endPlaceDisplayName,
-        coordinates,
+        startPlaceDisplayName: getStartPlaceDisplayName(timeserie),
+        endPlaceDisplayName: getEndPlaceDisplayName(timeserie),
+        coordinates: {
+          startPoint: getStartPlaceCoordinates(timeserie),
+          endPoint: getEndPlaceCoordinates(timeserie)
+        },
         purpose: getManualPurpose(serie) || getAutomaticPurpose(serie),
         modes,
         sections: computedSections
@@ -376,11 +366,17 @@ export const getPlaceDate = (timeserie, type) => {
 }
 
 export const getStartPlaceDisplayName = timeserie => {
-  return get(timeserie, 'aggregation.startPlaceDisplayName')
+  return (
+    get(timeserie, 'aggregation.startPlaceDisplayName') ||
+    get(timeserie.series[0], 'features[0].properties.display_name')
+  )
 }
 
 export const getEndPlaceDisplayName = timeserie => {
-  return get(timeserie, 'aggregation.endPlaceDisplayName')
+  return (
+    get(timeserie, 'aggregation.endPlaceDisplayName') ||
+    get(timeserie.series[0], 'features[1].properties.display_name')
+  )
 }
 
 export const getPlaceDisplayName = (timeserie, type) => {
