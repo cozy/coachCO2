@@ -16,7 +16,8 @@ import {
   areSimiliarTimeseriesByCoordinates,
   findStartAndEnd,
   shouldSetCommutePurpose,
-  findSimilarRecurringTimeseries
+  findSimilarRecurringTimeseries,
+  filterTripsBasedOnDistance
 } from './recurringPurposes'
 
 const mockClient = createMockClient({})
@@ -595,5 +596,30 @@ describe('shouldSetCommutePurpose', () => {
     end = { address: {} }
     expect(shouldSetCommutePurpose(start, end)).toEqual(false)
     expect(shouldSetCommutePurpose(null, null)).toEqual(false)
+  })
+})
+
+describe('filterTripsBasedOnDistance', () => {
+  it('should filter out trips with a distance too high', () => {
+    const timeseries = [
+      {
+        aggregation: { totalDistance: 1000 }
+      },
+      {
+        aggregation: { totalDistance: 500 }
+      }
+    ]
+    expect(filterTripsBasedOnDistance(timeseries, 100)).toEqual([])
+  })
+  it('should keep trips with a distance close enough', () => {
+    const timeseries = [
+      {
+        aggregation: { totalDistance: 105 }
+      },
+      {
+        aggregation: { totalDistance: 95 }
+      }
+    ]
+    expect(filterTripsBasedOnDistance(timeseries, 100)).toEqual(timeseries)
   })
 })

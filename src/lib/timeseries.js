@@ -12,10 +12,18 @@ import sumBy from 'lodash/sumBy'
 import toPairs from 'lodash/toPairs'
 import uniq from 'lodash/uniq'
 import { modes, purposes } from 'src/components/helpers'
-import { UNKNOWN_MODE, OTHER_PURPOSE } from 'src/constants'
+import {
+  UNKNOWN_MODE,
+  OTHER_PURPOSE,
+  START_END_DISTANCE_THRESHOLD_M
+} from 'src/constants'
 import { formatDistance, formatCO2, formatCalories } from 'src/lib/helpers'
 import { computeCO2Section, computeCaloriesSection } from 'src/lib/metrics'
 import { getManualPurpose, getAutomaticPurpose } from 'src/lib/trips'
+
+import { models } from 'cozy-client'
+
+const { geodesicDistance } = models.geo
 
 export const collectFeaturesByOid = geojson => {
   const res = {}
@@ -578,4 +586,22 @@ export const getEndPlaceCoordinates = timeserie => {
     lon: timeserie?.series?.[0]?.properties?.end_loc?.coordinates?.[0],
     lat: timeserie?.series?.[0]?.properties?.end_loc?.coordinates?.[1]
   }
+}
+
+/**
+ * Whether of not a timeserie is a loop trip, i.e. with the same start
+ * and end point.
+ * We accept a distance error margin, as coordinates are rarely perfecly exact.
+ *
+ * @param {import('./types').TimeseriesGeoJSON} timeserie - The timeserie to compute
+ * @returns {boolean} Whether or not this is a loop trip
+ */
+export const isLoopTrip = timeserie => {
+  const startCoordinates = timeserie?.aggregation?.coordinates?.startPoint
+  const endCoordinates = timeserie?.aggregation?.coordinates?.endPoint
+  if (!startCoordinates || !endCoordinates) {
+    return false
+  }
+  const distanceStartEnd = geodesicDistance(startCoordinates, endCoordinates)
+  return distanceStartEnd <= START_END_DISTANCE_THRESHOLD_M
 }
