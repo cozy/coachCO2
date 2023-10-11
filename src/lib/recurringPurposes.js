@@ -31,6 +31,11 @@ import log from 'cozy-logger'
 const { deltaLatitude, deltaLongitude, geodesicDistance } = models.geo
 
 /**
+ * @typedef {import('./types').TimeseriesGeoJSON} TimeSerie
+ * @typedef {import('./types').Contact} Contact
+ */
+
+/**
  * Recurring purposes categorization service.
  *
  * This is used to automatically set purpose for new incoming trips, based on previous
@@ -294,8 +299,8 @@ export const areSimiliarTimeseriesByCoordinates = (refTs, compareTs) => {
 /**
  * Filter timeseries to keep those with recurring purposes
  *
- * @param {Array<import('./types').TimeseriesGeoJSON>} timeseries - The timeseries to filter
- * @returns {Array<import('./types').TimeseriesGeoJSON>} The filtered timeseries
+ * @param {Array<TimeSerie>} timeseries - The timeseries to filter
+ * @returns {Array<TimeSerie>} The filtered timeseries
  */
 export const keepTripsWithRecurringPurposes = timeseries => {
   return timeseries.filter(ts => {
@@ -315,9 +320,9 @@ export const keepTripsWithRecurringPurposes = timeseries => {
  * - Trips with explicit 'recurring: false' should be excluded
  * - When the purpose is OTHER_PURPOSE, we include trips with missing purpose
  *
- * @param {Array<import('./types').TimeseriesGeoJSON>} timeseries - The timeseries to filter
+ * @param {Array<TimeSerie>} timeseries - The timeseries to filter
  * @param {string} purpose - The searched purpose
- * @returns {Array<import('./types').TimeseriesGeoJSON>} The filtered timeseries
+ * @returns {Array<TimeSerie>} The filtered timeseries
  */
 export const keepTripsWithSameRecurringPurpose = (timeseries, purpose) => {
   return timeseries
@@ -368,6 +373,13 @@ const queryRecurringTimeseriesWithCloseStartOrEnd = async (
   return results || []
 }
 
+/**
+ * Filter out timeseries with a too high distance difference w.r.t.
+ * the base distance
+ * @param {Array<TimeSerie>} timeseries - The timeseries to filter
+ * @param {number} baseDistance - The distance that timeseries must be close
+ * @returns {Array<TimeSerie>} The filtered timeseries
+ */
 export const filterTripsBasedOnDistance = (timeseries, baseDistance) => {
   const maxDistance =
     baseDistance + baseDistance * TRIPS_DISTANCE_SIMILARITY_RATIO
@@ -380,7 +392,17 @@ export const filterTripsBasedOnDistance = (timeseries, baseDistance) => {
     )
   })
 }
-
+/**
+ * Post filter timeseries results
+ *
+ * @typedef Options
+ * @property {string} oldPurpose - The previous timeserie purpose
+ *
+ * @param {Array<TimeSerie>} results - The timeseries to filter
+ * @param {TimeSerie} timeserie - The reference timeserie
+ * @param {Options} options
+ * @returns {Array<TimeSerie>} The filtered timeseries
+ */
 const postFilterResults = (results, timeserie, { oldPurpose }) => {
   let similarTimeseries = results.filter(ts => ts._id !== timeserie._id)
 
@@ -408,9 +430,9 @@ const postFilterResults = (results, timeserie, { oldPurpose }) => {
  * @property {string} oldPurpose - The previous purpose of the timeserie
  *
  * @param {Object} client - The cozy client instance
- * @param {import('./types').TimeseriesGeoJSON} timeserie - The timeserie to find similar ones
+ * @param {TimeSerie} timeserie - The timeserie to find similar ones
  * @param {Options} options
- * @returns {Promise<Array<import('./types').TimeseriesGeoJSON>>}
+ * @returns {Promise<Array<TimeSerie>>}
  */
 export const findSimilarRecurringTimeseries = async (
   client,
@@ -512,10 +534,10 @@ export const findPurposeFromSimilarTimeserieAndWaybacks = async (
  * address, a relationship is added, and the contact geo information is updated
  * with the trip coordinates, to incrementally improve the geolocation precision.
  *
- * @param {Object} client - The cozy client instance
- * @param {import('./types').TimeseriesGeoJSON} timeserie - The timeserie to categorize
- * @param {Array<import('./types').Contact>} contacts - The contacts with geo information
- * @returns {import('./types').TimeseriesGeoJSON} The timeserie to update
+ * @param {import("cozy-client/dist/index").CozyClient} client - The cozy client instance
+ * @param {TimeSerie} timeserie - The timeserie to categorize
+ * @param {Array<Contact>} contacts - The contacts with geo information
+ * @returns {TimeSerie} The timeserie to update
  */
 const findPurposeFromContactAddresses = async (client, timeserie, contacts) => {
   const { matchingStart, matchingEnd } = await findStartAndEnd(
@@ -638,8 +660,8 @@ const saveTrips = async (client, timeseriesToUpdate) => {
  * Look for existing recurring purpose on similar trips for newly
  * created trips.
  *
- * @param {Object} client - The cozy-client instance
- * @returns {Promise<Array<import('./types').TimeseriesGeoJSON>>} The updated trips
+ * @param {import("cozy-client/dist/index").CozyClient} client - The cozy-client instance
+ * @returns {Promise<Array<TimeSerie>>} The updated trips
  */
 export const runRecurringPurposesForNewTrips = async client => {
   const settings = await client.query(buildSettingsQuery().definition)
@@ -669,8 +691,11 @@ export const runRecurringPurposesForNewTrips = async client => {
   const timeseriesToUpdate = []
 
   if (timeseries.length > 0) {
-    const contactsWithGeo = await findContactsWithGeo(client)
-    log('info', `Found ${contactsWithGeo.length} contacts with geo info`)
+    const contactsWithAtLeastOneGeoAddress = await findContactsWithGeo(client)
+    log(
+      'info',
+      `Found ${contactsWithAtLeastOneGeoAddress.length} contacts with geo info`
+    )
 
     for (const timeserie of timeseries) {
       log('info', `Try to set a recurring purpose to ${timeserie._id}...`)
@@ -679,7 +704,7 @@ export const runRecurringPurposesForNewTrips = async client => {
       newTS = await findPurposeFromContactAddresses(
         client,
         timeserie,
-        contactsWithGeo
+        contactsWithAtLeastOneGeoAddress
       )
       const foundPurpose = newTS?.aggregation?.purpose
       if (!foundPurpose) {
@@ -709,11 +734,11 @@ export const runRecurringPurposesForNewTrips = async client => {
  * Look for similar trips to set the same purpose than the
  * given trip, after the user set a manual purpose
  *
- * @param {object} client - The cozy-client instance
+ * @param {import("cozy-client/dist/index").CozyClient} client - The cozy-client instance
  * @param {object} params
  * @param {string} params.docId - The trip docId
  * @param {string} params.oldPurpose - The trip purpose before the manual change
- * @returns {Promise<Array<import('./types').TimeseriesGeoJSON>>} The updated trips
+ * @returns {Promise<Array<TimeSerie>>} The updated trips
  */
 export const runRecurringPurposesForManualTrip = async (
   client,
