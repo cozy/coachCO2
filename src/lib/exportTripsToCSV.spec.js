@@ -20,7 +20,8 @@ jest.mock('cozy-client', () => ({
       uploadFileWithConflictStrategy: jest.fn(() => ({
         data: { _id: 'fileId00', name: 'fileName00' }
       }))
-    }
+    },
+    geo: { geodesicDistance: jest.fn() }
   }
 }))
 

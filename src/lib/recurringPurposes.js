@@ -293,8 +293,8 @@ export const areSimiliarTimeseriesByCoordinates = (refTs, compareTs) => {
 /**
  * Filter timeseries to keep those with recurring purposes
  *
- * @param {Array<object>} timeseries - The timeseries to filter
- * @returns {Array<object>} The filtered timeseries
+ * @param {Array<import('./types').TimeseriesGeoJSON>} timeseries - The timeseries to filter
+ * @returns {Array<import('./types').TimeseriesGeoJSON>} The filtered timeseries
  */
 export const keepTripsWithRecurringPurposes = timeseries => {
   return timeseries.filter(ts => {
@@ -314,9 +314,9 @@ export const keepTripsWithRecurringPurposes = timeseries => {
  * - Trips with explicit 'recurring: false' should be excluded
  * - When the purpose is OTHER_PURPOSE, we include trips with missing purpose
  *
- * @param {Array<object>} timeseries - The timeseries to filter
+ * @param {Array<import('./types').TimeseriesGeoJSON>} timeseries - The timeseries to filter
  * @param {string} purpose - The searched purpose
- * @returns {Array<object>} The filtered timeseries
+ * @returns {Array<import('./types').TimeseriesGeoJSON>} The filtered timeseries
  */
 export const keepTripsWithSameRecurringPurpose = (timeseries, purpose) => {
   return timeseries
@@ -368,6 +368,19 @@ const queryRecurringTimeseriesWithCloseStartOrEnd = async (
 }
 
 // Similar trips = close start/end point
+
+/**
+ * Find similar recurring timeseries, notably based on their coordinates.
+ *
+ * @typedef Options
+ * @property {boolean} isWayBack -Whether or not the start and end should be reversed
+ * @property {string} oldPurpose - The previous purpose of the timeserie
+ *
+ * @param {Object} client - The cozy client instance
+ * @param {import('./types').TimeseriesGeoJSON} timeserie - The timeserie to find similar ones
+ * @param {Options} options
+ * @returns {Promise<Array<import('./types').TimeseriesGeoJSON>>}
+ */
 export const findSimilarRecurringTimeseries = async (
   client,
   timeserie,
@@ -388,15 +401,17 @@ export const findSimilarRecurringTimeseries = async (
     )
     return []
   }
+
   const results = await queryRecurringTimeseriesWithCloseStartOrEnd(client, {
     accountId,
     startCoord,
     endCoord
   })
-  const similarTimeseries = results.filter(ts => ts._id !== timeserie._id)
-  return !oldPurpose
-    ? keepTripsWithRecurringPurposes(similarTimeseries)
-    : keepTripsWithSameRecurringPurpose(similarTimeseries, oldPurpose)
+  // Post-filter timeseries. Note this is not done through the query as it could complexify it
+  // and hurt perfomances.
+  return postFilterResults(results, timeserie, {
+    oldPurpose
+  })
 }
 
 export const setManuallyUpdatedTrip = timeserie => {
@@ -466,7 +481,7 @@ export const findPurposeFromSimilarTimeserieAndWaybacks = async (
  * address, a relationship is added, and the contact geo information is updated
  * with the trip coordinates, to incrementally improve the geolocation precision.
  *
- * @param {object} client - The cozy client instance
+ * @param {Object} client - The cozy client instance
  * @param {import('./types').TimeseriesGeoJSON} timeserie - The timeserie to categorize
  * @param {Array<import('./types').Contact>} contacts - The contacts with geo information
  * @returns {import('./types').TimeseriesGeoJSON} The timeserie to update
@@ -592,7 +607,7 @@ const saveTrips = async (client, timeseriesToUpdate) => {
  * Look for existing recurring purpose on similar trips for newly
  * created trips.
  *
- * @param {object} client - The cozy-client instance
+ * @param {Object} client - The cozy-client instance
  * @returns {Promise<Array<import('./types').TimeseriesGeoJSON>>} The updated trips
  */
 export const runRecurringPurposesForNewTrips = async client => {
