@@ -35,23 +35,18 @@
         "GET"
       ]
     },
-    "konnectors": {
-      "description": "Required to display additional information in the viewer for files automatically retrieved by services",
-      "type": "io.cozy.konnectors",
-      "verbs": ["GET"]
-    },
     "accounts": {
       "description": "Required to get konnector account",
       "type": "io.cozy.accounts",
       "verbs": ["GET", "POST", "PUT"]
     },
     "konnectors": {
-      "description": "Required to create your mobility konnector account",
+      "description": "Required to create your mobility konnector account and to display additional information in the viewer for files automatically retrieved by services",
       "type": "io.cozy.konnectors",
       "verbs": ["GET"]
     },
     "triggers": {
-      "description": "Required to create your mobility konnector account",
+      "description": "Required to create your mobility konnector account and to display additional information in the viewer and for the notification service",
       "type": "io.cozy.triggers",
       "verbs": ["GET", "POST"]
     },
@@ -64,10 +59,6 @@
       "description": "Required to have access to the sharings in realtime",
       "type": "io.cozy.sharings",
       "verbs": ["ALL"]
-    },
-    "triggers": {
-      "description": "Required to display additional information in the viewer and for the notification service",
-      "type": "io.cozy.triggers"
     },
     "geojson-timeseries": {
       "description": "Required to display geojson timeseries",
