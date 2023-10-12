@@ -1,3 +1,4 @@
+import get from 'lodash/get'
 import MockDate from 'mockdate'
 import { purposes } from 'src/components/helpers'
 import {
@@ -31,9 +32,12 @@ import {
   updateSectionMode,
   getStartPlaceCoordinates,
   getEndPlaceCoordinates,
-  isLoopTrip
+  isLoopTrip,
+  getTitle,
+  makeAggregationTitle
 } from 'src/lib/timeseries'
 import { getSectionsFromTrip } from 'src/lib/trips'
+import locales from 'src/locales/en.json'
 import { mockF } from 'test/lib/I18n'
 import {
   mockTimeserie,
@@ -47,6 +51,7 @@ import {
   makeStartPlaceFeature,
   makeEndPlaceFeature
 } from 'test/mockTrip'
+const t = x => get(locales, x)
 
 describe('transformSerieToTrip', () => {
   it('should return correct value', () => {
@@ -982,21 +987,25 @@ describe('get start/end place coordinates', () => {
       }
     ]
   }
+
   it('should return correct lon and lat for start place', () => {
     expect(getStartPlaceCoordinates(timeserie)).toEqual({
       lon: -0.8119085,
       lat: 46.4536633
     })
   })
+
   it('should return empty when there is no start place', () => {
     expect(getStartPlaceCoordinates(timeseriesWithNoCoordinates)).toEqual({})
   })
+
   it('should return correct lon and lat for end place', () => {
     expect(getEndPlaceCoordinates(timeserie)).toEqual({
       lat: -0.8119085,
       lon: 46.4536633
     })
   })
+
   it('should return empty when there is no start place', () => {
     expect(getEndPlaceCoordinates(timeseriesWithNoCoordinates)).toEqual({})
   })
@@ -1043,5 +1052,319 @@ describe('is Loop trip', () => {
         coordinates: {}
       })
     ).toEqual(false)
+  })
+})
+
+describe('makeAggregationTitle', () => {
+  describe('without contact linked to places', () => {
+    it('should return end place name', () => {
+      const timeserie = {
+        aggregation: {
+          startPlaceDisplayName: 'Place hugo, Lyon',
+          endPlaceDisplayName: 'Rue des lilas, Lyon'
+        }
+      }
+
+      expect(makeAggregationTitle(timeserie, t)).toBe('Rue des lilas, Lyon')
+    })
+
+    it('should return start and end cities', () => {
+      const timeserie = {
+        aggregation: {
+          startPlaceDisplayName: 'Place hugo, Lyon',
+          endPlaceDisplayName: 'Rue des lilas, Paris'
+        }
+      }
+
+      expect(makeAggregationTitle(timeserie, t)).toBe('Lyon > Paris')
+    })
+
+    it('should return start city', () => {
+      const timeserie = {
+        aggregation: {
+          startPlaceDisplayName: 'Place hugo, Lyon',
+          endPlaceDisplayName: 'Rue des lilas'
+        }
+      }
+
+      expect(makeAggregationTitle(timeserie, t)).toBe('Lyon >')
+    })
+
+    it('should return end city', () => {
+      const timeserie = {
+        aggregation: {
+          startPlaceDisplayName: 'Place hugo',
+          endPlaceDisplayName: 'Rue des lilas, Paris'
+        }
+      }
+
+      expect(makeAggregationTitle(timeserie, t)).toBe('> Paris')
+    })
+
+    it('should return end place name', () => {
+      const timeserie = {
+        aggregation: {
+          startPlaceDisplayName: 'Place hugo',
+          endPlaceDisplayName: 'Rue des lilas'
+        }
+      }
+
+      expect(makeAggregationTitle(timeserie, t)).toBe('Rue des lilas')
+    })
+  })
+
+  describe('with contact linked to places', () => {
+    const contact = {
+      displayName: 'John Connor',
+      address: [{ id: '123', type: 'Home', geo: { cozyCategory: 'home' } }]
+    }
+    const contact2 = {
+      displayName: 'Sarah Connor',
+      address: [{ id: '456', type: 'Work', geo: { cozyCategory: 'work' } }]
+    }
+
+    it('should return start and end name', () => {
+      const timeserie = {
+        aggregation: {
+          startPlaceDisplayName: 'Place hugo, Lyon',
+          endPlaceDisplayName: 'Rue des lilas, Lyon'
+        },
+        startPlaceContact: { data: contact },
+        endPlaceContact: { data: contact2 },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          },
+          endPlaceContact: {
+            data: { metadata: { addressId: '456' } }
+          }
+        }
+      }
+
+      expect(makeAggregationTitle(timeserie, t)).toBe(
+        'John Connor (Home) > Sarah Connor (Work)'
+      )
+    })
+
+    it('should return start and end name', () => {
+      const timeserie = {
+        aggregation: {
+          startPlaceDisplayName: 'Place hugo, Lyon',
+          endPlaceDisplayName: 'Rue des lilas, Paris'
+        },
+        startPlaceContact: { data: contact },
+        endPlaceContact: { data: contact2 },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          },
+          endPlaceContact: {
+            data: { metadata: { addressId: '456' } }
+          }
+        }
+      }
+
+      expect(makeAggregationTitle(timeserie, t)).toBe(
+        'John Connor (Home) > Sarah Connor (Work)'
+      )
+    })
+
+    it('should return start place name and end name', () => {
+      const timeserie = {
+        aggregation: {
+          startPlaceDisplayName: 'Place hugo, Lyon',
+          endPlaceDisplayName: 'Rue des lilas'
+        },
+        endPlaceContact: { data: contact2 },
+        relationships: {
+          endPlaceContact: {
+            data: { metadata: { addressId: '456' } }
+          }
+        }
+      }
+
+      expect(makeAggregationTitle(timeserie, t)).toBe(
+        'Place hugo, Lyon > Sarah Connor (Work)'
+      )
+    })
+
+    it('should return start place name and end name', () => {
+      const timeserie = {
+        aggregation: {
+          startPlaceDisplayName: 'Place hugo',
+          endPlaceDisplayName: 'Rue des lilas'
+        },
+        endPlaceContact: { data: contact2 },
+        relationships: {
+          endPlaceContact: {
+            data: { metadata: { addressId: '456' } }
+          }
+        }
+      }
+
+      expect(makeAggregationTitle(timeserie, t)).toBe(
+        'Place hugo > Sarah Connor (Work)'
+      )
+    })
+
+    it('should return start and end name', () => {
+      const timeserie = {
+        aggregation: {
+          startPlaceDisplayName: 'Place hugo, Lyon',
+          endPlaceDisplayName: 'Rue des lilas'
+        },
+        startPlaceContact: { data: contact },
+        endPlaceContact: { data: contact2 },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          },
+          endPlaceContact: {
+            data: { metadata: { addressId: '456' } }
+          }
+        }
+      }
+
+      expect(makeAggregationTitle(timeserie, t)).toBe(
+        'John Connor (Home) > Sarah Connor (Work)'
+      )
+    })
+
+    it('should return start and end name', () => {
+      const timeserie = {
+        aggregation: {
+          startPlaceDisplayName: 'Place hugo',
+          endPlaceDisplayName: 'Rue des lilas, Paris'
+        },
+        startPlaceContact: { data: contact },
+        endPlaceContact: { data: contact2 },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          },
+          endPlaceContact: {
+            data: { metadata: { addressId: '456' } }
+          }
+        }
+      }
+
+      expect(makeAggregationTitle(timeserie, t)).toBe(
+        'John Connor (Home) > Sarah Connor (Work)'
+      )
+    })
+  })
+})
+
+describe('getTitle', () => {
+  describe('on Mobile', () => {
+    const isMobile = true
+
+    it('should truncate before `>` if more than 12 characters', () => {
+      const timeserie = {
+        aggregation: {
+          automaticTitle: 'John Connor (Home) > Sarah Connor (Work)'
+        }
+      }
+
+      expect(getTitle(timeserie, isMobile)).toBe(
+        'John Connor... > Sarah Connor (Work)'
+      )
+    })
+
+    it('should return entire value if less than 12 characters before `>`', () => {
+      const timeserie = {
+        aggregation: {
+          automaticTitle: 'John (Home) > Sarah Connor (Work)'
+        }
+      }
+
+      expect(getTitle(timeserie, isMobile)).toBe(
+        'John (Home) > Sarah Connor (Work)'
+      )
+    })
+
+    it('should return if no automaticTitle', () => {
+      const timeserie = {
+        aggregation: {}
+      }
+
+      expect(getTitle(timeserie, isMobile)).toBeNull()
+    })
+
+    it('should return title if no `>` in it, even if more than 12 characters', () => {
+      const timeserie = {
+        aggregation: {
+          automaticTitle: 'Rue des lilas'
+        }
+      }
+
+      expect(getTitle(timeserie, isMobile)).toBe('Rue des lilas')
+    })
+
+    it('should return title if no `>` in it', () => {
+      const timeserie = {
+        aggregation: {
+          automaticTitle: 'Place hugo'
+        }
+      }
+
+      expect(getTitle(timeserie, isMobile)).toBe('Place hugo')
+    })
+  })
+
+  describe('on Desktop', () => {
+    const isMobile = false
+
+    it('should not truncate before `>` if more than 12 characters', () => {
+      const timeserie = {
+        aggregation: {
+          automaticTitle: 'John Connor (Home) > Sarah Connor (Work)'
+        }
+      }
+
+      expect(getTitle(timeserie, isMobile)).toBe(
+        'John Connor (Home) > Sarah Connor (Work)'
+      )
+    })
+
+    it('should return entire value if less than 12 characters before `>`', () => {
+      const timeserie = {
+        aggregation: {
+          automaticTitle: 'John (Home) > Sarah Connor (Work)'
+        }
+      }
+
+      expect(getTitle(timeserie, isMobile)).toBe(
+        'John (Home) > Sarah Connor (Work)'
+      )
+    })
+
+    it('should return if no automaticTitle', () => {
+      const timeserie = {
+        aggregation: {}
+      }
+
+      expect(getTitle(timeserie, isMobile)).toBeNull()
+    })
+
+    it('should return title if no `>` in it, even if more than 12 characters', () => {
+      const timeserie = {
+        aggregation: {
+          automaticTitle: 'Rue des lilas'
+        }
+      }
+
+      expect(getTitle(timeserie, isMobile)).toBe('Rue des lilas')
+    })
+
+    it('should return title if no `>` in it', () => {
+      const timeserie = {
+        aggregation: {
+          automaticTitle: 'Place hugo'
+        }
+      }
+
+      expect(getTitle(timeserie, isMobile)).toBe('Place hugo')
+    })
   })
 })

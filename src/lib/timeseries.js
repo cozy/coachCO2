@@ -11,6 +11,7 @@ import sortBy from 'lodash/sortBy'
 import sumBy from 'lodash/sumBy'
 import toPairs from 'lodash/toPairs'
 import uniq from 'lodash/uniq'
+import { getPlaceLabelByContact } from 'src/components/ContactToPlace/helpers'
 import { modes, purposes } from 'src/components/helpers'
 import {
   UNKNOWN_MODE,
@@ -87,6 +88,37 @@ export const updateSectionMode = ({ timeserie, sectionId, mode }) => {
   )
 
   return currentSectionsUpdated
+}
+
+export const makeAggregationTitle = (timeserie, t) => {
+  const startLabelByContact = getPlaceLabelByContact({
+    timeserie,
+    type: 'start',
+    t
+  })
+  const endLabelByContact = getPlaceLabelByContact({
+    timeserie,
+    type: 'end',
+    t
+  })
+  const startCity =
+    getStartPlaceDisplayName(timeserie)?.split(',')?.[1]?.trim() || ''
+  const endCity =
+    getEndPlaceDisplayName(timeserie)?.split(',')?.[1]?.trim() || ''
+
+  if (startLabelByContact || endLabelByContact) {
+    const startLabel =
+      startLabelByContact || getStartPlaceDisplayName(timeserie)
+    const endLabel = endLabelByContact || getEndPlaceDisplayName(timeserie)
+
+    return `${startLabel} > ${endLabel}`
+  }
+
+  if ((startCity || endCity) && startCity !== endCity) {
+    return `${startCity} > ${endCity}`.trim()
+  }
+
+  return getEndPlaceDisplayName(timeserie)
 }
 
 /**
@@ -374,6 +406,24 @@ export const getGeoJSONData = timeserie => {
 
 export const getTotalDuration = timeserie => {
   return get(timeserie, 'aggregation.totalDuration')
+}
+
+export const getTitle = (timeserie, isMobile) => {
+  const title = get(timeserie, 'aggregation.automaticTitle')
+
+  if (!title) {
+    return null
+  }
+
+  if (!isMobile) {
+    return title
+  }
+
+  const [firstEl, secondEl] = title.split('>')
+
+  return firstEl.length > 12 && !!secondEl
+    ? `${firstEl.slice(0, 12).trim()}... > ${secondEl.trim()}`
+    : title
 }
 
 export const getFormattedDuration = timeserie => {
