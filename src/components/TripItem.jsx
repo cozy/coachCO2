@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import React, { useMemo } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { PurposeAvatar } from 'src/components/Avatar'
-import { getPlaceLabelByContact } from 'src/components/ContactToPlace/helpers'
 import { pickModeIcon } from 'src/components/helpers'
 import {
   getEndPlaceDisplayName,
@@ -12,7 +11,8 @@ import {
   getModesSortedByDistance,
   getFormattedDistance,
   getFormattedTotalCO2,
-  computeAndFormatTotalCO2ByMode
+  computeAndFormatTotalCO2ByMode,
+  getTitle
 } from 'src/lib/timeseries'
 
 import Divider from 'cozy-ui/transpiled/react/Divider'
@@ -23,6 +23,7 @@ import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import ListSubheader from 'cozy-ui/transpiled/react/ListSubheader'
 import Typography from 'cozy-ui/transpiled/react/Typography'
+import { useBreakpoints } from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const styles = {
@@ -48,10 +49,11 @@ const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
 }
 
 export const TripItem = ({ timeserie, hasDateHeader }) => {
-  const { t, f } = useI18n()
+  const { f } = useI18n()
   const location = useLocation()
   const navigate = useNavigate()
   const { mode } = useParams()
+  const { isMobile } = useBreakpoints()
 
   const purpose = getTimeseriePurpose(timeserie)
   const duration = getFormattedDuration(timeserie)
@@ -87,8 +89,7 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
         </ListItemIcon>
         <ListItemText
           primary={
-            getPlaceLabelByContact({ timeserie, type: 'end', t }) ||
-            getEndPlaceDisplayName(timeserie)
+            getTitle(timeserie, isMobile) || getEndPlaceDisplayName(timeserie)
           }
           secondary={
             <TripItemSecondary

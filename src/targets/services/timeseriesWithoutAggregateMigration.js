@@ -1,5 +1,7 @@
 import fetch from 'node-fetch'
 import schema from 'src/doctypes'
+import { GEOJSON_DOCTYPE } from 'src/doctypes'
+import { initPolyglot } from 'src/lib/services'
 import { computeAggregatedTimeseries } from 'src/lib/timeseries'
 import { getSectionsFromTrip } from 'src/lib/trips'
 import {
@@ -12,6 +14,8 @@ import log from 'cozy-logger'
 global.fetch = fetch
 
 const BATCH_DOCS_LIMIT = 1000 // to avoid processing too many files and get timeouts
+
+const { t } = initPolyglot()
 
 const migrateTimeSeriesWithoutAggregation = async () => {
   log('info', `Start migrateTimeSeriesWithoutAggregation service`)
@@ -28,13 +32,15 @@ const migrateTimeSeriesWithoutAggregation = async () => {
     settingsQuery.options
   )
   const appSetting = settings?.[0] || {}
-  const resp = await client.query(timeseriesWithoutAggregationQueryDef)
+  const resp = await client.queryAll(timeseriesWithoutAggregationQueryDef)
+  const data = client.hydrateDocuments(GEOJSON_DOCTYPE, resp)
 
-  if (!resp.data || resp.data.length < 1) {
+  if (!data || data.length < 1) {
     log('info', 'Nothing to migrate')
     return
   }
-  log('info', `Found ${resp.data.length} timeseries to migrate...`)
+
+  log('info', `Found ${data.length} timeseries to migrate...`)
 
   const makeSections = timeserie => {
     const serie = timeserie.series[0]
@@ -42,10 +48,11 @@ const migrateTimeSeriesWithoutAggregation = async () => {
   }
 
   // Compute aggregation for all retrieved timeseries
-  const migratedTimeseries = computeAggregatedTimeseries(
-    resp.data,
-    makeSections
-  )
+  const migratedTimeseries = computeAggregatedTimeseries({
+    timeseries: data,
+    makeSections,
+    t
+  })
 
   // Save the migrated timeseries
   for (const timeserie of migratedTimeseries) {

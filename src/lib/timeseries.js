@@ -11,6 +11,7 @@ import sortBy from 'lodash/sortBy'
 import sumBy from 'lodash/sumBy'
 import toPairs from 'lodash/toPairs'
 import uniq from 'lodash/uniq'
+import { getPlaceLabelByContact } from 'src/components/ContactToPlace/helpers'
 import { modes, purposes } from 'src/components/helpers'
 import {
   UNKNOWN_MODE,
@@ -89,13 +90,49 @@ export const updateSectionMode = ({ timeserie, sectionId, mode }) => {
   return currentSectionsUpdated
 }
 
+export const makeAggregationTitle = (timeserie, t) => {
+  const startLabelByContact = getPlaceLabelByContact({
+    timeserie,
+    type: 'start',
+    t
+  })
+  const endLabelByContact = getPlaceLabelByContact({
+    timeserie,
+    type: 'end',
+    t
+  })
+  const startCity =
+    getStartPlaceDisplayName(timeserie)?.split(',')?.[1]?.trim() || ''
+  const endCity =
+    getEndPlaceDisplayName(timeserie)?.split(',')?.[1]?.trim() || ''
+
+  if (startLabelByContact || endLabelByContact) {
+    const startLabel =
+      startLabelByContact || getStartPlaceDisplayName(timeserie)
+    const endLabel = endLabelByContact || getEndPlaceDisplayName(timeserie)
+
+    return `${startLabel} > ${endLabel}`
+  }
+
+  if ((startCity || endCity) && startCity !== endCity) {
+    return `${startCity} > ${endCity}`.trim()
+  }
+
+  return getEndPlaceDisplayName(timeserie)
+}
+
 /**
  * Add aggregates for all timeseries by computing section's data
  * @param {array} timeseries - Timeseries to be aggregated
  * @param {Function} makeSection - Callback to get sections from timeserie
+ * @param {Function} t - Translate function
  * @returns {array} The aggregated timeseries
  */
-export const computeAggregatedTimeseries = (timeseries, makeSections) => {
+export const computeAggregatedTimeseries = ({
+  timeseries,
+  makeSections,
+  t
+}) => {
   const aggregatedTimeseries = timeseries.map(timeserie => {
     const serie = timeserie.series[0]
     let totalSerieCO2 = 0
@@ -125,29 +162,20 @@ export const computeAggregatedTimeseries = (timeseries, makeSections) => {
       return summarySection
     })
 
-    const startPlaceDisplayName = get(
-      serie,
-      'features[0].properties.display_name'
-    )
-    const endPlaceDisplayName = get(
-      serie,
-      'features[1].properties.display_name'
-    )
-    const coordinates = {
-      startPoint: getStartPlaceCoordinates(timeserie),
-      endPoint: getEndPlaceCoordinates(timeserie)
-    }
-
     return {
       ...timeserie,
       aggregation: {
+        automaticTitle: makeAggregationTitle(timeserie, t),
         totalCO2: totalSerieCO2,
         totalDistance: totalSerieDistance,
         totalDuration: totalSerieDuration,
         totalCalories: totalSerieCalories,
-        startPlaceDisplayName,
-        endPlaceDisplayName,
-        coordinates,
+        startPlaceDisplayName: getStartPlaceDisplayName(timeserie),
+        endPlaceDisplayName: getEndPlaceDisplayName(timeserie),
+        coordinates: {
+          startPoint: getStartPlaceCoordinates(timeserie),
+          endPoint: getEndPlaceCoordinates(timeserie)
+        },
         purpose: getManualPurpose(serie) || getAutomaticPurpose(serie),
         modes,
         sections: computedSections
@@ -338,11 +366,17 @@ export const getPlaceDate = (timeserie, type) => {
 }
 
 export const getStartPlaceDisplayName = timeserie => {
-  return get(timeserie, 'aggregation.startPlaceDisplayName')
+  return (
+    get(timeserie, 'aggregation.startPlaceDisplayName') ||
+    get(timeserie.series[0], 'features[0].properties.display_name')
+  )
 }
 
 export const getEndPlaceDisplayName = timeserie => {
-  return get(timeserie, 'aggregation.endPlaceDisplayName')
+  return (
+    get(timeserie, 'aggregation.endPlaceDisplayName') ||
+    get(timeserie.series[0], 'features[1].properties.display_name')
+  )
 }
 
 export const getPlaceDisplayName = (timeserie, type) => {
@@ -374,6 +408,24 @@ export const getGeoJSONData = timeserie => {
 
 export const getTotalDuration = timeserie => {
   return get(timeserie, 'aggregation.totalDuration')
+}
+
+export const getTitle = (timeserie, isMobile) => {
+  const title = get(timeserie, 'aggregation.automaticTitle')
+
+  if (!title) {
+    return null
+  }
+
+  if (!isMobile) {
+    return title
+  }
+
+  const [firstEl, secondEl] = title.split('>')
+
+  return firstEl.length > 12 && !!secondEl
+    ? `${firstEl.slice(0, 12).trim()}... > ${secondEl.trim()}`
+    : title
 }
 
 export const getFormattedDuration = timeserie => {

@@ -135,6 +135,7 @@ export const buildTimeseriesQueryByDateAndAccountId = (
 // Note there is no need for fetchPolicy here, as this query is only used in node service
 export const buildTimeseriesWithoutAggregation = ({ limit = 1000 }) => ({
   definition: Q(GEOJSON_DOCTYPE)
+    .include(['startPlaceContact', 'endPlaceContact'])
     .where({
       startDate: {
         $gt: null
