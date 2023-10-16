@@ -12,6 +12,9 @@ const styles = {
   },
   divider: {
     margin: '10px -32px 25px'
+  },
+  bottomSheetHeader: {
+    gap: '0.5rem'
   }
 }
 
@@ -21,7 +24,10 @@ const TripDialogDesktopContent = () => {
       <div style={styles.map}>
         <TripMap />
       </div>
-      <div className="u-mt-1 u-h-3 u-flex u-flex-items-center u-pb-half">
+      <div
+        style={styles.bottomSheetHeader}
+        className="u-mt-1 u-h-3 u-flex u-flex-items-center u-pb-half"
+      >
         <BottomSheetHeaderContent />
       </div>
       <Divider style={styles.divider} />

@@ -5,7 +5,7 @@ import Typography from 'cozy-ui/transpiled/react/Typography'
 const createStyles = ({ highlighted }) => ({
   infoBlock: {
     backgroundColor: highlighted ? 'var(--primaryColor)' : 'none',
-    margin: '0.5rem'
+    flex: '1 1 0'
   },
   typography: {
     ...(highlighted && {
@@ -20,7 +20,7 @@ const InfoBlock = ({ title, value, highlighted }) => {
   return (
     <div
       style={styles.infoBlock}
-      className="u-h-100 u-flex u-flex-column u-flex-items-center u-flex-justify-center u-flex-grow-1  u-bdrs-4"
+      className="u-h-100 u-flex u-flex-column u-flex-items-center u-flex-justify-center u-ta-center u-bdrs-4"
     >
       <Typography style={styles.typography} variant="caption">
         {title}
