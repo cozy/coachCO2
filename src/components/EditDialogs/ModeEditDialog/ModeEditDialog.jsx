@@ -7,11 +7,18 @@ import { useTrip } from 'src/components/Providers/TripProvider'
 import { buildSettingsQuery } from 'src/queries/queries'
 
 import { useClient, useQuery } from 'cozy-client'
+import ClickAwayListener from 'cozy-ui/transpiled/react/ClickAwayListener'
+import Icon from 'cozy-ui/transpiled/react/Icon'
+import IconButton from 'cozy-ui/transpiled/react/IconButton'
+import HelpOutlined from 'cozy-ui/transpiled/react/Icons/HelpOutlined'
 import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
+import Tooltip from 'cozy-ui/transpiled/react/Tooltip'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const ModeEditDialog = ({ section, onClose }) => {
   const [defaultMode, setDefaultMode] = useState(null)
+  const [showTooltip, setShowTooltip] = useState(false)
+
   const { t } = useI18n()
   const client = useClient()
   const { timeserie } = useTrip()
@@ -57,7 +64,27 @@ const ModeEditDialog = ({ section, onClose }) => {
   return (
     <>
       <NestedSelectModal
-        title={t('tripEdit.selectMode')}
+        title={
+          <>
+            {t('tripEdit.selectMode')}
+            <ClickAwayListener onClickAway={() => setShowTooltip(false)}>
+              <Tooltip
+                open={showTooltip}
+                title={t('tripEdit.modeTooltip')}
+                disableFocusListener
+                disableHoverListener
+                disableTouchListener
+                placement="top-end"
+                arrow
+                onClose={() => setShowTooltip(false)}
+              >
+                <IconButton onClick={() => setShowTooltip(v => !v)}>
+                  <Icon icon={HelpOutlined} />
+                </IconButton>
+              </Tooltip>
+            </ClickAwayListener>
+          </>
+        }
         onClose={onClose}
         onSelect={handleSelect}
         isSelected={isSelected}

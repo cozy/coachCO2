@@ -91,6 +91,7 @@
   "loadMore": "Charger plus de trajets",
   "tripEdit": {
     "selectMode": "Modifier le mode de transport",
+    "modeTooltip": "Les valeurs de CO2 en grammes par kilomètre (g/km) affichées peuvent parfois ne pas être représentatives de la réalité et peuvent varier. Il est important de prendre les valeurs de CO2 affichées avec précaution et de les considérer comme une indication générale plutôt qu'une représentation précise de la réalité. Les conditions de conduite, le comportement du conducteur et d'autres facteurs peuvent entraîner des variations significatives par rapport aux valeurs de laboratoire, ce qui rend difficile la comparaison réelle entre différents véhicules en termes d'émissions de CO2.",
     "selectPurpose": "Modifier le motif du déplacement"
   },
   "purpose": "Motif du déplacement",
