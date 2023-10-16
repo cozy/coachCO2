@@ -91,6 +91,7 @@
   "loadMore": "Load more trips",
   "tripEdit": {
     "selectMode": "Modify the transportation mode",
+    "modeTooltip": "The CO2 values in grams per kilometre (g/km) displayed may not always be representative of reality and may vary. It is important to take the CO2 values displayed with caution and to consider them as a general indication rather than an accurate representation of reality. Driving conditions, driver behaviour and other factors can lead to significant variations from the laboratory values, making it difficult to make a true comparison between different vehicles in terms of CO2 emissions.",
     "selectPurpose": "Modify the travel purpose"
   },
   "purpose": "Reason for travel",
