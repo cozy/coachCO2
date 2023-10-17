@@ -92,6 +92,7 @@ export const removeRelationship = async ({
   client,
   timeserie,
   type,
+  t,
   contact
 }) => {
   const { address } = getContactAddressAndIndexFromRelationships({
@@ -104,17 +105,29 @@ export const removeRelationship = async ({
 
   await client.save(contact)
 
-  const { data: newTimeserie } = await getRelationshipByType(
-    timeserie,
-    type
-  ).remove()
+  const { data: timeserieWithUpdatedRelationships } =
+    await getRelationshipByType(timeserie, type).remove()
 
   unset(
-    newTimeserie,
+    timeserieWithUpdatedRelationships,
     `relationships.${getRelationshipKey(type)}.data.metadata.addressId`
   )
 
-  await client.save(newTimeserie)
+  set(
+    timeserieWithUpdatedRelationships,
+    'aggregation.automaticTitle',
+    makeAggregationTitle(
+      {
+        ...timeserieWithUpdatedRelationships,
+        // relationships are not included, we need to add them manually
+        startPlaceContact: timeserie.startPlaceContact,
+        endPlaceContact: timeserie.endPlaceContact
+      },
+      t
+    )
+  )
+
+  await client.save(timeserieWithUpdatedRelationships)
 }
 
 export const addAddressToContact = ({
@@ -164,22 +177,32 @@ const createRelationship = async ({
 
   const { data: newContact } = await client.save(contactToSave)
 
-  const { data: newTimeserie } = await getRelationshipByType(
-    timeserie,
-    type
-  ).add(newContact)
+  const { data: timeserieWithUpdatedRelationships } =
+    await getRelationshipByType(timeserie, type).add(newContact)
 
   set(
-    newTimeserie,
-    'aggregation.automaticTitle',
-    makeAggregationTitle(newTimeserie, t)
+    timeserieWithUpdatedRelationships,
+    `relationships.${getRelationshipKey(type)}.data.metadata`,
+    {
+      addressId
+    }
   )
 
-  set(newTimeserie, `relationships.${getRelationshipKey(type)}.data.metadata`, {
-    addressId
-  })
+  set(
+    timeserieWithUpdatedRelationships,
+    'aggregation.automaticTitle',
+    makeAggregationTitle(
+      {
+        ...timeserieWithUpdatedRelationships,
+        // relationships are not included, we need to add them manually
+        startPlaceContact: timeserie.startPlaceContact,
+        endPlaceContact: timeserie.endPlaceContact
+      },
+      t
+    )
+  )
 
-  await client.save(newTimeserie)
+  await client.save(timeserieWithUpdatedRelationships)
 }
 
 const updateRelationship = async ({
