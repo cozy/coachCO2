@@ -41,7 +41,7 @@ const BikeGoalOnboarding = () => {
             {t('bikeGoal.about.once_goal_reach.title')}
           </Typography>
           <Typography variant="body1" style={styles.typography}>
-            {t('bikeGoal.about.once_goal_reach.content', { bountyAmount })}
+            {t('bikeGoal.about.once_goal_reach.content')}
           </Typography>
         </>
       }

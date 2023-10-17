@@ -201,22 +201,23 @@
     "yearly_goal_progression": "%{days}/%{daysToReach} jours \npar an",
     "goal_progression": "%{days}/%{daysToReach} jours",
     "my_progression": "Ma progression annuelle",
-    "average_progression": "Progression moyenne du groupe",
+    "average_progression": "Progression moy. de mon organisation",
     "achievement_certificate": "Attestation de réussite",
     "goals": "Objectifs",
     "about": {
       "title": "À propos de l’objectif",
       "intro": {
         "title": "Introduction",
-        "content": "Afin d’encourager le recours à des modes de transports alternatifs et durables, la mise en œuvre du forfait mobilités durables est entré en vigueur le 10 mai 2020.\n\nAinsi, les collaborateurs qui font le choix d’un mode de transport alternatif et durable pour leur trajet domicile-travail pourront bénéficier d’un forfait de %{bountyAmount}€ par an.\n\nVotre Coach CO2 vous aide à comptabiliser vos trajets domicile-travail à vélo et vous permet de générer l'attestation de réussite à transmettre à votre employeur !"
+        "content": "Afin d’encourager le recours à des modes de transports alternatifs et durables, la mise en œuvre du forfait mobilités durables est entré en vigueur le 10 mai 2020.\n\nAinsi les collaborateurs et agent qui font le choix d'un mode de transport alternatif et durable pour leur trajet domicile-travail pourront recevoir une somme de leur employeur si celui-ci met en place ce dispositif."
       },
       "how_trips_detected": {
         "title": "Comment sont détectés mes trajets ?",
-        "content": "Vos trajets domicile-travail à vélo seront automatiquement détectés à partir de vos horaires et de votre vitesse.\n\nSi un trajet n’est pas automatiquement détecté en “Aller-retour au travail”, ouvrez le détail du trajet et modifiez le motif du déplacement en “Aller-retour au travail”.\n\nSi un trajet n’est pas automatiquement détecté en “vélo”, ouvrez le détail du trajet et modifiez le mode de transport en “vélo”."
+        "content": "Vos trajets domicile-travail à vélo seront automatiquement détectés à partir de vos horaires et de votre vitesse.\n\nSi un trajet n’est pas automatiquement qualifié en “Aller-retour au travail”, ouvrez le détail du trajet et modifiez le motif du déplacement.\n\nSi le mode de transport d’un trajet n’est pas automatiquement détecté en “vélo”, ouvrez le détail du trajet et modifiez le mode de transport en “vélo”."
       },
       "once_goal_reach": {
-        "title": "Que faire une fois l’objectif atteint",
-        "content": "Une fois l’objectif atteint, il vous sera possible de générer une attestation de réussite à transmettre à votre employeur pour bénéficier de votre forfait  de %{bountyAmount}€ 🎉"
+        "title": "Que faire une fois l’objectif atteint ?",
+        "optional": "Dernière étape",
+        "content": "Une fois l'objectif atteint, vous pourrez vous en féliciter ! Et il vous sera alors possible de générer une attestation sur l'honneur que vous pourrez transmettre à votre employeur."
       }
     },
     "deactivate": {
@@ -247,7 +248,7 @@
       "workTime_full": "Temps plein",
       "workTime_part": "Mi-temps ou temps partiel",
       "workTimePercentage": "Pourcentage du temps de travail",
-      "compare_progress": "Comparer ma progression avec le groupe : %{source}",
+      "compare_progress": "Comparer ma progression avec celle de mon organisation",
       "cancel": "Annuler",
       "submit": "Ok",
       "required": "Ce champ est obligatoire"
@@ -260,7 +261,7 @@
       "showAlerterSuccess": "Objectif vélo : forcer l'affichage de l'alerte de succès sur la homepage"
     },
     "onboarding": {
-      "title": "Forfait \"mobilités durables\"",
+      "title": "Objectif : Aller travailler à vélo",
       "actions": {
         "finish": "Terminer",
         "previous": "Précédent",
@@ -277,7 +278,7 @@
           "percentage": "Pourcentage"
         },
         "comparison": {
-          "comparisonLegend": "Il vous est possible d’afficher la progression moyenne des membres %{source} qui participent à l’objectif. Pour cela, il vous sera demandé de participer également à la constitution de cette moyenne.\n\nVos données de progression seront agrégées et envoyées anonymement, elles ne contiendront aucun identifiant ni lieux.",
+          "comparisonLegend": "Il vous est possible d’afficher la progression moyenne des membres de votre organisation %{source}qui participent à l’objectif. Pour cela, il vous sera demandé de participer également à la constitution de cette moyenne.\n\nVos données de progression seront agrégées et envoyées anonymement, elles ne contiendront aucun identifiant ni lieux.",
           "compare": "Comparer ma progression",
           "doNotCompare": "Ne pas comparer ma progression"
         }

@@ -1,6 +1,5 @@
 import React, { forwardRef, useReducer } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getBountyAmount } from 'src/components/Goals/BikeGoal/helpers'
 import useSettings from 'src/hooks/useSettings'
 
 import Button from 'cozy-ui/transpiled/react/Buttons'
@@ -27,7 +26,6 @@ const BikeGoalOnboardingConclusion = forwardRef((props, ref) => {
     save: setBikeGoal
   } = useSettings('bikeGoal')
   const { onboardingStep = 0 } = bikeGoal
-  const bountyAmount = getBountyAmount()
 
   const styles = createStyles()
 
@@ -55,7 +53,15 @@ const BikeGoalOnboardingConclusion = forwardRef((props, ref) => {
 
   return (
     <Step {...props} ref={ref}>
-      <StepLabel>{t('bikeGoal.about.once_goal_reach.title')}</StepLabel>
+      <StepLabel
+        optional={
+          <Typography variant="caption">
+            {t('bikeGoal.about.once_goal_reach.optional')}
+          </Typography>
+        }
+      >
+        {t('bikeGoal.about.once_goal_reach.title')}
+      </StepLabel>
       <StepContent>
         {isLoading ? (
           <Spinner
@@ -65,7 +71,7 @@ const BikeGoalOnboardingConclusion = forwardRef((props, ref) => {
         ) : (
           <>
             <Typography style={styles.typography}>
-              {t('bikeGoal.about.once_goal_reach.content', { bountyAmount })}
+              {t('bikeGoal.about.once_goal_reach.content')}
             </Typography>
             <div className="u-mt-1">
               <Button

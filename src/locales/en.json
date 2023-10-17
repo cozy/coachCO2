@@ -200,23 +200,24 @@
     "title": "Bike to work",
     "yearly_goal_progression": "%{days}/%{daysToReach} days \nper year",
     "goal_progression": "%{days}/%{daysToReach} days",
-    "my_progression": "My yearly progrsesion",
-    "average_progression": "Average group progression",
+    "my_progression": "My yearly progression",
+    "average_progression": "Avg. progress of my organisation",
     "achievement_certificate": "Certificate of achievement",
     "goals": "Objectives",
     "about": {
       "title": "About the goal",
       "intro": {
         "title": "Introduction",
-        "content": "In order to encourage the use of alternative and sustainable modes of transportation, the implementation of the sustainable mobility package came into effect on May 10, 2020.\n\nThus, employees who choose an alternative and sustainable mode of transportation for their home-work commute will be able to benefit from a lump sum of %{bountyAmount}€ per year.\n\nYour CO2 Coach will help you keep track of your home-work commute by bicycle and will allow you to generate the certificate of success to be transmitted to your employer!"
+        "content": "In order to encourage the use of alternative and sustainable modes of transport, the sustainable mobility package came into force on 10 May 2020.\n\nEmployees and agents who choose an alternative and sustainable mode of transport for their home-to-work journey will be able to receive a sum from their employer if the latter implements this scheme."
       },
       "how_trips_detected": {
         "title": "How are my trips detected?",
-        "content": "Your home-work bike trips will be automatically detected based on your schedule and speed.\n\nIf a trip is not automatically detected as \"Going to or from work\", open the trip details and change the trip reason to \"Going to or from work\".\n\nIf a trip is not automatically detected as \"bike\", open the trip detail and change the mode of transportation to \"bike\"."
+        "content": "Your home-to-work journeys by bike will be automatically detected on the basis of your timetable and your speed.\n\nIf a journey is not automatically classified as a “Journey to and from work“, open the details of the journey and change the reason for the journey.\n\nIf the mode of transport for a journey is not automatically detected as “bike“, open the journey details and change the mode of transport to “bike“."
       },
       "once_goal_reach": {
-        "title": "What to do once the goal is reached",
-        "content": "Once the goal is reached, you will be able to generate a certificate of achievement to send to your employer to benefit from your %{bountyAmount}€ package 🎉"
+        "title": "What to do once the goal is reached?",
+        "optional": "Last step",
+        "content": "Once you've reached your target, you can congratulate yourself! You'll then be able to generate a certificate of honour that you can send to your employer."
       }
     },
     "deactivate": {
@@ -247,7 +248,7 @@
       "workTime_full": "Full time",
       "workTime_part": "Half-time or part-time",
       "workTimePercentage": "Percentage of working time",
-      "compare_progress": "Compare my progress with the group: %{source}",
+      "compare_progress": "Compare my progress with that of my organisation",
       "cancel": "Cancel",
       "submit": "Ok",
       "required": "This field is required"
@@ -260,7 +261,7 @@
       "showAlerterSuccess": "Bike goal: Show the bike goal success alert"
     },
     "onboarding": {
-      "title": "\"Sustainable mobility\" package",
+      "title": "Objective: To cycle to work",
       "actions": {
         "finish": "Finish",
         "previous": "Previous",
@@ -277,7 +278,7 @@
           "percentage": "Percentage"
         },
         "comparison": {
-          "comparisonLegend": "It is possible to display the average progression of the members %{source} who participate in the goal. To do so, you will be asked to also participate in the establishment of this average. Your progression data will be aggregated and sent anonymously, and will not contain any identifiers or locations.",
+          "comparisonLegend": "You can display the average progress of the members of your organisation %{source} who are participating in the objective. To do this, you will be asked to participate in the creation of this average.\n\nYour progress data will be aggregated and sent anonymously, and will not contain any identifiers or locations.",
           "compare": "Compare my progression",
           "doNotCompare": "Do not compare my progression"
         }

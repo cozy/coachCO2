@@ -63,11 +63,7 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
   return (
     <>
       <Step {...props} ref={ref}>
-        <StepLabel>
-          {t('bikeGoal.edit.compare_progress', {
-            source: sourceIdentity ?? t(`bikeGoal.employer.my_${sourceType}`)
-          })}
-        </StepLabel>
+        <StepLabel>{t('bikeGoal.edit.compare_progress')}</StepLabel>
         <StepContent>
           {isLoading ? (
             <Spinner
