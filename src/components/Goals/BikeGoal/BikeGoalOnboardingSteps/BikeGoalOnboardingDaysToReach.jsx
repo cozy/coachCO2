@@ -20,7 +20,7 @@ const createStyles = () => ({
   }
 })
 
-const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
+const BikeGoalOnboardingDaysToReach = forwardRef((props, ref) => {
   const { t } = useI18n()
   const [isBusy, toggleBusy] = useReducer(prev => !prev, false)
   const {
@@ -158,6 +158,6 @@ const BikeGoalOnboardingTiming = forwardRef((props, ref) => {
   )
 })
 
-BikeGoalOnboardingTiming.displayName = 'BikeGoalOnboardingTiming'
+BikeGoalOnboardingDaysToReach.displayName = 'BikeGoalOnboardingDaysToReach'
 
-export default BikeGoalOnboardingTiming
+export default BikeGoalOnboardingDaysToReach
