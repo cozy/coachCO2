@@ -231,8 +231,8 @@
         "text": "Félicitations, vous avez atteint l’objectif “Aller travailler à vélo” 🎉",
         "action": "Bénéficier de mon forfait de %{bountyAmount}€"
       },
-      "title": "Allez au bureau à vélo et recevez %{bountyAmount}€ !",
-      "text": "Dans le cadre du Forfait Mobilités Durables (FMD) mis en place par le gouvernement Français, allez travailler à vélo %{daysToReach} jours dans l’année et recevez %{bountyAmount}€ !",
+      "title": "Soyez acteur du changement, allez travailler à vélo !",
+      "text": "Suivez vos trajets et générez une attestation à destination de votre employeur s'il propose la prime Forfait Mobilité Durable (FMD).",
       "actions": {
         "participate": "Participer",
         "discard": "non, merci"
