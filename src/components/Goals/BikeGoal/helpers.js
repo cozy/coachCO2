@@ -21,23 +21,10 @@ export const getBountyAmount = () => {
 export const getSource = () => {
   const sourceIdentity = flag('coachco2.bikegoal.settings')?.sourceIdentity
   const sourceType = flag('coachco2.bikegoal.settings')?.sourceType
-  const knownSourceTypes = ['custom', 'company', 'collectivity']
-  if (!sourceType) {
-    throw new Error('Flag "coachco2.bikegoal.settings" must be used')
-  }
-  if (!knownSourceTypes.includes(sourceType)) {
-    throw new Error(
-      `Flag "coachco2.bikegoal.settings"'s "sourceType" must be one of ${knownSourceTypes}`
-    )
-  }
-  if (sourceType === 'custom' && !sourceIdentity) {
-    throw new Error(
-      'Flag "coachco2.bikegoal.settings"\'s "sourceIdentity" must be a string when "sourceType" is set to "custom"'
-    )
-  }
+
   return {
     sourceType,
-    sourceIdentity: sourceType === 'custom' ? sourceIdentity : null
+    sourceIdentity
   }
 }
 

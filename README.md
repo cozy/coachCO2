@@ -81,8 +81,8 @@ You will then be prompted to login again, possibly from a `localhost:3333` serve
 - `coachco2.bikegoal.settings`: to change settings by context. It's an object:
   - **bountyAmount**: `<number>` - amount of the bonus granted
   - **daysToReach**: `<number>` - number of days to be reached to benefit from the bonus
-  - **sourceType**: `"company" | "collectivity" | "custom"` - type of source entity issuing the bonus. ⚠️ If `custom` is used here, `sourceIdentity` is required
-  - **sourceIdentity** (required if `sourceType` === `custom`): `<string>` - name of the source entity
+  - **sourceType**: `<string>` - type of source entity issuing the bonus.
+  - **sourceIdentity**: `<string>` - name of the source entity
 
 
 ### Run it inside a Cozy using Docker
@@ -279,7 +279,7 @@ Every timeserie is automatically aggregated by a service, to sum up the `series`
     "coordinates": {
       "startPoint": {
         "lon": -0.8119085,
-        "lat": 46.4536633 
+        "lat": 46.4536633
       },
       "endPoint": {
         "lon": -0.7519085,
