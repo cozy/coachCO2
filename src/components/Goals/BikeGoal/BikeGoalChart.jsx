@@ -5,12 +5,28 @@ import {
   makeIconSize,
   makeDaccAchievementPercentage
 } from 'src/components/Goals/BikeGoal/helpers'
+import { buildSettingsQuery } from 'src/queries/queries'
 
+import { isQueryLoading, useQuery } from 'cozy-client'
 import Box from 'cozy-ui/transpiled/react/Box'
 import CircularChart from 'cozy-ui/transpiled/react/CircularChart'
 
 const BikeGoalChart = ({ timeseries, sendToDACC, size, ...props }) => {
-  const goalAchievementPercentage = makeGoalAchievementPercentage(timeseries)
+  const settingsQuery = buildSettingsQuery()
+  const { data: settings, ...settingsQueryLeft } = useQuery(
+    settingsQuery.definition,
+    settingsQuery.options
+  )
+  const isLoading = isQueryLoading(settingsQueryLeft)
+
+  if (isLoading) {
+    return null
+  }
+
+  const goalAchievementPercentage = makeGoalAchievementPercentage(
+    timeseries,
+    settings
+  )
   const iconSize = makeIconSize(size)
 
   return (
@@ -19,7 +35,7 @@ const BikeGoalChart = ({ timeseries, sendToDACC, size, ...props }) => {
       primaryProps={{ value: goalAchievementPercentage, color: '#BA5AE8' }}
       {...(sendToDACC && {
         secondaryProps: {
-          value: makeDaccAchievementPercentage(),
+          value: makeDaccAchievementPercentage(settings),
           color: '#BA5AE83D'
         }
       })}

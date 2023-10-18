@@ -203,7 +203,9 @@
     "my_progression": "Ma progression annuelle",
     "average_progression": "Progression moy. de mon organisation",
     "achievement_certificate": "Attestation de réussite",
+    "goal": "Objectif",
     "goals": "Objectifs",
+    "days": "jours",
     "about": {
       "title": "À propos de l’objectif",
       "intro": {
@@ -244,10 +246,7 @@
       "title": "Modifier l'objectif",
       "firstname": "Prénom",
       "lastname": "Nom",
-      "workTime": "Temps de travail",
-      "workTime_full": "Temps plein",
-      "workTime_part": "Mi-temps ou temps partiel",
-      "workTimePercentage": "Pourcentage du temps de travail",
+      "daysToReach": "Objectif à atteindre",
       "compare_progress": "Comparer ma progression avec celle de mon organisation",
       "cancel": "Annuler",
       "submit": "Ok",
@@ -272,10 +271,9 @@
           "title": "Nom et prénom",
           "nameLegend": "Le nom et le prénom renseigné seront utilisés pour générer l'attestation de réussite une fois l'objectif atteint. Merci de remplir les informations suivantes :"
         },
-        "timing": {
-          "timeLegend": "Vous disposez actuellement d’un contrat de travail à :",
-          "percentageLegend": "Le montant de la prime est modulé selon le temps de travail. Pour les salariés à temps partiel dont la durée du travail est égale ou supérieure à 50% le montant de la prime sera la même que pour un salarié à temps plein. Pour les salariés travaillant moins de 50% le montant de la prime sera calculé au prorata du temps travaillé.\n\nRenseignez le pourcentage de votre temps de travail :",
-          "percentage": "Pourcentage"
+        "daysToReach": {
+          "title": "Fixez-vous un objectif",
+          "legend": "Définissez un nombre de jours à vélo ou trottinette pour vos trajets domicile-travail et suivez votre avancement avec votre Coach CO2.\n\nUne fois votre objectif atteint, vous recevrez une alerte ainsi qu’une attestation de réussite à transmettre à votre employeur."
         },
         "comparison": {
           "comparisonLegend": "Il vous est possible d’afficher la progression moyenne des membres de votre organisation %{source} qui participent à l’objectif. Pour cela, il vous sera demandé de participer également à la constitution de cette moyenne.\n\nVos données de progression seront agrégées et envoyées anonymement, elles ne contiendront aucun identifiant ni lieux.",

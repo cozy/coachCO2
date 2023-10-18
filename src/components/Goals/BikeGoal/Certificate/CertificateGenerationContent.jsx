@@ -10,8 +10,9 @@ import {
   getSource
 } from 'src/components/Goals/BikeGoal/helpers'
 import { fetchCurrentUser } from 'src/lib/fetchCurrentUser'
+import { buildSettingsQuery } from 'src/queries/queries'
 
-import { useClient } from 'cozy-client'
+import { useClient, useQuery, isQueryLoading } from 'cozy-client'
 import { getDisplayName } from 'cozy-client/dist/models/contact'
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import Icon from 'cozy-ui/transpiled/react/Icon'
@@ -33,6 +34,17 @@ const CertificateGenerationContent = ({ certificate }) => {
   const navigate = useNavigate()
   const [isBusy, setIsBusy] = useState(false)
 
+  const settingsQuery = buildSettingsQuery()
+  const { data: settings, ...settingsQueryLeft } = useQuery(
+    settingsQuery.definition,
+    settingsQuery.options
+  )
+  const isLoading = isQueryLoading(settingsQueryLeft)
+
+  if (isLoading) {
+    return null
+  }
+
   const handleCertificateGeneration = async () => {
     setIsBusy(true)
     const { sourceIdentity } = getSource()
@@ -42,7 +54,7 @@ const CertificateGenerationContent = ({ certificate }) => {
       <PDFCertificate
         t={t}
         username={getDisplayName(currentUser)}
-        daysToReach={getDaysToReach()}
+        daysToReach={() => getDaysToReach(settings)}
         sourceIdentity={sourceIdentity}
         year={year}
         lang={lang}

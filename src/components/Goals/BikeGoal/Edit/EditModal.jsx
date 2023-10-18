@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import EditModalContent from 'src/components/Goals/BikeGoal/Edit/EditModalContent'
 import useSettings from 'src/hooks/useSettings'
 
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
+import TextField from 'cozy-ui/transpiled/react/TextField'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const BikeGoalEdit = ({ itemName, onClose }) => {
@@ -31,10 +31,15 @@ const BikeGoalEdit = ({ itemName, onClose }) => {
             className="u-flex u-flex-justify-center u-mt-1"
           />
         ) : (
-          <EditModalContent
-            itemName={itemName}
-            value={currentValue}
-            setValue={setCurrentValue}
+          <TextField
+            variant="outlined"
+            maring="normal"
+            defaultValue={value}
+            required
+            fullWidth
+            error={!value}
+            helperText={!value ? t('bikeGoal.edit.required') : ' '}
+            onChange={ev => setCurrentValue(ev.target.value)}
           />
         )
       }

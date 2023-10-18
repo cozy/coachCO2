@@ -2,10 +2,10 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import BikeGoalOnboardingComparison from 'src/components/Goals/BikeGoal/BikeGoalOnboardingSteps/BikeGoalOnboardingComparison'
 import BikeGoalOnboardingConclusion from 'src/components/Goals/BikeGoal/BikeGoalOnboardingSteps/BikeGoalOnboardingConclusion'
+import BikeGoalOnboardingDaysToReach from 'src/components/Goals/BikeGoal/BikeGoalOnboardingSteps/BikeGoalOnboardingDaysToReach'
 import BikeGoalOnboardingDetection from 'src/components/Goals/BikeGoal/BikeGoalOnboardingSteps/BikeGoalOnboardingDetection'
 import BikeGoalOnboardingIntroduction from 'src/components/Goals/BikeGoal/BikeGoalOnboardingSteps/BikeGoalOnboardingIntroduction'
 import BikeGoalOnboardingNaming from 'src/components/Goals/BikeGoal/BikeGoalOnboardingSteps/BikeGoalOnboardingNaming'
-import BikeGoalOnboardingTiming from 'src/components/Goals/BikeGoal/BikeGoalOnboardingSteps/BikeGoalOnboardingTiming'
 import useSettings from 'src/hooks/useSettings'
 
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
@@ -41,8 +41,8 @@ const BikeGoalOnboarding = () => {
           {!isLoading && (
             <Stepper activeStep={onboardingStep} orientation="vertical">
               <BikeGoalOnboardingIntroduction />
+              <BikeGoalOnboardingDaysToReach />
               <BikeGoalOnboardingNaming />
-              <BikeGoalOnboardingTiming />
               <BikeGoalOnboardingDetection />
               <BikeGoalOnboardingComparison />
               <BikeGoalOnboardingConclusion />

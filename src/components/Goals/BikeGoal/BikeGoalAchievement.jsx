@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom'
 import BikeGoalSummaryDaccItems from 'src/components/Goals/BikeGoal/BikeGoalSummaryDaccItems'
 import BikeGoalSummaryYearlyItem from 'src/components/Goals/BikeGoal/BikeGoalSummaryYearlyItem'
 import { isGoalCompleted } from 'src/components/Goals/BikeGoal/helpers'
+import { buildSettingsQuery } from 'src/queries/queries'
 
+import { isQueryLoading, useQuery } from 'cozy-client'
 import Chip from 'cozy-ui/transpiled/react/Chips'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import FileOutlineIcon from 'cozy-ui/transpiled/react/Icons/FileOutline'
@@ -23,6 +25,17 @@ const BikeGoalAchievement = ({ className, timeseries, sendToDACC }) => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const navigate = useNavigate()
+
+  const settingsQuery = buildSettingsQuery()
+  const { data: settings, ...settingsQueryLeft } = useQuery(
+    settingsQuery.definition,
+    settingsQuery.options
+  )
+  const isLoading = isQueryLoading(settingsQueryLeft)
+
+  if (isLoading) {
+    return null
+  }
 
   const handleClickAchievement = () => {
     navigate('certificate/generate')
@@ -48,7 +61,7 @@ const BikeGoalAchievement = ({ className, timeseries, sendToDACC }) => {
           timeseriesByYear={timeseries}
         />
       )}
-      {isGoalCompleted(timeseries) && (
+      {isGoalCompleted(timeseries, settings) && (
         <div className="u-mt-1">
           <Chip
             icon={<Icon icon={FileOutlineIcon} className="u-ml-half" />}

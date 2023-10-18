@@ -1,6 +1,8 @@
 import React from 'react'
 import { getDaysToReach } from 'src/components/Goals/BikeGoal/helpers'
+import { buildSettingsQuery } from 'src/queries/queries'
 
+import { useQuery, isQueryLoading } from 'cozy-client'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import CircleFilledIcon from 'cozy-ui/transpiled/react/Icons/CircleFilled'
 import Typography from 'cozy-ui/transpiled/react/Typography'
@@ -19,6 +21,16 @@ const BikeGoalSummaryItem = ({
   ...props
 }) => {
   const { t } = useI18n()
+  const settingsQuery = buildSettingsQuery()
+  const { data: settings, ...settingsQueryLeft } = useQuery(
+    settingsQuery.definition,
+    settingsQuery.options
+  )
+  const isLoading = isQueryLoading(settingsQueryLeft)
+
+  if (isLoading) {
+    return null
+  }
 
   return (
     <div {...props}>
@@ -36,7 +48,7 @@ const BikeGoalSummaryItem = ({
       >
         {t('bikeGoal.goal_progression', {
           days,
-          daysToReach: getDaysToReach()
+          daysToReach: getDaysToReach(settings)
         })}
       </Typography>
       <Typography variant="caption" style={createStyle(isSuccess)}>
