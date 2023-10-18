@@ -293,12 +293,6 @@
         "regenerate": "Generate a new certificate",
         "understood": "Understood"
       }
-    },
-    "employer": {
-      "my_company": "of my company",
-      "your_company": "of your company",
-      "my_collectivity": "of my collectivity",
-      "your_collectivity": "of your collectivity"
     }
   },
   "geolocationTracking": {
@@ -327,7 +321,7 @@
     "name": "Certificate - Cycling to work (%{year}).pdf",
     "title": "Certificate on honor\n of the success of the objective\n of the Sustainable Mobility Package",
     "date": "%{currentDateFormatted} at %{currentTimeFormatted}",
-    "recipient": "Recipient : %{sourceIdentity}",
+    "recipient": "Employer : %{sourceIdentity}",
     "paragraph01": "I, %{username}, certify on my honor that I have achieved the %{daysToReach} days sustainable mobility package objective by traveling from home to work by bike from January 1 to %{year}.",
     "paragraph02": "In addition to this certificate, I provide my employer with any useful proof of actual use of the bicycle, such as invoice or payment statements, insurance or maintenance of my bicycle.",
     "paragraph03": "Made to serve and assert what is right.",
