@@ -59,7 +59,7 @@ const BikeGoalManager = () => {
   const {
     activated = false,
     showAlert = true,
-    showAlertSuccess = isGoalCompleted(timeseriesByYear)
+    showAlertSuccess = isGoalCompleted(timeseriesByYear, settings)
   } = bikeGoal
 
   if (!activated && !showAlert) {
