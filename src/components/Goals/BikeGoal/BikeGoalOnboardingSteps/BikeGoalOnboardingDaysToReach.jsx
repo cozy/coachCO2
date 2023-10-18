@@ -1,16 +1,12 @@
 import React, { forwardRef, useReducer, useState } from 'react'
-import PercentageField from 'src/components/Goals/BikeGoal/Edit/PercentageField'
-import { toPercentage } from 'src/components/Goals/BikeGoal/Edit/helpers'
 import useSettings from 'src/hooks/useSettings'
 
 import Button from 'cozy-ui/transpiled/react/Buttons'
-import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import InputAdornment from 'cozy-ui/transpiled/react/InputAdornment'
-import RadioGroup from 'cozy-ui/transpiled/react/RadioGroup'
-import Radio from 'cozy-ui/transpiled/react/Radios'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import StepContent from 'cozy-ui/transpiled/react/StepContent'
 import { Step, StepLabel } from 'cozy-ui/transpiled/react/Stepper'
+import TextField from 'cozy-ui/transpiled/react/TextField'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
@@ -28,14 +24,8 @@ const BikeGoalOnboardingDaysToReach = forwardRef((props, ref) => {
     value: bikeGoal = {},
     save: setBikeGoal
   } = useSettings('bikeGoal')
-  const {
-    onboardingStep = 0,
-    workTime = null,
-    workTimePercentage = 0
-  } = bikeGoal
-  const [unsavedWorkTime, setUnsavedWorkTime] = useState(workTime)
-  const [unsavedWorkTimePercentage, setUnsavedWorkTimePercentage] =
-    useState(workTimePercentage)
+  const { onboardingStep = 0, daysToReach = 100 } = bikeGoal
+  const [unsavedDaysToReach, setUnsavedDaysToReach] = useState(daysToReach)
   const styles = createStyles()
 
   const handleBack = async () => {
@@ -52,30 +42,21 @@ const BikeGoalOnboardingDaysToReach = forwardRef((props, ref) => {
     await setBikeGoal({
       ...bikeGoal,
       onboardingStep: onboardingStep + 1,
-      workTime: unsavedWorkTime,
-      workTimePercentage: unsavedWorkTimePercentage
+      daysToReach: unsavedDaysToReach
     })
     toggleBusy()
   }
 
   const isForwardDisabled = () => {
-    if (unsavedWorkTime == null) {
+    if (unsavedDaysToReach === '') {
       return true
-    }
-    if (unsavedWorkTime === 'part') {
-      if (unsavedWorkTimePercentage == null) {
-        return true
-      }
-      if (unsavedWorkTimePercentage === 0) {
-        return true
-      }
     }
     return false
   }
 
   return (
     <Step {...props} ref={ref}>
-      <StepLabel>{t('bikeGoal.edit.workTime')}</StepLabel>
+      <StepLabel>{t('bikeGoal.onboarding.steps.daysToReach.title')}</StepLabel>
       <StepContent>
         {isLoading ? (
           <Spinner
@@ -84,58 +65,26 @@ const BikeGoalOnboardingDaysToReach = forwardRef((props, ref) => {
           />
         ) : (
           <>
-            <Typography>
-              {t('bikeGoal.onboarding.steps.timing.timeLegend')}
+            <Typography style={styles.typography}>
+              {t('bikeGoal.onboarding.steps.daysToReach.legend')}
             </Typography>
-            <RadioGroup className="u-mt-1">
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={unsavedWorkTime === 'full'}
-                    onClick={() => setUnsavedWorkTime('full')}
-                  />
-                }
-                label={t('bikeGoal.edit.workTime_full')}
-                className="u-m-0"
+            <div>
+              <TextField
+                className="u-w-5 u-mt-1"
+                variant="outlined"
+                type="number"
+                label={t('bikeGoal.goal')}
+                defaultValue={unsavedDaysToReach}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      {t('bikeGoal.days')}
+                    </InputAdornment>
+                  )
+                }}
+                onChange={event => setUnsavedDaysToReach(event.target.value)}
               />
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={unsavedWorkTime === 'part'}
-                    onClick={() => setUnsavedWorkTime('part')}
-                  />
-                }
-                label={t('bikeGoal.edit.workTime_part')}
-                className="u-m-0"
-              />
-            </RadioGroup>
-            {unsavedWorkTime === 'part' && (
-              <>
-                <Typography className="u-mt-1" style={styles.typography}>
-                  {t('bikeGoal.onboarding.steps.timing.percentageLegend')}
-                </Typography>
-                <div>
-                  <PercentageField
-                    variant="outlined"
-                    label={t('bikeGoal.onboarding.steps.timing.percentage')}
-                    defaultValue={unsavedWorkTimePercentage}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Typography variant="body1">%</Typography>
-                        </InputAdornment>
-                      )
-                    }}
-                    onChange={event => {
-                      setUnsavedWorkTimePercentage(
-                        toPercentage(Number(event.target.value))
-                      )
-                    }}
-                    className="u-w-5 u-mt-1"
-                  />
-                </div>
-              </>
-            )}
+            </div>
             <div className="u-mt-1">
               <Button
                 onClick={handleForward}

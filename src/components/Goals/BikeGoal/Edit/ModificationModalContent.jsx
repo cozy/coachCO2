@@ -4,8 +4,6 @@ import useSettings from 'src/hooks/useSettings'
 
 import Divider from 'cozy-ui/transpiled/react/Divider'
 import Icon from 'cozy-ui/transpiled/react/Icon'
-import BottomIcon from 'cozy-ui/transpiled/react/Icons/Bottom'
-import ClockOutlineIcon from 'cozy-ui/transpiled/react/Icons/ClockOutline'
 import CompanyIcon from 'cozy-ui/transpiled/react/Icons/Company'
 import CompareIcon from 'cozy-ui/transpiled/react/Icons/Compare'
 import PeopleIcon from 'cozy-ui/transpiled/react/Icons/People'
@@ -23,8 +21,6 @@ const ModificationModalContent = () => {
   const { t } = useI18n()
   const [showEditModal, setShowEditModal] = useState('')
   const { isLoading, value: bikeGoal, save } = useSettings('bikeGoal')
-
-  const isPartTimeWork = bikeGoal.workTime === 'part'
 
   const handleSendToDACC = () => {
     save({ ...bikeGoal, sendToDACC: !bikeGoal.sendToDACC })
@@ -73,54 +69,23 @@ const ModificationModalContent = () => {
 
         <Divider component="li" variant="inset" />
 
-        <ListItem button onClick={() => setShowEditModal('workTime')}>
+        <ListItem button onClick={() => setShowEditModal('daysToReach')}>
           <ListItemIcon>
             <Icon icon={CompanyIcon} />
           </ListItemIcon>
           <ListItemText
             primary={
               <Typography variant="caption">
-                {t('bikeGoal.edit.workTime')}
+                {t('bikeGoal.edit.daysToReach')}
               </Typography>
             }
             secondary={
-              <Typography variant="body1">
-                {t(`bikeGoal.edit.workTime_${bikeGoal.workTime}`)}
-              </Typography>
+              <Typography variant="body1">{bikeGoal.daysToReach}</Typography>
             }
           />
-          <Icon icon={BottomIcon} />
         </ListItem>
 
         <Divider component="li" variant="inset" />
-
-        {isPartTimeWork && (
-          <>
-            <ListItem
-              button
-              onClick={() => setShowEditModal('workTimePercentage')}
-            >
-              <ListItemIcon>
-                <Icon icon={ClockOutlineIcon} />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  <Typography variant="caption">
-                    {t('bikeGoal.edit.workTimePercentage')}
-                  </Typography>
-                }
-                secondary={
-                  <Typography variant="body1">
-                    {bikeGoal.workTimePercentage}
-                  </Typography>
-                }
-              />
-              <Typography variant="body2">%</Typography>
-            </ListItem>
-
-            <Divider component="li" variant="inset" />
-          </>
-        )}
 
         <ListItem ellipsis={false} button onClick={handleSendToDACC}>
           <ListItemIcon>
