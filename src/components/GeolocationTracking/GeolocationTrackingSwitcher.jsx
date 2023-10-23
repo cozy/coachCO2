@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useGeolocationTracking } from 'src/components/GeolocationTracking/GeolocationTrackingProvider'
 import { createOpenPathAccount } from 'src/components/GeolocationTracking/helpers'
+import { useGeolocationTracking } from 'src/components/Providers/GeolocationTrackingProvider'
 
 import { useClient } from 'cozy-client'
 import { isAndroid } from 'cozy-device-helper'

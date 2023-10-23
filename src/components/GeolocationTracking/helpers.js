@@ -3,8 +3,6 @@ import {
   buildOpenPathKonnectorQuery
 } from 'src/queries/queries'
 
-import { isFlagshipApp } from 'cozy-device-helper'
-import flag from 'cozy-flags'
 import ConnectionFlow from 'cozy-harvest-lib/dist/models/ConnectionFlow'
 import { getRandomUUID } from 'cozy-ui/transpiled/react/helpers/getRandomUUID'
 
@@ -74,6 +72,3 @@ export const getOpenPathAccountName = async ({
     'geolocationTracking.settings.createdOn'
   )} ${new Date().toLocaleDateString(lang)}`
 }
-
-export const isGeolocationTrackingPossible =
-  isFlagshipApp() && flag('coachco2.GPSMemory.enabled')

@@ -10,24 +10,21 @@ const mockGetGeolocationTrackingId = jest.fn()
 const mockSetGeolocationTrackingId = jest.fn()
 const mockGetDeviceInfo = jest.fn()
 
-jest.mock(
-  'src/components/GeolocationTracking/GeolocationTrackingProvider',
-  () => ({
-    useGeolocationTracking: () => ({
-      isGeolocationTrackingAvailable: jest.fn(),
-      setGeolocationTracking: jest.fn(),
-      getGeolocationTrackingStatus: mockGetGeolocationTrackingStatus,
-      getGeolocationTrackingId: mockGetGeolocationTrackingId,
-      setGeolocationTrackingId: mockSetGeolocationTrackingId,
-      checkGeolocationTrackingPermissions: mockCheckPermissions,
-      requestGeolocationTrackingPermissions: jest.fn(),
-      sendGeolocationTrackingLogs: jest.fn(),
-      forceUploadGeolocationTrackingData: jest.fn(),
-      openAppOSSettings: jest.fn(),
-      getDeviceInfo: mockGetDeviceInfo
-    })
+jest.mock('src/components/Providers/GeolocationTrackingProvider', () => ({
+  useGeolocationTracking: () => ({
+    isGeolocationTrackingAvailable: jest.fn(),
+    setGeolocationTracking: jest.fn(),
+    getGeolocationTrackingStatus: mockGetGeolocationTrackingStatus,
+    getGeolocationTrackingId: mockGetGeolocationTrackingId,
+    setGeolocationTrackingId: mockSetGeolocationTrackingId,
+    checkGeolocationTrackingPermissions: mockCheckPermissions,
+    requestGeolocationTrackingPermissions: jest.fn(),
+    sendGeolocationTrackingLogs: jest.fn(),
+    forceUploadGeolocationTrackingData: jest.fn(),
+    openAppOSSettings: jest.fn(),
+    getDeviceInfo: mockGetDeviceInfo
   })
-)
+}))
 
 jest.mock('./helpers')
 

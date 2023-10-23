@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext, useContext } from 'react'
-import { isGeolocationTrackingPossible } from 'src/components/GeolocationTracking/helpers'
+import { isGeolocationTrackingPossible } from 'src/components/Providers/helpers'
 
 import { useWebviewIntent } from 'cozy-intent'
 

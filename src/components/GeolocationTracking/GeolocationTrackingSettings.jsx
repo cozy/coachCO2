@@ -1,6 +1,6 @@
 import copy from 'copy-text-to-clipboard'
 import React from 'react'
-import { useGeolocationTracking } from 'src/components/GeolocationTracking/GeolocationTrackingProvider'
+import { useGeolocationTracking } from 'src/components/Providers/GeolocationTrackingProvider'
 
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
