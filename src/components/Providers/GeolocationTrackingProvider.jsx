@@ -1,11 +1,29 @@
-import React, { useState, useEffect, createContext, useContext } from 'react'
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  useMemo,
+  useCallback
+} from 'react'
 import { isGeolocationTrackingPossible } from 'src/components/Providers/helpers'
 
 import { useWebviewIntent } from 'cozy-intent'
 
-const GeolocationTrackingContext = createContext(null)
-
 const FEATURE_NAME = 'geolocationTracking'
+
+const GeolocationTrackingContext = createContext()
+
+export const useGeolocationTracking = () => {
+  const context = useContext(GeolocationTrackingContext)
+
+  if (!context) {
+    throw new Error(
+      'useGeolocationTracking must be used within a GeolocationTrackingProvider'
+    )
+  }
+  return context
+}
 
 export const GeolocationTrackingProvider = ({ children }) => {
   const webviewIntent = useWebviewIntent()
@@ -32,67 +50,86 @@ export const GeolocationTrackingProvider = ({ children }) => {
     }
   }, [webviewIntent])
 
-  const setGeolocationTracking = async enabled => {
-    return await webviewIntent.call('setGeolocationTracking', enabled)
-  }
+  const setGeolocationTracking = useCallback(
+    async enabled => {
+      return await webviewIntent.call('setGeolocationTracking', enabled)
+    },
+    [webviewIntent]
+  )
 
-  const getGeolocationTrackingId = async () => {
+  const getGeolocationTrackingId = useCallback(async () => {
     return await webviewIntent.call('getGeolocationTrackingId')
-  }
+  }, [webviewIntent])
 
-  const setGeolocationTrackingId = async newId => {
-    return await webviewIntent.call('setGeolocationTrackingId', newId)
-  }
+  const setGeolocationTrackingId = useCallback(
+    async newId => {
+      return await webviewIntent.call('setGeolocationTrackingId', newId)
+    },
+    [webviewIntent]
+  )
 
-  const getGeolocationTrackingStatus = async () => {
+  const getGeolocationTrackingStatus = useCallback(async () => {
     return await webviewIntent.call('getGeolocationTrackingStatus')
-  }
+  }, [webviewIntent])
 
-  const checkGeolocationTrackingPermissions = async () => {
+  const checkGeolocationTrackingPermissions = useCallback(async () => {
     return await webviewIntent.call('checkPermissions', 'geolocationTracking')
-  }
+  }, [webviewIntent])
 
-  const requestGeolocationTrackingPermissions = async () => {
+  const requestGeolocationTrackingPermissions = useCallback(async () => {
     return await webviewIntent.call('requestPermissions', 'geolocationTracking')
-  }
+  }, [webviewIntent])
 
-  const sendGeolocationTrackingLogs = async () => {
+  const sendGeolocationTrackingLogs = useCallback(async () => {
     await webviewIntent.call('sendGeolocationTrackingLogs')
-  }
+  }, [webviewIntent])
 
-  const forceUploadGeolocationTrackingData = async () => {
+  const forceUploadGeolocationTrackingData = useCallback(async () => {
     await webviewIntent.call('forceUploadGeolocationTrackingData')
-  }
+  }, [webviewIntent])
 
-  const openAppOSSettings = async () => {
+  const openAppOSSettings = useCallback(async () => {
     return await webviewIntent.call('openAppOSSettings')
-  }
+  }, [webviewIntent])
 
-  const getDeviceInfo = async () => {
+  const getDeviceInfo = useCallback(async () => {
     return await webviewIntent.call('getDeviceInfo')
-  }
+  }, [webviewIntent])
+
+  const value = useMemo(
+    () => ({
+      isGeolocationTrackingAvailable,
+      setGeolocationTracking,
+      getGeolocationTrackingStatus,
+      getGeolocationTrackingId,
+      setGeolocationTrackingId,
+      checkGeolocationTrackingPermissions,
+      requestGeolocationTrackingPermissions,
+      sendGeolocationTrackingLogs,
+      forceUploadGeolocationTrackingData,
+      openAppOSSettings,
+      getDeviceInfo
+    }),
+    [
+      checkGeolocationTrackingPermissions,
+      forceUploadGeolocationTrackingData,
+      getDeviceInfo,
+      getGeolocationTrackingId,
+      getGeolocationTrackingStatus,
+      isGeolocationTrackingAvailable,
+      openAppOSSettings,
+      requestGeolocationTrackingPermissions,
+      sendGeolocationTrackingLogs,
+      setGeolocationTracking,
+      setGeolocationTrackingId
+    ]
+  )
 
   return (
-    <GeolocationTrackingContext.Provider
-      value={{
-        isGeolocationTrackingAvailable,
-        setGeolocationTracking,
-        getGeolocationTrackingStatus,
-        getGeolocationTrackingId,
-        setGeolocationTrackingId,
-        checkGeolocationTrackingPermissions,
-        requestGeolocationTrackingPermissions,
-        sendGeolocationTrackingLogs,
-        forceUploadGeolocationTrackingData,
-        openAppOSSettings,
-        getDeviceInfo
-      }}
-    >
+    <GeolocationTrackingContext.Provider value={value}>
       {children}
     </GeolocationTrackingContext.Provider>
   )
 }
 
-export const useGeolocationTracking = () => {
-  return useContext(GeolocationTrackingContext)
-}
+export default GeolocationTrackingProvider
