@@ -1,8 +1,8 @@
 import React from 'react'
+import SpinnerOrEmptyContent from 'src/components/EmptyContent/SpinnerOrEmptyContent'
 import BikeGoalDialogMobile from 'src/components/Goals/BikeGoal/BikeGoalDialogMobile'
 import BikeGoalViewDesktop from 'src/components/Goals/BikeGoal/BikeGoalViewDesktop'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
-import SpinnerOrEmptyContent from 'src/components/SpinnerOrEmptyContent'
 import {
   buildBikeCommuteTimeseriesQueryByAccountId,
   buildSettingsQuery

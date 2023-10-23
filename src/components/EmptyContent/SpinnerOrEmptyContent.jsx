@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import EmptyContent from 'src/components/EmptyContent'
+import EmptyContent from 'src/components/EmptyContent/EmptyContent'
 
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
