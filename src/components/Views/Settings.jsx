@@ -15,10 +15,7 @@ import {
   useAccountContext,
   getAccountLabel
 } from 'src/components/Providers/AccountProvider'
-import {
-  GeolocationTrackingProvider,
-  useGeolocationTracking
-} from 'src/components/Providers/GeolocationTrackingProvider'
+import { useGeolocationTracking } from 'src/components/Providers/GeolocationTrackingProvider'
 import Titlebar from 'src/components/Titlebar'
 
 import flag from 'cozy-flags'
@@ -81,12 +78,4 @@ export const Settings = () => {
   )
 }
 
-const WrappedSettings = () => {
-  return (
-    <GeolocationTrackingProvider>
-      <Settings />
-    </GeolocationTrackingProvider>
-  )
-}
-
-export default WrappedSettings
+export default Settings
