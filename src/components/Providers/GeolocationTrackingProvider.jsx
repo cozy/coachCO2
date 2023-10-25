@@ -3,19 +3,21 @@ import React, {
   useEffect,
   createContext,
   useContext,
-  useMemo,
-  useCallback
+  useMemo
 } from 'react'
-import { createOpenPathAccount } from 'src/components/GeolocationTracking/helpers'
-import { isGeolocationTrackingPossible } from 'src/components/Providers/helpers'
+import {
+  disableGeolocationTracking,
+  enableGeolocationTracking,
+  checkPermissionsAndEnableTrackingOrShowDialog,
+  syncTrackingStatusWithFlagship,
+  checkAndSetGeolocationTrackingAvailability
+} from 'src/components/GeolocationTracking/helpers'
 
 import { useClient } from 'cozy-client'
 import { isAndroid } from 'cozy-device-helper'
 import { useWebviewIntent } from 'cozy-intent'
 import { AllowLocationDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
-
-const FEATURE_NAME = 'geolocationTracking'
 
 const GeolocationTrackingContext = createContext()
 
@@ -44,92 +46,46 @@ export const GeolocationTrackingProvider = ({ children }) => {
   const [showLocationRefusedDialog, setShowLocationRefusedDialog] =
     useState(false)
 
-  const syncTrackingStatusWithFlagship = useCallback(async () => {
-    const { enabled } = await webviewIntent.call('getGeolocationTrackingStatus')
-    setIsGeolocationTrackingEnabled(enabled)
-  }, [webviewIntent])
-
-  const disableGeolocationTracking = useCallback(async () => {
-    await webviewIntent.call('setGeolocationTracking', false)
-    await syncTrackingStatusWithFlagship()
-  }, [webviewIntent, syncTrackingStatusWithFlagship])
-
-  const enableGeolocationTracking = useCallback(async () => {
-    // create account if necessary
-    const geolocationTrackingId = await webviewIntent.call(
-      'getGeolocationTrackingId'
+  useEffect(() => {
+    checkAndSetGeolocationTrackingAvailability(
+      webviewIntent,
+      setIsGeolocationTrackingAvailable
     )
 
-    if (geolocationTrackingId === null) {
-      const { deviceName } = await webviewIntent.call('getDeviceInfo')
-
-      const { password } = await createOpenPathAccount({
-        client,
-        t,
-        lang,
-        deviceName
-      })
-
-      await webviewIntent.call('setGeolocationTrackingId', password)
-    }
-
-    // enable geolocation tracking
-    await webviewIntent.call('setGeolocationTracking', true)
-    await syncTrackingStatusWithFlagship()
-  }, [client, lang, webviewIntent, syncTrackingStatusWithFlagship, t])
-
-  const checkPermissionsAndEnableTrackingOrShowDialog = useCallback(
-    async permissions => {
-      const checkedPermissions =
-        permissions ||
-        (await webviewIntent.call('checkPermissions', 'geolocationTracking'))
-
-      if (checkedPermissions.granted) {
-        await enableGeolocationTracking()
-      } else if (checkedPermissions.canRequest) {
-        setShowLocationRequestableDialog(true)
-      } else {
-        setShowLocationRefusedDialog(true)
-      }
-    },
-    [webviewIntent, enableGeolocationTracking]
-  )
-
-  useEffect(() => {
-    syncTrackingStatusWithFlagship()
-  }, [syncTrackingStatusWithFlagship])
-
-  useEffect(() => {
-    const checkGeolocationTrackingAvailability = async () => {
-      try {
-        const isAvailable = await webviewIntent.call(
-          'isAvailable',
-          FEATURE_NAME
-        )
-
-        setIsGeolocationTrackingAvailable(isAvailable)
-      } catch {
-        /* if isAvailable is not implemented it will throw an error */
-      }
-    }
-
-    if (isGeolocationTrackingPossible) {
-      checkGeolocationTrackingAvailability()
-    }
+    syncTrackingStatusWithFlagship(
+      webviewIntent,
+      setIsGeolocationTrackingEnabled
+    )
   }, [webviewIntent])
 
   const value = useMemo(
     () => ({
       isGeolocationTrackingAvailable,
-      disableGeolocationTracking,
-      checkPermissionsAndEnableTrackingOrShowDialog,
-      isGeolocationTrackingEnabled
+      isGeolocationTrackingEnabled,
+      disableGeolocationTracking: () =>
+        disableGeolocationTracking(
+          webviewIntent,
+          setIsGeolocationTrackingEnabled
+        ),
+      checkPermissionsAndEnableTrackingOrShowDialog: permissions =>
+        checkPermissionsAndEnableTrackingOrShowDialog({
+          permissions,
+          client,
+          lang,
+          t,
+          setIsGeolocationTrackingEnabled,
+          webviewIntent,
+          setShowLocationRequestableDialog,
+          setShowLocationRefusedDialog
+        })
     }),
     [
-      checkPermissionsAndEnableTrackingOrShowDialog,
-      disableGeolocationTracking,
+      isGeolocationTrackingAvailable,
       isGeolocationTrackingEnabled,
-      isGeolocationTrackingAvailable
+      webviewIntent,
+      client,
+      lang,
+      t
     ]
   )
 
@@ -151,9 +107,24 @@ export const GeolocationTrackingProvider = ({ children }) => {
                 'requestPermissions',
                 'geolocationTracking'
               )
-              await checkPermissionsAndEnableTrackingOrShowDialog(permissions)
+              await checkPermissionsAndEnableTrackingOrShowDialog({
+                client,
+                lang,
+                t,
+                setIsGeolocationTrackingEnabled,
+                permissions,
+                webviewIntent,
+                setShowLocationRequestableDialog,
+                setShowLocationRefusedDialog
+              })
             } else {
-              await enableGeolocationTracking()
+              await enableGeolocationTracking({
+                client,
+                lang,
+                t,
+                webviewIntent,
+                setIsGeolocationTrackingEnabled
+              })
             }
           }}
           onClose={() => {

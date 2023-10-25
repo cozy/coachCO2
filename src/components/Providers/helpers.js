@@ -1,8 +1,5 @@
 import { SETTINGS_DOCTYPE } from 'src/doctypes'
 
-import { isFlagshipApp } from 'cozy-device-helper'
-import flag from 'cozy-flags'
-
 export const saveAccountToSettings = ({ client, setting, account }) =>
   client.save({
     ...setting,
@@ -23,6 +20,3 @@ export const sortTimeserieSections = timeserie => {
 
   return timeserieWithSortedSections
 }
-
-export const isGeolocationTrackingPossible =
-  isFlagshipApp() && flag('coachco2.GPSMemory.enabled')
