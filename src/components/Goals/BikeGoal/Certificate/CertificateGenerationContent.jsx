@@ -54,7 +54,7 @@ const CertificateGenerationContent = ({ certificate }) => {
       <PDFCertificate
         t={t}
         username={getDisplayName(currentUser)}
-        daysToReach={() => getDaysToReach(settings)}
+        daysToReach={getDaysToReach(settings)}
         sourceIdentity={sourceIdentity}
         year={year}
         lang={lang}
