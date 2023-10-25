@@ -130,6 +130,11 @@
     }
   },
   "emptyContent": {
+    "welcome": {
+      "title": "Bienvenue sur votre Coach CO2",
+      "text": "Cette application est en phase expérimentale. Elle vous permettra d'enregistrer vos déplacements et de visualiser vos émissions de CO2.",
+      "action": "C'est parti !"
+    },
     "installApp": {
       "title": "Détecter vos déplacements\navec l'app Cozy Cloud",
       "text": "Installer l'application Cozy Cloud sur votre mobile pour enregistrer tous vos déplacements, en comprendre l'impact en émission de CO2, comptabiliser vos trajets en vélo, etc.",
@@ -144,10 +149,6 @@
       "text": "Aucun déplacement n’a encore été détecté depuis la source de données sélectionnée.",
       "action": "Changer la source de données"
     }
-  },
-  "empty": {
-    "title": "Ajoutez vos trajets",
-    "text": "Cette application est en phase expérimentale. Elle fonctionne à ce stade uniquement si vous êtes utilisateur de l'application mobile \"TraceMob\" et que vous en avez configuré le connecteur dans votre Cozy."
   },
   "manifest": {
     "short_description": "Conservez l'historique de vos déplacements et analysez leurs impacts sur l'environnement.",

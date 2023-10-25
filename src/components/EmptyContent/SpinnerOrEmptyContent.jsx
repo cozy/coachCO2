@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import EmptyContent from 'src/components/EmptyContent/EmptyContent'
+import Welcome from 'src/components/EmptyContent/Welcome'
 
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
@@ -17,7 +17,7 @@ const SpinnerOrEmptyContent = ({
   }
 
   if (!account) {
-    return <EmptyContent />
+    return <Welcome />
   }
 
   if (isQueryLoading) {
@@ -27,7 +27,7 @@ const SpinnerOrEmptyContent = ({
   }
 
   if (timeseries.length === 0) {
-    return <EmptyContent />
+    return <Welcome />
   }
 }
 

@@ -130,6 +130,11 @@
     }
   },
   "emptyContent": {
+    "welcome": {
+      "title": "Welcome to your CO2 Coach",
+      "text": "This application is currently being tested. It will allow you to record your journeys and view your CO2 emissions.",
+      "action": "Let's go!"
+    },
     "installApp": {
       "title": "Detect your movements\nwith the Cozy Cloud app",
       "text": "Install the Cozy Cloud application on your mobile phone to record all your journeys, understand their impact in terms of CO2 emissions, keep track of your journeys by bike, etc.",
@@ -144,10 +149,6 @@
       "text": "No travel has yet been detected from the selected data source.",
       "action": "Changing the data source"
     }
-  },
-  "empty": {
-    "title": "Add your trips",
-    "text": "This application is in experimental phase. It works at this stage only if you are a user of the mobile application \"TraceMob\" and that you have configured the connector in your Cozy."
   },
   "manifest": {
     "short_description": "Keep track of your trips and analyze their impact on the environment.",

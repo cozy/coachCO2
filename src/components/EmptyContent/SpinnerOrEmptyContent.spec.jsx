@@ -3,6 +3,10 @@ import React from 'react'
 import SpinnerOrEmptyContent from 'src/components/EmptyContent/SpinnerOrEmptyContent'
 import AppLike from 'test/AppLike'
 
+jest.mock('src/components/EmptyContent/Welcome', () => () => (
+  <div data-testid="EmptyContent" />
+))
+
 const setup = ({
   account,
   isAccountLoading,
