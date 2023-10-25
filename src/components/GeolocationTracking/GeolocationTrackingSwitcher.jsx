@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { createOpenPathAccount } from 'src/components/GeolocationTracking/helpers'
 import { useGeolocationTracking } from 'src/components/Providers/GeolocationTrackingProvider'
 
@@ -45,10 +45,10 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
   const [showLocationRefusedDialog, setShowLocationRefusedDialog] =
     useState(false)
 
-  const syncTrackingStatusWithFlagship = async () => {
+  const syncTrackingStatusWithFlagship = useCallback(async () => {
     const { enabled } = await getGeolocationTrackingStatus()
     setIsGeolocationTrackingEnabled(enabled)
-  }
+  }, [getGeolocationTrackingStatus])
 
   const disableGeolocationTracking = async () => {
     await setGeolocationTracking(false)
@@ -100,13 +100,8 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
   }
 
   useEffect(() => {
-    const fetchGeolocationTrackingStatus = async () => {
-      const { enabled } = await getGeolocationTrackingStatus()
-      setIsGeolocationTrackingEnabled(enabled)
-    }
-
-    fetchGeolocationTrackingStatus()
-  }, [getGeolocationTrackingStatus, isGeolocationTrackingEnabled])
+    syncTrackingStatusWithFlagship()
+  }, [syncTrackingStatusWithFlagship])
 
   return (
     <div className={className}>
