@@ -1,10 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { createOpenPathAccount } from 'src/components/GeolocationTracking/helpers'
+import React from 'react'
 import { useGeolocationTracking } from 'src/components/Providers/GeolocationTrackingProvider'
 
-import { useClient } from 'cozy-client'
-import { isAndroid } from 'cozy-device-helper'
-import { AllowLocationDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
 import Switch from 'cozy-ui/transpiled/react/Switch'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
@@ -23,72 +19,14 @@ const useStyles = makeStyles({
 
 export const GeolocationTrackingSwitcher = ({ className }) => {
   const {
-    setGeolocationTracking,
-    getGeolocationTrackingStatus,
-    getGeolocationTrackingId,
-    setGeolocationTrackingId,
-    checkGeolocationTrackingPermissions,
-    requestGeolocationTrackingPermissions,
-    openAppOSSettings,
-    getDeviceInfo
+    disableGeolocationTracking,
+    checkPermissionsAndEnableTrackingOrShowDialog,
+    isGeolocationTrackingEnabled
   } = useGeolocationTracking()
-  const client = useClient()
   const { isMobile } = useBreakpoints()
-  const { t, lang } = useI18n()
+  const { t } = useI18n()
 
   const classes = useStyles()
-
-  const [isGeolocationTrackingEnabled, setIsGeolocationTrackingEnabled] =
-    useState(false)
-  const [showLocationRequestableDialog, setShowLocationRequestableDialog] =
-    useState(false)
-  const [showLocationRefusedDialog, setShowLocationRefusedDialog] =
-    useState(false)
-
-  const syncTrackingStatusWithFlagship = useCallback(async () => {
-    const { enabled } = await getGeolocationTrackingStatus()
-    setIsGeolocationTrackingEnabled(enabled)
-  }, [getGeolocationTrackingStatus])
-
-  const disableGeolocationTracking = async () => {
-    await setGeolocationTracking(false)
-    await syncTrackingStatusWithFlagship()
-  }
-
-  const enableGeolocationTracking = async () => {
-    // create account if necessary
-    const geolocationTrackingId = await getGeolocationTrackingId()
-
-    if (geolocationTrackingId === null) {
-      const { deviceName } = await getDeviceInfo()
-
-      const { password } = await createOpenPathAccount({
-        client,
-        t,
-        lang,
-        deviceName
-      })
-
-      await setGeolocationTrackingId(password)
-    }
-
-    // enable geolocation tracking
-    await setGeolocationTracking(true)
-    await syncTrackingStatusWithFlagship()
-  }
-
-  const checkPermissionsAndEnableTrackingOrShowDialog = async permissions => {
-    const checkedPermissions =
-      permissions || (await checkGeolocationTrackingPermissions())
-
-    if (checkedPermissions.granted) {
-      await enableGeolocationTracking()
-    } else if (checkedPermissions.canRequest) {
-      setShowLocationRequestableDialog(true)
-    } else {
-      setShowLocationRefusedDialog(true)
-    }
-  }
 
   const handleChange = async () => {
     // we do not care about permissions when we want to disable geolocation tracking
@@ -98,10 +36,6 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
 
     await checkPermissionsAndEnableTrackingOrShowDialog()
   }
-
-  useEffect(() => {
-    syncTrackingStatusWithFlagship()
-  }, [syncTrackingStatusWithFlagship])
 
   return (
     <div className={className}>
@@ -113,42 +47,6 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
         onChange={() => handleChange()}
         control={<Switch color="primary" />}
       />
-      {showLocationRequestableDialog && (
-        <AllowLocationDialog
-          onAllow={async () => {
-            setShowLocationRequestableDialog(false)
-
-            /*
-              Special case because Android need to request permissions to check if they have been refused.
-              So we need to request them to call again the checkPermissionsBeforeHandleGeolocationTrackingChange method
-              with the correct permissions.
-            */
-            if (isAndroid()) {
-              const permissions = await requestGeolocationTrackingPermissions()
-              await checkPermissionsAndEnableTrackingOrShowDialog(permissions)
-            } else {
-              await enableGeolocationTracking()
-            }
-          }}
-          onClose={() => {
-            setShowLocationRequestableDialog(false)
-          }}
-        />
-      )}
-      {showLocationRefusedDialog && (
-        <AllowLocationDialog
-          onAllow={() => {
-            setShowLocationRefusedDialog(false)
-            openAppOSSettings()
-          }}
-          onClose={() => {
-            setShowLocationRefusedDialog(false)
-          }}
-          description={t(
-            'geolocationTracking.locationRefusedDialog.description'
-          )}
-        />
-      )}
     </div>
   )
 }
