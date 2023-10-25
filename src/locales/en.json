@@ -269,7 +269,7 @@
       "steps": {
         "naming": {
           "title": "Lastname and firstname",
-          "nameLegend": "The first and last names entered will be used to generate the certificate of achievement once the objective has been reached. Please fill in the following information:"
+          "nameLegend": "Fill in the following details to generate a certificate of achievement in your name:"
         },
         "daysToReach": {
           "title": "Set yourself a goal",

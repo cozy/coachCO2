@@ -269,7 +269,7 @@
       "steps": {
         "naming": {
           "title": "Nom et prénom",
-          "nameLegend": "Le nom et le prénom renseigné seront utilisés pour générer l'attestation de réussite une fois l'objectif atteint. Merci de remplir les informations suivantes :"
+          "nameLegend": "Renseigner les informations suivantes afin de générer l’attestation de réussite à votre nom :"
         },
         "daysToReach": {
           "title": "Fixez-vous un objectif",
