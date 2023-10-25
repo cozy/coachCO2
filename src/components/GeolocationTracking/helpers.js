@@ -175,3 +175,28 @@ export const checkAndSetGeolocationTrackingAvailability = async (
     }
   }
 }
+
+export const getNewPermissionAndEnabledTrackingOrShowDialog = async ({
+  webviewIntent,
+  client,
+  lang,
+  t,
+  setIsGeolocationTrackingEnabled,
+  setShowLocationRequestableDialog,
+  setShowLocationRefusedDialog
+}) => {
+  const permissions = await webviewIntent.call(
+    'requestPermissions',
+    'geolocationTracking'
+  )
+  await checkPermissionsAndEnableTrackingOrShowDialog({
+    client,
+    lang,
+    t,
+    setIsGeolocationTrackingEnabled,
+    permissions,
+    webviewIntent,
+    setShowLocationRequestableDialog,
+    setShowLocationRefusedDialog
+  })
+}

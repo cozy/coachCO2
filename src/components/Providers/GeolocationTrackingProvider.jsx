@@ -10,6 +10,7 @@ import {
   enableGeolocationTracking,
   checkPermissionsAndEnableTrackingOrShowDialog,
   syncTrackingStatusWithFlagship,
+  getNewPermissionAndEnabledTrackingOrShowDialog,
   checkAndSetGeolocationTrackingAvailability
 } from 'src/components/GeolocationTracking/helpers'
 
@@ -103,17 +104,12 @@ export const GeolocationTrackingProvider = ({ children }) => {
               with the correct permissions.
             */
             if (isAndroid()) {
-              const permissions = await webviewIntent.call(
-                'requestPermissions',
-                'geolocationTracking'
-              )
-              await checkPermissionsAndEnableTrackingOrShowDialog({
+              await getNewPermissionAndEnabledTrackingOrShowDialog({
+                webviewIntent,
                 client,
                 lang,
                 t,
                 setIsGeolocationTrackingEnabled,
-                permissions,
-                webviewIntent,
                 setShowLocationRequestableDialog,
                 setShowLocationRefusedDialog
               })
