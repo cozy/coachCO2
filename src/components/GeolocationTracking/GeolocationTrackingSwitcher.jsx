@@ -50,25 +50,6 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
     setIsGeolocationTrackingEnabled(enabled)
   }
 
-  const checkPermissionsBeforeHandleGeolocationTrackingChange =
-    async permissions => {
-      // we do not care about permissions when we want to disable geolocation tracking
-      if (isGeolocationTrackingEnabled) {
-        return await disableGeolocationTracking()
-      }
-
-      const checkedPermissions =
-        permissions || (await checkGeolocationTrackingPermissions())
-
-      if (checkedPermissions.granted) {
-        await enableGeolocationTracking()
-      } else if (checkedPermissions.canRequest) {
-        setShowLocationRequestableDialog(true)
-      } else {
-        setShowLocationRefusedDialog(true)
-      }
-    }
-
   const disableGeolocationTracking = async () => {
     await setGeolocationTracking(false)
     await syncTrackingStatusWithFlagship()
@@ -95,6 +76,25 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
     await setGeolocationTracking(true)
     await syncTrackingStatusWithFlagship()
   }
+
+  const checkPermissionsBeforeHandleGeolocationTrackingChange =
+    async permissions => {
+      // we do not care about permissions when we want to disable geolocation tracking
+      if (isGeolocationTrackingEnabled) {
+        return await disableGeolocationTracking()
+      }
+
+      const checkedPermissions =
+        permissions || (await checkGeolocationTrackingPermissions())
+
+      if (checkedPermissions.granted) {
+        await enableGeolocationTracking()
+      } else if (checkedPermissions.canRequest) {
+        setShowLocationRequestableDialog(true)
+      } else {
+        setShowLocationRefusedDialog(true)
+      }
+    }
 
   useEffect(() => {
     const fetchGeolocationTrackingStatus = async () => {
