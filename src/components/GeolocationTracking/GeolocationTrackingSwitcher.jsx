@@ -77,24 +77,27 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
     await syncTrackingStatusWithFlagship()
   }
 
-  const checkPermissionsBeforeHandleGeolocationTrackingChange =
-    async permissions => {
-      // we do not care about permissions when we want to disable geolocation tracking
-      if (isGeolocationTrackingEnabled) {
-        return await disableGeolocationTracking()
-      }
+  const checkPermissionsAndEnableTrackingOrShowDialog = async permissions => {
+    const checkedPermissions =
+      permissions || (await checkGeolocationTrackingPermissions())
 
-      const checkedPermissions =
-        permissions || (await checkGeolocationTrackingPermissions())
-
-      if (checkedPermissions.granted) {
-        await enableGeolocationTracking()
-      } else if (checkedPermissions.canRequest) {
-        setShowLocationRequestableDialog(true)
-      } else {
-        setShowLocationRefusedDialog(true)
-      }
+    if (checkedPermissions.granted) {
+      await enableGeolocationTracking()
+    } else if (checkedPermissions.canRequest) {
+      setShowLocationRequestableDialog(true)
+    } else {
+      setShowLocationRefusedDialog(true)
     }
+  }
+
+  const handleChange = async () => {
+    // we do not care about permissions when we want to disable geolocation tracking
+    if (isGeolocationTrackingEnabled) {
+      return await disableGeolocationTracking()
+    }
+
+    await checkPermissionsAndEnableTrackingOrShowDialog()
+  }
 
   useEffect(() => {
     const fetchGeolocationTrackingStatus = async () => {
@@ -112,7 +115,7 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
         label={t('geolocationTracking.settings.enable')}
         labelPlacement={isMobile ? 'start' : 'end'}
         checked={isGeolocationTrackingEnabled}
-        onChange={() => checkPermissionsBeforeHandleGeolocationTrackingChange()}
+        onChange={() => handleChange()}
         control={<Switch color="primary" />}
       />
       {showLocationRequestableDialog && (
@@ -126,12 +129,8 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
               with the correct permissions.
             */
             if (isAndroid()) {
-              const newPermissions =
-                await requestGeolocationTrackingPermissions()
-
-              await checkPermissionsBeforeHandleGeolocationTrackingChange(
-                newPermissions
-              )
+              const permissions = await requestGeolocationTrackingPermissions()
+              await checkPermissionsAndEnableTrackingOrShowDialog(permissions)
             } else {
               await enableGeolocationTracking()
             }
