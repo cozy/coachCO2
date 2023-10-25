@@ -45,19 +45,23 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
   const [showLocationRefusedDialog, setShowLocationRefusedDialog] =
     useState(false)
 
+  const syncTrackingStatusWithFlagship = async () => {
+    const { enabled } = await getGeolocationTrackingStatus()
+    setIsGeolocationTrackingEnabled(enabled)
+  }
+
   const checkPermissionsBeforeHandleGeolocationTrackingChange =
     async permissions => {
       // we do not care about permissions when we want to disable geolocation tracking
       if (isGeolocationTrackingEnabled) {
-        await handleGeolocationTrackingChange()
-        return
+        return await disableGeolocationTracking()
       }
 
-      let checkedPermissions =
+      const checkedPermissions =
         permissions || (await checkGeolocationTrackingPermissions())
 
       if (checkedPermissions.granted) {
-        await handleGeolocationTrackingChange()
+        await enableGeolocationTracking()
       } else if (checkedPermissions.canRequest) {
         setShowLocationRequestableDialog(true)
       } else {
@@ -65,24 +69,14 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
       }
     }
 
-  const handleGeolocationTrackingChange = async () => {
-    if (isGeolocationTrackingEnabled) {
-      await disableGeolocationTracking()
-    } else {
-      await enableGeolocationTracking()
-    }
-
-    const { enabled } = await getGeolocationTrackingStatus()
-    setIsGeolocationTrackingEnabled(enabled)
-  }
-
   const disableGeolocationTracking = async () => {
     await setGeolocationTracking(false)
+    await syncTrackingStatusWithFlagship()
   }
 
   const enableGeolocationTracking = async () => {
     // create account if necessary
-    let geolocationTrackingId = await getGeolocationTrackingId()
+    const geolocationTrackingId = await getGeolocationTrackingId()
 
     if (geolocationTrackingId === null) {
       const { deviceName } = await getDeviceInfo()
@@ -99,6 +93,7 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
 
     // enable geolocation tracking
     await setGeolocationTracking(true)
+    await syncTrackingStatusWithFlagship()
   }
 
   useEffect(() => {
@@ -138,7 +133,7 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
                 newPermissions
               )
             } else {
-              await handleGeolocationTrackingChange()
+              await enableGeolocationTracking()
             }
           }}
           onClose={() => {
