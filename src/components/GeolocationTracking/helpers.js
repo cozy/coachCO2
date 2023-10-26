@@ -103,7 +103,8 @@ export const enableGeolocationTracking = async ({
   lang,
   t,
   webviewIntent,
-  setIsGeolocationTrackingEnabled
+  setIsGeolocationTrackingEnabled,
+  setShowOpenPathKonnectorDialog
 }) => {
   // create account if necessary
   const geolocationTrackingId = await webviewIntent?.call(
@@ -116,12 +117,24 @@ export const enableGeolocationTracking = async ({
     }
 
     if (deviceName) {
-      const { password } = await createOpenPathAccount({
-        client,
-        t,
-        lang,
-        deviceName
-      })
+      let password
+
+      try {
+        const account = await createOpenPathAccount({
+          client,
+          t,
+          lang,
+          deviceName
+        })
+        password = account.password
+      } catch (e) {
+        const { errors } = JSON.parse(e.message)
+        if (errors[0].detail === 'Application is not installed') {
+          setShowOpenPathKonnectorDialog(true)
+        } else {
+          throw e
+        }
+      }
 
       await webviewIntent?.call('setGeolocationTrackingId', password)
     }
@@ -143,7 +156,8 @@ export const checkPermissionsAndEnableTrackingOrShowDialog = async ({
   permissions,
   webviewIntent,
   setShowLocationRequestableDialog,
-  setShowLocationRefusedDialog
+  setShowLocationRefusedDialog,
+  setShowOpenPathKonnectorDialog
 }) => {
   const checkedPermissions =
     permissions ||
@@ -156,7 +170,8 @@ export const checkPermissionsAndEnableTrackingOrShowDialog = async ({
       lang,
       t,
       webviewIntent,
-      setIsGeolocationTrackingEnabled
+      setIsGeolocationTrackingEnabled,
+      setShowOpenPathKonnectorDialog
     })
   } else if (checkedPermissions.canRequest) {
     setShowLocationRequestableDialog(true)
@@ -191,7 +206,8 @@ export const getNewPermissionAndEnabledTrackingOrShowDialog = async ({
   t,
   setIsGeolocationTrackingEnabled,
   setShowLocationRequestableDialog,
-  setShowLocationRefusedDialog
+  setShowLocationRefusedDialog,
+  setShowOpenPathKonnectorDialog
 }) => {
   const permissions = await webviewIntent?.call(
     'requestPermissions',
@@ -205,6 +221,7 @@ export const getNewPermissionAndEnabledTrackingOrShowDialog = async ({
     permissions,
     webviewIntent,
     setShowLocationRequestableDialog,
-    setShowLocationRefusedDialog
+    setShowLocationRefusedDialog,
+    setShowOpenPathKonnectorDialog
   })
 }

@@ -315,6 +315,11 @@
     "locationRefusedDialog": {
       "description": "Pour enregistrer vos déplacements, vous devez donner accès à Cozy à votre « position » et à votre « activité physique ». Vous allez être redirigé vers les paramètres de l'app."
     },
+    "installOpenPathKonnectorDialog": {
+      "description": "Cette fonctionnalité demande l'installation du connecteur OpenPath",
+      "cancel": "Annuler",
+      "install": "Installer"
+    },
     "settings": {
       "enable": "Mémoriser mes déplacements",
       "sendLogs": "Envoyer les logs de Geoloc",
