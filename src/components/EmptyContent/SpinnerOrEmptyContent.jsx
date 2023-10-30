@@ -10,7 +10,7 @@ const SpinnerOrEmptyContent = ({
   isTimeseriesLoading,
   timeseries
 }) => {
-  if (isAccountLoading) {
+  if (isAccountLoading || isTimeseriesLoading) {
     return (
       <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
     )
@@ -18,12 +18,6 @@ const SpinnerOrEmptyContent = ({
 
   if (!account) {
     return <Welcome />
-  }
-
-  if (isTimeseriesLoading) {
-    return (
-      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
-    )
   }
 
   if (timeseries.length === 0) {
