@@ -81,7 +81,9 @@ export const syncTrackingStatusWithFlagship = async (
   webviewIntent,
   setIsGeolocationTrackingEnabled
 ) => {
-  const { enabled } = await webviewIntent.call('getGeolocationTrackingStatus')
+  const { enabled } = (await webviewIntent?.call(
+    'getGeolocationTrackingStatus'
+  )) || { enabled: false }
   setIsGeolocationTrackingEnabled(enabled)
 }
 
@@ -89,7 +91,7 @@ export const disableGeolocationTracking = async (
   webviewIntent,
   setIsGeolocationTrackingEnabled
 ) => {
-  await webviewIntent.call('setGeolocationTracking', false)
+  await webviewIntent?.call('setGeolocationTracking', false)
   await syncTrackingStatusWithFlagship(
     webviewIntent,
     setIsGeolocationTrackingEnabled
@@ -104,25 +106,29 @@ export const enableGeolocationTracking = async ({
   setIsGeolocationTrackingEnabled
 }) => {
   // create account if necessary
-  const geolocationTrackingId = await webviewIntent.call(
+  const geolocationTrackingId = await webviewIntent?.call(
     'getGeolocationTrackingId'
   )
 
   if (geolocationTrackingId === null) {
-    const { deviceName } = await webviewIntent.call('getDeviceInfo')
+    const { deviceName } = (await webviewIntent?.call('getDeviceInfo')) || {
+      deviceName: null
+    }
 
-    const { password } = await createOpenPathAccount({
-      client,
-      t,
-      lang,
-      deviceName
-    })
+    if (deviceName) {
+      const { password } = await createOpenPathAccount({
+        client,
+        t,
+        lang,
+        deviceName
+      })
 
-    await webviewIntent.call('setGeolocationTrackingId', password)
+      await webviewIntent?.call('setGeolocationTrackingId', password)
+    }
   }
 
   // enable geolocation tracking
-  await webviewIntent.call('setGeolocationTracking', true)
+  await webviewIntent?.call('setGeolocationTracking', true)
   await syncTrackingStatusWithFlagship(
     webviewIntent,
     setIsGeolocationTrackingEnabled
@@ -141,7 +147,8 @@ export const checkPermissionsAndEnableTrackingOrShowDialog = async ({
 }) => {
   const checkedPermissions =
     permissions ||
-    (await webviewIntent.call('checkPermissions', 'geolocationTracking'))
+    (await webviewIntent?.call('checkPermissions', 'geolocationTracking')) ||
+    {}
 
   if (checkedPermissions.granted) {
     await enableGeolocationTracking({
@@ -167,7 +174,8 @@ export const checkAndSetGeolocationTrackingAvailability = async (
 ) => {
   if (isGeolocationTrackingPossible) {
     try {
-      const isAvailable = await webviewIntent.call('isAvailable', FEATURE_NAME)
+      const isAvailable =
+        (await webviewIntent?.call('isAvailable', FEATURE_NAME)) || false
 
       setIsGeolocationTrackingAvailable(isAvailable)
     } catch {
@@ -185,7 +193,7 @@ export const getNewPermissionAndEnabledTrackingOrShowDialog = async ({
   setShowLocationRequestableDialog,
   setShowLocationRefusedDialog
 }) => {
-  const permissions = await webviewIntent.call(
+  const permissions = await webviewIntent?.call(
     'requestPermissions',
     'geolocationTracking'
   )
