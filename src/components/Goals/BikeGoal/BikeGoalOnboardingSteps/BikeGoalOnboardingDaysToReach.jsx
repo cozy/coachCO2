@@ -27,6 +27,7 @@ const BikeGoalOnboardingDaysToReach = forwardRef((props, ref) => {
   const { onboardingStep = 0, daysToReach = 100 } = bikeGoal
   const [unsavedDaysToReach, setUnsavedDaysToReach] = useState(daysToReach)
   const styles = createStyles()
+  const isError = unsavedDaysToReach === '' || unsavedDaysToReach <= 0
 
   const handleBack = async () => {
     toggleBusy()
@@ -48,7 +49,7 @@ const BikeGoalOnboardingDaysToReach = forwardRef((props, ref) => {
   }
 
   const isForwardDisabled = () => {
-    if (unsavedDaysToReach === '') {
+    if (isError) {
       return true
     }
     return false
@@ -75,6 +76,13 @@ const BikeGoalOnboardingDaysToReach = forwardRef((props, ref) => {
                 type="number"
                 label={t('bikeGoal.goal')}
                 defaultValue={unsavedDaysToReach}
+                error={isError}
+                helperText={
+                  isError
+                    ? t('bikeGoal.onboarding.steps.daysToReach.error')
+                    : ' '
+                }
+                inputProps={{ min: '1', step: '1' }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">

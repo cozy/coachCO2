@@ -286,11 +286,12 @@
       "steps": {
         "naming": {
           "title": "Nom et prénom",
-          "nameLegend": "Le nom et le prénom renseigné seront utilisés pour générer l'attestation de réussite une fois l'objectif atteint. Merci de remplir les informations suivantes :"
+          "nameLegend": "Renseigner les informations suivantes afin de générer l’attestation de réussite à votre nom :"
         },
         "daysToReach": {
           "title": "Fixez-vous un objectif",
-          "legend": "Définissez un nombre de jours à vélo ou trottinette pour vos trajets domicile-travail et suivez votre avancement avec votre Coach CO2.\n\nUne fois votre objectif atteint, vous recevrez une alerte ainsi qu’une attestation de réussite à transmettre à votre employeur."
+          "legend": "Définissez un nombre de jours à vélo ou trottinette pour vos trajets domicile-travail et suivez votre avancement avec votre Coach CO2.\n\nUne fois votre objectif atteint, vous recevrez une alerte ainsi qu’une attestation de réussite à transmettre à votre employeur.",
+          "error": "Définissez un objectif plus réaliste. Entrer une valeur supérieure à 0."
         },
         "comparison": {
           "comparisonLegend": "Il vous est possible d’afficher la progression moyenne des membres de votre organisation %{source} qui participent à l’objectif. Pour cela, il vous sera demandé de participer également à la constitution de cette moyenne.\n\nVos données de progression seront agrégées et envoyées anonymement, elles ne contiendront aucun identifiant ni lieux.",

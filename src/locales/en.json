@@ -286,11 +286,12 @@
       "steps": {
         "naming": {
           "title": "Lastname and firstname",
-          "nameLegend": "The first and last names entered will be used to generate the certificate of achievement once the objective has been reached. Please fill in the following information:"
+          "nameLegend": "Fill in the following details to generate a certificate of achievement in your name:"
         },
         "daysToReach": {
           "title": "Set yourself a goal",
-          "legend": "Set a number of days for your home-to-work journeys by bike or scooter and track your progress with your CO2 Coach.\n\nOnce you've reached your target, you'll receive an alert and a certificate of achievement to send to your employer."
+          "legend": "Set a number of days for your home-to-work journeys by bike or scooter and track your progress with your CO2 Coach.\n\nOnce you've reached your target, you'll receive an alert and a certificate of achievement to send to your employer.",
+          "error": "Set a more realistic goal. Enter a value greater than 0."
         },
         "comparison": {
           "comparisonLegend": "You can display the average progress of the members of your organisation %{source} who are participating in the objective. To do this, you will be asked to participate in the creation of this average.\n\nYour progress data will be aggregated and sent anonymously, and will not contain any identifiers or locations.",

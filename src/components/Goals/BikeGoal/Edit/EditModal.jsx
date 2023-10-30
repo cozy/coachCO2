@@ -14,6 +14,15 @@ const BikeGoalEdit = ({ itemName, onClose }) => {
   const [currentValue, setCurrentValue] = useState(value)
   const [isBusy, setIsBusy] = useState(false)
 
+  const isDaysToReach = itemName === 'daysToReach'
+  const isDisabled = !currentValue || (isDaysToReach && currentValue <= 0)
+  const isError = !currentValue || (isDaysToReach && currentValue <= 0)
+  const helperText = !currentValue
+    ? t('bikeGoal.edit.required')
+    : isDaysToReach && isError
+    ? t('bikeGoal.onboarding.steps.daysToReach.error')
+    : ' '
+
   const handleSubmit = async () => {
     setIsBusy(true)
     await save(currentValue)
@@ -33,12 +42,14 @@ const BikeGoalEdit = ({ itemName, onClose }) => {
         ) : (
           <TextField
             variant="outlined"
-            maring="normal"
-            defaultValue={value}
+            marging="normal"
+            type={isDaysToReach ? 'number' : undefined}
+            inputProps={isDaysToReach ? { min: '1', step: '1' } : undefined}
+            defaultValue={currentValue}
             required
             fullWidth
-            error={!value}
-            helperText={!value ? t('bikeGoal.edit.required') : ' '}
+            error={isError}
+            helperText={helperText}
             onChange={ev => setCurrentValue(ev.target.value)}
           />
         )
@@ -54,7 +65,7 @@ const BikeGoalEdit = ({ itemName, onClose }) => {
             className="u-miw-4"
             label={t('bikeGoal.edit.submit')}
             busy={isBusy}
-            disabled={!currentValue}
+            disabled={isDisabled}
             onClick={handleSubmit}
           />
         </>
