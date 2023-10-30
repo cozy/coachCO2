@@ -315,6 +315,11 @@
     "locationRefusedDialog": {
       "description": "To record your movements, you need to give Cozy access to your \"location\" and \"physical activity\". You will be redirected to the app settings."
     },
+    "installOpenPathKonnectorDialog": {
+      "description": "This feature requires the OpenPath connector to be installed",
+      "cancel": "Cancel",
+      "install": "Install"
+    },
     "settings": {
       "enable": "Memorise my journeys",
       "sendLogs": "Send Geoloc logs",
