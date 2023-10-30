@@ -18,7 +18,7 @@ const setup = ({
       <SpinnerOrEmptyContent
         account={account}
         isAccountLoading={isAccountLoading}
-        isQueryLoading={isQueryLoading}
+        isTimeseriesLoading={isQueryLoading}
         timeseries={timeseries}
       />
     </AppLike>
@@ -38,16 +38,16 @@ describe('SpinnerOrEmptyContent', () => {
     expect(queryByTestId('EmptyContent')).toBeNull()
   })
 
-  it('should show the "empty page" if no account, even is the data query is pending', () => {
-    const { getByTestId, queryByRole } = setup({
+  it('should not show the "empty page" if no account when data query is pending', () => {
+    const { queryByTestId, queryByRole } = setup({
       account: null,
       isAccountLoading: false,
       isQueryLoading: true,
       timeseries: null
     })
 
-    expect(queryByRole('progressbar')).toBeNull()
-    expect(getByTestId('EmptyContent'))
+    expect(queryByRole('progressbar'))
+    expect(queryByTestId('EmptyContent')).toBeNull()
   })
 
   it('should show a spinner if data query is loading, even if there is an account', () => {

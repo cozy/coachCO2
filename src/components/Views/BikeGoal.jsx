@@ -46,7 +46,7 @@ const Bikegoal = () => {
       <SpinnerOrEmptyContent
         account={account}
         isAccountLoading={isAccountLoading}
-        isQueryLoading={isLoadingTimeseriesQuery}
+        isTimeseriesLoading={isLoadingTimeseriesQuery}
         timeseries={timeseries}
       />
     )
