@@ -4,10 +4,6 @@ import AppVersionNumber from 'src/components/AppVersionNumber'
 import CO2EmissionDaccAlertSwitcher from 'src/components/CO2EmissionDaccAlertSwitcher'
 import CO2EmissionDaccSwitcher from 'src/components/CO2EmissionDaccSwitcher'
 import CsvExporter from 'src/components/ExportCSV/CsvExporter'
-import {
-  GeolocationTrackingProvider,
-  useGeolocationTracking
-} from 'src/components/GeolocationTracking/GeolocationTrackingProvider'
 import GeolocationTrackingSettings from 'src/components/GeolocationTracking/GeolocationTrackingSettings'
 import GeolocationTrackingSwitcher from 'src/components/GeolocationTracking/GeolocationTrackingSwitcher'
 import BikeGoalAlertSuccessSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSuccessSwitcher'
@@ -19,6 +15,7 @@ import {
   useAccountContext,
   getAccountLabel
 } from 'src/components/Providers/AccountProvider'
+import { useGeolocationTracking } from 'src/components/Providers/GeolocationTrackingProvider'
 import Titlebar from 'src/components/Titlebar'
 
 import flag from 'cozy-flags'
@@ -81,12 +78,4 @@ export const Settings = () => {
   )
 }
 
-const WrappedSettings = () => {
-  return (
-    <GeolocationTrackingProvider>
-      <Settings />
-    </GeolocationTrackingProvider>
-  )
-}
-
-export default WrappedSettings
+export default Settings

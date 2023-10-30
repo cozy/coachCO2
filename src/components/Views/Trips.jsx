@@ -1,12 +1,12 @@
 import React from 'react'
 import CO2EmissionsChart from 'src/components/CO2EmissionsChart/CO2EmissionsChart'
 import CO2EmissionDaccManager from 'src/components/DaccManager/CO2EmissionDaccManager'
+import SpinnerOrEmptyContent from 'src/components/EmptyContent/SpinnerOrEmptyContent'
 import BikeGoalManager from 'src/components/Goals/BikeGoal/BikeGoalManager'
 import {
   useAccountContext,
   getAccountLabel
 } from 'src/components/Providers/AccountProvider'
-import SpinnerOrEmptyContent from 'src/components/SpinnerOrEmptyContent'
 import Titlebar from 'src/components/Titlebar'
 import TripsList from 'src/components/TripsList'
 import { buildAggregatedTimeseriesQueryByAccountId } from 'src/queries/queries'

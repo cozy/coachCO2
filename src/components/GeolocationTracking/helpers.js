@@ -8,6 +8,8 @@ import flag from 'cozy-flags'
 import ConnectionFlow from 'cozy-harvest-lib/dist/models/ConnectionFlow'
 import { getRandomUUID } from 'cozy-ui/transpiled/react/helpers/getRandomUUID'
 
+const FEATURE_NAME = 'geolocationTracking'
+
 export const createOpenPathAccount = async ({
   client,
   t,
@@ -75,5 +77,126 @@ export const getOpenPathAccountName = async ({
   )} ${new Date().toLocaleDateString(lang)}`
 }
 
+export const syncTrackingStatusWithFlagship = async (
+  webviewIntent,
+  setIsGeolocationTrackingEnabled
+) => {
+  const { enabled } = await webviewIntent.call('getGeolocationTrackingStatus')
+  setIsGeolocationTrackingEnabled(enabled)
+}
+
+export const disableGeolocationTracking = async (
+  webviewIntent,
+  setIsGeolocationTrackingEnabled
+) => {
+  await webviewIntent.call('setGeolocationTracking', false)
+  await syncTrackingStatusWithFlagship(
+    webviewIntent,
+    setIsGeolocationTrackingEnabled
+  )
+}
+
+export const enableGeolocationTracking = async ({
+  client,
+  lang,
+  t,
+  webviewIntent,
+  setIsGeolocationTrackingEnabled
+}) => {
+  // create account if necessary
+  const geolocationTrackingId = await webviewIntent.call(
+    'getGeolocationTrackingId'
+  )
+
+  if (geolocationTrackingId === null) {
+    const { deviceName } = await webviewIntent.call('getDeviceInfo')
+
+    const { password } = await createOpenPathAccount({
+      client,
+      t,
+      lang,
+      deviceName
+    })
+
+    await webviewIntent.call('setGeolocationTrackingId', password)
+  }
+
+  // enable geolocation tracking
+  await webviewIntent.call('setGeolocationTracking', true)
+  await syncTrackingStatusWithFlagship(
+    webviewIntent,
+    setIsGeolocationTrackingEnabled
+  )
+}
+
+export const checkPermissionsAndEnableTrackingOrShowDialog = async ({
+  client,
+  lang,
+  t,
+  setIsGeolocationTrackingEnabled,
+  permissions,
+  webviewIntent,
+  setShowLocationRequestableDialog,
+  setShowLocationRefusedDialog
+}) => {
+  const checkedPermissions =
+    permissions ||
+    (await webviewIntent.call('checkPermissions', 'geolocationTracking'))
+
+  if (checkedPermissions.granted) {
+    await enableGeolocationTracking({
+      client,
+      lang,
+      t,
+      webviewIntent,
+      setIsGeolocationTrackingEnabled
+    })
+  } else if (checkedPermissions.canRequest) {
+    setShowLocationRequestableDialog(true)
+  } else {
+    setShowLocationRefusedDialog(true)
+  }
+}
+
 export const isGeolocationTrackingPossible =
   isFlagshipApp() && flag('coachco2.GPSMemory.enabled')
+
+export const checkAndSetGeolocationTrackingAvailability = async (
+  webviewIntent,
+  setIsGeolocationTrackingAvailable
+) => {
+  if (isGeolocationTrackingPossible) {
+    try {
+      const isAvailable = await webviewIntent.call('isAvailable', FEATURE_NAME)
+
+      setIsGeolocationTrackingAvailable(isAvailable)
+    } catch {
+      /* if isAvailable is not implemented it will throw an error */
+    }
+  }
+}
+
+export const getNewPermissionAndEnabledTrackingOrShowDialog = async ({
+  webviewIntent,
+  client,
+  lang,
+  t,
+  setIsGeolocationTrackingEnabled,
+  setShowLocationRequestableDialog,
+  setShowLocationRefusedDialog
+}) => {
+  const permissions = await webviewIntent.call(
+    'requestPermissions',
+    'geolocationTracking'
+  )
+  await checkPermissionsAndEnableTrackingOrShowDialog({
+    client,
+    lang,
+    t,
+    setIsGeolocationTrackingEnabled,
+    permissions,
+    webviewIntent,
+    setShowLocationRequestableDialog,
+    setShowLocationRefusedDialog
+  })
+}

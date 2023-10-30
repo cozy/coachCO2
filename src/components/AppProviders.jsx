@@ -1,5 +1,6 @@
 import React from 'react'
 import AccountProvider from 'src/components/Providers/AccountProvider'
+import { GeolocationTrackingProvider } from 'src/components/Providers/GeolocationTrackingProvider'
 import SelectDatesProvider from 'src/components/Providers/SelectDatesProvider'
 import {
   CONTACTS_DOCTYPE,
@@ -44,7 +45,11 @@ const AppProviders = ({ client, lang, polyglot, children }) => {
               <I18n lang={lang} polyglot={polyglot}>
                 <CozyTheme className="u-w-100">
                   <BreakpointsProvider>
-                    <AlertProvider>{children}</AlertProvider>
+                    <AlertProvider>
+                      <GeolocationTrackingProvider>
+                        {children}
+                      </GeolocationTrackingProvider>
+                    </AlertProvider>
                   </BreakpointsProvider>
                 </CozyTheme>
               </I18n>

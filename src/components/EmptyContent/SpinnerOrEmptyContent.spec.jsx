@@ -1,8 +1,11 @@
 import { render } from '@testing-library/react'
 import React from 'react'
+import SpinnerOrEmptyContent from 'src/components/EmptyContent/SpinnerOrEmptyContent'
 import AppLike from 'test/AppLike'
 
-import SpinnerOrEmptyContent from './SpinnerOrEmptyContent'
+jest.mock('src/components/EmptyContent/Welcome', () => () => (
+  <div data-testid="EmptyContent" />
+))
 
 const setup = ({
   account,

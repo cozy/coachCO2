@@ -12,3 +12,16 @@ jest.mock('cozy-ui/transpiled/react/utils/color', () => ({
   getCssVariableValue: () => '#fff',
   getInvertedCssVariableValue: () => '#fff'
 }))
+
+jest.mock('cozy-harvest-lib/dist/models/ConnectionFlow', () => () => ({
+  createAccountSilently: jest.fn()
+}))
+
+jest.mock('cozy-intent', () => ({
+  ...jest.requireActual('cozy-intent'),
+  useWebviewIntent: () => ({
+    call: name => {
+      if (name === 'getGeolocationTrackingStatus') return { enabled: false }
+    }
+  })
+}))
