@@ -1,9 +1,5 @@
 import { getOpenPathAccountName, enableGeolocationTracking } from './helpers'
 
-jest.mock('cozy-harvest-lib/dist/models/ConnectionFlow', () => ({
-  createAccountSilently: jest.fn()
-}))
-
 const t = () => 'créé le'
 
 describe('getOpenPathAccountName', () => {
