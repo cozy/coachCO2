@@ -7,7 +7,7 @@ import Spinner from 'cozy-ui/transpiled/react/Spinner'
 const SpinnerOrEmptyContent = ({
   account,
   isAccountLoading,
-  isQueryLoading,
+  isTimeseriesLoading,
   timeseries
 }) => {
   if (isAccountLoading) {
@@ -20,7 +20,7 @@ const SpinnerOrEmptyContent = ({
     return <Welcome />
   }
 
-  if (isQueryLoading) {
+  if (isTimeseriesLoading) {
     return (
       <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
     )
@@ -34,7 +34,7 @@ const SpinnerOrEmptyContent = ({
 SpinnerOrEmptyContent.propTypes = {
   account: PropTypes.object,
   isAccountLoading: PropTypes.bool,
-  isQueryLoading: PropTypes.bool,
+  isTimeseriesLoading: PropTypes.bool,
   timeseries: PropTypes.arrayOf(PropTypes.object)
 }
 

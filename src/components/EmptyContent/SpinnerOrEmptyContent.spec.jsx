@@ -18,7 +18,7 @@ const setup = ({
       <SpinnerOrEmptyContent
         account={account}
         isAccountLoading={isAccountLoading}
-        isQueryLoading={isQueryLoading}
+        isTimeseriesLoading={isQueryLoading}
         timeseries={timeseries}
       />
     </AppLike>
