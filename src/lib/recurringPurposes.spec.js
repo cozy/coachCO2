@@ -17,7 +17,8 @@ import {
   findStartAndEnd,
   shouldSetCommutePurpose,
   findSimilarRecurringTimeseries,
-  filterTripsBasedOnDistance
+  filterTripsBasedOnDistance,
+  setAddressContactRelationShip
 } from './recurringPurposes'
 
 const mockClient = createMockClient({})
@@ -621,5 +622,43 @@ describe('filterTripsBasedOnDistance', () => {
       }
     ]
     expect(filterTripsBasedOnDistance(timeseries, 100)).toEqual(timeseries)
+  })
+})
+
+describe('setAddressContactRelationShip', () => {
+  it('should add the new relationship without overwrite the existing one', () => {
+    const timeserie = {
+      relationships: {
+        startPlaceContact: {
+          data: {
+            _id: '456',
+            _type: 'io.cozy.contacts'
+          }
+        }
+      }
+    }
+    const contact = {
+      _id: '123'
+    }
+    const addressId = 'abc'
+    const tsWithRel = setAddressContactRelationShip({
+      timeserie,
+      contact,
+      addressId,
+      relType: 'endPlaceContact'
+    })
+    const expected = {
+      relationships: {
+        startPlaceContact: { data: { _id: '456', _type: 'io.cozy.contacts' } },
+        endPlaceContact: {
+          data: {
+            _id: '123',
+            _type: 'io.cozy.contacts',
+            metadata: { addressId: 'abc' }
+          }
+        }
+      }
+    }
+    expect(tsWithRel).toEqual(expected)
   })
 })
