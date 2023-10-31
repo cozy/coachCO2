@@ -9,6 +9,7 @@ const main = async () => {
   parser.addArgument('--only-automatic-purposes', { defaultValue: false })
   parser.addArgument('--from-date', { defaultValue: null })
   parser.addArgument('--remove-recurring', { defaultValue: true })
+  parser.addArgument('--remove-relationships', { defaultValue: false })
   const args = parser.parseArgs()
 
   const client = await createClientInteractive({
@@ -50,6 +51,10 @@ const main = async () => {
     }
     if (args.remove_recurring) {
       delete doc.aggregation.recurring
+      shouldUpdate = true
+    }
+    if (args.remove_relationships) {
+      delete doc.relationships
       shouldUpdate = true
     }
     if (shouldUpdate) {
