@@ -7,7 +7,7 @@ import {
   TRIPS_DISTANCE_SIMILARITY_RATIO,
   WORK_ADDRESS_CATEGORY
 } from 'src/constants'
-import { CONTACTS_DOCTYPE } from 'src/doctypes'
+import { CONTACTS_DOCTYPE, GEOJSON_DOCTYPE } from 'src/doctypes'
 import {
   getEndPlaceCoordinates,
   getStartPlaceCoordinates,
@@ -111,7 +111,7 @@ export const findClosestStartAndEnd = (timeserie, contacts) => {
   return { closestStart, closestEnd }
 }
 
-const setAddressContactRelationShip = ({
+export const setAddressContactRelationShip = ({
   timeserie,
   contact,
   addressId,
@@ -652,7 +652,13 @@ const saveTrips = async ({ client, timeseriesToUpdate, t }) => {
   if (timeseriesToUpdate.length > 0) {
     log('info', `${timeseriesToUpdate.length} trips to update`)
 
-    for (const timeserie of timeseriesToUpdate) {
+    // ATM, necessary because of https://github.com/cozy/cozy-client/issues/493
+    const timeseries = client.hydrateDocuments(
+      GEOJSON_DOCTYPE,
+      timeseriesToUpdate
+    )
+
+    for (const timeserie of timeseries) {
       set(
         timeserie,
         'aggregation.automaticTitle',
