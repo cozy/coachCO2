@@ -55,6 +55,19 @@ export const buildAggregatedTimeseriesQueryByAccountId = ({
   }
 })
 
+export const buildHasTimeseriesQueryByAccountId = accountId => ({
+  definition: Q(GEOJSON_DOCTYPE)
+    .where({
+      'cozyMetadata.sourceAccount': accountId
+    })
+    .select(['cozyMetadata.sourceAccount'])
+    .limitBy(1),
+  options: {
+    as: `${GEOJSON_DOCTYPE}/hasTimeseries/sourceAccount/${accountId}`,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+  }
+})
+
 export const buildTimeseriesQueryByAccountIdAndDate = ({
   accountId,
   date = null

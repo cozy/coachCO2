@@ -12,7 +12,7 @@ import { isQueryLoading, useQueryAll, useQuery } from 'cozy-client'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
 const Bikegoal = () => {
-  const { account, isAccountLoading } = useAccountContext()
+  const { account, accounts, isAccountLoading } = useAccountContext()
   const { isMobile } = useBreakpoints()
 
   const settingsQuery = buildSettingsQuery()
@@ -45,6 +45,7 @@ const Bikegoal = () => {
     return (
       <SpinnerOrEmptyContent
         account={account}
+        accounts={accounts}
         isAccountLoading={isAccountLoading}
         isTimeseriesLoading={isLoadingTimeseriesQuery}
         timeseries={timeseries}
