@@ -90,26 +90,40 @@ export const updateSectionMode = ({ timeserie, sectionId, mode }) => {
   return currentSectionsUpdated
 }
 
-export const makeAggregationTitle = (timeserie, t) => {
+/**
+ * Build a title based on contacts and display names.
+ *
+ * Note the timeserie MUST be hydrated with contacts relationship, which is not
+ * automatically done, notably in node.
+ * See: https://github.com/cozy/cozy-client/issues/493
+ *
+ *
+ * @param {import('./types').TimeseriesGeoJSON} timeserieWithContacts - The timeserie that may includes contacts
+ * @param {function(string)} t - The translation function
+ * @returns {string} The built title
+ */
+export const makeAggregationTitle = (timeserieWithContacts, t) => {
   const startLabelByContact = getPlaceLabelByContact({
-    timeserie,
+    timeserie: timeserieWithContacts,
     type: 'start',
     t
   })
   const endLabelByContact = getPlaceLabelByContact({
-    timeserie,
+    timeserie: timeserieWithContacts,
     type: 'end',
     t
   })
   const startCity =
-    getStartPlaceDisplayName(timeserie)?.split(',')?.[1]?.trim() || ''
+    getStartPlaceDisplayName(timeserieWithContacts)?.split(',')?.[1]?.trim() ||
+    ''
   const endCity =
-    getEndPlaceDisplayName(timeserie)?.split(',')?.[1]?.trim() || ''
+    getEndPlaceDisplayName(timeserieWithContacts)?.split(',')?.[1]?.trim() || ''
 
   if (startLabelByContact || endLabelByContact) {
     const startLabel =
-      startLabelByContact || getStartPlaceDisplayName(timeserie)
-    const endLabel = endLabelByContact || getEndPlaceDisplayName(timeserie)
+      startLabelByContact || getStartPlaceDisplayName(timeserieWithContacts)
+    const endLabel =
+      endLabelByContact || getEndPlaceDisplayName(timeserieWithContacts)
 
     return `${startLabel} > ${endLabel}`
   }
@@ -118,7 +132,7 @@ export const makeAggregationTitle = (timeserie, t) => {
     return `${startCity} > ${endCity}`.trim()
   }
 
-  return getEndPlaceDisplayName(timeserie)
+  return getEndPlaceDisplayName(timeserieWithContacts)
 }
 
 /**
