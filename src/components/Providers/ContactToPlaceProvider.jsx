@@ -30,7 +30,8 @@ const ContactToPlaceProvider = ({ children }) => {
   const [category, setCategory] = useState()
   const { timeserie } = useTrip()
 
-  const contactId = getRelationshipByType(timeserie, type)?.data?._id || ' '
+  const contactId =
+    getRelationshipByType(timeserie, type)?.data?._id || contact?._id || ' '
   const contactsQuery = buildContactsQueryById(contactId)
   const { data: fetchedContact, ...contactsQueryResult } = useQuery(
     contactsQuery.definition,
@@ -62,7 +63,7 @@ const ContactToPlaceProvider = ({ children }) => {
     setContact(fetchedContact)
     setLabel(getLabelByType({ contact: fetchedContact, timeserie, type }))
     setCategory(getCategoryByType({ contact: fetchedContact, timeserie, type }))
-  }, [type, fetchedContact?._id, timeserie?._id]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [type, fetchedContact?._rev, fetchedContact?._id, timeserie?._id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <ContactToPlaceContext.Provider value={value}>
