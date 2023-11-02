@@ -313,7 +313,7 @@
   },
   "geolocationTracking": {
     "locationRefusedDialog": {
-      "description": "To record your movements, you need to give Cozy access to your \"location\" and \"physical activity\". You will be redirected to the app settings."
+      "description": "Your Cozy needs access to additional data in order to help you analyze your movements. This data will NEVER be transmitted to anyone without your explicit request.\n\nYou will be redirected to the app's settings to authorize it to ALWAYS access your phone's position, even when the app is not in use, and PHYSICAL ACTIVITY, movement and shape data.."
     },
     "installOpenPathKonnectorDialog": {
       "description": "This feature requires the OpenPath connector to be installed",
