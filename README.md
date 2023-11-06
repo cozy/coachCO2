@@ -82,7 +82,8 @@ You will then be prompted to login again, possibly from a `localhost:3333` serve
   - **bountyAmount**: `<number>` - amount of the bonus granted
   - **daysToReach**: `<number>` - number of days to be reached to benefit from the bonus
   - **sourceType**: `<string>` - type of source entity issuing the bonus.
-  - **sourceIdentity**: `<string>` - name of the source entity
+  - **sourceName**: `<string>` - name of the source entity
+  - **sourceOffer**: `<string>` - offer proposed by the source
 
 
 ### Run it inside a Cozy using Docker

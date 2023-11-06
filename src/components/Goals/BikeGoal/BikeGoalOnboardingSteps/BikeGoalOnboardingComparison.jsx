@@ -30,7 +30,7 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
   } = useSettings('bikeGoal')
   const { onboardingStep = 0, sendToDACC = null } = bikeGoal
   const [unsavedSendToDACC, setUnsavedSendToDACC] = useState(sendToDACC)
-  const { sourceIdentity } = getSource()
+  const { sourceName } = getSource()
 
   const styles = createStyles()
 
@@ -74,7 +74,7 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
             <>
               <Typography style={styles.typography}>
                 {t('bikeGoal.onboarding.steps.comparison.comparisonLegend', {
-                  source: sourceIdentity
+                  source: sourceName
                 })}
               </Typography>
               <RadioGroup className="u-mt-1">

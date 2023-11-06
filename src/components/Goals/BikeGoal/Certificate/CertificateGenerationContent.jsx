@@ -47,7 +47,7 @@ const CertificateGenerationContent = ({ certificate }) => {
 
   const handleCertificateGeneration = async () => {
     setIsBusy(true)
-    const { sourceIdentity } = getSource()
+    const { sourceName } = getSource()
     const currentUser = await fetchCurrentUser(client)
 
     const pdfDocument = (
@@ -55,7 +55,7 @@ const CertificateGenerationContent = ({ certificate }) => {
         t={t}
         username={getDisplayName(currentUser)}
         daysToReach={getDaysToReach(settings)}
-        sourceIdentity={sourceIdentity}
+        sourceName={sourceName}
         year={year}
         lang={lang}
       />
