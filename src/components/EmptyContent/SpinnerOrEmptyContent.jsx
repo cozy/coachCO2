@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import Welcome from 'src/components/EmptyContent/Welcome'
+import EmptyContentManager from 'src/components/EmptyContent/EmptyContentManager'
+import InstallKonnector from 'src/components/EmptyContent/InstallKonnector'
 
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 const SpinnerOrEmptyContent = ({
   account,
+  accounts,
   isAccountLoading,
   isTimeseriesLoading,
   timeseries
@@ -16,12 +18,12 @@ const SpinnerOrEmptyContent = ({
     )
   }
 
-  if (!account) {
-    return <Welcome />
+  if (accounts.length === 0) {
+    return <InstallKonnector />
   }
 
   if (timeseries.length === 0) {
-    return <Welcome />
+    return <EmptyContentManager account={account} accounts={accounts} />
   }
 }
 

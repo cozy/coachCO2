@@ -3,12 +3,13 @@ import React from 'react'
 import SpinnerOrEmptyContent from 'src/components/EmptyContent/SpinnerOrEmptyContent'
 import AppLike from 'test/AppLike'
 
-jest.mock('src/components/EmptyContent/Welcome', () => () => (
+jest.mock('src/components/EmptyContent/EmptyContentManager', () => () => (
   <div data-testid="EmptyContent" />
 ))
 
 const setup = ({
   account,
+  accounts,
   isAccountLoading,
   isQueryLoading,
   timeseries
@@ -17,6 +18,7 @@ const setup = ({
     <AppLike>
       <SpinnerOrEmptyContent
         account={account}
+        accounts={accounts}
         isAccountLoading={isAccountLoading}
         isTimeseriesLoading={isQueryLoading}
         timeseries={timeseries}
@@ -65,6 +67,7 @@ describe('SpinnerOrEmptyContent', () => {
   it('should show the "empty page" if both queries are loaded, an account exists but no timeseries', () => {
     const { queryByRole, getByTestId } = setup({
       account: { _id: 'accountId' },
+      accounts: [{ _id: 'accountId' }],
       isAccountLoading: false,
       isQueryLoading: false,
       timeseries: []
