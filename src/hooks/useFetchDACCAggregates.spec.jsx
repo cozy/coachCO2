@@ -1,12 +1,12 @@
 import { renderHook } from '@testing-library/react-hooks'
 import React from 'react'
 import useFetchDACCAggregates from 'src/hooks/useFetchDACCAggregates'
-import { fetchMonthlyAverageCO2FromDACCFor11Month } from 'src/lib/dacc'
+import { fetchMonthlyAverageCO2FromDACCFor11Month } from 'src/lib/daccMonthlyCO2'
 import AppLike from 'test/AppLike'
 
 import { createMockClient } from 'cozy-client'
 
-jest.mock('src/lib/dacc')
+jest.mock('src/lib/daccMonthlyCO2')
 
 const client = createMockClient({})
 
