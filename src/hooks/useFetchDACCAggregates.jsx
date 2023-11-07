@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { fetchMonthlyAverageCO2FromDACCFor11Month } from 'src/lib/dacc'
+import { fetchMonthlyAverageCO2FromDACCFor11Month } from 'src/lib/daccMonthlyCO2'
 
 import { useClient } from 'cozy-client'
 

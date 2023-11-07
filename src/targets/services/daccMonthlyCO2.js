@@ -1,5 +1,5 @@
 import fetch from 'node-fetch'
-import { DACC_SERVICE_NAME } from 'src/constants'
+import { DACC_MONTHLY_CO2_SERVICE_NAME } from 'src/constants'
 import schema from 'src/doctypes'
 import { runDACCService } from 'src/lib/dacc'
 import { startService } from 'src/lib/services'
@@ -16,7 +16,7 @@ const dacc = async () => {
   const shouldRestart = await runDACCService(client)
   if (shouldRestart) {
     log('info', 'There are more DACC measures to send: restart the service')
-    await startService(client, DACC_SERVICE_NAME)
+    await startService(client, DACC_MONTHLY_CO2_SERVICE_NAME)
   }
 }
 

@@ -97,9 +97,9 @@
       "trigger": "@event io.cozy.timeseries.geojson:CREATED,UPDATED",
       "debounce": "1m"
     },
-    "dacc": {
+    "daccMonthlyCO2": {
       "type": "node",
-      "file": "services/dacc/coachco2.js",
+      "file": "services/daccMonthlyCO2/coachco2.js",
       "trigger": "@every 720h"
     },
     "recurringPurposes": {
