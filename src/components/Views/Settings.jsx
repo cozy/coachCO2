@@ -3,6 +3,8 @@ import AccountSelector from 'src/components/AccountSelector'
 import AppVersionNumber from 'src/components/AppVersionNumber'
 import CO2EmissionDaccAlertSwitcher from 'src/components/CO2EmissionDaccAlertSwitcher'
 import CO2EmissionDaccSwitcher from 'src/components/CO2EmissionDaccSwitcher'
+import InstallApp from 'src/components/EmptyContent/InstallApp'
+import Welcome from 'src/components/EmptyContent/Welcome'
 import CsvExporter from 'src/components/ExportCSV/CsvExporter'
 import GeolocationTrackingSettings from 'src/components/GeolocationTracking/GeolocationTrackingSettings'
 import GeolocationTrackingSwitcher from 'src/components/GeolocationTracking/GeolocationTrackingSwitcher'
@@ -25,13 +27,24 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 export const Settings = () => {
   const { t } = useI18n()
-  const { isGeolocationTrackingAvailable } = useGeolocationTracking()
-  const { account } = useAccountContext()
+  const { isGeolocationTrackingAvailable, isGeolocationTrackingEnabled } =
+    useGeolocationTracking()
+  const { isAccountLoading, accounts, account } = useAccountContext()
 
-  if (!account) {
+  if (isAccountLoading) {
     return (
       <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
     )
+  }
+
+  if (accounts.length === 0) {
+    if (!isGeolocationTrackingAvailable) {
+      return <InstallApp />
+    }
+
+    if (!isGeolocationTrackingEnabled) {
+      return <Welcome />
+    }
   }
 
   return (
@@ -49,10 +62,12 @@ export const Settings = () => {
             <BikeGoalSwitcher className="u-mt-1-half-s" />
           )}
         </div>
-        <CsvExporter
-          className="u-mt-1"
-          accountName={getAccountLabel(account)}
-        />
+        {account && (
+          <CsvExporter
+            className="u-mt-1"
+            accountName={getAccountLabel(account)}
+          />
+        )}
         {flag('coachco2.admin-mode') && (
           <div className="u-mt-1">
             <Label>{t('settings.debug')}</Label>
