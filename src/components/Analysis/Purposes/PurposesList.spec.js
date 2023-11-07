@@ -16,6 +16,7 @@ jest.mock('src/components/Providers/AccountProvider', () => ({
   })
 }))
 jest.mock('cozy-client', () => ({
+  ...jest.requireActual('cozy-client'),
   isQueryLoading: jest.fn(),
   useQueryAll: jest.fn()
 }))
