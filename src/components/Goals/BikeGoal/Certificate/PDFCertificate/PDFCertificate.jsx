@@ -85,7 +85,7 @@ export const PDFCertificate = ({
   t,
   username,
   daysToReach,
-  sourceIdentity,
+  sourceName,
   year,
   lang
 }) => {
@@ -122,9 +122,7 @@ export const PDFCertificate = ({
             </Text>
             <Text style={style.name}>{username}</Text>
             <View style={style.divider}></View>
-            <Text style={style.text}>
-              {t('PDF.recipient', { sourceIdentity })}
-            </Text>
+            <Text style={style.text}>{t('PDF.recipient', { sourceName })}</Text>
             <Text style={style.text}>
               {t('PDF.date', { currentDateFormatted, currentTimeFormatted })}
             </Text>

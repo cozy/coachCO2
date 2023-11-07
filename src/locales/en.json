@@ -132,7 +132,11 @@
   "emptyContent": {
     "welcome": {
       "title": "Welcome to your CO2 Coach",
-      "text": "This application is currently being tested. It will allow you to record your journeys and view your CO2 emissions.",
+      "text": "Let's improve our region together.\n\nThis application will allow you to record all your journeys, to understand their impact in terms of CO2 emissions, to compare yourself with the average user, and so on..",
+      "textA": "This application, available free of charge for %{maxDaysToCapture} days as part of your package, will enable you to record all your journeys, understand their impact in terms of CO2 emissions, track your eligibility for the cycle allowance, compare yourself with the average user, and so on.",
+      "textB": "This application, which is included in your Cozy package, will enable you to record all your journeys, understand their impact in terms of CO2 emissions, track your eligibility for the cycle allowance, compare yourself with the average user, and so on.",
+      "textC": "Let's improve our region together.\n\nThis application, which is made available to you by your %{sourceType} %{sourceName}, will enable you to record all your journeys, understand their impact in terms of CO2 emissions, keep track of your bike journeys, and so on.",
+      "textD": "This application, which is currently in the experimental phase, will enable you to record all your journeys, understand their impact in terms of CO2 emissions, and notify you as soon as you are eligible for your %{sourceType} %{sourceName} cycling allowance, etc.",
       "action": "Let's go!"
     },
     "installKonnector": {
@@ -346,7 +350,7 @@
     "name": "Certificate - Cycling to work (%{year}).pdf",
     "title": "Certificate on honor\n of the success of the objective\n of the Sustainable Mobility Package",
     "date": "%{currentDateFormatted} at %{currentTimeFormatted}",
-    "recipient": "Employer : %{sourceIdentity}",
+    "recipient": "Employer : %{sourceName}",
     "paragraph01": "I, %{username}, certify on my honor that I have achieved the %{daysToReach} days sustainable mobility package objective by traveling from home to work by bike from January 1 to %{year}.",
     "paragraph02": "In addition to this certificate, I provide my employer with any useful proof of actual use of the bicycle, such as invoice or payment statements, insurance or maintenance of my bicycle.",
     "paragraph03": "Made to serve and assert what is right.",

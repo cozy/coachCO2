@@ -18,12 +18,14 @@ export const getBountyAmount = () => {
 }
 
 export const getSource = () => {
-  const sourceIdentity = flag('coachco2.bikegoal.settings')?.sourceIdentity
+  const sourceName = flag('coachco2.bikegoal.settings')?.sourceName
   const sourceType = flag('coachco2.bikegoal.settings')?.sourceType
+  const sourceOffer = flag('coachco2.bikegoal.settings')?.sourceOffer
 
   return {
     sourceType,
-    sourceIdentity
+    sourceOffer,
+    sourceName
   }
 }
 
