@@ -26,7 +26,7 @@ const style = {
 }
 
 export const Trips = () => {
-  const { account, accounts, isAccountLoading } = useAccountContext()
+  const { account, isAccountLoading } = useAccountContext()
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
 
@@ -50,17 +50,11 @@ export const Trips = () => {
     isAccountLoading ||
     !account ||
     isLoadingTimeseriesQuery ||
-    timeseries.length === 0
+    timeseries?.length === 0
 
   if (isLoadingOrEmpty) {
     return (
-      <SpinnerOrEmptyContent
-        account={account}
-        accounts={accounts}
-        isAccountLoading={isAccountLoading}
-        isTimeseriesLoading={isLoadingTimeseriesQuery}
-        timeseries={timeseries}
-      />
+      <SpinnerOrEmptyContent isTimeseriesLoading={isLoadingTimeseriesQuery} />
     )
   }
 

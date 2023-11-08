@@ -6,6 +6,7 @@ import {
   CONTACTS_DOCTYPE,
   FILES_DOCTYPE,
   GEOJSON_DOCTYPE,
+  ACCOUNTS_DOCTYPE,
   SETTINGS_DOCTYPE
 } from 'src/doctypes'
 
@@ -40,6 +41,7 @@ const AppProviders = ({ client, lang, polyglot, children }) => {
           <RealTimeQueries doctype={SETTINGS_DOCTYPE} />
           <RealTimeQueries doctype={FILES_DOCTYPE} />
           <RealTimeQueries doctype={CONTACTS_DOCTYPE} />
+          <RealTimeQueries doctype={ACCOUNTS_DOCTYPE} />
           <AccountProvider>
             <SelectDatesProvider>
               <I18n lang={lang} polyglot={polyglot}>

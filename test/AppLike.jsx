@@ -1,7 +1,7 @@
 import React from 'react'
 import { HashRouter } from 'react-router-dom'
 import AccountProvider from 'src/components/Providers/AccountProvider'
-import { GeolocationTrackingProvider } from 'src/components/Providers/GeolocationTrackingProvider'
+import GeolocationTrackingProvider from 'src/components/Providers/GeolocationTrackingProvider'
 
 import { CozyProvider, createMockClient } from 'cozy-client'
 import { BreakpointsProvider } from 'cozy-ui/transpiled/react/providers/Breakpoints'
@@ -11,17 +11,17 @@ import enLocale from '../src/locales/en.json'
 
 const AppLike = ({ children, client }) => (
   <CozyProvider client={client || createMockClient({})}>
-    <I18n dictRequire={() => enLocale} lang="en">
-      <BreakpointsProvider>
-        <AccountProvider>
+    <AccountProvider>
+      <I18n dictRequire={() => enLocale} lang="en">
+        <BreakpointsProvider>
           <HashRouter>
             <GeolocationTrackingProvider>
               {children}
             </GeolocationTrackingProvider>
           </HashRouter>
-        </AccountProvider>
-      </BreakpointsProvider>
-    </I18n>
+        </BreakpointsProvider>
+      </I18n>
+    </AccountProvider>
   </CozyProvider>
 )
 

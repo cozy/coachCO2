@@ -139,10 +139,6 @@
       "textD": "Cette application en phase expérimentale vous permettra d'enregistrer tous vos déplacements, d'en comprendre l'impact en émission de CO2, de vous avertir dès que vous êtes éligible à la prime vélo de votre %{sourceType} %{sourceName}, etc.",
       "action": "C'est parti !"
     },
-    "installKonnector": {
-      "title": "Bienvenue sur votre Coach CO2",
-      "text": "Avant d'utiliser l'application, vous devez tout d'abord installer et configurer le connecteur OpenPath dans votre Cozy."
-    },
     "installApp": {
       "title": "Détecter vos déplacements\navec l'app Cozy Cloud",
       "text": "Installer l'application Cozy Cloud sur votre mobile pour enregistrer tous vos déplacements, en comprendre l'impact en émission de CO2, comptabiliser vos trajets en vélo, etc.",

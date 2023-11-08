@@ -19,7 +19,7 @@ const AccountSelector = props => {
 
   const value = {
     label: getAccountLabel(account),
-    value: account._id
+    value: account?._id
   }
 
   const handleChange = ({ value }) =>

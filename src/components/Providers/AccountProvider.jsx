@@ -23,7 +23,7 @@ export const useAccountContext = () => {
   return context
 }
 
-export const getAccountLabel = account => account.auth.login
+export const getAccountLabel = account => account?.auth?.login
 
 const AccountProvider = ({ children }) => {
   const [selectedAccount, setSelectedAccount] = useState(null)

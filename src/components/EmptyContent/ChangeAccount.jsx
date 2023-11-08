@@ -21,7 +21,13 @@ const ChangeAccount = () => {
   return (
     <>
       {isMobile && (
-        <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />
+        <Titlebar
+          label={
+            account
+              ? t('trips.from') + ' ' + getAccountLabel(account)
+              : t('trips.trips')
+          }
+        />
       )}
       <Empty
         icon={EmptySvg}

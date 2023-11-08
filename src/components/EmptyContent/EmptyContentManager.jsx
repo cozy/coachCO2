@@ -4,17 +4,19 @@ import GPSStandby from 'src/components/EmptyContent/GPSStandby'
 import InstallApp from 'src/components/EmptyContent/InstallApp'
 import Welcome from 'src/components/EmptyContent/Welcome'
 import { makeQueriesByAccountsId } from 'src/components/EmptyContent/helpers'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { useGeolocationTracking } from 'src/components/Providers/GeolocationTrackingProvider'
 
 import { useQueries, isQueriesLoading } from 'cozy-client'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
-const EmptyContentManager = ({ account, accounts }) => {
+const EmptyContentManager = () => {
+  const { accounts, account } = useAccountContext()
   const { isGeolocationTrackingAvailable, isGeolocationTrackingEnabled } =
     useGeolocationTracking()
 
   const otherAccounts = accounts.filter(
-    allAccount => allAccount._id !== account._id
+    allAccount => allAccount._id !== account?._id
   )
   const queriesByAccountsId = makeQueriesByAccountsId(otherAccounts)
   const results = useQueries(queriesByAccountsId)
@@ -38,7 +40,7 @@ const EmptyContentManager = ({ account, accounts }) => {
     return <InstallApp />
   }
 
-  if (!isGeolocationTrackingEnabled) {
+  if (!isGeolocationTrackingEnabled || !account) {
     return <Welcome />
   }
 
