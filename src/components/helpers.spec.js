@@ -25,6 +25,7 @@ describe('getAverageCO2PerKmByMode', () => {
       0.064, // SCOOTER_MODE
       0.0033, // SUBWAY_MODE
       0.01061, // TRAIN_MODE
+      0.003, // TRAMWAY_MODE
       0, // UNKNOWN_MODE
       0, // WALKING_MODE
       0, // ON_FOOT_MODE
@@ -55,6 +56,7 @@ describe('formattedModeToCO2PerKm', () => {
       '64 g/km', // SCOOTER_MODE
       '3 g/km', // SUBWAY_MODE
       '11 g/km', // TRAIN_MODE
+      '3 g/km', // TRAMWAY_MODE
       '0 g/km', // UNKNOWN_MODE
       '0 g/km', // WALKING_MODE
       '0 g/km', // ON_FOOT_MODE
@@ -85,6 +87,7 @@ describe('modeToCO2PerKm', () => {
       64, // SCOOTER_MODE
       3, // SUBWAY_MODE
       11, // TRAIN_MODE
+      3, // TRAMWAY_MODE
       0, // UNKNOWN_MODE
       0, // WALKING_MODE
       0, // ON_FOOT_MODE

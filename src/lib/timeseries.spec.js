@@ -424,6 +424,10 @@ describe('Aggregation', () => {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)
         },
+        TRAMWAY: {
+          timeseries: expect.any(Array),
+          totalCO2: expect.any(Number)
+        },
         WALKING: {
           timeseries: expect.any(Array),
           totalCO2: expect.any(Number)

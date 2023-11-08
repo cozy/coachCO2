@@ -52,7 +52,9 @@ import {
   WALKING_AVERAGE_CO2_KG_PER_KM,
   WALKING_MODE,
   ON_FOOT_MODE,
-  RUNNING_MODE
+  RUNNING_MODE,
+  TRAMWAY_MODE,
+  TRAMWAY_CO2_KG_PER_KM
 } from 'src/constants'
 
 /**
@@ -119,6 +121,9 @@ export const computeCO2Section = section => {
       break
     case TRAIN_MODE:
       totalCO2 += distance * getAverageCO2PerKmByMode(TRAIN_MODE)
+      break
+    case TRAMWAY_MODE:
+      totalCO2 += distance * TRAMWAY_CO2_KG_PER_KM
       break
     case UNKNOWN_MODE:
       totalCO2 += distance * UNKNOWN_AVERAGE_CO2_KG_PER_KM

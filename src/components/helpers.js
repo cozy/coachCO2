@@ -6,6 +6,7 @@ import {
   CAR_MODE,
   SUBWAY_MODE,
   TRAIN_MODE,
+  TRAMWAY_MODE,
   WALKING_MODE,
   RUNNING_MODE,
   ON_FOOT_MODE,
@@ -51,7 +52,8 @@ import {
   PUBLIC_TRANSPORT_CATEGORY,
   CAR_CATEGORY,
   PLANE_CO2_KG_PER_KM_SHORT,
-  PLANE_CO2_KG_PER_KM_LONG
+  PLANE_CO2_KG_PER_KM_LONG,
+  TRAMWAY_CO2_KG_PER_KM
 } from 'src/constants'
 
 import log from 'cozy-logger'
@@ -76,6 +78,7 @@ import ShopIcon from 'cozy-ui/transpiled/react/Icons/Shop'
 import SportBagIcon from 'cozy-ui/transpiled/react/Icons/SportBag'
 import SubwayIcon from 'cozy-ui/transpiled/react/Icons/Subway'
 import TrainIcon from 'cozy-ui/transpiled/react/Icons/Train'
+import TramwayIcon from 'cozy-ui/transpiled/react/Icons/Tram'
 import UnknownIcon from 'cozy-ui/transpiled/react/Icons/Unknow'
 import WalkIcon from 'cozy-ui/transpiled/react/Icons/Walk'
 import WorkIcon from 'cozy-ui/transpiled/react/Icons/Work'
@@ -97,6 +100,7 @@ export const modes = [
   MOPED_MODE,
   SUBWAY_MODE,
   TRAIN_MODE,
+  TRAMWAY_MODE,
   WALKING_MODE,
   ON_FOOT_MODE,
   RUNNING_MODE,
@@ -134,6 +138,8 @@ export const pickModeIcon = mode => {
       return SubwayIcon
     case TRAIN_MODE:
       return TrainIcon
+    case TRAMWAY_MODE:
+      return TramwayIcon
     case WALKING_MODE:
     case ON_FOOT_MODE:
     case RUNNING_MODE:
@@ -178,6 +184,8 @@ export const modeToColor = mode => {
     case SUBWAY_MODE:
       return '#8978FF'
     case TRAIN_MODE:
+      return '#F1B61E'
+    case TRAMWAY_MODE:
       return '#F1B61E'
     case UNKNOWN_MODE:
       return '#A4A7AC'
@@ -302,6 +310,8 @@ export const getAverageCO2PerKmByMode = mode => {
       return getAverage(ALL_SUBWAY_TRAM_CO2_KG_PER_KM)
     case TRAIN_MODE:
       return getAverage(ALL_TRAIN_CO2_KG_PER_KM)
+    case TRAMWAY_MODE:
+      return TRAMWAY_CO2_KG_PER_KM
     case UNKNOWN_MODE:
       return UNKNOWN_AVERAGE_CO2_KG_PER_KM
     case WALKING_MODE:
@@ -367,6 +377,7 @@ export const modeToCategory = mode => {
     case BUS_MODE:
     case SUBWAY_MODE:
     case TRAIN_MODE:
+    case TRAMWAY_MODE:
       return PUBLIC_TRANSPORT_CATEGORY.name
     case CAR_ELECTRIC_MODE:
     case CAR_MODE:
