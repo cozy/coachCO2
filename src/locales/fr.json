@@ -39,6 +39,7 @@
       "MOPED": "Cyclomoteur",
       "SUBWAY": "Métro",
       "TRAIN": "Train",
+      "TRAMWAY": "Tramway",
       "UNKNOWN": "Non reconnu",
       "WALKING": "Marche",
       "ON_FOOT": "Marche",

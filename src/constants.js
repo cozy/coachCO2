@@ -9,12 +9,13 @@ export const CAR_ELECTRIC_MODE = 'CAR_ELECTRIC'
 export const CAR_MODE = 'CAR'
 export const CARPOOL_ELECTRIC_MODE = 'CARPOOL_ELECTRIC'
 export const CARPOOL_MODE = 'CARPOOL'
+export const MOPED_MODE = 'MOPED'
 export const MOTO_INF_250_MODE = 'MOTO_INF_250'
 export const MOTO_SUP_250_MODE = 'MOTO_SUP_250'
 export const SCOOTER_ELECTRIC_MODE = 'SCOOTER_ELECTRIC'
-export const MOPED_MODE = 'MOPED'
 export const SUBWAY_MODE = 'SUBWAY'
 export const TRAIN_MODE = 'TRAIN'
+export const TRAMWAY_MODE = 'TRAMWAY'
 export const UNKNOWN_MODE = 'UNKNOWN'
 export const WALKING_MODE = 'WALKING'
 
@@ -41,7 +42,7 @@ export const CAR_CATEGORY = {
 }
 export const PUBLIC_TRANSPORT_CATEGORY = {
   name: 'PUBLIC_TRANSPORT_CATEGORY',
-  modes: [BUS_MODE, BUS_ELECTRIC_MODE, TRAIN_MODE, SUBWAY_MODE]
+  modes: [BUS_MODE, BUS_ELECTRIC_MODE, TRAIN_MODE, TRAMWAY_MODE, SUBWAY_MODE]
 }
 
 // list of available purposes
@@ -101,6 +102,11 @@ export const ALL_TRAIN_CO2_KG_PER_KM = [
   TRAIN_HIGHLINE_CO2_KG_PER_KM,
   TER_TRAIN_CO2_KG_PER_KM
 ]
+
+/**
+ * Tramway CO2 value.
+ */
+export const TRAMWAY_CO2_KG_PER_KM = 0.003
 
 /**
  * Subway, tram and trolley bus CO2 values.
