@@ -86,6 +86,22 @@ You will then be prompted to login again, possibly from a `localhost:3333` serve
   - **sourceOffer**: `<string>` - offer proposed by the source
 
 
+### Add a mode of transport
+- To [constants.js](./src/constants.js) file:
+  - Export constant mode:
+    `export const <modeName>_MODE = '<modeName>'`
+  - Export CO2 constants, given in kg per km:
+    `export const <modeName>_CO2_KG_PER_KM = <number>`
+- To [helpers.js](./src/components/helpers.js) file:
+  - Add new mode to `modes` array
+  - Add case to `pickModeIcon` function (Importing the icon from cozy-ui required)
+  - Add case to `modeToColor` function (used on Analysis pages)
+  - Add case to `getAverageCO2PerKmByMode` function
+  - Add case to `modeToCategory` function
+- To [metrics.js](./src/lib/metrics.js) file:
+  - Add case to `computeCO2Section` function
+- And finally, add the translations ([fr](./src/locales/fr.json), [en](./src/locales/en.json))
+
 ### Run it inside a Cozy using Docker
 
 You can run your application inside a Cozy thanks to the [cozy-stack docker image][cozy-stack-docker]:
