@@ -46,7 +46,7 @@ export const countDaysOrDaysToReach = (timeseries, settings) => {
 
 export const makeGoalAchievementPercentage = (timeseries, settings) => {
   if (!timeseries) return 100
-  const daysOrDaysToReach = countDaysOrDaysToReach(timeseries)
+  const daysOrDaysToReach = countDaysOrDaysToReach(timeseries, settings)
   const daysToReach = getDaysToReach(settings)
 
   return Math.round((daysOrDaysToReach / daysToReach) * 100)
