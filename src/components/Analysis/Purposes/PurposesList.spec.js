@@ -34,6 +34,9 @@ jest.mock(
 jest.mock('src/components/Providers/SelectDatesProvider', () => ({
   useSelectDatesContext: jest.fn(() => ({ selectedDate: '' }))
 }))
+jest.mock('src/components/SelectDatesWrapper', () => () => (
+  <div data-testid="SelectDatesWrapper" />
+))
 
 describe('PurposesList', () => {
   beforeEach(() => {

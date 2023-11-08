@@ -3,6 +3,7 @@ import LoadedPurposesList from 'src/components/Analysis/Purposes/LoadedPurposesL
 import SpinnerOrEmptyContent from 'src/components/EmptyContent/SpinnerOrEmptyContent'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
+import SelectDatesWrapper from 'src/components/SelectDatesWrapper'
 import { buildTimeseriesQueryByDateAndAccountId } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
@@ -35,7 +36,12 @@ const PurposesList = () => {
     )
   }
 
-  return <LoadedPurposesList timeseries={timeseries} />
+  return (
+    <>
+      <SelectDatesWrapper />
+      <LoadedPurposesList timeseries={timeseries} />
+    </>
+  )
 }
 
 export default PurposesList
