@@ -3,6 +3,7 @@ import LoadedModesList from 'src/components/Analysis/Modes/LoadedModesList'
 import SpinnerOrEmptyContent from 'src/components/EmptyContent/SpinnerOrEmptyContent'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
+import SelectDatesWrapper from 'src/components/SelectDatesWrapper'
 import { buildTimeseriesQueryByDateAndAccountId } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
@@ -35,7 +36,12 @@ const ModesList = () => {
     )
   }
 
-  return <LoadedModesList timeseries={timeseries} />
+  return (
+    <>
+      <SelectDatesWrapper />
+      <LoadedModesList timeseries={timeseries} />
+    </>
+  )
 }
 
 export default ModesList

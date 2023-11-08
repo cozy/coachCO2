@@ -2,7 +2,6 @@ import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import ModesList from 'src/components/Analysis/Modes/ModesList'
 import TabsNav from 'src/components/Analysis/TabsNav'
-import SelectDatesWrapper from 'src/components/SelectDatesWrapper'
 import Titlebar from 'src/components/Titlebar'
 
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
@@ -24,7 +23,6 @@ const ModeAnalysis = () => {
     <>
       <Titlebar label={modeTitle} onBack={onBack} />
       {isMobile && <TabsNav />}
-      <SelectDatesWrapper />
       <ModesList />
     </>
   )
