@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks'
 import React from 'react'
-import { SETTINGS_DOCTYPE } from 'src/doctypes'
+import { CCO2_SETTINGS_DOCTYPE } from 'src/doctypes'
 import AppLike from 'test/AppLike'
 
 import { createMockClient, useQuery } from 'cozy-client'
@@ -120,7 +120,7 @@ describe('useSettings', () => {
       save('fooValue')
 
       expect(client.save).toHaveBeenCalledWith({
-        _type: SETTINGS_DOCTYPE,
+        _type: CCO2_SETTINGS_DOCTYPE,
         foo: 'fooValue'
       })
     })

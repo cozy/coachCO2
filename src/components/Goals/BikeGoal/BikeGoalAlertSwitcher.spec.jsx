@@ -1,7 +1,7 @@
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSwitcher'
-import { SETTINGS_DOCTYPE } from 'src/doctypes'
+import { CCO2_SETTINGS_DOCTYPE } from 'src/doctypes'
 import AppLike from 'test/AppLike'
 
 import { useQuery } from 'cozy-client'
@@ -38,7 +38,7 @@ describe('BikeGoalAlertSwitcher', () => {
     fireEvent.click(switchBtn)
     expect(mockSave).toBeCalledTimes(1)
     expect(mockSave).toBeCalledWith({
-      _type: SETTINGS_DOCTYPE,
+      _type: CCO2_SETTINGS_DOCTYPE,
       bikeGoal: {
         showAlert: false
       }
@@ -67,7 +67,7 @@ describe('BikeGoalAlertSwitcher', () => {
     fireEvent.click(switchBtn)
     expect(mockSave).toBeCalledTimes(1)
     expect(mockSave).toBeCalledWith({
-      _type: SETTINGS_DOCTYPE,
+      _type: CCO2_SETTINGS_DOCTYPE,
       bikeGoal: {
         showAlert: true
       }
@@ -96,7 +96,7 @@ describe('BikeGoalAlertSwitcher', () => {
     fireEvent.click(switchBtn)
     expect(mockSave).toBeCalledTimes(1)
     expect(mockSave).toBeCalledWith({
-      _type: SETTINGS_DOCTYPE,
+      _type: CCO2_SETTINGS_DOCTYPE,
       bikeGoal: {
         showAlert: false
       }

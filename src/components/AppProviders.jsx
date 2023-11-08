@@ -7,7 +7,7 @@ import {
   FILES_DOCTYPE,
   GEOJSON_DOCTYPE,
   ACCOUNTS_DOCTYPE,
-  SETTINGS_DOCTYPE
+  CCO2_SETTINGS_DOCTYPE
 } from 'src/doctypes'
 
 import { CozyProvider, RealTimeQueries } from 'cozy-client'
@@ -38,7 +38,7 @@ const AppProviders = ({ client, lang, polyglot, children }) => {
       <StylesProvider generateClassName={generateClassName}>
         <CozyProvider client={client}>
           <RealTimeQueries doctype={GEOJSON_DOCTYPE} />
-          <RealTimeQueries doctype={SETTINGS_DOCTYPE} />
+          <RealTimeQueries doctype={CCO2_SETTINGS_DOCTYPE} />
           <RealTimeQueries doctype={FILES_DOCTYPE} />
           <RealTimeQueries doctype={CONTACTS_DOCTYPE} />
           <RealTimeQueries doctype={ACCOUNTS_DOCTYPE} />

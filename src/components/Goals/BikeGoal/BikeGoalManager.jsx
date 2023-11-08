@@ -7,7 +7,8 @@ import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { filterTimeseriesByYear } from 'src/lib/timeseries'
 import {
   buildSettingsQuery,
-  buildBikeCommuteTimeseriesQueryByAccountId
+  buildBikeCommuteTimeseriesQueryByAccountId,
+  buildContextQuery
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQuery, useQueryAll } from 'cozy-client'
@@ -28,6 +29,12 @@ const BikeGoalManager = () => {
   const { isMobile } = useBreakpoints()
   const { account, isAccountLoading } = useAccountContext()
 
+  const contextQuery = buildContextQuery()
+  const { data: context, ...contextQueryLeft } = useQuery(
+    contextQuery.definition,
+    contextQuery.options
+  )
+
   const settingsQuery = buildSettingsQuery()
   const { data: settings, ...settingsQueryLeft } = useQuery(
     settingsQuery.definition,
@@ -46,12 +53,14 @@ const BikeGoalManager = () => {
     isQueryLoading(timeseriesQueryLeft) || timeseriesQueryLeft.hasMore
 
   const isSettingsLoading = isQueryLoading(settingsQueryLeft)
+  const isContextLoading = isQueryLoading(contextQueryLeft)
   const isTimeseriesLoading = isAccountLoading || isLoadingTimeseriesQuery
 
-  if (isSettingsLoading || isTimeseriesLoading) {
+  if (isSettingsLoading || isTimeseriesLoading || isContextLoading) {
     return null
   }
 
+  const logo = context?.logos?.coachco2?.light?.[0] || []
   const currentYear = new Date().getFullYear().toString()
   const timeseriesByYear = filterTimeseriesByYear(timeseries, currentYear)
 
@@ -69,10 +78,11 @@ const BikeGoalManager = () => {
   return (
     <>
       <Typography
-        className="u-mb-1-s u-mt-1 u-mb-1-s u-mb-2 u-ml-1"
+        className="u-mb-1-s u-mt-1 u-mb-1-s u-mb-2 u-mh-1 u-flex u-flex-justify-between"
         variant="h5"
       >
         {t('bikeGoal.goals')}
+        {logo && <img src={logo.src} alt={logo.alt} />}
       </Typography>
       {showAlert && <BikeGoalAlertManager />}
       {activated && (
