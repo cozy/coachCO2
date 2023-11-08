@@ -10,7 +10,7 @@ import {
 import {
   GEOJSON_DOCTYPE,
   ACCOUNTS_DOCTYPE,
-  SETTINGS_DOCTYPE,
+  CCO2_SETTINGS_DOCTYPE,
   CONTACTS_DOCTYPE,
   FILES_DOCTYPE,
   KONNECTORS_DOCTYPE
@@ -359,9 +359,9 @@ export const buildAccountQuery = ({
 }
 
 export const buildSettingsQuery = () => ({
-  definition: Q(SETTINGS_DOCTYPE),
+  definition: Q(CCO2_SETTINGS_DOCTYPE),
   options: {
-    as: SETTINGS_DOCTYPE,
+    as: CCO2_SETTINGS_DOCTYPE,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(neverReload)
   }
 })

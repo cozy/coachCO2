@@ -1,6 +1,6 @@
 import get from 'lodash/get'
 import set from 'lodash/set'
-import { SETTINGS_DOCTYPE } from 'src/doctypes'
+import { CCO2_SETTINGS_DOCTYPE } from 'src/doctypes'
 import { buildSettingsQuery } from 'src/queries/queries'
 
 import { isQueryLoading, useClient, useQuery } from 'cozy-client'
@@ -24,7 +24,7 @@ const useSettings = setting => {
   const save = async value => {
     const newSettings = {
       ...settings[0],
-      _type: SETTINGS_DOCTYPE
+      _type: CCO2_SETTINGS_DOCTYPE
     }
     set(newSettings, setting, value)
     await client.save(newSettings)
