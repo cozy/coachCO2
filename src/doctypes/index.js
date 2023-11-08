@@ -6,6 +6,7 @@ export const CCO2_SETTINGS_DOCTYPE = 'io.cozy.coachco2.settings'
 export const JOBS_DOCTYPE = 'io.cozy.jobs'
 export const CONTACTS_DOCTYPE = 'io.cozy.contacts'
 export const KONNECTORS_DOCTYPE = 'io.cozy.konnectors'
+export const SETTINGS_DOCTYPE = 'io.cozy.settings'
 
 export const DACC_REMOTE_DOCTYPE = 'cc.cozycloud.dacc_v2'
 export const DACC_REMOTE_DOCTYPE_DEV = 'cc.cozycloud.dacc.dev_v2'

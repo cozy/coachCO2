@@ -13,6 +13,7 @@ import {
   CCO2_SETTINGS_DOCTYPE,
   CONTACTS_DOCTYPE,
   FILES_DOCTYPE,
+  SETTINGS_DOCTYPE,
   KONNECTORS_DOCTYPE
 } from 'src/doctypes'
 
@@ -363,6 +364,15 @@ export const buildSettingsQuery = () => ({
   options: {
     as: CCO2_SETTINGS_DOCTYPE,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(neverReload)
+  }
+})
+
+export const buildContextQuery = () => ({
+  definition: Q(SETTINGS_DOCTYPE).getById('context'),
+  options: {
+    as: `${SETTINGS_DOCTYPE}/context`,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(neverReload),
+    singleDocData: true
   }
 })
 
