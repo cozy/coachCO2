@@ -5,20 +5,15 @@ import {
   makeIconSize
 } from './helpers'
 
-jest.mock('cozy-flags', () => name => {
-  if (name === 'coachco2.bikegoal.settings') {
-    return { daysToReach: 30 }
-  }
-})
-
 describe('isGoalCompleted', () => {
   it('should return true', () => {
     const timeseries = Array.from({ length: 30 }, (_, index) => ({
       startDate: new Date(2021, 1, index + 1),
       endDate: new Date(2021, 1, index + 1)
     }))
+    const settings = [{ bikeGoal: { daysToReach: '30' } }]
 
-    const res = isGoalCompleted(timeseries)
+    const res = isGoalCompleted(timeseries, settings)
 
     expect(res).toBe(true)
   })
@@ -28,8 +23,9 @@ describe('isGoalCompleted', () => {
       { startDate: '2021-01-01T00:00:00', endDate: '2021-01-02T00:00:00' },
       { startDate: '2021-01-04T00:00:00', endDate: '2021-01-05T00:00:00' }
     ]
+    const settings = [{ bikeGoal: { daysToReach: '30' } }]
 
-    const res = isGoalCompleted(timeseries)
+    const res = isGoalCompleted(timeseries, settings)
 
     expect(res).toBe(false)
   })
@@ -41,8 +37,9 @@ describe('countDaysOrDaysToReach', () => {
       { startDate: '2021-01-01T00:00:00', endDate: '2021-01-01T00:00:00' },
       { startDate: '2021-01-05T00:00:00', endDate: '2021-01-05T00:00:00' }
     ]
+    const settings = [{ bikeGoal: { daysToReach: '30' } }]
 
-    const res = countDaysOrDaysToReach(timeseries)
+    const res = countDaysOrDaysToReach(timeseries, settings)
 
     expect(res).toBe(2)
   })
@@ -52,10 +49,11 @@ describe('countDaysOrDaysToReach', () => {
       startDate: new Date(2021, 1, index + 1),
       endDate: new Date(2021, 1, index + 1)
     }))
+    const settings = [{ bikeGoal: { daysToReach: '30' } }]
 
-    const res = countDaysOrDaysToReach(timeseries)
+    const res = countDaysOrDaysToReach(timeseries, settings)
 
-    expect(res).toBe(30)
+    expect(res).toBe('30')
   })
 })
 
@@ -65,8 +63,9 @@ describe('makeGoalAchievementPercentage', () => {
       { startDate: '2021-01-01T00:00:00', endDate: '2021-01-01T00:00:00' },
       { startDate: '2021-01-05T00:00:00', endDate: '2021-01-05T00:00:00' }
     ]
+    const settings = [{ bikeGoal: { daysToReach: '30' } }]
 
-    const res = makeGoalAchievementPercentage(timeseries)
+    const res = makeGoalAchievementPercentage(timeseries, settings)
 
     expect(res).toBe(7)
   })
@@ -76,15 +75,25 @@ describe('makeGoalAchievementPercentage', () => {
       startDate: new Date(2021, 1, index + 1),
       endDate: new Date(2021, 1, index + 1)
     }))
+    const settings = [{ bikeGoal: { daysToReach: '30' } }]
 
-    const res = makeGoalAchievementPercentage(timeseries)
+    const res = makeGoalAchievementPercentage(timeseries, settings)
 
     expect(res).toBe(100)
   })
 
   it('should return 100, if timeseries is undefined', () => {
     const timeseries = undefined
-    const res = makeGoalAchievementPercentage(timeseries)
+    const settings = [{ bikeGoal: { daysToReach: '30' } }]
+    const res = makeGoalAchievementPercentage(timeseries, settings)
+
+    expect(res).toBe(100)
+  })
+
+  it('should return 100, even if the number of days achieved is greater than the number of days to reach', () => {
+    const timeseries = undefined
+    const settings = [{ bikeGoal: { daysToReach: '30' } }]
+    const res = makeGoalAchievementPercentage(timeseries, settings)
 
     expect(res).toBe(100)
   })
