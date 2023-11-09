@@ -1,5 +1,4 @@
 import React from 'react'
-import EmptySelectDates from 'src/components/SelectDates/EmptySelectDates'
 import SelectDates from 'src/components/SelectDates/SelectDates'
 
 const SelectDatesWithLoader = ({
@@ -10,7 +9,7 @@ const SelectDatesWithLoader = ({
   setSelectedDate
 }) => {
   if (isLoading) {
-    return <EmptySelectDates className={className} />
+    return null
   }
 
   return (
