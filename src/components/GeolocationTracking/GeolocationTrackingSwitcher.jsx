@@ -1,32 +1,22 @@
 import React from 'react'
 import { useGeolocationTracking } from 'src/components/Providers/GeolocationTrackingProvider'
 
-import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
+import Icon from 'cozy-ui/transpiled/react/Icon'
+import LocationIcon from 'cozy-ui/transpiled/react/Icons/Location'
+import ListItem from 'cozy-ui/transpiled/react/ListItem'
+import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
+import ListItemSecondaryAction from 'cozy-ui/transpiled/react/ListItemSecondaryAction'
+import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import Switch from 'cozy-ui/transpiled/react/Switch'
-import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
-import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
-const useStyles = makeStyles({
-  root: {
-    marginLeft: 0
-  },
-  labelPlacementStart: {
-    display: 'flex',
-    justifyContent: 'space-between'
-  }
-})
-
-export const GeolocationTrackingSwitcher = ({ className }) => {
+export const GeolocationTrackingSwitcher = () => {
   const {
     disableGeolocationTracking,
     checkPermissionsAndEnableTrackingOrShowDialog,
     isGeolocationTrackingEnabled
   } = useGeolocationTracking()
-  const { isMobile } = useBreakpoints()
   const { t } = useI18n()
-
-  const classes = useStyles()
 
   const handleChange = async () => {
     // we do not care about permissions when we want to disable geolocation tracking
@@ -38,16 +28,20 @@ export const GeolocationTrackingSwitcher = ({ className }) => {
   }
 
   return (
-    <div className={className}>
-      <FormControlLabel
-        classes={classes}
-        label={t('geolocationTracking.settings.enable')}
-        labelPlacement={isMobile ? 'start' : 'end'}
-        checked={isGeolocationTrackingEnabled}
-        onChange={() => handleChange()}
-        control={<Switch color="primary" />}
-      />
-    </div>
+    <ListItem button gutters="disabled" ellipsis={false} onClick={handleChange}>
+      <ListItemIcon>
+        <Icon icon={LocationIcon} />
+      </ListItemIcon>
+      <ListItemText primary={t('geolocationTracking.settings.enable')} />
+      <ListItemSecondaryAction>
+        <Switch
+          color="primary"
+          edge="end"
+          checked={isGeolocationTrackingEnabled}
+          onChange={handleChange}
+        />
+      </ListItemSecondaryAction>
+    </ListItem>
   )
 }
 

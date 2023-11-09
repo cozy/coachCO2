@@ -329,7 +329,7 @@
       "install": "Install"
     },
     "settings": {
-      "enable": "Memorise my journeys",
+      "enable": "Record my movements with my mobile (GPS)",
       "sendLogs": "Send Geoloc logs",
       "forceUploadData": "Force Upload Data",
       "copyIdentifier": "Copy OpenPATH Identifier",

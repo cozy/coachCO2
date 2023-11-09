@@ -4,11 +4,10 @@ import {
   getAccountLabel
 } from 'src/components/Providers/AccountProvider'
 
-import Label from 'cozy-ui/transpiled/react/Label'
 import SelectBox from 'cozy-ui/transpiled/react/SelectBox'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-const AccountSelector = props => {
+const AccountSelector = () => {
   const { t } = useI18n()
   const { accounts, account, setAccount } = useAccountContext()
 
@@ -26,16 +25,14 @@ const AccountSelector = props => {
     setAccount(accounts.find(account => account._id === value))
 
   return (
-    <div {...props}>
-      <Label>{t('devices.label')}</Label>
-      <SelectBox
-        options={options}
-        value={value}
-        label={t('devices.label')}
-        placeholder={t('devices.select')}
-        onChange={handleChange}
-      />
-    </div>
+    <SelectBox
+      fullwidth
+      options={options}
+      value={value}
+      label={t('devices.label')}
+      placeholder={t('devices.select')}
+      onChange={handleChange}
+    />
   )
 }
 

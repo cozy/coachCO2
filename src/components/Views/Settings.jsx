@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import React from 'react'
 import AccountSelector from 'src/components/AccountSelector'
 import AppVersionNumber from 'src/components/AppVersionNumber'
@@ -21,12 +22,18 @@ import { useGeolocationTracking } from 'src/components/Providers/GeolocationTrac
 import Titlebar from 'src/components/Titlebar'
 
 import flag from 'cozy-flags'
-import Label from 'cozy-ui/transpiled/react/Label'
+import Divider from 'cozy-ui/transpiled/react/Divider'
+import List from 'cozy-ui/transpiled/react/List'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
+import Typography from 'cozy-ui/transpiled/react/Typography'
+import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
+
+const containerStyle = { width: 'fit-content' }
 
 export const Settings = () => {
   const { t } = useI18n()
+  const { isMobile } = useBreakpoints()
   const { isGeolocationTrackingAvailable, isGeolocationTrackingEnabled } =
     useGeolocationTracking()
   const { isAccountLoading, accounts, account } = useAccountContext()
@@ -50,44 +57,88 @@ export const Settings = () => {
   return (
     <>
       <Titlebar label={t('nav.settings')} />
-      <div className="u-mh-1 u-mb-1">
-        <AccountSelector className="u-mt-1" />
-        <div className="u-mt-1">
-          <Label>{t('settings.services')}</Label>
-          {isGeolocationTrackingAvailable && (
-            <GeolocationTrackingSwitcher className="u-mt-half-s" />
-          )}
-          <CO2EmissionDaccSwitcher className="u-mt-half-s" />
-          {flag('coachco2.bikegoal.enabled') && (
-            <BikeGoalSwitcher className="u-mt-1-half-s" />
-          )}
-        </div>
-        {account && (
-          <CsvExporter
-            className="u-mt-1"
-            accountName={getAccountLabel(account)}
-          />
+      <div
+        className="u-mh-1 u-mb-1 u-mt-1-half-s"
+        {...(!isMobile && { style: containerStyle })}
+      >
+        <Typography
+          variant="subtitle2"
+          color="textSecondary"
+          className="u-mb-half"
+        >
+          {t('devices.label')}
+        </Typography>
+        <AccountSelector />
+
+        {isGeolocationTrackingAvailable && (
+          <List>
+            <GeolocationTrackingSwitcher />
+          </List>
         )}
-        {flag('coachco2.admin-mode') && (
-          <div className="u-mt-1">
-            <Label>{t('settings.debug')}</Label>
+
+        <Typography
+          variant="subtitle2"
+          color="textSecondary"
+          className={cx({
+            'u-mt-1': isGeolocationTrackingAvailable,
+            'u-mt-1-half': !isGeolocationTrackingAvailable
+          })}
+        >
+          {t('settings.services')}
+        </Typography>
+        <List>
+          <CO2EmissionDaccSwitcher />
+          {flag('coachco2.bikegoal.enabled') && (
             <>
-              <CO2EmissionDaccAlertSwitcher className="u-mt-1-half-s" />
+              <Divider component="li" className="u-ml-3" />
+              <BikeGoalSwitcher />
+            </>
+          )}
+        </List>
+
+        {account && (
+          <>
+            <Typography
+              variant="subtitle2"
+              color="textSecondary"
+              className="u-mt-1 u-mb-half"
+            >
+              {t('export.label')}
+            </Typography>
+            <CsvExporter accountName={getAccountLabel(account)} />
+          </>
+        )}
+
+        {flag('coachco2.admin-mode') && (
+          <>
+            <Typography
+              variant="subtitle2"
+              color="textSecondary"
+              className="u-mt-1-half"
+            >
+              {t('settings.debug')}
+            </Typography>
+            <List>
+              <CO2EmissionDaccAlertSwitcher />
               {flag('coachco2.bikegoal.enabled') && (
                 <>
+                  <Divider component="li" className="u-ml-3" />
                   <BikeGoalAlertSwitcher className="u-mt-1-half-s" />
+                  <Divider component="li" className="u-ml-3" />
                   <BikeGoalOnboardedSwitcher className="u-mt-1-half-s" />
+                  <Divider component="li" className="u-ml-3" />
                   <BikeGoalAlertSuccessSwitcher className="u-mt-1-half-s" />
+                  <Divider component="li" className="u-ml-3" />
                   <BikeGoalDaccSwitcher className="u-mt-1-half-s" />
                 </>
               )}
-            </>
-          </div>
+            </List>
+
+            {isGeolocationTrackingAvailable && <GeolocationTrackingSettings />}
+
+            <AppVersionNumber />
+          </>
         )}
-        {isGeolocationTrackingAvailable && flag('coachco2.admin-mode') && (
-          <GeolocationTrackingSettings />
-        )}
-        {flag('coachco2.admin-mode') && <AppVersionNumber />}
       </div>
     </>
   )

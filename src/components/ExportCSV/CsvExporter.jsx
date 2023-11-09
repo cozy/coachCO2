@@ -2,24 +2,20 @@ import React, { memo, useState } from 'react'
 import ExportDialog from 'src/components/ExportCSV/ExportDialog'
 
 import Buttons from 'cozy-ui/transpiled/react/Buttons'
-import Label from 'cozy-ui/transpiled/react/Label'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-export const CsvExporter = ({ accountName, ...props }) => {
+export const CsvExporter = ({ accountName }) => {
   const { t } = useI18n()
   const [isModalOpened, setIsModalOpened] = useState(false)
 
   return (
     <>
-      <div {...props}>
-        <Label>{t('export.label')}</Label>
-        <Buttons
-          busy={false}
-          variant="secondary"
-          label={t('export.button')}
-          onClick={() => setIsModalOpened(true)}
-        />
-      </div>
+      <Buttons
+        busy={false}
+        variant="secondary"
+        label={t('export.button')}
+        onClick={() => setIsModalOpened(true)}
+      />
       {isModalOpened && (
         <ExportDialog
           onClose={() => setIsModalOpened(false)}

@@ -1,26 +1,17 @@
 import React from 'react'
 import useSettings from 'src/hooks/useSettings'
 
-import FormControlLabel from 'cozy-ui/transpiled/react/FormControlLabel'
+import Icon from 'cozy-ui/transpiled/react/Icon'
+import PieChartIcon from 'cozy-ui/transpiled/react/Icons/PieChart'
+import ListItem from 'cozy-ui/transpiled/react/ListItem'
+import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
+import ListItemSecondaryAction from 'cozy-ui/transpiled/react/ListItemSecondaryAction'
+import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import Switch from 'cozy-ui/transpiled/react/Switch'
-import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
-import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
-const useStyles = makeStyles(() => ({
-  root: {
-    marginLeft: 0
-  },
-  labelPlacementStart: {
-    display: 'flex',
-    justifyContent: 'space-between'
-  }
-}))
-
-const CO2EmissionDaccSwitcher = ({ className }) => {
+const CO2EmissionDaccSwitcher = () => {
   const { t } = useI18n()
-  const { isMobile } = useBreakpoints()
-  const classes = useStyles()
 
   const {
     isLoading,
@@ -28,22 +19,32 @@ const CO2EmissionDaccSwitcher = ({ className }) => {
     save
   } = useSettings('CO2Emission.sendToDACC')
 
-  const handleChange = ev => {
-    save(ev.target.checked)
+  const handleChange = val => {
+    const value = val?.target?.checked ?? val
+    save(value)
   }
 
   return (
-    <div className={className}>
-      <FormControlLabel
-        classes={classes}
-        label={t('dacc.settings.anonymous_participation')}
-        labelPlacement={isMobile ? 'start' : 'end'}
-        checked={value}
-        disabled={isLoading}
-        onChange={handleChange}
-        control={<Switch color="primary" />}
-      />
-    </div>
+    <ListItem
+      button
+      gutters="disabled"
+      ellipsis={false}
+      onClick={() => handleChange(!value)}
+      disabled={isLoading}
+    >
+      <ListItemIcon>
+        <Icon icon={PieChartIcon} />
+      </ListItemIcon>
+      <ListItemText primary={t('dacc.settings.anonymous_participation')} />
+      <ListItemSecondaryAction>
+        <Switch
+          color="primary"
+          edge="end"
+          checked={value}
+          onChange={handleChange}
+        />
+      </ListItemSecondaryAction>
+    </ListItem>
   )
 }
 
