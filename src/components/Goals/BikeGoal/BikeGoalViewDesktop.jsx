@@ -53,7 +53,7 @@ const BikeGoalViewDesktop = ({
 }
 
 BikeGoalViewDesktop.propTypes = {
-  timeseries: PropTypes.arrayOf(PropTypes.object).isRequired,
+  timeseries: PropTypes.arrayOf(PropTypes.object),
   timeseriesQueryLeft: PropTypes.object.isRequired
 }
 

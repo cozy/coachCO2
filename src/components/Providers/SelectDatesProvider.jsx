@@ -15,13 +15,16 @@ export const useSelectDatesContext = () => {
 
 export const SelectDatesProvider = ({ children }) => {
   const [selectedDate, setSelectedDate] = useState(null)
+  const [isSelectedDateLoading, setIsSelectedDateLoading] = useState(true)
 
   const value = useMemo(
     () => ({
       selectedDate,
-      setSelectedDate
+      setSelectedDate,
+      isSelectedDateLoading,
+      setIsSelectedDateLoading
     }),
-    [selectedDate]
+    [isSelectedDateLoading, selectedDate]
   )
 
   return (

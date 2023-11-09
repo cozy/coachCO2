@@ -1,5 +1,4 @@
 import React from 'react'
-import SpinnerOrEmptyContent from 'src/components/EmptyContent/SpinnerOrEmptyContent'
 import BikeGoalDialogMobile from 'src/components/Goals/BikeGoal/BikeGoalDialogMobile'
 import BikeGoalViewDesktop from 'src/components/Goals/BikeGoal/BikeGoalViewDesktop'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
@@ -9,6 +8,7 @@ import {
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll, useQuery } from 'cozy-client'
+import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
 const Bikegoal = () => {
@@ -31,19 +31,17 @@ const Bikegoal = () => {
     timeseriesQuery.options
   )
 
+  const isTimeseriesQueryEnabled = timeseriesQuery.options.enabled
   const isLoadingTimeseriesQuery =
-    isQueryLoading(timeseriesQueryLeft) || timeseriesQueryLeft.hasMore
+    isTimeseriesQueryEnabled &&
+    (isQueryLoading(timeseriesQueryLeft) || timeseriesQueryLeft.hasMore)
 
-  const isLoadingOrEmpty =
-    isSettingsLoading ||
-    isAccountLoading ||
-    !account ||
-    isLoadingTimeseriesQuery ||
-    timeseries?.length === 0
+  const isLoading =
+    isLoadingTimeseriesQuery || isAccountLoading || isSettingsLoading
 
-  if (isLoadingOrEmpty) {
+  if (isLoading) {
     return (
-      <SpinnerOrEmptyContent isTimeseriesLoading={isLoadingTimeseriesQuery} />
+      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
     )
   }
 
