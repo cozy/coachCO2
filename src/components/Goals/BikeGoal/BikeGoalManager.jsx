@@ -11,7 +11,7 @@ import {
   buildContextQuery
 } from 'src/queries/queries'
 
-import { isQueryLoading, useQuery, useQueryAll } from 'cozy-client'
+import { isQueryLoading, useQuery, useQueryAll, useClient } from 'cozy-client'
 import Divider from 'cozy-ui/transpiled/react/Divider'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
@@ -28,6 +28,8 @@ const BikeGoalManager = () => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const { account, isAccountLoading } = useAccountContext()
+  const client = useClient()
+  const rootURL = client.getStackClient().uri
 
   const contextQuery = buildContextQuery()
   const { data: context, ...contextQueryLeft } = useQuery(
@@ -82,7 +84,7 @@ const BikeGoalManager = () => {
         variant="h5"
       >
         {t('bikeGoal.goals')}
-        {logo && <img src={logo.src} alt={logo.alt} />}
+        {logo && <img src={`${rootURL}/assets${logo.src}`} alt={logo.alt} />}
       </Typography>
       {showAlert && <BikeGoalAlertManager />}
       {activated && (
