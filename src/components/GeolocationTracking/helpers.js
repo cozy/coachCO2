@@ -180,14 +180,14 @@ export const checkPermissionsAndEnableTrackingOrShowDialog = async ({
   }
 }
 
-export const isGeolocationTrackingPossible =
+export const isGeolocationTrackingPossible = () =>
   isFlagshipApp() && flag('coachco2.GPSMemory.enabled')
 
 export const checkAndSetGeolocationTrackingAvailability = async (
   webviewIntent,
   setIsGeolocationTrackingAvailable
 ) => {
-  if (isGeolocationTrackingPossible) {
+  if (isGeolocationTrackingPossible()) {
     try {
       const isAvailable =
         (await webviewIntent?.call('isAvailable', FEATURE_NAME)) || false
