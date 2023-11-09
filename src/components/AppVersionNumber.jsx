@@ -11,9 +11,11 @@ const AppVersionNumber = () => {
   return (
     <Box
       color="var(--infoColor)"
+      style={{ zIndex: 'var(--zindex-alert)' }}
       position="fixed"
-      right="1rem"
-      bottom={`calc(1rem + ${isMobile ? 'var(--sidebarHeight)' : '0rem'})`}
+      {...(isMobile
+        ? { top: '0.5rem', right: '1rem' }
+        : { bottom: '1rem', right: '2rem' })}
     >
       {version}
     </Box>
