@@ -62,7 +62,7 @@ const BikeGoalManager = () => {
     return null
   }
 
-  const logo = context?.logos?.coachco2?.light?.[0] || []
+  const logo = context?.logos?.coachco2?.light?.[0]
   const currentYear = new Date().getFullYear().toString()
   const timeseriesByYear = filterTimeseriesByYear(timeseries, currentYear)
 
