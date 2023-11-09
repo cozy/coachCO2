@@ -635,6 +635,7 @@ export const getEarliestTimeserie = timeseries => {
 }
 
 export const filterTimeseriesByYear = (timeseries, year) => {
+  if (!timeseries) return []
   return timeseries.filter(
     timeserie => new Date(timeserie.startDate).getFullYear().toString() === year
   )
