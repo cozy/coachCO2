@@ -74,3 +74,13 @@ export const makeDaccAchievementPercentage = settings => {
 
   return Math.round((daysToUse / daysToReach) * 100)
 }
+
+/**
+ * Returns the name of the user who set the goal
+ * @param {object[]} settings - settings of the app
+ * @returns {{ givenName: string, familyName: string }}
+ */
+export const getName = settings => {
+  const { firstname, lastname } = settings?.[0]?.bikeGoal || {}
+  return { givenName: firstname, familyName: lastname }
+}
