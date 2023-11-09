@@ -40,9 +40,9 @@ export const GeolocationTrackingProvider = ({ children }) => {
   const { t, lang } = useI18n()
 
   const [isGeolocationTrackingAvailable, setIsGeolocationTrackingAvailable] =
-    useState(false)
+    useState(null)
   const [isGeolocationTrackingEnabled, setIsGeolocationTrackingEnabled] =
-    useState(false)
+    useState(null)
   const [showLocationRequestableDialog, setShowLocationRequestableDialog] =
     useState(false)
   const [showLocationRefusedDialog, setShowLocationRefusedDialog] =

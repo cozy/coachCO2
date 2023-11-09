@@ -15,6 +15,10 @@ const EmptyContentManager = () => {
   const { isGeolocationTrackingAvailable, isGeolocationTrackingEnabled } =
     useGeolocationTracking()
 
+  const isGeolocationTrackingLoading =
+    isGeolocationTrackingAvailable === null ||
+    isGeolocationTrackingEnabled === null
+
   const otherAccounts = accounts.filter(
     allAccount => allAccount._id !== account?._id
   )
@@ -22,7 +26,7 @@ const EmptyContentManager = () => {
   const results = useQueries(queriesByAccountsId)
   const isLoading = isQueriesLoading(results)
 
-  if (isLoading) {
+  if (isLoading || isGeolocationTrackingLoading) {
     return (
       <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
     )
