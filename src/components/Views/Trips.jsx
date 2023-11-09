@@ -1,7 +1,7 @@
 import React from 'react'
 import CO2EmissionsChart from 'src/components/CO2EmissionsChart/CO2EmissionsChart'
 import CO2EmissionDaccManager from 'src/components/DaccManager/CO2EmissionDaccManager'
-import SpinnerOrEmptyContent from 'src/components/EmptyContent/SpinnerOrEmptyContent'
+import EmptyContentManager from 'src/components/EmptyContent/EmptyContentManager'
 import BikeGoalManager from 'src/components/Goals/BikeGoal/BikeGoalManager'
 import {
   useAccountContext,
@@ -15,6 +15,7 @@ import { hasQueryBeenLoaded, isQueryLoading, useQuery } from 'cozy-client'
 import flag from 'cozy-flags'
 import Divider from 'cozy-ui/transpiled/react/Divider'
 import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
+import Spinner from 'cozy-ui/transpiled/react/Spinner'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
@@ -41,21 +42,23 @@ export const Trips = () => {
       enabled: Boolean(account)
     }
   )
-
+  const isTimeseriesQueryEnabled = timeseriesQuery.options.enabled
   const isLoadingTimeseriesQuery =
+    isTimeseriesQueryEnabled &&
     isQueryLoading(timeseriesQueryLeft) &&
     !hasQueryBeenLoaded(timeseriesQueryLeft)
 
-  const isLoadingOrEmpty =
-    isAccountLoading ||
-    !account ||
-    isLoadingTimeseriesQuery ||
-    timeseries?.length === 0
+  const isLoading = isLoadingTimeseriesQuery || isAccountLoading
+  const showEmptyContent = !account || !timeseries || timeseries?.length === 0
 
-  if (isLoadingOrEmpty) {
+  if (isLoading) {
     return (
-      <SpinnerOrEmptyContent isTimeseriesLoading={isLoadingTimeseriesQuery} />
+      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
     )
+  }
+
+  if (showEmptyContent) {
+    return <EmptyContentManager />
   }
 
   return (
