@@ -8,12 +8,17 @@ import { buildAggregatedTimeseriesQueryByAccountId } from 'src/queries/queries'
 import { isQueryLoading, useQueryAll } from 'cozy-client'
 
 const computeOptions = (isLoading, timeseries) => {
-  if (isLoading) return null
+  if (isLoading || !timeseries || timeseries?.length === 0) return null
   return timeseries.map(timeserie => new Date(timeserie.startDate))
 }
 
 const SelectDatesWrapper = () => {
-  const { selectedDate, setSelectedDate } = useSelectDatesContext()
+  const {
+    selectedDate,
+    setSelectedDate,
+    isSelectedDateLoading,
+    setIsSelectedDateLoading
+  } = useSelectDatesContext()
   const { account } = useAccountContext()
 
   const timeseriesQuery = buildAggregatedTimeseriesQueryByAccountId({
@@ -28,10 +33,10 @@ const SelectDatesWrapper = () => {
     }
   )
 
+  const isTimeseriesQueryEnabled = timeseriesQuery.options.enabled
   const isLoading =
-    !account ||
-    isQueryLoading(timeseriesQueryResult) ||
-    timeseriesQueryResult.hasMore
+    isTimeseriesQueryEnabled &&
+    (isQueryLoading(timeseriesQueryResult) || timeseriesQueryResult.hasMore)
 
   const options = useMemo(
     () => computeOptions(isLoading, timeseries),
@@ -43,6 +48,12 @@ const SelectDatesWrapper = () => {
       setSelectedDate(makeLatestDate(options))
     }
   }, [options, selectedDate, setSelectedDate])
+
+  useEffect(() => {
+    if (isLoading !== isSelectedDateLoading) {
+      setIsSelectedDateLoading(isLoading)
+    }
+  }, [isLoading, isSelectedDateLoading, setIsSelectedDateLoading])
 
   useEffect(() => {
     return () => {
