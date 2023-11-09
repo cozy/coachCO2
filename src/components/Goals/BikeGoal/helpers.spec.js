@@ -2,7 +2,8 @@ import {
   isGoalCompleted,
   countDaysOrDaysToReach,
   makeGoalAchievementPercentage,
-  makeIconSize
+  makeIconSize,
+  getName
 } from './helpers'
 
 describe('isGoalCompleted', () => {
@@ -107,5 +108,13 @@ describe('makeIconSize', () => {
     ${'small'}   | ${'2.5rem'}
   `(`should return $result with $value size`, ({ value, result }) => {
     expect(makeIconSize(value)).toBe(result)
+  })
+})
+
+describe('getName', () => {
+  const settings = [{ bikeGoal: { lastname: 'Doe', firstname: 'john' } }]
+  it('should return the name of the user who set the goal', () => {
+    const res = getName(settings)
+    expect(res).toEqual({ givenName: 'john', familyName: 'Doe' })
   })
 })

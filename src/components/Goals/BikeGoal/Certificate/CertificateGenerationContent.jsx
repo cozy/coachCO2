@@ -5,15 +5,14 @@ import styles from 'src/components/Goals/BikeGoal/Certificate/CertificateGenerat
 import { PDFCertificate } from 'src/components/Goals/BikeGoal/Certificate/PDFCertificate/PDFCertificate'
 import { savePdfCertificate } from 'src/components/Goals/BikeGoal/Certificate/helpers'
 import {
+  getName,
   getBountyAmount,
   getDaysToReach,
   getSource
 } from 'src/components/Goals/BikeGoal/helpers'
-import { fetchCurrentUser } from 'src/lib/fetchCurrentUser'
 import { buildSettingsQuery } from 'src/queries/queries'
 
 import { useClient, useQuery, isQueryLoading } from 'cozy-client'
-import { getDisplayName } from 'cozy-client/dist/models/contact'
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import FileTypePdfIcon from 'cozy-ui/transpiled/react/Icons/FileTypePdf'
@@ -48,12 +47,13 @@ const CertificateGenerationContent = ({ certificate }) => {
   const handleCertificateGeneration = async () => {
     setIsBusy(true)
     const { sourceName } = getSource()
-    const currentUser = await fetchCurrentUser(client)
+    const { givenName, familyName } = getName(settings)
+    const username = `${familyName} ${givenName}`
 
     const pdfDocument = (
       <PDFCertificate
         t={t}
-        username={getDisplayName(currentUser)}
+        username={username}
         daysToReach={getDaysToReach(settings)}
         sourceName={sourceName}
         year={year}
