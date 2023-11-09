@@ -228,6 +228,9 @@
     "goal": "Objective",
     "goals": "Objectives",
     "days": "days",
+    "empty": {
+      "title": "Your trips eligible for the Bike Goal will be counted and displayed here."
+    },
     "about": {
       "title": "About the goal",
       "intro": {
