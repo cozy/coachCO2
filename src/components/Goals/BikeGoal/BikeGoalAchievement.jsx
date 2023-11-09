@@ -78,7 +78,7 @@ const BikeGoalAchievement = ({ className, timeseries, sendToDACC }) => {
 
 BikeGoalAchievement.propTypes = {
   className: PropTypes.string,
-  timeseries: PropTypes.arrayOf(PropTypes.object).isRequired
+  timeseries: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default BikeGoalAchievement

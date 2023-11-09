@@ -31,7 +31,7 @@ const BikeGoalActions = ({ timeseries }) => {
 }
 
 BikeGoalDateSelector.propTypes = {
-  timeseries: PropTypes.arrayOf(PropTypes.object).isRequired
+  timeseries: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default BikeGoalActions

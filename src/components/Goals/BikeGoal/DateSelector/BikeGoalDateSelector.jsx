@@ -45,7 +45,7 @@ const BikeGoalDateSelector = ({ timeseries }) => {
 }
 
 BikeGoalDateSelector.propTypes = {
-  timeseries: PropTypes.arrayOf(PropTypes.object).isRequired
+  timeseries: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default React.memo(BikeGoalDateSelector)
