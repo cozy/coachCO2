@@ -83,7 +83,7 @@ export const syncTrackingStatusWithFlagship = async (
 ) => {
   const { enabled } = (await webviewIntent?.call(
     'getGeolocationTrackingStatus'
-  )) || { enabled: false }
+  )) || { enabled: null }
   setIsGeolocationTrackingEnabled(enabled)
 }
 
@@ -190,7 +190,7 @@ export const checkAndSetGeolocationTrackingAvailability = async (
   if (isGeolocationTrackingPossible()) {
     try {
       const isAvailable =
-        (await webviewIntent?.call('isAvailable', FEATURE_NAME)) || false
+        (await webviewIntent?.call('isAvailable', FEATURE_NAME)) || null
 
       setIsGeolocationTrackingAvailable(isAvailable)
     } catch {
