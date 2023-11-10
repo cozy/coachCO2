@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { PurposeAvatar } from 'src/components/Avatar'
 import ContactToPlaceDialog from 'src/components/ContactToPlace/ContactToPlaceDialog'
 import { openContactToPlaceModalOrClose } from 'src/components/EditDialogs/PurposeEditDialog/helpers'
@@ -13,9 +13,7 @@ import { OTHER_PURPOSE } from 'src/constants'
 import { getTimeseriePurpose } from 'src/lib/timeseries'
 
 import { useClient } from 'cozy-client'
-import { ConfirmDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
-import { Button } from 'cozy-ui/transpiled/react/deprecated/Button'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const makeOptions = t => {
@@ -28,19 +26,15 @@ const makeOptions = t => {
 }
 
 const PurposeEditDialog = ({ onClose }) => {
-  const [showRecurringDialog, setShowRecurringDialog] = useState(false)
-  const [selectedPurpose, setSelectedPurpose] = useState(null)
   const { t } = useI18n()
   const client = useClient()
   const { timeserie } = useTrip()
   const { type, setType } = useContactToPlace()
 
   const handleSelect = async item => {
-    setSelectedPurpose(item.id)
     const oldPurpose = getTimeseriePurpose(timeserie)
-
     if (oldPurpose !== OTHER_PURPOSE) {
-      setShowRecurringDialog(true)
+      await handleOccasionalTrip({ client, timeserie, purpose: item.id })
     } else {
       await handleRecurringTrip({
         client,
@@ -48,13 +42,13 @@ const PurposeEditDialog = ({ onClose }) => {
         purpose: item.id,
         oldPurpose
       })
-      openContactToPlaceModalOrClose({
-        timeserie,
-        selectedPurpose: item.id,
-        setContactToPlaceType: setType,
-        onClose
-      })
     }
+    openContactToPlaceModalOrClose({
+      timeserie,
+      selectedPurpose: item.id,
+      setContactToPlaceType: setType,
+      onClose
+    })
   }
 
   const isSelected = useMemo(
@@ -66,56 +60,6 @@ const PurposeEditDialog = ({ onClose }) => {
     },
     [timeserie]
   )
-
-  if (showRecurringDialog) {
-    return (
-      <ConfirmDialog
-        open
-        title={t('recurring.confirmDialog.title')}
-        content={t('recurring.confirmDialog.content')}
-        actions={
-          <>
-            <Button
-              theme="secondary"
-              label={t('recurring.confirmDialog.decline')}
-              onClick={async () => {
-                await handleOccasionalTrip({
-                  client,
-                  timeserie,
-                  purpose: selectedPurpose
-                })
-                openContactToPlaceModalOrClose({
-                  timeserie,
-                  selectedPurpose,
-                  setContactToPlaceType: setType,
-                  onClose
-                })
-              }}
-            />
-            <Button
-              theme="primary"
-              label={t('recurring.confirmDialog.confirm')}
-              onClick={async () => {
-                await handleRecurringTrip({
-                  client,
-                  timeserie,
-                  purpose: selectedPurpose,
-                  oldPurpose: getTimeseriePurpose(timeserie)
-                })
-                openContactToPlaceModalOrClose({
-                  timeserie,
-                  selectedPurpose,
-                  setContactToPlaceType: setType,
-                  onClose
-                })
-              }}
-            />
-          </>
-        }
-        onClose={onClose}
-      />
-    )
-  }
 
   if (type) {
     return <ContactToPlaceDialog onClose={onClose} />
