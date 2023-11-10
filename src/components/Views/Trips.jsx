@@ -42,25 +42,25 @@ export const Trips = () => {
       enabled: Boolean(account)
     }
   )
-  const isTimeseriesQueryEnabled = timeseriesQuery.options.enabled
-  const isLoadingTimeseriesQuery =
-    isTimeseriesQueryEnabled &&
-    isQueryLoading(timeseriesQueryLeft) &&
-    !hasQueryBeenLoaded(timeseriesQueryLeft)
-
-  const isLoading = isLoadingTimeseriesQuery || isAccountLoading
-  const showEmptyContent = !account || !timeseries || timeseries?.length === 0
-
-  if (isLoading) {
+  if (isAccountLoading) {
     return (
       <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
     )
   }
 
-  if (showEmptyContent) {
-    return <EmptyContentManager />
+  if (
+    account &&
+    isQueryLoading(timeseriesQueryLeft) &&
+    !hasQueryBeenLoaded(timeseriesQueryLeft)
+  ) {
+    return (
+      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
+    )
   }
 
+  if (!account || !timeseries || timeseries?.length === 0) {
+    return <EmptyContentManager />
+  }
   return (
     <>
       <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />
