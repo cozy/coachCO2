@@ -1,0 +1,193 @@
+{
+  "name": "Coach CO2",
+  "slug": "coachco2",
+  "icon": "icon.svg",
+  "categories": [],
+  "version": "0.11.0",
+  "licence": "AGPL-3.0",
+  "editor": "Cozy Cloud",
+  "source": "https://github.com/cozy/coachCO2.git@build",
+  "developer": {
+    "name": "Cozy Cloud",
+    "url": "https://cozy.io"
+  },
+  "default_locale": "fr",
+  "langs": [
+    "fr",
+    "en"
+  ],
+  "routes": {
+    "/": {
+      "folder": "/",
+      "index": "index.html",
+      "public": false
+    }
+  },
+  "permissions": {
+    "apps": {
+      "description": "Required by the cozy-bar to display the icons of the apps",
+      "type": "io.cozy.apps",
+      "verbs": [
+        "GET"
+      ]
+    },
+    "settings": {
+      "description": "Required by the cozy-bar to display Claudy and know which applications are coming soon",
+      "type": "io.cozy.settings",
+      "verbs": [
+        "GET"
+      ]
+    },
+    "accounts": {
+      "description": "Required to get konnector account",
+      "type": "io.cozy.accounts",
+      "verbs": [
+        "GET",
+        "POST",
+        "PUT"
+      ]
+    },
+    "konnectors": {
+      "description": "Required to create your mobility konnector account and to display additional information in the viewer for files automatically retrieved by services",
+      "type": "io.cozy.konnectors",
+      "verbs": [
+        "GET"
+      ]
+    },
+    "triggers": {
+      "description": "Required to create your mobility konnector account and to display additional information in the viewer and for the notification service",
+      "type": "io.cozy.triggers",
+      "verbs": [
+        "GET",
+        "POST"
+      ]
+    },
+    "files": {
+      "description": "Required to access the files for saved your export of trips",
+      "type": "io.cozy.files",
+      "verbs": [
+        "ALL"
+      ]
+    },
+    "sharings": {
+      "description": "Required to have access to the sharings in realtime",
+      "type": "io.cozy.sharings",
+      "verbs": [
+        "ALL"
+      ]
+    },
+    "geojson-timeseries": {
+      "description": "Required to display geojson timeseries",
+      "type": "io.cozy.timeseries.geojson"
+    },
+    "coachco2.settings": {
+      "description": "Used to manage your Coach CO2 settings",
+      "type": "io.cozy.coachco2.settings",
+      "verbs": [
+        "GET",
+        "POST",
+        "PUT"
+      ]
+    },
+    "jobs": {
+      "description": "Used in services to start other services",
+      "type": "io.cozy.jobs",
+      "verbs": [
+        "POST"
+      ]
+    },
+    "dacc": {
+      "type": "cc.cozycloud.dacc_v2",
+      "verbs": [
+        "POST"
+      ],
+      "description": "Remote-doctype required to send anonymized CO2 contributions"
+    },
+    "dacc-dev": {
+      "type": "cc.cozycloud.dacc.dev_v2",
+      "verbs": [
+        "POST"
+      ],
+      "description": "Remote-doctype required to send anonymized CO2 contributions, for developement purposes"
+    },
+    "contacts": {
+      "type": "io.cozy.contacts.*",
+      "verbs": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "description": "Used to link contacts to geojson timeseries and sharing documents"
+    }
+  },
+  "services": {
+    "timeseriesWithoutAggregateMigration": {
+      "type": "node",
+      "file": "services/timeseriesWithoutAggregateMigration/coachco2.js",
+      "trigger": "@event io.cozy.timeseries.geojson:CREATED,UPDATED",
+      "debounce": "1m"
+    },
+    "dacc": {
+      "type": "node",
+      "file": "services/dacc/coachco2.js",
+      "trigger": "@every 720h"
+    },
+    "recurringPurposes": {
+      "type": "node",
+      "file": "services/recurringPurposes/coachco2.js",
+      "trigger": "@event io.cozy.timeseries.geojson:CREATED",
+      "debounce": "2m"
+    }
+  },
+  "locales": {
+    "en": {
+      "short_description": "Keep track of your trips and analyze their impact on the environment.",
+      "long_description": "CoachCO2 is a self data application developed within the framework of the **territory of La Rochelle** and the [Agremob](https://agremob.com/) program.\n\n&nbsp;\n\nIts ambition is to **help you** :\n- to **become aware of the issues** related to mobility,\n- to **question your travel habits**,\n- and **find more sustainable alternatives** (yes it is possible!).\n\nAll this in complete confidentiality, as always in your Cozy: **only you have the right to access your data**, and you have the control to share it with whomever you want, whenever and if YOU want.\n\nIts objective is also to **enable the emergence of new ecomobility projects or offers** thanks to the expertise of the program's partner structures.\n\n&nbsp;\n\nToday this application forms a duo with **the mobile application TraceMob** whose connector, also present in the store of your Personal Cloud, collects and saves your mobility tracks at home.\n\nTomorrow **other sensors will complete your data**. The application, itself under development, is today focused on mobility, tomorrow other sources of CO2 may extend its scope.\n\n&nbsp;\n\n[Agremob](https://agremob.com/) makes this application **a common good** that can be used beyond the borders of the La Rochelle agglomeration. If your Cozy's host does not offer it in its own store, contact them!",
+      "permissions": {
+        "apps": {
+          "description": "Required by the cozy-bar to display the icons of the apps"
+        },
+        "settings": {
+          "description": "Required by the cozy-bar to display Claudy and know which applications are coming soon"
+        },
+        "accounts": {
+          "description": "Required to get konnector account"
+        },
+        "files": {
+          "description": "Required to access the files for saved your export of trips"
+        },
+        "geojson-timeseries": {
+          "description": "Required to display geojson timeseries"
+        },
+        "coachco2.settings": {
+          "description": "Used to manage your Coach CO2 settings"
+        }
+      }
+    },
+    "fr": {
+      "short_description": "Conservez l'historique de vos déplacements et analysez leurs impacts sur l'environnement.",
+      "long_description": "CoachCO2 est une application de self data développée dans le cadre du **territoire de la Rochelle** et du programme [Agremob](https://agremob.com/).\n\n&nbsp;\n\nElle a pour ambition de **vous aider** :\n- à **prendre conscience des enjeux** liés à la mobilité,\n- à **questionner vos habitudes** de déplacements,\n- et **trouver des alternatives** plus durables (oui c’est possible !).\n\nCeci en toute confidentialité, comme toujours dans votre Cozy : **vous êtes le seul à avoir le droit d'accéder à vos données**, et vous avez le contrôle de les partager avec qui vous vous voulez, quand et si VOUS le souhaitez.\n\nSon objectif est aussi de **permettre l’émergence de nouveaux projets ou offres d’écomobilité** grâce à l’expertise de structures partenaires du programme.\n\n&nbsp;\n\nAujourd'hui cette application forme un duo avec **l'application mobile TraceMob** dont le connecteur, présent aussi dans le store de votre Cloud Personnel, collecte et sauvegarde vos traces de mobilité chez vous.\n\nDemain **d'autres capteurs compléteront vos données**. L'application, elle-même en cours de développement, est aujourd'hui tournée vers la mobilité, demain d'autres sources de CO2 pourront étendre son champ d'action.\n\n&nbsp;\n\n[Agremob](https://agremob.com/) fait de cette application **un bien commun** utilisable au-delà des frontières de l'agglomération de la Rochelle. Si l'hébergeur de votre Cozy ne la propose pas dans son propre store, contactez-le !",
+      "permissions": {
+        "apps": {
+          "description": "Utilisé par la cozy-bar pour afficher les icônes des applications"
+        },
+        "settings": {
+          "description": "Utilisé par le cozy-bar pour afficher Claudy et savoir quelles applications sont à venir"
+        },
+        "accounts": {
+          "description": "Utilisé pour obtenir un compte konnector"
+        },
+        "files": {
+          "description": "Utilisé pour accéder aux fichiers de sauvegarde de votre exportation de voyages"
+        },
+        "geojson-timeseries": {
+          "description": "Utilisé pour afficher les séries temporelles geojson"
+        },
+        "coachco2.settings": {
+          "description": "Utilisé pour gérer les paramètres de votre Coach CO2"
+        }
+      }
+    }
+  }
+}
