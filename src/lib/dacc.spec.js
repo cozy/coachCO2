@@ -17,7 +17,7 @@ jest.mock('cozy-client', () => ({
 const mockClient = createMockClient({})
 const mockedCurrentDate = '2022-04-12T11:01:58.135Z'
 
-describe('runDACCService', () => {
+describe('runMonthlyCO2DACCService', () => {
   beforeEach(() => {
     jest.resetAllMocks()
 
@@ -29,14 +29,14 @@ describe('runDACCService', () => {
 
   it('should do nothing when there is no consent', async () => {
     jest.spyOn(mockClient, 'queryAll').mockResolvedValueOnce(null)
-    let shouldRestart = await dacc.runDACCService(mockClient)
+    let shouldRestart = await dacc.runMonthlyCO2DACCService(mockClient)
     expect(sendMeasureToDACC).toHaveBeenCalledTimes(0)
     expect(shouldRestart).toBe(false)
 
     jest
       .spyOn(mockClient, 'queryAll')
       .mockResolvedValueOnce([{ CO2Emission: { sendToDACC: false } }])
-    shouldRestart = await dacc.runDACCService(mockClient)
+    shouldRestart = await dacc.runMonthlyCO2DACCService(mockClient)
     expect(sendMeasureToDACC).toHaveBeenCalledTimes(0)
     expect(shouldRestart).toBe(false)
   })
@@ -54,7 +54,7 @@ describe('runDACCService', () => {
     jest
       .spyOn(mockClient, 'queryAll')
       .mockResolvedValue([{ aggregation: { totalCO2: 0 } }])
-    const shouldRestart = await dacc.runDACCService(mockClient)
+    const shouldRestart = await dacc.runMonthlyCO2DACCService(mockClient)
     expect(sendMeasureToDACC).toHaveBeenCalledTimes(2)
     expect(shouldRestart).toBe(false)
   })
@@ -72,7 +72,7 @@ describe('runDACCService', () => {
       .spyOn(mockClient, 'queryAll')
       .mockResolvedValue([{ aggregation: { totalCO2: 0 } }])
 
-    const shouldRestart = await dacc.runDACCService(mockClient)
+    const shouldRestart = await dacc.runMonthlyCO2DACCService(mockClient)
     expect(sendMeasureToDACC).toHaveBeenCalledTimes(12)
     expect(shouldRestart).toBe(true)
   })

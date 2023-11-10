@@ -1,5 +1,7 @@
 import endOfMonth from 'date-fns/endOfMonth'
+import endOfYear from 'date-fns/endOfYear'
 import startOfMonth from 'date-fns/startOfMonth'
+import startOfYear from 'date-fns/startOfYear'
 import subYears from 'date-fns/subYears'
 import {
   BICYCLING_MODE,
@@ -199,15 +201,22 @@ export const buildOneYearOldTimeseriesWithAggregationByAccountId =
   }
 
 export const buildBikeCommuteTimeseriesQueryByAccountId = (
-  { accountId },
+  { accountId, date = null },
   enabled
 ) => {
+  const selector = {
+    'cozyMetadata.sourceAccount': accountId
+  }
+  if (date) {
+    const startYearDate = startOfYear(new Date(date)).toISOString()
+    const endYearDate = endOfYear(new Date(date)).toISOString()
+    selector.startDate = { $gte: startYearDate, $lte: endYearDate }
+  } else {
+    selector.startDate = { $gt: null }
+  }
   return {
     definition: Q(GEOJSON_DOCTYPE)
-      .where({
-        'cozyMetadata.sourceAccount': accountId,
-        startDate: { $gt: null }
-      })
+      .where(selector)
       .partialIndex({
         'aggregation.purpose': COMMUTE_PURPOSE,
         'aggregation.modes': {

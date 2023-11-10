@@ -255,10 +255,12 @@ export const DACC_MEASURE_NAME_CO2_MONTHLY = 'co2-emissions-monthly'
 export const DACC_MEASURE_GROUP1_CO2_MONTHLY = Object.freeze({
   is_tracemob_expe: true
 })
+export const DACC_MEASURE_NAME_BIKE_GOAL = 'bike-goal-yearly'
 
 export const TIMESERIE_MIGRATION_SERVICE_NAME =
   'timeseriesWithoutAggregateMigration'
-export const DACC_SERVICE_NAME = 'dacc'
+export const DACC_MONTHLY_CO2_SERVICE_NAME = 'daccMonthlyCO2'
+export const DACC_BIKE_GOAL_SERVICE_NAME = 'daccBikeGoal'
 export const MAX_DACC_MEASURES_SENT = 12
 
 export const RECURRING_PURPOSES_SERVICE_NAME = 'recurringPurposes'

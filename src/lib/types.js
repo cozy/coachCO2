@@ -1,4 +1,17 @@
 /**
+ * DACC measure
+ *
+ * See https://github.com/cozy/DACC
+ *
+ * @typedef {object} DACCMeasure
+ * @property {string} measureName - The name of the DACC measure
+ * @property {string} startDate - The measure date
+ * @property {number} value - The measured value
+ * @property {object} group1 - A DACC group, to aggregate measures
+ * @property {Array<object>} groups - An array for all groups, to aggregate measures
+ */
+
+/**
  * The GeoJSON timeseries doctype.
  * 
  * See https://github.com/cozy/cozy-doctypes/blob/master/docs/io.cozy.timeseries.md#iocozytimeseriesgeojson

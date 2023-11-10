@@ -4,13 +4,13 @@ import isThisMonth from 'date-fns/isThisMonth'
 import startOfMonth from 'date-fns/startOfMonth'
 import subMonths from 'date-fns/subMonths'
 import {
-  APP_SLUG,
   DACC_MEASURE_NAME_CO2_MONTHLY,
   DACC_MEASURE_GROUP1_CO2_MONTHLY,
   TIMESERIE_MIGRATION_SERVICE_NAME,
   MAX_DACC_MEASURES_SENT
 } from 'src/constants'
 import {
+  createMeasureForDACC,
   getDACCRemoteDoctype,
   sendMeasureToDACCWithRemoteDoctype
 } from 'src/lib/dacc'
@@ -55,16 +55,6 @@ export const fetchMonthlyAverageCO2FromDACCFor11Month = async client => {
       'error',
       `Error while retrieving data from remote-doctype: ${error.message}`
     )
-  }
-}
-
-const createMeasureForDACC = (startDate, value) => {
-  return {
-    createdBy: APP_SLUG,
-    measureName: DACC_MEASURE_NAME_CO2_MONTHLY,
-    startDate: format(startDate, 'yyyy-MM-dd'),
-    value,
-    group1: DACC_MEASURE_GROUP1_CO2_MONTHLY
   }
 }
 
@@ -125,7 +115,16 @@ const saveStartDateInAccount = async (client, account, date) => {
   await client.save(newAccount)
 }
 
-export const sendMeasuresForAccount = async (client, account) => {
+const createCO2MeasureToDACC = (startDate, value) => {
+  return createMeasureForDACC({
+    startDate,
+    value,
+    measureName: DACC_MEASURE_NAME_CO2_MONTHLY,
+    group1: DACC_MEASURE_GROUP1_CO2_MONTHLY
+  })
+}
+
+export const sendCO2MeasuresForAccount = async (client, account) => {
   let nMeasuresSent = 0
   let startDate = await getStartDate(client, account)
   if (!startDate) {
@@ -158,8 +157,7 @@ export const sendMeasuresForAccount = async (client, account) => {
       return nMeasuresSent
     }
     const CO2 = computeCO2Timeseries(timeseries)
-    const measure = createMeasureForDACC(startDate, CO2)
-
+    const measure = createCO2MeasureToDACC(startDate, CO2)
     await sendMeasureToDACCWithRemoteDoctype(client, measure)
     nMeasuresSent++
     nextStartDate = getNextMeasureStartDate(startDate)
