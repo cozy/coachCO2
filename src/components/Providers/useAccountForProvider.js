@@ -7,14 +7,14 @@ const useAccountForProvider = (settings, accounts, selectedAccount) => {
   const isLoading = settings.isLoading || accounts.isLoading
 
   if (isLoading) {
-    return null
+    return { account: null, isAccountLoading: true }
   }
 
   if (selectedAccount === null) {
     const setting = settings.data[0]
 
     if (setting) {
-      return setting.account
+      return { account: setting.account, isAccountLoading: false }
     }
 
     const defaultAccount = accounts.data[0]
@@ -25,14 +25,13 @@ const useAccountForProvider = (settings, accounts, selectedAccount) => {
         setting,
         account: defaultAccount
       })
-
-      return defaultAccount
+      return { account: defaultAccount, isAccountLoading: false }
     }
 
-    return null
+    return { account: null, isAccountLoading: false }
   }
 
-  return selectedAccount
+  return { account: selectedAccount, isAccountLoading: false }
 }
 
 export default useAccountForProvider
