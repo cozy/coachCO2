@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
 import SelectDatesWithLoader from 'src/components/SelectDates/SelectDatesWithLoader'
@@ -17,10 +17,11 @@ const SelectDatesWrapper = () => {
     selectedDate,
     setSelectedDate,
     isSelectedDateLoading,
-    setIsSelectedDateLoading
+    setIsSelectedDateLoading,
+    options,
+    setOptions
   } = useSelectDatesContext()
   const { account } = useAccountContext()
-
   const timeseriesQuery = buildAggregatedTimeseriesQueryByAccountId({
     accountId: account?._id,
     limitBy: 1000
@@ -33,38 +34,32 @@ const SelectDatesWrapper = () => {
     }
   )
 
-  const isTimeseriesQueryEnabled = timeseriesQuery.options.enabled
   const isLoading =
-    isTimeseriesQueryEnabled &&
-    (isQueryLoading(timeseriesQueryResult) || timeseriesQueryResult.hasMore)
-
-  const options = useMemo(
-    () => computeOptions(isLoading, timeseries),
-    [isLoading, timeseries]
-  )
+    isQueryLoading(timeseriesQueryResult) || timeseriesQueryResult.hasMore
 
   useEffect(() => {
-    if (options && selectedDate === null) {
-      setSelectedDate(makeLatestDate(options))
+    if (account && !isLoading && isSelectedDateLoading) {
+      const options = computeOptions(isLoading, timeseries)
+      setIsSelectedDateLoading(false)
+      if (options) {
+        setSelectedDate(makeLatestDate(options))
+        setOptions(options)
+      }
     }
-  }, [options, selectedDate, setSelectedDate])
-
-  useEffect(() => {
-    if (isLoading !== isSelectedDateLoading) {
-      setIsSelectedDateLoading(isLoading)
-    }
-  }, [isLoading, isSelectedDateLoading, setIsSelectedDateLoading])
-
-  useEffect(() => {
-    return () => {
-      setSelectedDate(null)
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
+  }, [
+    account,
+    isLoading,
+    isSelectedDateLoading,
+    setIsSelectedDateLoading,
+    setSelectedDate,
+    timeseries,
+    setOptions
+  ])
+  if (!options) return null
   return (
     <SelectDatesWithLoader
       className="u-mt-1-s u-ml-0-s u-flex-justify-center-s u-flex u-ml-2"
-      isLoading={isLoading || selectedDate === null}
+      isLoading={isSelectedDateLoading}
       options={options}
       selectedDate={selectedDate}
       setSelectedDate={setSelectedDate}
