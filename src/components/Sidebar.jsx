@@ -1,5 +1,6 @@
+import cx from 'classnames'
 import React from 'react'
-import { NavLink as RouterLink } from 'react-router-dom'
+import { NavLink as RouterLink, useLocation } from 'react-router-dom'
 
 import Box from 'cozy-ui/transpiled/react/Box'
 import CategoriesIcon from 'cozy-ui/transpiled/react/Icons/Categories'
@@ -9,7 +10,8 @@ import Nav, {
   NavItem,
   NavIcon,
   NavText,
-  genNavLinkForV6
+  genNavLinkForV6,
+  NavLink as UINavLink
 } from 'cozy-ui/transpiled/react/Nav'
 import UISidebar from 'cozy-ui/transpiled/react/Sidebar'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
@@ -18,6 +20,9 @@ const NavLink = genNavLinkForV6(RouterLink)
 
 const Sidebar = () => {
   const { t } = useI18n()
+  const location = useLocation()
+
+  const isActive = location.pathname.startsWith('/analysis')
 
   return (
     <UISidebar>
@@ -29,7 +34,13 @@ const Sidebar = () => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/analysis">
+          <NavLink
+            to="/analysis/modes"
+            className={cx(
+              UINavLink.className,
+              isActive ? UINavLink.activeClassName : null
+            )}
+          >
             <NavIcon icon={PieChartIcon} />
             <NavText>{t('nav.analysis')}</NavText>
           </NavLink>
