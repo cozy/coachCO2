@@ -3,6 +3,7 @@ import ChartLegend from 'src/components/CO2EmissionsChart/VerticalBarChart/Chart
 import VerticalBarChart from 'src/components/CO2EmissionsChart/VerticalBarChart/VerticalBarChart'
 import { makeOptions, makeData } from 'src/components/CO2EmissionsChart/helpers'
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
+import { DACC_MEASURE_NAME_CO2_MONTHLY } from 'src/constants'
 import useFetchDACCAggregates from 'src/hooks/useFetchDACCAggregates'
 import useSettings from 'src/hooks/useSettings'
 import { buildOneYearOldTimeseriesWithAggregationByAccountId } from 'src/queries/queries'
@@ -31,7 +32,10 @@ const CO2EmissionsChart = () => {
     }
   )
 
-  const { data: globalAverages } = useFetchDACCAggregates(sendToDACC)
+  const { data: globalAverages } = useFetchDACCAggregates({
+    hasConsent: sendToDACC,
+    measureName: DACC_MEASURE_NAME_CO2_MONTHLY
+  })
 
   const isLoading =
     !account || isQueryLoading(queryResult) || queryResult.hasMore

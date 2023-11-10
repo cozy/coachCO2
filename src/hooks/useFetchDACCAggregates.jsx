@@ -1,9 +1,32 @@
 import { useState, useEffect } from 'react'
+import {
+  DACC_MEASURE_NAME_BIKE_GOAL,
+  DACC_MEASURE_NAME_CO2_MONTHLY
+} from 'src/constants'
+import {
+  fetchYesterdayBikeGoalFromDACC,
+  getAvgDaysForGroupName
+} from 'src/lib/daccBikeGoal'
 import { fetchMonthlyAverageCO2FromDACCFor11Month } from 'src/lib/daccMonthlyCO2'
 
 import { useClient } from 'cozy-client'
 
-const useFetchDACCAggregates = sendToDACC => {
+const fetchMeasureData = async (client, measureName) => {
+  if (measureName === DACC_MEASURE_NAME_CO2_MONTHLY) {
+    const results = await fetchMonthlyAverageCO2FromDACCFor11Month(client)
+    const averages = results?.length > 0 ? results.map(agg => agg.avg) : null
+    return averages
+  }
+  if (measureName === DACC_MEASURE_NAME_BIKE_GOAL) {
+    const results = await fetchYesterdayBikeGoalFromDACC(client)
+    if (!results) {
+      return null
+    }
+    return getAvgDaysForGroupName(results)
+  }
+}
+
+const useFetchDACCAggregates = ({ hasConsent, measureName }) => {
   const client = useClient()
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState(null)
@@ -11,15 +34,14 @@ const useFetchDACCAggregates = sendToDACC => {
   useEffect(() => {
     const fetchDataFromDACC = async () => {
       setIsLoading(true)
-      const results = await fetchMonthlyAverageCO2FromDACCFor11Month(client)
-      const averages = results?.length > 0 ? results.map(agg => agg.avg) : null
+      const results = await fetchMeasureData(client, measureName)
       setIsLoading(false)
-      setData(averages)
+      setData(results)
     }
-    if (sendToDACC) {
+    if (hasConsent) {
       fetchDataFromDACC()
     }
-  }, [client, sendToDACC])
+  }, [client, hasConsent, measureName])
 
   return { isLoading, data }
 }

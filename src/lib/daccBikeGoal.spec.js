@@ -84,3 +84,30 @@ describe('sendBikeGoalMeasuresForAccount', () => {
     )
   })
 })
+
+describe('getAvgForGroupName', () => {
+  it('should get the avg value for the given group', () => {
+    const aggs = [
+      {
+        avg: 4.544,
+        groups: [{ groupName: 'Cozy' }]
+      },
+      {
+        avg: 2.32,
+        groups: [{ groupName: 'Hyperion' }]
+      }
+    ]
+    flag.mockReturnValue({ sourceName: 'Cozy' })
+    expect(dacc.getAvgDaysForGroupName(aggs, 'Cozy')).toEqual(5)
+  })
+  it('should return null when the given group is not found', () => {
+    const aggs = [
+      {
+        avg: 4.544,
+        groups: [{ groupName: 'Cozy' }]
+      }
+    ]
+    flag.mockReturnValue({ sourceName: 'Hyperion' })
+    expect(dacc.getAvgDaysForGroupName(aggs, 'Hyperion')).toEqual(null)
+  })
+})

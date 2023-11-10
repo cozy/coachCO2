@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BikeGoalSummaryItem from 'src/components/Goals/BikeGoal/BikeGoalSummaryItem'
 import {
   countDaysOrDaysToReach,
-  isGoalCompleted,
-  getDaccAverageDays
+  isGoalCompleted
 } from 'src/components/Goals/BikeGoal/helpers'
+import { DACC_MEASURE_NAME_BIKE_GOAL } from 'src/constants'
+import useFetchDACCAggregates from 'src/hooks/useFetchDACCAggregates'
 import { buildSettingsQuery } from 'src/queries/queries'
 
 import { isQueryLoading, useQuery } from 'cozy-client'
@@ -17,13 +18,25 @@ const BikeGoalSummaryDaccItems = ({
   body1,
   componentsProps
 }) => {
+  const [hasDACCConsent, setHasDACCConsent] = useState(false)
   const { t } = useI18n()
   const settingsQuery = buildSettingsQuery()
   const { data: settings, ...settingsQueryLeft } = useQuery(
     settingsQuery.definition,
     settingsQuery.options
   )
-  const isLoading = isQueryLoading(settingsQueryLeft)
+
+  useEffect(() => {
+    const consent = settings?.[0].bikeGoal?.sendToDACC
+    setHasDACCConsent(!!consent)
+  }, [settings])
+
+  const { data: avgDays, isLoading: isDACCLoading } = useFetchDACCAggregates({
+    hasConsent: hasDACCConsent,
+    measureName: DACC_MEASURE_NAME_BIKE_GOAL
+  })
+
+  const isLoading = isQueryLoading(settingsQueryLeft) && isDACCLoading
 
   if (isLoading) {
     return null
@@ -46,7 +59,7 @@ const BikeGoalSummaryDaccItems = ({
       />
       <BikeGoalSummaryItem
         {...componentsProps.BikeGoalSummaryItem}
-        days={getDaccAverageDays()}
+        days={avgDays}
         label={t('bikeGoal.average_progression')}
         color="#BA5AE83D"
         body1={body1}
