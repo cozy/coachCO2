@@ -27,6 +27,7 @@ const BikeGoalSummaryItem = ({
     settingsQuery.options
   )
   const isLoading = isQueryLoading(settingsQueryLeft)
+  const avgGroupDays = days || '-'
 
   if (isLoading) {
     return null
@@ -47,7 +48,7 @@ const BikeGoalSummaryItem = ({
         style={createStyle(isSuccess)}
       >
         {t('bikeGoal.goal_progression', {
-          days,
+          days: avgGroupDays,
           daysToReach: getDaysToReach(settings)
         })}
       </Typography>
