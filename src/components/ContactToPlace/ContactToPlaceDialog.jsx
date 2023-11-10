@@ -16,8 +16,13 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const ContactToPlaceDialog = ({ isLoading }) => {
   const [showTooltip, setShowTooltip] = useState(false)
-  const { type, setType } = useContactToPlace()
+  const { type, setType, setContact } = useContactToPlace()
   const { t } = useI18n()
+
+  const handleClose = () => {
+    setContact(null)
+    setType()
+  }
 
   return (
     <ConfirmDialog
@@ -56,7 +61,7 @@ const ContactToPlaceDialog = ({ isLoading }) => {
         )
       }
       actions={<ContactToPlaceDialogActions />}
-      onClose={() => setType()}
+      onClose={handleClose}
     />
   )
 }
