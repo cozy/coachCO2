@@ -63,7 +63,8 @@ const AnalysisWrapper = () => {
 
   if (
     account &&
-    (isQueryLoading(timeseriesQueryLeft) || timeseriesQueryLeft.hasMore)
+    (isQueryLoading(timeseriesQueryLeft) || timeseriesQueryLeft.hasMore) &&
+    selectedDate !== null
   ) {
     return (
       <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
