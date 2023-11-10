@@ -1,13 +1,14 @@
 import React from 'react'
 import { HashRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
+import ModesList from 'src/components/Analysis/Modes/ModesList'
+import PurposesList from 'src/components/Analysis/Purposes/PurposesList'
 import AppLayout from 'src/components/AppLayout'
 import CertificateGeneration from 'src/components/Goals/BikeGoal/Certificate/CertificateGeneration'
+import { ListWrapper } from 'src/components/ListWrapper'
 import BikeGoal from 'src/components/Views/BikeGoal'
 import BikeGoalAbout from 'src/components/Views/BikeGoalAbout'
 import BikeGoalEdit from 'src/components/Views/BikeGoalEdit'
 import BikeGoalOnboarding from 'src/components/Views/BikeGoalOnboarding'
-import ModeAnalysis from 'src/components/Views/ModeAnalysis'
-import PurposeAnalysis from 'src/components/Views/PurposeAnalysis'
 import Settings from 'src/components/Views/Settings'
 import Trip from 'src/components/Views/Trip'
 import Trips from 'src/components/Views/Trips'
@@ -59,29 +60,29 @@ const AppRouter = () => {
               />
             )}
           </Route>
+          <Route path="analysis/" element={<ListWrapper />}>
+            <Route
+              path="modes"
+              element={<OutletWrapper Component={ModesList} />}
+            />
+            <Route
+              path="modes/:mode"
+              element={<OutletWrapper Component={ModesList} />}
+            >
+              <Route path=":timeserieId" element={<Trip />} />
+            </Route>
 
-          <Route
-            path="analysis/modes"
-            element={<OutletWrapper Component={ModeAnalysis} />}
-          />
-          <Route
-            path="analysis/modes/:mode"
-            element={<OutletWrapper Component={ModeAnalysis} />}
-          >
-            <Route path=":timeserieId" element={<Trip />} />
+            <Route
+              path="purposes"
+              element={<OutletWrapper Component={PurposesList} />}
+            />
+            <Route
+              path="purposes/:purpose"
+              element={<OutletWrapper Component={PurposesList} />}
+            >
+              <Route path=":timeserieId" element={<Trip />} />
+            </Route>
           </Route>
-
-          <Route
-            path="analysis/purposes"
-            element={<OutletWrapper Component={PurposeAnalysis} />}
-          />
-          <Route
-            path="analysis/purposes/:purpose"
-            element={<OutletWrapper Component={PurposeAnalysis} />}
-          >
-            <Route path=":timeserieId" element={<Trip />} />
-          </Route>
-
           {flag('coachco2.bikegoal.enabled') && (
             <>
               <Route
@@ -103,11 +104,6 @@ const AppRouter = () => {
             </>
           )}
 
-          {/* redirection */}
-          <Route
-            path="analysis"
-            element={<Navigate replace to="/analysis/modes" />}
-          />
           {flag('coachco2.bikegoal.enabled') && (
             <Route
               path="bikegoal"
