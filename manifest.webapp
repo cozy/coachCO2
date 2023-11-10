@@ -100,7 +100,8 @@
     "daccMonthlyCO2": {
       "type": "node",
       "file": "services/daccMonthlyCO2/coachco2.js",
-      "trigger": "@every 720h"
+      "trigger": "@monthly on the 1"
+    },
     },
     "recurringPurposes": {
       "type": "node",
