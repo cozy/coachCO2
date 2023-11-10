@@ -23,12 +23,11 @@ const CO2EmissionsChart = () => {
     useSettings('CO2Emission.sendToDACC')
 
   const oneYearOldTimeseriesQuery =
-    buildOneYearOldTimeseriesWithAggregationByAccountId(account?._id)
+    buildOneYearOldTimeseriesWithAggregationByAccountId(account._id)
   const { data: oneYearOldTimeseries, ...queryResult } = useQueryAll(
     oneYearOldTimeseriesQuery.definition,
     {
-      ...oneYearOldTimeseriesQuery.options,
-      enabled: Boolean(account)
+      ...oneYearOldTimeseriesQuery.options
     }
   )
 
@@ -37,13 +36,15 @@ const CO2EmissionsChart = () => {
     measureName: DACC_MEASURE_NAME_CO2_MONTHLY
   })
 
-  const isLoading =
-    !account || isQueryLoading(queryResult) || queryResult.hasMore
-
-  if (isLoading || oneYearOldTimeseries.length === 0) {
-    return null
+  const isLoading = isQueryLoading(queryResult) || queryResult.hasMore
+  if (isLoading) {
+    return (
+      <div
+        className="u-mt-1 u-ph-half-s u-ph-2"
+        style={{ minHeight: '190px' }}
+      />
+    )
   }
-
   const showLegend = !isSettingsLoading && sendToDACC
   const options = makeOptions(theme)
   const data = makeData({
