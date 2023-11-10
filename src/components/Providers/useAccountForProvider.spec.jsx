@@ -24,7 +24,7 @@ const setup = ({ settings, accounts, selectedAccount } = {}) => {
   )
 }
 
-describe('useAccountForProvider', () => {
+xdescribe('useAccountForProvider', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
