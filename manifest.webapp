@@ -102,6 +102,10 @@
       "file": "services/daccMonthlyCO2/coachco2.js",
       "trigger": "@monthly on the 1"
     },
+    "daccBikeGoal": {
+      "type": "node",
+      "file": "services/daccBikeGoal/coachco2.js",
+      "trigger": "@daily"
     },
     "recurringPurposes": {
       "type": "node",

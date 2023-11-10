@@ -159,7 +159,7 @@ describe('hasNonAggregatedTimeseries', () => {
   })
 })
 
-describe('sendMeasuresForAccount', () => {
+describe('sendCO2MeasuresForAccount', () => {
   const expectedMeasure = {
     createdBy: 'coachco2',
     measureName: 'co2-emissions-monthly',
@@ -184,7 +184,7 @@ describe('sendMeasuresForAccount', () => {
         lastDACCMeasureStartDate: '2021-12-01'
       }
     }
-    await dacc.sendMeasuresForAccount(mockClient, account)
+    await dacc.sendCO2MeasuresForAccount(mockClient, account)
     // Send for january, february and march
     expect(sendMeasureToDACC).toHaveBeenCalledTimes(3)
     expect(sendMeasureToDACC).toHaveBeenNthCalledWith(
@@ -227,7 +227,7 @@ describe('sendMeasuresForAccount', () => {
     jest
       .spyOn(mockClient, 'query')
       .mockResolvedValue({ data: [januaryTimeseries[0]] })
-    await dacc.sendMeasuresForAccount(mockClient, account)
+    await dacc.sendCO2MeasuresForAccount(mockClient, account)
     expect(sendMeasureToDACC).toHaveBeenCalledTimes(3)
   })
 
@@ -238,7 +238,7 @@ describe('sendMeasuresForAccount', () => {
         lastDACCMeasureStartDate: '2022-05-01'
       }
     }
-    await dacc.sendMeasuresForAccount(mockClient, account)
+    await dacc.sendCO2MeasuresForAccount(mockClient, account)
     expect(sendMeasureToDACC).toHaveBeenCalledTimes(0)
   })
 
@@ -249,7 +249,7 @@ describe('sendMeasuresForAccount', () => {
         lastDACCMeasureStartDate: '2022-04-01'
       }
     }
-    await dacc.sendMeasuresForAccount(mockClient, account)
+    await dacc.sendCO2MeasuresForAccount(mockClient, account)
     expect(sendMeasureToDACC).toHaveBeenCalledTimes(0)
   })
 
@@ -266,7 +266,7 @@ describe('sendMeasuresForAccount', () => {
         lastDACCMeasureStartDate: new Date('2022-03-01')
       }
     }
-    await dacc.sendMeasuresForAccount(mockClient, account)
+    await dacc.sendCO2MeasuresForAccount(mockClient, account)
     expect(sendMeasureToDACC).toHaveBeenCalledTimes(3)
     expect(mockClient.save).toHaveBeenCalledWith(expectedSavedAccount)
   })
