@@ -48,16 +48,11 @@ const useStyles = makeStyles(theme => ({
 const SelectDates = ({ className, options, selectedDate, setSelectedDate }) => {
   const classes = useStyles()
   const { lang } = useI18n()
-
-  const { months, monthSelectedIndex, disabledMonthsIndexes } = useMemo(
-    () =>
-      computeMonths({
-        dates: options,
-        selectedDate,
-        lang
-      }),
-    [options, selectedDate, lang]
-  )
+  const { months, monthSelectedIndex, disabledMonthsIndexes } = computeMonths({
+    dates: options,
+    selectedDate,
+    lang
+  })
 
   const { years, yearSelectedIndex, disabledYearsIndexes } = useMemo(
     () => computeYears(options, selectedDate),
