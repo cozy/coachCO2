@@ -16,7 +16,7 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const ContactToPlaceDialogActions = () => {
   const [showError, setShowError] = useState(false)
-  const { type, isSameContact, contact, setType, label, category } =
+  const { type, isSameContact, contact, setContact, setType, label, category } =
     useContactToPlace()
   const { t } = useI18n()
   const { timeserie } = useTrip()
@@ -29,6 +29,7 @@ const ContactToPlaceDialogActions = () => {
     if (!contact) {
       return setShowError(true)
     }
+    setContact(null)
 
     showAlert(t('contactToPlace.addSuccess'), 'success')
     if (type === 'start' && !hasRelationshipByType(timeserie, 'end')) {
@@ -52,6 +53,7 @@ const ContactToPlaceDialogActions = () => {
 
   const handleDelete = async () => {
     showAlert(t('contactToPlace.removeSuccess'), 'success')
+    setContact(null)
     onClose()
     await removeRelationship({ client, timeserie, type, t, contact })
   }
