@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useMemo } from 'react'
+import React, { createContext, useState, useContext } from 'react'
 
 export const SelectDatesContext = createContext()
 
@@ -16,16 +16,16 @@ export const useSelectDatesContext = () => {
 export const SelectDatesProvider = ({ children }) => {
   const [selectedDate, setSelectedDate] = useState(null)
   const [isSelectedDateLoading, setIsSelectedDateLoading] = useState(true)
+  const [options, setOptions] = React.useState(null)
 
-  const value = useMemo(
-    () => ({
-      selectedDate,
-      setSelectedDate,
-      isSelectedDateLoading,
-      setIsSelectedDateLoading
-    }),
-    [isSelectedDateLoading, selectedDate]
-  )
+  const value = {
+    selectedDate,
+    setSelectedDate,
+    isSelectedDateLoading,
+    setIsSelectedDateLoading,
+    options,
+    setOptions
+  }
 
   return (
     <SelectDatesContext.Provider value={value}>
