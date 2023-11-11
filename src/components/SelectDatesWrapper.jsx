@@ -46,6 +46,12 @@ const SelectDatesWrapper = () => {
         setOptions(options)
       }
     }
+    if (!account) {
+      setIsSelectedDateLoading(false)
+    }
+    if (account && isLoading && !isSelectedDateLoading) {
+      setIsSelectedDateLoading(true)
+    }
   }, [
     account,
     isLoading,
