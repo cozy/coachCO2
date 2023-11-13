@@ -3,13 +3,8 @@ import React, { useMemo } from 'react'
 import { getPlaceLabelByContact } from 'src/components/ContactToPlace/helpers'
 import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 import { useTrip } from 'src/components/Providers/TripProvider'
-import { COMMUTE_PURPOSE } from 'src/constants'
 import { formatDate } from 'src/lib/helpers'
-import {
-  getTimeseriePurpose,
-  getPlaceDisplayName,
-  getPlaceDate
-} from 'src/lib/timeseries'
+import { getPlaceDisplayName, getPlaceDate } from 'src/lib/timeseries'
 
 import TimelineConnector from 'cozy-ui/transpiled/react/TimelineConnector'
 import TimelineContent from 'cozy-ui/transpiled/react/TimelineContent'
@@ -38,7 +33,7 @@ const useStyles = makeStyles(theme => ({
       padding: 0,
       flexGrow: 0
     },
-    cursor: ({ isCommute }) => (isCommute ? 'pointer' : undefined)
+    cursor: 'pointer'
   },
   contentWrapper: {
     display: 'flex',
@@ -53,11 +48,7 @@ const TimelineNode = ({ type }) => {
   const { t, f, lang } = useI18n()
   const { setType } = useContactToPlace()
   const { timeserie } = useTrip()
-
-  const purpose = getTimeseriePurpose(timeserie)
-  const isCommute = purpose === COMMUTE_PURPOSE
-
-  const classes = useStyles({ isCommute })
+  const classes = useStyles()
 
   const isNotEndNode = useMemo(() => type !== 'end', [type])
   const isStartNode = useMemo(() => type === 'start', [type])
@@ -72,10 +63,7 @@ const TimelineNode = ({ type }) => {
     : null
 
   return (
-    <TimelineItem
-      className={classes.item}
-      onClick={isCommute ? () => setType(type) : undefined}
-    >
+    <TimelineItem className={classes.item} onClick={() => setType(type)}>
       <TimelineSeparator>
         <TimelineDot
           className={cx({
