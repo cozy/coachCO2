@@ -4,8 +4,9 @@ cache: yarn
 branches:
   only:
   - master
-   # tags
-  - /^\d+\.\d+\.\d+(\-beta.\d+)?$/
+  # detect also branch like release/x.y.z or release/x.y.z-beta.n
+  - /^release\/\d+\.\d+\.\d+(\-beta.\d+)?$/
+
 env:
   global:
     - MATTERMOST_CHANNEL='{"dev":"projet---la-rochelle","beta":"projet---la-rochelle,publication","stable":"projet---la-rochelle,publication"}'
