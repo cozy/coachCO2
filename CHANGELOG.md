@@ -1,3 +1,84 @@
+# 0.12.0
+
+## ✨ Features
+
+## 🐛 Bug Fixes
+
+## 🔧 Tech
+
+# 0.11.0
+
+## ✨ Features
+
+* Move debug switch to specific category
+* Change wording in onboarding
+* Change color for DACC datas in emissions chart
+* Add `coachco2.fake-dacc-datas.enabled` flag to fake dacc datas
+* Change of onboarding wording
+* Add bike goal dacc switcher for admin mode
+* Use SendToDACC bike goal option to show proper info and charts
+* Add end date in trip dialog
+* Add last month in chart emission data computing
+* Add new modes of transport
+* Reverse sort order on analysis pages (mode & purpose)
+* Purposes rework : remove home, school and meal, add travel and sport
+* Disable ellipsis in ModeEditDialog
+* The recent addition of transport modes `bicycling electric` & `scooter electric` must be taken into account for the SMP.
+* On SMP edit, do not use the ellipsis to see the entire group name
+* Add possiblity to link contact to start/end trip place
+* Get accounts from openpath konenctor
+* Generation of the SMP certificate
+* Hide unused mode and purpose on Analysis page
+* Coordinates-based recurrence
+* Display start date instead en date in trip details (modal)
+* Filter recurring loop trips on distance
+* Automatic creation of trip titles
+* Add tooltip on mode edit dialog title
+* Adjust info block style in trip dialog
+* Adjust bike goal onboarding wordings
+* Simply get values from flags for sourceIdentity and sourceType
+* Bike goal feature: Replaces the notion of working time by the objective to reach
+* Now wait for accounts and timeseries before showing something
+* Displays a specific page when there is no trip
+* Show specific page on Settings if necessary
+* Add "Tramway" as a mode of transport
+* Move analysis SelectDates to show only if the is a content
+* Bike goal : add context logo
+* Remove empty date picker in Analysis pages while loading
+* For certificate, use name of bikegoal user instead currentuser
+* Add empty content on Bike Goal page
+* Refresh look of Settings page
+* Recurring UX update
+
+## 🐛 Bug Fixes
+
+* Style of pointToLayer on Trip Map
+* Handle all modes coming from openpath
+* Add missing locales for modes
+* Remove in_vehicle mode from the car category
+* Certificate generation does not redirect to the correct page
+* Get correct title when contacts are automatically associated to trips
+* Edit Location request dialogs to fit Play Store requirements
+* Fix failed trip association with contact addresses
+* Show specific page if no account
+* The `getDaysToReach` function could be called with its `settings` parameter undefined, when it should not.
+   In this case it used the flag value.
+   The visible fix of this commit is the `BikeGoalChart` which could be rendered more than 100%,  and caused a graphics bug.
+* Avoid flickering
+* Don't display the Spinner if there is no data yet but already an account
+
+## 🔧 Tech
+
+* Upgrade packages
+* Remove MUI packages
+* Add root alias
+* Use specific version of node and simplify travis.yml
+* Add babel/polyfill to remove lint warning
+* Change error message in save-random-trip script
+* Upgrade to node ~20
+* Add script option to remove relationships
+* Change regex for Travis branches build
+
 # 0.10.0
 
 ## ✨ Features
