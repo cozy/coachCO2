@@ -70,7 +70,7 @@
   "contactToPlace": {
     "saveStartPlace": "Enregistrer le point de départ ?",
     "saveEndPlace": "Enregistrer le point d'arrivée ?",
-    "tooltip": "Pour fiabiliser l’automatisation de cette catégorisation à l’avenir, enregistrer cette adresse dans une fiche contact.",
+    "tooltip": "Enregistrer cette adresse vous permettra de la retrouver dans des déplacements similaires et d'aider à leur catégorisation automatique.",
     "submit": "Enregistrer",
     "delete": "Supprimer",
     "cancel": "Annuler",
