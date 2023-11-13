@@ -42,13 +42,6 @@ export const openContactToPlaceModalOrClose = ({
     } else if (!hasRelationshipByType(timeserie, 'end')) {
       setContactToPlaceType('end')
     }
-  } else {
-    if (
-      !hasRelationshipByType(timeserie, 'start') &&
-      !hasRelationshipByType(timeserie, 'end')
-    ) {
-      setContactToPlaceType('start')
-    }
   }
 
   onClose()
