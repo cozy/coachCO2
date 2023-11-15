@@ -6,6 +6,18 @@
 
 ## 🔧 Tech
 
+# 0.11.1
+
+## ✨ Features
+
+* Bike goal : Change wording according to `bountyAmount`
+* Bike goal : Change wording according to `sourceName`
+
+## 🔧 Tech
+
+* Remove useless call to `getBountyAmount`
+* Remove throwing error if bountyAmount isn't set
+
 # 0.11.0
 
 ## ✨ Features
