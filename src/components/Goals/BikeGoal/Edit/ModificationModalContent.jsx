@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import EditModal from 'src/components/Goals/BikeGoal/Edit/EditModal'
+import { getSource } from 'src/components/Goals/BikeGoal/helpers'
 import useSettings from 'src/hooks/useSettings'
 
 import Divider from 'cozy-ui/transpiled/react/Divider'
@@ -21,6 +22,7 @@ const ModificationModalContent = () => {
   const { t } = useI18n()
   const [showEditModal, setShowEditModal] = useState('')
   const { isLoading, value: bikeGoal, save } = useSettings('bikeGoal')
+  const { sourceName } = getSource()
 
   const handleSendToDACC = () => {
     save({ ...bikeGoal, sendToDACC: !bikeGoal.sendToDACC })
@@ -91,7 +93,13 @@ const ModificationModalContent = () => {
           <ListItemIcon>
             <Icon icon={CompareIcon} />
           </ListItemIcon>
-          <ListItemText primary={t('bikeGoal.edit.compare_progress')} />
+          <ListItemText
+            primary={
+              sourceName
+                ? t('bikeGoal.edit.compare_progress')
+                : t('bikeGoal.edit.compare_progress_noValue')
+            }
+          />
           <ListItemSecondaryAction>
             <Switch
               className="u-w-auto"

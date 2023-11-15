@@ -216,6 +216,7 @@
     "goal_progression": "%{days}/%{daysToReach} jours",
     "my_progression": "Ma progression annuelle",
     "average_progression": "Progression moy. de mon organisation",
+    "average_progression_noValue": "Progression moy. des autres utilisateurs",
     "achievement_certificate": "Attestation de réussite",
     "goal": "Objectif",
     "goals": "Objectifs",
@@ -265,6 +266,7 @@
       "lastname": "Nom",
       "daysToReach": "Objectif à atteindre",
       "compare_progress": "Comparer ma progression avec celle de mon organisation",
+      "compare_progress_noValue": "Comparer ma progression avec celle des autres utilisateurs",
       "cancel": "Annuler",
       "submit": "Ok",
       "required": "Ce champ est obligatoire"
@@ -294,7 +296,8 @@
           "error": "Définissez un objectif plus réaliste. Entrer une valeur supérieure à 0."
         },
         "comparison": {
-          "comparisonLegend": "Il vous est possible d’afficher la progression moyenne des membres de votre organisation %{source} qui participent à l’objectif. Pour cela, il vous sera demandé de participer également à la constitution de cette moyenne.\n\nVos données de progression seront agrégées et envoyées anonymement, elles ne contiendront aucun identifiant ni lieux.",
+          "comparisonLegend": "Il vous est possible d’afficher la progression moyenne des membres de votre organisation %{sourceName} qui participent à l’objectif. Pour cela, il vous sera demandé de participer également à la constitution de cette moyenne.\n\nVos données de progression seront agrégées et envoyées anonymement, elles ne contiendront aucun identifiant ni lieux.",
+          "comparisonLegend_noValue": "Il vous est possible d’afficher la progression moyenne des autres utilisateurs qui participent à l’objectif. Pour cela, il vous sera demandé de participer également à la constitution de cette moyenne.\n\nVos données de progression seront agrégées et envoyées anonymement, elles ne contiendront aucun identifiant ni lieux.",
           "compare": "Comparer ma progression",
           "doNotCompare": "Ne pas comparer ma progression"
         }
