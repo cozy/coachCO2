@@ -28,7 +28,7 @@ const BikeGoalAlertSuccess = () => {
           variant="text"
           color="success"
           label={t('bikeGoal.alert.success.action', {
-            bountyAmount: getBountyAmount()
+            smart_count: getBountyAmount() || -1
           })}
           onClick={handleConfirm}
         />

@@ -249,7 +249,7 @@
     "alert": {
       "success": {
         "text": "Félicitations, vous avez atteint l’objectif “Aller travailler à vélo” 🎉",
-        "action": "Bénéficier de mon forfait de %{bountyAmount}€"
+        "action": "Bénéficier de mon attestation |||| Bénéficier de mon forfait de %{smart_count}€"
       },
       "title": "Soyez acteur du changement, allez travailler à vélo !",
       "text": "Suivez vos trajets et générez une attestation à destination de votre employeur s'il propose la prime Forfait Mobilité Durable (FMD).",
@@ -302,7 +302,7 @@
     },
     "certificateGeneration": {
       "title": "Félicitations, vous avez atteint l’objectif “Aller travailler à vélo”",
-      "content": "Une attestation a été générée pour attester de votre succès pour l’année %{year}. Transférez-la dès maintenant par email à votre employeur pour recevoir %{bountyAmount}€ !",
+      "content": "Une attestation a été générée pour attester de votre succès pour l’année %{year}. Transférez-la dès maintenant par email à votre employeur. |||| Une attestation a été générée pour attester de votre succès pour l’année %{year}. Transférez-la dès maintenant par email à votre employeur pour recevoir %{smart_count}€ !",
       "actions": {
         "show": "Certificat - Aller travailler à vélo.pdf",
         "generate": "Générer une attestation",
