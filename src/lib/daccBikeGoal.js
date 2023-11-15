@@ -1,5 +1,6 @@
 import format from 'date-fns/format'
 import subDays from 'date-fns/subDays'
+import { getSource } from 'src/components/Goals/BikeGoal/helpers'
 import { DACC_MEASURE_NAME_BIKE_GOAL } from 'src/constants'
 import {
   createMeasureForDACC,
@@ -75,7 +76,7 @@ export const getAvgDaysForGroupName = aggregates => {
  * @returns {string} The group name
  */
 export const getBikeGroupName = () => {
-  const sourceName = flag('coachco2.bikegoal.settings')?.sourceName
+  const { sourceName } = getSource()
   const groupName = sourceName || 'unknown'
   return groupName
 }

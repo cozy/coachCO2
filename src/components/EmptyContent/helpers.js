@@ -1,3 +1,4 @@
+import { getSource } from 'src/components/Goals/BikeGoal/helpers'
 import { buildHasTimeseriesQueryByAccountId } from 'src/queries/queries'
 
 import flag from 'cozy-flags'
@@ -21,8 +22,7 @@ export const makeWelcomeText = () => {
   const isMaxDaysToCaptureNegative =
     typeof maxDaysToCapture === 'number' && maxDaysToCapture < 0
   const isBikeGoalEnabled = flag('coachco2.bikegoal.enabled') === true
-  const sourceOffer = flag('coachco2.bikegoal.settings')?.sourceOffer
-  const sourceName = flag('coachco2.bikegoal.settings')?.sourceName
+  const { sourceName, sourceOffer } = getSource()
 
   if (isBikeGoalEnabled && isMaxDaysToCapturePositive) {
     return 'textA'
