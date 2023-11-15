@@ -1,6 +1,5 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getBountyAmount } from 'src/components/Goals/BikeGoal/helpers'
 
 import { Dialog } from 'cozy-ui/transpiled/react/CozyDialogs'
 import Typography from 'cozy-ui/transpiled/react/Typography'
@@ -15,7 +14,6 @@ const createStyles = () => ({
 const BikeGoalOnboarding = () => {
   const { t } = useI18n()
   const navigate = useNavigate()
-  const bountyAmount = getBountyAmount()
 
   const styles = createStyles()
 
@@ -29,7 +27,7 @@ const BikeGoalOnboarding = () => {
             {t('bikeGoal.about.intro.title')}
           </Typography>
           <Typography variant="body1" style={styles.typography}>
-            {t('bikeGoal.about.intro.content', { bountyAmount })}
+            {t('bikeGoal.about.intro.content')}
           </Typography>
           <Typography className="u-mt-1-half u-mb-1" variant="h5">
             {t('bikeGoal.about.how_trips_detected.title')}
