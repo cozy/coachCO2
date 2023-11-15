@@ -77,7 +77,7 @@ const CertificateGenerationContent = ({ certificate }) => {
       </Typography>
       <Typography variant="body2" className="u-mv-1">
         {t('bikeGoal.certificateGeneration.content', {
-          bountyAmount: getBountyAmount(),
+          smart_count: getBountyAmount() || -1,
           year
         })}
       </Typography>

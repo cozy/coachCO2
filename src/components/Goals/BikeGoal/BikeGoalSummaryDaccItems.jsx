@@ -4,6 +4,7 @@ import {
   countDaysOrDaysToReach,
   isGoalCompleted
 } from 'src/components/Goals/BikeGoal/helpers'
+import { getSource } from 'src/components/Goals/BikeGoal/helpers'
 import { DACC_MEASURE_NAME_BIKE_GOAL } from 'src/constants'
 import useFetchDACCAggregates from 'src/hooks/useFetchDACCAggregates'
 import { buildSettingsQuery } from 'src/queries/queries'
@@ -20,6 +21,8 @@ const BikeGoalSummaryDaccItems = ({
 }) => {
   const [hasDACCConsent, setHasDACCConsent] = useState(false)
   const { t } = useI18n()
+  const { sourceName } = getSource()
+
   const settingsQuery = buildSettingsQuery()
   const { data: settings, ...settingsQueryLeft } = useQuery(
     settingsQuery.definition,
@@ -60,7 +63,11 @@ const BikeGoalSummaryDaccItems = ({
       <BikeGoalSummaryItem
         {...componentsProps.BikeGoalSummaryItem}
         days={avgDays}
-        label={t('bikeGoal.average_progression')}
+        label={
+          sourceName
+            ? t('bikeGoal.average_progression')
+            : t('bikeGoal.average_progression_noValue')
+        }
         color="#BA5AE83D"
         body1={body1}
       />

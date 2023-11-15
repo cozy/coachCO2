@@ -216,6 +216,7 @@
     "goal_progression": "%{days}/%{daysToReach} days",
     "my_progression": "My yearly progression",
     "average_progression": "Avg. progress of my organisation",
+    "average_progression_noValue": "Avg. progress of other users",
     "achievement_certificate": "Certificate of achievement",
     "goal": "Objective",
     "goals": "Objectives",
@@ -249,7 +250,7 @@
     "alert": {
       "success": {
         "text": "Congratulations, you have achieved the “Bike to Work” goal 🎉",
-        "action": "Benefit from my %{bountyAmount}€ package"
+        "action": "Receive my certificate |||| Benefit from my %{bountyAmount}€ package"
       },
       "title": "Be part of the change: cycle to work!",
       "text": "Track your trips and generate a certificate for your employer if they offer the Sustainable Mobility Package (SMP) bonus.",
@@ -265,6 +266,7 @@
       "lastname": "Lastname",
       "daysToReach": "Days to reach",
       "compare_progress": "Compare my progress with that of my organisation",
+      "compare_progress_noValue": "Compare my progress with that of other users",
       "cancel": "Cancel",
       "submit": "Ok",
       "required": "This field is required"
@@ -294,7 +296,8 @@
           "error": "Set a more realistic goal. Enter a value greater than 0."
         },
         "comparison": {
-          "comparisonLegend": "You can display the average progress of the members of your organisation %{source} who are participating in the objective. To do this, you will be asked to participate in the creation of this average.\n\nYour progress data will be aggregated and sent anonymously, and will not contain any identifiers or locations.",
+          "comparisonLegend": "You can display the average progress of the members of your organisation %{sourceName} who are participating in the objective. To do this, you will be asked to participate in the creation of this average.\n\nYour progress data will be aggregated and sent anonymously, and will not contain any identifiers or locations.",
+          "comparisonLegend_noValue": "You can display the average progress of the other users who are participating in the objective. To do this, you will be asked to participate in the creation of this average.\n\nYour progress data will be aggregated and sent anonymously, and will not contain any identifiers or locations.",
           "compare": "Compare my progression",
           "doNotCompare": "Do not compare my progression"
         }
@@ -302,7 +305,7 @@
     },
     "certificateGeneration": {
       "title": "Congratulations, you have achieved the “Bike to Work“ goal",
-      "content": "A certificate has been generated as proof of your success for the year %{year}. Forward it now by email to your employer to receive %{bountyAmount}€ !",
+      "content": "A certificate has been generated to certify your success for %{year}. Email it to your employer now. |||| A certificate has been generated as proof of your success for the year %{year}. Forward it now by email to your employer to receive %{bountyAmount}€ !",
       "actions": {
         "show": "Certificate - Bike to work.pdf",
         "generate": "Generate a certificate",
