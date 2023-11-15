@@ -63,7 +63,11 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
   return (
     <>
       <Step {...props} ref={ref}>
-        <StepLabel>{t('bikeGoal.edit.compare_progress')}</StepLabel>
+        <StepLabel>
+          {sourceName
+            ? t('bikeGoal.edit.compare_progress')
+            : t('bikeGoal.edit.compare_progress_noValue')}
+        </StepLabel>
         <StepContent>
           {isLoading ? (
             <Spinner
@@ -73,9 +77,13 @@ const BikeGoalOnboardingComparison = forwardRef((props, ref) => {
           ) : (
             <>
               <Typography style={styles.typography}>
-                {t('bikeGoal.onboarding.steps.comparison.comparisonLegend', {
-                  source: sourceName
-                })}
+                {sourceName
+                  ? t('bikeGoal.onboarding.steps.comparison.comparisonLegend', {
+                      sourceName
+                    })
+                  : t(
+                      'bikeGoal.onboarding.steps.comparison.comparisonLegend_noValue'
+                    )}
               </Typography>
               <RadioGroup className="u-mt-1">
                 <FormControlLabel

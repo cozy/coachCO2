@@ -10,11 +10,7 @@ export const getDaysToReach = settings => {
 }
 
 export const getBountyAmount = () => {
-  const bountyAmount = flag('coachco2.bikegoal.settings')?.bountyAmount
-  if (!bountyAmount) {
-    throw new Error('Flag "coachco2.bikegoal.settings" must be used')
-  }
-  return bountyAmount
+  return flag('coachco2.bikegoal.settings')?.bountyAmount
 }
 
 export const getSource = () => {
