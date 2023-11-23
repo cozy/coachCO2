@@ -6,6 +6,8 @@ branches:
   - master
   # detect also branch like release/x.y.z or release/x.y.z-beta.n
   - /^release\/\d+\.\d+\.\d+(\-beta.\d+)?$/
+  # detect also tags like x.y.z or x.y.z-beta.n
+  - /^\d+\.\d+\.\d+(\-beta.\d+)?$/
 
 env:
   global:
