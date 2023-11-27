@@ -4,8 +4,8 @@ cache: yarn
 branches:
   only:
   - master
-  # detect also branch like release/x.y.z or release/x.y.z-beta.n
-  - /^release\/\d+\.\d+\.\d+(\-beta.\d+)?$/
+  # detect also tag like x.y.z or x.y.z-beta.n as travis consider them to be branches
+  - /^\d+\.\d+\.\d+(\-beta.\d+)?$/
 
 env:
   global:
