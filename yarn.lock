@@ -8955,10 +8955,10 @@ cozy-release@1.10.0:
   dependencies:
     exec-sh "0.3.2"
 
-cozy-scripts@^8.1.2:
-  version "8.1.2"
-  resolved "https://registry.yarnpkg.com/cozy-scripts/-/cozy-scripts-8.1.2.tgz#5ff1ef11328215f2955d8d7620992326fa86dcad"
-  integrity sha512-4MvcWim6nAAzSllnkQUsgXTkzKTvYnePk38kWS/14W5w7Ip0VZql0BtewWMc1Sm07yAcyik9Of/i1yX3CxcOQA==
+cozy-scripts@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/cozy-scripts/-/cozy-scripts-8.2.0.tgz#a3286078ab331e55e24fcc41ef3d20b90a5c64cc"
+  integrity sha512-kAHBOkPBP/2nkpP/EU9I54HrUEcTusxx2j745RWuTK+Ag/QtqVccLxYQdFo+Bf69akNXJ8cMfM3YQc24VpqFRQ==
   dependencies:
     "@babel/core" "7.10.0"
     "@babel/polyfill" "^7.10.4"
@@ -15636,9 +15636,9 @@ msgpack5@^4.0.2:
     readable-stream "^2.3.6"
     safe-buffer "^5.1.2"
 
-"mui-bottom-sheet@git+https://github.com/cozy/mui-bottom-sheet.git#v1.0.9":
+"mui-bottom-sheet@https://github.com/cozy/mui-bottom-sheet.git#v1.0.9":
   version "1.0.8"
-  resolved "git+https://github.com/cozy/mui-bottom-sheet.git#3dc4c2a245ab39079bc2f73546bccf80847be14c"
+  resolved "https://github.com/cozy/mui-bottom-sheet.git#3dc4c2a245ab39079bc2f73546bccf80847be14c"
   dependencies:
     "@juggle/resize-observer" "^3.1.3"
     jest-environment-jsdom-sixteen "^1.0.3"

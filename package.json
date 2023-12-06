@@ -53,7 +53,7 @@
     "cozy-ach": "^1.49.0",
     "cozy-bar": "7.16.0",
     "cozy-jobs-cli": "1.19.2",
-    "cozy-scripts": "^8.1.2",
+    "cozy-scripts": "^8.2.0",
     "eslint": "8.48.0",
     "eslint-config-cozy-app": "6.1.0",
     "eslint-config-prettier": "9.0.0",
