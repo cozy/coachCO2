@@ -2,7 +2,7 @@
   "name": "coachco2",
   "version": "0.12.0",
   "engines": {
-    "node": "~20"
+    "node": "~16 || ~20"
   },
   "scripts": {
     "analyze": "COZY_SCRIPTS_ANALYZER=true yarn build",

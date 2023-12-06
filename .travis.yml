@@ -1,4 +1,7 @@
 language: node_js
+node_js:
+  - '16'
+  - '20'
 dist: jammy
 cache: yarn
 branches:
@@ -23,8 +26,15 @@ jobs:
     - name: 'Lint'
       stage: 'prebuild'
       script: yarn lint
-    - name: 'Tests'
+    - name: 'Unit tests node 16'
       stage: 'prebuild'
+      node_js:
+        - 16
+      script: yarn test
+    - name: 'Unit tests node 20'
+      stage: 'prebuild'
+      node_js:
+        - 20
       script: yarn test
     - name: 'Build app'
       stage: 'build'
