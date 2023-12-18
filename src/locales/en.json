@@ -325,7 +325,7 @@
     },
     "settings": {
       "enable": "Record my movements with my mobile (GPS)",
-      "sendLogs": "Send Geoloc logs",
+      "sendLogs": "Send Geolocation logs",
       "forceUploadData": "Force Upload Data",
       "copyIdentifier": "Copy OpenPATH Identifier",
       "createdOn": "created on"

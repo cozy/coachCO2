@@ -7,6 +7,7 @@ import CO2EmissionDaccSwitcher from 'src/components/CO2EmissionDaccSwitcher'
 import InstallApp from 'src/components/EmptyContent/InstallApp'
 import Welcome from 'src/components/EmptyContent/Welcome'
 import CsvExporter from 'src/components/ExportCSV/CsvExporter'
+import GeolocationLogsExporter from 'src/components/GeolocationTracking/GeolocationLogsExporter'
 import GeolocationTrackingSettings from 'src/components/GeolocationTracking/GeolocationTrackingSettings'
 import GeolocationTrackingSwitcher from 'src/components/GeolocationTracking/GeolocationTrackingSwitcher'
 import BikeGoalAlertSuccessSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSuccessSwitcher'
@@ -106,6 +107,7 @@ export const Settings = () => {
               {t('export.label')}
             </Typography>
             <CsvExporter accountName={getAccountLabel(account)} />
+            <GeolocationLogsExporter />
           </>
         )}
 

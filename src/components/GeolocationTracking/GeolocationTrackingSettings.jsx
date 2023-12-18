@@ -24,16 +24,6 @@ export const GeolocationTrackingSettings = () => {
       <div className="u-flex u-flex-column">
         <div>
           <Button
-            label={t('geolocationTracking.settings.sendLogs')}
-            variant="secondary"
-            onClick={async () =>
-              await webviewIntent.call('sendGeolocationTrackingLogs')
-            }
-            className="u-mb-1"
-          />
-        </div>
-        <div>
-          <Button
             label={t('geolocationTracking.settings.forceUploadData')}
             variant="secondary"
             onClick={async () =>
