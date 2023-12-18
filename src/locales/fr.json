@@ -315,6 +315,11 @@
     }
   },
   "geolocationTracking": {
+    "tooltip": {
+      "title": "Vos nouveaux trajets ne sont pas mémorisés",
+      "text": "Enregistrez automatiquement tous vos déplacements et découvrez votre empreinte carbone.",
+      "action": "Configurer"
+    },
     "locationRefusedDialog": {
       "description": "Votre Cozy a besoin d'accéder à des données supplémentaires afin de vous aider à analyser vos déplacements. Elles ne seront JAMAIS transmises à qui que ce soit sans votre demande explicite.\n\nVous allez être redirigé vers les paramètres de l'app afin de l'autoriser à TOUJOURS accéder à la position de votre téléphone, donc aussi lorsque l'app n'est pas utilisée, et au données d'ACTIVITÉ PHYSIQUE, mouvements et formes."
     },
