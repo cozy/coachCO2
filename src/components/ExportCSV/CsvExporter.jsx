@@ -1,7 +1,11 @@
 import React, { memo, useState } from 'react'
 import ExportDialog from 'src/components/ExportCSV/ExportDialog'
 
-import Buttons from 'cozy-ui/transpiled/react/Buttons'
+import Icon from 'cozy-ui/transpiled/react/Icon'
+import ReplyIcon from 'cozy-ui/transpiled/react/Icons/Reply'
+import ListItem from 'cozy-ui/transpiled/react/ListItem'
+import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
+import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 export const CsvExporter = ({ accountName }) => {
@@ -10,16 +14,24 @@ export const CsvExporter = ({ accountName }) => {
 
   return (
     <>
-      <Buttons
-        busy={false}
-        variant="secondary"
-        label={t('export.button')}
+      <ListItem
+        button
+        gutters="disabled"
+        ellipsis={false}
+        disabled={isModalOpened}
         onClick={() => setIsModalOpened(true)}
-      />
+      >
+        <ListItemIcon>
+          <Icon icon={ReplyIcon} />
+        </ListItemIcon>
+        <ListItemText primary={t('export.button')} />
+      </ListItem>
       {isModalOpened && (
         <ExportDialog
-          onClose={() => setIsModalOpened(false)}
           accountName={accountName}
+          onClose={() => {
+            setIsModalOpened(false)
+          }}
         />
       )}
     </>

@@ -37,7 +37,6 @@ const ExportDialog = ({ onClose }) => {
   return (
     <ConfirmDialog
       open
-      onClose={onClose}
       title={t('export.modal.title')}
       content={
         <Typography color="textPrimary">
@@ -61,6 +60,7 @@ const ExportDialog = ({ onClose }) => {
           />
         </>
       }
+      onClose={onClose}
     />
   )
 }
