@@ -315,6 +315,11 @@
     }
   },
   "geolocationTracking": {
+    "tooltip": {
+      "title": "Your new trips are not saved",
+      "text": "Automatically record all your movements and discover your carbon footprint.",
+      "action": "Configure"
+    },
     "locationRefusedDialog": {
       "description": "Your Cozy needs access to additional data in order to help you analyze your movements. This data will NEVER be transmitted to anyone without your explicit request.\n\nYou will be redirected to the app's settings to authorize it to ALWAYS access your phone's position, even when the app is not in use, and PHYSICAL ACTIVITY, movement and shape data.."
     },
