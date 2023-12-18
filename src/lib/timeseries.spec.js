@@ -1081,7 +1081,7 @@ describe('makeAggregationTitle', () => {
         }
       }
 
-      expect(makeAggregationTitle(timeserie, t)).toBe('Lyon > Paris')
+      expect(makeAggregationTitle(timeserie, t)).toBe('Lyon ➝ Paris')
     })
 
     it('should return start city', () => {
@@ -1092,7 +1092,7 @@ describe('makeAggregationTitle', () => {
         }
       }
 
-      expect(makeAggregationTitle(timeserie, t)).toBe('Lyon >')
+      expect(makeAggregationTitle(timeserie, t)).toBe('Lyon ➝')
     })
 
     it('should return end city', () => {
@@ -1103,7 +1103,7 @@ describe('makeAggregationTitle', () => {
         }
       }
 
-      expect(makeAggregationTitle(timeserie, t)).toBe('> Paris')
+      expect(makeAggregationTitle(timeserie, t)).toBe('➝ Paris')
     })
 
     it('should return end place name', () => {
@@ -1147,7 +1147,7 @@ describe('makeAggregationTitle', () => {
       }
 
       expect(makeAggregationTitle(timeserie, t)).toBe(
-        'John Connor (Home) > Sarah Connor (Work)'
+        'John Connor (Home) ➝ Sarah Connor (Work)'
       )
     })
 
@@ -1170,7 +1170,7 @@ describe('makeAggregationTitle', () => {
       }
 
       expect(makeAggregationTitle(timeserie, t)).toBe(
-        'John Connor (Home) > Sarah Connor (Work)'
+        'John Connor (Home) ➝ Sarah Connor (Work)'
       )
     })
 
@@ -1189,7 +1189,7 @@ describe('makeAggregationTitle', () => {
       }
 
       expect(makeAggregationTitle(timeserie, t)).toBe(
-        'Place hugo, Lyon > Sarah Connor (Work)'
+        'Place hugo, Lyon ➝ Sarah Connor (Work)'
       )
     })
 
@@ -1208,7 +1208,7 @@ describe('makeAggregationTitle', () => {
       }
 
       expect(makeAggregationTitle(timeserie, t)).toBe(
-        'Place hugo > Sarah Connor (Work)'
+        'Place hugo ➝ Sarah Connor (Work)'
       )
     })
 
@@ -1231,7 +1231,7 @@ describe('makeAggregationTitle', () => {
       }
 
       expect(makeAggregationTitle(timeserie, t)).toBe(
-        'John Connor (Home) > Sarah Connor (Work)'
+        'John Connor (Home) ➝ Sarah Connor (Work)'
       )
     })
 
@@ -1254,7 +1254,7 @@ describe('makeAggregationTitle', () => {
       }
 
       expect(makeAggregationTitle(timeserie, t)).toBe(
-        'John Connor (Home) > Sarah Connor (Work)'
+        'John Connor (Home) ➝ Sarah Connor (Work)'
       )
     })
   })
@@ -1295,19 +1295,19 @@ describe('makeAggregationTitle', () => {
           'Rue des lilas, Paris'
         )
 
-        expect(makeAggregationTitle(timeserie, t)).toBe('Lyon > Paris')
+        expect(makeAggregationTitle(timeserie, t)).toBe('Lyon ➝ Paris')
       })
 
       it('should return start city', () => {
         const timeserie = makeTimeserie('Place hugo, Lyon', 'Rue des lilas')
 
-        expect(makeAggregationTitle(timeserie, t)).toBe('Lyon >')
+        expect(makeAggregationTitle(timeserie, t)).toBe('Lyon ➝')
       })
 
       it('should return end city', () => {
         const timeserie = makeTimeserie('Place hugo', 'Rue des lilas, Paris')
 
-        expect(makeAggregationTitle(timeserie, t)).toBe('> Paris')
+        expect(makeAggregationTitle(timeserie, t)).toBe('➝ Paris')
       })
 
       it('should return end place name', () => {
@@ -1374,7 +1374,7 @@ describe('makeAggregationTitle', () => {
         )
 
         expect(makeAggregationTitle(timeserie, t)).toBe(
-          'John Connor (Home) > Sarah Connor (Work)'
+          'John Connor (Home) ➝ Sarah Connor (Work)'
         )
       })
 
@@ -1387,7 +1387,7 @@ describe('makeAggregationTitle', () => {
         )
 
         expect(makeAggregationTitle(timeserie, t)).toBe(
-          'John Connor (Home) > Sarah Connor (Work)'
+          'John Connor (Home) ➝ Sarah Connor (Work)'
         )
       })
 
@@ -1400,7 +1400,7 @@ describe('makeAggregationTitle', () => {
         )
 
         expect(makeAggregationTitle(timeserie, t)).toBe(
-          'Place hugo, Lyon > Sarah Connor (Work)'
+          'Place hugo, Lyon ➝ Sarah Connor (Work)'
         )
       })
 
@@ -1413,7 +1413,7 @@ describe('makeAggregationTitle', () => {
         )
 
         expect(makeAggregationTitle(timeserie, t)).toBe(
-          'Place hugo > Sarah Connor (Work)'
+          'Place hugo ➝ Sarah Connor (Work)'
         )
       })
 
@@ -1426,7 +1426,7 @@ describe('makeAggregationTitle', () => {
         )
 
         expect(makeAggregationTitle(timeserie, t)).toBe(
-          'John Connor (Home) > Sarah Connor (Work)'
+          'John Connor (Home) ➝ Sarah Connor (Work)'
         )
       })
 
@@ -1439,7 +1439,7 @@ describe('makeAggregationTitle', () => {
         )
 
         expect(makeAggregationTitle(timeserie, t)).toBe(
-          'John Connor (Home) > Sarah Connor (Work)'
+          'John Connor (Home) ➝ Sarah Connor (Work)'
         )
       })
     })
@@ -1450,27 +1450,27 @@ describe('getTitle', () => {
   describe('on Mobile', () => {
     const isMobile = true
 
-    it('should truncate before `>` if more than 12 characters', () => {
+    it('should truncate before `➝` if more than 12 characters', () => {
       const timeserie = {
         aggregation: {
-          automaticTitle: 'John Connor (Home) > Sarah Connor (Work)'
+          automaticTitle: 'John Connor (Home) ➝ Sarah Connor (Work)'
         }
       }
 
       expect(getTitle(timeserie, isMobile)).toBe(
-        'John Connor... > Sarah Connor (Work)'
+        'John Connor... ➝ Sarah Connor (Work)'
       )
     })
 
-    it('should return entire value if less than 12 characters before `>`', () => {
+    it('should return entire value if less than 12 characters before `➝`', () => {
       const timeserie = {
         aggregation: {
-          automaticTitle: 'John (Home) > Sarah Connor (Work)'
+          automaticTitle: 'John (Home) ➝ Sarah Connor (Work)'
         }
       }
 
       expect(getTitle(timeserie, isMobile)).toBe(
-        'John (Home) > Sarah Connor (Work)'
+        'John (Home) ➝ Sarah Connor (Work)'
       )
     })
 
@@ -1482,7 +1482,7 @@ describe('getTitle', () => {
       expect(getTitle(timeserie, isMobile)).toBeNull()
     })
 
-    it('should return title if no `>` in it, even if more than 12 characters', () => {
+    it('should return title if no `➝` in it, even if more than 12 characters', () => {
       const timeserie = {
         aggregation: {
           automaticTitle: 'Rue des lilas'
@@ -1492,7 +1492,7 @@ describe('getTitle', () => {
       expect(getTitle(timeserie, isMobile)).toBe('Rue des lilas')
     })
 
-    it('should return title if no `>` in it', () => {
+    it('should return title if no `➝` in it', () => {
       const timeserie = {
         aggregation: {
           automaticTitle: 'Place hugo'
@@ -1506,27 +1506,27 @@ describe('getTitle', () => {
   describe('on Desktop', () => {
     const isMobile = false
 
-    it('should not truncate before `>` if more than 12 characters', () => {
+    it('should not truncate before `➝` if more than 12 characters', () => {
       const timeserie = {
         aggregation: {
-          automaticTitle: 'John Connor (Home) > Sarah Connor (Work)'
+          automaticTitle: 'John Connor (Home) ➝ Sarah Connor (Work)'
         }
       }
 
       expect(getTitle(timeserie, isMobile)).toBe(
-        'John Connor (Home) > Sarah Connor (Work)'
+        'John Connor (Home) ➝ Sarah Connor (Work)'
       )
     })
 
-    it('should return entire value if less than 12 characters before `>`', () => {
+    it('should return entire value if less than 12 characters before `➝`', () => {
       const timeserie = {
         aggregation: {
-          automaticTitle: 'John (Home) > Sarah Connor (Work)'
+          automaticTitle: 'John (Home) ➝ Sarah Connor (Work)'
         }
       }
 
       expect(getTitle(timeserie, isMobile)).toBe(
-        'John (Home) > Sarah Connor (Work)'
+        'John (Home) ➝ Sarah Connor (Work)'
       )
     })
 
@@ -1538,7 +1538,7 @@ describe('getTitle', () => {
       expect(getTitle(timeserie, isMobile)).toBeNull()
     })
 
-    it('should return title if no `>` in it, even if more than 12 characters', () => {
+    it('should return title if no `➝` in it, even if more than 12 characters', () => {
       const timeserie = {
         aggregation: {
           automaticTitle: 'Rue des lilas'

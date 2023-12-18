@@ -125,11 +125,11 @@ export const makeAggregationTitle = (timeserieWithContacts, t) => {
     const endLabel =
       endLabelByContact || getEndPlaceDisplayName(timeserieWithContacts)
 
-    return `${startLabel} > ${endLabel}`
+    return `${startLabel} ➝ ${endLabel}`
   }
 
   if ((startCity || endCity) && startCity !== endCity) {
-    return `${startCity} > ${endCity}`.trim()
+    return `${startCity} ➝ ${endCity}`.trim()
   }
 
   return getEndPlaceDisplayName(timeserieWithContacts)
@@ -435,10 +435,10 @@ export const getTitle = (timeserie, isMobile) => {
     return title
   }
 
-  const [firstEl, secondEl] = title.split('>')
+  const [firstEl, secondEl] = title.split('➝')
 
   return firstEl.length > 12 && !!secondEl
-    ? `${firstEl.slice(0, 12).trim()}... > ${secondEl.trim()}`
+    ? `${firstEl.slice(0, 12).trim()}... ➝ ${secondEl.trim()}`
     : title
 }
 

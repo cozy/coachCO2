@@ -33,7 +33,7 @@ const Titlebar = ({ label, subtitle, onBack }) => {
           </BarLeft>
         )}
         <BarCenter>
-          <CozyTheme className="u-w-100">
+          <CozyTheme>
             <BarTitle>{label}</BarTitle>
           </CozyTheme>
         </BarCenter>

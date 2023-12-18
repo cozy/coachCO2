@@ -15,9 +15,6 @@ jest.mock('cozy-ui/transpiled/react/providers/I18n', () => ({
 jest.mock('cozy-ui/transpiled/react/IconButton', () => ({ children }) => (
   <div data-testid="IconButton">{children}</div>
 ))
-jest.mock('cozy-ui/transpiled/react/MuiCozyTheme', () => ({ children }) => (
-  <div data-testid="MuiCozyTheme">{children}</div>
-))
 jest.mock('cozy-ui/transpiled/react/providers/Breakpoints', () =>
   jest.fn(() => ({ isMobile: false }))
 )

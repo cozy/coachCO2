@@ -45,7 +45,7 @@ const AppProviders = ({ client, lang, polyglot, children }) => {
           <AccountProvider>
             <SelectDatesProvider>
               <I18n lang={lang} polyglot={polyglot}>
-                <CozyTheme className="u-w-100">
+                <CozyTheme>
                   <BreakpointsProvider>
                     <AlertProvider>
                       <GeolocationTrackingProvider>
