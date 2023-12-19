@@ -23,6 +23,9 @@
     "from": "Déplacements de",
     "departure": "Départ",
     "arrival": "Arrivée",
+    "submit": "Enregistrer",
+    "cancel": "Annuler",
+    "customLabel": "Libellé personnalisé",
     "modes": {
       "default": "défaut",
       "AIR_OR_HSR": "Avion",
