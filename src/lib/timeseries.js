@@ -57,6 +57,12 @@ export const transformSerieToTrip = serie => {
 
 export const transformTimeseriesToTrips = timeseries => {
   return timeseries.flatMap((timeserie, index) => {
+    if (!timeserie.series) {
+      throw new Error(
+        `The timeserie with id ${timeserie._id} must have a "series" attributes to make transformTimeseriesToTrips() working properly`
+      )
+    }
+
     return timeserie.series.map(serie =>
       transformSerieToTrip({
         ...serie,
@@ -148,6 +154,12 @@ export const computeAggregatedTimeseries = ({
   t
 }) => {
   const aggregatedTimeseries = timeseries.map(timeserie => {
+    if (!timeserie.series) {
+      throw new Error(
+        `The timeserie with id ${timeserie._id} must have a "series" attributes to make computeAggregatedTimeseries() working properly`
+      )
+    }
+
     const serie = timeserie.series[0]
     let totalSerieCO2 = 0
     let totalSerieDistance = 0
@@ -528,6 +540,12 @@ export const setManualPurpose = (
  * @returns {object} - The timeserie with the set purpose
  */
 export const setAggregationPurpose = timeserie => {
+  if (!timeserie.series) {
+    throw new Error(
+      `The timeserie with id ${timeserie._id} must have a "series" attributes to make setAggregationPurpose() working properly`
+    )
+  }
+
   const serie = timeserie.series[0]
   const purpose = timeserie?.aggregation?.recurring
     ? getAutomaticPurpose(serie) || getManualPurpose(serie)
