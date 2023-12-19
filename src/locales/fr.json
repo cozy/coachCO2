@@ -330,7 +330,7 @@
     },
     "settings": {
       "enable": "Enregistrer mes déplacements avec mon mobile (GPS)",
-      "sendLogs": "Envoyer les logs de Geoloc",
+      "sendLogs": "Envoyer les logs de géolocalisation",
       "forceUploadData": "Forcer l'upload des données",
       "copyIdentifier": "Copier l'identifiant OpenPATH",
       "createdOn": "créé le"
