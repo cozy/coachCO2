@@ -41,14 +41,17 @@ const SelectDatesWrapper = () => {
     if (account && !isLoading && isSelectedDateLoading) {
       const options = computeOptions(isLoading, timeseries)
       setIsSelectedDateLoading(false)
+
       if (options) {
         setSelectedDate(makeLatestDate(options))
         setOptions(options)
       }
     }
+
     if (!account) {
       setIsSelectedDateLoading(false)
     }
+
     if (account && isLoading && !isSelectedDateLoading) {
       setIsSelectedDateLoading(true)
     }
@@ -61,11 +64,11 @@ const SelectDatesWrapper = () => {
     timeseries,
     setOptions
   ])
-  if (!options) return null
+
   return (
     <SelectDatesWithLoader
       className="u-mt-1-s u-ml-0-s u-flex-justify-center-s u-flex u-ml-2"
-      isLoading={isSelectedDateLoading}
+      isLoading={!options || isSelectedDateLoading}
       options={options}
       selectedDate={selectedDate}
       setSelectedDate={setSelectedDate}

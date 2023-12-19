@@ -15,7 +15,7 @@ import { hasQueryBeenLoaded, isQueryLoading, useQuery } from 'cozy-client'
 import flag from 'cozy-flags'
 import Divider from 'cozy-ui/transpiled/react/Divider'
 import LoadMore from 'cozy-ui/transpiled/react/LoadMore'
-import Spinner from 'cozy-ui/transpiled/react/Spinner'
+import ListSkeleton from 'cozy-ui/transpiled/react/Skeletons/ListSkeleton'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
@@ -43,9 +43,7 @@ export const Trips = () => {
     }
   )
   if (isAccountLoading) {
-    return (
-      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
-    )
+    return <ListSkeleton count={8} hasSecondary divider />
   }
 
   if (
@@ -53,9 +51,7 @@ export const Trips = () => {
     isQueryLoading(timeseriesQueryLeft) &&
     !hasQueryBeenLoaded(timeseriesQueryLeft)
   ) {
-    return (
-      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
-    )
+    return <ListSkeleton count={8} hasSecondary divider />
   }
 
   if (!account || !timeseries || timeseries?.length === 0) {
