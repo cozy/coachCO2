@@ -49,7 +49,7 @@ const TripItemSecondary = ({ tripModeIcons, duration, distance }) => {
 }
 
 export const TripItem = ({ timeserie, hasDateHeader }) => {
-  const { f } = useI18n()
+  const { t, f } = useI18n()
   const location = useLocation()
   const navigate = useNavigate()
   const { mode } = useParams()
@@ -89,7 +89,8 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
         </ListItemIcon>
         <ListItemText
           primary={
-            getTitle(timeserie, isMobile) || getEndPlaceDisplayName(timeserie)
+            getTitle(timeserie, isMobile) ||
+            getEndPlaceDisplayName(timeserie, t)
           }
           secondary={
             <TripItemSecondary

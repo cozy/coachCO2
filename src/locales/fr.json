@@ -21,6 +21,8 @@
   "trips": {
     "trips": "Déplacements",
     "from": "Déplacements de",
+    "departure": "Départ",
+    "arrival": "Arrivée",
     "modes": {
       "default": "défaut",
       "AIR_OR_HSR": "Avion",
