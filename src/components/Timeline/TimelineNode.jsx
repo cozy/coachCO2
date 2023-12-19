@@ -56,10 +56,10 @@ const TimelineNode = ({ type }) => {
 
   const primary = placeLabelByContact
     ? placeLabelByContact
-    : getPlaceDisplayName(timeserie, type)
+    : getPlaceDisplayName({ timeserie, type, t })
 
   const secondary = placeLabelByContact
-    ? getPlaceDisplayName(timeserie, type)
+    ? getPlaceDisplayName({ timeserie, type, t })
     : null
 
   return (

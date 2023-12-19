@@ -1,5 +1,7 @@
 import { createGeojsonWithModifiedMode } from './helpers'
 
+const t = x => x
+
 const timeserie = {
   aggregation: {
     sections: [
@@ -66,6 +68,7 @@ const timeserie = {
 describe('createGeojsonWithModifiedMode', () => {
   it('should return the modified timeserie', () => {
     const modifiedTimeserie = createGeojsonWithModifiedMode({
+      t,
       timeserie,
       sectionId: 'sectionId2',
       mode: 'BUS'
@@ -88,6 +91,7 @@ describe('createGeojsonWithModifiedMode', () => {
 
   it('should returns a not modified timeserie', () => {
     const modifiedTimeserie = createGeojsonWithModifiedMode({
+      t,
       timeserie,
       sectionId: 'idNotFound',
       mode: 'BUS'
@@ -98,6 +102,7 @@ describe('createGeojsonWithModifiedMode', () => {
 
   it('should compute the aggregation', () => {
     const modifiedTimeserie = createGeojsonWithModifiedMode({
+      t,
       timeserie,
       sectionId: 'sectionId2',
       mode: 'BUS'

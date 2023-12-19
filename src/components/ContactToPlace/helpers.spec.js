@@ -64,6 +64,7 @@ describe('addAddressToContact', () => {
         aggregation: { startPlaceDisplayName: 'StartPlace' },
         series: [{ properties: { start_loc: { coordinates: ['02', '48'] } } }]
       },
+      t,
       type: 'start'
     })
 
@@ -91,6 +92,7 @@ describe('addAddressToContact', () => {
         aggregation: { startPlaceDisplayName: 'StartPlace' },
         series: [{ properties: { start_loc: { coordinates: ['02', '48'] } } }]
       },
+      t,
       type: 'start'
     })
 

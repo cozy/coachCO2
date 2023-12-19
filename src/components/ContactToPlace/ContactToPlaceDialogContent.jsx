@@ -32,7 +32,7 @@ const ContactToPlaceDialogContent = () => {
             <Icon icon={LocationIcon} />
           </ListItemIcon>
           <ListItemText
-            primary={getPlaceDisplayName(timeserie, type)}
+            primary={getPlaceDisplayName({ timeserie, type, t })}
             secondary={getFormattedPlaceCoordinates({ timeserie, type, t })}
           />
         </ListItem>

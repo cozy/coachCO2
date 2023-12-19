@@ -136,6 +136,7 @@ export const addAddressToContact = ({
   label,
   timeserie,
   type,
+  t,
   category
 }) => {
   return {
@@ -145,7 +146,7 @@ export const addAddressToContact = ({
       {
         id: addressId,
         type: label,
-        formattedAddress: getPlaceDisplayName(timeserie, type),
+        formattedAddress: getPlaceDisplayName({ timeserie, type, t }),
         geo: {
           geo: getPlaceCoordinates(timeserie, type),
           cozyCategory: category
@@ -172,6 +173,7 @@ const createRelationship = async ({
     label,
     timeserie,
     type,
+    t,
     category
   })
 

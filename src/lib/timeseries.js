@@ -120,16 +120,18 @@ export const makeAggregationTitle = (timeserieWithContacts, t) => {
     t
   })
   const startCity =
-    getStartPlaceDisplayName(timeserieWithContacts)?.split(',')?.[1]?.trim() ||
-    ''
+    getStartPlaceDisplayName(timeserieWithContacts, t)
+      ?.split(',')?.[1]
+      ?.trim() || ''
   const endCity =
-    getEndPlaceDisplayName(timeserieWithContacts)?.split(',')?.[1]?.trim() || ''
+    getEndPlaceDisplayName(timeserieWithContacts, t)?.split(',')?.[1]?.trim() ||
+    ''
 
   if (startLabelByContact || endLabelByContact) {
     const startLabel =
-      startLabelByContact || getStartPlaceDisplayName(timeserieWithContacts)
+      startLabelByContact || getStartPlaceDisplayName(timeserieWithContacts, t)
     const endLabel =
-      endLabelByContact || getEndPlaceDisplayName(timeserieWithContacts)
+      endLabelByContact || getEndPlaceDisplayName(timeserieWithContacts, t)
 
     return `${startLabel} ➝ ${endLabel}`
   }
@@ -138,7 +140,7 @@ export const makeAggregationTitle = (timeserieWithContacts, t) => {
     return `${startCity} ➝ ${endCity}`.trim()
   }
 
-  return getEndPlaceDisplayName(timeserieWithContacts)
+  return getEndPlaceDisplayName(timeserieWithContacts, t)
 }
 
 /**
@@ -196,8 +198,8 @@ export const computeAggregatedTimeseries = ({
         totalDistance: totalSerieDistance,
         totalDuration: totalSerieDuration,
         totalCalories: totalSerieCalories,
-        startPlaceDisplayName: getStartPlaceDisplayName(timeserie),
-        endPlaceDisplayName: getEndPlaceDisplayName(timeserie),
+        startPlaceDisplayName: getStartPlaceDisplayName(timeserie, t),
+        endPlaceDisplayName: getEndPlaceDisplayName(timeserie, t),
         coordinates: {
           startPoint: getStartPlaceCoordinates(timeserie),
           endPoint: getEndPlaceCoordinates(timeserie)
@@ -391,25 +393,27 @@ export const getPlaceDate = (timeserie, type) => {
     : null
 }
 
-export const getStartPlaceDisplayName = timeserie => {
+export const getStartPlaceDisplayName = (timeserie, t) => {
   return (
     get(timeserie, 'aggregation.startPlaceDisplayName') ||
-    get(timeserie.series[0], 'features[0].properties.display_name')
+    get(timeserie.series?.[0], 'features[0].properties.display_name') ||
+    t('trips.departure')
   )
 }
 
-export const getEndPlaceDisplayName = timeserie => {
+export const getEndPlaceDisplayName = (timeserie, t) => {
   return (
     get(timeserie, 'aggregation.endPlaceDisplayName') ||
-    get(timeserie.series[0], 'features[1].properties.display_name')
+    get(timeserie.series?.[0], 'features[1].properties.display_name') ||
+    t('trips.arrival')
   )
 }
 
-export const getPlaceDisplayName = (timeserie, type) => {
+export const getPlaceDisplayName = ({ timeserie, type, t }) => {
   return type === 'start'
-    ? getStartPlaceDisplayName(timeserie)
+    ? getStartPlaceDisplayName(timeserie, t)
     : type === 'end'
-    ? getEndPlaceDisplayName(timeserie)
+    ? getEndPlaceDisplayName(timeserie, t)
     : null
 }
 

@@ -22,6 +22,8 @@
     "default": "default",
     "trips": "Trips",
     "from": "Trips from",
+    "departure": "Departure",
+    "arrival": "Arrival",
     "modes": {
       "AIR_OR_HSR": "Plane",
       "BICYCLING_ELECTRIC": "Electric bike",

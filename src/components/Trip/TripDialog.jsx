@@ -15,7 +15,7 @@ import { useBreakpoints } from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const TripDialog = () => {
-  const { f } = useI18n()
+  const { t, f } = useI18n()
   const { isMobile } = useBreakpoints()
   const { timeserieId } = useParams()
   const { timeserie } = useTrip()
@@ -31,7 +31,8 @@ const TripDialog = () => {
       disableGutters={isMobile}
       title={
         <>
-          {getTitle(timeserie, isMobile) || getEndPlaceDisplayName(timeserie)}
+          {getTitle(timeserie, isMobile) ||
+            getEndPlaceDisplayName(timeserie, t)}
           <Typography
             className="u-mt-half"
             variant="caption"
