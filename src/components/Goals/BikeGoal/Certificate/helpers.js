@@ -2,7 +2,9 @@ import { pdf } from '@react-pdf/renderer'
 import { getOrCreateAppFolderWithReference } from 'src/lib/getOrCreateAppFolderWithReference'
 
 import { uploadFileWithConflictStrategy } from 'cozy-client/dist/models/file'
-import log from 'cozy-logger'
+import minilog from 'cozy-minilog'
+
+const log = minilog('savePdfCertificate')
 
 /**
  * Save PDF certificate
@@ -33,7 +35,7 @@ export const savePdfCertificate = async ({ client, t, pdfDocument, year }) => {
 
     return fileCreated
   } catch (error) {
-    log('error', error, 'savePdfCertificate')
+    log.error(error)
     return null
   }
 }

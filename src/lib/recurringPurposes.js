@@ -27,7 +27,9 @@ import {
 } from 'src/queries/queries'
 
 import { models } from 'cozy-client'
-import log from 'cozy-logger'
+import minilog from 'cozy-minilog'
+
+const log = minilog('reccuringPurposes')
 
 const { deltaLatitude, deltaLongitude, geodesicDistance } = models.geo
 
@@ -152,7 +154,7 @@ const updateAddressCoordinates = async ({
     newContact = await client.save(contactToUpdate)
   } catch (err) {
     if (err.status === 409) {
-      log('info', 'Got conflict on contact update... Retry...')
+      log.info('Got conflict on contact update... Retry...')
       const conflictedContact = await queryContactByDocId(client, contact._id)
       const updatedContact = setNewAddressCoordinates({
         newCoordinates,
@@ -177,7 +179,7 @@ const setNewAddressCoordinates = ({ newCoordinates, contact, addressId }) => {
     }
   }
   if (addressIdx < 0) {
-    log('warn', `No address ${addressId} found on contact ${contact._id}`)
+    log.warn(`No address ${addressId} found on contact ${contact._id}`)
     return null
   }
 
@@ -203,9 +205,8 @@ const setNewAddressCoordinates = ({ newCoordinates, contact, addressId }) => {
     const avgLat = newSumLat / count
 
     newContact.address[addressIdx].geo.geo = [avgLon, avgLat]
-    log('info', `New address coordinates set : ${[avgLon, avgLat]}`)
-    log(
-      'info',
+    log.info(`New address coordinates set : ${[avgLon, avgLat]}`)
+    log.info(
       `Distance from previous coordinates: ${geodesicDistance(
         { lon: currCoordinates[0], lat: currCoordinates[1] },
         { lon: newCoordinates.lon, lat: newCoordinates.lat }
@@ -215,8 +216,7 @@ const setNewAddressCoordinates = ({ newCoordinates, contact, addressId }) => {
 
   newContact.address[addressIdx].geo.count = currCount + 1
   newContact.address[addressIdx].geo.sum = [newSumLon, newSumLat]
-  log(
-    'info',
+  log.info(
     `Update contact ${contact.displayName} on address ${contact.address[addressIdx].formattedAddress}`
   )
   return newContact
@@ -412,7 +412,7 @@ const postFilterResults = (results, timeserie, { oldPurpose }) => {
     : keepTripsWithSameRecurringPurpose(similarTimeseries, oldPurpose)
 
   if (isLoopTrip(timeserie)) {
-    log('info', 'Detected loop trip')
+    log.info('Detected loop trip')
     // Filter out trips with a too high distance difference
     // This is done only for loop trips, that are particular: it makes less sense
     // to only on start and end points, so we add a distance filter to keep
@@ -449,9 +449,9 @@ export const findSimilarRecurringTimeseries = async (
     : getEndPlaceCoordinates(timeserie)
 
   if (!accountId || !startCoord || !endCoord) {
-    log(
-      'error',
-      `Missing attributes to run similar trip query for trip ${timeserie._id}`
+    log.error(
+      'Missing attributes to run similar trip query for trip',
+      timeserie._id
     )
     return []
   }
@@ -476,7 +476,7 @@ export const setManuallyUpdatedTrip = timeserie => {
 export const setRecurringPurposes = (timeserie, similarTimeseries) => {
   const purpose = getManualPurpose(timeserie.series[0])
   if (!purpose) {
-    log('warn', 'No manual purpose set for the trip')
+    log.warn('No manual purpose set for the trip')
     return []
   }
 
@@ -509,7 +509,7 @@ export const findPurposeFromSimilarTimeserieAndWaybacks = async (
     client,
     timeserie
   )
-  log('info', `Found ${similarTimeseries.length} similar timeseries`)
+  log.info(`Found ${similarTimeseries.length} similar timeseries`)
 
   let tsWithPurpose = getTimeserieWithPurpose(similarTimeseries)
 
@@ -522,7 +522,7 @@ export const findPurposeFromSimilarTimeserieAndWaybacks = async (
         isWayBack: true
       }
     )
-    log('info', `Found ${waybackTimeseries.length} wayback timeseries`)
+    log.info(`Found ${waybackTimeseries.length} wayback timeseries`)
     tsWithPurpose = getTimeserieWithPurpose(waybackTimeseries)
   }
   return tsWithPurpose?.aggregation?.purpose || null
@@ -547,12 +547,12 @@ const findPurposeFromContactAddresses = async (client, timeserie, contacts) => {
   )
   let newTimeserie = { ...timeserie }
   if (!matchingStart && !matchingEnd) {
-    log('info', 'No matching start and end places for this trip')
+    log.info('No matching start and end places for this trip')
     return newTimeserie
   }
 
   if (matchingStart) {
-    log('info', 'Found a matching start place: add relationship')
+    log.info('Found a matching start place: add relationship')
     newTimeserie = setAddressContactRelationShip({
       timeserie: newTimeserie,
       contact: matchingStart.contact,
@@ -568,7 +568,7 @@ const findPurposeFromContactAddresses = async (client, timeserie, contacts) => {
     })
   }
   if (matchingEnd) {
-    log('info', 'Found a matching end place: add relationship')
+    log.info('Found a matching end place: add relationship')
     newTimeserie = setAddressContactRelationShip({
       timeserie: newTimeserie,
       contact: matchingEnd.contact,
@@ -585,8 +585,7 @@ const findPurposeFromContactAddresses = async (client, timeserie, contacts) => {
   }
 
   if (shouldSetCommutePurpose(matchingStart, matchingEnd)) {
-    log(
-      'info',
+    log.info(
       `Set COMMUTE purpose for trip ${timeserie._id} because of similar start and end places`
     )
     newTimeserie = setAutomaticPurpose(newTimeserie, COMMUTE_PURPOSE)
@@ -600,18 +599,18 @@ const findRecurringTripsFromTimeserie = async (
   { oldPurpose }
 ) => {
   if (!timeserie) {
-    log('error', 'No timeserie found')
+    log.error('No timeserie found')
     return []
   }
   if (timeserie?.series.length != 1) {
     throw new Error('The timeserie is malformed')
   }
   if (!getManualPurpose(timeserie.series[0])) {
-    log('error', 'No manual purpose found')
+    log.error('No manual purpose found')
     return []
   }
   if (!timeserie.aggregation) {
-    log('warn', 'Timeserie without aggregation')
+    log.warn('Timeserie without aggregation')
     return []
   }
   // Find similar trips
@@ -622,7 +621,7 @@ const findRecurringTripsFromTimeserie = async (
       oldPurpose
     }
   )
-  log('info', `Found ${similarTimeseries.length} similar timeseries`)
+  log.info(`Found ${similarTimeseries.length} similar timeseries`)
   // Find similar wayback trips
   const similarWaybackTimeseries = await findSimilarRecurringTimeseries(
     client,
@@ -632,8 +631,7 @@ const findRecurringTripsFromTimeserie = async (
       isWayBack: true
     }
   )
-  log(
-    'info',
+  log.info(
     `Found ${similarWaybackTimeseries.length} similar wayback timeseries`
   )
 
@@ -650,7 +648,7 @@ const findRecurringTripsFromTimeserie = async (
 
 const saveTrips = async ({ client, timeseriesToUpdate, t }) => {
   if (timeseriesToUpdate.length > 0) {
-    log('info', `${timeseriesToUpdate.length} trips to update`)
+    log.info(`${timeseriesToUpdate.length} trips to update`)
 
     // ATM, necessary because of https://github.com/cozy/cozy-client/issues/493
     const timeseries = client.hydrateDocuments(
@@ -669,7 +667,7 @@ const saveTrips = async ({ client, timeseriesToUpdate, t }) => {
     return client.saveAll(timeseriesToUpdate)
   }
 
-  log('info', `No trip to update`)
+  log.info('No trip to update')
   return []
 }
 
@@ -684,7 +682,7 @@ export const runRecurringPurposesForNewTrips = async (client, t) => {
   const settings = await client.query(buildSettingsQuery().definition)
   const accountId = settings.data?.[0]?.account?._id
   if (!accountId) {
-    log('error', 'No account found')
+    log.error('No account found')
     return []
   }
   const newestRecurringTimeserie = await client.query(
@@ -692,11 +690,11 @@ export const runRecurringPurposesForNewTrips = async (client, t) => {
   )
   if (!newestRecurringTimeserie.data?.[0]) {
     // No recurring trip: nothing to do
-    log('info', 'No recurring trip found.')
+    log.info('No recurring trip found.')
     return []
   }
   const oldestDateToQuery = newestRecurringTimeserie.data?.[0].startDate
-  log('info', `Looking for trips from ${oldestDateToQuery}`)
+  log.info(`Looking for trips from ${oldestDateToQuery}`)
 
   const timeseries = await client.queryAll(
     buildTimeseriesQueryByAccountIdAndDate({
@@ -709,13 +707,12 @@ export const runRecurringPurposesForNewTrips = async (client, t) => {
 
   if (timeseries.length > 0) {
     const contactsWithAtLeastOneGeoAddress = await findContactsWithGeo(client)
-    log(
-      'info',
+    log.info(
       `Found ${contactsWithAtLeastOneGeoAddress.length} contacts with geo info`
     )
 
     for (const timeserie of timeseries) {
-      log('info', `Try to set a recurring purpose to ${timeserie._id}...`)
+      log.info(`Try to set a recurring purpose to ${timeserie._id}...`)
       let newTS
       // First, try to find purpose by contact's addresses
       newTS = await findPurposeFromContactAddresses(
@@ -731,7 +728,7 @@ export const runRecurringPurposesForNewTrips = async (client, t) => {
           timeserie
         )
         if (newPurpose) {
-          log('info', `Found automatic purpose: ${newPurpose}`)
+          log.info(`Found automatic purpose: ${newPurpose}`)
           // Set automatic purpose if a purpose is found in older similar timeserie
           newTS = setAutomaticPurpose(newTS, newPurpose)
           nTripsWithAutoPurpose++
@@ -743,7 +740,7 @@ export const runRecurringPurposesForNewTrips = async (client, t) => {
     }
   }
 
-  log('info', `Set ${nTripsWithAutoPurpose} trips with automatic purpose`)
+  log.info(`Set ${nTripsWithAutoPurpose} trips with automatic purpose`)
   return saveTrips({ client, timeseriesToUpdate, t })
 }
 
@@ -770,6 +767,6 @@ export const runRecurringPurposesForManualTrip = async (
     timeserie,
     { oldPurpose }
   )
-  log('info', `Found ${timeseriesToUpdate.length} to update...`)
+  log.info(`Found ${timeseriesToUpdate.length} to update...`)
   return saveTrips({ client, timeseriesToUpdate, t })
 }
