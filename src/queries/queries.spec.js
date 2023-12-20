@@ -115,6 +115,7 @@ describe('buildBikeCommuteTimeseriesQueryByAccountId', () => {
         fields: [
           'startDate',
           'endDate',
+          'title',
           'aggregation',
           'aggregation.modes',
           'aggregation.purpose',
@@ -169,6 +170,7 @@ describe('buildBikeCommuteTimeseriesQueryByAccountId', () => {
         fields: [
           'startDate',
           'endDate',
+          'title',
           'aggregation',
           'aggregation.modes',
           'aggregation.purpose',

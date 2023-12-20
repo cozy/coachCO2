@@ -24,6 +24,9 @@
     "from": "Trips from",
     "departure": "Departure",
     "arrival": "Arrival",
+    "submit": "Save",
+    "cancel": "Cancel",
+    "customLabel": "Custom label",
     "modes": {
       "AIR_OR_HSR": "Plane",
       "BICYCLING_ELECTRIC": "Electric bike",

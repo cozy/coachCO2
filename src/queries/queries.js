@@ -43,6 +43,7 @@ export const buildAggregatedTimeseriesQueryByAccountId = ({
       'cozyMetadata.sourceAccount',
       'startDate',
       'endDate',
+      'title',
       'aggregation'
     ])
     .indexFields(['cozyMetadata.sourceAccount', 'startDate', 'endDate'])
@@ -131,6 +132,7 @@ export const buildTimeseriesQueryByDateAndAccountId = (
     })
     .select([
       'aggregation',
+      'title',
       'cozyMetadata.sourceAccount',
       'startDate',
       'endDate'
@@ -188,6 +190,7 @@ export const buildOneYearOldTimeseriesWithAggregationByAccountId =
           'startDate',
           'endDate',
           'aggregation',
+          'title',
           'cozyMetadata.sourceAccount'
         ])
         .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
@@ -226,6 +229,7 @@ export const buildBikeCommuteTimeseriesQueryByAccountId = (
       .select([
         'startDate',
         'endDate',
+        'title',
         'aggregation',
         'aggregation.modes',
         'aggregation.purpose',

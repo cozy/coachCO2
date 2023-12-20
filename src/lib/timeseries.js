@@ -441,6 +441,12 @@ export const getTotalDuration = timeserie => {
 }
 
 export const getTitle = (timeserie, isMobile) => {
+  const manualTitle = get(timeserie, 'title')
+
+  if (manualTitle) {
+    return manualTitle
+  }
+
   const title = get(timeserie, 'aggregation.automaticTitle')
 
   if (!title) {

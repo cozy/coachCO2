@@ -1501,6 +1501,17 @@ describe('getTitle', () => {
 
       expect(getTitle(timeserie, isMobile)).toBe('Place hugo')
     })
+
+    it('should return title generate manually if present', () => {
+      const timeserie = {
+        title: 'Manual title',
+        aggregation: {
+          automaticTitle: 'Place hugo'
+        }
+      }
+
+      expect(getTitle(timeserie, isMobile)).toBe('Manual title')
+    })
   })
 
   describe('on Desktop', () => {
@@ -1556,6 +1567,17 @@ describe('getTitle', () => {
       }
 
       expect(getTitle(timeserie, isMobile)).toBe('Place hugo')
+    })
+
+    it('should return title generate manually if present', () => {
+      const timeserie = {
+        title: 'Manual title',
+        aggregation: {
+          automaticTitle: 'Place hugo'
+        }
+      }
+
+      expect(getTitle(timeserie, isMobile)).toBe('Manual title')
     })
   })
 })
