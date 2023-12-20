@@ -56,7 +56,7 @@ import {
   TRAMWAY_CO2_KG_PER_KM
 } from 'src/constants'
 
-import log from 'cozy-logger'
+import minilog from 'cozy-minilog'
 import BikeIcon from 'cozy-ui/transpiled/react/Icons/Bike'
 import BusIcon from 'cozy-ui/transpiled/react/Icons/Bus'
 import CarIcon from 'cozy-ui/transpiled/react/Icons/Car'
@@ -82,6 +82,8 @@ import TramwayIcon from 'cozy-ui/transpiled/react/Icons/Tram'
 import UnknownIcon from 'cozy-ui/transpiled/react/Icons/Unknow'
 import WalkIcon from 'cozy-ui/transpiled/react/Icons/Walk'
 import WorkIcon from 'cozy-ui/transpiled/react/Icons/Work'
+
+const log = minilog('components/helpers')
 
 export const modes = [
   AIR_MODE,
@@ -147,7 +149,7 @@ export const pickModeIcon = mode => {
     case UNKNOWN_MODE:
       return UnknownIcon
     default:
-      log('info', `Unknown mode ${mode}`, 'pickModeIcon')
+      log.info(`Unknown mode ${mode}`, 'pickModeIcon')
       return pickModeIcon(UNKNOWN_MODE)
   }
 }
@@ -194,7 +196,7 @@ export const modeToColor = mode => {
     case RUNNING_MODE:
       return '#21B930'
     default:
-      log('info', `Unknown mode ${mode}`, 'modeToColor')
+      log.info(`Unknown mode ${mode}`, 'modeToColor')
       return modeToColor(UNKNOWN_MODE)
   }
 }
@@ -235,7 +237,7 @@ export const pickPurposeIcon = purpose => {
     case OTHER_PURPOSE:
       return MovementIcon
     default:
-      log('info', `Unknown purpose ${purpose}`, 'pickPurposeIcon')
+      log.info(`Unknown purpose ${purpose}`, 'pickPurposeIcon')
       return pickPurposeIcon(OTHER_PURPOSE)
   }
 }
@@ -263,7 +265,7 @@ export const purposeToColor = purpose => {
     case OTHER_PURPOSE:
       return '#A4A7AC'
     default:
-      log('info', `Unknown purpose ${purpose}`, 'purposeToColor')
+      log.info(`Unknown purpose ${purpose}`, 'purposeToColor')
       return purposeToColor(OTHER_PURPOSE)
   }
 }
@@ -389,7 +391,7 @@ export const modeToCategory = mode => {
     case MOPED_MODE:
       return CAR_CATEGORY.name
     default:
-      log('info', `Unknown mode ${mode}`, 'modeToCategory')
+      log.info(`Unknown mode ${mode}`, 'modeToCategory')
       return modeToCategory(UNKNOWN_MODE)
   }
 }

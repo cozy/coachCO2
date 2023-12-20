@@ -6,10 +6,12 @@ import { buildAccountQuery, buildSettingsQuery } from 'src/queries/queries'
 
 import { models } from 'cozy-client'
 import flag from 'cozy-flags'
-import log from 'cozy-logger'
+import minilog from 'cozy-minilog'
 
 import { sendBikeGoalMeasuresForAccount } from './daccBikeGoal'
 import { sendCO2MeasuresForAccount } from './daccMonthlyCO2'
+
+const log = minilog('dacc')
 
 const { sendMeasureToDACC } = models.dacc
 
@@ -33,14 +35,11 @@ export const sendMeasureToDACCWithRemoteDoctype = async (client, measure) => {
   try {
     await flag.initialize(client)
     const remoteDoctype = getDACCRemoteDoctype()
-    log('info', `Send measure to ${remoteDoctype} on ${measure.startDate}`)
+    log.info(`Send measure to ${remoteDoctype} on ${measure.startDate}`)
 
     await sendMeasureToDACC(client, remoteDoctype, measure)
   } catch (error) {
-    log(
-      'error',
-      `Error while sending measure to remote doctype: ${error.message}`
-    )
+    log.error('Error while sending measure to remote doctype', error.message)
     throw error
   }
 }
@@ -103,12 +102,12 @@ const getAccounts = async client => {
 export const runMonthlyCO2DACCService = async client => {
   const consent = await hasConsentFromSettings(client, 'CO2Emission.sendToDACC')
   if (!consent) {
-    log('info', 'The user did not give consent to send data to DACC')
+    log.info('The user did not give consent to send data to DACC')
     return false
   }
   const accounts = await getAccounts(client)
   if (!accounts) {
-    log('info', 'No account found: Nothing to do')
+    log.info('No account found: Nothing to do')
     return false
   }
 
@@ -119,8 +118,7 @@ export const runMonthlyCO2DACCService = async client => {
     if (nMeasuresSent >= MAX_DACC_MEASURES_SENT) {
       shouldRestartService = true
     }
-    log(
-      'info',
+    log.info(
       `${nMeasuresSent} measures sent to DACC for account ${account._id}`
     )
   }
@@ -136,12 +134,12 @@ export const runMonthlyCO2DACCService = async client => {
 export const runBikeGoalDACCService = async client => {
   const consent = await hasConsentFromSettings(client, 'bikeGoal.sendToDACC')
   if (!consent) {
-    log('info', 'The user did not give consent to send data to DACC')
+    log.info('The user did not give consent to send data to DACC')
     return false
   }
   const accounts = await getAccounts(client)
   if (!accounts) {
-    log('info', 'No account found: Nothing to do')
+    log.info('No account found: Nothing to do')
     return false
   }
 

@@ -12,7 +12,9 @@ import { buildBikeCommuteTimeseriesQueryByAccountId } from 'src/queries/queries'
 
 import { models } from 'cozy-client'
 import flag from 'cozy-flags'
-import log from 'cozy-logger'
+import minilog from 'cozy-minilog'
+
+const log = minilog('daccBikeGoal')
 
 const { fetchAggregatesFromDACC } = models.dacc
 
@@ -42,10 +44,7 @@ export const fetchYesterdayBikeGoalFromDACC = async client => {
     })
     return results
   } catch (error) {
-    log(
-      'error',
-      `Error while retrieving data from remote-doctype: ${error.message}`
-    )
+    log.error('Error while retrieving data from remote-doctype', error.message)
   }
 }
 
@@ -95,16 +94,16 @@ export const sendBikeGoalMeasuresForAccount = async (client, account) => {
     { accountId: account._id, date: currentDate },
     true
   ).definition
-  log('info', `Query commute trips with: ${JSON.stringify(bikeCommuteQuery)}`)
+  log.info(`Query commute trips with: ${JSON.stringify(bikeCommuteQuery)}`)
   const timeseries = await client.queryAll(bikeCommuteQuery)
-  log('info', `Number of commute trips on bike: ${timeseries?.length}`)
+  log.info(`Number of commute trips on bike: ${timeseries?.length}`)
   if (timeseries?.length < 1) {
-    log('info', 'No timeseries found. Abort.')
+    log.info('No timeseries found. Abort.')
     return null
   }
 
   const daysWithBikeCommute = countUniqDays(timeseries)
-  log('info', `Number of days with commute bike : ${daysWithBikeCommute}`)
+  log.info(`Number of days with commute bike : ${daysWithBikeCommute}`)
 
   const bikeGroupName = getBikeGroupName()
 
@@ -118,6 +117,6 @@ export const sendBikeGoalMeasuresForAccount = async (client, account) => {
       }
     ]
   })
-  log('info', `Send measure ${JSON.stringify(measure)} to DACC...`)
+  log.info(`Send measure ${JSON.stringify(measure)} to DACC...`)
   await sendMeasureToDACCWithRemoteDoctype(client, measure)
 }

@@ -12,7 +12,9 @@ import {
 import { buildSettingsQuery } from 'src/queries/queries'
 
 import { models } from 'cozy-client'
-import log from 'cozy-logger'
+import minilog from 'cozy-minilog'
+
+const log = minilog('exportTripsToCSV')
 
 import { getOrCreateAppFolderWithReference } from './getOrCreateAppFolderWithReference'
 import { transformTimeseriesToTrips } from './timeseries'
@@ -113,7 +115,7 @@ export const uploadFile = async ({ client, t, timeseries, accountName }) => {
 
     return { appDir: folder, fileCreated: data, isLoading: false }
   } catch (error) {
-    log('error', error)
+    log.error(error)
     return { appDir: null, fileCreated: null, isLoading: true }
   }
 }
