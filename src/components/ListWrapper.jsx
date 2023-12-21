@@ -10,7 +10,7 @@ import Titlebar from 'src/components/Titlebar'
 import { buildTimeseriesQueryByDateAndAccountId } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
-import Spinner from 'cozy-ui/transpiled/react/Spinner'
+import ListSkeleton from 'cozy-ui/transpiled/react/Skeletons/ListSkeleton'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
@@ -26,12 +26,14 @@ export const ListWrapper = () => {
     : t('analysis.mode')
 
   const onBack = mode ? () => navigate('/analysis/modes') : undefined
+
   if (
     !location.pathname.includes('purposes') &&
     !location.pathname.includes('modes')
   ) {
     return <Navigate to="/analysis/modes" replace />
   }
+
   return (
     <>
       <Titlebar label={modeTitle} onBack={onBack} />
@@ -56,9 +58,7 @@ const AnalysisWrapper = () => {
   )
 
   if (isSelectedDateLoading || isAccountLoading) {
-    return (
-      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
-    )
+    return <ListSkeleton count={8} hasSecondary divider />
   }
 
   if (
@@ -66,13 +66,12 @@ const AnalysisWrapper = () => {
     (isQueryLoading(timeseriesQueryLeft) || timeseriesQueryLeft.hasMore) &&
     selectedDate !== null
   ) {
-    return (
-      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
-    )
+    return <ListSkeleton count={8} hasSecondary divider />
   }
 
   if (!account || !timeseries || timeseries?.length === 0) {
     return <EmptyContentManager />
   }
+
   return <Outlet context={[timeseries]} />
 }

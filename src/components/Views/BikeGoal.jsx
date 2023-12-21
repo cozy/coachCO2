@@ -8,7 +8,7 @@ import {
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll, useQuery } from 'cozy-client'
-import Spinner from 'cozy-ui/transpiled/react/Spinner'
+import ListSkeleton from 'cozy-ui/transpiled/react/Skeletons/ListSkeleton'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
 const Bikegoal = () => {
@@ -40,9 +40,7 @@ const Bikegoal = () => {
     isLoadingTimeseriesQuery || isAccountLoading || isSettingsLoading
 
   if (isLoading) {
-    return (
-      <Spinner size="xxlarge" className="u-flex u-flex-justify-center u-mt-1" />
-    )
+    return <ListSkeleton count={8} hasSecondary divider />
   }
 
   const sendToDACC = !!settings?.[0].bikeGoal?.sendToDACC
