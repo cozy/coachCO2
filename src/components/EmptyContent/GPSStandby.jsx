@@ -1,5 +1,5 @@
 import React from 'react'
-import EmptySvg from 'src/assets/icons/location-detected.svg'
+import EmptySvg from 'src/assets/images/location-detected.svg'
 import {
   useAccountContext,
   getAccountLabel
@@ -21,7 +21,7 @@ const GPSStandby = () => {
         <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />
       )}
       <Empty
-        icon={EmptySvg}
+        icon={<img src={EmptySvg} />}
         iconSize="medium"
         title={t('emptyContent.GPSStandby.title')}
         text={t('emptyContent.GPSStandby.text')}
