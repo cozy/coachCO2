@@ -60,7 +60,8 @@ describe('enableGeolocationTracking', () => {
 
     await enableGeolocationTracking({
       webviewIntent: mockWebviewIntent,
-      setIsGeolocationTrackingEnabled: jest.fn()
+      setIsGeolocationTrackingEnabled: jest.fn(),
+      setIsGeolocationQuotaExceeded: jest.fn()
     })
 
     expect(mockWebviewIntentCall.mock.calls[0][0]).toBe(
@@ -99,7 +100,8 @@ describe('enableGeolocationTracking', () => {
       t,
       lang: 'fr-FR',
       webviewIntent: mockWebviewIntent,
-      setIsGeolocationTrackingEnabled: jest.fn()
+      setIsGeolocationTrackingEnabled: jest.fn(),
+      setIsGeolocationQuotaExceeded: jest.fn()
     })
 
     expect(mockWebviewIntentCall.mock.calls[0][0]).toBe(

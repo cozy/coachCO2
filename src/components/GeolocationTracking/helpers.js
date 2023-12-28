@@ -79,22 +79,30 @@ export const getOpenPathAccountName = async ({
 
 export const syncTrackingStatusWithFlagship = async (
   webviewIntent,
-  setIsGeolocationTrackingEnabled
+  setIsGeolocationTrackingEnabled,
+  setIsGeolocationQuotaExceeded
 ) => {
-  const { enabled } = (await webviewIntent?.call(
+  const { enabled, quotaExceeded = false } = (await webviewIntent?.call(
     'getGeolocationTrackingStatus'
-  )) || { enabled: false }
+  )) || {
+    enabled: false,
+    quotaExceeded: false
+  }
+
   setIsGeolocationTrackingEnabled(enabled)
+  setIsGeolocationQuotaExceeded(quotaExceeded)
 }
 
 export const disableGeolocationTracking = async (
   webviewIntent,
-  setIsGeolocationTrackingEnabled
+  setIsGeolocationTrackingEnabled,
+  setIsGeolocationQuotaExceeded
 ) => {
   await webviewIntent?.call('setGeolocationTracking', false)
   await syncTrackingStatusWithFlagship(
     webviewIntent,
-    setIsGeolocationTrackingEnabled
+    setIsGeolocationTrackingEnabled,
+    setIsGeolocationQuotaExceeded
   )
 }
 
@@ -104,6 +112,7 @@ export const enableGeolocationTracking = async ({
   t,
   webviewIntent,
   setIsGeolocationTrackingEnabled,
+  setIsGeolocationQuotaExceeded,
   setShowOpenPathKonnectorDialog
 }) => {
   // create account if necessary
@@ -144,7 +153,8 @@ export const enableGeolocationTracking = async ({
   await webviewIntent?.call('setGeolocationTracking', true)
   await syncTrackingStatusWithFlagship(
     webviewIntent,
-    setIsGeolocationTrackingEnabled
+    setIsGeolocationTrackingEnabled,
+    setIsGeolocationQuotaExceeded
   )
 }
 
