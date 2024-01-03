@@ -43,6 +43,8 @@ export const GeolocationTrackingProvider = ({ children }) => {
     useState(null)
   const [isGeolocationTrackingEnabled, setIsGeolocationTrackingEnabled] =
     useState(null)
+  const [isGeolocationQuotaExceeded, setIsGeolocationQuotaExceeded] =
+    useState(null)
   const [showLocationRequestableDialog, setShowLocationRequestableDialog] =
     useState(false)
   const [showLocationRefusedDialog, setShowLocationRefusedDialog] =
@@ -58,7 +60,8 @@ export const GeolocationTrackingProvider = ({ children }) => {
 
     syncTrackingStatusWithFlagship(
       webviewIntent,
-      setIsGeolocationTrackingEnabled
+      setIsGeolocationTrackingEnabled,
+      setIsGeolocationQuotaExceeded
     )
   }, [webviewIntent])
 
@@ -66,10 +69,12 @@ export const GeolocationTrackingProvider = ({ children }) => {
     () => ({
       isGeolocationTrackingAvailable,
       isGeolocationTrackingEnabled,
+      isGeolocationQuotaExceeded,
       disableGeolocationTracking: () =>
         disableGeolocationTracking(
           webviewIntent,
-          setIsGeolocationTrackingEnabled
+          setIsGeolocationTrackingEnabled,
+          setIsGeolocationQuotaExceeded
         ),
       checkPermissionsAndEnableTrackingOrShowDialog: permissions =>
         checkPermissionsAndEnableTrackingOrShowDialog({
@@ -87,6 +92,7 @@ export const GeolocationTrackingProvider = ({ children }) => {
     [
       isGeolocationTrackingAvailable,
       isGeolocationTrackingEnabled,
+      isGeolocationQuotaExceeded,
       webviewIntent,
       client,
       lang,
@@ -125,7 +131,8 @@ export const GeolocationTrackingProvider = ({ children }) => {
                 t,
                 webviewIntent,
                 setIsGeolocationTrackingEnabled,
-                setShowOpenPathKonnectorDialog
+                setShowOpenPathKonnectorDialog,
+                setIsGeolocationQuotaExceeded
               })
             }
           }}
