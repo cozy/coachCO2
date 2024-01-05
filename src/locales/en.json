@@ -111,8 +111,15 @@
     "travels": "%{smart_count} travel |||| %{smart_count} travel",
     "emittedCO2": "emitted CO2"
   },
+  "support": {
+    "label": "Support",
+    "problem": "A problem?",
+    "consult": {
+      "text": "Consult our",
+      "link": "geolocation FAQ"
+    }
+  },
   "export": {
-    "label": "Export",
     "filename": "%{today} - Trips %{accountLabel}.csv",
     "button": "Export trips in CSV",
     "modal": {
@@ -335,7 +342,7 @@
     },
     "settings": {
       "enable": "Record my movements with my mobile (GPS)",
-      "sendLogs": "Send Geolocation logs",
+      "sendLogs": "Send my logs to support",
       "forceUploadData": "Force Upload Data",
       "copyIdentifier": "Copy OpenPATH Identifier",
       "createdOn": "created on"

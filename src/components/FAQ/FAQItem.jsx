@@ -1,31 +1,33 @@
 import React from 'react'
 
-import { useWebviewIntent } from 'cozy-intent'
 import Icon from 'cozy-ui/transpiled/react/Icon'
-import SupportIcon from 'cozy-ui/transpiled/react/Icons/Support'
+import HelpIcon from 'cozy-ui/transpiled/react/Icons/Help'
+import OpenwithIcon from 'cozy-ui/transpiled/react/Icons/Openwith'
 import ListItem from 'cozy-ui/transpiled/react/ListItem'
 import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
 import ListItemText from 'cozy-ui/transpiled/react/ListItemText'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-const GeolocationLogsExporter = () => {
+const FAQItem = () => {
   const { t } = useI18n()
-  const webviewIntent = useWebviewIntent()
 
   return (
     <ListItem
       button
       ellipsis={false}
-      onClick={async () =>
-        await webviewIntent.call('sendGeolocationTrackingLogs')
-      }
+      component="a"
+      target="_blank"
+      href="https://support.cozy.io/tag/cozy-coach-co2/"
     >
       <ListItemIcon>
-        <Icon icon={SupportIcon} />
+        <Icon icon={HelpIcon} />
       </ListItemIcon>
-      <ListItemText primary={t('geolocationTracking.settings.sendLogs')} />
+      <ListItemText primary={t('support.consult.link')} />
+      <ListItemIcon>
+        <Icon icon={OpenwithIcon} />
+      </ListItemIcon>
     </ListItem>
   )
 }
 
-export default GeolocationLogsExporter
+export default FAQItem

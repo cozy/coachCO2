@@ -6,6 +6,7 @@ import CO2EmissionDaccSwitcher from 'src/components/CO2EmissionDaccSwitcher'
 import InstallApp from 'src/components/EmptyContent/InstallApp'
 import Welcome from 'src/components/EmptyContent/Welcome'
 import CsvExporter from 'src/components/ExportCSV/CsvExporter'
+import FAQ from 'src/components/FAQ/FAQItem'
 import GeolocationLogsExporter from 'src/components/GeolocationTracking/GeolocationLogsExporter'
 import GeolocationTrackingSettings from 'src/components/GeolocationTracking/GeolocationTrackingSettings'
 import GeolocationTrackingSwitcher from 'src/components/GeolocationTracking/GeolocationTrackingSwitcher'
@@ -84,7 +85,13 @@ export const Settings = () => {
 
         {account && (
           <List subheader={<ListSubheader>{t('support.label')}</ListSubheader>}>
-            <GeolocationLogsExporter />
+            <FAQ />
+            {isGeolocationTrackingAvailable ? (
+              <>
+                <Divider variant="inset" component="li" />
+                <GeolocationLogsExporter />
+              </>
+            ) : null}
           </List>
         )}
 
