@@ -72,4 +72,29 @@
  * @property {string} cozyCategory - The address category, e.g. Work
  */
 
+/**
+ * @typedef {object} OpenPathTrip
+ * @property {TripData} data - The trip data
+ * @property {TripProperties} properties - The trip properties
+ * @property {TripMetadata} metadata - The trip metadata
+ */
+
+/**
+ * @typedef {object} TripData
+ * @property {string} start_fmt_time - The trip start date, in ISO format
+ * @returns
+ */
+
+/**
+ * @typedef {object} TripProperties
+ * @property {string} start_fmt_time - The trip start date in ISO format
+ * @returns
+ */
+
+/**
+ * @typedef {object} TripMetadata
+ * @property {string} write_fmt_time - The trip write date in ISO format
+ * @returns
+ */
+
 export default {}

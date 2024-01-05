@@ -269,3 +269,9 @@ export const TRIPS_DISTANCE_SIMILARITY_RATIO = 0.1
 
 export const START_END_DISTANCE_THRESHOLD_M = 50 // meters
 export const COORDINATES_DISTANCE_THRESHOLD_M = 200 // meters
+
+// openpath consts
+export const TRIP_COLLECTION = 'analysis/cleaned_trip'
+export const TRIPS_CHUNK_SIZE = 100
+export const OPENPATH_URL = 'https://openpath.cozycloud.cc'
+export const OPENPATH_ACCOUNT_TYPE = 'openpath' // Used in account_type for io.cozy.accounts
