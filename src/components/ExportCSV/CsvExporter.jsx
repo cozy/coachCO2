@@ -16,7 +16,6 @@ export const CsvExporter = ({ accountName }) => {
     <>
       <ListItem
         button
-        gutters="disabled"
         ellipsis={false}
         disabled={isModalOpened}
         onClick={() => setIsModalOpened(true)}

@@ -20,27 +20,23 @@ export const GeolocationTrackingSettings = () => {
   }
 
   return (
-    <div className="u-mt-1">
-      <div className="u-flex u-flex-column">
-        <div>
-          <Button
-            label={t('geolocationTracking.settings.forceUploadData')}
-            variant="secondary"
-            onClick={async () =>
-              await webviewIntent.call('forceUploadGeolocationTrackingData')
-            }
-            className="u-mb-1"
-          />
-        </div>
-        <div>
-          <Button
-            label={t('geolocationTracking.settings.copyIdentifier')}
-            variant="secondary"
-            onClick={copyGeolocationTrackingId}
-            className="u-mb-1"
-          />
-        </div>
-      </div>
+    <div className="u-m-1">
+      <Button
+        fullWidth
+        label={t('geolocationTracking.settings.forceUploadData')}
+        variant="secondary"
+        onClick={async () =>
+          await webviewIntent.call('forceUploadGeolocationTrackingData')
+        }
+        className="u-mb-1"
+      />
+      <Button
+        fullWidth
+        label={t('geolocationTracking.settings.copyIdentifier')}
+        variant="secondary"
+        onClick={copyGeolocationTrackingId}
+        className="u-mb-1"
+      />
     </div>
   )
 }

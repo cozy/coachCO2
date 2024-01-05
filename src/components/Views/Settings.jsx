@@ -1,4 +1,3 @@
-import cx from 'classnames'
 import React from 'react'
 import AccountSelector from 'src/components/AccountSelector'
 import AppVersionNumber from 'src/components/AppVersionNumber'
@@ -25,8 +24,9 @@ import Titlebar from 'src/components/Titlebar'
 import flag from 'cozy-flags'
 import Divider from 'cozy-ui/transpiled/react/Divider'
 import List from 'cozy-ui/transpiled/react/List'
+import ListItem from 'cozy-ui/transpiled/react/ListItem'
+import ListSubheader from 'cozy-ui/transpiled/react/ListSubheader'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
-import Typography from 'cozy-ui/transpiled/react/Typography'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
@@ -59,85 +59,55 @@ export const Settings = () => {
     <>
       <Titlebar label={t('nav.settings')} />
       <div
-        className="u-mh-1 u-mb-1 u-mt-1-half-s"
+        className="u-mb-1 u-mt-1-half-s"
         {...(!isMobile && { style: containerStyle })}
       >
-        <Typography
-          variant="subtitle2"
-          color="textSecondary"
-          className="u-mb-half"
+        <List subheader={<ListSubheader>{t('devices.label')}</ListSubheader>}>
+          <ListItem>
+            <AccountSelector />
+          </ListItem>
+          {isGeolocationTrackingAvailable && <GeolocationTrackingSwitcher />}
+        </List>
+        <List
+          subheader={<ListSubheader>{t('settings.services')}</ListSubheader>}
         >
-          {t('devices.label')}
-        </Typography>
-        <AccountSelector />
-
-        {isGeolocationTrackingAvailable && (
-          <List>
-            <GeolocationTrackingSwitcher />
-          </List>
-        )}
-
-        <Typography
-          variant="subtitle2"
-          color="textSecondary"
-          className={cx({
-            'u-mt-1': isGeolocationTrackingAvailable,
-            'u-mt-1-half': !isGeolocationTrackingAvailable
-          })}
-        >
-          {t('settings.services')}
-        </Typography>
-        <List>
           <CO2EmissionDaccSwitcher />
           {flag('coachco2.bikegoal.enabled') && (
             <>
-              <Divider component="li" className="u-ml-3" />
+              <Divider variant="inset" component="li" />
               <BikeGoalSwitcher />
             </>
           )}
+          <Divider variant="inset" component="li" />
+          <CsvExporter accountName={getAccountLabel(account)} />
         </List>
 
         {account && (
-          <>
-            <Typography
-              variant="subtitle2"
-              color="textSecondary"
-              className="u-mt-1 u-mb-half"
-            >
-              {t('export.label')}
-            </Typography>
-            <CsvExporter accountName={getAccountLabel(account)} />
+          <List subheader={<ListSubheader>{t('support.label')}</ListSubheader>}>
             <GeolocationLogsExporter />
-          </>
+          </List>
         )}
 
         {flag('coachco2.admin-mode') && (
           <>
-            <Typography
-              variant="subtitle2"
-              color="textSecondary"
-              className="u-mt-1-half"
+            <List
+              subheader={<ListSubheader>{t('settings.debug')}</ListSubheader>}
             >
-              {t('settings.debug')}
-            </Typography>
-            <List>
               <CO2EmissionDaccAlertSwitcher />
               {flag('coachco2.bikegoal.enabled') && (
                 <>
-                  <Divider component="li" className="u-ml-3" />
+                  <Divider component="li" variant="inset" />
                   <BikeGoalAlertSwitcher className="u-mt-1-half-s" />
-                  <Divider component="li" className="u-ml-3" />
+                  <Divider component="li" variant="inset" />
                   <BikeGoalOnboardedSwitcher className="u-mt-1-half-s" />
-                  <Divider component="li" className="u-ml-3" />
+                  <Divider component="li" variant="inset" />
                   <BikeGoalAlertSuccessSwitcher className="u-mt-1-half-s" />
-                  <Divider component="li" className="u-ml-3" />
+                  <Divider component="li" variant="inset" />
                   <BikeGoalDaccSwitcher className="u-mt-1-half-s" />
                 </>
               )}
             </List>
-
             {isGeolocationTrackingAvailable && <GeolocationTrackingSettings />}
-
             <AppVersionNumber />
           </>
         )}

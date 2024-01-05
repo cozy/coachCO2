@@ -38,7 +38,6 @@ const BikeGoalSwitcher = () => {
   return (
     <ListItem
       button
-      gutters="disabled"
       ellipsis={false}
       onClick={() => handleChange(!isChecked)}
       disabled={isLoading}
