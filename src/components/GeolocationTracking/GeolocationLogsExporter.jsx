@@ -21,7 +21,6 @@ const GeolocationLogsExporter = () => {
   return (
     <ListItem
       button
-      gutters="disabled"
       ellipsis={false}
       onClick={async () =>
         await webviewIntent.call('sendGeolocationTrackingLogs')

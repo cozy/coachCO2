@@ -27,6 +27,7 @@ const AccountSelector = () => {
   return (
     <SelectBox
       fullwidth
+      className="u-w-100"
       options={options}
       value={value}
       label={t('devices.label')}

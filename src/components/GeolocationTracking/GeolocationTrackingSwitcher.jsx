@@ -43,12 +43,7 @@ export const GeolocationTrackingSwitcher = () => {
 
   return (
     <>
-      <ListItem
-        button
-        gutters="disabled"
-        ellipsis={false}
-        onClick={handleChange}
-      >
+      <ListItem button ellipsis={false} onClick={handleChange}>
         <ListItemIcon>
           <Icon icon={LocationIcon} />
         </ListItemIcon>

@@ -27,7 +27,6 @@ const CO2EmissionDaccAlertSwitcher = () => {
   return (
     <ListItem
       button
-      gutters="disabled"
       ellipsis={false}
       onClick={() => handleChange(!value)}
       disabled={isLoading}
