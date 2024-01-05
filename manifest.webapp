@@ -1,0 +1,153 @@
+{
+  "name": "Coach CO2",
+  "slug": "app",
+  "icon": "icon.svg",
+  "categories": [],
+  "version": "0.12.0",
+  "licence": "AGPL-3.0",
+  "editor": "Cozy Cloud",
+  "source": "https://github.com/cozy/coachCO2.git@build",
+  "developer": {
+    "name": "Cozy Cloud",
+    "url": "https://cozy.io"
+  },
+  "default_locale": "fr",
+  "langs": [
+    "fr",
+    "en"
+  ],
+  "routes": {
+    "/": {
+      "folder": "/",
+      "index": "index.html",
+      "public": false
+    }
+  },
+  "permissions": {
+    "apps": {
+      "description": "Required by the cozy-bar to display the icons of the apps",
+      "type": "io.cozy.apps",
+      "verbs": [
+        "GET"
+      ]
+    },
+    "settings": {
+      "description": "Required by the cozy-bar to display Claudy and know which applications are coming soon",
+      "type": "io.cozy.settings",
+      "verbs": [
+        "GET"
+      ]
+    },
+    "accounts": {
+      "description": "Required to get konnector account",
+      "type": "io.cozy.accounts",
+      "verbs": [
+        "GET",
+        "POST",
+        "PUT"
+      ]
+    },
+    "konnectors": {
+      "description": "Required to create your mobility konnector account and to display additional information in the viewer for files automatically retrieved by services",
+      "type": "io.cozy.konnectors",
+      "verbs": [
+        "GET"
+      ]
+    },
+    "triggers": {
+      "description": "Required to create your mobility konnector account and to display additional information in the viewer and for the notification service",
+      "type": "io.cozy.triggers",
+      "verbs": [
+        "GET",
+        "POST"
+      ]
+    },
+    "files": {
+      "description": "Required to access the files for saved your export of trips",
+      "type": "io.cozy.files",
+      "verbs": [
+        "ALL"
+      ]
+    },
+    "sharings": {
+      "description": "Required to have access to the sharings in realtime",
+      "type": "io.cozy.sharings",
+      "verbs": [
+        "ALL"
+      ]
+    },
+    "geojson-timeseries": {
+      "description": "Required to display geojson timeseries",
+      "type": "io.cozy.timeseries.geojson"
+    },
+    "coachco2.settings": {
+      "description": "Used to manage your Coach CO2 settings",
+      "type": "io.cozy.coachco2.settings",
+      "verbs": [
+        "GET",
+        "POST",
+        "PUT"
+      ]
+    },
+    "jobs": {
+      "description": "Used in services to start other services",
+      "type": "io.cozy.jobs",
+      "verbs": [
+        "POST"
+      ]
+    },
+    "dacc": {
+      "type": "cc.cozycloud.dacc_v2",
+      "verbs": [
+        "POST"
+      ],
+      "description": "Remote-doctype required to send anonymized CO2 contributions"
+    },
+    "dacc-dev": {
+      "type": "cc.cozycloud.dacc.dev_v2",
+      "verbs": [
+        "POST"
+      ],
+      "description": "Remote-doctype required to send anonymized CO2 contributions, for developement purposes"
+    },
+    "contacts": {
+      "type": "io.cozy.contacts.*",
+      "verbs": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "description": "Used to link contacts to geojson timeseries and sharing documents"
+    }
+  },
+  "services": {
+    "fetchOpenPathTrips": {
+      "type": "node",
+      "file": "services/fetchOpenPathTrips/coachco2.js",
+      "trigger": "@hourly"
+    },
+    "timeseriesWithoutAggregateMigration": {
+      "type": "node",
+      "file": "services/timeseriesWithoutAggregateMigration/coachco2.js",
+      "trigger": "@event io.cozy.timeseries.geojson:CREATED,UPDATED",
+      "debounce": "1m"
+    },
+    "daccMonthlyCO2": {
+      "type": "node",
+      "file": "services/daccMonthlyCO2/coachco2.js",
+      "trigger": "@monthly on the 1"
+    },
+    "daccBikeGoal": {
+      "type": "node",
+      "file": "services/daccBikeGoal/coachco2.js",
+      "trigger": "@daily"
+    },
+    "recurringPurposes": {
+      "type": "node",
+      "file": "services/recurringPurposes/coachco2.js",
+      "trigger": "@event io.cozy.timeseries.geojson:CREATED",
+      "debounce": "2m"
+    }
+  }
+}
