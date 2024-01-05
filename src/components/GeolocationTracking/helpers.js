@@ -1,11 +1,9 @@
-import {
-  buildAccountQueryByLogin,
-  buildOpenPathKonnectorQuery
-} from 'src/queries/queries'
+import { OPENPATH_ACCOUNT_TYPE } from 'src/constants'
+import { ACCOUNTS_DOCTYPE } from 'src/doctypes'
+import { buildAccountQueryByLogin } from 'src/queries/queries'
 
 import { isFlagshipApp } from 'cozy-device-helper'
 import flag from 'cozy-flags'
-import ConnectionFlow from 'cozy-harvest-lib/dist/models/ConnectionFlow'
 import { getRandomUUID } from 'cozy-ui/transpiled/react/helpers/getRandomUUID'
 
 const FEATURE_NAME = 'geolocationTracking'
@@ -16,40 +14,24 @@ export const createOpenPathAccount = async ({
   lang,
   deviceName
 }) => {
-  const openPathKonnectorQuery = buildOpenPathKonnectorQuery()
-  const {
-    data: { attributes: konnector }
-  } = await client.query(
-    openPathKonnectorQuery.definition,
-    openPathKonnectorQuery.options
-  )
-
-  const flow = new ConnectionFlow(client, null, konnector)
-
   const newLogin = await getOpenPathAccountName({
     client,
     t,
     lang,
     deviceName
   })
-  const newPassword = getRandomUUID()
-
-  await flow.createAccountSilently({
-    konnector,
-    vaultClient: null,
-    cipherId: null,
-    trigger: null,
-    account: null,
-    userCredentials: {
-      login: newLogin,
-      password: newPassword,
-      providerId: '1' // Cozy Provider
-    }
-  })
-
+  const newToken = getRandomUUID()
+  const attributes = {
+    account_type: OPENPATH_ACCOUNT_TYPE,
+    auth: {
+      login: newLogin
+    },
+    token: newToken
+  }
+  await client.create(ACCOUNTS_DOCTYPE, attributes)
   return {
     login: newLogin,
-    password: newPassword
+    password: newToken
   }
 }
 

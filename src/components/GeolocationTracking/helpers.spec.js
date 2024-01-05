@@ -78,7 +78,8 @@ describe('enableGeolocationTracking', () => {
   it('should enable geolocation tracking with creating a new account if there is no tracking id', async () => {
     const mockWebviewIntentCall = jest.fn()
     const client = {
-      query: () => ({ data: [] })
+      query: () => ({ data: [] }),
+      create: () => ({})
     }
 
     const mockWebviewIntent = {
