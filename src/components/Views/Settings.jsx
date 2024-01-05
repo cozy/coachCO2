@@ -59,10 +59,7 @@ export const Settings = () => {
   return (
     <>
       <Titlebar label={t('nav.settings')} />
-      <div
-        className="u-mb-1 u-mt-1-half-s"
-        {...(!isMobile && { style: containerStyle })}
-      >
+      <div className="u-mb-1" {...(!isMobile && { style: containerStyle })}>
         <List subheader={<ListSubheader>{t('devices.label')}</ListSubheader>}>
           <ListItem>
             <AccountSelector />
