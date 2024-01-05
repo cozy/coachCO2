@@ -10,17 +10,20 @@ import {
 } from 'src/queries/queries'
 
 import CozyClient from 'cozy-client'
-import minilog from 'cozy-minilog'
+import logger from 'cozy-logger'
+
+const logService = logger.namespace(
+  'services/timeseriesWithoutAggregateMigration'
+)
 
 global.fetch = fetch
-const log = minilog('services/timeSeriesWithoutAggregayeMigration')
 
 const BATCH_DOCS_LIMIT = 1000 // to avoid processing too many files and get timeouts
 
 const { t } = initPolyglot()
 
 const migrateTimeSeriesWithoutAggregation = async () => {
-  log.info('Start migrateTimeSeriesWithoutAggregation service')
+  logService('info', 'Start migrateTimeSeriesWithoutAggregation service')
   const client = CozyClient.fromEnv(process.env, { schema })
 
   const timeseriesWithoutAggregationQueryDef =
@@ -38,11 +41,11 @@ const migrateTimeSeriesWithoutAggregation = async () => {
   const data = client.hydrateDocuments(GEOJSON_DOCTYPE, resp)
 
   if (!data || data.length < 1) {
-    log.info('Nothing to migrate')
+    logService('info', 'Nothing to migrate')
     return
   }
 
-  log.info(`Found ${data.length} timeseries to migrate...`)
+  logService('info', `Found ${data.length} timeseries to migrate...`)
 
   const makeSections = timeserie => {
     const serie = timeserie.series[0]
@@ -61,10 +64,13 @@ const migrateTimeSeriesWithoutAggregation = async () => {
     await client.save(timeserie)
   }
 
-  log.info(`${migratedTimeseries.length} timeseries migrated with aggregation`)
+  logService(
+    'info',
+    `${migratedTimeseries.length} timeseries migrated with aggregation`
+  )
 }
 
 migrateTimeSeriesWithoutAggregation().catch(e => {
-  log.error(e)
+  logService('error', e)
   process.exit(1)
 })

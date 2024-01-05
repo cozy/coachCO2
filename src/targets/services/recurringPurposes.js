@@ -7,9 +7,9 @@ import {
 import { initPolyglot } from 'src/lib/services'
 
 import CozyClient from 'cozy-client'
-import minilog from 'cozy-minilog'
+import logger from 'cozy-logger'
 
-const log = minilog('services/recurringPurposes')
+const logService = logger.namespace('services/recurringPurposes')
 
 global.fetch = fetch
 
@@ -21,21 +21,21 @@ const { t } = initPolyglot()
  *
  */
 const recurringPurposes = async () => {
-  log.info('Start recurringPurposes service')
+  logService('info', 'Start recurringPurposes service')
   const client = CozyClient.fromEnv(process.env, { schema })
 
   const fields = JSON.parse(process.env.COZY_FIELDS || '{}')
   const { docId, oldPurpose } = fields
   if (docId && oldPurpose) {
-    log.info('Search for recurring trips after manual edit')
+    logService('info', 'Search for recurring trips after manual edit')
     await runRecurringPurposesForManualTrip(client, { docId, oldPurpose }, t)
   } else {
-    log.info('Search for new recurring trips')
+    logService('info', 'Search for new recurring trips')
     await runRecurringPurposesForNewTrips(client, t)
   }
 }
 
 recurringPurposes().catch(e => {
-  log.error(e)
+  logService('error', e)
   process.exit(1)
 })

@@ -22,8 +22,10 @@ import {
 } from 'src/queries/queries'
 
 import { models } from 'cozy-client'
+import logger from 'cozy-logger'
 import minilog from 'cozy-minilog'
 
+const logService = logger.namespace('services/daccMonthlyCO2')
 const log = minilog('daccMonthlyCO2')
 
 const { fetchAggregatesFromDACC } = models.dacc
@@ -53,6 +55,7 @@ export const fetchMonthlyAverageCO2FromDACCFor11Month = async client => {
     })
     return results
   } catch (error) {
+    logService('error', 'Error while retrieving data from remote-doctype')
     log.error('Error while retrieving data from remote-doctype', error.message)
   }
 }
@@ -127,10 +130,10 @@ export const sendCO2MeasuresForAccount = async (client, account) => {
   let nMeasuresSent = 0
   let startDate = await getStartDate(client, account)
   if (!startDate) {
-    log.info(`No data to process for account ${account._id}.`)
+    logService('info', `No data to process for account ${account._id}.`)
     return nMeasuresSent
   }
-  log.info(`Start measures from ${startDate.toISOString()}`)
+  logService('info', `Start measures from ${startDate.toISOString()}`)
   let nextStartDate = getNextMeasureStartDate(startDate)
   while (nextStartDate && nMeasuresSent < MAX_DACC_MEASURES_SENT) {
     startDate = nextStartDate
@@ -141,17 +144,18 @@ export const sendCO2MeasuresForAccount = async (client, account) => {
     )
     if (timeseries.length < 1) {
       // No trips to process for this month
-      log.info(`No trips for ${startDate.toISOString()}`)
+      logService('info', `No trips for ${startDate.toISOString()}`)
       nextStartDate = getNextMeasureStartDate(startDate)
       continue
     }
     if (hasNonAggregatedTimeseries(timeseries)) {
       // There are timeseries without aggregation: interrupt service execution to run migration service
-      log.warn(
+      logService(
+        'warn',
         `Timeseries for ${startDate.toISOString()} does not have aggregation`
       )
       await startService(client, TIMESERIE_MIGRATION_SERVICE_NAME)
-      log.info('Timeseries migration service started')
+      logService('info', 'Timeseries migration service started')
       return nMeasuresSent
     }
     const CO2 = computeCO2Timeseries(timeseries)
@@ -161,7 +165,7 @@ export const sendCO2MeasuresForAccount = async (client, account) => {
     nextStartDate = getNextMeasureStartDate(startDate)
   }
   await saveStartDateInAccount(client, account, startDate)
-  log.info(`Saved  ${startDate.toISOString()} in account`)
+  logService('info', `Saved  ${startDate.toISOString()} in account`)
 
   return nMeasuresSent
 }
