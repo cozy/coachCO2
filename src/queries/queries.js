@@ -255,6 +255,12 @@ export const queryContactByDocId = async (client, docId) => {
   const res = await client.query(Q(CONTACTS_DOCTYPE).getById(docId))
   return res?.data
 }
+
+export const queryAccountByDocId = async (client, docId) => {
+  const res = await client.query(Q(ACCOUNTS_DOCTYPE).getById(docId))
+  return res?.data
+}
+
 // ---------- Node.js queries
 export const buildOldestTimeseriesQueryByAccountId = accountId => ({
   definition: Q(GEOJSON_DOCTYPE)
@@ -328,6 +334,32 @@ export const buildRecurringTimeseriesByStartAndEndPointRange = ({
   }
 }
 
+export const buildTimeseriesByDateRange = ({
+  firstDate,
+  lastDate,
+  accountId,
+  limit = 100
+}) => {
+  return {
+    definition: Q(GEOJSON_DOCTYPE)
+      .where({
+        'cozyMetadata.sourceAccount': accountId,
+        startDate: {
+          $gte: firstDate,
+          $lte: lastDate
+        }
+      })
+      .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
+      .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
+      .limitBy(limit),
+    options: {
+      as: `${GEOJSON_DOCTYPE}/dateRange/${firstDate}-${lastDate}/accountId/${accountId}`
+    }
+  }
+}
+
+// other doctypes -------------
+
 export const buildContactsWithGeoCoordinates = ({ limit = 1000 } = {}) => {
   return {
     definition: Q(CONTACTS_DOCTYPE)
@@ -347,8 +379,6 @@ export const buildContactsWithGeoCoordinates = ({ limit = 1000 } = {}) => {
   }
 }
 
-// other doctypes -------------
-
 export const buildAccountQuery = ({
   limit = 100,
   withOnlyLogin = true
@@ -367,6 +397,31 @@ export const buildAccountQuery = ({
     definition: queryDef,
     options: {
       as: `${ACCOUNTS_DOCTYPE}/account_type/limitedBy/${limit}/withOnlyLogin/${withOnlyLogin}`,
+      fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+    }
+  }
+}
+
+export const buildLastCreatedServiceAccountQuery = () => {
+  const queryDef = Q(ACCOUNTS_DOCTYPE)
+    .where({
+      'cozyMetadata.createdAt': {
+        $gt: null
+      }
+    })
+    .partialIndex({
+      account_type: 'openpath',
+      token: {
+        $exists: true
+      }
+    })
+    .indexFields(['cozyMetadata.createdAt'])
+    .sortBy([{ 'cozyMetadata.createdAt': 'desc' }])
+    .limitBy(1)
+  return {
+    definition: queryDef,
+    options: {
+      as: `${ACCOUNTS_DOCTYPE}/account_type/openpath-with-token`,
       fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
     }
   }

@@ -91,6 +91,11 @@
     }
   },
   "services": {
+      "fetchOpenPathTrips": {
+      "type": "node",
+      "file": "services/fetchOpenPathTrips/coachco2.js",
+      "trigger": "@hourly"
+    },
     "timeseriesWithoutAggregateMigration": {
       "type": "node",
       "file": "services/timeseriesWithoutAggregateMigration/coachco2.js",
