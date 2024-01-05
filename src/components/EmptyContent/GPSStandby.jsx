@@ -1,5 +1,6 @@
 import React from 'react'
 import EmptySvg from 'src/assets/images/location-detected.svg'
+import FAQHelp from 'src/components/FAQ/FAQHelp'
 import {
   useAccountContext,
   getAccountLabel
@@ -27,6 +28,7 @@ const GPSStandby = () => {
         text={t('emptyContent.GPSStandby.text')}
         centered
       />
+      <FAQHelp />
     </>
   )
 }
