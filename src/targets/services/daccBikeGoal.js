@@ -3,19 +3,19 @@ import schema from 'src/doctypes'
 import { runBikeGoalDACCService } from 'src/lib/dacc'
 
 import CozyClient from 'cozy-client'
-import minilog from 'cozy-minilog'
+import logger from 'cozy-logger'
 
-const log = minilog('services/daccBikeGoal')
+const logService = logger.namespace('services/daccBikeGoal')
 
 global.fetch = fetch
 
 const dacc = async () => {
-  log.info('Start dacc service')
+  logService('info', 'Start dacc service')
   const client = CozyClient.fromEnv(process.env, { schema })
   await runBikeGoalDACCService(client)
 }
 
 dacc().catch(e => {
-  log.error(e)
+  logService('error', e)
   process.exit(1)
 })

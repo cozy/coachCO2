@@ -5,24 +5,27 @@ import { runMonthlyCO2DACCService } from 'src/lib/dacc'
 import { startService } from 'src/lib/services'
 
 import CozyClient from 'cozy-client'
-import minilog from 'cozy-minilog'
+import logger from 'cozy-logger'
 
-const log = minilog('services/daccMonthlyCO2')
+const logService = logger.namespace('services/daccMonthlyCO2')
 
 global.fetch = fetch
 
 const dacc = async () => {
-  log.info('Start dacc service')
+  logService('info', 'Start dacc service')
   const client = CozyClient.fromEnv(process.env, { schema })
 
   const shouldRestart = await runMonthlyCO2DACCService(client)
   if (shouldRestart) {
-    log.info('There are more DACC measures to send: restart the service')
+    logService(
+      'info',
+      'There are more DACC measures to send: restart the service'
+    )
     await startService(client, DACC_MONTHLY_CO2_SERVICE_NAME)
   }
 }
 
 dacc().catch(e => {
-  log.error(e)
+  logService('error', e)
   process.exit(1)
 })

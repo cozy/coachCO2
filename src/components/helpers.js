@@ -56,6 +56,7 @@ import {
   TRAMWAY_CO2_KG_PER_KM
 } from 'src/constants'
 
+import logService from 'cozy-logger'
 import minilog from 'cozy-minilog'
 import BikeIcon from 'cozy-ui/transpiled/react/Icons/Bike'
 import BusIcon from 'cozy-ui/transpiled/react/Icons/Bus'
@@ -391,6 +392,12 @@ export const modeToCategory = mode => {
     case MOPED_MODE:
       return CAR_CATEGORY.name
     default:
+      logService(
+        'info',
+        `Unknown mode ${mode}`,
+        undefined,
+        'service/timeseriesWithoutAggregateMigration'
+      )
       log.info(`Unknown mode ${mode}`, 'modeToCategory')
       return modeToCategory(UNKNOWN_MODE)
   }
