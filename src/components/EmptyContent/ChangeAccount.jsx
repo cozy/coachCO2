@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import EmptySvg from 'src/assets/icons/pins-path.svg'
+import FAQHelp from 'src/components/FAQ/FAQHelp'
 import {
   useAccountContext,
   getAccountLabel
@@ -42,6 +43,7 @@ const ChangeAccount = () => {
           onClick={() => navigate('/settings')}
         />
       </Empty>
+      <FAQHelp />
     </>
   )
 }
