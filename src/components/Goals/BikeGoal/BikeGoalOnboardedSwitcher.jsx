@@ -54,7 +54,7 @@ const BikeGoalOnboardedSwitcher = () => {
         primary={t('bikeGoal.settings.hideOnboarding')}
       />
       <ListItemSecondaryAction>
-        <Switch edge="end" checked={isChecked} onChange={handleChange} />
+        <Switch checked={isChecked} onChange={handleChange} />
       </ListItemSecondaryAction>
     </ListItem>
   )

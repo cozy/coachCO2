@@ -39,7 +39,7 @@ const BikeGoalDaccSwitcher = () => {
         primary={t('bikeGoal.settings.sendToDACC')}
       />
       <ListItemSecondaryAction>
-        <Switch edge="end" checked={value} onChange={handleChange} />
+        <Switch checked={value} onChange={handleChange} />
       </ListItemSecondaryAction>
     </ListItem>
   )
