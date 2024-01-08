@@ -112,7 +112,6 @@ export const enableGeolocationTracking = async ({
   t,
   webviewIntent,
   setIsGeolocationTrackingEnabled,
-  setIsGeolocationQuotaExceeded,
   setShowOpenPathKonnectorDialog
 }) => {
   // create account if necessary
@@ -151,11 +150,17 @@ export const enableGeolocationTracking = async ({
 
   // enable geolocation tracking
   await webviewIntent?.call('setGeolocationTracking', true)
-  await syncTrackingStatusWithFlagship(
-    webviewIntent,
-    setIsGeolocationTrackingEnabled,
-    setIsGeolocationQuotaExceeded
-  )
+
+  /* FIXME START
+  There is a bug in cozy-flagship-app. await setGeolocationTracking(true) return BEFORE the tracking is enabled.
+  The fix has been done in cozy-flagship-app (bae397dd9060bb6122bfcdd2a1dab4e5cbb53687) but we need to wait for the next release.
+  So we fix it now for the moment by always considering it as a success. It should be safe
+  because starting tracking should not fail.
+
+  1 week after the commit in cozy-flagship-app is released, we can revert this commit.
+  */
+  setIsGeolocationTrackingEnabled(true)
+  /* FIXME END */
 }
 
 export const checkPermissionsAndEnableTrackingOrShowDialog = async ({
