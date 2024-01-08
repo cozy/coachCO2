@@ -1,6 +1,9 @@
 import { OPENPATH_ACCOUNT_TYPE } from 'src/constants'
 import { ACCOUNTS_DOCTYPE } from 'src/doctypes'
-import { buildAccountQueryByLogin } from 'src/queries/queries'
+import {
+  buildAccountQueryByLogin,
+  buildLastCreatedServiceAccountQuery
+} from 'src/queries/queries'
 
 import { isFlagshipApp } from 'cozy-device-helper'
 import flag from 'cozy-flags'
@@ -106,13 +109,24 @@ export const enableGeolocationTracking = async ({
     }
 
     if (deviceName) {
-      const account = await createOpenPathAccount({
-        client,
-        t,
-        lang,
-        deviceName
-      })
-      const password = account.password
+      let password
+      const accountQuery = buildLastCreatedServiceAccountQuery()
+      const { data: resp } = await client.query(
+        accountQuery.definition,
+        accountQuery.options
+      )
+      const account = resp?.[0]
+      if (!account?.token || account?.auth?.login !== deviceName) {
+        const account = await createOpenPathAccount({
+          client,
+          t,
+          lang,
+          deviceName
+        })
+        password = account.password
+      } else {
+        password = account.token
+      }
 
       await webviewIntent?.call('setGeolocationTrackingId', password)
     }
