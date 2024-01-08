@@ -51,7 +51,6 @@ export const GeolocationTrackingSwitcher = () => {
         <ListItemSecondaryAction>
           <Switch
             color="primary"
-            edge="end"
             checked={isGeolocationTrackingEnabled}
             onChange={handleChange}
           />
