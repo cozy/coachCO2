@@ -39,7 +39,7 @@ const BikeGoalAlertSwitcher = () => {
         primary={t('bikeGoal.settings.showAlerter')}
       />
       <ListItemSecondaryAction>
-        <Switch edge="end" checked={value} onChange={handleChange} />
+        <Switch checked={value} onChange={handleChange} />
       </ListItemSecondaryAction>
     </ListItem>
   )

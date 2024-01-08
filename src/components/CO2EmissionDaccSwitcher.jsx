@@ -36,12 +36,7 @@ const CO2EmissionDaccSwitcher = () => {
       </ListItemIcon>
       <ListItemText primary={t('dacc.settings.anonymous_participation')} />
       <ListItemSecondaryAction>
-        <Switch
-          color="primary"
-          edge="end"
-          checked={value}
-          onChange={handleChange}
-        />
+        <Switch color="primary" checked={value} onChange={handleChange} />
       </ListItemSecondaryAction>
     </ListItem>
   )

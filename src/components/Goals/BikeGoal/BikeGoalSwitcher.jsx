@@ -47,12 +47,7 @@ const BikeGoalSwitcher = () => {
       </ListItemIcon>
       <ListItemText primary={t('bikeGoal.settings.participation')} />
       <ListItemSecondaryAction>
-        <Switch
-          color="primary"
-          edge="end"
-          checked={isChecked}
-          onChange={handleChange}
-        />
+        <Switch color="primary" checked={isChecked} onChange={handleChange} />
       </ListItemSecondaryAction>
     </ListItem>
   )
