@@ -1,10 +1,37 @@
+# 0.13.0
+
 # 0.12.0
 
-## ✨ Features
+### ✨ Features
 
-## 🐛 Bug Fixes
+* Replace `>` by `➝` in trip title
+* Add tooltip when geoloc is disabled
+* Replace button style of csv export by ListItem
+* Move export log button from admin to export section
+* Add possibility to set a trip title manually
+* Replace spinners by skeletons on Trips, BikeGoal and Analysis pages
+* Display paywall when enabling geolocation if geolocation quota exceeded
+* Change style of Settings page
+* Add FAQ link to Settings, GPS standby & change account pages
+* Add openpath service to replace konnectors
+* Create coachco2-openpath account on geolocation switch
+* Remove openpath konnector modal
+* Do not recreate account with same device name
+* Upgrade cozy-ui 95.6.0 to 100.2.0
+* Upgrade cozy-client 42.2.0 to 45.1.0
 
-## 🔧 Tech
+### 🐛 Bug Fixes
+
+* Now throw explicit error if  undefined `series`
+* Now use default start/end place display name if not computed
+* SVG animation didn't work on Safari when detecting location
+
+### 🔧 Tech
+
+* Update travis configuration
+* Add Sentry
+* Use cozy-minilog instead cozy-logger (except in services)
+* Bump to node 20
 
 # 0.11.1
 
