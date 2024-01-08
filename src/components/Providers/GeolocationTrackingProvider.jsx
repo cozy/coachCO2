@@ -5,7 +5,6 @@ import React, {
   useContext,
   useMemo
 } from 'react'
-import InstallOpenPathKonnectorDialog from 'src/components/GeolocationTracking/InstallOpenPathKonnectorDialog'
 import {
   disableGeolocationTracking,
   enableGeolocationTracking,
@@ -49,8 +48,6 @@ export const GeolocationTrackingProvider = ({ children }) => {
     useState(false)
   const [showLocationRefusedDialog, setShowLocationRefusedDialog] =
     useState(false)
-  const [showOpenPathKonnectorDialog, setShowOpenPathKonnectorDialog] =
-    useState(false)
 
   useEffect(() => {
     checkAndSetGeolocationTrackingAvailability(
@@ -85,8 +82,7 @@ export const GeolocationTrackingProvider = ({ children }) => {
           setIsGeolocationTrackingEnabled,
           webviewIntent,
           setShowLocationRequestableDialog,
-          setShowLocationRefusedDialog,
-          setShowOpenPathKonnectorDialog
+          setShowLocationRefusedDialog
         })
     }),
     [
@@ -121,8 +117,7 @@ export const GeolocationTrackingProvider = ({ children }) => {
                 t,
                 setIsGeolocationTrackingEnabled,
                 setShowLocationRequestableDialog,
-                setShowLocationRefusedDialog,
-                setShowOpenPathKonnectorDialog
+                setShowLocationRefusedDialog
               })
             } else {
               await enableGeolocationTracking({
@@ -131,7 +126,6 @@ export const GeolocationTrackingProvider = ({ children }) => {
                 t,
                 webviewIntent,
                 setIsGeolocationTrackingEnabled,
-                setShowOpenPathKonnectorDialog,
                 setIsGeolocationQuotaExceeded
               })
             }
@@ -153,11 +147,6 @@ export const GeolocationTrackingProvider = ({ children }) => {
           description={t(
             'geolocationTracking.locationRefusedDialog.description'
           )}
-        />
-      )}
-      {showOpenPathKonnectorDialog && (
-        <InstallOpenPathKonnectorDialog
-          setShowOpenPathKonnectorDialog={setShowOpenPathKonnectorDialog}
         />
       )}
     </GeolocationTrackingContext.Provider>

@@ -335,11 +335,6 @@
     "locationRefusedDialog": {
       "description": "Your Cozy needs access to additional data in order to help you analyze your movements. This data will NEVER be transmitted to anyone without your explicit request.\n\nYou will be redirected to the app's settings to authorize it to ALWAYS access your phone's position, even when the app is not in use, and PHYSICAL ACTIVITY, movement and shape data.."
     },
-    "installOpenPathKonnectorDialog": {
-      "description": "This feature requires the OpenPath connector to be installed",
-      "cancel": "Cancel",
-      "install": "Install"
-    },
     "settings": {
       "enable": "Record my movements with my mobile (GPS)",
       "sendLogs": "Send my logs to support",
