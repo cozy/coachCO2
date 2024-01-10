@@ -362,5 +362,10 @@
     "paragraph02": "In addition to this certificate, I provide my employer with any useful proof of actual use of the bicycle, such as invoice or payment statements, insurance or maintenance of my bicycle.",
     "paragraph03": "Made to serve and assert what is right.",
     "signature": "Signature : %{username}"
+  },
+  "centreValDeLoireExpe": {
+    "settings": {
+      "sendToDACC": "Participate in the region’s Mobile CVL experiment"
+    }
   }
 }

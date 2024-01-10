@@ -1,5 +1,7 @@
 export const APP_SLUG = 'coachco2'
 
+export const CONTEXT = { CVL: 'Centre-Val de Loire' }
+
 export const AIR_MODE = 'AIR_OR_HSR'
 export const BICYCLING_ELECTRIC_MODE = 'BICYCLING_ELECTRIC'
 export const BICYCLING_MODE = 'BICYCLING'

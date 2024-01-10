@@ -2,6 +2,7 @@ import React from 'react'
 import AccountSelector from 'src/components/AccountSelector'
 import AppVersionNumber from 'src/components/AppVersionNumber'
 import CO2EmissionDaccAlertSwitcher from 'src/components/CO2EmissionDaccAlertSwitcher'
+import CO2EmissionDaccCVLSwitcher from 'src/components/CO2EmissionDaccCVLSwitcher'
 import CO2EmissionDaccSwitcher from 'src/components/CO2EmissionDaccSwitcher'
 import InstallApp from 'src/components/EmptyContent/InstallApp'
 import Welcome from 'src/components/EmptyContent/Welcome'
@@ -15,12 +16,14 @@ import BikeGoalAlertSwitcher from 'src/components/Goals/BikeGoal/BikeGoalAlertSw
 import BikeGoalDaccSwitcher from 'src/components/Goals/BikeGoal/BikeGoalDaccSwitcher'
 import BikeGoalOnboardedSwitcher from 'src/components/Goals/BikeGoal/BikeGoalOnboardedSwitcher'
 import BikeGoalSwitcher from 'src/components/Goals/BikeGoal/BikeGoalSwitcher'
+import { getSource } from 'src/components/Goals/BikeGoal/helpers'
 import {
   useAccountContext,
   getAccountLabel
 } from 'src/components/Providers/AccountProvider'
 import { useGeolocationTracking } from 'src/components/Providers/GeolocationTrackingProvider'
 import Titlebar from 'src/components/Titlebar'
+import { CONTEXT } from 'src/constants'
 
 import flag from 'cozy-flags'
 import Divider from 'cozy-ui/transpiled/react/Divider'
@@ -39,6 +42,7 @@ export const Settings = () => {
   const { isGeolocationTrackingAvailable, isGeolocationTrackingEnabled } =
     useGeolocationTracking()
   const { isAccountLoading, accounts, account } = useAccountContext()
+  const { sourceName } = getSource()
 
   if (isAccountLoading) {
     return (
@@ -74,6 +78,12 @@ export const Settings = () => {
             <>
               <Divider variant="inset" component="li" />
               <BikeGoalSwitcher />
+            </>
+          )}
+          {sourceName === CONTEXT.CVL && (
+            <>
+              <Divider variant="inset" component="li" />
+              <CO2EmissionDaccCVLSwitcher />
             </>
           )}
           <Divider variant="inset" component="li" />

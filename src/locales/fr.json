@@ -362,5 +362,10 @@
     "paragraph02": "En plus de cette attestation, je tiens à disposition de mon employeur tout justificatif utile d'utilisation effective du vélo comme les relevés de facture ou de paiement, d’assurances ou d’entretien de mon vélo.",
     "paragraph03": "Fait pour servir et valoir ce que de droit.",
     "signature": "Signature : %{username}"
+  },
+  "centreValDeLoireExpe": {
+    "settings": {
+      "sendToDACC": "Participer à l’expérimentation Mobile CVL de la région"
+    }
   }
 }
