@@ -2,7 +2,7 @@ import React from 'react'
 import useSettings from 'src/hooks/useSettings'
 
 import Icon from 'cozy-ui/transpiled/react/Icon'
-import PieChartIcon from 'cozy-ui/transpiled/react/Icons/PieChart'
+import GrowthIcon from 'cozy-ui/transpiled/react/Icons/Growth'
 import ListItem from 'cozy-ui/transpiled/react/ListItem'
 import ListItemIcon from 'cozy-ui/transpiled/react/ListItemIcon'
 import ListItemSecondaryAction from 'cozy-ui/transpiled/react/ListItemSecondaryAction'
@@ -32,7 +32,7 @@ const CO2EmissionDaccCVLSwitcher = () => {
       disabled={isLoading}
     >
       <ListItemIcon>
-        <Icon icon={PieChartIcon} />
+        <Icon icon={GrowthIcon} />
       </ListItemIcon>
       <ListItemText primary={t('centreValDeLoireExpe.settings.sendToDACC')} />
       <ListItemSecondaryAction>
