@@ -117,6 +117,8 @@ export const enableGeolocationTracking = async ({
       )
       const account = resp?.[0]
       if (!account?.token || account?.auth?.login !== deviceName) {
+        // Note that both konnector (without token) and service account (with token)
+        // could have the same device name. A migration might be needed at some point.
         const account = await createOpenPathAccount({
           client,
           t,
