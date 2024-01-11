@@ -112,6 +112,7 @@
       "file": "services/daccBikeGoal/coachco2.js",
       "trigger": "@daily"
     },
+
     "recurringPurposes": {
       "type": "node",
       "file": "services/recurringPurposes/coachco2.js",

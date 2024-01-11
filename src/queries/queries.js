@@ -16,7 +16,8 @@ import {
   CONTACTS_DOCTYPE,
   FILES_DOCTYPE,
   SETTINGS_DOCTYPE,
-  KONNECTORS_DOCTYPE
+  KONNECTORS_DOCTYPE,
+  CONTACTS_GROUPS_DOCTYPE
 } from 'src/doctypes'
 
 import CozyClient, { Q } from 'cozy-client'
@@ -338,20 +339,26 @@ export const buildTimeseriesByDateRange = ({
   firstDate,
   lastDate,
   accountId,
+  withRelationships = false,
   limit = 100
 }) => {
+  const queryDef = Q(GEOJSON_DOCTYPE)
+    .where({
+      'cozyMetadata.sourceAccount': accountId,
+      startDate: {
+        $gte: firstDate,
+        $lte: lastDate
+      }
+    })
+    .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
+    .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
+    .limitBy(limit)
+  if (withRelationships) {
+    // FIXME: .include method appears to do nothing. It should be investigated
+    queryDef.includes = ['startPlaceContact', 'endPlaceContact']
+  }
   return {
-    definition: Q(GEOJSON_DOCTYPE)
-      .where({
-        'cozyMetadata.sourceAccount': accountId,
-        startDate: {
-          $gte: firstDate,
-          $lte: lastDate
-        }
-      })
-      .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
-      .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
-      .limitBy(limit),
+    definition: queryDef,
     options: {
       as: `${GEOJSON_DOCTYPE}/dateRange/${firstDate}-${lastDate}/accountId/${accountId}`
     }
@@ -502,3 +509,16 @@ export const buildAccountQueryByLogin = login => ({
     as: `${ACCOUNTS_DOCTYPE}/account_type/login/${login}`
   }
 })
+
+export const buildContactsGroupByName = ({ groupName }) => {
+  return {
+    definition: Q(CONTACTS_GROUPS_DOCTYPE)
+      .where({
+        name: groupName
+      })
+      .limitBy(1),
+    options: {
+      as: `${CONTACTS_GROUPS_DOCTYPE}/byName/${groupName}`
+    }
+  }
+}
