@@ -1,4 +1,10 @@
+# 0.14.0
+
 # 0.13.0
+
+### ✨ Features
+
+* Add an option to settings to enable DACC for CVL context
 
 # 0.12.0
 
