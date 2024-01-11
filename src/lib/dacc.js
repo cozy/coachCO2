@@ -9,6 +9,7 @@ import flag from 'cozy-flags'
 import logger from 'cozy-logger'
 
 import { sendBikeGoalMeasuresForAccount } from './daccBikeGoal'
+import { sendCentreValDeLoireMeasuresToDACC } from './daccCentreValDeLoireExpe'
 import { sendCO2MeasuresForAccount } from './daccMonthlyCO2'
 
 const logService = logger.namespace('services/dacc')
@@ -153,5 +154,25 @@ export const runBikeGoalDACCService = async client => {
 
   for (const account of accounts) {
     await sendBikeGoalMeasuresForAccount(client, account)
+  }
+}
+
+export const runCentreValDeLoireExpe = async client => {
+  const consent = await hasConsentFromSettings(
+    client,
+    'centreValDeLoireExpe.sendToDACC'
+  )
+  if (!consent) {
+    logService('info', 'The user did not give consent to send data to DACC')
+    return false
+  }
+  const accounts = await getAccounts(client)
+  if (!accounts) {
+    logService('info', 'No account found: Nothing to do')
+    return false
+  }
+
+  for (const account of accounts) {
+    await sendCentreValDeLoireMeasuresToDACC(client, account)
   }
 }

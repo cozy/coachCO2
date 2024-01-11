@@ -39,19 +39,37 @@
  * @property {number} totalDistance - The total distance for this trip
  * @property {number} totalDuration - The total duration for this trip
  * @property {object} coordinates - The coordinates of the trip 
- * @property {Array<object>} sections - The section details of the trip 
+ * @property {Array<Section>} sections - The section details of the trip 
  *  
  */
 
 /**
+ * The section composing a timeserie aggregation
+ * @typedef {object} Section
+ * @property {string} mode - The section mode
+ * @property {number} CO2 - The section CO2
+ * @property {number} CO2 - The section distance
+ * @property {number} CO2 - The section duration
+ */
+
+/**
  * Contact's doctype
- * 
+ *
  * See https://github.com/cozy/cozy-doctypes/blob/master/docs/io.cozy.contacts.md
  *
  * @typedef {object} Contact
  * @property {Array<Address>} address - The contact's addresses
- * 
+ *
+ */
 
+/**
+ * Contacts group doctype
+ *
+ * See https://github.com/cozy/cozy-doctypes/blob/master/docs/io.cozy.contacts.groups.md
+ *
+ * @typedef {object} ContactGroup
+ * @property {string} name - The group name
+ *
  */
 
 /**

@@ -5,6 +5,7 @@ export const ACCOUNTS_DOCTYPE = 'io.cozy.accounts'
 export const CCO2_SETTINGS_DOCTYPE = 'io.cozy.coachco2.settings'
 export const JOBS_DOCTYPE = 'io.cozy.jobs'
 export const CONTACTS_DOCTYPE = 'io.cozy.contacts'
+export const CONTACTS_GROUPS_DOCTYPE = 'io.cozy.contacts.groups'
 export const KONNECTORS_DOCTYPE = 'io.cozy.konnectors'
 export const SETTINGS_DOCTYPE = 'io.cozy.settings'
 
