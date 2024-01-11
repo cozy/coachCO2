@@ -1,0 +1,78 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<style>.Ellipse_4_512 {
+	animation: 2s linear 0s infinite normal forwards running Ellipse_4_512;
+		rx: 48px;
+		ry: 48px;
+		opacity: 0.08;
+}
+@keyframes Ellipse_4_512 {
+	0% {
+		rx: 48px;
+		ry: 48px;
+		opacity: 0.08;
+	}
+	100% {
+		rx: 64px;
+		ry: 64px;
+		opacity: 0;
+	}
+}.Ellipse_3_966 {
+	animation: 2s linear 0s infinite normal forwards running Ellipse_3_966;
+		rx: 32px;
+		ry: 32px;
+		opacity: 0.32;
+}
+@keyframes Ellipse_3_966 {
+	0% {
+		rx: 32px;
+		ry: 32px;
+		opacity: 0.32;
+	}
+	100% {
+		rx: 48px;
+		ry: 48px;
+		opacity: 0.08;
+	}
+}.Ellipse_2_820 {
+	animation: 2s linear 0s infinite normal forwards running Ellipse_2_820;
+		rx: 16px;
+		ry: 16px;
+		opacity: 1;
+}
+@keyframes Ellipse_2_820 {
+	0% {
+		rx: 16px;
+		ry: 16px;
+		opacity: 1;
+	}
+	100% {
+		rx: 32px;
+		ry: 32px;
+		opacity: 0.32;
+	}
+}.Ellipse_1_774 {
+	animation: 2s linear 0s infinite normal forwards running Ellipse_1_774;
+		rx: 0px;
+		ry: 0px;
+		opacity: 1;
+}
+@keyframes Ellipse_1_774 {
+	0% {
+		rx: 0px;
+		ry: 0px;
+		opacity: 1;
+	}
+	100% {
+		rx: 16px;
+		ry: 16px;
+		opacity: 1;
+	}
+}
+</style>
+<g width="128" height="128" data-name="illustrations/location-detected">
+	<ellipse opacity="0.03656" fill="#297EF2" data-name="Ellipse 4" class="Ellipse_4_512" transform="translate(64 64)" rx="56.69" ry="56.69"/>
+	<ellipse opacity="0.18968" fill="#297EF2" data-name="Ellipse 3" class="Ellipse_3_966" transform="translate(64 64)" rx="40.69" ry="40.69"/>
+	<ellipse opacity="0.63076" fill="#297EF2" data-name="Ellipse 2" class="Ellipse_2_820" transform="translate(64 64)" rx="24.69" ry="24.69"/>
+	<ellipse fill="#297EF2" data-name="Ellipse 1" class="Ellipse_1_774" transform="translate(64 64)" rx="8.69" ry="8.69"/>
+</g>
+</svg>
