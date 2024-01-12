@@ -112,7 +112,11 @@
       "file": "services/daccBikeGoal/coachco2.js",
       "trigger": "@daily"
     },
-
+    "daccCentreValDeLoireExpe": {
+      "type": "node",
+      "file": "services/daccCentreValDeLoireExpe/coachco2.js",
+      "trigger": "@daily"
+    },
     "recurringPurposes": {
       "type": "node",
       "file": "services/recurringPurposes/coachco2.js",
