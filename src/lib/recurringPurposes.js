@@ -696,12 +696,14 @@ export const runRecurringPurposesForNewTrips = async (client, t) => {
   const newestRecurringTimeserie = await client.query(
     buildNewestRecurringTimeseriesQuery({ accountId }).definition
   )
+  let oldestDateToQuery
   if (!newestRecurringTimeserie.data?.[0]) {
-    // No recurring trip: nothing to do
+    // No recurring trip yet: use all trips
     logService('info', 'No recurring trip found.')
-    return []
+    oldestDateToQuery = new Date(0).toISOString()
+  } else {
+    oldestDateToQuery = newestRecurringTimeserie.data?.[0].startDate
   }
-  const oldestDateToQuery = newestRecurringTimeserie.data?.[0].startDate
   logService('info', `Looking for trips from ${oldestDateToQuery}`)
 
   const timeseries = await client.queryAll(

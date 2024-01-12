@@ -212,15 +212,6 @@ describe('runRecurringPurposesForNewTrips', () => {
     expect(res.length).toEqual(0)
   })
 
-  it('should do nothing if no recurring timeserie is found', async () => {
-    jest
-      .spyOn(mockClient, 'query')
-      .mockResolvedValueOnce({ data: [{ account: { _id: 1 } }] })
-    jest.spyOn(mockClient, 'query').mockResolvedValueOnce({ data: null })
-    const res = await runRecurringPurposesForNewTrips(mockClient)
-    expect(res.length).toEqual(0)
-  })
-
   it('should set purpose when similar timeseries have one', async () => {
     jest
       .spyOn(mockClient, 'query')
