@@ -55,7 +55,7 @@ export const sendMeasureToDACCWithRemoteDoctype = async (client, measure) => {
 /**
  * @typedef MeasureParams
  * @property {string} measureName - The name of the DACC measure
- * @property {string} startDate - The measure date
+ * @property {Date} startDate - The measure date
  * @property {number} value - The measured value
  * @property {object} group1 - A DACC group, to aggregate measures
  * @property {Array<object>} groups - An array for all groups, to aggregate measures
