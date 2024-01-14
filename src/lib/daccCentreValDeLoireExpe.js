@@ -89,13 +89,16 @@ export const sendCentreValDeLoireMeasuresToDACC = async (client, account) => {
  */
 const findUserType = async client => {
   const settingsQueryDef = buildSettingsQuery()
-  const { data: respSettings } = await client.query(
+  const resp = await client.query(
     settingsQueryDef.definition,
     settingsQueryDef.options
   )
-  const settings = respSettings?.[0]
+  if (!resp) {
+    return 'unknown'
+  }
+  const settings = resp.data?.[0]
   const userType = settings?.centreValDeLoireExpe?.userType
-  return userType
+  return userType || 'unknown'
 }
 
 /**
