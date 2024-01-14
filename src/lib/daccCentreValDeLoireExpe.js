@@ -286,7 +286,7 @@ const buildDACCMeasures = ({ measures, userType }) => {
     // Note: normally we would use the aggregation starting date, i.e. the start
     // of the month. But as we are using an incremental process (full month aggregation everyday),
     // it's easier to use the daily date to differenciate measures on the DACC side.
-    const startDate = new Date().toISOString().split('T')[0]
+    const startDate = new Date()
     const countMeasure = createMeasureForDACC({
       measureName: DACC_MEASURE_NAME_TRIPS_COUNT,
       startDate,
