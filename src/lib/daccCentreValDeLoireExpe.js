@@ -1,6 +1,7 @@
 import endOfMonth from 'date-fns/endOfMonth'
 import startOfMonth from 'date-fns/startOfMonth'
 import {
+  DACC_EXPE_CONSENT_MEASURE,
   DACC_MEASURE_NAME_TRIPS_CO2,
   DACC_MEASURE_NAME_TRIPS_COUNT,
   DACC_MEASURE_NAME_TRIPS_DISTANCE,
@@ -48,10 +49,15 @@ const logService = logger.namespace('services/centreValDeLoireExpe')
  * @param {IoCozyAccount} account - The trips account to measure
  */
 export const sendCentreValDeLoireMeasuresToDACC = async (client, account) => {
-  const startDate = startOfMonth(new Date())
+  const startAggDate = startOfMonth(new Date())
   logService('info', `Compute DACC measures for account ${account._id}`)
 
-  const timeseries = await findMonthTimeseries(client, account, startDate)
+  const userType = await findUserType(client)
+
+  const consentMeasure = buildConsentMeasure(userType)
+  await sendMeasureToDACCWithRemoteDoctype(client, consentMeasure)
+
+  const timeseries = await findMonthTimeseries(client, account, startAggDate)
   if (timeseries.length < 1) {
     logService('info', `No trips to compute`)
     // No trips, abort
@@ -63,13 +69,13 @@ export const sendCentreValDeLoireMeasuresToDACC = async (client, account) => {
     logService('info', 'No measure to send')
     return
   }
-  const userType = await findUserType(client)
   logService(
     'info',
     `Build ${
       Object.keys(measures).length
     } measures with user type:  ${userType}`
   )
+
   const daccMeasures = await buildDACCMeasures({
     measures,
     userType
@@ -254,6 +260,18 @@ export const computeRawMeasures = timeseries => {
     }
   }
   return measures
+}
+
+const buildConsentMeasure = userType => {
+  const startDate = new Date()
+  const groups = [{ userType }]
+  const consentMeasure = createMeasureForDACC({
+    measureName: DACC_EXPE_CONSENT_MEASURE,
+    startDate,
+    value: 1,
+    groups
+  })
+  return consentMeasure
 }
 
 /**
