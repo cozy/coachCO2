@@ -1,10 +1,17 @@
 import {
+  buildAccountByToken,
   buildLastCreatedServiceAccountQuery,
   buildTimeseriesByDateRange
 } from 'src/queries/queries'
 
 export const queryLastServiceAccount = async client => {
   const accountsQuery = buildLastCreatedServiceAccountQuery().definition
+  const account = await client.query(accountsQuery)
+  return account && account.data?.length > 0 ? account.data[0] : null
+}
+
+export const queryAccountByToken = async (client, token) => {
+  const accountsQuery = buildAccountByToken({ token }).definition
   const account = await client.query(accountsQuery)
   return account && account.data?.length > 0 ? account.data[0] : null
 }
