@@ -434,6 +434,25 @@ export const buildLastCreatedServiceAccountQuery = () => {
   }
 }
 
+export const buildAccountByToken = ({ token }) => {
+  const queryDef = Q(ACCOUNTS_DOCTYPE)
+    .where({
+      token: token
+    })
+    .partialIndex({
+      account_type: 'openpath'
+    })
+    .indexFields(['token'])
+    .limitBy(1)
+  return {
+    definition: queryDef,
+    options: {
+      as: `${ACCOUNTS_DOCTYPE}/account_type/openpath/token/${token}`,
+      fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+    }
+  }
+}
+
 export const buildSettingsQuery = () => ({
   definition: Q(CCO2_SETTINGS_DOCTYPE),
   options: {
