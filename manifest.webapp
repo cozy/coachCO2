@@ -96,6 +96,11 @@
       "file": "services/fetchOpenPathTrips/coachco2.js",
       "trigger": "@hourly"
     },
+    "fetchOpenPathTripsByWebhook": {
+      "type": "node",
+      "file": "services/fetchOpenPathTrips/coachco2.js",
+      "trigger": "@webhook"
+    },
     "timeseriesWithoutAggregateMigration": {
       "type": "node",
       "file": "services/timeseriesWithoutAggregateMigration/coachco2.js",
