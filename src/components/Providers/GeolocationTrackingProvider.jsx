@@ -13,6 +13,7 @@ import {
   getNewPermissionAndEnabledTrackingOrShowDialog,
   checkAndSetGeolocationTrackingAvailability
 } from 'src/components/GeolocationTracking/helpers'
+import { useVisibilityChange } from 'src/hooks/useVisibilityChange'
 
 import { useClient } from 'cozy-client'
 import { isAndroid } from 'cozy-device-helper'
@@ -37,6 +38,7 @@ export const GeolocationTrackingProvider = ({ children }) => {
   const webviewIntent = useWebviewIntent()
   const client = useClient()
   const { t, lang } = useI18n()
+  const { visibilityState } = useVisibilityChange()
 
   const [isGeolocationTrackingAvailable, setIsGeolocationTrackingAvailable] =
     useState(null)
@@ -61,6 +63,16 @@ export const GeolocationTrackingProvider = ({ children }) => {
       setIsGeolocationQuotaExceeded
     )
   }, [webviewIntent])
+
+  useEffect(() => {
+    if (isGeolocationTrackingAvailable && visibilityState === 'visible') {
+      syncTrackingStatusWithFlagship(
+        webviewIntent,
+        setIsGeolocationTrackingEnabled,
+        setIsGeolocationQuotaExceeded
+      )
+    }
+  }, [webviewIntent, isGeolocationTrackingAvailable, visibilityState])
 
   const value = useMemo(
     () => ({
