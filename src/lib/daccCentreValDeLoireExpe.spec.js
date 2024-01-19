@@ -11,10 +11,13 @@ describe('computeRawMeasures', () => {
 
   it('should handle timeseries without aggregation', () => {
     const timeseries = [{ aggregation: null }]
-    expect(computeRawMeasures(timeseries)).toEqual({})
+    expect(computeRawMeasures(timeseries)).toEqual({
+      sectionMeasures: {},
+      tripMeasures: {}
+    })
   })
 
-  it('should compute measures correctly for valid timeseries with start/end place', () => {
+  it('should compute section measures correctly for valid timeseries with start/end place', () => {
     const timeseries = [
       {
         startPlaceContact: {
@@ -92,10 +95,12 @@ describe('computeRawMeasures', () => {
       }
     }
 
-    expect(computeRawMeasures(timeseries)).toEqual(expected)
+    expect(computeRawMeasures(timeseries)).toMatchObject({
+      sectionMeasures: expected
+    })
   })
 
-  it('should compute measures correctly for valid timeseries without start/end place', () => {
+  it('should compute section measures correctly for valid timeseries without start/end place', () => {
     const timeseries = [
       {
         aggregation: {
@@ -132,10 +137,12 @@ describe('computeRawMeasures', () => {
       }
     }
 
-    expect(computeRawMeasures(timeseries)).toEqual(expected)
+    expect(computeRawMeasures(timeseries)).toMatchObject({
+      sectionMeasures: expected
+    })
   })
 
-  it('should correctly aggregate measures', () => {
+  it('should correctly aggregate section measures', () => {
     const timeseries = [
       {
         aggregation: {
@@ -175,7 +182,57 @@ describe('computeRawMeasures', () => {
       }
     }
 
-    expect(computeRawMeasures(timeseries)).toEqual(expected)
+    expect(computeRawMeasures(timeseries)).toMatchObject({
+      sectionMeasures: expected
+    })
+  })
+
+  it('should correctly aggregate trip measures', () => {
+    const timeseries = [
+      {
+        aggregation: {
+          modes: ['car'],
+          totalCO2: 100,
+          totalDistance: 20,
+          totalDuration: 10
+        }
+      },
+      {
+        aggregation: {
+          modes: ['bike', 'walk', 'bike'],
+          totalCO2: 0,
+          totalDistance: 10,
+          totalDuration: 5
+        }
+      },
+      {
+        aggregation: {
+          modes: ['car', 'car'],
+          totalCO2: 200,
+          totalDistance: 90,
+          totalDuration: 120
+        }
+      }
+    ]
+
+    const expected = {
+      'car//none/unknown': {
+        count: 2,
+        sumCO2: 300,
+        sumDuration: 130,
+        sumDistance: 110
+      },
+      'bike:walk//none/unknown': {
+        count: 1,
+        sumCO2: 0,
+        sumDuration: 5,
+        sumDistance: 10
+      }
+    }
+
+    expect(computeRawMeasures(timeseries)).toMatchObject({
+      tripMeasures: expected
+    })
   })
 
   it('should correctly set trip direction', () => {
@@ -220,7 +277,9 @@ describe('computeRawMeasures', () => {
       'bus/Poudlard/return/1': {},
       'walk/Poudlard/round/1': {}
     }
-    expect(computeRawMeasures(timeseries)).toMatchObject(expected)
+    expect(computeRawMeasures(timeseries)).toMatchObject({
+      sectionMeasures: expected
+    })
   })
 
   it('should correctly set main mode', () => {
@@ -253,7 +312,9 @@ describe('computeRawMeasures', () => {
       'bike//none/0': {},
       'bike//none/1': {}
     }
-    expect(computeRawMeasures(timeseries)).toMatchObject(expected)
+    expect(computeRawMeasures(timeseries)).toMatchObject({
+      sectionMeasures: expected
+    })
   })
 })
 

@@ -96,7 +96,7 @@
       "file": "services/fetchOpenPathTrips/coachco2.js",
       "trigger": "@hourly"
     },
-    "fetchOpenPathTripsByWebhook": {
+    "fetchOpenPathTripsWebhook": {
       "type": "node",
       "file": "services/fetchOpenPathTrips/coachco2.js",
       "trigger": "@webhook"
