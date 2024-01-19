@@ -2,6 +2,10 @@ import endOfMonth from 'date-fns/endOfMonth'
 import startOfMonth from 'date-fns/startOfMonth'
 import {
   DACC_EXPE_CONSENT_MEASURE,
+  DACC_MEASURE_NAME_SECTIONS_CO2,
+  DACC_MEASURE_NAME_SECTIONS_COUNT,
+  DACC_MEASURE_NAME_SECTIONS_DISTANCE,
+  DACC_MEASURE_NAME_SECTIONS_DURATION,
   DACC_MEASURE_NAME_TRIPS_CO2,
   DACC_MEASURE_NAME_TRIPS_COUNT,
   DACC_MEASURE_NAME_TRIPS_DISTANCE,
@@ -64,22 +68,43 @@ export const sendCentreValDeLoireMeasuresToDACC = async (client, account) => {
     return null
   }
   logService('info', `Compute measures for ${timeseries.length} timeseries`)
-  const measures = await computeRawMeasures(timeseries)
-  if (!measures) {
+  const measures = computeRawMeasures(timeseries)
+  if (!measures || (!measures.sectionMeasures && !measures.tripMeasures)) {
     logService('info', 'No measure to send')
     return
   }
-  logService(
-    'info',
-    `Build ${
-      Object.keys(measures).length
-    } measures with user type:  ${userType}`
-  )
-
-  const daccMeasures = await buildDACCMeasures({
-    measures,
-    userType
-  })
+  const daccMeasures = []
+  if (measures.tripMeasures && Object.keys(measures.tripMeasures).length > 0) {
+    logService(
+      'info',
+      `Build ${
+        Object.keys(measures.tripMeasures).length
+      } measures with user type:  ${userType}`
+    )
+    const daccTripMeasures = await buildDACCMeasures({
+      measures: measures.tripMeasures,
+      userType,
+      isSectionLevel: false
+    })
+    daccMeasures.push(...daccTripMeasures)
+  }
+  if (
+    measures.sectionMeasures &&
+    Object.keys(measures.sectionMeasures).length > 0
+  ) {
+    logService(
+      'info',
+      `Build ${
+        Object.keys(measures.sectionMeasures).length
+      } measures with user type:  ${userType}`
+    )
+    const daccSectionMeasures = await buildDACCMeasures({
+      measures: measures.sectionMeasures,
+      userType,
+      isSectionLevel: true
+    })
+    daccMeasures.push(...daccSectionMeasures)
+  }
 
   for (const measure of daccMeasures) {
     logService('info', `Send measure ${JSON.stringify(measure)} to DACC...`)
@@ -165,6 +190,9 @@ const findMonthTimeseries = async (client, account, startDate) => {
  * @returns {string} the main mode
  */
 export const getMainModeFromSections = sections => {
+  if (!sections) {
+    return 'unknown'
+  }
   let modeDistances = sections.reduce((acc, section) => {
     if (acc[section.mode]) {
       acc[section.mode] += section.distance
@@ -189,18 +217,18 @@ export const getMainModeFromSections = sections => {
  * Compute raw measures from timeseries documents.
  * It returns measures with this dict format:
  * ```
- * {
- *   '<mode>/<school>/<schoolTripDirection>/<isMainMode': {count, CO2, duration, distance}
- * }
+ * sections: '<mode>/<school>/<schoolTripDirection>/<isMainMode>': {count, CO2, duration, distance}
+ * trips: '<modes>/<school>/<schoolTripDirection>/<mainMode>': {count, CO2, duration, distance}
  * ```
  * @param {Array<TimeseriesGeoJSON>} - The timeseries to compute
- * @returns {MeasuresDict} a set of measures grouped by key
+ * @returns {{MeasuresDict, MeasuresDict}} two set of measures grouped by key
  */
 export const computeRawMeasures = timeseries => {
   if (!timeseries || timeseries.length < 1) {
     return null
   }
-  const measures = {}
+  const sectionMeasures = {}
+  const tripMeasures = {}
 
   for (const ts of timeseries) {
     if (!ts.aggregation) {
@@ -230,36 +258,61 @@ export const computeRawMeasures = timeseries => {
       school = endPlace.displayName
       schoolTripDirection = 'outward'
     }
-
     const mainMode = getMainModeFromSections(ts.aggregation.sections)
-
-    // For each section, compute the values used for DACC measures
-    for (const section of ts.aggregation.sections) {
-      const isMainMode = section.mode === mainMode ? 1 : 0
-      const keyMeasure = `${section.mode}/${school}/${schoolTripDirection}/${isMainMode}`
-      const measure = measures[keyMeasure]
-      if (!measure) {
-        measures[keyMeasure] = {
-          count: 1,
-          sumCO2: section.CO2,
-          sumDuration: section.duration,
-          sumDistance: section.distance
-        }
-      } else {
-        const newCount = measure.count + 1
-        const newCO2 = measure.sumCO2 + section.CO2
-        const newDuration = measure.sumDuration + section.duration
-        const newDistance = measure.sumDistance + section.distance
-        measures[keyMeasure] = {
-          count: newCount,
-          sumCO2: newCO2,
-          sumDuration: newDuration,
-          sumDistance: newDistance
+    // Compute section measures
+    if (ts.aggregation.sections) {
+      for (const section of ts.aggregation.sections) {
+        const isMainMode = section.mode === mainMode ? 1 : 0
+        const keyMeasure = `${section.mode}/${school}/${schoolTripDirection}/${isMainMode}`
+        const measure = sectionMeasures[keyMeasure]
+        if (!measure) {
+          sectionMeasures[keyMeasure] = {
+            count: 1,
+            sumCO2: section.CO2,
+            sumDuration: section.duration,
+            sumDistance: section.distance
+          }
+        } else {
+          const newCount = measure.count + 1
+          const newCO2 = measure.sumCO2 + section.CO2
+          const newDuration = measure.sumDuration + section.duration
+          const newDistance = measure.sumDistance + section.distance
+          sectionMeasures[keyMeasure] = {
+            count: newCount,
+            sumCO2: newCO2,
+            sumDuration: newDuration,
+            sumDistance: newDistance
+          }
         }
       }
     }
+
+    // Compute trip measure
+    const uniqueSortedModes = Array.from(new Set(ts.aggregation.modes)).sort()
+    const joinModes = uniqueSortedModes.join(':')
+    const keyTripMeasure = `${joinModes}/${school}/${schoolTripDirection}/${mainMode}`
+    const measure = tripMeasures[keyTripMeasure]
+    if (!measure) {
+      tripMeasures[keyTripMeasure] = {
+        count: 1,
+        sumCO2: ts.aggregation.totalCO2,
+        sumDuration: ts.aggregation.totalDuration,
+        sumDistance: ts.aggregation.totalDistance
+      }
+    } else {
+      const newCount = measure.count + 1
+      const newCO2 = measure.sumCO2 + ts.aggregation.totalCO2
+      const newDuration = measure.sumDuration + ts.aggregation.totalDuration
+      const newDistance = measure.sumDistance + ts.aggregation.totalDistance
+      tripMeasures[keyTripMeasure] = {
+        count: newCount,
+        sumCO2: newCO2,
+        sumDuration: newDuration,
+        sumDistance: newDistance
+      }
+    }
   }
-  return measures
+  return { sectionMeasures, tripMeasures }
 }
 
 const buildConsentMeasure = userType => {
@@ -274,17 +327,46 @@ const buildConsentMeasure = userType => {
   return consentMeasure
 }
 
+const buildMeasureGroups = ({ keyTokens, userType, isSectionLevel }) => {
+  if (isSectionLevel) {
+    const mode = keyTokens[0]
+    const school = keyTokens.length > 1 ? keyTokens[1] : ''
+    const schoolTripDirection = keyTokens.length > 2 ? keyTokens[2] : 'none'
+    const isMainMode = keyTokens.length > 3 ? keyTokens[3] : '0'
+    return [
+      { mode },
+      { school },
+      { userType },
+      { schoolTripDirection },
+      { isMainMode }
+    ]
+  } else {
+    const modes = keyTokens[0]
+    const school = keyTokens.length > 1 ? keyTokens[1] : ''
+    const schoolTripDirection = keyTokens.length > 2 ? keyTokens[2] : 'none'
+    const mainMode = keyTokens.length > 3 ? keyTokens[3] : ''
+    return [
+      { modes },
+      { school },
+      { userType },
+      { schoolTripDirection },
+      { mainMode }
+    ]
+  }
+}
+
 /**
  * Build actual DACC measures from raw measures dict
  *
  * @typedef BuildMeasuresParams
  * @property {MeasuresDict} measures - The measures to build from
  * @property {string} userType - The user type
+ * @property {boolean} isSectionLevel - Whether or not the measure is aggregated on the sections
  *
  * @param {BuildMeasuresParams} - The params
  * @returns {Array<DACCMeasure>} the DACC measures
  */
-const buildDACCMeasures = ({ measures, userType }) => {
+const buildDACCMeasures = ({ measures, userType, isSectionLevel }) => {
   const daccMeasures = []
 
   for (const key of Object.keys(measures)) {
@@ -293,30 +375,25 @@ const buildDACCMeasures = ({ measures, userType }) => {
       logService('error', `Wrong measure key: ${key}`)
       continue
     }
-    const mode = keyTokens[0]
-    const school = keyTokens.length > 1 ? keyTokens[1] : ''
-    const schoolTripDirection = keyTokens.length > 2 ? keyTokens[2] : 'none'
-    const isMainMode = keyTokens.length > 3 ? keyTokens[3] : '0'
-    const groups = [
-      { mode },
-      { school },
-      { userType },
-      { schoolTripDirection },
-      { isMainMode }
-    ]
+    const groups = buildMeasureGroups({ keyTokens, userType, isSectionLevel })
+
     // Note: normally we would use the aggregation starting date, i.e. the start
     // of the month. But as we are using an incremental process (full month aggregation everyday),
     // it's easier to use the daily date to differenciate measures on the DACC side.
     const startDate = new Date()
     const countMeasure = createMeasureForDACC({
-      measureName: DACC_MEASURE_NAME_TRIPS_COUNT,
+      measureName: isSectionLevel
+        ? DACC_MEASURE_NAME_SECTIONS_COUNT
+        : DACC_MEASURE_NAME_TRIPS_COUNT,
       startDate,
       value: measures[key].count,
       groups
     })
 
     const CO2Measure = createMeasureForDACC({
-      measureName: DACC_MEASURE_NAME_TRIPS_CO2,
+      measureName: isSectionLevel
+        ? DACC_MEASURE_NAME_SECTIONS_CO2
+        : DACC_MEASURE_NAME_TRIPS_CO2,
       startDate,
       value: measures[key].sumCO2,
       groups
@@ -328,7 +405,9 @@ const buildDACCMeasures = ({ measures, userType }) => {
     )
 
     const durationMeasure = createMeasureForDACC({
-      measureName: DACC_MEASURE_NAME_TRIPS_DURATION,
+      measureName: isSectionLevel
+        ? DACC_MEASURE_NAME_SECTIONS_DURATION
+        : DACC_MEASURE_NAME_TRIPS_DURATION,
       startDate,
       value: avgDuration,
       groups
@@ -340,7 +419,9 @@ const buildDACCMeasures = ({ measures, userType }) => {
     )
 
     const distanceMeasure = createMeasureForDACC({
-      measureName: DACC_MEASURE_NAME_TRIPS_DISTANCE,
+      measureName: isSectionLevel
+        ? DACC_MEASURE_NAME_SECTIONS_DISTANCE
+        : DACC_MEASURE_NAME_TRIPS_DISTANCE,
       startDate,
       value: avgDistance,
       groups

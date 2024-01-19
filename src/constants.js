@@ -262,6 +262,10 @@ export const DACC_MEASURE_NAME_TRIPS_COUNT = 'trips-count-monthly'
 export const DACC_MEASURE_NAME_TRIPS_CO2 = 'trips-CO2-monthly'
 export const DACC_MEASURE_NAME_TRIPS_DURATION = 'trips-duration-monthly'
 export const DACC_MEASURE_NAME_TRIPS_DISTANCE = 'trips-distance-monthly'
+export const DACC_MEASURE_NAME_SECTIONS_COUNT = 'sections-count-monthly'
+export const DACC_MEASURE_NAME_SECTIONS_CO2 = 'sections-CO2-monthly'
+export const DACC_MEASURE_NAME_SECTIONS_DURATION = 'sections-duration-monthly'
+export const DACC_MEASURE_NAME_SECTIONS_DISTANCE = 'sections-distance-monthly'
 export const DACC_EXPE_CONSENT_MEASURE = 'experimentation-consent'
 
 export const TIMESERIE_MIGRATION_SERVICE_NAME =
