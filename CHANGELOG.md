@@ -1,4 +1,16 @@
+# 0.17.0
+
 # 0.16.0
+
+### ✨ Features
+
+* Add new trips measures
+* Rename sections measures
+* Allow triggering fetchOpenPathTripsByWebhook service from webhook
+
+### 🐛 Bug Fixes
+
+* Show correct geolocation tracking status if geolocation tracking has been disabled in background because of quota exceeded
 
 # 0.15.0
 
