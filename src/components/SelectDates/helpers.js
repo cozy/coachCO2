@@ -153,17 +153,23 @@ export const computeMonths = memoize(({ dates, selectedDate, lang }) => {
 
   // create dropdownMonths
   let monthCount = 12
-
   if (isSelectedYearSameAsLatestYear) {
     monthCount = latestDate.getMonth() + 1
   } else if (isSelectedYearSameAsEarliestYear) {
     monthCount = 12 - earliestDate.getMonth()
   }
 
+  /**
+   * In the case where there are trips only over one year `isSelectedYearSameAsEarliestYear` & `isSelectedYearSameAsLatestYear` are true.
+In this specific case we want to slice the months from the beginning.
+   */
+  const endToStart =
+    isSelectedYearSameAsEarliestYear &&
+    isSelectedYearSameAsEarliestYear !== isSelectedYearSameAsLatestYear
   const dropdownMonths = makeMonthsNameByCount({
     monthCount,
     allMonthsName,
-    endToStart: isSelectedYearSameAsEarliestYear
+    endToStart
   })
 
   // create selectedIndex
