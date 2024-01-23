@@ -29,6 +29,9 @@ Cozy's apps use a standard set of _npm scripts_ to run common tasks, like watch,
 
 You can import fixtures to quickly deal with data.
 
+⚠️ You need to run the `timeseriesWithoutAggregateMigration` services after any insertion to make your trips usable in the app. See [below](#Aggregation_service) for more details.
+
+#### Add multiple trips
 
 Finally, run the following command to import fixtures:
 
@@ -43,7 +46,8 @@ yarn ACH import accounts/tracemob.json --url http://your_custom_url:port
 yarn ACH script timeseries/importGeojson --url http://your_custom_url:port
 ```
 
-Then you can generate a random trip by running
+#### Add single trips
+Then you can generate a random trip by running (use `--help` for more information)
 ```
 yarn scripts:addTrip
 ```
@@ -53,7 +57,7 @@ Or if you don't use the defaut `http://cozy.localhost:8080`:
 yarn script:addTrip --url http://your_custom_url:port
 ```
 
-⚠️ You need to run the `timeseriesWithoutAggregateMigration` services after any insertion to make your trips usable in the app. See [below](#Aggregation_service) for more details.
+
 
 
 ### Aggregation service

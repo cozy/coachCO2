@@ -1,5 +1,7 @@
+/* eslint-disable no-console */
 const { ArgumentParser } = require('argparse')
-const subSeconds = require('date-fns/subSeconds')
+const addSeconds = require('date-fns/addSeconds')
+const isValidDate = require('date-fns/isValid')
 
 const { createClientInteractive, Q } = require('cozy-client')
 
@@ -33,9 +35,15 @@ const deg2rad = deg => {
 
 const main = async () => {
   const parser = new ArgumentParser()
-  parser.addArgument('--source-account')
-  parser.addArgument('--url', { defaultValue: 'http://cozy.localhost:8080' })
-  parser.addArgument('-u', {})
+  parser.addArgument('--source-account', { help: 'Use custom source account' })
+  parser.addArgument('--url', {
+    defaultValue: 'http://cozy.localhost:8080',
+    help: 'Use custom url. Default: http://cozy.localhost:8080'
+  })
+  parser.addArgument('-u', {
+    help: 'Use custom url. Default: http://cozy.localhost:8080'
+  })
+  parser.addArgument('--date', { help: 'Add an start date. Ex.: 2024-01-01' })
   const args = parser.parseArgs()
 
   const client = await createClientInteractive({
@@ -100,8 +108,10 @@ const main = async () => {
   const durationH = distanceKm / speedKmh
   const durationS = durationH * 3600
 
-  const endDate = new Date().toISOString()
-  const startDate = subSeconds(new Date(endDate), durationS).toISOString()
+  const startDate = isValidDate(new Date(args.date))
+    ? new Date(args.date).toISOString()
+    : new Date().toISOString()
+  const endDate = addSeconds(new Date(startDate), durationS).toISOString()
 
   let sensedMode = 'PredictedModeTypes.'
   if (speedKmh < 15) {
