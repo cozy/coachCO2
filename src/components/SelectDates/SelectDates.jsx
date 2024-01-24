@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import isEqual from 'date-fns/isEqual'
 import PropTypes from 'prop-types'
 import React, { useMemo } from 'react'
 import DropdownMenuButton from 'src/components/SelectDates/DropdownMenuButton'
@@ -73,7 +74,13 @@ const SelectDates = ({ className, options, selectedDate, setSelectedDate }) => {
 
   const handleIconButtonClick = n => () => {
     setSelectedDate(date => {
-      return new Date(date.setMonth(date.getMonth() + n))
+      const curr = options.findIndex(opt => isEqual(opt, date))
+      const newDate = curr !== -1 ? options[curr + n] : null
+
+      if (newDate) {
+        return new Date(newDate.setMonth(newDate.getMonth()))
+      }
+      return date
     })
   }
 
@@ -109,7 +116,7 @@ const SelectDates = ({ className, options, selectedDate, setSelectedDate }) => {
         <IconButton
           data-testid="previous-button"
           className={classes.iconButton}
-          onClick={handleIconButtonClick(-1)}
+          onClick={handleIconButtonClick(1)}
           disabled={isDisabledIconButton('previous')}
           size="medium"
         >
@@ -118,7 +125,7 @@ const SelectDates = ({ className, options, selectedDate, setSelectedDate }) => {
         <IconButton
           data-testid="next-button"
           className={cx(classes.iconButton, 'u-ml-half')}
-          onClick={handleIconButtonClick(+1)}
+          onClick={handleIconButtonClick(-1)}
           disabled={isDisabledIconButton('next')}
           size="medium"
         >
