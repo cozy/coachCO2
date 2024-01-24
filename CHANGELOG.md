@@ -1,4 +1,19 @@
+# 0.18.0
+
 # 0.17.0
+
+### ✨ Features
+
+* Update cozy-ui from 101.1.1 to 101.2.0
+* On Analysis pages, navigation with arrows should not display months without trips
+
+### 🐛 Bug Fixes
+
+* Month selector on the trips Analytics page
+
+### 🔧 Tech
+
+* Generate trip with custom date
 
 # 0.16.0
 
