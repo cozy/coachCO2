@@ -98,6 +98,8 @@ export const sendCentreValDeLoireMeasuresToDACC = async (client, account) => {
         Object.keys(measures.sectionMeasures).length
       } measures with user type:  ${userType}`
     )
+    logSanityChecksErrors(measures.sectionMeasures)
+
     const daccSectionMeasures = await buildDACCMeasures({
       measures: measures.sectionMeasures,
       userType,
@@ -313,6 +315,39 @@ export const computeRawMeasures = timeseries => {
     }
   }
   return { sectionMeasures, tripMeasures }
+}
+
+/**
+ * Log errors if there are sanity checks errors
+ *
+ * @param {MeasuresDict} measures - The measures to check
+ */
+const logSanityChecksErrors = measures => {
+  const errors = sanityChecks(measures)
+  for (const err of errors) {
+    logService('error', err)
+  }
+}
+
+/**
+ * Perform sanity checks on measures
+ * @param {MeasuresDict} measures - The measures to check
+ *
+ * @returns {Array<string>} the errors message
+ */
+export const sanityChecks = measures => {
+  const sanityErrors = []
+  for (const key of Object.keys(measures)) {
+    const measure = measures[key]
+
+    for (const agg in measure) {
+      if (measure[agg] < 0) {
+        const msg = `Error: Negative value found: ${agg}: ${measure[agg]}`
+        sanityErrors.push(msg)
+      }
+    }
+  }
+  return sanityErrors
 }
 
 const buildConsentMeasure = userType => {
