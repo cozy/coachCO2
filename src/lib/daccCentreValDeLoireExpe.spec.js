@@ -1,7 +1,8 @@
 import {
   GROUP_ID,
   computeRawMeasures,
-  getMainModeFromSections
+  getMainModeFromSections,
+  sanityChecks
 } from './daccCentreValDeLoireExpe'
 
 describe('computeRawMeasures', () => {
@@ -335,5 +336,22 @@ describe('getMainModeFromSections', () => {
   it('should handle a single section', () => {
     const sections = [{ mode: 'walk', distance: 20 }]
     expect(getMainModeFromSections(sections)).toBe('walk')
+  })
+})
+
+describe('sanity checks', () => {
+  it('should return an error when negative values are met', () => {
+    const measures = {
+      1: { count: -1, sumCO2: -10, sumDuration: 10 }
+    }
+    const errors = sanityChecks(measures)
+    expect(errors.length).toEqual(2)
+  })
+  it('should return nothing when nothing wrong', () => {
+    const measures = {
+      1: { count: 1, sumCO2: 10, sumDuration: 10 }
+    }
+    const errors = sanityChecks(measures)
+    expect(errors.length).toEqual(0)
   })
 })
