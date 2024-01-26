@@ -144,6 +144,37 @@ export const makeAggregationTitle = (timeserieWithContacts, t) => {
 }
 
 /**
+ * Auto fix wrong section values if negative values are detected.
+ * It happens that openpath produce wrong section values, so we auto fix them.
+ * We typically noticed negative duration or speed values
+ *
+ * @param {Array<Section>} section - The sections to inspect
+ * @returns {Section} the fixed section, if necessary
+ */
+export const fixSectionsIntegrity = sections => {
+  const fixedSections = []
+  for (const section of sections) {
+    const fixSection = { ...section }
+    if (section.duration < 0) {
+      const sectionDurationMs =
+        section.timestamps[section.timestamps.length - 1] -
+        section.timestamps[0]
+      fixSection.duration = sectionDurationMs / 1000 // In seconds
+    }
+    if (section.distance < 0) {
+      const sectionDist = section.distances.reduce((a, b) => a + b, 0)
+      fixSection.distance = sectionDist
+    }
+    if (section.duration < 0 || section.distance < 0) {
+      fixSection.avgSpeed = fixSection.distance / fixSection.duration
+    }
+    fixedSections.push(fixSection)
+  }
+
+  return fixedSections
+}
+
+/**
  * Add aggregates for all timeseries by computing section's data
  * @param {array} timeseries - Timeseries to be aggregated
  * @param {Function} makeSection - Callback to get sections from timeserie
@@ -161,14 +192,13 @@ export const computeAggregatedTimeseries = ({
         `The timeserie with id ${timeserie._id} must have a "series" attributes to make computeAggregatedTimeseries() working properly`
       )
     }
-
     const serie = timeserie.series[0]
     let totalSerieCO2 = 0
     let totalSerieDistance = 0
     let totalSerieDuration = 0
     let totalSerieCalories = 0
     const modes = []
-    const sections = makeSections(timeserie)
+    const sections = fixSectionsIntegrity(makeSections(timeserie))
 
     const computedSections = sections.map(section => {
       const summarySection = {
