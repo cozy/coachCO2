@@ -48,8 +48,9 @@
  * @typedef {object} Section
  * @property {string} mode - The section mode
  * @property {number} CO2 - The section CO2
- * @property {number} CO2 - The section distance
- * @property {number} CO2 - The section duration
+ * @property {number} distance - The section distance, in meters
+ * @property {number} duration - The section duration, in seconds
+ * @property {number} avgSpeed - The section avg speed, in m/s
  */
 
 /**

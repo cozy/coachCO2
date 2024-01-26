@@ -34,7 +34,8 @@ import {
   getEndPlaceCoordinates,
   isLoopTrip,
   getTitle,
-  makeAggregationTitle
+  makeAggregationTitle,
+  fixSectionsIntegrity
 } from 'src/lib/timeseries'
 import { getSectionsFromTrip } from 'src/lib/trips'
 import locales from 'src/locales/en.json'
@@ -1579,5 +1580,40 @@ describe('getTitle', () => {
 
       expect(getTitle(timeserie, isMobile)).toBe('Manual title')
     })
+  })
+})
+
+describe('fixSectionValues', () => {
+  it('should not do anything when section is ok', () => {
+    const section = {
+      mode: 'WALKING',
+      timestamps: [1705595674100, 1705595701100],
+      distances: [0, 20, 413],
+      distance: 433,
+      duration: 27,
+      startDate: '2024-01-18T16:31:35.100Z',
+      endDate: '2024-01-18T16:35:01.100Z',
+      speeds: [0, 0.7, 2.3],
+      avgSpeed: 1
+    }
+    expect(fixSectionsIntegrity([section])).toEqual([section])
+  })
+
+  it('should fix negative values', () => {
+    const section = {
+      mode: 'WALKING',
+      timestamps: [1705595674100, 1705595701100],
+      distances: [0, 20, 413],
+      distance: -433,
+      duration: -152,
+      startDate: '2024-01-18T16:31:35.100Z',
+      endDate: '2024-01-18T16:35:01.100Z',
+      speeds: [0, 0.7452691151217908, -2.3127397240139844],
+      avgSpeed: -1.8809647306706325
+    }
+    const fixSection = fixSectionsIntegrity([section])[0]
+    expect(fixSection.duration).toEqual(27)
+    expect(fixSection.distance).toEqual(433)
+    expect(fixSection.avgSpeed).toEqual(433 / 27)
   })
 })
