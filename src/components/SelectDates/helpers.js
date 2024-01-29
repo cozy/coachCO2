@@ -1,5 +1,9 @@
 import memoize from 'lodash/memoize'
 
+import minilog from 'cozy-minilog'
+
+const log = minilog('components/SelectDates/helpers')
+
 /**
  * Returns an array of the names of all the months of the year
  * @param {string} lang - The language to be used (fr, en, etc.)
@@ -282,4 +286,50 @@ export const isDisableNextPreviousButton = ({
   }
 
   return false
+}
+
+/**
+ * @param {Date[]} dates - List of dates
+ * @returns {Date[]} - List of unique dates per month
+ */
+export const getUniqueDatePerMonth = dates => {
+  return dates.reduce((acc, curr) => {
+    const alreadyExists = acc.find(
+      date =>
+        date.getMonth() === curr.getMonth() &&
+        date.getFullYear() === curr.getFullYear()
+    )
+    if (!alreadyExists) acc.push(curr)
+    return acc
+  }, [])
+}
+
+/**
+ * Returns the new date according to the step
+ * @param {object} params
+ * @param {Date[]} params.dates - List of dates
+ * @param {Date} params.currentDate - The current date
+ * @param {number} params.step - The step to apply to the current date
+ * @returns {Date} - The new date
+ */
+export const getNewDateByStep = ({ dates, currentDate, step }) => {
+  const currentDateIndex = dates.findIndex(
+    opt =>
+      opt.getMonth() === currentDate.getMonth() &&
+      opt.getFullYear() === currentDate.getFullYear()
+  )
+
+  if (currentDateIndex === -1) {
+    log.error(`Date ${currentDate} not found in ${dates}`)
+    return currentDate
+  }
+
+  const newDate = dates[currentDateIndex + step]
+
+  if (newDate === undefined) {
+    log.error(`Index ${currentDateIndex + step} doesn't exist in ${dates}`)
+    return currentDate
+  }
+
+  return new Date(newDate.setMonth(newDate.getMonth()))
 }

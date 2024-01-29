@@ -1,5 +1,4 @@
 import cx from 'classnames'
-import isEqual from 'date-fns/isEqual'
 import PropTypes from 'prop-types'
 import React, { useMemo } from 'react'
 import DropdownMenuButton from 'src/components/SelectDates/DropdownMenuButton'
@@ -7,7 +6,9 @@ import {
   computeMonths,
   computeYears,
   makeNewDate,
-  isDisableNextPreviousButton
+  isDisableNextPreviousButton,
+  getUniqueDatePerMonth,
+  getNewDateByStep
 } from 'src/components/SelectDates/helpers'
 
 import Box from 'cozy-ui/transpiled/react/Box'
@@ -72,16 +73,19 @@ const SelectDates = ({ className, options, selectedDate, setSelectedDate }) => {
     setSelectedDate(newDate)
   }
 
-  const handleIconButtonClick = n => () => {
-    setSelectedDate(date => {
-      const curr = options.findIndex(opt => isEqual(opt, date))
-      const newDate = curr !== -1 ? options[curr + n] : null
+  const uniqueDatesPerMonth = useMemo(
+    () => getUniqueDatePerMonth(options),
+    [options]
+  )
 
-      if (newDate) {
-        return new Date(newDate.setMonth(newDate.getMonth()))
-      }
-      return date
-    })
+  const handleIconButtonClick = n => () => {
+    setSelectedDate(date =>
+      getNewDateByStep({
+        dates: uniqueDatesPerMonth,
+        currentDate: date,
+        step: n
+      })
+    )
   }
 
   const isDisabledIconButton = type =>
