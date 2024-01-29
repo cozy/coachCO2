@@ -10,7 +10,9 @@ import {
   makeMonthsNameByCount,
   computeMonths,
   makeNewDate,
-  isDisableNextPreviousButton
+  isDisableNextPreviousButton,
+  getUniqueDatePerMonth,
+  getNewDateByStep
 } from './helpers'
 
 describe('makeAllMonthsName', () => {
@@ -308,5 +310,62 @@ describe('isDisableNextPreviousButton', () => {
         options: dates
       })
     ).toBe(true)
+  })
+})
+
+describe('getUniqueDatePerMonth', () => {
+  it('should return the unique dates per month', () => {
+    const dates = [
+      new Date('2022-01'),
+      new Date('2022-02'),
+      new Date('2022-02'),
+      new Date('2022-03'),
+      new Date('2022-03'),
+      new Date('2022-03')
+    ]
+
+    const result = getUniqueDatePerMonth(dates)
+
+    expect(result).toStrictEqual([
+      new Date('2022-01'),
+      new Date('2022-02'),
+      new Date('2022-03')
+    ])
+  })
+})
+
+describe('getNewDateByStep', () => {
+  it('should return the next date', () => {
+    const dates = [
+      new Date('2022-01'),
+      new Date('2022-04'),
+      new Date('2022-06')
+    ]
+    const currentDate = new Date('2022-01')
+    const result = getNewDateByStep({ step: 1, dates, currentDate })
+
+    expect(result).toEqual(new Date('2022-04'))
+  })
+  it('should return the previous date', () => {
+    const dates = [
+      new Date('2022-01'),
+      new Date('2022-04'),
+      new Date('2022-06')
+    ]
+    const currentDate = new Date('2022-06')
+    const result = getNewDateByStep({ step: -1, dates, currentDate })
+
+    expect(result).toEqual(new Date('2022-04'))
+  })
+  it('should return the current date if step is outside', () => {
+    const dates = [
+      new Date('2022-01'),
+      new Date('2022-04'),
+      new Date('2022-06')
+    ]
+    const currentDate = new Date('2022-06')
+    const result = getNewDateByStep({ step: 10, dates, currentDate })
+
+    expect(result).toEqual(currentDate)
   })
 })
