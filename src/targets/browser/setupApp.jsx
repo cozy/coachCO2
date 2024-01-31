@@ -34,7 +34,7 @@ const setupApp = memoize(() => {
     ignoreErrors: [/^Warning: /]
   })
 
-  initBar({ client, container, lang, appName })
+  // initBar({ client, container, lang, appName })
 
   return { container, client, lang, polyglot }
 })
