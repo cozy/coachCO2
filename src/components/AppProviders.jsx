@@ -10,6 +10,7 @@ import {
   CCO2_SETTINGS_DOCTYPE
 } from 'src/doctypes'
 
+import { BarProvider } from 'cozy-bar'
 import { CozyProvider, RealTimeQueries } from 'cozy-client'
 import { WebviewIntentProvider } from 'cozy-intent'
 import AlertProvider from 'cozy-ui/transpiled/react/providers/Alert'
@@ -42,21 +43,23 @@ const AppProviders = ({ client, lang, polyglot, children }) => {
           <RealTimeQueries doctype={FILES_DOCTYPE} />
           <RealTimeQueries doctype={CONTACTS_DOCTYPE} />
           <RealTimeQueries doctype={ACCOUNTS_DOCTYPE} />
-          <AccountProvider>
-            <SelectDatesProvider>
-              <I18n lang={lang} polyglot={polyglot}>
-                <CozyTheme>
-                  <BreakpointsProvider>
-                    <AlertProvider>
-                      <GeolocationTrackingProvider>
-                        {children}
-                      </GeolocationTrackingProvider>
-                    </AlertProvider>
-                  </BreakpointsProvider>
-                </CozyTheme>
-              </I18n>
-            </SelectDatesProvider>
-          </AccountProvider>
+          <BarProvider>
+            <AccountProvider>
+              <SelectDatesProvider>
+                <I18n lang={lang} polyglot={polyglot}>
+                  <CozyTheme>
+                    <BreakpointsProvider>
+                      <AlertProvider>
+                        <GeolocationTrackingProvider>
+                          {children}
+                        </GeolocationTrackingProvider>
+                      </AlertProvider>
+                    </BreakpointsProvider>
+                  </CozyTheme>
+                </I18n>
+              </SelectDatesProvider>
+            </AccountProvider>
+          </BarProvider>
         </CozyProvider>
       </StylesProvider>
     </WebviewIntentProvider>

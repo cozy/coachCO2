@@ -71,12 +71,13 @@
     "react-hot-loader": "^4.13.0"
   },
   "dependencies": {
+    "@react-pdf/renderer": "3.1.12",
     "@sentry/integrations": "7.88.0",
     "@sentry/react": "7.88.0",
-    "@react-pdf/renderer": "3.1.12",
     "chart.js": "3.7.1",
     "classnames": "2.3.2",
     "copy-text-to-clipboard": "3.2.0",
+    "cozy-bar": "11.0.0-alpha.3",
     "cozy-client": "^45.1.0",
     "cozy-device-helper": "^3.0.0",
     "cozy-flags": "^3.0.1",

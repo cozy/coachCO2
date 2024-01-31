@@ -2,6 +2,7 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 
+import { BarCenter, BarLeft } from 'cozy-bar'
 import BarTitle from 'cozy-ui/transpiled/react/BarTitle'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import IconButton from 'cozy-ui/transpiled/react/IconButton'
@@ -19,14 +20,21 @@ const Titlebar = ({ label, subtitle, onBack }) => {
     return (
       <>
         {backAction && (
-          // TODO: Add Bar again
-          <IconButton className="u-mr-half" onClick={backAction} size="medium">
-            <Icon icon={Previous} size={16} />
-          </IconButton>
+          <BarLeft>
+            <IconButton
+              className="u-mr-half"
+              onClick={backAction}
+              size="medium"
+            >
+              <Icon icon={Previous} size={16} />
+            </IconButton>
+          </BarLeft>
         )}
-        <CozyTheme>
-          <BarTitle>{label}</BarTitle>
-        </CozyTheme>
+        <BarCenter>
+          <CozyTheme>
+            <BarTitle>{label}</BarTitle>
+          </CozyTheme>
+        </BarCenter>
       </>
     )
   }
