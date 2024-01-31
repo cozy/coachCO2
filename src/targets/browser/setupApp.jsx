@@ -1,7 +1,7 @@
 import { CaptureConsole } from '@sentry/integrations'
 import * as Sentry from '@sentry/react'
 import memoize from 'lodash/memoize'
-import { getValues, initBar } from 'src/utils/bar'
+import { getValues } from 'src/utils/bar'
 import { getClient } from 'src/utils/client'
 
 import flag from 'cozy-flags'
@@ -15,7 +15,7 @@ import manifest from '../../../manifest.webapp'
  */
 const setupApp = memoize(() => {
   const container = document.querySelector('[role=application]')
-  const { lang, appName } = getValues(JSON.parse(container.dataset.cozy))
+  const { lang } = getValues(JSON.parse(container.dataset.cozy))
   const polyglot = initTranslation(lang, lang => require(`locales/${lang}`))
   const client = getClient()
   client.registerPlugin(flag.plugin)
@@ -33,8 +33,6 @@ const setupApp = memoize(() => {
     // React log these warnings(bad Proptypes), in a console.error, it is not relevant to report this type of information to Sentry
     ignoreErrors: [/^Warning: /]
   })
-
-  initBar({ client, container, lang, appName })
 
   return { container, client, lang, polyglot }
 })

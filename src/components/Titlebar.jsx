@@ -1,5 +1,3 @@
-/* global cozy */
-
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -14,7 +12,6 @@ import CozyTheme from 'cozy-ui/transpiled/react/providers/CozyTheme'
 
 const Titlebar = ({ label, subtitle, onBack }) => {
   const { isMobile } = useBreakpoints()
-  const { BarCenter, BarLeft } = cozy.bar
 
   const backAction = typeof onBack === 'function' ? onBack : undefined
 
@@ -22,21 +19,14 @@ const Titlebar = ({ label, subtitle, onBack }) => {
     return (
       <>
         {backAction && (
-          <BarLeft>
-            <IconButton
-              className="u-mr-half"
-              onClick={backAction}
-              size="medium"
-            >
-              <Icon icon={Previous} size={16} />
-            </IconButton>
-          </BarLeft>
+          // TODO: Add Bar again
+          <IconButton className="u-mr-half" onClick={backAction} size="medium">
+            <Icon icon={Previous} size={16} />
+          </IconButton>
         )}
-        <BarCenter>
-          <CozyTheme>
-            <BarTitle>{label}</BarTitle>
-          </CozyTheme>
-        </BarCenter>
+        <CozyTheme>
+          <BarTitle>{label}</BarTitle>
+        </CozyTheme>
       </>
     )
   }
