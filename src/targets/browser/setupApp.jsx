@@ -20,6 +20,7 @@ const setupApp = memoize(() => {
   const client = getClient()
   client.registerPlugin(flag.plugin)
   client.registerPlugin(RealtimePlugin)
+  client.ensureStore()
 
   Sentry.init({
     dsn: 'https://9f18ae40b7a3ec801af8fcee845bca53@errors.cozycloud.cc/67',
