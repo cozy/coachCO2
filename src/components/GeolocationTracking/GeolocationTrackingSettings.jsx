@@ -1,4 +1,3 @@
-import copy from 'copy-text-to-clipboard'
 import React from 'react'
 import { useGeolocationTracking } from 'src/components/Providers/GeolocationTrackingProvider'
 
@@ -15,7 +14,7 @@ export const GeolocationTrackingSettings = () => {
     const geolocationTrackingId = await getGeolocationTrackingId()
 
     if (geolocationTrackingId) {
-      copy(geolocationTrackingId)
+      await navigator.clipboard.writeText(geolocationTrackingId)
     }
   }
 
