@@ -3809,6 +3809,20 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@pdf-lib/standard-fonts@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@pdf-lib/standard-fonts/-/standard-fonts-1.0.0.tgz#8ba691c4421f71662ed07c9a0294b44528af2d7f"
+  integrity sha512-hU30BK9IUN/su0Mn9VdlVKsWBS6GyhVfqjwl1FjZN4TxP6cCw0jP2w7V3Hf5uX7M0AZJ16vey9yE0ny7Sa59ZA==
+  dependencies:
+    pako "^1.0.6"
+
+"@pdf-lib/upng@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@pdf-lib/upng/-/upng-1.0.1.tgz#7dc9c636271aca007a9df4deaf2dd7e7960280cb"
+  integrity sha512-dQK2FUMQtowVP00mtIksrlZhdFXQZPC+taih1q4CvPZ5vqdxR/LKBaFg0oAfzd1GlHZXXSPdQfzQnt+ViGvEIQ==
+  dependencies:
+    pako "^1.0.10"
+
 "@pkgr/utils@^2.3.1":
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/@pkgr/utils/-/utils-2.4.2.tgz#9e638bbe9a6a6f165580dc943f138fd3309a2cbc"
@@ -8495,16 +8509,6 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
-copy-text-to-clipboard@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/copy-text-to-clipboard/-/copy-text-to-clipboard-3.2.0.tgz#0202b2d9bdae30a49a53f898626dcc3b49ad960b"
-  integrity sha512-RnJFp1XR/LOBDckxTib5Qjr/PMfkatD0MUCQgdpqS8MdKiNUzBjAQBEN6oUy+jW7LI93BBG3DtMB2KOOKpGs2Q==
-
-copy-text-to-clipboard@^2.1.1:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/copy-text-to-clipboard/-/copy-text-to-clipboard-2.2.0.tgz#329dd6daf8c42034c763ace567418401764579ae"
-  integrity sha512-WRvoIdnTs1rgPMkgA2pUOa/M4Enh2uzCwdKsOMYNAJiz/4ZvEJgmbF4OmninPmlFdAWisfeh0tH+Cpf7ni3RqQ==
-
 copy-webpack-plugin@4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/copy-webpack-plugin/-/copy-webpack-plugin-4.6.0.tgz#e7f40dd8a68477d405dd1b7a854aae324b158bae"
@@ -8838,6 +8842,17 @@ cozy-doctypes@^1.88.6:
     lodash "^4.17.19"
     prop-types "^15.7.2"
 
+cozy-doctypes@^1.89.4:
+  version "1.89.4"
+  resolved "https://registry.yarnpkg.com/cozy-doctypes/-/cozy-doctypes-1.89.4.tgz#3d9d2c796bf666293cb7702593cb9961a5fe7018"
+  integrity sha512-TEbM0FRY3uFoL+vez5eFB/RDXlJ6zEf4o6Wi/P85kCJnBOUtSTl767bjjmFZ/x764vBfkn3VaLE1ct5qkyLkcQ==
+  dependencies:
+    cozy-logger "^1.10.4"
+    date-fns "^1.30.1"
+    es6-promise-pool "^2.5.0"
+    lodash "^4.17.19"
+    prop-types "^15.7.2"
+
 cozy-flags@^2.8.7:
   version "2.8.7"
   resolved "https://registry.yarnpkg.com/cozy-flags/-/cozy-flags-2.8.7.tgz#d600019b66c41af6dfff2d1941e78c8284c54a22"
@@ -9110,16 +9125,15 @@ cozy-scripts@^8.2.0:
     webpack-dev-server "3.10.3"
     webpack-merge "4.2.2"
 
-cozy-sharing@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/cozy-sharing/-/cozy-sharing-10.0.0.tgz#ab644b3560e279769a3583251e58f73cdb2b1acf"
-  integrity sha512-AphmHfo7wJJfdRu0xcBJY+t53Sf6DVTj8HkVOvhgwsj6TTQNU4/cQo7bl92glEIddxWTgGdfwjnN7B/MmNYGXA==
+cozy-sharing@^10.2.0:
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/cozy-sharing/-/cozy-sharing-10.2.0.tgz#af68ca264da78e46eb88733e18a1387a75f0ef97"
+  integrity sha512-s25XAvg1BJQqlaUmRqBNCfFPEPzpts9FLxWC4kmccIZ60Xrr+mT2OnkxeZ7JjLWHM2AHTVjTx9TILdsCxgsDEg==
   dependencies:
     "@cozy/minilog" "^1.0.0"
     classnames "^2.2.6"
-    copy-text-to-clipboard "^2.1.1"
     cozy-device-helper "^3.0.0"
-    cozy-doctypes "^1.88.6"
+    cozy-doctypes "^1.89.4"
     lodash "^4.17.19"
     react-autosuggest "^10.1.0"
     react-tooltip "^3.11.1"
@@ -9170,10 +9184,10 @@ cozy-ui@35.22.0:
     react-select "2.2.0"
     react-swipeable-views "0.13.3"
 
-cozy-ui@^101.2.0:
-  version "101.2.0"
-  resolved "https://registry.yarnpkg.com/cozy-ui/-/cozy-ui-101.2.0.tgz#42d15aaa28aeecb63b0eee8bdba4fb770168316c"
-  integrity sha512-J0R7gOfK13KOfjerHEWiEzwOizquPWKjnz3PnR9CsyYbEkWO03cqjJ/EFvXXhLmQKdXeD0fJgXfjSyVr1k2dbQ==
+cozy-ui@^102.2.1:
+  version "102.2.1"
+  resolved "https://registry.yarnpkg.com/cozy-ui/-/cozy-ui-102.2.1.tgz#09c4e27147ccb17f7fc498fb0083c16744aee658"
+  integrity sha512-EiPY5SXesa/PwvzpBR24HY8FZ1fNOoPBRGT8YVWs+sX/I/YZmFGbHjxuWmxuy6AUloQIdivEMi5laWpnd6XlEg==
   dependencies:
     "@babel/runtime" "^7.3.4"
     "@material-ui/core" "4.12.3"
@@ -9182,7 +9196,6 @@ cozy-ui@^101.2.0:
     bundlemon "^1.3.2"
     chart.js "3.7.1"
     classnames "^2.2.5"
-    copy-text-to-clipboard "3.2.0"
     cozy-interapp "^0.5.4"
     date-fns "^1.28.5"
     filesize "8.0.7"
@@ -9192,6 +9205,7 @@ cozy-ui@^101.2.0:
     mui-bottom-sheet "https://github.com/cozy/mui-bottom-sheet.git#v1.0.9"
     node-polyglot "^2.2.2"
     normalize.css "^8.0.0"
+    pdf-lib "1.17.1"
     piwik-react-router "0.12.1"
     react-chartjs-2 "4.1.0"
     react-markdown "^4.0.8"
@@ -16673,7 +16687,7 @@ pako@^0.2.5, pako@~0.2.0:
   resolved "https://registry.yarnpkg.com/pako/-/pako-0.2.9.tgz#f3f7522f4ef782348da8161bad9ecfd51bf83a75"
   integrity sha512-NUcwaKxUxWrZLpDG+z/xZaCgQITkA/Dv4V/T6bw7VON6l1Xz/VnrBqrYjZQ12TamKHzITTfOEIYUj48y2KXImA==
 
-pako@~1.0.5:
+pako@^1.0.10, pako@^1.0.11, pako@^1.0.6, pako@~1.0.5:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
   integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==
@@ -16937,6 +16951,16 @@ pbkdf2@^3.0.3:
     ripemd160 "^2.0.1"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+pdf-lib@1.17.1:
+  version "1.17.1"
+  resolved "https://registry.yarnpkg.com/pdf-lib/-/pdf-lib-1.17.1.tgz#9e7dd21261a0c1fb17992580885b39e7d08f451f"
+  integrity sha512-V/mpyJAoTsN4cnP31vc0wfNA1+p20evqqnap0KLoRUN0Yk/p3wN52DOEsL4oBFcLdb76hlpKPtzJIgo67j/XLw==
+  dependencies:
+    "@pdf-lib/standard-fonts" "^1.0.0"
+    "@pdf-lib/upng" "^1.0.1"
+    pako "^1.0.11"
+    tslib "^1.11.1"
 
 pdfjs-dist@2.1.266:
   version "2.1.266"
