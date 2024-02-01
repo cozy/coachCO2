@@ -152,6 +152,8 @@ const main = async () => {
         // trip description
         type: 'FeatureCollection',
         properties: {
+          start_place: { $oid: '60dcf8fde448f61ed9831234' },
+          end_place: { $oid: '60dcf8fde448f61ed9835678' },
           start_fmt_time: startDate,
           end_fmt_time: endDate,
           duration: durationS, // duration in seconds
@@ -175,6 +177,7 @@ const main = async () => {
               type: 'Point',
               coordinates: startPoint
             },
+            id: '60dcf8fde448f61ed9831234',
             properties: {
               feature_type: 'start_place',
               display_name: startPlaceName,
@@ -190,6 +193,7 @@ const main = async () => {
               type: 'Point',
               coordinates: endPoint
             },
+            id: '60dcf8fde448f61ed9835678',
             properties: {
               feature_type: 'end_place',
               display_name: endPlaceName,
