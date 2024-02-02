@@ -58,7 +58,11 @@ const main = async () => {
   let sourceAccount
   if (!args.source_account) {
     const { data: accounts } = await client.query(
-      Q('io.cozy.accounts').where({ account_type: 'tracemob' })
+      Q('io.cozy.accounts').where({
+        account_type: {
+          $or: ['tracemob', 'openpath']
+        }
+      })
     )
     if (accounts.length === 0) {
       console.error('No tracemob account found ; please create one')
