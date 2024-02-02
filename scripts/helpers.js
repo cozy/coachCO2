@@ -21,10 +21,31 @@ const getSourceAccount = async ({ client, args }) => {
     return accounts[0]._id
   }
 
-  throw new Error(
-    'Several accounts found, please specify one with --source-account option. Available accounts ids: ' +
-      accounts.map(acc => acc._id).join(', ')
+  if (!args.login) {
+    throw new Error(
+      `Several accounts found: please provide one with --source-account or --login: ${JSON.stringify(
+        accounts.map(account => ({
+          _id: account._id,
+          login: account.auth.login
+        }))
+      )}`
+    )
+  }
+
+  const accountFound = accounts.find(
+    account => account.auth.login === args.login
   )
+  if (!accountFound) {
+    throw new Error(
+      `No account found with login: ${
+        args.login
+      }; Existing account login: ${accounts
+        .map(account => account.auth.login)
+        .join(', ')}`
+    )
+  }
+
+  return accountFound._id
 }
 
 module.exports = {
