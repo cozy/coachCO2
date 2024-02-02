@@ -3,7 +3,9 @@ const { ArgumentParser } = require('argparse')
 const addSeconds = require('date-fns/addSeconds')
 const isValidDate = require('date-fns/isValid')
 
-const { createClientInteractive, Q } = require('cozy-client')
+const { createClientInteractive } = require('cozy-client')
+
+const { getSourceAccount } = require('./helpers')
 
 global.fetch = require('node-fetch') // in the browser we have native fetch
 
@@ -52,36 +54,7 @@ const main = async () => {
     }
   })
 
-  let sourceAccount
-  if (!args.source_account) {
-    const { data: accounts } = await client.query(
-      Q('io.cozy.accounts').where({
-        account_type: {
-          $or: ['tracemob', 'openpath']
-        }
-      })
-    )
-    if (accounts.length === 0) {
-      console.error('No tracemob account found ; please create one')
-      return
-    }
-    if (accounts.length > 1) {
-      console.warn(
-        'Several tracemob accounts found: please provide one with --source-account'
-      )
-      console.log(
-        'Accounts found:',
-        accounts.map(account => ({
-          _id: account._id,
-          login: account.auth.login
-        }))
-      )
-      return
-    }
-    sourceAccount = accounts[0]._id
-  } else {
-    sourceAccount = args.source_account
-  }
+  const sourceAccount = await getSourceAccount({ client, args })
 
   const maxLat = 51.0891667 // northern france latitude
   const minLat = 42.3327778 // southern france latitude
