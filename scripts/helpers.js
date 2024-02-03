@@ -1,14 +1,35 @@
 const { Q } = require('cozy-client')
 
+const ACCOUNTS_DOCTYPE = 'io.cozy.accounts'
+const CCO2_SETTINGS_DOCTYPE = 'io.cozy.coachco2.settings'
+const GEOJSON_DOCTYPE = 'io.cozy.timeseries.geojson'
+const COZY_CLIENT_CLI = 'io.cozy.client.cli'
+const ACCOUNT_TYPES = ['tracemob', 'openpath']
+
+/**
+ * @typedef {object} Args
+ * @property {string} source_account
+ * @property {string} login
+ * @property {string} url
+ * @property {string} date
+ */
+
+/**
+ * Get source account
+ * @param  {object} opts
+ * @param  {import('cozy-client/types/CozyClient').default} opts.client
+ * @param  {Args} opts.args
+ * @returns {Promise<string>} source account id
+ */
 const getSourceAccount = async ({ client, args }) => {
   if (args.source_account) {
     return args.source_account
   }
 
   const { data: accounts } = await client.query(
-    Q('io.cozy.accounts').where({
+    Q(ACCOUNTS_DOCTYPE).where({
       account_type: {
-        $or: ['tracemob', 'openpath']
+        $or: ACCOUNT_TYPES
       }
     })
   )
@@ -49,5 +70,10 @@ const getSourceAccount = async ({ client, args }) => {
 }
 
 module.exports = {
-  getSourceAccount
+  getSourceAccount,
+  ACCOUNTS_DOCTYPE,
+  CCO2_SETTINGS_DOCTYPE,
+  ACCOUNT_TYPES,
+  GEOJSON_DOCTYPE,
+  COZY_CLIENT_CLI
 }
