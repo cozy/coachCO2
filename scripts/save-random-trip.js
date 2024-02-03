@@ -5,7 +5,12 @@ const isValidDate = require('date-fns/isValid')
 
 const { createClientInteractive } = require('cozy-client')
 
-const { getSourceAccount } = require('./helpers')
+const {
+  getSourceAccount,
+  ACCOUNTS_DOCTYPE,
+  COZY_CLIENT_CLI,
+  GEOJSON_DOCTYPE
+} = require('./helpers')
 
 global.fetch = require('node-fetch') // in the browser we have native fetch
 
@@ -49,11 +54,11 @@ const main = async () => {
   const args = parser.parse_args()
 
   const client = await createClientInteractive({
-    scope: ['io.cozy.timeseries.geojson', 'io.cozy.accounts'],
+    scope: [GEOJSON_DOCTYPE, ACCOUNTS_DOCTYPE],
     uri: args.u || args.url,
     schema: {},
     oauth: {
-      softwareID: 'io.cozy.client.cli'
+      softwareID: COZY_CLIENT_CLI
     }
   })
 
@@ -118,7 +123,7 @@ const main = async () => {
   const endPlaceName = randomPickArray(placesNames)
 
   const trip = {
-    _type: 'io.cozy.timeseries.geojson',
+    _type: GEOJSON_DOCTYPE,
     startDate,
     endDate,
     cozyMetadata: {

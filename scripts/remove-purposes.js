@@ -1,6 +1,9 @@
+/* eslint-disable no-console */
 const { ArgumentParser } = require('argparse')
 
 const { createClientInteractive, Q } = require('cozy-client')
+
+const { GEOJSON_DOCTYPE, COZY_CLIENT_CLI } = require('./helpers')
 
 global.fetch = require('node-fetch') // in the browser we have native fetch
 
@@ -14,17 +17,17 @@ const main = async () => {
   const args = parser.parse_args()
 
   const client = await createClientInteractive({
-    scope: ['io.cozy.timeseries.geojson'],
+    scope: [GEOJSON_DOCTYPE],
     uri: args.url,
     schema: {},
     oauth: {
-      softwareID: 'io.cozy.client.cli'
+      softwareID: COZY_CLIENT_CLI
     }
   })
 
   const fromDate = args.from_date || null
 
-  const query = Q('io.cozy.timeseries.geojson')
+  const query = Q(GEOJSON_DOCTYPE)
     .where({
       startDate: {
         $gt: fromDate
