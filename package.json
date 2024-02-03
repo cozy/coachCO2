@@ -27,6 +27,7 @@
     "service:timeseriesWithoutAggregateMigration": "yarn run cozy-konnector-dev -m build/manifest.webapp build/services/timeseriesWithoutAggregateMigration/coachco2.js",
     "scripts:addTrip": "node scripts/save-random-trip.js",
     "scripts:addAccount": "node scripts/save-account.js",
+    "scripts:dropAccount": "node scripts/drop-account.js",
     "scripts:removePurposes": "node scripts/remove-purposes.js"
   },
   "repository": {
