@@ -48,17 +48,32 @@ yarn ACH script timeseries/importGeojson --url http://your_custom_url:port
 
 #### Add single trips
 Then you can generate a random trip by running (use `--help` for more information)
+
 ```
 yarn scripts:addTrip
 ```
 
 Or if you don't use the defaut `http://cozy.localhost:8080`:
+
 ```bash
 yarn script:addTrip --url http://your_custom_url:port
 ```
 
+#### Add single account
+This script allows you to add a tracemob or openpath type account (use `--help` for more information)
 
+```
+yarn scripts:addAccount [-l, --login] <login>
+```
 
+#### Drop single account
+This script allows you to delete an account (tracemob or openpath) as well as the associated timeseries.
+
+In the case where the account is the one selected by default in the app, if another account exists then we update with the first other account found. (use `--help` for more information)
+
+```
+yarn scripts:dropAccount --source-account <id>
+```
 
 ### Aggregation service
 
