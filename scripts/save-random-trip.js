@@ -35,16 +35,13 @@ const deg2rad = deg => {
 
 const main = async () => {
   const parser = new ArgumentParser()
-  parser.addArgument('--source-account', { help: 'Use custom source account' })
-  parser.addArgument('--url', {
-    defaultValue: 'http://cozy.localhost:8080',
+  parser.add_argument('--source-account', { help: 'Use custom source account' })
+  parser.add_argument('-u', '--url', {
+    default: 'http://cozy.localhost:8080',
     help: 'Use custom url. Default: http://cozy.localhost:8080'
   })
-  parser.addArgument('-u', {
-    help: 'Use custom url. Default: http://cozy.localhost:8080'
-  })
-  parser.addArgument('--date', { help: 'Add an start date. Ex.: 2024-01-01' })
-  const args = parser.parseArgs()
+  parser.add_argument('--date', { help: 'Add an start date. Ex.: 2024-01-01' })
+  const args = parser.parse_args()
 
   const client = await createClientInteractive({
     scope: ['io.cozy.timeseries.geojson', 'io.cozy.accounts'],

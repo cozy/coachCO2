@@ -1,16 +1,17 @@
-const { createClientInteractive, Q } = require('cozy-client')
 const { ArgumentParser } = require('argparse')
+
+const { createClientInteractive, Q } = require('cozy-client')
 
 global.fetch = require('node-fetch') // in the browser we have native fetch
 
 const main = async () => {
   const parser = new ArgumentParser()
-  parser.addArgument('--url', { defaultValue: 'http://cozy.localhost:8080' })
-  parser.addArgument('--only-automatic-purposes', { defaultValue: false })
-  parser.addArgument('--from-date', { defaultValue: null })
-  parser.addArgument('--remove-recurring', { defaultValue: true })
-  parser.addArgument('--remove-relationships', { defaultValue: false })
-  const args = parser.parseArgs()
+  parser.add_argument('-u', '--url', { default: 'http://cozy.localhost:8080' })
+  parser.add_argument('--only-automatic-purposes', { default: false })
+  parser.add_argument('--from-date', { default: null })
+  parser.add_argument('--remove-recurring', { default: true })
+  parser.add_argument('--remove-relationships', { default: false })
+  const args = parser.parse_args()
 
   const client = await createClientInteractive({
     scope: ['io.cozy.timeseries.geojson'],
