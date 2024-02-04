@@ -23,7 +23,7 @@
     "stack:docker:dev": "cs stackDocker",
     "stack:docker:prod": "cs stackDocker --prod",
     "fixtures": "ACH import accounts/tracemob.json && ACH script timeseries/importGeojson",
-    "fixtures:drop": "ACH drop io.cozy.timeseries.geojson",
+    "fixtures:drop": "ACH drop io.cozy.timeseries.geojson && node scripts/drop-accounts.js",
     "service:timeseriesWithoutAggregateMigration": "yarn run cozy-konnector-dev -m build/manifest.webapp build/services/timeseriesWithoutAggregateMigration/coachco2.js",
     "scripts:addTrip": "node scripts/save-random-trip.js",
     "scripts:removePurposes": "node scripts/remove-purposes.js"
