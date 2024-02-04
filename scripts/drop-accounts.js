@@ -54,7 +54,7 @@ const main = async () => {
   })
 
   const { data: accounts } = await client.query(
-    Q(ACCOUNTS_DOCTYPE).where({
+    Q(ACCOUNTS_DOCTYPE).partialIndex({
       account_type: {
         $or: ACCOUNT_TYPES
       }
