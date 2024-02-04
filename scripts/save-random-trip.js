@@ -55,7 +55,7 @@ const main = async () => {
 
   const client = await createClientInteractive({
     scope: [GEOJSON_DOCTYPE, ACCOUNTS_DOCTYPE],
-    uri: args.u || args.url,
+    uri: args.url,
     schema: {},
     oauth: {
       softwareID: COZY_CLIENT_CLI
