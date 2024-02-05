@@ -1,5 +1,7 @@
 const path = require('path')
 
+const cozyNotificationsWebpackConfig = require('cozy-notifications/dist/webpack/config')
+
 const config = [
   require('cozy-scripts/config/webpack.bundle.default.js'),
   require('cozy-scripts/config/webpack.config.css-modules'),
@@ -13,5 +15,11 @@ const config = [
     }
   }
 ]
+
+config.push({
+  multiple: {
+    services: cozyNotificationsWebpackConfig.default
+  }
+})
 
 module.exports = config
