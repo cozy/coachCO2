@@ -14,36 +14,6 @@ import ListSkeleton from 'cozy-ui/transpiled/react/Skeletons/ListSkeleton'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-export const ListWrapper = () => {
-  const { t } = useI18n()
-  const navigate = useNavigate()
-  const location = useLocation()
-  const { mode } = useParams()
-  const { isMobile } = useBreakpoints()
-
-  const modeTitle = mode
-    ? t(`trips.modes.${mode.toUpperCase()}`)
-    : t('analysis.mode')
-
-  const onBack = mode ? () => navigate('/analysis/modes') : undefined
-
-  if (
-    !location.pathname.includes('purposes') &&
-    !location.pathname.includes('modes')
-  ) {
-    return <Navigate to="/analysis/modes" replace />
-  }
-
-  return (
-    <>
-      <Titlebar label={modeTitle} onBack={onBack} />
-      {isMobile && <TabsNav />}
-      <SelectDatesWrapper />
-      <AnalysisWrapper />
-    </>
-  )
-}
-
 const AnalysisWrapper = () => {
   const { account, isAccountLoading } = useAccountContext()
   const { selectedDate, isSelectedDateLoading } = useSelectDatesContext()
@@ -74,4 +44,34 @@ const AnalysisWrapper = () => {
   }
 
   return <Outlet context={[timeseries]} />
+}
+
+export const ListWrapper = () => {
+  const { t } = useI18n()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { mode } = useParams()
+  const { isMobile } = useBreakpoints()
+
+  const modeTitle = mode
+    ? t(`trips.modes.${mode.toUpperCase()}`)
+    : t('analysis.mode')
+
+  const onBack = mode ? () => navigate('/analysis/modes') : undefined
+
+  if (
+    !location.pathname.includes('purposes') &&
+    !location.pathname.includes('modes')
+  ) {
+    return <Navigate to="/analysis/modes" replace />
+  }
+
+  return (
+    <>
+      <Titlebar label={modeTitle} onBack={onBack} />
+      {isMobile && <TabsNav />}
+      <SelectDatesWrapper />
+      <AnalysisWrapper />
+    </>
+  )
 }
