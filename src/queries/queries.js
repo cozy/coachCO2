@@ -104,25 +104,30 @@ export const buildTimeserieQueryById = timeserieId => ({
   }
 })
 
-export const buildTimeseriesQueryByDateAndAccountId = (
+export const buildTimeseriesQueryByDateAndAccountId = ({
   date = null,
+  isFullYear,
   accountId,
-  { limit = 1000 } = {}
-) => {
+  limit = 1000
+} = {}) => {
   const startMonth = startOfMonth(date) || null
   const endMonth = endOfMonth(date) || null
+  const startYear = startOfYear(date) || null
+  const endYear = endOfYear(date) || null
 
-  const dateAsOption = date
-    ? `${startMonth.getFullYear()}-${startMonth.getMonth()}`
-    : 'noDate'
+  const dateAsOption = !date
+    ? 'noDate'
+    : `${startMonth.getFullYear()}-${startMonth.getMonth()}${
+        isFullYear ? '-fullyear' : ''
+      }`
 
   const queryDef = Q(GEOJSON_DOCTYPE)
     .where({
       'cozyMetadata.sourceAccount': accountId,
       ...(date && {
         startDate: {
-          $gte: startMonth.toISOString(),
-          $lte: endMonth.toISOString()
+          $gte: isFullYear ? startYear.toISOString() : startMonth.toISOString(),
+          $lte: isFullYear ? endYear.toISOString() : endMonth.toISOString()
         }
       })
     })

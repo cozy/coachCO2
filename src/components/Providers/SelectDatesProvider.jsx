@@ -15,12 +15,15 @@ export const useSelectDatesContext = () => {
 
 export const SelectDatesProvider = ({ children }) => {
   const [selectedDate, setSelectedDate] = useState(null)
+  const [isFullYear, setIsFullYear] = useState(false)
   const [isSelectedDateLoading, setIsSelectedDateLoading] = useState(true)
   const [options, setOptions] = React.useState(null)
 
   const value = {
     selectedDate,
     setSelectedDate,
+    isFullYear,
+    setIsFullYear,
     isSelectedDateLoading,
     setIsSelectedDateLoading,
     options,

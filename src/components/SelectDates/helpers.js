@@ -1,3 +1,4 @@
+import capitalize from 'lodash/capitalize'
 import memoize from 'lodash/memoize'
 
 import minilog from 'cozy-minilog'
@@ -15,9 +16,11 @@ export const makeAllMonthsName = lang => {
   return Array(MONTHS_BY_YEAR)
     .fill()
     .map((_, index) => {
-      return new Intl.DateTimeFormat(`${lang}-${lang.toUpperCase()}`, {
-        month: 'long'
-      }).format(new Date(0, index))
+      return capitalize(
+        new Intl.DateTimeFormat(`${lang}-${lang.toUpperCase()}`, {
+          month: 'long'
+        }).format(new Date(0, index))
+      )
     })
 }
 
@@ -164,8 +167,9 @@ export const computeMonths = memoize(({ dates, selectedDate, lang }) => {
   }
 
   /**
-   * In the case where there are trips only over one year `isSelectedYearSameAsEarliestYear` & `isSelectedYearSameAsLatestYear` are true.
-In this specific case we want to slice the months from the beginning.
+   * In the case where there are trips only over one year
+   * `isSelectedYearSameAsEarliestYear` & `isSelectedYearSameAsLatestYear` are true.
+   * In this specific case we want to slice the months from the beginning.
    */
   const endToStart =
     isSelectedYearSameAsEarliestYear &&
@@ -252,24 +256,26 @@ export const makeNewDate = memoize(({ oldDate, lang, value, type, dates }) => {
  * @param {object} params
  * @param {string} params.type - `previous` or `next`
  * @param {date} params.selectedDate - The specific date
+ * @param {Date} params.isFullYear - If we should deal with entire year only
  * @param {array} params.options - List of dates
  * @returns {boolean}
  */
 export const isDisableNextPreviousButton = ({
   type,
   selectedDate,
+  isFullYear,
   options
 }) => {
   const selectedYearAndMonth = new Date(
     selectedDate.getFullYear(),
-    selectedDate.getMonth()
+    !isFullYear && selectedDate.getMonth()
   )
 
   if (type === 'previous') {
     const earliestDate = makeEarliestDate(options)
     const earliestYearAndMonth = new Date(
       earliestDate.getFullYear(),
-      earliestDate.getMonth()
+      !isFullYear && earliestDate.getMonth()
     )
 
     return earliestYearAndMonth.getTime() === selectedYearAndMonth.getTime()
@@ -279,7 +285,7 @@ export const isDisableNextPreviousButton = ({
     const latestDate = makeLatestDate(options)
     const latestYearAndMonth = new Date(
       latestDate.getFullYear(),
-      latestDate.getMonth()
+      !isFullYear && latestDate.getMonth()
     )
 
     return latestYearAndMonth.getTime() === selectedYearAndMonth.getTime()
@@ -309,27 +315,42 @@ export const getUniqueDatePerMonth = dates => {
  * @param {object} params
  * @param {Date[]} params.dates - List of dates
  * @param {Date} params.currentDate - The current date
+ * @param {Date} params.isFullYear - If we should deal with entire year only
  * @param {number} params.step - The step to apply to the current date
  * @returns {Date} - The new date
  */
-export const getNewDateByStep = ({ dates, currentDate, step }) => {
+export const getNewDateByStep = ({ dates, currentDate, isFullYear, step }) => {
+  const currentMonth = currentDate.getMonth()
+  const currentYear = currentDate.getFullYear()
+
   const currentDateIndex = dates.findIndex(
-    opt =>
-      opt.getMonth() === currentDate.getMonth() &&
-      opt.getFullYear() === currentDate.getFullYear()
+    date =>
+      date.getMonth() === currentMonth && date.getFullYear() === currentYear
   )
 
   if (currentDateIndex === -1) {
-    log.error(`Date ${currentDate} not found in ${dates}`)
+    log.error(`Date '${currentDate}' not found in the dates array: [${dates}]`)
     return currentDate
   }
 
-  const newDate = dates[currentDateIndex + step]
+  let newDate
+  if (isFullYear) {
+    const newYear = currentYear - step
+    const newDateIndex = dates.findIndex(date => date.getFullYear() === newYear)
+
+    newDate = dates[newDateIndex]
+  } else {
+    newDate = dates[currentDateIndex + step]
+  }
 
   if (newDate === undefined) {
-    log.error(`Index ${currentDateIndex + step} doesn't exist in ${dates}`)
+    log.error(
+      `Index '${
+        currentDateIndex + step
+      }' doesn't exist in dates array: [${dates}]`
+    )
     return currentDate
   }
 
-  return new Date(newDate.setMonth(newDate.getMonth()))
+  return newDate
 }

@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
       spaceBetween ? 'space-between' : 'left'
   },
   typography: {
-    textTransform: 'capitalize'
+    textTransform: 'initial'
   }
 }))
 

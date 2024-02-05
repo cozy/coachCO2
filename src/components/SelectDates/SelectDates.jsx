@@ -47,7 +47,14 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const SelectDates = ({ className, options, selectedDate, setSelectedDate }) => {
+const SelectDates = ({
+  className,
+  options,
+  selectedDate,
+  setSelectedDate,
+  isFullYear,
+  setIsFullYear
+}) => {
   const classes = useStyles()
   const { lang } = useI18n()
   const { months, monthSelectedIndex, disabledMonthsIndexes } = computeMonths({
@@ -83,13 +90,14 @@ const SelectDates = ({ className, options, selectedDate, setSelectedDate }) => {
       getNewDateByStep({
         dates: uniqueDatesPerMonth,
         currentDate: date,
+        isFullYear,
         step: n
       })
     )
   }
 
   const isDisabledIconButton = type =>
-    isDisableNextPreviousButton({ type, selectedDate, options })
+    isDisableNextPreviousButton({ type, selectedDate, isFullYear, options })
 
   return (
     <Box display="flex" className={className}>
@@ -99,9 +107,11 @@ const SelectDates = ({ className, options, selectedDate, setSelectedDate }) => {
           type="year"
           className={classes.leftDropdownButton}
           options={years}
-          onclick={handleDropdownClick}
           selectedIndex={yearSelectedIndex}
           disabledIndexes={disabledYearsIndexes}
+          isFullYear={isFullYear}
+          setIsFullYear={setIsFullYear}
+          onclick={handleDropdownClick}
         />
         <Divider className={classes.divider} orientation="vertical" flexItem />
         <DropdownMenuButton
@@ -111,9 +121,11 @@ const SelectDates = ({ className, options, selectedDate, setSelectedDate }) => {
           fullWidth
           spaceBetween
           options={months}
-          onclick={handleDropdownClick}
           selectedIndex={monthSelectedIndex}
           disabledIndexes={disabledMonthsIndexes}
+          isFullYear={isFullYear}
+          setIsFullYear={setIsFullYear}
+          onclick={handleDropdownClick}
         />
       </Paper>
       <Box className="u-ml-half" display="inline-flex">
@@ -143,6 +155,8 @@ const SelectDates = ({ className, options, selectedDate, setSelectedDate }) => {
 SelectDates.proptypes = {
   className: PropTypes.string,
   options: PropTypes.array.isRequired,
+  isFullYear: PropTypes.bool.isRequired,
+  setIsFullYear: PropTypes.func.isRequired,
   selectedDate: PropTypes.number.isRequired,
   setSelectedDate: PropTypes.func.isRequired
 }

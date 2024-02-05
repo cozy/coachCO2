@@ -109,6 +109,7 @@
     "mode": "CO2 emissions",
     "purpose": "CO2 emissions",
     "travels": "%{smart_count} travel |||| %{smart_count} travel",
+    "allYear": "All year",
     "emittedCO2": "emitted CO2"
   },
   "support": {

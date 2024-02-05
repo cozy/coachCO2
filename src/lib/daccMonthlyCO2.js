@@ -61,7 +61,9 @@ export const fetchMonthlyAverageCO2FromDACCFor11Month = async client => {
 }
 
 const fetchTimeseriesForMonth = async (client, accountId, startDate) => {
-  const query = buildTimeseriesQueryByDateAndAccountId(startDate, accountId, {
+  const query = buildTimeseriesQueryByDateAndAccountId({
+    date: startDate,
+    accountId,
     limit: 1000
   }).definition
   return client.queryAll(query)

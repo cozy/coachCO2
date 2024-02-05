@@ -16,12 +16,14 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const AnalysisWrapper = () => {
   const { account, isAccountLoading } = useAccountContext()
-  const { selectedDate, isSelectedDateLoading } = useSelectDatesContext()
+  const { selectedDate, isFullYear, isSelectedDateLoading } =
+    useSelectDatesContext()
 
-  const timeserieQuery = buildTimeseriesQueryByDateAndAccountId(
-    selectedDate,
-    account?._id
-  )
+  const timeserieQuery = buildTimeseriesQueryByDateAndAccountId({
+    date: selectedDate,
+    isFullYear,
+    accountId: account?._id
+  })
   const { data: timeseries, ...timeseriesQueryLeft } = useQueryAll(
     timeserieQuery.definition,
     timeserieQuery.options

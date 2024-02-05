@@ -1,17 +1,22 @@
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 
+import I18n from 'cozy-ui/transpiled/react/providers/I18n'
+
 import DropdownMenuButton from './DropdownMenuButton'
+import enLocale from '../../locales/en.json'
 
 const setup = ({ type, selectedIndex, disabledIndexes, click } = {}) => {
   return render(
-    <DropdownMenuButton
-      type={type}
-      options={['value1', 'value2']}
-      selectedIndex={selectedIndex}
-      disabledIndexes={disabledIndexes}
-      onclick={click}
-    />
+    <I18n dictRequire={() => enLocale} lang="en">
+      <DropdownMenuButton
+        type={type}
+        options={['value1', 'value2']}
+        selectedIndex={selectedIndex}
+        disabledIndexes={disabledIndexes}
+        onclick={click}
+      />
+    </I18n>
   )
 }
 
@@ -53,6 +58,18 @@ describe('DropdownMenuButton', () => {
       'aria-disabled',
       'true'
     )
+  })
+
+  it('should have "all year" option for months menu', () => {
+    const { getByText } = setup({ type: 'month' })
+
+    expect(getByText('All year'))
+  })
+
+  it('should not have "all year" option for years menu', () => {
+    const { queryByText } = setup({ type: 'year' })
+
+    expect(queryByText('All year')).toBeNull()
   })
 
   it('should set the correct menu option selected', () => {
