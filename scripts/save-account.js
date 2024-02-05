@@ -5,6 +5,7 @@ const { ArgumentParser } = require('argparse')
 
 const { createClientInteractive } = require('cozy-client')
 
+const makeAccount = require('./accounts-fixtures')
 const {
   ACCOUNTS_DOCTYPE,
   ACCOUNT_TYPES,
@@ -23,6 +24,9 @@ const main = async () => {
     required: true,
     help: 'Use custom account login'
   })
+  parser.add_argument('-t', '--token', {
+    help: 'Use custom account token (force openpath account)'
+  })
   parser.add_argument('-u', '--url', {
     default: 'http://cozy.localhost:8080',
     help: 'Use custom url. Default: http://cozy.localhost:8080'
@@ -38,23 +42,18 @@ const main = async () => {
     }
   })
 
-  const accountType = ACCOUNT_TYPES[crypto.randomInt(0, ACCOUNT_TYPES.length)]
-  const account = {
-    _type: ACCOUNTS_DOCTYPE,
-    _id: crypto.randomBytes(16).toString('hex'),
-    account_type: args.account_type || accountType,
-    auth: {
-      credentials_encrypted: crypto.randomBytes(16).toString('hex'),
-      login: args.login,
-      providerId: '0'
-    },
-    data: {
-      lastSavedManualDate: new Date().toISOString(),
-      lastSavedTripDate: new Date('2024-01-10').toISOString()
-    },
-    identifier: 'login',
-    state: null
-  }
+  const accountType = args.token
+    ? 'openpath'
+    : args.account_type ||
+      ACCOUNT_TYPES[crypto.randomInt(0, ACCOUNT_TYPES.length)]
+
+  const token = args.token || crypto.randomBytes(16).toString('hex')
+
+  const account = makeAccount({
+    accountType,
+    login: args.login,
+    token
+  })
 
   await client.save(account)
   console.log(
