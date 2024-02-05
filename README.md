@@ -60,7 +60,9 @@ yarn script:addTrip --url http://your_custom_url:port
 ```
 
 #### Add single account
-This script allows you to add a tracemob or openpath type account (use `--help` for more information)
+This script allows you to add a tracemob or openpath type account
+
+For openpath account you can specify a custom token. Specify a token set the `--source-account` option to `openpath`. (use `--help` for more information)
 
 ```
 yarn scripts:addAccount [-l, --login] <login>
