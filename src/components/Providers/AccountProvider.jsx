@@ -1,16 +1,8 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useEffect,
-  useCallback,
-  useRef
-} from 'react'
-import { saveAccountToSettings } from 'src/components/Providers/helpers'
-import useAccountForProvider from 'src/components/Providers/useAccountForProvider'
+import React, { createContext, useContext, useEffect, useCallback } from 'react'
+import { CCO2_SETTINGS_DOCTYPE } from 'src/doctypes'
 import { buildSettingsQuery, buildAccountQuery } from 'src/queries/queries'
 
-import { isQueryLoading, useClient, useQuery } from 'cozy-client'
+import { isQueryLoading, useMutation, useQuery } from 'cozy-client'
 
 export const AccountContext = createContext()
 
@@ -25,10 +17,12 @@ export const useAccountContext = () => {
 
 export const getAccountLabel = account => account?.auth?.login
 
+// Updating the app settings refreshes the useQuery which does not yet have the latest updated state and therefore a second update is made
+let firstLaunch = true // Tips to avoid duplicate settings creation
+let firstAccountAdded = true // Tips to avoid conflict request when updated appSettings with account
+
 const AccountProvider = ({ children }) => {
-  const [selectedAccount, setSelectedAccount] = useState(null)
-  const client = useClient()
-  const accountRef = useRef(null)
+  const { mutate } = useMutation()
   const settingsQuery = buildSettingsQuery()
   const { data: settings, ...settingsQueryLeft } = useQuery(
     settingsQuery.definition,
@@ -43,49 +37,57 @@ const AccountProvider = ({ children }) => {
   )
   const isAccountQueryLoading = isQueryLoading(accountQueryLeft)
 
-  const { account, isAccountLoading } = useAccountForProvider(
-    { data: settings, isLoading: isSettingsQueryLoading },
-    { data: accounts, isLoading: isAccountQueryLoading },
-    selectedAccount
-  )
-  /**
-   * With the previous implementation (you can check it out in the git history),
-   * we had a desynchronization between the isAccountLoading state and the selectedAccount state.
-   *
-   * This is because the selectedAccount was only triggered in an other useEffect because
-   * the account was different than the selectedAccount.
-   *
-   * In order to fix this issue, we create a ref that tell us if we are at the "mount time"
-   * aka if the accountRef.current is null. If yes, then we can set directly the selectedAccount
-   * from the account.
-   *
-   * If not, then we wait for the account to be different than the selectedAccount and then we set it.
-   */
-  if (accountRef.current === null && account !== null) {
-    setSelectedAccount(account)
-    accountRef.current = account
-  }
+  const isLoading = isSettingsQueryLoading || isAccountQueryLoading
+
+  // When the user create her first account, we update the settings with the account
+  useEffect(() => {
+    if (
+      firstAccountAdded &&
+      !isLoading &&
+      settings?.[0]?.account === null &&
+      accounts.length > 0
+    ) {
+      const setting = settings[0] || {}
+      mutate({
+        ...setting,
+        _type: CCO2_SETTINGS_DOCTYPE,
+        account: accounts[0]
+      })
+      firstAccountAdded = false
+    }
+  }, [isLoading, settings, accounts, mutate])
+
+  // When the user launch the app for the first time, or account property doesn't exist, we create the settings
+  useEffect(() => {
+    if (firstLaunch && !isLoading && settings?.[0]?.account === undefined) {
+      const setting = settings?.[0] || {}
+      mutate({
+        ...setting,
+        _type: CCO2_SETTINGS_DOCTYPE,
+        account: accounts?.[0] || null
+      })
+      firstLaunch = false
+    }
+  }, [settings, accounts, isLoading, mutate])
 
   const setAccount = useCallback(
     account => {
-      saveAccountToSettings({ client, setting: settings[0], account })
-      setSelectedAccount(account)
+      const setting = settings[0] || {}
+      mutate({
+        ...setting,
+        _type: CCO2_SETTINGS_DOCTYPE,
+        account
+      })
     },
-    [client, settings]
+    [mutate, settings]
   )
 
   const value = {
     accounts,
-    account: selectedAccount,
+    account: settings?.[0]?.account || null,
     setAccount,
-    isAccountLoading
+    isAccountLoading: isAccountQueryLoading
   }
-  useEffect(() => {
-    if (account?._id !== selectedAccount?._id && accountRef.current !== null) {
-      setSelectedAccount(account)
-      accountRef.current = account
-    }
-  }, [account, selectedAccount])
 
   return (
     <AccountContext.Provider value={value}>{children}</AccountContext.Provider>

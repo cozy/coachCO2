@@ -1,12 +1,3 @@
-import { CCO2_SETTINGS_DOCTYPE } from 'src/doctypes'
-
-export const saveAccountToSettings = ({ client, setting, account }) =>
-  client.save({
-    ...setting,
-    account,
-    _type: CCO2_SETTINGS_DOCTYPE
-  })
-
 export const sortTimeserieSections = timeserie => {
   const unorderedSections = timeserie?.aggregation?.sections
   if (!unorderedSections) {
