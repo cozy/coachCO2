@@ -16,10 +16,8 @@ import {
 } from 'src/lib/dacc'
 import { startService } from 'src/lib/services'
 import { computeCO2Timeseries } from 'src/lib/timeseries'
-import {
-  buildTimeseriesQueryByDateAndAccountId,
-  buildOldestTimeseriesQueryByAccountId
-} from 'src/queries/queries'
+import { buildOldestTimeseriesQueryByAccountId } from 'src/queries/nodeQueries'
+import { buildTimeseriesQueryByDateAndAccountId } from 'src/queries/queries'
 
 import { models } from 'cozy-client'
 import logger from 'cozy-logger'
