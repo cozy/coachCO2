@@ -53,13 +53,15 @@ describe('konnector', () => {
         properties: {
           distance: 100,
           start_fmt_time: '2021-02-01T12:00'
-        }
+        },
+        features: []
       },
       {
         properties: {
           distance: 50,
           start_fmt_time: '2021-02-01T14:00'
-        }
+        },
+        features: []
       }
     ]
     const fullTripsDay2 = [
@@ -67,7 +69,8 @@ describe('konnector', () => {
         properties: {
           distance: 200,
           start_fmt_time: '2021-02-02T12:00'
-        }
+        },
+        features: []
       }
     ]
 

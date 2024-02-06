@@ -96,7 +96,7 @@ export const fetchTrips = async (client, account) => {
       return
     }
   } catch (err) {
-    logService.error('Error during execution: ', err.message)
+    logService('error', 'Error during execution: ', err.message)
     return
   }
 }

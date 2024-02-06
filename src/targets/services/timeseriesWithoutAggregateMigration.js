@@ -62,8 +62,10 @@ const migrateTimeSeriesWithoutAggregation = async () => {
     await client.save(timeserie)
   }
 
+  // This service should eventually disappear, so let's add a warning when
+  // it was actually useful
   logService(
-    'info',
+    'warn',
     `${migratedTimeseries.length} timeseries migrated with aggregation`
   )
 }
