@@ -1,4 +1,5 @@
 import { TRIP_COLLECTION } from 'src/constants'
+import { normalizeTrips } from 'src/lib/openpath/normalizeData'
 import { saveTrips } from 'src/lib/openpath/save.js'
 import {
   getServerCollectionFromDate,
@@ -76,15 +77,14 @@ export const fetchAndSaveTrips = async (
   }
 
   /* Fetch and save the actual trips for the relevant days */
-  let tripsToSave = []
-
+  let fetchedTrips = []
   for (const day of Object.keys(tripDays)) {
     log.info(`Fetch trips on ${day}`)
     try {
       const fullTripsForDay = await getTripsForDay(token, day)
       // The trips need to be filtered, as the day is not precise enough
       const filteredTrips = filterTripsByDate(fullTripsForDay, tripStartDates)
-      tripsToSave = tripsToSave.concat(filteredTrips)
+      fetchedTrips = fetchedTrips.concat(filteredTrips)
     } catch (err) {
       if (err.status === 500) {
         log.warn('Failing day: skip it')
@@ -95,10 +95,15 @@ export const fetchAndSaveTrips = async (
       }
     }
   }
-  if (tripsToSave.length < 1) {
+  if (fetchedTrips.length < 1) {
     return null
   }
-  log.info(`${tripsToSave.length} trips found`)
-  await saveTrips(client, tripsToSave, { accountId, device })
+
+  log.info(`${fetchedTrips.length} trips fetched`)
+
+  const tripsToSave = await normalizeTrips(client, fetchedTrips, {
+    device
+  })
+  await saveTrips(client, tripsToSave, { accountId })
   return tripsMetadata[tripsMetadata.length - 1].metadata.write_fmt_time
 }

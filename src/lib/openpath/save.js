@@ -1,32 +1,20 @@
-import { GEOJSON_DOCTYPE } from 'src/doctypes'
 import { keepOnlyNewTrips } from 'src/lib/openpath/utils'
 import { queryAccountByDocId } from 'src/queries/queries'
 
-import { queryTripsByRange } from './queries'
+import { queryTimeseriesByRange } from './queries'
 
-export const saveTrips = async (client, trips, { accountId, device }) => {
-  const existingTrips = await queryTripsByRange(client, {
-    trips,
+export const saveTrips = async (client, trips, { accountId }) => {
+  // Deduplication
+  const existingTrips = await queryTimeseriesByRange(client, {
+    timeseries: trips,
     accountId
   })
   const tripsToSave = await keepOnlyNewTrips({
     incomingTrips: trips,
     existingTrips
   })
-  const timeseries = tripsToSave.map(trip => {
-    const startDate = trip.properties.start_fmt_time
-    const endDate = trip.properties.end_fmt_time
-    return {
-      _type: GEOJSON_DOCTYPE,
-      series: [trip],
-      startDate,
-      endDate,
-      source: 'cozy.io',
-      captureDevice: device
-    }
-  })
-  if (timeseries.length > 0) {
-    await client.saveAll(timeseries)
+  if (tripsToSave.length > 0) {
+    await client.saveAll(tripsToSave)
   }
 }
 

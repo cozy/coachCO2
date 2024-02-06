@@ -16,12 +16,12 @@ export const queryAccountByToken = async (client, token) => {
   return account && account.data?.length > 0 ? account.data[0] : null
 }
 
-export const queryTripsByRange = async (
+export const queryTimeseriesByRange = async (
   client,
-  { trips, accountId, limit = 100 }
+  { timeseries, accountId, limit = 100 }
 ) => {
-  const firstDate = trips[0].properties.start_fmt_time
-  const lastDate = trips[trips.length - 1].properties.start_fmt_time
+  const firstDate = timeseries[0].startDate
+  const lastDate = timeseries[timeseries.length - 1].startDate
   const query = buildTimeseriesByDateRange({
     firstDate,
     lastDate,
