@@ -76,9 +76,13 @@ export const Trips = () => {
     return <EmptyContentManager />
   }
 
+  const accountLabel = isAllAccountsSelected
+    ? t('trips.allTrips')
+    : `${t('trips.from')} ${getAccountLabel(account)}`
+
   return (
     <>
-      <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />
+      <Titlebar label={accountLabel} />
       {flag('coachco2.bikegoal.enabled') && <BikeGoalManager />}
       <CO2EmissionsChart />
       <CO2EmissionDaccManager />

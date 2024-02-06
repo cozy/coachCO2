@@ -61,6 +61,10 @@ export const Settings = () => {
     }
   }
 
+  const accountName = isAllAccountsSelected
+    ? t('settings.allAccounts')
+    : getAccountLabel(account)
+
   return (
     <>
       <Titlebar label={t('nav.settings')} />
@@ -88,7 +92,7 @@ export const Settings = () => {
             </>
           )}
           <Divider variant="inset" component="li" />
-          <CsvExporter accountName={getAccountLabel(account)} />
+          <CsvExporter accountName={accountName} />
         </List>
 
         {(account || isAllAccountsSelected) && (
