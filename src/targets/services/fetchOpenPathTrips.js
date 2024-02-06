@@ -1,5 +1,6 @@
 import fetch from 'node-fetch'
 import schema from 'src/doctypes'
+import { checkAndSendGeolocationQuotaNotification } from 'src/lib/geolocationQuota/lib'
 import { fetchTrips } from 'src/lib/openpath/openpath'
 import {
   queryAccountByToken,
@@ -15,7 +16,7 @@ global.fetch = fetch
 /**
   Fetch trips from an openpath server
   It is a port of https://github.com/konnectors/openpath
-  This service can be called either by periodic trigger or directly by webhook 
+  This service can be called either by periodic trigger or directly by webhook
  */
 const fetchOpenPathTrips = async () => {
   logService('info', 'Start fetchOpenPathTrips service')
@@ -59,6 +60,8 @@ const fetchOpenPathTrips = async () => {
   client.setAppMetadata(appMetadata)
 
   await fetchTrips(client, account)
+
+  await checkAndSendGeolocationQuotaNotification(client, logService)
 }
 
 fetchOpenPathTrips().catch(e => {
