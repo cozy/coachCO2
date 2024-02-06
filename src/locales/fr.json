@@ -351,6 +351,12 @@
       "forceUploadData": "Forcer l'upload des données",
       "copyIdentifier": "Copier l'identifiant OpenPATH",
       "createdOn": "créé le"
+    },
+    "notifications": {
+      "quotaExpired": {
+        "title": "Enregistrement des déplacements désactivés",
+        "content": "Vous avez atteint la limite des {{maxDaysToCapture}} jours de trajets inclus dans votre offre."
+      }
     }
   },
   "Modes": {

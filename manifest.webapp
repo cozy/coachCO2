@@ -128,5 +128,15 @@
       "trigger": "@event io.cozy.timeseries.geojson:CREATED",
       "debounce": "2m"
     }
+  },
+  "notifications": {
+    "geolocationQuota": {
+      "description": "Notify the user when the geolocation quota will expire soon or is expired",
+      "collapsible": false,
+      "stateful": false,
+      "multiple": false,
+      "default_priority": "normal",
+      "templates": {}
+    }
   }
 }
