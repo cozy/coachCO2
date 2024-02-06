@@ -9,20 +9,31 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const AccountSelector = () => {
   const { t } = useI18n()
-  const { accounts, account, setAccount } = useAccountContext()
+  const { accounts, account, setAccount, isAllAccountsSelected } =
+    useAccountContext()
+
+  const getValue = () => {
+    if (isAllAccountsSelected) {
+      return { label: t('settings.allAccounts'), value: 'allSources' }
+    }
+    return { label: getAccountLabel(account), value: account?._id }
+  }
 
   const options = accounts.map(account => ({
     label: getAccountLabel(account),
     value: account._id
   }))
+  options.push({ label: t('settings.allAccounts'), value: 'allSources' })
 
-  const value = {
-    label: getAccountLabel(account),
-    value: account?._id
+  const value = getValue()
+
+  const handleChange = ({ value }) => {
+    if (value === 'allSources') {
+      setAccount(null)
+    } else {
+      setAccount(accounts.find(acc => acc._id === value))
+    }
   }
-
-  const handleChange = ({ value }) =>
-    setAccount(accounts.find(account => account._id === value))
 
   return (
     <SelectBox

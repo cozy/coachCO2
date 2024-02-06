@@ -17,18 +17,15 @@ const ChangeAccount = () => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const navigate = useNavigate()
-  const { account } = useAccountContext()
+  const { account, isAllAccountsSelected } = useAccountContext()
+  const accountLabel = isAllAccountsSelected
+    ? t('settings.allAccounts')
+    : `${t('trips.from')} ${getAccountLabel(account)}`
 
   return (
     <>
       {isMobile && (
-        <Titlebar
-          label={
-            account
-              ? t('trips.from') + ' ' + getAccountLabel(account)
-              : t('trips.trips')
-          }
-        />
+        <Titlebar label={account ? `${accountLabel}` : t('trips.trips')} />
       )}
       <Empty
         icon={EmptySvg}

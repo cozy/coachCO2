@@ -44,6 +44,10 @@ const useExportTripsToCSV = () => {
   const isTimeseriesQueryLoading =
     isQueryLoading(queryResult) || queryResult.hasMore
 
+  const accountName = isAllAccountsSelected
+    ? t('settings.allAccounts')
+    : getAccountLabel(account)
+
   useEffect(() => {
     const init = async () => {
       setImportCSVProcess(true)
@@ -51,7 +55,7 @@ const useExportTripsToCSV = () => {
         client,
         t,
         timeseries,
-        accountName: getAccountLabel(account)
+        accountName
       })
 
       setResult(res)
@@ -62,7 +66,7 @@ const useExportTripsToCSV = () => {
       init()
     }
   }, [
-    account,
+    accountName,
     appDir,
     client,
     importCSVProcess,

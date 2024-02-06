@@ -15,11 +15,12 @@
     "label": "Data source"
   },
   "settings": {
-    "services": "Services",
-    "debug": "Demo & debug mode"
+    "allAccounts": "All sources",
+    "debug": "Demo & debug mode",
+    "services": "Services"
   },
   "trips": {
-    "default": "default",
+    "allTrips": "All trips",
     "trips": "Trips",
     "from": "Trips from",
     "departure": "Departure",
