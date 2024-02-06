@@ -18,21 +18,34 @@ import {
 describe('makeAllMonthsName', () => {
   it('should return all the months of the year according to the language', () => {
     expect(makeAllMonthsName('fr')).toStrictEqual([
-      'janvier',
-      'février',
-      'mars',
-      'avril',
-      'mai',
-      'juin',
-      'juillet',
-      'août',
-      'septembre',
-      'octobre',
-      'novembre',
-      'décembre'
+      'Janvier',
+      'Février',
+      'Mars',
+      'Avril',
+      'Mai',
+      'Juin',
+      'Juillet',
+      'Août',
+      'Septembre',
+      'Octobre',
+      'Novembre',
+      'Décembre'
     ])
 
-    expect(makeAllMonthsName('en')).toMatchSnapshot()
+    expect(makeAllMonthsName('en')).toStrictEqual([
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ])
   })
 })
 
@@ -88,7 +101,7 @@ describe('makeMonthsFromYear', () => {
 
     const result = makeMonthsFromYear({ dates, year, allMonthsName })
 
-    expect(result).toStrictEqual(['janvier', 'mars'])
+    expect(result).toStrictEqual(['Janvier', 'Mars'])
   })
 })
 
@@ -127,7 +140,7 @@ describe('makeMonthsNameByCount', () => {
       endToStart: false
     })
 
-    expect(result).toStrictEqual(['janvier', 'février', 'mars'])
+    expect(result).toStrictEqual(['Janvier', 'Février', 'Mars'])
   })
 
   it('should return the last 3 months of the year', () => {
@@ -137,7 +150,7 @@ describe('makeMonthsNameByCount', () => {
       endToStart: true
     })
 
-    expect(result).toStrictEqual(['octobre', 'novembre', 'décembre'])
+    expect(result).toStrictEqual(['Octobre', 'Novembre', 'Décembre'])
   })
 })
 
@@ -249,7 +262,7 @@ describe('makeNewDate', () => {
     })
 
     it('should return the correct month', () => {
-      const result = makeNewDate({ ...setup({ type, value: 'juillet' }) })
+      const result = makeNewDate({ ...setup({ type, value: 'Juillet' }) })
 
       expect(result.getFullYear()).toBe(2020)
       expect(result.getMonth()).toBe(6)

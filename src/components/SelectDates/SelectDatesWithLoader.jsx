@@ -11,6 +11,8 @@ const SelectDatesWithLoader = ({
   className,
   options,
   isLoading,
+  isFullYear,
+  setIsFullYear,
   selectedDate,
   setSelectedDate
 }) => {
@@ -51,6 +53,8 @@ const SelectDatesWithLoader = ({
     <SelectDates
       className={className}
       options={options}
+      isFullYear={isFullYear}
+      setIsFullYear={setIsFullYear}
       selectedDate={selectedDate}
       setSelectedDate={setSelectedDate}
     />

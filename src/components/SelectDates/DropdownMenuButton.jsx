@@ -2,16 +2,23 @@ import PropTypes from 'prop-types'
 import React, { useState, useEffect } from 'react'
 import DropdownButton from 'src/components/SelectDates/DropdownButton'
 
-import Menu from 'cozy-ui/transpiled/react/Menu'
+import Divider from 'cozy-ui/transpiled/react/Divider'
 import MenuItem from 'cozy-ui/transpiled/react/MenuItem'
+import MenuList from 'cozy-ui/transpiled/react/MenuList'
+import Popover from 'cozy-ui/transpiled/react/Popover'
+import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 import { makeStyles } from 'cozy-ui/transpiled/react/styles'
 
 const useStyles = makeStyles(() => ({
   paper: {
-    textTransform: 'capitalize',
     width: ({ anchorEl }) =>
       anchorEl ? window.getComputedStyle(anchorEl).width : undefined,
     marginTop: 2
+  },
+  list: {
+    outline: 0,
+    maxHeight: 40 * 5,
+    overflowY: 'auto'
   }
 }))
 
@@ -21,25 +28,34 @@ const DropdownMenuButton = ({
   options,
   selectedIndex,
   disabledIndexes,
+  isFullYear,
+  setIsFullYear,
   onclick,
   ...props
 }) => {
+  const { t } = useI18n()
   const [anchorEl, setAnchorEl] = useState(null)
   const [activeIndex, setActiveIndex] = useState(selectedIndex || 0)
-  const { paper } = useStyles({ anchorEl })
+  const { paper, list } = useStyles({ anchorEl })
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleMenuItemClick = index => () => {
-    setAnchorEl(null)
-    setActiveIndex(index)
-    onclick && onclick(type, options[index])
-  }
-
   const handleClose = () => {
     setAnchorEl(null)
+  }
+
+  const handleMenuItemClick = index => () => {
+    handleClose()
+    type === 'month' && isFullYear && setIsFullYear(false)
+    setActiveIndex(index)
+    onclick?.(type, options[index])
+  }
+
+  const handleFullYearClick = () => {
+    handleClose()
+    setIsFullYear(true)
   }
 
   useEffect(() => {
@@ -56,16 +72,18 @@ const DropdownMenuButton = ({
         onClick={handleClick}
         {...props}
       >
-        {options[activeIndex]}
+        {type === 'month' && isFullYear
+          ? t('analysis.allYear')
+          : options[activeIndex]}
       </DropdownButton>
-      <Menu
+      <Popover
         data-testid="dropdown-menu"
-        classes={{ paper }}
-        anchorEl={anchorEl}
-        getContentAnchorEl={null}
-        keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}
+        PaperProps={{ classes: { root: paper } }}
+        getContentAnchorEl={null}
+        anchorEl={anchorEl}
+        elevation={2}
+        keepMounted
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'center'
@@ -74,20 +92,36 @@ const DropdownMenuButton = ({
           vertical: 'top',
           horizontal: 'center'
         }}
-        elevation={2}
+        onClose={handleClose}
       >
-        {options.map((option, index) => (
-          <MenuItem
-            data-testid={`dropdown-menuItem-${index}`}
-            key={index}
-            onClick={handleMenuItemClick(index)}
-            selected={index === activeIndex}
-            disabled={disabledIndexes && disabledIndexes.includes(index)}
-          >
-            {option}
-          </MenuItem>
-        ))}
-      </Menu>
+        <MenuList className={list}>
+          {options.map((option, index) => (
+            <MenuItem
+              data-testid={`dropdown-menuItem-${index}`}
+              key={index}
+              selected={
+                type === 'month'
+                  ? !isFullYear && index === activeIndex
+                  : index === activeIndex
+              }
+              disabled={disabledIndexes && disabledIndexes.includes(index)}
+              onClick={handleMenuItemClick(index)}
+            >
+              {option}
+            </MenuItem>
+          ))}
+        </MenuList>
+        {type === 'month' && (
+          <>
+            <Divider />
+            <MenuList className={list}>
+              <MenuItem selected={isFullYear} onClick={handleFullYearClick}>
+                {t('analysis.allYear')}
+              </MenuItem>
+            </MenuList>
+          </>
+        )}
+      </Popover>
     </>
   )
 }
@@ -96,6 +130,8 @@ DropdownMenuButton.proptypes = {
   className: PropTypes.string,
   type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   options: PropTypes.array.isRequired,
+  isFullYear: PropTypes.bool.isRequired,
+  setIsFullYear: PropTypes.func.isRequired,
   selectedIndex: PropTypes.number,
   disabledIndexes: PropTypes.array,
   onclick: PropTypes.func

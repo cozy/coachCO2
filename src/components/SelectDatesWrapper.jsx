@@ -18,6 +18,8 @@ const SelectDatesWrapper = () => {
     setSelectedDate,
     isSelectedDateLoading,
     setIsSelectedDateLoading,
+    isFullYear,
+    setIsFullYear,
     options,
     setOptions
   } = useSelectDatesContext()
@@ -70,6 +72,8 @@ const SelectDatesWrapper = () => {
       className="u-mt-1-s u-ml-0-s u-flex-justify-center-s u-flex u-ml-2"
       isLoading={!options || isSelectedDateLoading}
       options={options}
+      isFullYear={isFullYear}
+      setIsFullYear={setIsFullYear}
       selectedDate={selectedDate}
       setSelectedDate={setSelectedDate}
     />

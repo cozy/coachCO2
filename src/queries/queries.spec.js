@@ -10,7 +10,10 @@ describe('buildTimeseriesQueryByDateAndAccountId', () => {
   it('should return an enabled well formated query', () => {
     const date = new Date('2022-02-01T00:00:00.000Z')
 
-    const query = buildTimeseriesQueryByDateAndAccountId(date, 'accountId')
+    const query = buildTimeseriesQueryByDateAndAccountId({
+      date,
+      accountId: 'accountId'
+    })
 
     expect(query).toMatchObject({
       definition: {
@@ -28,10 +31,35 @@ describe('buildTimeseriesQueryByDateAndAccountId', () => {
     })
   })
 
+  it('should return an enabled well formated query', () => {
+    const date = new Date('2022-02-01T00:00:00.000Z')
+
+    const query = buildTimeseriesQueryByDateAndAccountId({
+      date,
+      isFullYear: true,
+      accountId: 'accountId'
+    })
+
+    expect(query).toMatchObject({
+      definition: {
+        selector: {
+          startDate: {
+            $gte: '2022-01-01T00:00:00.000Z',
+            $lte: '2022-12-31T23:59:59.999Z'
+          }
+        }
+      },
+      options: {
+        as: 'io.cozy.timeseries.geojson/sourceAccount/accountId/date/2022-1-fullyear/limitedBy/1000',
+        enabled: true
+      }
+    })
+  })
+
   it('should return a disabled well formated query if no account id', () => {
     const date = new Date('2022-02-01T00:00:00.000Z')
 
-    const query = buildTimeseriesQueryByDateAndAccountId(date, undefined)
+    const query = buildTimeseriesQueryByDateAndAccountId({ date })
 
     expect(query).toMatchObject({
       definition: {
@@ -50,7 +78,10 @@ describe('buildTimeseriesQueryByDateAndAccountId', () => {
   })
 
   it('should return a disabled well formated query if no date', () => {
-    const query = buildTimeseriesQueryByDateAndAccountId(undefined, 'accountId')
+    const query = buildTimeseriesQueryByDateAndAccountId({
+      date: undefined,
+      accountId: 'accountId'
+    })
 
     expect(query).toMatchObject({
       options: {
@@ -61,7 +92,10 @@ describe('buildTimeseriesQueryByDateAndAccountId', () => {
   })
 
   it('should return a disabled well formated query if no date and account id', () => {
-    const query = buildTimeseriesQueryByDateAndAccountId(undefined, undefined)
+    const query = buildTimeseriesQueryByDateAndAccountId({
+      date: undefined,
+      accountId: undefined
+    })
 
     expect(query).toMatchObject({
       options: {

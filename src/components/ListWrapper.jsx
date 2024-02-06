@@ -14,6 +14,40 @@ import ListSkeleton from 'cozy-ui/transpiled/react/Skeletons/ListSkeleton'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
+const AnalysisWrapper = () => {
+  const { account, isAccountLoading } = useAccountContext()
+  const { selectedDate, isFullYear, isSelectedDateLoading } =
+    useSelectDatesContext()
+
+  const timeserieQuery = buildTimeseriesQueryByDateAndAccountId({
+    date: selectedDate,
+    isFullYear,
+    accountId: account?._id
+  })
+  const { data: timeseries, ...timeseriesQueryLeft } = useQueryAll(
+    timeserieQuery.definition,
+    timeserieQuery.options
+  )
+
+  if (isSelectedDateLoading || isAccountLoading) {
+    return <ListSkeleton count={8} hasSecondary divider />
+  }
+
+  if (
+    account &&
+    (isQueryLoading(timeseriesQueryLeft) || timeseriesQueryLeft.hasMore) &&
+    selectedDate !== null
+  ) {
+    return <ListSkeleton count={8} hasSecondary divider />
+  }
+
+  if (!account || !timeseries || timeseries?.length === 0) {
+    return <EmptyContentManager />
+  }
+
+  return <Outlet context={[timeseries]} />
+}
+
 export const ListWrapper = () => {
   const { t } = useI18n()
   const navigate = useNavigate()
@@ -42,36 +76,4 @@ export const ListWrapper = () => {
       <AnalysisWrapper />
     </>
   )
-}
-
-const AnalysisWrapper = () => {
-  const { account, isAccountLoading } = useAccountContext()
-  const { selectedDate, isSelectedDateLoading } = useSelectDatesContext()
-
-  const timeserieQuery = buildTimeseriesQueryByDateAndAccountId(
-    selectedDate,
-    account?._id
-  )
-  const { data: timeseries, ...timeseriesQueryLeft } = useQueryAll(
-    timeserieQuery.definition,
-    timeserieQuery.options
-  )
-
-  if (isSelectedDateLoading || isAccountLoading) {
-    return <ListSkeleton count={8} hasSecondary divider />
-  }
-
-  if (
-    account &&
-    (isQueryLoading(timeseriesQueryLeft) || timeseriesQueryLeft.hasMore) &&
-    selectedDate !== null
-  ) {
-    return <ListSkeleton count={8} hasSecondary divider />
-  }
-
-  if (!account || !timeseries || timeseries?.length === 0) {
-    return <EmptyContentManager />
-  }
-
-  return <Outlet context={[timeseries]} />
 }
