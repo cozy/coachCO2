@@ -17,10 +17,12 @@ import {
 } from 'src/lib/timeseries'
 import { getManualPurpose, getAutomaticPurpose } from 'src/lib/trips'
 import {
-  buildContactsWithGeoCoordinates,
-  buildNewestRecurringTimeseriesQuery,
   buildNewestRecurringTimeseriesQueryForAllAccounts,
+  buildNewestRecurringTimeseriesQuery,
   buildRecurringTimeseriesByStartAndEndPointRange,
+  buildContactsWithGeoCoordinates
+} from 'src/queries/nodeQueries'
+import {
   buildSettingsQuery,
   buildTimeseriesQueryByAccountIdAndDate,
   queryContactByDocId,

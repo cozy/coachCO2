@@ -1,8 +1,8 @@
 import {
-  buildAccountByToken,
-  buildLastCreatedServiceAccountQuery,
-  buildTimeseriesByDateRange
-} from 'src/queries/queries'
+  buildTimeseriesByDateRange,
+  buildAccountByToken
+} from 'src/queries/nodeQueries'
+import { buildLastCreatedServiceAccountQuery } from 'src/queries/queries'
 
 export const queryLastServiceAccount = async client => {
   const accountsQuery = buildLastCreatedServiceAccountQuery().definition

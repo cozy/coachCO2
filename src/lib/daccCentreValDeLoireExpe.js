@@ -12,10 +12,8 @@ import {
   DACC_MEASURE_NAME_TRIPS_DURATION
 } from 'src/constants'
 import { CONTACTS_DOCTYPE } from 'src/doctypes'
-import {
-  buildSettingsQuery,
-  buildTimeseriesByDateRange
-} from 'src/queries/queries'
+import { buildTimeseriesByDateRange } from 'src/queries/nodeQueries'
+import { buildSettingsQuery } from 'src/queries/queries'
 
 import logger from 'cozy-logger'
 

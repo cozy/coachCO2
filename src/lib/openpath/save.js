@@ -1,6 +1,6 @@
 import { GEOJSON_DOCTYPE } from 'src/doctypes'
 import { keepOnlyNewTrips } from 'src/lib/openpath/utils'
-import { queryAccountByDocId } from 'src/queries/queries'
+import { queryAccountByDocId } from 'src/queries/nodeQueries'
 
 import { queryTripsByRange } from './queries'
 

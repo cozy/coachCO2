@@ -4,10 +4,8 @@ import { GEOJSON_DOCTYPE } from 'src/doctypes'
 import { initPolyglot } from 'src/lib/services'
 import { computeAggregatedTimeseries } from 'src/lib/timeseries'
 import { getSectionsFromTrip } from 'src/lib/trips'
-import {
-  buildSettingsQuery,
-  buildTimeseriesWithoutAggregation
-} from 'src/queries/queries'
+import { buildTimeseriesWithoutAggregation } from 'src/queries/nodeQueries'
+import { buildSettingsQuery } from 'src/queries/queries'
 
 import CozyClient from 'cozy-client'
 import logger from 'cozy-logger'
