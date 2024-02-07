@@ -55,6 +55,27 @@ const buildQuotaAlmostExpiredNotification = (client, notificationData) => {
   return notificationView
 }
 
+const calculateRemainingDays = async (client, maxDaysToCapture) => {
+  if (isMaxDaysToCaptureInvalidOrUnlimited(maxDaysToCapture)) {
+    return Number.POSITIVE_INFINITY
+  }
+
+  const firstTimeserie = await getFirstTimeserie(client)
+
+  if (!firstTimeserie) {
+    return Number.POSITIVE_INFINITY
+  }
+
+  const daysSinceFirstCapture = differenceInDays(
+    new Date(),
+    new Date(firstTimeserie.startDate)
+  )
+
+  const remainingDays = maxDaysToCapture - daysSinceFirstCapture
+
+  return remainingDays
+}
+
 export const checkAndSendGeolocationQuotaNotification = async (
   client,
   logService
@@ -66,22 +87,7 @@ export const checkAndSendGeolocationQuotaNotification = async (
 
   const maxDaysToCapture = flag('coachco2.max-days-to-capture')
 
-  if (isMaxDaysToCaptureInvalidOrUnlimited(maxDaysToCapture)) {
-    return
-  }
-
-  const firstTimeserie = await getFirstTimeserie(client)
-
-  if (!firstTimeserie) {
-    return
-  }
-
-  const daysSinceFirstCapture = differenceInDays(
-    new Date(),
-    new Date(firstTimeserie.startDate)
-  )
-
-  const remainingDays = maxDaysToCapture - daysSinceFirstCapture
+  const remainingDays = await calculateRemainingDays(client, maxDaysToCapture)
 
   logService('info', `${remainingDays} days remaining for quota`)
 
