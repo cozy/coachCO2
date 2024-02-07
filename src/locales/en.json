@@ -354,6 +354,10 @@
       "quotaExpired": {
         "title": "Journey recording disabled",
         "content": "You have reached the limit of %{maxDaysToCapture} days of journeys included in your offer."
+      },
+      "quotaAlmostExpired": {
+        "title": "Journey recording",
+        "content": "You have almost reached the limit of %{maxDaysToCapture} days of journeys included in your offer."
       }
     }
   },

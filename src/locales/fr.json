@@ -356,6 +356,10 @@
       "quotaExpired": {
         "title": "Enregistrement des déplacements désactivés",
         "content": "Vous avez atteint la limite des {{maxDaysToCapture}} jours de trajets inclus dans votre offre."
+      },
+      "quotaAlmostExpired": {
+        "title": "Enregistrement des déplacements",
+        "content": "Vous avez presque atteint la limite des {{maxDaysToCapture}} jours de trajets inclus dans votre offre."
       }
     }
   },
