@@ -20,11 +20,11 @@ import {
   buildNewestRecurringTimeseriesQueryForAllAccounts,
   buildNewestRecurringTimeseriesQuery,
   buildRecurringTimeseriesByStartAndEndPointRange,
-  buildContactsWithGeoCoordinates
+  buildContactsWithGeoCoordinates,
+  buildTimeseriesQueryByAccountIdAndDate
 } from 'src/queries/nodeQueries'
 import {
   buildSettingsQuery,
-  buildTimeseriesQueryByAccountIdAndDate,
   queryContactByDocId,
   queryTimeserieByDocId
 } from 'src/queries/queries'

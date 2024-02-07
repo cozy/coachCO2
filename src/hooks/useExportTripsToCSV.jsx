@@ -5,8 +5,8 @@ import {
 } from 'src/components/Providers/AccountProvider'
 import { uploadFile } from 'src/lib/exportTripsToCSV'
 import {
-  buildTimeseriesQueryByAccountIdAndDate,
-  buildTimeseriesQueryByDateForAllAccounts
+  buildTimeseriesQueryByAccountId,
+  buildTimeseriesQuery
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll, useClient } from 'cozy-client'
@@ -14,9 +14,9 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const getQuery = ({ isAllAccountsSelected, accountId }) => {
   if (isAllAccountsSelected) {
-    return buildTimeseriesQueryByDateForAllAccounts()
+    return buildTimeseriesQuery()
   }
-  return buildTimeseriesQueryByAccountIdAndDate({
+  return buildTimeseriesQueryByAccountId({
     accountId
   })
 }
