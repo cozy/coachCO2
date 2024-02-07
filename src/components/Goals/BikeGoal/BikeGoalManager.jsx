@@ -9,7 +9,7 @@ import {
   buildSettingsQuery,
   buildBikeCommuteTimeseriesQueryByAccountId,
   buildContextQuery,
-  buildBikeCommuteTimeseriesQueryForAllAccounts
+  buildBikeCommuteTimeseriesQuery
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQuery, useQueryAll, useClient } from 'cozy-client'
@@ -27,7 +27,7 @@ const style = {
 
 const getQuery = ({ isAllAccountsSelected, accountId }) => {
   if (isAllAccountsSelected) {
-    return buildBikeCommuteTimeseriesQueryForAllAccounts()
+    return buildBikeCommuteTimeseriesQuery()
   }
   return buildBikeCommuteTimeseriesQueryByAccountId({ accountId })
 }

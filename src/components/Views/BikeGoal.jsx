@@ -4,7 +4,7 @@ import BikeGoalViewDesktop from 'src/components/Goals/BikeGoal/BikeGoalViewDeskt
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import {
   buildBikeCommuteTimeseriesQueryByAccountId,
-  buildBikeCommuteTimeseriesQueryForAllAccounts,
+  buildBikeCommuteTimeseriesQuery,
   buildSettingsQuery
 } from 'src/queries/queries'
 
@@ -14,7 +14,7 @@ import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
 const getQuery = ({ isAllAccountsSelected, accountId }) => {
   if (isAllAccountsSelected) {
-    return buildBikeCommuteTimeseriesQueryForAllAccounts()
+    return buildBikeCommuteTimeseriesQuery()
   }
   return buildBikeCommuteTimeseriesQueryByAccountId({ accountId })
 }

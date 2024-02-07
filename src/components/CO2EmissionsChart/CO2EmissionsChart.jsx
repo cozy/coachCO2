@@ -8,7 +8,7 @@ import useFetchDACCAggregates from 'src/hooks/useFetchDACCAggregates'
 import useSettings from 'src/hooks/useSettings'
 import {
   buildOneYearOldTimeseriesWithAggregationByAccountId,
-  buildOneYearOldTimeseriesWithAggregationForAllAccounts
+  buildOneYearOldTimeseriesWithAggregation
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
@@ -18,7 +18,7 @@ import { useTheme } from 'cozy-ui/transpiled/react/styles'
 
 const getQuery = ({ isAllAccountsSelected, accountId }) => {
   if (isAllAccountsSelected) {
-    return buildOneYearOldTimeseriesWithAggregationForAllAccounts()
+    return buildOneYearOldTimeseriesWithAggregation()
   }
   return buildOneYearOldTimeseriesWithAggregationByAccountId({
     accountId

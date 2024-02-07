@@ -17,8 +17,8 @@ import {
 } from 'src/lib/timeseries'
 import { getManualPurpose, getAutomaticPurpose } from 'src/lib/trips'
 import {
-  buildNewestRecurringTimeseriesQueryForAllAccounts,
   buildNewestRecurringTimeseriesQuery,
+  buildNewestRecurringTimeseriesQueryByAccountId,
   buildRecurringTimeseriesByStartAndEndPointRange,
   buildContactsWithGeoCoordinates,
   buildTimeseriesQueryByAccountIdAndDate
@@ -684,9 +684,10 @@ const saveTrips = async ({ client, timeseriesToUpdate, t }) => {
 
 const getQueryDefinition = ({ isAllAccountsSelected, accountId }) => {
   if (isAllAccountsSelected) {
-    return buildNewestRecurringTimeseriesQueryForAllAccounts().definition
+    return buildNewestRecurringTimeseriesQuery().definition
   }
-  return buildNewestRecurringTimeseriesQuery({ accountId }).definition
+  return buildNewestRecurringTimeseriesQueryByAccountId({ accountId })
+    .definition
 }
 
 /**
