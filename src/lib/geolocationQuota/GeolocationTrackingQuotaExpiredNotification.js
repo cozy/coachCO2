@@ -1,8 +1,8 @@
 import { NotificationView } from 'cozy-notifications'
 
-import template from './template.hbs'
+import template from './GeolocationTrackingQuotaExpiredTemplate.hbs'
 
-class GeolocationQuotaNotification extends NotificationView {
+class GeolocationTrackingQuotaExpiredNotification extends NotificationView {
   constructor(options) {
     super(options)
     this.maxDaysToCapture = options.maxDaysToCapture
@@ -33,8 +33,8 @@ class GeolocationQuotaNotification extends NotificationView {
   }
 }
 
-GeolocationQuotaNotification.template = template
-GeolocationQuotaNotification.category = 'geolocationQuota'
-GeolocationQuotaNotification.preferredChannels = ['mobile']
+GeolocationTrackingQuotaExpiredNotification.template = template
+GeolocationTrackingQuotaExpiredNotification.category = 'geolocationQuota'
+GeolocationTrackingQuotaExpiredNotification.preferredChannels = ['mobile']
 
-export default GeolocationQuotaNotification
+export default GeolocationTrackingQuotaExpiredNotification

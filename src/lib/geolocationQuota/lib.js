@@ -1,5 +1,5 @@
 import { differenceInDays } from 'date-fns'
-import GeolocationQuotaNotification from 'src/lib/geolocationQuota/geolocationQuotaNotification'
+import GeolocationTrackingQuotaExpiredNotification from 'src/lib/geolocationQuota/GeolocationTrackingQuotaExpiredNotification'
 import { initPolyglot } from 'src/lib/services'
 import { buildAggregatedTimeseriesQuery } from 'src/queries/queries'
 
@@ -17,10 +17,10 @@ const getFirstTimeserie = async client => {
 const isMaxDaysToCaptureInvalidOrUnlimited = maxDaysToCapture =>
   typeof maxDaysToCapture !== 'number' || maxDaysToCapture === -1
 
-const buildNotification = (client, notificationData) => {
+const buildQuotaExpiredNotification = (client, notificationData) => {
   const { t, lang, dictRequire } = initPolyglot()
 
-  const notificationView = new GeolocationQuotaNotification({
+  const notificationView = new GeolocationTrackingQuotaExpiredNotification({
     client,
     lang,
     t,
@@ -69,7 +69,10 @@ export const checkAndSendGeolocationQuotaNotification = async (
       remainingDays
     }
 
-    const notificationView = buildNotification(client, notificationData)
+    const notificationView = buildQuotaExpiredNotification(
+      client,
+      notificationData
+    )
     await sendNotification(client, notificationView)
   }
 }
