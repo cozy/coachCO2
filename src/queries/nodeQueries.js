@@ -19,6 +19,36 @@ export const buildOldestTimeseriesQueryByAccountId = accountId => ({
     .limitBy(1)
 })
 
+export const buildTimeseriesQueryByAccountIdAndDate = ({
+  accountId,
+  date = null
+}) => {
+  return {
+    definition: Q(GEOJSON_DOCTYPE)
+      .where({
+        'cozyMetadata.sourceAccount': accountId,
+        ...(date && {
+          startDate: {
+            $gt: date
+          }
+        })
+      })
+      .indexFields([
+        'cozyMetadata.sourceAccount',
+        ...(date ? ['startDate'] : [])
+      ])
+      .sortBy([
+        { 'cozyMetadata.sourceAccount': 'desc' },
+        ...(date ? [{ startDate: 'desc' }] : [])
+      ])
+      .limitBy(1000),
+    options: {
+      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}`,
+      fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+    }
+  }
+}
+
 export const buildNewestRecurringTimeseriesQueryForAllAccounts = () => ({
   definition: Q(GEOJSON_DOCTYPE)
     .where({})

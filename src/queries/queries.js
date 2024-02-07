@@ -102,50 +102,26 @@ export const buildHasTimeseriesQueryByAccountId = accountId => ({
   }
 })
 
-export const buildTimeseriesQueryByDateForAllAccounts = ({
-  date = null
-} = {}) => ({
+export const buildTimeseriesQuery = () => ({
   definition: Q(GEOJSON_DOCTYPE)
-    .where({
-      ...(date && {
-        startDate: {
-          $gt: date
-        }
-      })
-    })
-    .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
-    .sortBy([
-      { 'cozyMetadata.sourceAccount': 'desc' },
-      ...(date ? [{ startDate: 'desc' }] : [])
-    ])
+    .where({})
+    .indexFields(['cozyMetadata.sourceAccount'])
+    .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }])
     .limitBy(1000),
   options: {
-    as: `${GEOJSON_DOCTYPE}/date/${date}`,
+    as: GEOJSON_DOCTYPE,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
-export const buildTimeseriesQueryByAccountIdAndDate = ({
-  accountId,
-  date = null
-}) => {
+
+export const buildTimeseriesQueryByAccountId = ({ accountId }) => {
   return {
     definition: Q(GEOJSON_DOCTYPE)
       .where({
-        'cozyMetadata.sourceAccount': accountId,
-        ...(date && {
-          startDate: {
-            $gt: date
-          }
-        })
+        'cozyMetadata.sourceAccount': accountId
       })
-      .indexFields([
-        'cozyMetadata.sourceAccount',
-        ...(date ? ['startDate'] : [])
-      ])
-      .sortBy([
-        { 'cozyMetadata.sourceAccount': 'desc' },
-        ...(date ? [{ startDate: 'desc' }] : [])
-      ])
+      .indexFields(['cozyMetadata.sourceAccount'])
+      .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }])
       .limitBy(1000),
     options: {
       as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}`,
