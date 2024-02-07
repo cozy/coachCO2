@@ -4,15 +4,27 @@ import {
   useAccountContext
 } from 'src/components/Providers/AccountProvider'
 import { uploadFile } from 'src/lib/exportTripsToCSV'
-import { buildTimeseriesQueryByAccountIdAndDate } from 'src/queries/queries'
+import {
+  buildTimeseriesQueryByAccountIdAndDate,
+  buildTimeseriesQueryByDateForAllAccounts
+} from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll, useClient } from 'cozy-client'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
+const getQuery = ({ isAllAccountsSelected, accountId }) => {
+  if (isAllAccountsSelected) {
+    return buildTimeseriesQueryByDateForAllAccounts()
+  }
+  return buildTimeseriesQueryByAccountIdAndDate({
+    accountId
+  })
+}
+
 const useExportTripsToCSV = () => {
   const { t } = useI18n()
   const client = useClient()
-  const { account } = useAccountContext()
+  const { account, isAllAccountsSelected } = useAccountContext()
   const [importCSVProcess, setImportCSVProcess] = useState(false)
 
   const [{ appDir, fileCreated, isLoading }, setResult] = useState({
@@ -21,9 +33,9 @@ const useExportTripsToCSV = () => {
     isLoading: true
   })
 
-  const timeseriesQuery = buildTimeseriesQueryByAccountIdAndDate({
-    accountId: account?._id,
-    limitBy: 1000
+  const timeseriesQuery = getQuery({
+    isAllAccountsSelected,
+    accountId: account?._id
   })
   const { data: timeseries, ...queryResult } = useQueryAll(
     timeseriesQuery.definition,

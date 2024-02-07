@@ -7,20 +7,44 @@ import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
 import SelectDatesWrapper from 'src/components/SelectDatesWrapper'
 import Titlebar from 'src/components/Titlebar'
-import { buildTimeseriesQueryByDateAndAccountId } from 'src/queries/queries'
+import {
+  buildTimeseriesQueryByDateAndAccountId,
+  buildTimeseriesQueryByDateAndAllAccounts
+} from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
 import ListSkeleton from 'cozy-ui/transpiled/react/Skeletons/ListSkeleton'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
+const getQuery = ({
+  isAllAccountsSelected,
+  selectedDate,
+  accountId,
+  isFullYear
+}) => {
+  if (isAllAccountsSelected) {
+    return buildTimeseriesQueryByDateAndAllAccounts({
+      isFullYear,
+      date: selectedDate
+    })
+  }
+  return buildTimeseriesQueryByDateAndAccountId({
+    date: selectedDate,
+    isFullYear,
+    accountId
+  })
+}
+
 const AnalysisWrapper = () => {
-  const { account, isAccountLoading } = useAccountContext()
+  const { account, isAccountLoading, isAllAccountsSelected } =
+    useAccountContext()
   const { selectedDate, isFullYear, isSelectedDateLoading } =
     useSelectDatesContext()
 
-  const timeserieQuery = buildTimeseriesQueryByDateAndAccountId({
-    date: selectedDate,
+  const timeserieQuery = getQuery({
+    isAllAccountsSelected,
+    selectedDate,
     isFullYear,
     accountId: account?._id
   })
@@ -34,14 +58,18 @@ const AnalysisWrapper = () => {
   }
 
   if (
-    account &&
+    (account || isAllAccountsSelected) &&
     (isQueryLoading(timeseriesQueryLeft) || timeseriesQueryLeft.hasMore) &&
     selectedDate !== null
   ) {
     return <ListSkeleton count={8} hasSecondary divider />
   }
 
-  if (!account || !timeseries || timeseries?.length === 0) {
+  if (
+    (!account && !isAllAccountsSelected) ||
+    !timeseries ||
+    timeseries?.length === 0
+  ) {
     return <EmptyContentManager />
   }
 

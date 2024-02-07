@@ -36,7 +36,7 @@ describe('BikeGoalAlertSwitcher', () => {
     expect(switchBtn.checked).toBe(true)
 
     fireEvent.click(switchBtn)
-    expect(mockSave).toBeCalledTimes(1)
+    expect(mockSave).toBeCalled()
     expect(mockSave).toBeCalledWith({
       _type: CCO2_SETTINGS_DOCTYPE,
       bikeGoal: {

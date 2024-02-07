@@ -9,7 +9,10 @@ import {
 } from 'src/components/Providers/AccountProvider'
 import Titlebar from 'src/components/Titlebar'
 import TripsList from 'src/components/TripsList'
-import { buildAggregatedTimeseriesQueryByAccountId } from 'src/queries/queries'
+import {
+  buildAggregatedTimeseriesQueryByAccountId,
+  buildAggregatedTimeseriesQueryForAllAccounts
+} from 'src/queries/queries'
 
 import { hasQueryBeenLoaded, isQueryLoading, useQuery } from 'cozy-client'
 import flag from 'cozy-flags'
@@ -26,20 +29,31 @@ const style = {
   }
 }
 
+const getQuery = ({ isAllAccountsSelected, accountId }) => {
+  if (isAllAccountsSelected) {
+    return buildAggregatedTimeseriesQueryForAllAccounts({ limit: 50 })
+  }
+  return buildAggregatedTimeseriesQueryByAccountId({
+    accountId,
+    limitBy: 50
+  })
+}
+
 export const Trips = () => {
-  const { account, isAccountLoading } = useAccountContext()
+  const { account, isAccountLoading, isAllAccountsSelected } =
+    useAccountContext()
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
 
-  const timeseriesQuery = buildAggregatedTimeseriesQueryByAccountId({
-    accountId: account?._id,
-    limitBy: 50
+  const timeseriesQuery = getQuery({
+    isAllAccountsSelected,
+    accountId: account?._id
   })
   const { data: timeseries, ...timeseriesQueryLeft } = useQuery(
     timeseriesQuery.definition,
     {
       ...timeseriesQuery.options,
-      enabled: Boolean(account)
+      enabled: Boolean(account) || isAllAccountsSelected
     }
   )
   if (isAccountLoading) {
@@ -47,16 +61,21 @@ export const Trips = () => {
   }
 
   if (
-    account &&
+    (account || isAllAccountsSelected) &&
     isQueryLoading(timeseriesQueryLeft) &&
     !hasQueryBeenLoaded(timeseriesQueryLeft)
   ) {
     return <ListSkeleton count={8} hasSecondary divider />
   }
 
-  if (!account || !timeseries || timeseries?.length === 0) {
+  if (
+    (!isAllAccountsSelected && !account) ||
+    !timeseries ||
+    timeseries?.length === 0
+  ) {
     return <EmptyContentManager />
   }
+
   return (
     <>
       <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />

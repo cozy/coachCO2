@@ -116,8 +116,9 @@ describe('buildOneYearOldTimeseriesWithAggregationByAccountId', () => {
   })
 
   it('should return a well formated query', () => {
-    const query =
-      buildOneYearOldTimeseriesWithAggregationByAccountId('accountId')
+    const query = buildOneYearOldTimeseriesWithAggregationByAccountId({
+      accountId: 'accountId'
+    })
 
     expect(query).toMatchObject({
       definition: {
@@ -184,8 +185,7 @@ describe('buildBikeCommuteTimeseriesQueryByAccountId', () => {
         ]
       },
       options: {
-        as: 'io.cozy.timeseries.geojson/sourceAccount/accountId/BikeCommute/',
-        enabled: false,
+        as: 'io.cozy.timeseries.geojson/sourceAccount/accountId/BikeCommute',
         fetchPolicy: expect.any(Function)
       }
     })
@@ -240,8 +240,7 @@ describe('buildBikeCommuteTimeseriesQueryByAccountId', () => {
         ]
       },
       options: {
-        as: 'io.cozy.timeseries.geojson/sourceAccount/accountId/BikeCommute/',
-        enabled: false,
+        as: 'io.cozy.timeseries.geojson/sourceAccount/accountId/BikeCommute',
         fetchPolicy: expect.any(Function)
       }
     })
