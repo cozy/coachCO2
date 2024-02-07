@@ -17,9 +17,7 @@ export const useAccountContext = () => {
 
 export const getAccountLabel = account => account?.auth?.login
 
-// Updating the app settings refreshes the useQuery which does not yet have the latest updated state and therefore a second update is made
-let firstLaunch = true // Tips to avoid duplicate settings creation
-let firstAccountAdded = true // Tips to avoid conflict request when updated appSettings with account
+let firstLaunch = true // Tips to avoid duplicate settings creation. Updating the app settings refreshes the useQuery which doesn't yet have the latest updated state and therefore a second update is made
 
 const AccountProvider = ({ children }) => {
   const { mutate } = useMutation()
@@ -39,36 +37,21 @@ const AccountProvider = ({ children }) => {
 
   const isLoading = isSettingsQueryLoading || isAccountQueryLoading
 
-  // When the user create her first account, we update the settings with the account
-  useEffect(() => {
-    if (
-      firstAccountAdded &&
-      !isLoading &&
-      settings?.[0]?.account === null &&
-      accounts.length > 0
-    ) {
-      const setting = settings[0] || {}
-      mutate({
-        ...setting,
-        _type: CCO2_SETTINGS_DOCTYPE,
-        account: accounts[0]
-      })
-      firstAccountAdded = false
-    }
-  }, [isLoading, settings, accounts, mutate])
-
   // When the user launch the app for the first time, or account property doesn't exist, we create the settings
   useEffect(() => {
-    if (firstLaunch && !isLoading && settings?.[0]?.account === undefined) {
-      const setting = settings?.[0] || {}
-      mutate({
-        ...setting,
-        _type: CCO2_SETTINGS_DOCTYPE,
-        account: accounts?.[0] || null
-      })
-      firstLaunch = false
+    if (!isLoading && firstLaunch) {
+      if (settings?.[0]?.account === undefined) {
+        const setting = settings?.[0] || {}
+        mutate({
+          ...setting,
+          _type: CCO2_SETTINGS_DOCTYPE,
+          account: null,
+          isAllAccountsSelected: true
+        })
+        firstLaunch = false
+      }
     }
-  }, [settings, accounts, isLoading, mutate])
+  }, [settings, isLoading, mutate])
 
   const setAccount = useCallback(
     account => {
@@ -76,7 +59,8 @@ const AccountProvider = ({ children }) => {
       mutate({
         ...setting,
         _type: CCO2_SETTINGS_DOCTYPE,
-        account
+        account,
+        isAllAccountsSelected: account === null
       })
     },
     [mutate, settings]
@@ -84,9 +68,10 @@ const AccountProvider = ({ children }) => {
 
   const value = {
     accounts,
-    account: settings?.[0]?.account || null,
+    account: settings?.[0]?.account ?? null,
     setAccount,
-    isAccountLoading: isAccountQueryLoading
+    isAccountLoading: isAccountQueryLoading,
+    isAllAccountsSelected: settings?.[0]?.isAllAccountsSelected ?? false
   }
 
   return (

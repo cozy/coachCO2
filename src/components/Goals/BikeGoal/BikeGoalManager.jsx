@@ -8,7 +8,8 @@ import { filterTimeseriesByYear } from 'src/lib/timeseries'
 import {
   buildSettingsQuery,
   buildBikeCommuteTimeseriesQueryByAccountId,
-  buildContextQuery
+  buildContextQuery,
+  buildBikeCommuteTimeseriesQueryForAllAccounts
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQuery, useQueryAll, useClient } from 'cozy-client'
@@ -24,10 +25,18 @@ const style = {
   }
 }
 
+const getQuery = ({ isAllAccountsSelected, accountId }) => {
+  if (isAllAccountsSelected) {
+    return buildBikeCommuteTimeseriesQueryForAllAccounts()
+  }
+  return buildBikeCommuteTimeseriesQueryByAccountId({ accountId })
+}
+
 const BikeGoalManager = () => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
-  const { account, isAccountLoading } = useAccountContext()
+  const { account, isAccountLoading, isAllAccountsSelected } =
+    useAccountContext()
   const client = useClient()
   const rootURL = client.getStackClient().uri
 
@@ -43,13 +52,16 @@ const BikeGoalManager = () => {
     settingsQuery.options
   )
 
-  const timeseriesQuery = buildBikeCommuteTimeseriesQueryByAccountId(
-    { accountId: account?._id },
-    Boolean(account)
-  )
+  const timeseriesQuery = getQuery({
+    accountId: account?._id,
+    isAllAccountsSelected
+  })
   const { data: timeseries, ...timeseriesQueryLeft } = useQueryAll(
     timeseriesQuery.definition,
-    timeseriesQuery.options
+    {
+      ...timeseriesQuery.options,
+      enabled: Boolean(account) || isAllAccountsSelected
+    }
   )
   const isLoadingTimeseriesQuery =
     isQueryLoading(timeseriesQueryLeft) || timeseriesQueryLeft.hasMore

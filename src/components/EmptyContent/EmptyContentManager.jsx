@@ -11,7 +11,7 @@ import { useQueries, isQueriesLoading } from 'cozy-client'
 import Spinner from 'cozy-ui/transpiled/react/Spinner'
 
 const EmptyContentManager = () => {
-  const { accounts, account } = useAccountContext()
+  const { accounts, account, isAllAccountsSelected } = useAccountContext()
   const { isGeolocationTrackingAvailable, isGeolocationTrackingEnabled } =
     useGeolocationTracking()
 
@@ -19,9 +19,9 @@ const EmptyContentManager = () => {
     isGeolocationTrackingAvailable === null ||
     isGeolocationTrackingEnabled === null
 
-  const otherAccounts = accounts.filter(
-    allAccount => allAccount._id !== account?._id
-  )
+  const otherAccounts = isAllAccountsSelected
+    ? []
+    : accounts.filter(allAccount => allAccount._id !== account?._id)
   const queriesByAccountsId = makeQueriesByAccountsId(otherAccounts)
   const results = useQueries(queriesByAccountsId)
   const isLoading = isQueriesLoading(results)

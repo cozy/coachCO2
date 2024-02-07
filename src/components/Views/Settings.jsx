@@ -41,7 +41,8 @@ export const Settings = () => {
   const { isMobile } = useBreakpoints()
   const { isGeolocationTrackingAvailable, isGeolocationTrackingEnabled } =
     useGeolocationTracking()
-  const { isAccountLoading, accounts, account } = useAccountContext()
+  const { isAccountLoading, accounts, account, isAllAccountsSelected } =
+    useAccountContext()
   const { sourceName } = getSource()
 
   if (isAccountLoading) {
@@ -90,7 +91,7 @@ export const Settings = () => {
           <CsvExporter accountName={getAccountLabel(account)} />
         </List>
 
-        {account && (
+        {(account || isAllAccountsSelected) && (
           <List subheader={<ListSubheader>{t('support.label')}</ListSubheader>}>
             <FAQ />
             {isGeolocationTrackingAvailable ? (

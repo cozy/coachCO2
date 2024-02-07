@@ -7,6 +7,7 @@ import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { filterTimeseriesByYear } from 'src/lib/timeseries'
 import {
   buildBikeCommuteTimeseriesQueryByAccountId,
+  buildBikeCommuteTimeseriesQueryForAllAccounts,
   buildSettingsQuery
 } from 'src/queries/queries'
 
@@ -21,10 +22,18 @@ const style = {
   div: { height: 65 }
 }
 
+const getQuery = ({ isAllAccountsSelected, accountId }) => {
+  if (isAllAccountsSelected) {
+    return buildBikeCommuteTimeseriesQueryForAllAccounts()
+  }
+  return buildBikeCommuteTimeseriesQueryByAccountId({ accountId })
+}
+
 const BikeGoalSummary = () => {
   const { t } = useI18n()
   const navigate = useNavigate()
-  const { account, isAccountLoading } = useAccountContext()
+  const { account, isAccountLoading, isAllAccountsSelected } =
+    useAccountContext()
 
   const settingsQuery = buildSettingsQuery()
   const { data: settings, ...settingsQueryLeft } = useQuery(
@@ -33,13 +42,16 @@ const BikeGoalSummary = () => {
   )
   const isSettingsLoading = isQueryLoading(settingsQueryLeft)
 
-  const timeseriesQuery = buildBikeCommuteTimeseriesQueryByAccountId(
-    { accountId: account?._id },
-    Boolean(account)
-  )
+  const timeseriesQuery = getQuery({
+    accountId: account?._id,
+    isAllAccountsSelected
+  })
   const { data: timeseries, ...timeseriesQueryLeft } = useQueryAll(
     timeseriesQuery.definition,
-    timeseriesQuery.options
+    {
+      ...timeseriesQuery.options,
+      enabled: Boolean(account) || isAllAccountsSelected
+    }
   )
 
   const isLoadingTimeseriesQuery =

@@ -19,6 +19,7 @@ import { getManualPurpose, getAutomaticPurpose } from 'src/lib/trips'
 import {
   buildContactsWithGeoCoordinates,
   buildNewestRecurringTimeseriesQuery,
+  buildNewestRecurringTimeseriesQueryForAllAccounts,
   buildRecurringTimeseriesByStartAndEndPointRange,
   buildSettingsQuery,
   buildTimeseriesQueryByAccountIdAndDate,
@@ -679,6 +680,13 @@ const saveTrips = async ({ client, timeseriesToUpdate, t }) => {
   return []
 }
 
+const getQueryDefinition = ({ isAllAccountsSelected, accountId }) => {
+  if (isAllAccountsSelected) {
+    return buildNewestRecurringTimeseriesQueryForAllAccounts().definition
+  }
+  return buildNewestRecurringTimeseriesQuery({ accountId }).definition
+}
+
 /**
  * Look for existing recurring purpose on similar trips for newly
  * created trips.
@@ -689,12 +697,13 @@ const saveTrips = async ({ client, timeseriesToUpdate, t }) => {
 export const runRecurringPurposesForNewTrips = async (client, t) => {
   const settings = await client.query(buildSettingsQuery().definition)
   const accountId = settings.data?.[0]?.account?._id
-  if (!accountId) {
+  const isAllAccountsSelected = settings.data?.[0]?.isAllAccountsSelected
+  if (!accountId && !isAllAccountsSelected) {
     logService('error', 'No account found')
     return []
   }
   const newestRecurringTimeserie = await client.query(
-    buildNewestRecurringTimeseriesQuery({ accountId }).definition
+    getQueryDefinition({ isAllAccountsSelected, accountId })
   )
   let oldestDateToQuery
   if (!newestRecurringTimeserie.data?.[0]) {

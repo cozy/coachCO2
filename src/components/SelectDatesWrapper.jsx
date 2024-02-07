@@ -3,13 +3,26 @@ import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvider'
 import SelectDatesWithLoader from 'src/components/SelectDates/SelectDatesWithLoader'
 import { makeLatestDate } from 'src/components/SelectDates/helpers'
-import { buildAggregatedTimeseriesQueryByAccountId } from 'src/queries/queries'
+import {
+  buildAggregatedTimeseriesQueryByAccountId,
+  buildAggregatedTimeseriesQueryForAllAccounts
+} from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
 
 const computeOptions = (isLoading, timeseries) => {
   if (isLoading || !timeseries || timeseries?.length === 0) return null
   return timeseries.map(timeserie => new Date(timeserie.startDate))
+}
+
+const getQuery = ({ isAllAccountsSelected, accountId }) => {
+  if (isAllAccountsSelected) {
+    return buildAggregatedTimeseriesQueryForAllAccounts({ limitBy: 1000 })
+  }
+  return buildAggregatedTimeseriesQueryByAccountId({
+    accountId,
+    limitBy: 1000
+  })
 }
 
 const SelectDatesWrapper = () => {
@@ -23,16 +36,16 @@ const SelectDatesWrapper = () => {
     options,
     setOptions
   } = useSelectDatesContext()
-  const { account } = useAccountContext()
-  const timeseriesQuery = buildAggregatedTimeseriesQueryByAccountId({
-    accountId: account?._id,
-    limitBy: 1000
+  const { account, isAllAccountsSelected } = useAccountContext()
+  const timeseriesQuery = getQuery({
+    isAllAccountsSelected,
+    accountId: account?._id
   })
   const { data: timeseries, ...timeseriesQueryResult } = useQueryAll(
     timeseriesQuery.definition,
     {
       ...timeseriesQuery.options,
-      enabled: Boolean(account)
+      enabled: Boolean(account) || isAllAccountsSelected
     }
   )
 
@@ -40,7 +53,11 @@ const SelectDatesWrapper = () => {
     isQueryLoading(timeseriesQueryResult) || timeseriesQueryResult.hasMore
 
   useEffect(() => {
-    if (account && !isLoading && isSelectedDateLoading) {
+    if (
+      (account || isAllAccountsSelected) &&
+      !isLoading &&
+      isSelectedDateLoading
+    ) {
       const options = computeOptions(isLoading, timeseries)
       setIsSelectedDateLoading(false)
 
@@ -50,15 +67,20 @@ const SelectDatesWrapper = () => {
       }
     }
 
-    if (!account) {
+    if (!account && !isAllAccountsSelected) {
       setIsSelectedDateLoading(false)
     }
 
-    if (account && isLoading && !isSelectedDateLoading) {
+    if (
+      (account || isAllAccountsSelected) &&
+      isLoading &&
+      !isSelectedDateLoading
+    ) {
       setIsSelectedDateLoading(true)
     }
   }, [
     account,
+    isAllAccountsSelected,
     isLoading,
     isSelectedDateLoading,
     setIsSelectedDateLoading,

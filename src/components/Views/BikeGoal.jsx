@@ -4,6 +4,7 @@ import BikeGoalViewDesktop from 'src/components/Goals/BikeGoal/BikeGoalViewDeskt
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import {
   buildBikeCommuteTimeseriesQueryByAccountId,
+  buildBikeCommuteTimeseriesQueryForAllAccounts,
   buildSettingsQuery
 } from 'src/queries/queries'
 
@@ -11,8 +12,16 @@ import { isQueryLoading, useQueryAll, useQuery } from 'cozy-client'
 import ListSkeleton from 'cozy-ui/transpiled/react/Skeletons/ListSkeleton'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
+const getQuery = ({ isAllAccountsSelected, accountId }) => {
+  if (isAllAccountsSelected) {
+    return buildBikeCommuteTimeseriesQueryForAllAccounts()
+  }
+  return buildBikeCommuteTimeseriesQueryByAccountId({ accountId })
+}
+
 const Bikegoal = () => {
-  const { account, isAccountLoading } = useAccountContext()
+  const { account, isAccountLoading, isAllAccountsSelected } =
+    useAccountContext()
   const { isMobile } = useBreakpoints()
 
   const settingsQuery = buildSettingsQuery()
@@ -22,13 +31,16 @@ const Bikegoal = () => {
   )
   const isSettingsLoading = isQueryLoading(settingsQueryLeft)
 
-  const timeseriesQuery = buildBikeCommuteTimeseriesQueryByAccountId(
-    { accountId: account?._id },
-    Boolean(account)
-  )
+  const timeseriesQuery = getQuery({
+    accountId: account?._id,
+    isAllAccountsSelected
+  })
   const { data: timeseries, ...timeseriesQueryLeft } = useQueryAll(
     timeseriesQuery.definition,
-    timeseriesQuery.options
+    {
+      ...timeseriesQuery.options,
+      enabled: Boolean(account) || isAllAccountsSelected
+    }
   )
 
   const isTimeseriesQueryEnabled = timeseriesQuery.options.enabled
