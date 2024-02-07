@@ -11,7 +11,7 @@ import Titlebar from 'src/components/Titlebar'
 import TripsList from 'src/components/TripsList'
 import {
   buildAggregatedTimeseriesQueryByAccountId,
-  buildAggregatedTimeseriesQueryForAllAccounts
+  buildAggregatedTimeseriesQuery
 } from 'src/queries/queries'
 
 import { hasQueryBeenLoaded, isQueryLoading, useQuery } from 'cozy-client'
@@ -31,7 +31,7 @@ const style = {
 
 const getQuery = ({ isAllAccountsSelected, accountId }) => {
   if (isAllAccountsSelected) {
-    return buildAggregatedTimeseriesQueryForAllAccounts({ limit: 50 })
+    return buildAggregatedTimeseriesQuery({ limit: 50 })
   }
   return buildAggregatedTimeseriesQueryByAccountId({
     accountId,

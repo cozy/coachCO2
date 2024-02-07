@@ -25,9 +25,7 @@ const neverReload = 100000 * 1000
 
 // Timeseries doctype -------------
 
-export const buildAggregatedTimeseriesQueryForAllAccounts = ({
-  limit
-} = {}) => ({
+export const buildAggregatedTimeseriesQuery = ({ limit } = {}) => ({
   definition: Q(GEOJSON_DOCTYPE)
     .where({})
     .partialIndex({
@@ -141,7 +139,7 @@ export const buildTimeserieQueryById = timeserieId => ({
   }
 })
 
-export const buildTimeseriesQueryByDateAndAllAccounts = ({
+export const buildTimeseriesQueryByDate = ({
   date = null,
   isFullYear,
   limit = 1000
@@ -242,7 +240,7 @@ export const buildTimeseriesQueryByDateAndAccountId = ({
   }
 }
 
-export const buildOneYearOldTimeseriesWithAggregationForAllAccounts = () => {
+export const buildOneYearOldTimeseriesWithAggregation = () => {
   const dateOneYearAgoFromNow = startOfMonth(subYears(new Date(), 1))
 
   return {
@@ -308,9 +306,7 @@ export const buildOneYearOldTimeseriesWithAggregationByAccountId = ({
   }
 }
 
-export const buildBikeCommuteTimeseriesQueryForAllAccounts = ({
-  date = null
-} = {}) => {
+export const buildBikeCommuteTimeseriesQuery = ({ date = null } = {}) => {
   const selector = {}
   if (date) {
     const startYearDate = startOfYear(new Date(date)).toISOString()

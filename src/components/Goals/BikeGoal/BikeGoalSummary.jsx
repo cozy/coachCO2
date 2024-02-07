@@ -7,7 +7,7 @@ import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { filterTimeseriesByYear } from 'src/lib/timeseries'
 import {
   buildBikeCommuteTimeseriesQueryByAccountId,
-  buildBikeCommuteTimeseriesQueryForAllAccounts,
+  buildBikeCommuteTimeseriesQuery,
   buildSettingsQuery
 } from 'src/queries/queries'
 
@@ -24,7 +24,7 @@ const style = {
 
 const getQuery = ({ isAllAccountsSelected, accountId }) => {
   if (isAllAccountsSelected) {
-    return buildBikeCommuteTimeseriesQueryForAllAccounts()
+    return buildBikeCommuteTimeseriesQuery()
   }
   return buildBikeCommuteTimeseriesQueryByAccountId({ accountId })
 }

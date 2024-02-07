@@ -5,7 +5,7 @@ import SelectDatesWithLoader from 'src/components/SelectDates/SelectDatesWithLoa
 import { makeLatestDate } from 'src/components/SelectDates/helpers'
 import {
   buildAggregatedTimeseriesQueryByAccountId,
-  buildAggregatedTimeseriesQueryForAllAccounts
+  buildAggregatedTimeseriesQuery
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
@@ -17,7 +17,7 @@ const computeOptions = (isLoading, timeseries) => {
 
 const getQuery = ({ isAllAccountsSelected, accountId }) => {
   if (isAllAccountsSelected) {
-    return buildAggregatedTimeseriesQueryForAllAccounts({ limitBy: 1000 })
+    return buildAggregatedTimeseriesQuery({ limitBy: 1000 })
   }
   return buildAggregatedTimeseriesQueryByAccountId({
     accountId,

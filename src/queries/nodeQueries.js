@@ -49,7 +49,7 @@ export const buildTimeseriesQueryByAccountIdAndDate = ({
   }
 }
 
-export const buildNewestRecurringTimeseriesQueryForAllAccounts = () => ({
+export const buildNewestRecurringTimeseriesQuery = () => ({
   definition: Q(GEOJSON_DOCTYPE)
     .where({})
     .partialIndex({
@@ -60,7 +60,9 @@ export const buildNewestRecurringTimeseriesQueryForAllAccounts = () => ({
     .limitBy(1)
 })
 
-export const buildNewestRecurringTimeseriesQuery = ({ accountId }) => {
+export const buildNewestRecurringTimeseriesQueryByAccountId = ({
+  accountId
+}) => {
   return {
     definition: Q(GEOJSON_DOCTYPE)
       .where({

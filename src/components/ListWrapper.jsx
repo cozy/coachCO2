@@ -9,7 +9,7 @@ import SelectDatesWrapper from 'src/components/SelectDatesWrapper'
 import Titlebar from 'src/components/Titlebar'
 import {
   buildTimeseriesQueryByDateAndAccountId,
-  buildTimeseriesQueryByDateAndAllAccounts
+  buildTimeseriesQueryByDate
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
@@ -24,7 +24,7 @@ const getQuery = ({
   isFullYear
 }) => {
   if (isAllAccountsSelected) {
-    return buildTimeseriesQueryByDateAndAllAccounts({
+    return buildTimeseriesQueryByDate({
       isFullYear,
       date: selectedDate
     })
