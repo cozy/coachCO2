@@ -30,8 +30,7 @@ const setupApp = memoize(() => {
       new Sentry.BrowserTracing()
     ],
     tracesSampleRate: 1,
-    // React log these warnings(bad Proptypes), in a console.error, it is not relevant to report this type of information to Sentry
-    ignoreErrors: [/^Warning: /]
+    defaultIntegrations: false
   })
 
   initBar({ client, container, lang, appName })
