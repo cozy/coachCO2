@@ -1,5 +1,7 @@
 import { NotificationView } from 'cozy-notifications'
 
+import template from './template.hbs'
+
 class GeolocationQuotaNotification extends NotificationView {
   constructor(options) {
     super(options)
@@ -31,10 +33,7 @@ class GeolocationQuotaNotification extends NotificationView {
   }
 }
 
-GeolocationQuotaNotification.template = `
-{{#extend "cozy-layout"}}
-{{/extend}}
-`
+GeolocationQuotaNotification.template = template
 GeolocationQuotaNotification.category = 'geolocationQuota'
 GeolocationQuotaNotification.preferredChannels = ['mobile']
 
