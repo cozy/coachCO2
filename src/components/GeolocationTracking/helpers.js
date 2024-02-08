@@ -161,7 +161,8 @@ export const checkPermissionsAndEnableTrackingOrShowDialog = async ({
   webviewIntent,
   setShowLocationRequestableDialog,
   setShowLocationRefusedDialog,
-  setShowLocationDisabledDialog
+  setShowLocationDisabledDialog,
+  showAlert
 }) => {
   try {
     const checkedPermissions =
@@ -187,6 +188,7 @@ export const checkPermissionsAndEnableTrackingOrShowDialog = async ({
       setShowLocationDisabledDialog(true)
     } else {
       log.error(e)
+      showAlert(e.message, 'error')
     }
   }
 }
@@ -220,7 +222,8 @@ export const getNewPermissionAndEnabledTrackingOrShowDialog = async ({
   setIsGeolocationTrackingEnabled,
   setShowLocationRequestableDialog,
   setShowLocationRefusedDialog,
-  setShowLocationDisabledDialog
+  setShowLocationDisabledDialog,
+  showAlert
 }) => {
   const permissions = await webviewIntent?.call(
     'requestPermissions',
@@ -235,6 +238,7 @@ export const getNewPermissionAndEnabledTrackingOrShowDialog = async ({
     webviewIntent,
     setShowLocationRequestableDialog,
     setShowLocationRefusedDialog,
-    setShowLocationDisabledDialog
+    setShowLocationDisabledDialog,
+    showAlert
   })
 }

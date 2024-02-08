@@ -20,6 +20,7 @@ import { useClient } from 'cozy-client'
 import { isAndroid } from 'cozy-device-helper'
 import { useWebviewIntent } from 'cozy-intent'
 import { AllowLocationDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
+import { useAlert } from 'cozy-ui/transpiled/react/providers/Alert'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const GeolocationTrackingContext = createContext()
@@ -40,6 +41,7 @@ export const GeolocationTrackingProvider = ({ children }) => {
   const client = useClient()
   const { t, lang } = useI18n()
   const { visibilityState } = useVisibilityChange()
+  const { showAlert } = useAlert()
 
   const [isGeolocationTrackingAvailable, setIsGeolocationTrackingAvailable] =
     useState(null)
@@ -98,7 +100,8 @@ export const GeolocationTrackingProvider = ({ children }) => {
           webviewIntent,
           setShowLocationRequestableDialog,
           setShowLocationRefusedDialog,
-          setShowLocationDisabledDialog
+          setShowLocationDisabledDialog,
+          showAlert
         })
     }),
     [
@@ -108,7 +111,8 @@ export const GeolocationTrackingProvider = ({ children }) => {
       webviewIntent,
       client,
       lang,
-      t
+      t,
+      showAlert
     ]
   )
 
@@ -134,7 +138,8 @@ export const GeolocationTrackingProvider = ({ children }) => {
                 setIsGeolocationTrackingEnabled,
                 setShowLocationRequestableDialog,
                 setShowLocationRefusedDialog,
-                setShowLocationDisabledDialog
+                setShowLocationDisabledDialog,
+                showAlert
               })
             } else {
               await enableGeolocationTracking({
