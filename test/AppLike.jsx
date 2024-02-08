@@ -4,6 +4,7 @@ import AccountProvider from 'src/components/Providers/AccountProvider'
 import GeolocationTrackingProvider from 'src/components/Providers/GeolocationTrackingProvider'
 
 import { CozyProvider, createMockClient } from 'cozy-client'
+import AlertProvider from 'cozy-ui/transpiled/react/providers/Alert'
 import { BreakpointsProvider } from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import I18n from 'cozy-ui/transpiled/react/providers/I18n'
 
@@ -15,9 +16,11 @@ const AppLike = ({ children, client }) => (
       <I18n dictRequire={() => enLocale} lang="en">
         <BreakpointsProvider>
           <HashRouter>
-            <GeolocationTrackingProvider>
-              {children}
-            </GeolocationTrackingProvider>
+            <AlertProvider>
+              <GeolocationTrackingProvider>
+                {children}
+              </GeolocationTrackingProvider>
+            </AlertProvider>
           </HashRouter>
         </BreakpointsProvider>
       </I18n>

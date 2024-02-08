@@ -5,6 +5,7 @@ import React, {
   useContext,
   useMemo
 } from 'react'
+import { LocationDisabledDialog } from 'src/components/GeolocationTracking/LocationDisabledDialog'
 import {
   disableGeolocationTracking,
   enableGeolocationTracking,
@@ -19,6 +20,7 @@ import { useClient } from 'cozy-client'
 import { isAndroid } from 'cozy-device-helper'
 import { useWebviewIntent } from 'cozy-intent'
 import { AllowLocationDialog } from 'cozy-ui/transpiled/react/CozyDialogs'
+import { useAlert } from 'cozy-ui/transpiled/react/providers/Alert'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const GeolocationTrackingContext = createContext()
@@ -39,6 +41,7 @@ export const GeolocationTrackingProvider = ({ children }) => {
   const client = useClient()
   const { t, lang } = useI18n()
   const { visibilityState } = useVisibilityChange()
+  const { showAlert } = useAlert()
 
   const [isGeolocationTrackingAvailable, setIsGeolocationTrackingAvailable] =
     useState(null)
@@ -49,6 +52,8 @@ export const GeolocationTrackingProvider = ({ children }) => {
   const [showLocationRequestableDialog, setShowLocationRequestableDialog] =
     useState(false)
   const [showLocationRefusedDialog, setShowLocationRefusedDialog] =
+    useState(false)
+  const [showLocationDisabledDialog, setShowLocationDisabledDialog] =
     useState(false)
 
   useEffect(() => {
@@ -94,7 +99,9 @@ export const GeolocationTrackingProvider = ({ children }) => {
           setIsGeolocationTrackingEnabled,
           webviewIntent,
           setShowLocationRequestableDialog,
-          setShowLocationRefusedDialog
+          setShowLocationRefusedDialog,
+          setShowLocationDisabledDialog,
+          showAlert
         })
     }),
     [
@@ -104,7 +111,8 @@ export const GeolocationTrackingProvider = ({ children }) => {
       webviewIntent,
       client,
       lang,
-      t
+      t,
+      showAlert
     ]
   )
 
@@ -129,7 +137,9 @@ export const GeolocationTrackingProvider = ({ children }) => {
                 t,
                 setIsGeolocationTrackingEnabled,
                 setShowLocationRequestableDialog,
-                setShowLocationRefusedDialog
+                setShowLocationRefusedDialog,
+                setShowLocationDisabledDialog,
+                showAlert
               })
             } else {
               await enableGeolocationTracking({
@@ -159,6 +169,13 @@ export const GeolocationTrackingProvider = ({ children }) => {
           description={t(
             'geolocationTracking.locationRefusedDialog.description'
           )}
+        />
+      )}
+      {showLocationDisabledDialog && (
+        <LocationDisabledDialog
+          onClose={() => {
+            setShowLocationDisabledDialog(false)
+          }}
         />
       )}
     </GeolocationTrackingContext.Provider>
