@@ -1,6 +1,7 @@
 import { NotificationView } from 'cozy-notifications'
 
 import template from './GeolocationTrackingQuotaExpiredTemplate.hbs'
+import { getExtraQuotaNotificationAttributes } from './notificationHelper'
 
 class GeolocationTrackingQuotaExpiredNotification extends NotificationView {
   constructor(options) {
@@ -25,11 +26,7 @@ class GeolocationTrackingQuotaExpiredNotification extends NotificationView {
   }
 
   getExtraAttributes() {
-    return {
-      data: {
-        redirectLink: 'settings/#/subscription'
-      }
-    }
+    return getExtraQuotaNotificationAttributes()
   }
 }
 

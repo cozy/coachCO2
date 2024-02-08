@@ -133,7 +133,7 @@
     "geolocationQuota": {
       "description": "Notify the user when the geolocation quota will expire soon or is expired",
       "collapsible": false,
-      "stateful": false,
+      "stateful": true,
       "multiple": false,
       "default_priority": "normal",
       "templates": {}

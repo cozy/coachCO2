@@ -1,4 +1,4 @@
-import { differenceInDays } from 'date-fns'
+import { differenceInCalendarDays } from 'date-fns'
 import GeolocationTrackingQuotaAlmostExpiredNotification from 'src/lib/geolocationQuota/GeolocationTrackingQuotaAlmostExpiredNotification'
 import GeolocationTrackingQuotaExpiredNotification from 'src/lib/geolocationQuota/GeolocationTrackingQuotaExpiredNotification'
 import { initPolyglot } from 'src/lib/services'
@@ -66,7 +66,7 @@ const calculateRemainingDays = async (client, maxDaysToCapture) => {
     return Number.POSITIVE_INFINITY
   }
 
-  const daysSinceFirstCapture = differenceInDays(
+  const daysSinceFirstCapture = differenceInCalendarDays(
     new Date(),
     new Date(firstTimeserie.startDate)
   )
