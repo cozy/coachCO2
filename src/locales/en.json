@@ -338,8 +338,10 @@
       "description": "Your Cozy needs access to additional data in order to help you analyze your movements. This data will NEVER be transmitted to anyone without your explicit request.\n\nYou will be redirected to the app's settings to authorize it to ALWAYS access your phone's position, even when the app is not in use, and PHYSICAL ACTIVITY, movement and shape data.."
     },
     "locationDisabledDialog": {
-      "title": "Enable location service",
-      "description": "To record your movements, you must first enable location services in Settings > Privacy and security > Location service."
+      "title": "Enable Location Services and Fitness Tracking",
+      "description": "To record your movements, you must first activate:",
+      "locationService": "- Location Services in Settings > Privacy & Security > Location Services",
+      "motionService": "- Fitness Tracking in Settings > Privacy & Security > Motion & Fitness"
     },
     "settings": {
       "enable": "Record my movements with my mobile (GPS)",
