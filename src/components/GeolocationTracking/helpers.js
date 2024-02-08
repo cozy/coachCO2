@@ -7,9 +7,12 @@ import {
 
 import { isFlagshipApp } from 'cozy-device-helper'
 import flag from 'cozy-flags'
+import minilog from 'cozy-minilog'
 import { getRandomUUID } from 'cozy-ui/transpiled/react/helpers/getRandomUUID'
 
 const FEATURE_NAME = 'geolocationTracking'
+
+const log = minilog('GeolocationTracking')
 
 export const createOpenPathAccount = async ({
   client,
@@ -157,25 +160,34 @@ export const checkPermissionsAndEnableTrackingOrShowDialog = async ({
   permissions,
   webviewIntent,
   setShowLocationRequestableDialog,
-  setShowLocationRefusedDialog
+  setShowLocationRefusedDialog,
+  setShowLocationDisabledDialog
 }) => {
-  const checkedPermissions =
-    permissions ||
-    (await webviewIntent?.call('checkPermissions', 'geolocationTracking')) ||
-    {}
+  try {
+    const checkedPermissions =
+      permissions ||
+      (await webviewIntent?.call('checkPermissions', 'geolocationTracking')) ||
+      {}
 
-  if (checkedPermissions.granted) {
-    await enableGeolocationTracking({
-      client,
-      lang,
-      t,
-      webviewIntent,
-      setIsGeolocationTrackingEnabled
-    })
-  } else if (checkedPermissions.canRequest) {
-    setShowLocationRequestableDialog(true)
-  } else {
-    setShowLocationRefusedDialog(true)
+    if (checkedPermissions.granted) {
+      await enableGeolocationTracking({
+        client,
+        lang,
+        t,
+        webviewIntent,
+        setIsGeolocationTrackingEnabled
+      })
+    } else if (checkedPermissions.canRequest) {
+      setShowLocationRequestableDialog(true)
+    } else {
+      setShowLocationRefusedDialog(true)
+    }
+  } catch (e) {
+    if (e.message === 'Native permission unavailable') {
+      setShowLocationDisabledDialog(true)
+    } else {
+      log.error(e)
+    }
   }
 }
 
@@ -207,7 +219,8 @@ export const getNewPermissionAndEnabledTrackingOrShowDialog = async ({
   t,
   setIsGeolocationTrackingEnabled,
   setShowLocationRequestableDialog,
-  setShowLocationRefusedDialog
+  setShowLocationRefusedDialog,
+  setShowLocationDisabledDialog
 }) => {
   const permissions = await webviewIntent?.call(
     'requestPermissions',
@@ -221,6 +234,7 @@ export const getNewPermissionAndEnabledTrackingOrShowDialog = async ({
     permissions,
     webviewIntent,
     setShowLocationRequestableDialog,
-    setShowLocationRefusedDialog
+    setShowLocationRefusedDialog,
+    setShowLocationDisabledDialog
   })
 }

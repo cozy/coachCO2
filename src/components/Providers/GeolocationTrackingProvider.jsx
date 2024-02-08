@@ -5,6 +5,7 @@ import React, {
   useContext,
   useMemo
 } from 'react'
+import { LocationDisabledDialog } from 'src/components/GeolocationTracking/LocationDisabledDialog'
 import {
   disableGeolocationTracking,
   enableGeolocationTracking,
@@ -50,6 +51,8 @@ export const GeolocationTrackingProvider = ({ children }) => {
     useState(false)
   const [showLocationRefusedDialog, setShowLocationRefusedDialog] =
     useState(false)
+  const [showLocationDisabledDialog, setShowLocationDisabledDialog] =
+    useState(false)
 
   useEffect(() => {
     checkAndSetGeolocationTrackingAvailability(
@@ -94,7 +97,8 @@ export const GeolocationTrackingProvider = ({ children }) => {
           setIsGeolocationTrackingEnabled,
           webviewIntent,
           setShowLocationRequestableDialog,
-          setShowLocationRefusedDialog
+          setShowLocationRefusedDialog,
+          setShowLocationDisabledDialog
         })
     }),
     [
@@ -129,7 +133,8 @@ export const GeolocationTrackingProvider = ({ children }) => {
                 t,
                 setIsGeolocationTrackingEnabled,
                 setShowLocationRequestableDialog,
-                setShowLocationRefusedDialog
+                setShowLocationRefusedDialog,
+                setShowLocationDisabledDialog
               })
             } else {
               await enableGeolocationTracking({
@@ -159,6 +164,13 @@ export const GeolocationTrackingProvider = ({ children }) => {
           description={t(
             'geolocationTracking.locationRefusedDialog.description'
           )}
+        />
+      )}
+      {showLocationDisabledDialog && (
+        <LocationDisabledDialog
+          onClose={() => {
+            setShowLocationDisabledDialog(false)
+          }}
         />
       )}
     </GeolocationTrackingContext.Provider>
