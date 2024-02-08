@@ -33,19 +33,10 @@ export const buildAggregatedTimeseriesQuery = ({ limit } = {}) => ({
         $exists: true
       }
     })
-    .select([
-      'cozyMetadata.sourceAccount',
-      'startDate',
-      'endDate',
-      'title',
-      'aggregation'
-    ])
-    .indexFields(['cozyMetadata.sourceAccount', 'startDate', 'endDate'])
-    .sortBy([
-      { 'cozyMetadata.sourceAccount': 'desc' },
-      { startDate: 'desc' },
-      { endDate: 'desc' }
-    ])
+    .select(['startDate', 'endDate', 'title', 'aggregation'])
+    // FIXME "endDate" should be removed when https://github.com/cozy/cozy-client/issues/1216 fixed
+    .indexFields(['startDate', 'endDate'])
+    .sortBy([{ startDate: 'desc' }])
     .limitBy(limit),
   options: {
     as: `${GEOJSON_DOCTYPE}/limitedBy/${limit}`,
