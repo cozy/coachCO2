@@ -1,6 +1,8 @@
 import { CaptureConsole } from '@sentry/integrations'
 import * as Sentry from '@sentry/react'
 import memoize from 'lodash/memoize'
+import { CCO2_SETTINGS_DOCTYPE } from 'src/doctypes'
+import { buildSettingsQuery } from 'src/queries/queries'
 import { getValues, initBar } from 'src/utils/bar'
 import { getClient } from 'src/utils/client'
 
@@ -9,6 +11,24 @@ import { RealtimePlugin } from 'cozy-realtime'
 import { initTranslation } from 'cozy-ui/transpiled/react/providers/I18n'
 
 import manifest from '../../../manifest.webapp'
+
+// TODO: To be removed once we have handled the problem of having multiple data sources
+/**
+ * Force allSelected accounts if a specific account is defined
+ * @param  {import('cozy-client/types/CozyClient').default} client CozyClient
+ */
+const forceAllSelectedAccountToAppSettings = async client => {
+  const { data: settings } = await client.query(buildSettingsQuery().definition)
+  const setting = settings[0] || {}
+  if (setting.account) {
+    await client.save({
+      ...setting,
+      _type: CCO2_SETTINGS_DOCTYPE,
+      account: null,
+      isAllAccountsSelected: true
+    })
+  }
+}
 
 /**
  * Memoize this function in its own file so that it is correctly memoized
@@ -20,6 +40,10 @@ const setupApp = memoize(() => {
   const client = getClient()
   client.registerPlugin(flag.plugin)
   client.registerPlugin(RealtimePlugin)
+
+  if (!flag('coachco2.forceAllSelectedAccount.disabled')) {
+    forceAllSelectedAccountToAppSettings(client)
+  }
 
   Sentry.init({
     dsn: 'https://9f18ae40b7a3ec801af8fcee845bca53@errors.cozycloud.cc/67',
