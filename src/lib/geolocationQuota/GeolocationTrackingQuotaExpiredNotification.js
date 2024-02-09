@@ -1,6 +1,6 @@
 import { NotificationView } from 'cozy-notifications'
 
-import template from './GeolocationTrackingQuotaExpiredTemplate.hbs'
+import template from './geolocationTrackingQuotaExpiredTemplate.hbs'
 import { getExtraQuotaNotificationAttributes } from './notificationHelper'
 
 class GeolocationTrackingQuotaExpiredNotification extends NotificationView {
