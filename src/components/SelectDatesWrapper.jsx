@@ -17,7 +17,7 @@ const computeOptions = (isLoading, timeseries) => {
 
 const getQuery = ({ isAllAccountsSelected, accountId }) => {
   if (isAllAccountsSelected) {
-    return buildAggregatedTimeseriesQuery({ limitBy: 1000 })
+    return buildAggregatedTimeseriesQuery({ limit: 1000 })
   }
   return buildAggregatedTimeseriesQueryByAccountId({
     accountId,
