@@ -27,26 +27,101 @@ Cozy's apps use a standard set of _npm scripts_ to run common tasks, like watch,
 
 ### Fixtures
 
-You can import fixtures to quickly deal with datas
+You can import fixtures to quickly deal with data.
+
+⚠️ You need to run the `timeseriesWithoutAggregateMigration` services after any insertion to make your trips usable in the app. See [below](#Aggregation_service) for more details.
+
+#### Add multiple trips
+
+Finally, run the following command to import fixtures:
 
 ```sh
 $ yarn fixtures
 ```
 
-### Services
+Alternatively, if you do not wish to work on the default `http://cozy.localhost:8080` URL, please use the following commands:
 
-You can run a migration service to add aggregation data on your timeseries.
+```bash
+yarn ACH import accounts/tracemob.json --url http://your_custom_url:port
+yarn ACH script timeseries/importGeojson --url http://your_custom_url:port
+```
+
+#### Add single trips
+Then you can generate a random trip by running (use `--help` for more information)
+
+```
+yarn scripts:addTrip
+```
+
+Or if you don't use the defaut `http://cozy.localhost:8080`:
+
+```bash
+yarn script:addTrip --url http://your_custom_url:port
+```
+
+#### Add single account
+This script allows you to add a tracemob or openpath type account
+
+For openpath account you can specify a custom token. Specify a token set the `--source-account` option to `openpath`. (use `--help` for more information)
+
+```
+yarn scripts:addAccount [-l, --login] <login>
+```
+
+#### Drop single account
+This script allows you to delete an account (tracemob or openpath) as well as the associated timeseries.
+
+In the case where the account is the one selected by default in the app, if another account exists then we update with the first other account found. (use `--help` for more information)
+
+```
+yarn scripts:dropAccount --source-account <id>
+```
+
+### Aggregation service
+
+You can run a migration service to add aggregation data on your timeseries. This is necessary because the trips documents can be huge and negatively impact the app performances. Therefore, we rely on an aggregated trip view on the app side. If the aggregation is missing, the trip won't be displayed.
+
+⚠️ Make sure to update your development URL in `./konnector-dev-config.json` in the field `"COZY_URL"` if you do not wish to use the default URL `http://cozy.localhost:8080`.
+
+⚠️ You need to build the application before using services, to generate them.
 
 ```sh
 $ yarn build
 $ yarn service:timeseriesWithoutAggregateMigration
 ```
 
+⚠️ If the service is not working due to an invalid JWT token, please delete it from your filesystem and restart the service, it was probably created for another instance that the one you're querying for (the token path will be printed in the error message).
+You will then be prompted to login again, possibly from a `localhost:3333` server if your cozy-url is not ending with `localhost` or `tools`. It shouldn't be an issue unless you have a tight management of port forwarding in place.
+
 ### Feature flags availables
 
-`coachco2.admin-mode`: activate some hidden functions
-`coachco2.dacc-dev_v2`: to use dev version of DACC
+- `coachco2.admin-mode`: activate some hidden functions
+- `coachco2.fake-dacc-datas.enabled`: use same data for DACC in CO2 emissions chart
+- `coachco2.dacc-dev_v2`: to use dev version of DACC
+- `coachco2.bikegoal.enabled`: to activate the "bike goal" feature. To work properly `coachco2.bikegoal.settings` should be set too.
+- `coachco2.bikegoal.settings`: to change settings by context. It's an object:
+  - **bountyAmount**: `<number>` - amount of the bonus granted
+  - **daysToReach**: `<number>` - number of days to be reached to benefit from the bonus
+  - **sourceType**: `<string>` - type of source entity issuing the bonus.
+  - **sourceName**: `<string>` - name of the source entity
+  - **sourceOffer**: `<string>` - offer proposed by the source
 
+
+### Add a mode of transport
+- To [constants.js](./src/constants.js) file:
+  - Export constant mode:
+    `export const <modeName>_MODE = '<modeName>'`
+  - Export CO2 constants, given in kg per km:
+    `export const <modeName>_CO2_KG_PER_KM = <number>`
+- To [helpers.js](./src/components/helpers.js) file:
+  - Add new mode to `modes` array
+  - Add case to `pickModeIcon` function (Importing the icon from cozy-ui required)
+  - Add case to `modeToColor` function (used on Analysis pages)
+  - Add case to `getAverageCO2PerKmByMode` function
+  - Add case to `modeToCategory` function
+- To [metrics.js](./src/lib/metrics.js) file:
+  - Add case to `computeCO2Section` function
+- And finally, add the translations ([fr](./src/locales/fr.json), [en](./src/locales/en.json))
 
 ### Run it inside a Cozy using Docker
 
@@ -130,15 +205,15 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
         "start_loc": { // starting point coordinates
           "type": "Point",
           "coordinates": [
-            -0.8119085,
-            46.4536633
+            -0.8119085, // longitude
+            46.4536633 // latitude
           ]
         },
         "end_loc": { // ending point coordinates
           "type": "Point",
           "coordinates": [
-            -0.8119085,
-            46.4536633
+            -0.8119085, // longitude
+            46.4536633 // latitude
           ]
         },
         "start_place": {
@@ -148,14 +223,15 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
           "$oid": "6248ec5e5d25e718233a509a"
         },
         "confidence_threshold": 0.65,
-        "manual_purpose": "ENTERTAINMENT" // Trip purpose set by the user
+        "manual_purpose": "ENTERTAINMENT", // Trip purpose set by the user
+        "automatic_purpose": "ENTERTAINMENT" // Trip purpose automatically detected
       },
       "features": [
         { // starting place
           "type": "Feature",
           "geometry": {
             "type": "Point",
-            "coordinates": [-0.8119085, 46.4536633]
+            "coordinates": [-0.8119085, 46.4536633] // longitude, latitude
           },
           "id": "6248ec5d5d25e718264a4099",
           "properties": {
@@ -170,7 +246,7 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
           "type": "Feature",
           "geometry": {
             "type": "Point",
-            "coordinates": [-0.7519085, 46.4536633]
+            "coordinates": [-0.7519085, 46.4536633] // longitude, latitude
           },
           "id": "6248ec5e5d25e718264a409a",
           "properties": {
@@ -212,6 +288,51 @@ The doc returned from `io.cozy.timeseries.geojson` is a `timeserie`. The `series
 }
 ```
 
+### Aggregation
+
+Every timeserie is automatically aggregated by a service, to sum up the `series` content into an `aggregation` object, saved directly inside the `io.cozy.timeseries.geojson` document. Here is an example:
+
+```json
+{
+  "aggregation": {
+    "modes": [
+      "WALKING"
+    ],
+    "purpose": "ENTERTAINMENT",
+    "sections": [
+      {
+        "CO2": 0,
+        "avgSpeed": 5.204285178716263,
+        "calories": 22.83998061653227,
+        "distance": 377.40909178940984,
+        "duration": 210.9319999217987,
+        "id": "600772889801285fa1f3a7b6",
+        "mode": "WALKING",
+        "startDate": "2021-01-19T16:54:26.068Z",
+        "endDate": "2021-01-19T16:57:57.000Z"
+      }
+    ],
+    "startPlaceDisplayName": "Avenue Jean Guiton, La Rochelle",
+    "endPlaceDisplayName": "Rue Ampère, La Rochelle",
+    "coordinates": {
+      "startPoint": {
+        "lon": -0.8119085,
+        "lat": 46.4536633
+      },
+      "endPoint": {
+        "lon": -0.7519085,
+        "lat": 46.4536633
+      }
+    },
+    "totalCO2": 0,
+    "totalCalories": 22.83998061653227,
+    "totalDistance": 377.40909178940984,
+    "totalDuration": 210.9319999217987
+  }
+}
+
+```
+
 ## DACC
 
 This app uses the [DACC](https://github.com/cozy/DACC) to send and received anonymized contributions.
@@ -239,6 +360,15 @@ Now, thanks to this, you should be able to use the DACC's remote-doctype!
 
 ## Community
 
+### Localization
+
+Localization and translations are handled by [Transifex][tx], which is used by all Cozy's apps.
+
+As a _translator_, you can login to [Transifex][tx-signin] (using your Github account) and claim an access to the [app repository][tx-app]. Transifex will then create pull request on the repository, and the locales are merged after validating the pull request.
+
+As a _developer_, you just have to modify json in `/src/locales`. New locales will be automatically added to Transifex. If you need to pull or push manually locales, you can use [Transifex CLI](tx-cli). If you were using a [transifex-client](tx-client), you must move to [Transifex CLI](tx-cli) to be compatible with the v3 API.
+
+
 ### What's Cozy?
 
 <div align="center">
@@ -259,7 +389,7 @@ The lead maintainer for Coach CO2 is [cozy](https://github.com/cozy), send him/h
 
 You can reach the Cozy Community by:
 
-- Chatting with us on IRC [#cozycloud on Freenode][freenode]
+- Chatting with us on IRC [#cozycloud on Libera.Chat][libera]
 - Posting on our [Forum][forum]
 - Posting issues on the [Github repos][github]
 - Say Hi! on [Twitter][twitter]
@@ -288,7 +418,7 @@ Coach CO2 is developed by cozy and distributed under the [AGPL v3 license][agpl-
 [tx-signin]: https://www.transifex.com/signin/
 [tx-app]: https://www.transifex.com/cozy/<SLUG_TX>/dashboard/
 [tx-client]: http://docs.transifex.com/client/
-[freenode]: http://webchat.freenode.net/?randomnick=1&channels=%23cozycloud&uio=d4
+[libera]: https://web.libera.chat/#cozycloud
 [forum]: https://forum.cozy.io/
 [github]: https://github.com/cozy/
 [twitter]: https://twitter.com/cozycloud
