@@ -13,7 +13,7 @@ export const initPolyglot = () => {
   const polyglot = initTranslation(lang, dictRequire)
   const t = polyglot.t.bind(polyglot)
 
-  return { t }
+  return { t, lang, dictRequire }
 }
 
 export const startService = async (client, serviceName, { fields } = {}) => {

@@ -87,6 +87,7 @@
     "cozy-keys-lib": "^6.0.0",
     "cozy-logger": "^1.10.4",
     "cozy-minilog": "^3.3.1",
+    "cozy-notifications": "^0.15.0",
     "cozy-realtime": "^5.0.0",
     "cozy-sharing": "^10.2.0",
     "cozy-ui": "^103.0.0",
@@ -95,10 +96,14 @@
     "leaflet": "1.9.1",
     "lodash": "^4.17.21",
     "node-fetch": "2.6.7",
+    "raw-loader": ">=4.0.2",
     "react": "18.2.0",
     "react-chartjs-2": "4.0.1",
     "react-dom": "18.2.0",
     "react-leaflet": "4.1.0",
     "react-router-dom": "6.3.0"
+  },
+  "resolutions": {
+    "cheerio": "1.0.0-rc.3"
   }
 }
