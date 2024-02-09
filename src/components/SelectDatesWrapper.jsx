@@ -21,7 +21,7 @@ const getQuery = ({ isAllAccountsSelected, accountId }) => {
   }
   return buildAggregatedTimeseriesQueryByAccountId({
     accountId,
-    limitBy: 1000
+    limit: 1000
   })
 }
 

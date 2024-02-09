@@ -35,7 +35,7 @@ const getQuery = ({ isAllAccountsSelected, accountId }) => {
   }
   return buildAggregatedTimeseriesQueryByAccountId({
     accountId,
-    limitBy: 50
+    limit: 50
   })
 }
 
