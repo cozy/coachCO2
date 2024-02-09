@@ -8680,10 +8680,10 @@ cosmiconfig@^7.0.0, cosmiconfig@^7.0.1:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
-cozy-ach@^1.49.0:
-  version "1.49.0"
-  resolved "https://registry.yarnpkg.com/cozy-ach/-/cozy-ach-1.49.0.tgz#5a73672ad449f5bafc37b90f7a7761ae7d29b731"
-  integrity sha512-fyqvQGkwshP+F/bo6RANpjCEd7/eyZc4cO+KtWiVh3CZK4TWJI8M8qlg6o+vxUmQkKtkeEglXJM6SS41gzykpQ==
+cozy-ach@^1.51.0:
+  version "1.51.0"
+  resolved "https://registry.yarnpkg.com/cozy-ach/-/cozy-ach-1.51.0.tgz#40290a79da36859a316dd2cb2865009ee5ac46c3"
+  integrity sha512-qMus+rq8FNMHS4lnmv1bseY8U+eF7u+ttcL9bwpvjlZrq2Pgz1hmQz7Ibfhe9Zjj5BF5IpDVsZqNUsjViOAv8g==
   dependencies:
     babel-runtime "6.26.0"
     btoa "1.2.1"
