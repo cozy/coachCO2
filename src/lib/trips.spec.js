@@ -65,6 +65,50 @@ describe('getSectionsFromTrip', () => {
 })
 
 describe('getFeatureMode', () => {
+  it('should return the manual mode if present', () => {
+    const result = getFeatureMode(
+      {
+        properties: {
+          manual_mode: 'BICYCLING',
+          sensed_mode: 'PredictedModeTypes.CAR'
+        }
+      },
+      {
+        defaultTransportModeByGroup: { BICYCLING_CATEGORY: 'SCOOTER_ELECTRIC' }
+      }
+    )
+
+    expect(result).toBe('BICYCLING')
+  })
+
+  it('should return the sensed mode if no manual mode', () => {
+    const result = getFeatureMode(
+      {
+        properties: {
+          manual_mode: undefined,
+          sensed_mode: 'PredictedModeTypes.CAR'
+        }
+      },
+      {
+        defaultTransportModeByGroup: undefined
+      }
+    )
+    expect(result).toBe('CAR')
+  })
+
+  it('should return the default mode for undefined manual, sensed and default mode', () => {
+    const result = getFeatureMode(
+      {
+        properties: { manual_mode: undefined, sensed_mode: undefined }
+      },
+      {
+        defaultTransportModeByGroup: undefined
+      }
+    )
+
+    expect(result).toBe('UNKNOWN')
+  })
+
   it('should return the default mode if sensed mode is same category', () => {
     const result = getFeatureMode(
       {

@@ -22,14 +22,16 @@ export const getEndPlaceDisplayName = trip => {
 
 /**
  * Returns the mode of a feature
+ * manual mode is created when the user edit the feature mode manualy
  * sensed mode is created by the prediction algorithm
  * default mode is created by the user in the settings of mode, if defined it takes priority over sensed mode
  * @param {object} feature - The feature from a section
  * @param {object} appSetting - The app settings
- * @returns The feature's mode depending on whether it has been changed manually
+ * @returns The mode used in the following priority: manual / default / sensed / unknown
  */
 export const getFeatureMode = (feature, appSetting) => {
   const { defaultTransportModeByGroup } = appSetting || {}
+  const manualMode = get(feature, 'properties.manual_mode', '').toUpperCase()
   const sensedOriginalMode = get(
     feature,
     'properties.sensed_mode',
@@ -40,12 +42,14 @@ export const getFeatureMode = (feature, appSetting) => {
     sensedOriginalMode.split('PREDICTEDMODETYPES.')[1] ||
     sensedOriginalMode.split('MOTIONTYPES.')[1]
   const isSupportedSensedMode = modes.includes(sensedMode)
+  const isSupportedManualMode = modes.includes(manualMode)
 
   const defaultMode = modes.find(
     mode => defaultTransportModeByGroup?.[modeToCategory(sensedMode)] === mode
   )
 
   return (
+    (isSupportedManualMode && manualMode) ||
     (!!defaultMode && defaultMode) ||
     (isSupportedSensedMode && sensedMode) ||
     UNKNOWN_MODE
