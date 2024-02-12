@@ -3,16 +3,24 @@ import { keepOnlyNewTrips } from './utils'
 describe('remove duplicates', () => {
   const incomingTrips = [
     {
-      properties: {
-        start_fmt_time: '2021-01-01T12:00:00',
-        end_fmt_time: '2021-01-01T13:00:00'
-      }
+      series: [
+        {
+          properties: {
+            start_fmt_time: '2021-01-01T12:00:00',
+            end_fmt_time: '2021-01-01T13:00:00'
+          }
+        }
+      ]
     },
     {
-      properties: {
-        start_fmt_time: '2021-01-02T12:00:00',
-        end_fmt_time: '2021-01-02T13:00:00'
-      }
+      series: [
+        {
+          properties: {
+            start_fmt_time: '2021-01-02T12:00:00',
+            end_fmt_time: '2021-01-02T13:00:00'
+          }
+        }
+      ]
     }
   ]
 
