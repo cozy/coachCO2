@@ -1,18 +1,19 @@
 import { chunk, differenceWith } from 'lodash'
+import { FETCH_TRIPS_SERVICE_NAME } from 'src/constants'
 
 export const canSaveNextTripsChunk = (startExecTime, timeout) => {
   const executionTimeSeconds = (new Date() - startExecTime) / 1000
   return executionTimeSeconds < timeout
 }
 
-export const restartKonnector = async (client, accountId) => {
+export const restartService = async client => {
   const args = {
-    konnector: 'openpath',
-    account: accountId
+    name: FETCH_TRIPS_SERVICE_NAME,
+    slug: 'coachco2'
   }
 
   const jobCollection = client.collection('io.cozy.jobs')
-  return jobCollection.create('konnector', args)
+  return jobCollection.create('service', args)
 }
 
 export const createChunks = (tripsMetadata, chunkSize) => {

@@ -4,7 +4,7 @@ import { saveAccountData } from 'src/lib/openpath/save'
 import { getFirstAndLastTripTimestamp } from 'src/lib/openpath/traceRequests'
 import {
   canSaveNextTripsChunk,
-  restartKonnector,
+  restartService,
   createChunks
 } from 'src/lib/openpath/utils'
 
@@ -80,8 +80,8 @@ export const fetchTrips = async (client, account) => {
           'info',
           `No time left to save the remaining trips, restart job.`
         )
-        // Abort the execution to avoid timeout and restart the job
-        await restartKonnector(client, accountId)
+      // Abort the execution to avoid timeout and restart the job
+      await restartService(client)
         return
       }
     }
