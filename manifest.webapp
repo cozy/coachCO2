@@ -160,6 +160,16 @@
       "debounce": "2m"
     }
   },
+  "notifications": {
+    "geolocationQuota": {
+      "description": "Notify the user when the geolocation quota will expire soon or is expired",
+      "collapsible": false,
+      "stateful": true,
+      "multiple": false,
+      "default_priority": "normal",
+      "templates": {}
+    }
+  },
   "locales": {
     "en": {
       "short_description": "Keep track of your trips and analyze their impact on the environment.",
