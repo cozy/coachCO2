@@ -274,6 +274,7 @@ export const DACC_MONTHLY_CO2_SERVICE_NAME = 'daccMonthlyCO2'
 export const DACC_BIKE_GOAL_SERVICE_NAME = 'daccBikeGoal'
 export const MAX_DACC_MEASURES_SENT = 12
 
+export const FETCH_TRIPS_SERVICE_NAME = 'fetchOpenPathTrips'
 export const RECURRING_PURPOSES_SERVICE_NAME = 'recurringPurposes'
 // Maximum distance ratio gap between trips to be considered as similar
 export const TRIPS_DISTANCE_SIMILARITY_RATIO = 0.1

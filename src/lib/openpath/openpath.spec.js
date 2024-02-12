@@ -10,13 +10,13 @@ jest.mock('src/lib/openpath/lib', () => ({
 }))
 jest.mock('src/lib/openpath/utils', () => ({
   ...jest.requireActual('./utils'),
-  restartKonnector: jest.fn()
+  restartService: jest.fn()
 }))
 jest.mock('src/lib/openpath/save', () => ({
   saveAccountData: jest.fn()
 }))
 jest.mock('./queries.js')
-import { restartKonnector } from 'src/lib/openpath/utils'
+import { restartService } from 'src/lib/openpath/utils'
 
 import { createMockClient } from 'cozy-client'
 
@@ -37,13 +37,13 @@ describe('timeout', () => {
   it('should not restart execution when timeout is not reached', async () => {
     process.env.COZY_TIME_LIMIT = 3600 // in seconds
     await fetchTrips(mockClient, mockAccount)
-    expect(restartKonnector).toHaveBeenCalledTimes(0)
+    expect(restartService).toHaveBeenCalledTimes(0)
   })
 
   it('should restart execution when timeout is detected', async () => {
     process.env.COZY_TIME_LIMIT = 1
     await fetchTrips(mockClient, mockAccount)
-    expect(restartKonnector).toHaveBeenCalledTimes(1)
+    expect(restartService).toHaveBeenCalledTimes(1)
   })
 })
 
