@@ -32,17 +32,22 @@ const mockAccount = {
     lastSavedManualDate: Date.now()
   }
 }
+const startDate = new Date()
+
 const mockClient = createMockClient({})
 describe('timeout', () => {
   it('should not restart execution when timeout is not reached', async () => {
     process.env.COZY_TIME_LIMIT = 3600 // in seconds
-    await fetchTrips(mockClient, mockAccount)
+    await fetchTrips(mockClient, mockAccount, startDate)
     expect(restartService).toHaveBeenCalledTimes(0)
   })
 
   it('should restart execution when timeout is detected', async () => {
     process.env.COZY_TIME_LIMIT = 1
-    await fetchTrips(mockClient, mockAccount)
+    const tripsMetadata = new Array(TRIPS_CHUNK_SIZE * 2).fill({})
+    fetchTripsMetadata.mockResolvedValue(tripsMetadata)
+    fetchAndSaveTrips.mockResolvedValue({ lastSavedTripDate: null })
+    await fetchTrips(mockClient, mockAccount, startDate)
     expect(restartService).toHaveBeenCalledTimes(1)
   })
 })
@@ -50,20 +55,27 @@ describe('timeout', () => {
 describe('save data', () => {
   beforeEach(() => {
     process.env.COZY_TIME_LIMIT = 3600 // in seconds
+    jest.resetAllMocks()
   })
 
   it('should save data in chunks', async () => {
     const tripsMetadata = new Array(TRIPS_CHUNK_SIZE * 2).fill({})
     fetchTripsMetadata.mockResolvedValue(tripsMetadata)
-    await fetchTrips(mockClient, mockAccount)
+    fetchAndSaveTrips.mockResolvedValue({
+      savedCount: 1,
+      lastSavedTripDate: new Date('2021-01-01')
+    })
+    await fetchTrips(mockClient, mockAccount, startDate)
     expect(fetchAndSaveTrips).toHaveBeenCalledTimes(2)
   })
 
   it('should save the last saved trip date', async () => {
     const accountData = mockAccount.data
     fetchTripsMetadata.mockResolvedValue([{}])
-    fetchAndSaveTrips.mockResolvedValue(new Date('2021-01-01'))
-    await fetchTrips(mockClient, mockAccount)
+    fetchAndSaveTrips.mockResolvedValue({
+      lastSavedTripDate: new Date('2021-01-01')
+    })
+    await fetchTrips(mockClient, mockAccount, startDate)
     expect(saveAccountData).toHaveBeenCalledWith(mockClient, '123', {
       ...accountData,
       lastSavedTripDate: new Date('2021-01-01')

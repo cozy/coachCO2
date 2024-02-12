@@ -1,6 +1,7 @@
 import { createMockClient } from 'cozy-client'
 
 import { fetchAndSaveTrips } from './lib'
+import { saveTrips } from './save'
 import { getTripsForDay } from './traceRequests.js'
 
 jest.mock('./save', () => ({
@@ -18,6 +19,7 @@ const token = 'fake-token'
 describe('konnector', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.spyOn(mockClient, 'query').mockResolvedValue({ data: [{}] })
   })
 
   it('should correctly fetch trips', async () => {
@@ -77,7 +79,8 @@ describe('konnector', () => {
     getTripsForDay.mockResolvedValueOnce(fullTripsDay1)
     getTripsForDay.mockResolvedValueOnce(fullTripsDay2)
 
-    const lastTripDate = await fetchAndSaveTrips(
+    saveTrips.mockResolvedValueOnce(3)
+    const { savedCount, lastSavedTripDate } = await fetchAndSaveTrips(
       mockClient,
       token,
       mockedTrips,
@@ -90,6 +93,7 @@ describe('konnector', () => {
     expect(getTripsForDay).toHaveBeenNthCalledWith(1, token, '2021-02-01')
     expect(getTripsForDay).toHaveBeenNthCalledWith(2, token, '2021-02-02')
 
-    expect(lastTripDate).toBe('2021-03-01T12:00:02')
+    expect(savedCount).toEqual(3)
+    expect(lastSavedTripDate).toEqual('2021-03-01T12:00:02')
   })
 })
