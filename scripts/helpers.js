@@ -7,6 +7,20 @@ const COZY_CLIENT_CLI = 'io.cozy.client.cli'
 const ACCOUNT_TYPES = ['tracemob', 'openpath']
 
 /**
+ * @typedef {object} SourceAccountResponse
+ * @property {string} login
+ * @property {string} id
+ */
+
+/**
+ * @param {import('cozy-client/types/types').AccountsDocument} account
+ * @returns {SourceAccountResponse}
+ */
+const getSourceAccountResponse = account => {
+  return { login: account.auth.login, id: account._id }
+}
+
+/**
  * @typedef {object} Args
  * @property {string} source_account
  * @property {string} login
@@ -19,11 +33,16 @@ const ACCOUNT_TYPES = ['tracemob', 'openpath']
  * @param  {object} opts
  * @param  {import('cozy-client/types/CozyClient').default} opts.client
  * @param  {Args} opts.args
- * @returns {Promise<string>} source account id
+ * @returns {Promise<SourceAccountResponse>} source account id
  */
 const getSourceAccount = async ({ client, args }) => {
   if (args.source_account) {
-    return args.source_account
+    const { data: account } = await client.query(
+      Q(ACCOUNTS_DOCTYPE).getById(args.source_account),
+      { singleDocData: true }
+    )
+
+    return getSourceAccountResponse(account)
   }
 
   const { data: accounts } = await client.query(
@@ -39,7 +58,7 @@ const getSourceAccount = async ({ client, args }) => {
   }
 
   if (accounts.length === 1) {
-    return accounts[0]._id
+    return getSourceAccountResponse(accounts[0])
   }
 
   if (!args.login) {
@@ -66,7 +85,7 @@ const getSourceAccount = async ({ client, args }) => {
     )
   }
 
-  return accountFound._id
+  return getSourceAccountResponse(accountFound)
 }
 
 module.exports = {

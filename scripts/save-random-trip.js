@@ -126,8 +126,9 @@ const main = async () => {
     _type: GEOJSON_DOCTYPE,
     startDate,
     endDate,
+    captureDevice: sourceAccount.login,
     cozyMetadata: {
-      sourceAccount
+      sourceAccount: sourceAccount.id
     },
     series: [
       {
