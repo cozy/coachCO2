@@ -26,10 +26,11 @@ export const keepOnlyNewTrips = async ({ incomingTrips, existingTrips }) => {
 
   const tripsToSave = differenceWith(incomingTrips, existingTrips, trip => {
     const duplicate = existingTrips.find(existingTrip => {
+      const newTrip = trip.series[0]
       return (
-        new Date(trip.properties.start_fmt_time).getTime() ===
+        new Date(newTrip.properties.start_fmt_time).getTime() ===
           new Date(existingTrip.startDate).getTime() &&
-        new Date(trip.properties.end_fmt_time).getTime() ===
+        new Date(newTrip.properties.end_fmt_time).getTime() ===
           new Date(existingTrip.endDate).getTime()
       )
     })
