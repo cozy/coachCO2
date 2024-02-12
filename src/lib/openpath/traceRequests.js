@@ -81,6 +81,22 @@ export const getTripsForDay = async (token, day) => {
 }
 
 /**
+ * Request openpath purge
+ *
+ * @param {string} token - The account token
+ * @param {string} beforeDate - The date before which data can be purged
+ * @returns {Promise<OpenPathResponse>} The openpath server response
+ */
+export const requestOpenPathPurge = async (token, beforeDate) => {
+  const url = `${OPENPATH_URL}/cozy/run/purge`
+  const body = {
+    user: token,
+    before_date: beforeDate
+  }
+  return requestOpenPath(url, body)
+}
+
+/**
  * Request the OpenPath server
  *
  * @param {string} url - The openpath url to request

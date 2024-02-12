@@ -1,7 +1,11 @@
 import fetch from 'node-fetch'
 import schema from 'src/doctypes'
 import { checkAndSendGeolocationQuotaNotification } from 'src/lib/geolocationQuota/lib'
-import { fetchTrips } from 'src/lib/openpath/openpath'
+import {
+  fetchTrips,
+  getStartingDate,
+  purgeOpenPath
+} from 'src/lib/openpath/openpath'
 import {
   queryAccountByToken,
   queryLastServiceAccount
@@ -59,9 +63,21 @@ const fetchOpenPathTrips = async () => {
   }
   client.setAppMetadata(appMetadata)
 
-  await fetchTrips(client, account)
+  const startDate = await getStartingDate(account)
+  if (!startDate) {
+    logService('info', 'No trip saved yet. Abort.')
+    return
+  }
+  const savedTripsCount = await fetchTrips(client, account, startDate)
+  logService('info', `Saved ${savedTripsCount} trips`)
+  if (savedTripsCount > 0) {
+    await checkAndSendGeolocationQuotaNotification(client, logService)
 
-  await checkAndSendGeolocationQuotaNotification(client, logService)
+    // When all the trips have been fetched and saved, openpath server can be
+    // told to cleanup the data.
+    // The given date corresponds to the previous trip start date
+    await purgeOpenPath(account, startDate)
+  }
 }
 
 fetchOpenPathTrips().catch(e => {

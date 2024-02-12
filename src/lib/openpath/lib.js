@@ -52,11 +52,14 @@ export const fetchTripsMetadata = async (
 /**
  * Fetch and save trips from a trace server
  *
+ * @typedef FetchResult
+ * @property {number} savedCount - The number of saved trips
+ * @property {string} lastSavedTripDate - The last saved trip date
+ *
  * @param {string} token - The user token
  * @param {Array<OpenPathTrip>} tripsMetadata - The trips metadata to fetch
  * @param {object} option - The options
-
- * @returns {Promise<string| null>} The date of the last saved trip
+ * @returns {Promise<FetchResult>} The fetching results
  */
 export const fetchAndSaveTrips = async (
   client,
@@ -96,7 +99,7 @@ export const fetchAndSaveTrips = async (
     }
   }
   if (fetchedTrips.length < 1) {
-    return null
+    return { savedCount: 0, lastSavedTripDate: null }
   }
 
   log.info(`${fetchedTrips.length} trips fetched`)
@@ -104,6 +107,11 @@ export const fetchAndSaveTrips = async (
   const tripsToSave = await normalizeTrips(client, fetchedTrips, {
     device
   })
-  await saveTrips(client, tripsToSave, { accountId })
-  return tripsMetadata[tripsMetadata.length - 1].metadata.write_fmt_time
+  const savedCount = await saveTrips(client, tripsToSave, { accountId })
+  const lastSavedTripDate =
+    savedCount > 0
+      ? tripsMetadata[tripsMetadata.length - 1].metadata.write_fmt_time
+      : null
+
+  return { savedCount, lastSavedTripDate }
 }

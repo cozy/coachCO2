@@ -19,7 +19,7 @@ const { t } = initPolyglot()
  * @property {string} device - The capturing device
  *
  * @param {Cozyclient} client - The cozy client instance
- * @param {RawGeoJSON>} trips - The trip to normalize
+ * @param {RawGeoJSON} trips - The trip to normalize
  * @param {Params} params - Additional params
  * @returns {Array<TimeseriesGeoJSON>} the normalized timeseries
  */
