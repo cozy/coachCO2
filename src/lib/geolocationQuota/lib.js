@@ -11,7 +11,8 @@ const REMAINING_DAYS_FOR_ALMOST_EXPIRED_NOTIFICATION = 3
 
 const getFirstTimeserie = async client => {
   const firstTimeserieQuery = buildAggregatedTimeseriesQuery({
-    limit: 1
+    limit: 1,
+    sortOrder: 'asc'
   }).definition
   const firstTimeserieResult = await client.query(firstTimeserieQuery)
   return firstTimeserieResult.data?.[0]

@@ -25,7 +25,10 @@ const neverReload = 100000 * 1000
 
 // Timeseries doctype -------------
 
-export const buildAggregatedTimeseriesQuery = ({ limit } = {}) => ({
+export const buildAggregatedTimeseriesQuery = ({
+  limit,
+  sortOrder = 'desc'
+} = {}) => ({
   definition: Q(GEOJSON_DOCTYPE)
     .where({})
     .partialIndex({
@@ -36,10 +39,10 @@ export const buildAggregatedTimeseriesQuery = ({ limit } = {}) => ({
     .select(['startDate', 'endDate', 'title', 'aggregation'])
     // FIXME "endDate" should be removed when https://github.com/cozy/cozy-client/issues/1216 fixed
     .indexFields(['startDate', 'endDate'])
-    .sortBy([{ startDate: 'desc' }])
+    .sortBy([{ startDate: sortOrder }])
     .limitBy(limit),
   options: {
-    as: `${GEOJSON_DOCTYPE}/limitedBy/${limit}`,
+    as: `${GEOJSON_DOCTYPE}/limitedBy/${limit}/sortedBy/${sortOrder}`,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
