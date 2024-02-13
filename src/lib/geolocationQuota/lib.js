@@ -91,7 +91,7 @@ export const checkAndSendGeolocationQuotaNotification = async (
 
   logService('info', `${remainingDays} days remaining for quota`)
 
-  if (remainingDays < 0) {
+  if (remainingDays <= 0) {
     logService('info', `Sending expired quota notification`)
     const notificationData = {
       maxDaysToCapture,
