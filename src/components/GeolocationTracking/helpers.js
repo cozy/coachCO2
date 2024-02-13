@@ -32,7 +32,10 @@ export const createOpenPathAccount = async ({
     auth: {
       login: newLogin
     },
-    token: newToken
+    token: newToken,
+    data: {
+      deviceName
+    }
   }
   await client.create(ACCOUNTS_DOCTYPE, attributes)
   return {
@@ -121,7 +124,10 @@ export const enableGeolocationTracking = async ({
         accountQuery.options
       )
       const account = resp?.[0]
-      if (!account?.token || account?.auth?.login !== deviceName) {
+      // The account.auth.login is kept for backward compatibility. The auth.login can include additional formatting, e.g.
+      // "iPhone - Created at ...", while the deviceName is directly given by the OS.
+      const storedDeviceName = account?.data?.deviceName || account?.auth?.login
+      if (!account?.token || storedDeviceName !== deviceName) {
         // Note that both konnector (without token) and service account (with token)
         // could have the same device name. A migration might be needed at some point.
         const account = await createOpenPathAccount({
