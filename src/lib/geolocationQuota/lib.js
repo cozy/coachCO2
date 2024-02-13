@@ -56,7 +56,7 @@ const buildQuotaAlmostExpiredNotification = (client, notificationData) => {
   return notificationView
 }
 
-const calculateRemainingDays = async (client, maxDaysToCapture) => {
+export const calculateRemainingDays = async (client, maxDaysToCapture) => {
   if (isMaxDaysToCaptureInvalidOrUnlimited(maxDaysToCapture)) {
     return Number.POSITIVE_INFINITY
   }
