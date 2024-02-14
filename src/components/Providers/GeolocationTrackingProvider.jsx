@@ -9,6 +9,7 @@ import { LocationDisabledDialog } from 'src/components/GeolocationTracking/Locat
 import {
   disableGeolocationTracking,
   enableGeolocationTracking,
+  getGeolocationTrackingId,
   checkPermissionsAndEnableTrackingOrShowDialog,
   syncTrackingStatusWithFlagship,
   getNewPermissionAndEnabledTrackingOrShowDialog,
@@ -84,6 +85,7 @@ export const GeolocationTrackingProvider = ({ children }) => {
       isGeolocationTrackingAvailable,
       isGeolocationTrackingEnabled,
       isGeolocationQuotaExceeded,
+      getGeolocationTrackingId: () => getGeolocationTrackingId(webviewIntent),
       disableGeolocationTracking: () =>
         disableGeolocationTracking(
           webviewIntent,

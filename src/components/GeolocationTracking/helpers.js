@@ -81,6 +81,10 @@ export const syncTrackingStatusWithFlagship = async (
   setIsGeolocationQuotaExceeded(quotaExceeded)
 }
 
+export const getGeolocationTrackingId = async webviewIntent => {
+  return webviewIntent?.call('getGeolocationTrackingId')
+}
+
 export const disableGeolocationTracking = async (
   webviewIntent,
   setIsGeolocationTrackingEnabled,
@@ -102,9 +106,7 @@ export const enableGeolocationTracking = async ({
   setIsGeolocationTrackingEnabled
 }) => {
   // create account if necessary
-  const geolocationTrackingId = await webviewIntent?.call(
-    'getGeolocationTrackingId'
-  )
+  const geolocationTrackingId = await getGeolocationTrackingId(webviewIntent)
 
   if (geolocationTrackingId === null) {
     const { deviceName } = (await webviewIntent?.call('getDeviceInfo')) || {
