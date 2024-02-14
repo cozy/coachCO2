@@ -2,7 +2,7 @@ import { OPENPATH_ACCOUNT_TYPE } from 'src/constants'
 import { ACCOUNTS_DOCTYPE } from 'src/doctypes'
 import {
   buildAccountQueryByLogin,
-  buildLastCreatedServiceAccountQuery
+  buildServiceAccountsQueryByCreatedAt
 } from 'src/queries/queries'
 
 import { isFlagshipApp } from 'cozy-device-helper'
@@ -118,7 +118,8 @@ export const enableGeolocationTracking = async ({
 
     if (deviceName) {
       let password
-      const accountQuery = buildLastCreatedServiceAccountQuery()
+      // Get latest service account, by creation date
+      const accountQuery = buildServiceAccountsQueryByCreatedAt({ limit: 1 })
       const { data: resp } = await client.query(
         accountQuery.definition,
         accountQuery.options
