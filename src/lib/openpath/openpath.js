@@ -75,7 +75,11 @@ export const fetchTrips = async (client, account, startDate) => {
   const tripsMetadata = await fetchTripsMetadata(token, startDate, {
     excludeFirst: !firstRun
   })
-  logService('info', `Trips metadata ${JSON.stringify(tripsMetadata)}`)
+  if (!tripsMetadata || tripsMetadata.length < 1) {
+    logService('No trips metadata found')
+    return
+  }
+  logService('info', `Found ${tripsMetadata.length} trips metadata`)
 
   /* Create chunks of trips to serialize execution */
   const tripChunks = createChunks(tripsMetadata, TRIPS_CHUNK_SIZE)

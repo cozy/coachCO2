@@ -415,7 +415,7 @@ export const buildAccountQuery = ({
   }
 }
 
-export const buildLastCreatedServiceAccountQuery = () => {
+export const buildServiceAccountsQueryByCreatedAt = ({ limit = 100 } = {}) => {
   const queryDef = Q(ACCOUNTS_DOCTYPE)
     .where({
       'cozyMetadata.createdAt': {
@@ -430,7 +430,7 @@ export const buildLastCreatedServiceAccountQuery = () => {
     })
     .indexFields(['cozyMetadata.createdAt'])
     .sortBy([{ 'cozyMetadata.createdAt': 'desc' }])
-    .limitBy(1)
+    .limitBy(limit)
   return {
     definition: queryDef,
     options: {

@@ -8,7 +8,7 @@ import {
 } from 'src/lib/openpath/openpath'
 import {
   queryAccountByToken,
-  queryLastServiceAccount
+  queryServiceAccounts
 } from 'src/lib/openpath/queries'
 
 import CozyClient from 'cozy-client'
@@ -42,41 +42,53 @@ const fetchOpenPathTrips = async () => {
 
   const client = CozyClient.fromEnv(process.env, { schema })
 
-  let account
+  let accounts
   if (user) {
     // Find account from given user token
-    account = await queryAccountByToken(client, user)
+    const account = await queryAccountByToken(client, user)
+    if (account) {
+      accounts = [account]
+    }
   } else {
-    // Find account from creation date
-    account = await queryLastServiceAccount(client)
+    // Find all service accounts
+    accounts = await queryServiceAccounts(client)
   }
 
-  if (!account) {
+  if (!accounts || accounts.length < 1) {
     logService('info', 'No account found. Abort.')
     return
   }
-  // This is required to set the sourceAccount, which is used to filter
-  // trips by account
-  const appMetadata = {
-    sourceAccount: account._id,
-    slug: 'coachco2'
-  }
-  client.setAppMetadata(appMetadata)
 
-  const startDate = await getStartingDate(account)
-  if (!startDate) {
-    logService('info', 'No trip saved yet. Abort.')
-    return
+  let totalSavedTrips = 0
+  for (const account of accounts) {
+    // This is required to set the sourceAccount, which is used to filter
+    // trips by account
+    const appMetadata = {
+      sourceAccount: account._id,
+      slug: 'coachco2'
+    }
+    client.setAppMetadata(appMetadata)
+
+    const startDate = await getStartingDate(account)
+    if (!startDate) {
+      logService('info', `No trip saved yet for account ${account._id}. Abort.`)
+      continue
+    }
+    const savedTripsCount = await fetchTrips(client, account, startDate)
+    logService(
+      'info',
+      `Saved ${savedTripsCount} trips for account ${account._id}`
+    )
+    if (savedTripsCount > 0) {
+      // When all the trips have been fetched and saved, openpath server can be
+      // told to cleanup the data.
+      // The given date corresponds to the previous trip start date
+      await purgeOpenPath(account, startDate)
+      totalSavedTrips += savedTripsCount
+    }
   }
-  const savedTripsCount = await fetchTrips(client, account, startDate)
-  logService('info', `Saved ${savedTripsCount} trips`)
-  if (savedTripsCount > 0) {
+  if (totalSavedTrips > 0) {
     await checkAndSendGeolocationQuotaNotification(client, logService)
-
-    // When all the trips have been fetched and saved, openpath server can be
-    // told to cleanup the data.
-    // The given date corresponds to the previous trip start date
-    await purgeOpenPath(account, startDate)
   }
 }
 
