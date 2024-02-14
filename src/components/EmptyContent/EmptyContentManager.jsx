@@ -44,7 +44,7 @@ const EmptyContentManager = () => {
     return <InstallApp />
   }
 
-  if (!isGeolocationTrackingEnabled || !account) {
+  if (!isGeolocationTrackingEnabled || (!account && !isAllAccountsSelected)) {
     return <Welcome />
   }
 

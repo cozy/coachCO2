@@ -14,13 +14,15 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 const GPSStandby = () => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
-  const { account } = useAccountContext()
+  const { account, isAllAccountsSelected } = useAccountContext()
+
+  const accountLabel = isAllAccountsSelected
+    ? t('trips.allTrips')
+    : `${t('trips.from')} ${getAccountLabel(account)}`
 
   return (
     <>
-      {isMobile && (
-        <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />
-      )}
+      {isMobile && <Titlebar label={accountLabel} />}
       <Empty
         icon={<img src={EmptySvg} />}
         iconSize="medium"
