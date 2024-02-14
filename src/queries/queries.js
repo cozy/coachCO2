@@ -27,10 +27,15 @@ const neverReload = 100000 * 1000
 
 export const buildAggregatedTimeseriesQuery = ({
   limit,
+  startDate = null,
   sortOrder = 'desc'
 } = {}) => ({
   definition: Q(GEOJSON_DOCTYPE)
-    .where({})
+    .where({
+      startDate: {
+        $gte: startDate
+      }
+    })
     .partialIndex({
       aggregation: {
         $exists: true

@@ -51,7 +51,11 @@ export const buildTimeseriesQueryByAccountIdAndDate = ({
 
 export const buildNewestRecurringTimeseriesQuery = () => ({
   definition: Q(GEOJSON_DOCTYPE)
-    .where({})
+    .where({
+      startDate: {
+        $gt: null
+      }
+    })
     .partialIndex({
       'aggregation.recurring': true
     })
@@ -60,26 +64,8 @@ export const buildNewestRecurringTimeseriesQuery = () => ({
     .limitBy(1)
 })
 
-export const buildNewestRecurringTimeseriesQueryByAccountId = ({
-  accountId
-}) => {
-  return {
-    definition: Q(GEOJSON_DOCTYPE)
-      .where({
-        'cozyMetadata.sourceAccount': accountId
-      })
-      .partialIndex({
-        'aggregation.recurring': true
-      })
-      .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
-      .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
-      .limitBy(1)
-  }
-}
-
 // accounId from timeseries (timeseries.cozyMetadata.sourceAccount)
 export const buildRecurringTimeseriesByStartAndEndPointRange = ({
-  accountId,
   minLatStart,
   maxLatStart,
   minLonStart,
@@ -93,7 +79,6 @@ export const buildRecurringTimeseriesByStartAndEndPointRange = ({
   return {
     definition: Q(GEOJSON_DOCTYPE)
       .where({
-        'cozyMetadata.sourceAccount': accountId,
         'aggregation.coordinates.startPoint.lon': {
           $gte: minLonStart,
           $lte: maxLonStart
@@ -115,7 +100,6 @@ export const buildRecurringTimeseriesByStartAndEndPointRange = ({
         'aggregation.recurring': true
       })
       .indexFields([
-        'cozyMetadata.sourceAccount',
         'aggregation.coordinates.startPoint.lon',
         'aggregation.coordinates.startPoint.lat',
         'aggregation.coordinates.endPoint.lon',

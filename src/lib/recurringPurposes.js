@@ -18,13 +18,11 @@ import {
 import { getManualPurpose, getAutomaticPurpose } from 'src/lib/trips'
 import {
   buildNewestRecurringTimeseriesQuery,
-  buildNewestRecurringTimeseriesQueryByAccountId,
   buildRecurringTimeseriesByStartAndEndPointRange,
   buildContactsWithGeoCoordinates,
-  buildTimeseriesQueryByAccountIdAndDate
 } from 'src/queries/nodeQueries'
 import {
-  buildSettingsQuery,
+  buildAggregatedTimeseriesQuery,
   queryContactByDocId,
   queryTimeserieByDocId
 } from 'src/queries/queries'
@@ -351,7 +349,7 @@ export const keepTripsWithSameRecurringPurpose = (timeseries, purpose) => {
 
 const queryRecurringTimeseriesWithCloseStartOrEnd = async (
   client,
-  { accountId, startCoord, endCoord }
+  { startCoord, endCoord }
 ) => {
   const deltaLat = deltaLatitude(COORDINATES_DISTANCE_THRESHOLD_M)
   const deltaLon = deltaLongitude(deltaLat, COORDINATES_DISTANCE_THRESHOLD_M)
@@ -367,7 +365,6 @@ const queryRecurringTimeseriesWithCloseStartOrEnd = async (
   const maxLatEnd = endCoord.lat + deltaLon
 
   const queryDef = buildRecurringTimeseriesByStartAndEndPointRange({
-    accountId,
     minLatStart,
     maxLatStart,
     minLonStart,
@@ -448,7 +445,6 @@ export const findSimilarRecurringTimeseries = async (
   timeserie,
   { isWayBack = false, oldPurpose } = {}
 ) => {
-  const accountId = timeserie?.cozyMetadata?.sourceAccount
   const startCoord = isWayBack
     ? getEndPlaceCoordinates(timeserie)
     : getStartPlaceCoordinates(timeserie)
@@ -456,7 +452,7 @@ export const findSimilarRecurringTimeseries = async (
     ? getStartPlaceCoordinates(timeserie)
     : getEndPlaceCoordinates(timeserie)
 
-  if (!accountId || !startCoord || !endCoord) {
+  if (!startCoord || !endCoord) {
     logService(
       'error',
       'Missing attributes to run similar trip query for trip',
@@ -466,7 +462,6 @@ export const findSimilarRecurringTimeseries = async (
   }
 
   const results = await queryRecurringTimeseriesWithCloseStartOrEnd(client, {
-    accountId,
     startCoord,
     endCoord
   })
@@ -682,14 +677,6 @@ const saveTrips = async ({ client, timeseriesToUpdate, t }) => {
   return []
 }
 
-const getQueryDefinition = ({ isAllAccountsSelected, accountId }) => {
-  if (isAllAccountsSelected) {
-    return buildNewestRecurringTimeseriesQuery().definition
-  }
-  return buildNewestRecurringTimeseriesQueryByAccountId({ accountId })
-    .definition
-}
-
 /**
  * Look for existing recurring purpose on similar trips for newly
  * created trips.
@@ -698,15 +685,8 @@ const getQueryDefinition = ({ isAllAccountsSelected, accountId }) => {
  * @returns {Promise<Array<TimeSerie>>} The updated trips
  */
 export const runRecurringPurposesForNewTrips = async (client, t) => {
-  const settings = await client.query(buildSettingsQuery().definition)
-  const accountId = settings.data?.[0]?.account?._id
-  const isAllAccountsSelected = settings.data?.[0]?.isAllAccountsSelected
-  if (!accountId && !isAllAccountsSelected) {
-    logService('error', 'No account found')
-    return []
-  }
   const newestRecurringTimeserie = await client.query(
-    getQueryDefinition({ isAllAccountsSelected, accountId })
+    buildNewestRecurringTimeseriesQuery().definition
   )
   let oldestDateToQuery
   if (!newestRecurringTimeserie.data?.[0]) {
@@ -719,9 +699,8 @@ export const runRecurringPurposesForNewTrips = async (client, t) => {
   logService('info', `Looking for trips from ${oldestDateToQuery}`)
 
   const timeseries = await client.queryAll(
-    buildTimeseriesQueryByAccountIdAndDate({
-      accountId,
-      date: oldestDateToQuery
+    buildAggregatedTimeseriesQuery({
+      startDate: oldestDateToQuery
     }).definition
   )
   let nTripsWithAutoPurpose = 0
