@@ -100,6 +100,7 @@
     "react": "18.2.0",
     "react-chartjs-2": "4.0.1",
     "react-dom": "18.2.0",
+    "react-inspector": "5.1.1",
     "react-leaflet": "4.1.0",
     "react-router-dom": "6.3.0"
   },

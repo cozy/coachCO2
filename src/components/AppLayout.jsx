@@ -2,6 +2,8 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from 'src/components/Sidebar'
 
+import CozyDevTools from 'cozy-client/dist/devtools'
+import flag from 'cozy-flags'
 import Sprite from 'cozy-ui/transpiled/react/Icon/Sprite'
 import { Layout, Main, Content } from 'cozy-ui/transpiled/react/Layout'
 import Alerter from 'cozy-ui/transpiled/react/deprecated/Alerter'
@@ -12,6 +14,7 @@ const AppLayout = () => {
 
   return (
     <Layout>
+      {flag('debug') && <CozyDevTools />}
       <Sidebar />
       <Main>
         <Content>
