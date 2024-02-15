@@ -1,3 +1,4 @@
+import isThisYear from 'date-fns/isThisYear'
 import PropTypes from 'prop-types'
 import React, { useMemo } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
@@ -76,12 +77,14 @@ export const TripItem = ({ timeserie, hasDateHeader }) => {
     navigate(`${location.pathname}/${timeserie._id}`)
   }
 
+  const formatDate = isThisYear(getStartDate(timeserie))
+    ? 'dddd DD MMM'
+    : 'dddd DD MMM YYYY'
+
   return (
     <>
       {hasDateHeader && (
-        <ListSubheader>
-          {f(getStartDate(timeserie), 'dddd DD MMMM')}
-        </ListSubheader>
+        <ListSubheader>{f(getStartDate(timeserie), formatDate)}</ListSubheader>
       )}
       <ListItem button onClick={handleClick}>
         <ListItemIcon>
