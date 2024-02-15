@@ -1,6 +1,7 @@
 export const getExtraQuotaNotificationAttributes = () => ({
   data: {
-    redirectLink: 'settings/#/subscription'
+    redirectLink: 'settings/#/subscription',
+    appName: ''
   },
   // Notifications are sent after a trip.
   // We do not want to send multiple times the same notification at D-3 or D-0 if the user make multiple trips.
