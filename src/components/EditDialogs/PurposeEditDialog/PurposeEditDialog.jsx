@@ -11,8 +11,9 @@ import { useTrip } from 'src/components/Providers/TripProvider'
 import { purposes } from 'src/components/helpers'
 import { OTHER_PURPOSE } from 'src/constants'
 import { getTimeseriePurpose } from 'src/lib/timeseries'
+import { buildSettingsQuery } from 'src/queries/queries'
 
-import { useClient } from 'cozy-client'
+import { useClient, useQuery } from 'cozy-client'
 import NestedSelectModal from 'cozy-ui/transpiled/react/NestedSelect/Modal'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
@@ -30,6 +31,11 @@ const PurposeEditDialog = ({ onClose }) => {
   const client = useClient()
   const { timeserie } = useTrip()
   const { type, setType } = useContactToPlace()
+  const settingsQuery = buildSettingsQuery()
+  const { data: settings } = useQuery(
+    settingsQuery.definition,
+    settingsQuery.options
+  )
 
   const handleSelect = async item => {
     const oldPurpose = getTimeseriePurpose(timeserie)
@@ -44,6 +50,7 @@ const PurposeEditDialog = ({ onClose }) => {
       })
     }
     openContactToPlaceModalOrClose({
+      setting: settings[0],
       timeserie,
       selectedPurpose: item.id,
       setContactToPlaceType: setType,

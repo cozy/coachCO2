@@ -6,8 +6,9 @@ import {
 } from 'src/components/ContactToPlace/helpers'
 import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 import { useTrip } from 'src/components/Providers/TripProvider'
+import { buildSettingsQuery } from 'src/queries/queries'
 
-import { useClient } from 'cozy-client'
+import { useClient, useQuery } from 'cozy-client'
 import Alert from 'cozy-ui/transpiled/react/Alert'
 import Button from 'cozy-ui/transpiled/react/Buttons'
 import Snackbar from 'cozy-ui/transpiled/react/Snackbar'
@@ -22,6 +23,12 @@ const ContactToPlaceDialogActions = () => {
   const { timeserie } = useTrip()
   const client = useClient()
   const { showAlert } = useAlert()
+
+  const settingsQuery = buildSettingsQuery()
+  const { data: settings } = useQuery(
+    settingsQuery.definition,
+    settingsQuery.options
+  )
 
   const onClose = () => setType()
 
@@ -39,6 +46,7 @@ const ContactToPlaceDialogActions = () => {
     }
     await saveRelationship({
       client,
+      setting: settings[0],
       type,
       timeserie,
       contact,

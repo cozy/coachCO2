@@ -2,6 +2,7 @@ import remove from 'lodash/remove'
 import set from 'lodash/set'
 import unset from 'lodash/unset'
 import { HOME_ADDRESS_CATEGORY } from 'src/constants'
+import { CCO2_SETTINGS_DOCTYPE } from 'src/doctypes'
 import {
   getPlaceCoordinates,
   getPlaceDisplayName,
@@ -236,8 +237,21 @@ const updateRelationship = async ({
   await client.save(timeserie)
 }
 
+/**
+ * @param {Object} params
+ * @param {import('cozy-client/types/CozyClient').default} params.client - The cozy client
+ * @param {Object} params.setting - The io.cozy.coachco2.settings document
+ * @param {string} params.type - The type of the relationship
+ * @param {Object} params.timeserie - The timeserie document
+ * @param {Object} params.contact - The contact document
+ * @param {string} params.label - The label of the relationship
+ * @param {boolean} params.isSameContact - Whether the contact is the same as the previous one
+ * @param {string} params.category - The category of the relationship
+ * @param {Function} params.t - The translation function
+ */
 export const saveRelationship = async ({
   client,
+  setting,
   type,
   timeserie,
   contact,
@@ -252,24 +266,31 @@ export const saveRelationship = async ({
     type
   })
 
-  return isSameContact && !!address
-    ? updateRelationship({
-        client,
-        contact,
-        timeserie,
-        type,
-        label,
-        isSameContact,
-        category,
-        t
-      })
-    : createRelationship({
-        client,
-        contact,
-        timeserie,
-        type,
-        label,
-        category,
-        t
-      })
+  if (isSameContact && !!address) {
+    updateRelationship({
+      client,
+      contact,
+      timeserie,
+      type,
+      label,
+      isSameContact,
+      category,
+      t
+    })
+  } else {
+    createRelationship({
+      client,
+      contact,
+      timeserie,
+      type,
+      label,
+      category,
+      t
+    })
+  }
+  client.save({
+    ...setting,
+    _type: CCO2_SETTINGS_DOCTYPE,
+    hidePoiModal: true
+  })
 }
