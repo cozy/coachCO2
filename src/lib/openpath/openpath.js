@@ -77,7 +77,7 @@ export const fetchTrips = async (client, account, startDate) => {
   })
   if (!tripsMetadata || tripsMetadata.length < 1) {
     logService('info', 'No trips metadata found')
-    return
+    return 0
   }
   logService('info', `Found ${tripsMetadata.length} trips metadata`)
 
