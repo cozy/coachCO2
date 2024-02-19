@@ -9,6 +9,10 @@ import Empty from 'cozy-ui/transpiled/react/Empty'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
+const styles = {
+  whiteSpace: 'pre-line'
+}
+
 const InstallApp = () => {
   const [showDialog, setShowDialog] = useState(false)
   const { t } = useI18n()
@@ -19,6 +23,7 @@ const InstallApp = () => {
     <>
       {isMobile && <Titlebar label={client.appMetadata.slug} />}
       <Empty
+        style={styles}
         icon={EmptySvg}
         title={t('emptyContent.installApp.title')}
         text={t('emptyContent.installApp.text')}
