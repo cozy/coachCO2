@@ -149,7 +149,7 @@
       "action": "C'est parti !"
     },
     "installApp": {
-      "title": "Détecter vos déplacements\navec l'app Cozy Cloud",
+      "title": "Détecter vos déplacements\ngrâce à votre téléphone",
       "text": "Installer l'application Cozy Cloud sur votre mobile pour enregistrer tous vos déplacements, en comprendre l'impact en émission de CO2, comptabiliser vos trajets en vélo, etc.",
       "action": "Installer l'app"
     },
