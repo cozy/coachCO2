@@ -29,6 +29,7 @@
     "cancel": "Cancel",
     "customLabel": "Custom label",
     "modes": {
+      "default": "default",
       "AIR_OR_HSR": "Plane",
       "BICYCLING_ELECTRIC": "Electric bike",
       "BICYCLING": "Bike",
