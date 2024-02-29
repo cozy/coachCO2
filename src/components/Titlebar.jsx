@@ -1,20 +1,17 @@
-/* global cozy */
-
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 
+import { BarCenter, BarLeft } from 'cozy-bar'
 import BarTitle from 'cozy-ui/transpiled/react/BarTitle'
 import Icon from 'cozy-ui/transpiled/react/Icon'
 import IconButton from 'cozy-ui/transpiled/react/IconButton'
 import Previous from 'cozy-ui/transpiled/react/Icons/Previous'
 import Typography from 'cozy-ui/transpiled/react/Typography'
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
-import CozyTheme from 'cozy-ui/transpiled/react/providers/CozyTheme'
 
 const Titlebar = ({ label, subtitle, onBack }) => {
   const { isMobile } = useBreakpoints()
-  const { BarCenter, BarLeft } = cozy.bar
 
   const backAction = typeof onBack === 'function' ? onBack : undefined
 
@@ -33,9 +30,7 @@ const Titlebar = ({ label, subtitle, onBack }) => {
           </BarLeft>
         )}
         <BarCenter>
-          <CozyTheme>
-            <BarTitle>{label}</BarTitle>
-          </CozyTheme>
+          <BarTitle>{label}</BarTitle>
         </BarCenter>
       </>
     )
