@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/react'
 import memoize from 'lodash/memoize'
 import { CCO2_SETTINGS_DOCTYPE } from 'src/doctypes'
 import { buildSettingsQuery } from 'src/queries/queries'
-import { getValues, initBar } from 'src/utils/bar'
+import { getValues } from 'src/utils/bar'
 import { getClient } from 'src/utils/client'
 
 import flag from 'cozy-flags'
@@ -35,7 +35,7 @@ const forceAllSelectedAccountToAppSettings = async client => {
  */
 const setupApp = memoize(() => {
   const container = document.querySelector('[role=application]')
-  const { lang, appName } = getValues(JSON.parse(container.dataset.cozy))
+  const { lang } = getValues(JSON.parse(container.dataset.cozy))
   const polyglot = initTranslation(lang, lang => require(`locales/${lang}`))
   const client = getClient()
   client.registerPlugin(flag.plugin)
@@ -56,8 +56,6 @@ const setupApp = memoize(() => {
     tracesSampleRate: 1,
     defaultIntegrations: false
   })
-
-  initBar({ client, container, lang, appName })
 
   return { container, client, lang, polyglot }
 })

@@ -6,6 +6,10 @@ import Titlebar from 'src/components/Titlebar'
 
 import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 
+jest.mock('cozy-bar', () => ({
+  BarCenter: ({ children }) => <div data-testid="BarCenter">{children}</div>,
+  BarLeft: ({ children }) => <div data-testid="BarLeft">{children}</div>
+}))
 jest.mock('react-router-dom', () => ({
   useLocation: jest.fn(() => ({ pathname: '' }))
 }))
