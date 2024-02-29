@@ -1,4 +1,46 @@
+# 0.19.0
+
 # 0.18.0
+
+### ✨ Features
+
+* Add property `isAllAccountsSelected` to `io.cozy.coachco2.settings`
+* Add “All Sources” option
+* Compute geojson aggregation in fetch service
+* Set the choice “All sources” when loading the app
+* Request openpath purge after fetch
+* Adding the year to the trips subHeaders
+* All purposes must offer the POI modal
+* Change the text when there are no trips, in Desktop mode
+
+### 🐛 Bug Fixes
+
+* The arrow filter must ignore multiple occurrences of the same month
+* The duplicate creation of the `io.cozy.coachco2.settings` document
+* Querying all trips from all accounts query
+* The export trips feature must also have the modes chosen manually
+* Trip deduplication
+* Use startDate sorted by asc for geolocation quota notification
+* Rely on device name rather than login
+* Add a missing conditions displayed the correct screen with a new account without trips
+* Handle multiple service accounts
+* Synchronize translations
+
+### 🔧 Tech
+
+* Simplify the logic of AccountProvider
+* Renaming of Export queries and duplication of the query also used by a service
+* Upgrade cozy-ach to 1.51.0
+* Add CozyDevTools
+* Add `captureDevice` property to trip fixture
+* Fix trip generate by local script
+* Updated the query to better reflect reality
+* Add `argparse` package to devDeps
+* Create `getSourceAccount` helper
+* Add a login argument to select the account
+* Add drop accounts script
+* Add drop/save account script
+* Add `token` option for openpath account
 
 # 0.17.0
 
