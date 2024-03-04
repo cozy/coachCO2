@@ -1,6 +1,7 @@
 import { CaptureConsole } from '@sentry/integrations'
 import * as Sentry from '@sentry/react'
 import memoize from 'lodash/memoize'
+import { createRoot } from 'react-dom/client'
 import { CCO2_SETTINGS_DOCTYPE } from 'src/doctypes'
 import { buildSettingsQuery } from 'src/queries/queries'
 import { getValues } from 'src/utils/bar'
@@ -35,6 +36,7 @@ const forceAllSelectedAccountToAppSettings = async client => {
  */
 const setupApp = memoize(() => {
   const container = document.querySelector('[role=application]')
+  const root = createRoot(container)
   const { lang } = getValues(JSON.parse(container.dataset.cozy))
   const polyglot = initTranslation(lang, lang => require(`locales/${lang}`))
   const client = getClient()
@@ -57,7 +59,7 @@ const setupApp = memoize(() => {
     defaultIntegrations: false
   })
 
-  return { container, client, lang, polyglot }
+  return { root, client, lang, polyglot }
 })
 
 export default setupApp
