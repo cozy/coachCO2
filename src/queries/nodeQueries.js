@@ -216,3 +216,14 @@ export const buildContactsWithGeoCoordinates = ({ limit = 1000 } = {}) => {
     }
   }
 }
+
+export const buildAggregateCaptureDeviceTimeseriesQuery = () => ({
+  definition: Q(GEOJSON_DOCTYPE)
+    .where({})
+    .partialIndex({
+      aggregation: {
+        $exists: true
+      }
+    })
+    .select(['aggregation', 'captureDevice'])
+})
