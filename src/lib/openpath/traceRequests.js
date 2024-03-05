@@ -17,6 +17,7 @@ class HTTPResponseError extends Error {
   constructor(response) {
     super(`HTTP Error Response: ${response.status} ${response.statusText}`)
     this.response = response
+    this.status = response.status
   }
 }
 
@@ -104,18 +105,14 @@ export const requestOpenPathPurge = async (token, beforeDate) => {
  * @returns {Promise<OpenPathResponse>} The openpath server response
  */
 const requestOpenPath = async (url, body) => {
-  try {
-    const response = await fetch(url, {
-      method: 'post',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' }
-    })
-    if (!response.ok) {
-      throw new HTTPResponseError(response)
-    }
-    const data = await response.json()
-    return data
-  } catch (err) {
-    throw new Error(`HTTP Error during openpath request: ${err}`)
+  const response = await fetch(url, {
+    method: 'post',
+    body: JSON.stringify(body),
+    headers: { 'Content-Type': 'application/json' }
+  })
+  if (!response.ok) {
+    throw new HTTPResponseError(response)
   }
+  const data = await response.json()
+  return data
 }
