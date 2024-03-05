@@ -453,7 +453,7 @@ const COORDINATES_DISTANCE_THRESHOLD_M = 200; // meters
 // openpath consts
 const TRIP_COLLECTION = 'analysis/cleaned_trip';
 const TRIPS_CHUNK_SIZE = 100;
-const OPENPATH_URL = 'https://openpath.cozycloud.cc';
+const OPENPATH_URL = 'http://localhost:8082';
 const OPENPATH_ACCOUNT_TYPE = 'openpath'; // Used in account_type for io.cozy.accounts
 
 /***/ }),
