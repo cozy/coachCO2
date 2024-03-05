@@ -6,9 +6,9 @@ import {
   getTripsForDay
 } from 'src/lib/openpath/traceRequests'
 
-import minilog from 'cozy-minilog'
+import logger from 'cozy-logger'
 
-const log = minilog('openpath')
+const logService = logger.namespace('services/openpath')
 
 /**
  * @typedef {import("src/lib/types").OpenPathTrip} OpenPathTrip
@@ -41,7 +41,8 @@ export const fetchTripsMetadata = async (
   { excludeFirst = true } = {}
 ) => {
   /* Get all the trips metadata from the given date */
-  log.info(`Fetch trips metadata from ${startDate.toISOString()}`)
+  logService('info', `Fetch trips metadata from ${startDate.toISOString()}`)
+
   return getServerCollectionFromDate(token, {
     startDate,
     collection: TRIP_COLLECTION,
@@ -68,7 +69,8 @@ export const fetchAndSaveTrips = async (
   { accountId, device }
 ) => {
   /* Extract the days having saved trips */
-  log.info(`${tripsMetadata.length} new trips to retrieve`)
+  logService('info', `${tripsMetadata.length} new trips to retrieve`)
+
   let tripDays = {}
   const tripStartDates = []
 
@@ -82,7 +84,7 @@ export const fetchAndSaveTrips = async (
   /* Fetch and save the actual trips for the relevant days */
   let fetchedTrips = []
   for (const day of Object.keys(tripDays)) {
-    log.info(`Fetch trips on ${day}`)
+    logService('info', `Fetch trips on ${day}`)
     try {
       const fullTripsForDay = await getTripsForDay(token, day)
       // The trips need to be filtered, as the day is not precise enough
@@ -90,7 +92,7 @@ export const fetchAndSaveTrips = async (
       fetchedTrips = fetchedTrips.concat(filteredTrips)
     } catch (err) {
       if (err.status === 500) {
-        log.warn('Failing day: skip it')
+        logService('error', 'Failing day: skip it')
         // This day is failing: skip it
         continue
       } else {
@@ -102,7 +104,7 @@ export const fetchAndSaveTrips = async (
     return { savedCount: 0, lastSavedTripDate: null }
   }
 
-  log.info(`${fetchedTrips.length} trips fetched`)
+  logService('info', `${fetchedTrips.length} trips fetched`)
 
   const tripsToSave = await normalizeTrips(client, fetchedTrips, {
     device
