@@ -16,7 +16,7 @@ export const runComputeAggregateService = async client => {
     logService('error', 'App settings not found')
     return false
   }
-  const settingsCaptureDevices = settings[0].captureDevices || []
+  const settingsCaptureDevices = settings[0].accountsLogins || []
 
   const timeseries = await client.queryAll(
     buildAggregateCaptureDeviceTimeseriesQuery().definition
@@ -30,17 +30,17 @@ export const runComputeAggregateService = async client => {
     difference(settingsCaptureDevices, timeseriesCaptureDevices).length === 0
 
   if (isAlreadyUpdated) {
-    logService('info', 'captureDevices in app settings are already up to date')
+    logService('info', 'accountsLogins in app settings are already up to date')
     return false
   }
 
   await client.save({
     ...settings[0],
     _type: CCO2_SETTINGS_DOCTYPE,
-    captureDevices: timeseriesCaptureDevices
+    accountsLogins: timeseriesCaptureDevices
   })
 
-  logService('info', 'captureDevices in app settings updated successfully')
+  logService('info', 'accountsLogins in app settings updated successfully')
 }
 
 /**
@@ -52,10 +52,10 @@ export const launchComputeAggregateJob = async client => {
     const settings = await client.queryAll(buildSettingsQuery().definition)
     const setting = settings?.[0] || {}
 
-    if (setting?.captureDevices) {
+    if (setting?.accountsLogins) {
       logService(
         'info',
-        'Stop launchComputeAggregateJob because captureDevices is already exists in app settings'
+        'Stop launchComputeAggregateJob because accountsLogins is already exists in app settings'
       )
       return
     }

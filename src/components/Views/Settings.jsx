@@ -17,10 +17,7 @@ import BikeGoalDaccSwitcher from 'src/components/Goals/BikeGoal/BikeGoalDaccSwit
 import BikeGoalOnboardedSwitcher from 'src/components/Goals/BikeGoal/BikeGoalOnboardedSwitcher'
 import BikeGoalSwitcher from 'src/components/Goals/BikeGoal/BikeGoalSwitcher'
 import { getSource } from 'src/components/Goals/BikeGoal/helpers'
-import {
-  useAccountContext,
-  getAccountLabel
-} from 'src/components/Providers/AccountProvider'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { useGeolocationTracking } from 'src/components/Providers/GeolocationTrackingProvider'
 import Titlebar from 'src/components/Titlebar'
 import { CONTEXT } from 'src/constants'
@@ -41,8 +38,12 @@ export const Settings = () => {
   const { isMobile } = useBreakpoints()
   const { isGeolocationTrackingAvailable, isGeolocationTrackingEnabled } =
     useGeolocationTracking()
-  const { isAccountLoading, accounts, account, isAllAccountsSelected } =
-    useAccountContext()
+  const {
+    isAccountLoading,
+    accountsLogins,
+    accountLogin,
+    isAllAccountsSelected
+  } = useAccountContext()
   const { sourceName } = getSource()
 
   if (isAccountLoading) {
@@ -51,7 +52,7 @@ export const Settings = () => {
     )
   }
 
-  if (accounts.length === 0) {
+  if (accountsLogins.length === 0) {
     if (!isGeolocationTrackingAvailable) {
       return <InstallApp />
     }
@@ -63,7 +64,7 @@ export const Settings = () => {
 
   const accountName = isAllAccountsSelected
     ? t('settings.allAccounts')
-    : getAccountLabel(account)
+    : accountLogin
 
   return (
     <>
@@ -95,7 +96,7 @@ export const Settings = () => {
           <CsvExporter accountName={accountName} />
         </List>
 
-        {(account || isAllAccountsSelected) && (
+        {(accountLogin || isAllAccountsSelected) && (
           <List subheader={<ListSubheader>{t('support.label')}</ListSubheader>}>
             <FAQ />
             {isGeolocationTrackingAvailable ? (

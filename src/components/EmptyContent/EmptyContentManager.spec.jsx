@@ -38,14 +38,14 @@ jest.mock('src/components/EmptyContent/Welcome', () => () => (
 ))
 
 const setup = ({
-  accounts,
-  account,
+  accountsLogins,
+  accountLogin,
   isLoading,
   queries,
   isGeolocAvailable,
   isGeolocEnabled
 } = {}) => {
-  useAccountContext.mockReturnValue({ accounts, account })
+  useAccountContext.mockReturnValue({ accountsLogins, accountLogin })
   useGeolocationTracking.mockReturnValue({
     isGeolocationTrackingAvailable: isGeolocAvailable,
     isGeolocationTrackingEnabled: isGeolocEnabled
@@ -66,10 +66,10 @@ describe('EmptyContentManager', () => {
   })
 
   describe('should show a spinner', () => {
-    it('if no account and queries are loading', () => {
+    it('if no accountLogin and queries are loading', () => {
       const { getByRole, queryByTestId } = setup({
-        account: null,
-        accounts: [],
+        accountLogin: null,
+        accountsLogins: [],
         isLoading: true
       })
 
@@ -80,10 +80,10 @@ describe('EmptyContentManager', () => {
       expect(queryByTestId('Welcome')).toBeNull()
     })
 
-    it('if no account selected and queries are loading', () => {
+    it('if no accountLogin selected and queries are loading', () => {
       const { getByRole, queryByTestId } = setup({
-        account: null,
-        accounts: [{ _id: 'accountId' }],
+        accountLogin: null,
+        accountsLogins: ['accountAuthLogin01'],
         isLoading: true
       })
 
@@ -94,10 +94,10 @@ describe('EmptyContentManager', () => {
       expect(queryByTestId('Welcome')).toBeNull()
     })
 
-    it('if account selected but queries are loading', () => {
+    it('if accountLogin selected but queries are loading', () => {
       const { getByRole, queryByTestId } = setup({
-        account: { _id: 'accountId' },
-        accounts: [{ _id: 'accountId' }],
+        accountLogin: 'accountAuthLogin01',
+        accountsLogins: ['accountAuthLogin01'],
         isLoading: true
       })
 
@@ -112,8 +112,8 @@ describe('EmptyContentManager', () => {
   describe('should show...', () => {
     it('install app page', () => {
       const { queryByRole, queryByTestId } = setup({
-        account: { _id: 'accountId' },
-        accounts: [{ _id: 'accountId' }],
+        accountLogin: 'accountAuthLogin01',
+        accountsLogins: ['accountAuthLogin01'],
         isLoading: false,
         queries: {},
         isGeolocAvailable: false,
@@ -129,8 +129,8 @@ describe('EmptyContentManager', () => {
 
     it('welcome page', () => {
       const { queryByRole, queryByTestId } = setup({
-        account: { _id: 'accountId' },
-        accounts: [{ _id: 'accountId' }],
+        accountLogin: 'accountAuthLogin01',
+        accountsLogins: ['accountAuthLogin01'],
         isLoading: false,
         queries: {},
         isGeolocAvailable: true,
@@ -146,8 +146,8 @@ describe('EmptyContentManager', () => {
 
     it('gps standby page', () => {
       const { queryByRole, queryByTestId } = setup({
-        account: { _id: 'accountId' },
-        accounts: [{ _id: 'accountId' }],
+        accountLogin: 'accountAuthLogin01',
+        accountsLogins: ['accountAuthLogin01'],
         isLoading: false,
         queries: {},
         isGeolocAvailable: true,
@@ -161,10 +161,10 @@ describe('EmptyContentManager', () => {
       expect(queryByTestId('Welcome')).toBeNull()
     })
 
-    it('welcome page and no gps standby, because there is no account selected', () => {
+    it('welcome page and no gps standby, because there is no accountLogin selected', () => {
       const { queryByRole, queryByTestId } = setup({
-        account: null,
-        accounts: [{ _id: 'accountId' }],
+        accountLogin: null,
+        accountsLogins: ['accountAuthLogin01'],
         isLoading: false,
         queries: {},
         isGeolocAvailable: true,
@@ -178,10 +178,10 @@ describe('EmptyContentManager', () => {
       expect(queryByTestId('Welcome'))
     })
 
-    it('change account page', () => {
+    it('change accountLogin page', () => {
       const { queryByRole, queryByTestId } = setup({
-        account: { _id: 'accountId' },
-        accounts: [{ _id: 'accountId' }],
+        accountLogin: 'accountAuthLogin01',
+        accountsLogins: ['accountAuthLogin01'],
         isLoading: false,
         queries: { id1: { data: [{}] } },
         isGeolocAvailable: true,
