@@ -1,5 +1,5 @@
 import {
-  makeQueriesByAccountsId,
+  makeQueriesByCaptureDevices,
   makeWelcomeText
 } from 'src/components/EmptyContent/helpers.js'
 
@@ -9,17 +9,20 @@ jest.mock('cozy-flags')
 
 const setupFlags = flags => flag.mockImplementation(flagName => flags[flagName])
 
-describe('makeQueriesByAccountsId', () => {
+describe('makeQueriesByCaptureDevices', () => {
   it('should create well formatted object', () => {
-    const res = makeQueriesByAccountsId([{ _id: 'id1' }, { _id: 'id2' }])
+    const res = makeQueriesByCaptureDevices([
+      'captureDevice01',
+      'captureDevice02'
+    ])
 
     expect(res).toMatchObject({
-      id1: {
+      captureDevice01: {
         as: expect.any(String),
         fetchPolicy: expect.any(Function),
         query: expect.any(Object)
       },
-      id2: {
+      captureDevice02: {
         as: expect.any(String),
         fetchPolicy: expect.any(Function),
         query: expect.any(Object)

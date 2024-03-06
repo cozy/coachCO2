@@ -1,18 +1,19 @@
 import { getSource } from 'src/components/Goals/BikeGoal/helpers'
-import { buildHasTimeseriesQueryByAccountId } from 'src/queries/queries'
+import { buildHasTimeseriesQueryByAccountLogin } from 'src/queries/queries'
 
 import flag from 'cozy-flags'
 
-export const makeQueriesByAccountsId = accounts => {
-  const accountsIds = accounts.map(account => account._id)
+export const makeQueriesByCaptureDevices = otherCaptureDevices => {
+  const queriesByCaptureDevices = otherCaptureDevices.reduce(
+    (prev, current) => {
+      const query = buildHasTimeseriesQueryByAccountLogin(current)
+      prev[current] = { ...query.options, query: query.definition }
+      return prev
+    },
+    {}
+  )
 
-  const queriesByAccountsId = accountsIds.reduce((prev, current) => {
-    const query = buildHasTimeseriesQueryByAccountId(current)
-    prev[current] = { ...query.options, query: query.definition }
-    return prev
-  }, {})
-
-  return queriesByAccountsId
+  return queriesByCaptureDevices
 }
 
 export const makeWelcomeText = () => {

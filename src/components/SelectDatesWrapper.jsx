@@ -4,8 +4,8 @@ import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvi
 import SelectDatesWithLoader from 'src/components/SelectDates/SelectDatesWithLoader'
 import { makeLatestDate } from 'src/components/SelectDates/helpers'
 import {
-  buildAggregatedTimeseriesQueryByAccountId,
-  buildAggregatedTimeseriesQuery
+  buildAggregatedTimeseriesQuery,
+  buildAggregatedTimeseriesQueryByAccountLogin
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
@@ -15,12 +15,12 @@ const computeOptions = (isLoading, timeseries) => {
   return timeseries.map(timeserie => new Date(timeserie.startDate))
 }
 
-const getQuery = ({ isAllAccountsSelected, accountId }) => {
+const getQuery = ({ isAllAccountsSelected, accountLogin }) => {
   if (isAllAccountsSelected) {
     return buildAggregatedTimeseriesQuery({ limit: 1000 })
   }
-  return buildAggregatedTimeseriesQueryByAccountId({
-    accountId,
+  return buildAggregatedTimeseriesQueryByAccountLogin({
+    accountLogin,
     limit: 1000
   })
 }
@@ -36,16 +36,16 @@ const SelectDatesWrapper = () => {
     options,
     setOptions
   } = useSelectDatesContext()
-  const { account, isAllAccountsSelected } = useAccountContext()
+  const { accountLogin, isAllAccountsSelected } = useAccountContext()
   const timeseriesQuery = getQuery({
     isAllAccountsSelected,
-    accountId: account?._id
+    accountLogin
   })
   const { data: timeseries, ...timeseriesQueryResult } = useQueryAll(
     timeseriesQuery.definition,
     {
       ...timeseriesQuery.options,
-      enabled: Boolean(account) || isAllAccountsSelected
+      enabled: Boolean(accountLogin) || isAllAccountsSelected
     }
   )
 
@@ -54,7 +54,7 @@ const SelectDatesWrapper = () => {
 
   useEffect(() => {
     if (
-      (account || isAllAccountsSelected) &&
+      (accountLogin || isAllAccountsSelected) &&
       !isLoading &&
       isSelectedDateLoading
     ) {
@@ -67,19 +67,19 @@ const SelectDatesWrapper = () => {
       }
     }
 
-    if (!account && !isAllAccountsSelected) {
+    if (!accountLogin && !isAllAccountsSelected) {
       setIsSelectedDateLoading(false)
     }
 
     if (
-      (account || isAllAccountsSelected) &&
+      (accountLogin || isAllAccountsSelected) &&
       isLoading &&
       !isSelectedDateLoading
     ) {
       setIsSelectedDateLoading(true)
     }
   }, [
-    account,
+    accountLogin,
     isAllAccountsSelected,
     isLoading,
     isSelectedDateLoading,

@@ -15,17 +15,17 @@ import manifest from '../../../manifest.webapp'
 
 // TODO: To be removed once we have handled the problem of having multiple data sources
 /**
- * Force allSelected accounts if a specific account is defined
+ * Force allSelected sources if a specific accountLogin is defined
  * @param  {import('cozy-client/types/CozyClient').default} client CozyClient
  */
 const forceAllSelectedAccountToAppSettings = async client => {
   const { data: settings } = await client.query(buildSettingsQuery().definition)
   const setting = settings[0] || {}
-  if (setting.account) {
+  if (setting.accountLogin) {
     await client.save({
       ...setting,
       _type: CCO2_SETTINGS_DOCTYPE,
-      account: null,
+      accountLogin: null,
       isAllAccountsSelected: true
     })
   }
