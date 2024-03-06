@@ -9,6 +9,7 @@ import {
   ACCOUNTS_DOCTYPE,
   CCO2_SETTINGS_DOCTYPE
 } from 'src/doctypes'
+import { launchComputeAggregateJob } from 'src/lib/computeAggregateService'
 
 import { CozyProvider, RealTimeQueries } from 'cozy-client'
 import { WebviewIntentProvider } from 'cozy-intent'
@@ -33,6 +34,13 @@ const generateClassName = createGenerateClassName({
 })
 
 const AppProviders = ({ client, lang, polyglot, children }) => {
+  React.useEffect(() => {
+    const launch = async () => {
+      launchComputeAggregateJob(client)
+    }
+    launch()
+  }, [client])
+
   return (
     <WebviewIntentProvider>
       <StylesProvider generateClassName={generateClassName}>
