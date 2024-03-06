@@ -36,7 +36,7 @@ export const buildAggregatedTimeseriesQuery = ({
         $exists: true
       }
     })
-    .select(['startDate', 'endDate', 'title', 'aggregation'])
+    .select(['startDate', 'endDate', 'title', 'aggregation', 'captureDevice'])
     // FIXME "endDate" should be removed when https://github.com/cozy/cozy-client/issues/1216 fixed
     .indexFields(['startDate', 'endDate'])
     .sortBy([{ startDate: sortOrder }])
@@ -46,50 +46,45 @@ export const buildAggregatedTimeseriesQuery = ({
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
-export const buildAggregatedTimeseriesQueryByAccountId = ({
-  accountId,
+export const buildAggregatedTimeseriesQueryByAccountLogin = ({
+  accountLogin,
   limit
 }) => {
   return {
     definition: Q(GEOJSON_DOCTYPE)
       .where({
-        'cozyMetadata.sourceAccount': accountId
+        captureDevice: accountLogin
       })
       .partialIndex({
         aggregation: {
           $exists: true
         }
       })
-      .select([
-        'cozyMetadata.sourceAccount',
-        'startDate',
-        'endDate',
-        'title',
-        'aggregation'
-      ])
-      .indexFields(['cozyMetadata.sourceAccount', 'startDate', 'endDate'])
+      .select(['startDate', 'endDate', 'title', 'aggregation', 'captureDevice'])
+      .indexFields(['captureDevice', 'startDate', 'endDate'])
       .sortBy([
-        { 'cozyMetadata.sourceAccount': 'desc' },
+        { captureDevice: 'desc' },
         { startDate: 'desc' },
         { endDate: 'desc' }
       ])
       .limitBy(limit),
     options: {
-      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/limitedBy/${limit}`,
+      as: `${GEOJSON_DOCTYPE}/accountLogin/${accountLogin}/limitedBy/${limit}`,
       fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
     }
   }
 }
 
-export const buildHasTimeseriesQueryByAccountId = accountId => ({
+export const buildHasTimeseriesQueryByAccountLogin = accountLogin => ({
   definition: Q(GEOJSON_DOCTYPE)
     .where({
-      'cozyMetadata.sourceAccount': accountId
+      captureDevice: accountLogin
     })
-    .select(['cozyMetadata.sourceAccount'])
+    .indexFields(['captureDevice'])
+    .select(['captureDevice'])
     .limitBy(1),
   options: {
-    as: `${GEOJSON_DOCTYPE}/hasTimeseries/sourceAccount/${accountId}`,
+    as: `${GEOJSON_DOCTYPE}/hasTimeseries/accountLogin/${accountLogin}`,
     fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })
@@ -106,17 +101,17 @@ export const buildTimeseriesQuery = () => ({
   }
 })
 
-export const buildTimeseriesQueryByAccountId = ({ accountId }) => {
+export const buildTimeseriesQueryByAccountLogin = ({ accountLogin }) => {
   return {
     definition: Q(GEOJSON_DOCTYPE)
       .where({
-        'cozyMetadata.sourceAccount': accountId
+        captureDevice: accountLogin
       })
-      .indexFields(['cozyMetadata.sourceAccount'])
-      .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }])
+      .indexFields(['captureDevice'])
+      .sortBy([{ captureDevice: 'desc' }])
       .limitBy(1000),
     options: {
-      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}`,
+      as: `${GEOJSON_DOCTYPE}/accountLogin/${accountLogin}`,
       fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
     }
   }
@@ -172,7 +167,7 @@ export const buildTimeseriesQueryByDate = ({
           $exists: true
         }
       })
-      .select(['aggregation', 'title', 'startDate', 'endDate'])
+      .select(['aggregation', 'title', 'startDate', 'endDate', 'captureDevice'])
       .indexFields(['endDate', ...(date ? ['startDate'] : [])])
       .limitBy(limit),
     options: {
@@ -219,7 +214,8 @@ export const buildTimeseriesQueryByDateAndAccountId = ({
       'title',
       'cozyMetadata.sourceAccount',
       'startDate',
-      'endDate'
+      'endDate',
+      'captureDevice'
     ])
     .indexFields(['cozyMetadata.sourceAccount', ...(date ? ['startDate'] : [])])
     .limitBy(limit)
@@ -230,6 +226,51 @@ export const buildTimeseriesQueryByDateAndAccountId = ({
       as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/date/${dateAsOption}/limitedBy/${limit}`,
       fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s),
       enabled: Boolean(date) && Boolean(accountId)
+    }
+  }
+}
+export const buildTimeseriesQueryByDateAndAccountLogin = ({
+  date = null,
+  isFullYear,
+  accountLogin,
+  limit = 1000
+} = {}) => {
+  const startMonth = startOfMonth(date) || null
+  const endMonth = endOfMonth(date) || null
+  const startYear = startOfYear(date) || null
+  const endYear = endOfYear(date) || null
+
+  const dateAsOption = !date
+    ? 'noDate'
+    : `${startMonth.getFullYear()}-${startMonth.getMonth()}${
+        isFullYear ? '-fullyear' : ''
+      }`
+
+  const queryDef = Q(GEOJSON_DOCTYPE)
+    .where({
+      captureDevice: accountLogin,
+      ...(date && {
+        startDate: {
+          $gte: isFullYear ? startYear.toISOString() : startMonth.toISOString(),
+          $lte: isFullYear ? endYear.toISOString() : endMonth.toISOString()
+        }
+      })
+    })
+    .partialIndex({
+      aggregation: {
+        $exists: true
+      }
+    })
+    .select(['aggregation', 'title', 'startDate', 'endDate', 'captureDevice'])
+    .indexFields(['captureDevice', ...(date ? ['startDate'] : [])])
+    .limitBy(limit)
+
+  return {
+    definition: queryDef,
+    options: {
+      as: `${GEOJSON_DOCTYPE}/accountLogin/${accountLogin}/date/${dateAsOption}/limitedBy/${limit}`,
+      fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s),
+      enabled: Boolean(date) && Boolean(accountLogin)
     }
   }
 }
@@ -254,7 +295,8 @@ export const buildOneYearOldTimeseriesWithAggregation = () => {
         'endDate',
         'aggregation',
         'title',
-        'cozyMetadata.sourceAccount'
+        'cozyMetadata.sourceAccount',
+        'captureDevice'
       ])
       .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
       .sortBy([{ 'cozyMetadata.sourceAccount': 'asc' }, { startDate: 'asc' }])
@@ -265,15 +307,15 @@ export const buildOneYearOldTimeseriesWithAggregation = () => {
     }
   }
 }
-export const buildOneYearOldTimeseriesWithAggregationByAccountId = ({
-  accountId
+export const buildOneYearOldTimeseriesWithAggregationByAccountLogin = ({
+  accountLogin
 }) => {
   const dateOneYearAgoFromNow = startOfMonth(subYears(new Date(), 1))
 
   return {
     definition: Q(GEOJSON_DOCTYPE)
       .where({
-        'cozyMetadata.sourceAccount': accountId,
+        captureDevice: accountLogin,
         startDate: {
           $gte: dateOneYearAgoFromNow.toISOString()
         }
@@ -283,18 +325,12 @@ export const buildOneYearOldTimeseriesWithAggregationByAccountId = ({
           $exists: true
         }
       })
-      .select([
-        'startDate',
-        'endDate',
-        'aggregation',
-        'title',
-        'cozyMetadata.sourceAccount'
-      ])
-      .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
-      .sortBy([{ 'cozyMetadata.sourceAccount': 'asc' }, { startDate: 'asc' }])
+      .select(['startDate', 'endDate', 'aggregation', 'title', 'captureDevice'])
+      .indexFields(['captureDevice', 'startDate'])
+      .sortBy([{ captureDevice: 'asc' }, { startDate: 'asc' }])
       .limitBy(1000),
     options: {
-      as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/withAggregation/fromDate/${dateOneYearAgoFromNow.getFullYear()}-${dateOneYearAgoFromNow.getMonth()}`,
+      as: `${GEOJSON_DOCTYPE}/accountLogin/${accountLogin}/withAggregation/fromDate/${dateOneYearAgoFromNow.getFullYear()}-${dateOneYearAgoFromNow.getMonth()}`,
       fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
     }
   }
@@ -326,7 +362,8 @@ export const buildBikeCommuteTimeseriesQuery = ({ date = null } = {}) => {
         'aggregation',
         'aggregation.modes',
         'aggregation.purpose',
-        'cozyMetadata.sourceAccount'
+        'cozyMetadata.sourceAccount',
+        'captureDevice'
       ])
       .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
       .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
@@ -368,13 +405,56 @@ export const buildBikeCommuteTimeseriesQueryByAccountId = ({
         'aggregation',
         'aggregation.modes',
         'aggregation.purpose',
-        'cozyMetadata.sourceAccount'
+        'cozyMetadata.sourceAccount',
+        'captureDevice'
       ])
       .indexFields(['cozyMetadata.sourceAccount', 'startDate'])
       .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
       .limitBy(1000),
     options: {
       as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/BikeCommute`,
+      fetchPolicy: CozyClient.fetchPolicies.olderThan(neverReload)
+    }
+  }
+}
+export const buildBikeCommuteTimeseriesQueryByAccountLogin = ({
+  accountLogin,
+  date = null
+}) => {
+  const selector = {
+    captureDevice: accountLogin
+  }
+  if (date) {
+    const startYearDate = startOfYear(new Date(date)).toISOString()
+    const endYearDate = endOfYear(new Date(date)).toISOString()
+    selector.startDate = { $gte: startYearDate, $lte: endYearDate }
+  } else {
+    selector.startDate = { $gt: null }
+  }
+
+  return {
+    definition: Q(GEOJSON_DOCTYPE)
+      .where(selector)
+      .partialIndex({
+        'aggregation.purpose': COMMUTE_PURPOSE,
+        'aggregation.modes': {
+          $in: [BICYCLING_MODE, BICYCLING_ELECTRIC_MODE, SCOOTER_ELECTRIC_MODE]
+        }
+      })
+      .select([
+        'startDate',
+        'endDate',
+        'title',
+        'aggregation',
+        'aggregation.modes',
+        'aggregation.purpose',
+        'captureDevice'
+      ])
+      .indexFields(['captureDevice', 'startDate'])
+      .sortBy([{ captureDevice: 'desc' }, { startDate: 'desc' }])
+      .limitBy(1000),
+    options: {
+      as: `${GEOJSON_DOCTYPE}/accountLogin/${accountLogin}/BikeCommute`,
       fetchPolicy: CozyClient.fetchPolicies.olderThan(neverReload)
     }
   }

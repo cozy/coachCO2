@@ -7,8 +7,8 @@ import { DACC_MEASURE_NAME_CO2_MONTHLY } from 'src/constants'
 import useFetchDACCAggregates from 'src/hooks/useFetchDACCAggregates'
 import useSettings from 'src/hooks/useSettings'
 import {
-  buildOneYearOldTimeseriesWithAggregationByAccountId,
-  buildOneYearOldTimeseriesWithAggregation
+  buildOneYearOldTimeseriesWithAggregation,
+  buildOneYearOldTimeseriesWithAggregationByAccountLogin
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
@@ -16,12 +16,12 @@ import useBreakpoints from 'cozy-ui/transpiled/react/providers/Breakpoints'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 import { useTheme } from 'cozy-ui/transpiled/react/styles'
 
-const getQuery = ({ isAllAccountsSelected, accountId }) => {
+const getQuery = ({ isAllAccountsSelected, accountLogin }) => {
   if (isAllAccountsSelected) {
     return buildOneYearOldTimeseriesWithAggregation()
   }
-  return buildOneYearOldTimeseriesWithAggregationByAccountId({
-    accountId
+  return buildOneYearOldTimeseriesWithAggregationByAccountLogin({
+    accountLogin
   })
 }
 
@@ -29,14 +29,14 @@ const CO2EmissionsChart = () => {
   const { t, f } = useI18n()
   const theme = useTheme()
   const { isMobile } = useBreakpoints()
-  const { account, isAllAccountsSelected } = useAccountContext()
+  const { accountLogin, isAllAccountsSelected } = useAccountContext()
 
   const { isLoading: isSettingsLoading, value: sendToDACC = false } =
     useSettings('CO2Emission.sendToDACC')
 
   const oneYearOldTimeseriesQuery = getQuery({
     isAllAccountsSelected,
-    accountId: account?._id
+    accountLogin
   })
   const { data: oneYearOldTimeseries, ...queryResult } = useQueryAll(
     oneYearOldTimeseriesQuery.definition,

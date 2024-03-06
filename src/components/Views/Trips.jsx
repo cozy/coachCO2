@@ -3,15 +3,12 @@ import CO2EmissionsChart from 'src/components/CO2EmissionsChart/CO2EmissionsChar
 import CO2EmissionDaccManager from 'src/components/DaccManager/CO2EmissionDaccManager'
 import EmptyContentManager from 'src/components/EmptyContent/EmptyContentManager'
 import BikeGoalManager from 'src/components/Goals/BikeGoal/BikeGoalManager'
-import {
-  useAccountContext,
-  getAccountLabel
-} from 'src/components/Providers/AccountProvider'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import Titlebar from 'src/components/Titlebar'
 import TripsList from 'src/components/TripsList'
 import {
-  buildAggregatedTimeseriesQueryByAccountId,
-  buildAggregatedTimeseriesQuery
+  buildAggregatedTimeseriesQuery,
+  buildAggregatedTimeseriesQueryByAccountLogin
 } from 'src/queries/queries'
 
 import { hasQueryBeenLoaded, isQueryLoading, useQuery } from 'cozy-client'
@@ -29,31 +26,31 @@ const style = {
   }
 }
 
-const getQuery = ({ isAllAccountsSelected, accountId }) => {
+const getQuery = ({ isAllAccountsSelected, accountLogin }) => {
   if (isAllAccountsSelected) {
     return buildAggregatedTimeseriesQuery({ limit: 50 })
   }
-  return buildAggregatedTimeseriesQueryByAccountId({
-    accountId,
+  return buildAggregatedTimeseriesQueryByAccountLogin({
+    accountLogin,
     limit: 50
   })
 }
 
 export const Trips = () => {
-  const { account, isAccountLoading, isAllAccountsSelected } =
+  const { accountLogin, isAccountLoading, isAllAccountsSelected } =
     useAccountContext()
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
 
   const timeseriesQuery = getQuery({
     isAllAccountsSelected,
-    accountId: account?._id
+    accountLogin
   })
   const { data: timeseries, ...timeseriesQueryLeft } = useQuery(
     timeseriesQuery.definition,
     {
       ...timeseriesQuery.options,
-      enabled: Boolean(account) || isAllAccountsSelected
+      enabled: Boolean(accountLogin) || isAllAccountsSelected
     }
   )
   if (isAccountLoading) {
@@ -61,7 +58,7 @@ export const Trips = () => {
   }
 
   if (
-    (account || isAllAccountsSelected) &&
+    (accountLogin || isAllAccountsSelected) &&
     isQueryLoading(timeseriesQueryLeft) &&
     !hasQueryBeenLoaded(timeseriesQueryLeft)
   ) {
@@ -69,7 +66,7 @@ export const Trips = () => {
   }
 
   if (
-    (!isAllAccountsSelected && !account) ||
+    (!isAllAccountsSelected && !accountLogin) ||
     !timeseries ||
     timeseries?.length === 0
   ) {
@@ -78,7 +75,7 @@ export const Trips = () => {
 
   const accountLabel = isAllAccountsSelected
     ? t('trips.allTrips')
-    : `${t('trips.from')} ${getAccountLabel(account)}`
+    : `${t('trips.from')} ${accountLogin}`
 
   return (
     <>

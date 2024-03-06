@@ -1,30 +1,27 @@
 import { useEffect, useState } from 'react'
-import {
-  getAccountLabel,
-  useAccountContext
-} from 'src/components/Providers/AccountProvider'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { uploadFile } from 'src/lib/exportTripsToCSV'
 import {
-  buildTimeseriesQueryByAccountId,
+  buildTimeseriesQueryByAccountLogin,
   buildTimeseriesQuery
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll, useClient } from 'cozy-client'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
-const getQuery = ({ isAllAccountsSelected, accountId }) => {
+const getQuery = ({ isAllAccountsSelected, accountLogin }) => {
   if (isAllAccountsSelected) {
     return buildTimeseriesQuery()
   }
-  return buildTimeseriesQueryByAccountId({
-    accountId
+  return buildTimeseriesQueryByAccountLogin({
+    accountLogin
   })
 }
 
 const useExportTripsToCSV = () => {
   const { t } = useI18n()
   const client = useClient()
-  const { account, isAllAccountsSelected } = useAccountContext()
+  const { accountLogin, isAllAccountsSelected } = useAccountContext()
   const [importCSVProcess, setImportCSVProcess] = useState(false)
 
   const [{ appDir, fileCreated, isLoading }, setResult] = useState({
@@ -35,7 +32,7 @@ const useExportTripsToCSV = () => {
 
   const timeseriesQuery = getQuery({
     isAllAccountsSelected,
-    accountId: account?._id
+    accountLogin
   })
   const { data: timeseries, ...queryResult } = useQueryAll(
     timeseriesQuery.definition,
@@ -46,7 +43,7 @@ const useExportTripsToCSV = () => {
 
   const accountName = isAllAccountsSelected
     ? t('settings.allAccounts')
-    : getAccountLabel(account)
+    : accountLogin
 
   useEffect(() => {
     const init = async () => {
