@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useCallback } from 'react'
 import { CCO2_SETTINGS_DOCTYPE } from 'src/doctypes'
-import { buildSettingsQuery, buildAccountQuery } from 'src/queries/queries'
+import { buildSettingsQuery } from 'src/queries/queries'
 
 import { isQueryLoading, useMutation, useQuery } from 'cozy-client'
 
@@ -15,8 +15,6 @@ export const useAccountContext = () => {
   return context
 }
 
-export const getAccountLabel = account => account?.auth?.login
-
 let firstLaunch = true // Tips to avoid duplicate settings creation. Updating the app settings refreshes the useQuery which doesn't yet have the latest updated state and therefore a second update is made
 
 const AccountProvider = ({ children }) => {
@@ -28,49 +26,40 @@ const AccountProvider = ({ children }) => {
   )
   const isSettingsQueryLoading = isQueryLoading(settingsQueryLeft)
 
-  const accountQuery = buildAccountQuery()
-  const { data: accounts, ...accountQueryLeft } = useQuery(
-    accountQuery.definition,
-    accountQuery.options
-  )
-  const isAccountQueryLoading = isQueryLoading(accountQueryLeft)
-
-  const isLoading = isSettingsQueryLoading || isAccountQueryLoading
-
-  // When the user launch the app for the first time, or account property doesn't exist, we create the settings
+  // When the user launch the app for the first time, or accountLogin property doesn't exist, we create the settings
   useEffect(() => {
-    if (!isLoading && firstLaunch) {
-      if (settings?.[0]?.account === undefined) {
+    if (!isSettingsQueryLoading && firstLaunch) {
+      if (settings?.[0]?.accountLogin === undefined) {
         const setting = settings?.[0] || {}
         mutate({
           ...setting,
           _type: CCO2_SETTINGS_DOCTYPE,
-          account: null,
+          accountLogin: null,
           isAllAccountsSelected: true
         })
         firstLaunch = false
       }
     }
-  }, [settings, isLoading, mutate])
+  }, [settings, isSettingsQueryLoading, mutate])
 
-  const setAccount = useCallback(
-    account => {
+  const setAccountLogin = useCallback(
+    accountLogin => {
       const setting = settings[0] || {}
       mutate({
         ...setting,
         _type: CCO2_SETTINGS_DOCTYPE,
-        account,
-        isAllAccountsSelected: account === null
+        accountLogin,
+        isAllAccountsSelected: accountLogin === null
       })
     },
     [mutate, settings]
   )
 
   const value = {
-    accounts,
-    account: settings?.[0]?.account ?? null,
-    setAccount,
-    isAccountLoading: isAccountQueryLoading,
+    accountLogin: settings?.[0]?.accountLogin ?? null,
+    accountsLogins: settings?.[0]?.accountsLogins ?? [],
+    setAccountLogin,
+    isAccountLoading: isSettingsQueryLoading,
     isAllAccountsSelected: settings?.[0]?.isAllAccountsSelected ?? false
   }
 

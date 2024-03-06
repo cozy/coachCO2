@@ -8,8 +8,8 @@ import { useSelectDatesContext } from 'src/components/Providers/SelectDatesProvi
 import SelectDatesWrapper from 'src/components/SelectDatesWrapper'
 import Titlebar from 'src/components/Titlebar'
 import {
-  buildTimeseriesQueryByDateAndAccountId,
-  buildTimeseriesQueryByDate
+  buildTimeseriesQueryByDate,
+  buildTimeseriesQueryByDateAndAccountLogin
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll } from 'cozy-client'
@@ -20,7 +20,7 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 const getQuery = ({
   isAllAccountsSelected,
   selectedDate,
-  accountId,
+  accountLogin,
   isFullYear
 }) => {
   if (isAllAccountsSelected) {
@@ -29,15 +29,15 @@ const getQuery = ({
       date: selectedDate
     })
   }
-  return buildTimeseriesQueryByDateAndAccountId({
+  return buildTimeseriesQueryByDateAndAccountLogin({
     date: selectedDate,
     isFullYear,
-    accountId
+    accountLogin
   })
 }
 
 const AnalysisWrapper = () => {
-  const { account, isAccountLoading, isAllAccountsSelected } =
+  const { accountLogin, isAccountLoading, isAllAccountsSelected } =
     useAccountContext()
   const { selectedDate, isFullYear, isSelectedDateLoading } =
     useSelectDatesContext()
@@ -46,7 +46,7 @@ const AnalysisWrapper = () => {
     isAllAccountsSelected,
     selectedDate,
     isFullYear,
-    accountId: account?._id
+    accountLogin
   })
   const { data: timeseries, ...timeseriesQueryLeft } = useQueryAll(
     timeserieQuery.definition,
@@ -58,7 +58,7 @@ const AnalysisWrapper = () => {
   }
 
   if (
-    (account || isAllAccountsSelected) &&
+    (accountLogin || isAllAccountsSelected) &&
     (isQueryLoading(timeseriesQueryLeft) || timeseriesQueryLeft.hasMore) &&
     selectedDate !== null
   ) {
@@ -66,7 +66,7 @@ const AnalysisWrapper = () => {
   }
 
   if (
-    (!account && !isAllAccountsSelected) ||
+    (!accountLogin && !isAllAccountsSelected) ||
     !timeseries ||
     timeseries?.length === 0
   ) {

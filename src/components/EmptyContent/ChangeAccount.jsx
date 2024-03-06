@@ -2,10 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import EmptySvg from 'src/assets/icons/pins-path.svg'
 import FAQHelp from 'src/components/FAQ/FAQHelp'
-import {
-  useAccountContext,
-  getAccountLabel
-} from 'src/components/Providers/AccountProvider'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import Titlebar from 'src/components/Titlebar'
 
 import Button from 'cozy-ui/transpiled/react/Buttons'
@@ -17,15 +14,15 @@ const ChangeAccount = () => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
   const navigate = useNavigate()
-  const { account, isAllAccountsSelected } = useAccountContext()
+  const { accountLogin, isAllAccountsSelected } = useAccountContext()
   const accountLabel = isAllAccountsSelected
     ? t('settings.allAccounts')
-    : `${t('trips.from')} ${getAccountLabel(account)}`
+    : `${t('trips.from')} ${accountLogin}`
 
   return (
     <>
       {isMobile && (
-        <Titlebar label={account ? `${accountLabel}` : t('trips.trips')} />
+        <Titlebar label={accountLogin ? `${accountLabel}` : t('trips.trips')} />
       )}
       <Empty
         icon={EmptySvg}

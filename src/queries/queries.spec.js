@@ -1,8 +1,5 @@
-import MockDate from 'mockdate'
-
 import {
   buildTimeseriesQueryByDateAndAccountId,
-  buildOneYearOldTimeseriesWithAggregationByAccountId,
   buildBikeCommuteTimeseriesQueryByAccountId
 } from './queries'
 
@@ -106,35 +103,6 @@ describe('buildTimeseriesQueryByDateAndAccountId', () => {
   })
 })
 
-describe('buildOneYearOldTimeseriesWithAggregationByAccountId', () => {
-  beforeEach(() => {
-    MockDate.set('2020-01-01')
-  })
-
-  afterEach(() => {
-    MockDate.reset()
-  })
-
-  it('should return a well formated query', () => {
-    const query = buildOneYearOldTimeseriesWithAggregationByAccountId({
-      accountId: 'accountId'
-    })
-
-    expect(query).toMatchObject({
-      definition: {
-        selector: {
-          startDate: {
-            $gte: '2019-01-01T00:00:00.000Z'
-          }
-        }
-      },
-      options: {
-        as: 'io.cozy.timeseries.geojson/sourceAccount/accountId/withAggregation/fromDate/2019-0'
-      }
-    })
-  })
-})
-
 describe('buildBikeCommuteTimeseriesQueryByAccountId', () => {
   it('should use a well formated selector without date', () => {
     const query = buildBikeCommuteTimeseriesQueryByAccountId(
@@ -154,7 +122,8 @@ describe('buildBikeCommuteTimeseriesQueryByAccountId', () => {
           'aggregation',
           'aggregation.modes',
           'aggregation.purpose',
-          'cozyMetadata.sourceAccount'
+          'cozyMetadata.sourceAccount',
+          'captureDevice'
         ],
         id: undefined,
         ids: undefined,
@@ -208,7 +177,8 @@ describe('buildBikeCommuteTimeseriesQueryByAccountId', () => {
           'aggregation',
           'aggregation.modes',
           'aggregation.purpose',
-          'cozyMetadata.sourceAccount'
+          'cozyMetadata.sourceAccount',
+          'captureDevice'
         ],
         id: undefined,
         ids: undefined,
