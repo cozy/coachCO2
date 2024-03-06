@@ -1,10 +1,7 @@
 import React from 'react'
 import EmptySvg from 'src/assets/images/location-detected.svg'
 import FAQHelp from 'src/components/FAQ/FAQHelp'
-import {
-  useAccountContext,
-  getAccountLabel
-} from 'src/components/Providers/AccountProvider'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import Titlebar from 'src/components/Titlebar'
 
 import Empty from 'cozy-ui/transpiled/react/Empty'
@@ -14,11 +11,11 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 const GPSStandby = () => {
   const { t } = useI18n()
   const { isMobile } = useBreakpoints()
-  const { account, isAllAccountsSelected } = useAccountContext()
+  const { accountLogin, isAllAccountsSelected } = useAccountContext()
 
   const accountLabel = isAllAccountsSelected
     ? t('trips.allTrips')
-    : `${t('trips.from')} ${getAccountLabel(account)}`
+    : `${t('trips.from')} ${accountLogin}`
 
   return (
     <>

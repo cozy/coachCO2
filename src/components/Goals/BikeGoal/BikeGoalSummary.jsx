@@ -6,9 +6,9 @@ import BikeGoalSummaryYearlyItem from 'src/components/Goals/BikeGoal/BikeGoalSum
 import { useAccountContext } from 'src/components/Providers/AccountProvider'
 import { filterTimeseriesByYear } from 'src/lib/timeseries'
 import {
-  buildBikeCommuteTimeseriesQueryByAccountId,
   buildBikeCommuteTimeseriesQuery,
-  buildSettingsQuery
+  buildSettingsQuery,
+  buildBikeCommuteTimeseriesQueryByAccountLogin
 } from 'src/queries/queries'
 
 import { isQueryLoading, useQueryAll, useQuery } from 'cozy-client'
@@ -22,17 +22,17 @@ const style = {
   div: { height: 65 }
 }
 
-const getQuery = ({ isAllAccountsSelected, accountId }) => {
+const getQuery = ({ isAllAccountsSelected, accountLogin }) => {
   if (isAllAccountsSelected) {
     return buildBikeCommuteTimeseriesQuery()
   }
-  return buildBikeCommuteTimeseriesQueryByAccountId({ accountId })
+  return buildBikeCommuteTimeseriesQueryByAccountLogin({ accountLogin })
 }
 
 const BikeGoalSummary = () => {
   const { t } = useI18n()
   const navigate = useNavigate()
-  const { account, isAccountLoading, isAllAccountsSelected } =
+  const { accountLogin, isAccountLoading, isAllAccountsSelected } =
     useAccountContext()
 
   const settingsQuery = buildSettingsQuery()
@@ -43,14 +43,14 @@ const BikeGoalSummary = () => {
   const isSettingsLoading = isQueryLoading(settingsQueryLeft)
 
   const timeseriesQuery = getQuery({
-    accountId: account?._id,
+    accountLogin,
     isAllAccountsSelected
   })
   const { data: timeseries, ...timeseriesQueryLeft } = useQueryAll(
     timeseriesQuery.definition,
     {
       ...timeseriesQuery.options,
-      enabled: Boolean(account) || isAllAccountsSelected
+      enabled: Boolean(accountLogin) || isAllAccountsSelected
     }
   )
 

@@ -19,7 +19,7 @@ jest.mock('src/components/Providers/AccountProvider', () => ({
   ...jest.requireActual('src/components/Providers/AccountProvider'),
   __esModule: true,
   useAccountContext: jest.fn().mockReturnValue({
-    account: { auth: { login: 'accountName' } }
+    accountLogin: 'accountLogin'
   })
 }))
 

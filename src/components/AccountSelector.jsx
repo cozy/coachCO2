@@ -1,27 +1,28 @@
 import React from 'react'
-import {
-  useAccountContext,
-  getAccountLabel
-} from 'src/components/Providers/AccountProvider'
+import { useAccountContext } from 'src/components/Providers/AccountProvider'
 
 import SelectBox from 'cozy-ui/transpiled/react/SelectBox'
 import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 
 const AccountSelector = () => {
   const { t } = useI18n()
-  const { accounts, account, setAccount, isAllAccountsSelected } =
-    useAccountContext()
+  const {
+    accountsLogins,
+    accountLogin,
+    setAccountLogin,
+    isAllAccountsSelected
+  } = useAccountContext()
 
   const getValue = () => {
     if (isAllAccountsSelected) {
       return { label: t('settings.allAccounts'), value: 'allSources' }
     }
-    return { label: getAccountLabel(account), value: account?._id }
+    return { label: accountLogin, value: accountLogin }
   }
 
-  const options = accounts.map(account => ({
-    label: getAccountLabel(account),
-    value: account._id
+  const options = accountsLogins.map(name => ({
+    label: name,
+    value: name
   }))
   options.push({ label: t('settings.allAccounts'), value: 'allSources' })
 
@@ -29,9 +30,9 @@ const AccountSelector = () => {
 
   const handleChange = ({ value }) => {
     if (value === 'allSources') {
-      setAccount(null)
+      setAccountLogin(null)
     } else {
-      setAccount(accounts.find(acc => acc._id === value))
+      setAccountLogin(accountsLogins.find(name => name === value))
     }
   }
 
