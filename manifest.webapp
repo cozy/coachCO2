@@ -91,7 +91,13 @@
     }
   },
   "services": {
-      "fetchOpenPathTrips": {
+    "computeAggregate": {
+      "type": "node",
+      "file": "services/computeAggregate/coachco2.js",
+      "trigger": "@event io.cozy.timeseries.geojson:CREATED",
+      "debounce": "1m"
+    },
+    "fetchOpenPathTrips": {
       "type": "node",
       "file": "services/fetchOpenPathTrips/coachco2.js",
       "trigger": "@hourly"
