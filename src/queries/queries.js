@@ -461,7 +461,11 @@ export const buildBikeCommuteTimeseriesQueryByAccountLogin = ({
 }
 
 export const queryTimeserieByDocId = async (client, docId) => {
-  const res = await client.query(Q(GEOJSON_DOCTYPE).getById(docId))
+  const res = await client.query(
+    Q(GEOJSON_DOCTYPE)
+      .getById(docId)
+      .include(['startPlaceContact', 'endPlaceContact'])
+  )
   return res?.data
 }
 
