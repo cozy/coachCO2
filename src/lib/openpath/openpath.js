@@ -127,7 +127,7 @@ export const fetchTrips = async (client, account, startDate) => {
  * @returns {Promise<OpenPathResponse>} The openpath server response
  */
 export const purgeOpenPath = async (account, date) => {
-  const beforeDate = subDays(date, 7).toISOString() // Remove 7 days for safety
+  const beforeDate = subDays(date, 30).toISOString() // Substract 30 days for safety
   logService('info', `Request purge before date ${beforeDate}`)
 
   return requestOpenPathPurge(account.token, beforeDate)
