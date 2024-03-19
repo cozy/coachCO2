@@ -1,4 +1,15 @@
+# 0.20.0
+
 # 0.19.0
+
+### ✨ Features
+
+* Retain openpath trips for 30 days
+
+### 🐛 Bug Fixes
+
+* initPolyglot should load the "en"  as a fallback in Service
+* Fix recurringPurposes queries
 
 # 0.18.0
 
