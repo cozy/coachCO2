@@ -197,7 +197,7 @@ export const checkPermissionsAndEnableTrackingOrShowDialog = async ({
       setShowLocationDisabledDialog(true)
     } else {
       log.error(e)
-      showAlert(e.message, 'error')
+      showAlert({ message: e.message, severity: 'error' })
     }
   }
 }
