@@ -38,7 +38,7 @@ const ContactToPlaceDialogActions = () => {
     }
     setContact(null)
 
-    showAlert(t('contactToPlace.addSuccess'), 'success')
+    showAlert({ message: t('contactToPlace.addSuccess'), severity: 'success' })
     if (type === 'start' && !hasRelationshipByType(timeserie, 'end')) {
       setType('end')
     } else {
@@ -60,7 +60,10 @@ const ContactToPlaceDialogActions = () => {
   const handleCloseError = () => setShowError(false)
 
   const handleDelete = async () => {
-    showAlert(t('contactToPlace.removeSuccess'), 'success')
+    showAlert({
+      message: t('contactToPlace.removeSuccess'),
+      severity: 'success'
+    })
     setContact(null)
     onClose()
     await removeRelationship({ client, timeserie, type, t, contact })
