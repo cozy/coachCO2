@@ -346,7 +346,7 @@
     },
     "settings": {
       "enable": "Enregistrer mes déplacements avec mon mobile (GPS)",
-      "sendLogs": "Envoyer mes logs au support",
+      "sendLogs": "Envoyer les journaux de l'application à l'assistance",
       "forceUploadData": "Forcer l'upload des données",
       "copyIdentifier": "Copier l'identifiant OpenPATH",
       "createdOn": "créé le"
