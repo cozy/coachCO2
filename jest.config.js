@@ -15,6 +15,10 @@ module.exports = {
     '^test/(.*)': '<rootDir>/test/$1'
   },
   transformIgnorePatterns: ['node_modules/(?!cozy-ui)'],
+  transform: {
+    '^.+\\.[jt]sx?$': 'babel-jest',
+    '\\.hbs$': '<rootDir>/node_modules/cozy-notifications/test/readFileESM.js'
+  },
   globals: {
     __ALLOW_HTTP__: false,
     __TARGET__: 'browser',
