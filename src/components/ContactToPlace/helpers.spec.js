@@ -4,6 +4,7 @@ import locales from 'src/locales/en.json'
 import {
   getLabelByType,
   addAddressToContact,
+  getContactAddressAndIndexFromRelationships,
   getPlaceLabelByContact
 } from './helpers'
 
@@ -282,5 +283,132 @@ describe('getPlaceLabelByContact', () => {
     }
 
     expect(getPlaceLabelByContact({ timeserie, type, t })).toBe(null)
+  })
+})
+
+describe('getContactAddressAndIndexFromRelationships', () => {
+  const type = 'start'
+
+  describe('should return undefined', () => {
+    it('if no address in contact', () => {
+      const res = getContactAddressAndIndexFromRelationships({
+        contact: {},
+        timeserie: { relationships: { startPlaceContact: {} } },
+        type
+      })
+
+      expect(res).toStrictEqual({ address: undefined, index: -1 })
+    })
+
+    it('if no relationships', () => {
+      const res = getContactAddressAndIndexFromRelationships({
+        contact: { address: [{ street: 'Baker Street' }] },
+        timeserie: { relationships: { startPlaceContact: {} } },
+        type
+      })
+
+      expect(res).toStrictEqual({ address: undefined, index: -1 })
+    })
+
+    it('if no relationships data', () => {
+      const res = getContactAddressAndIndexFromRelationships({
+        contact: { address: [{ street: 'Baker Street' }] },
+        timeserie: { relationships: { startPlaceContact: { data: {} } } },
+        type
+      })
+
+      expect(res).toStrictEqual({ address: undefined, index: -1 })
+    })
+
+    it('if contact address id but no relationships', () => {
+      const res = getContactAddressAndIndexFromRelationships({
+        contact: { address: [{ id: '123', street: 'Baker Street' }] },
+        timeserie: { relationships: { startPlaceContact: {} } },
+        type
+      })
+
+      expect(res).toStrictEqual({ address: undefined, index: -1 })
+    })
+
+    it('if not the same address id', () => {
+      const res = getContactAddressAndIndexFromRelationships({
+        contact: { address: [{ id: '123', street: 'Baker Street' }] },
+        timeserie: {
+          relationships: {
+            startPlaceContact: { data: { metadata: { addressId: '456' } } }
+          }
+        },
+        type
+      })
+
+      expect(res).toStrictEqual({ address: undefined, index: -1 })
+    })
+
+    it('if no id on contact address', () => {
+      const res = getContactAddressAndIndexFromRelationships({
+        contact: { address: [{ street: 'Baker Street' }] },
+        timeserie: {
+          relationships: {
+            startPlaceContact: { data: { metadata: { addressId: '123' } } }
+          }
+        },
+        type
+      })
+
+      expect(res).toStrictEqual({ address: undefined, index: -1 })
+    })
+
+    it('if contact address is empty array', () => {
+      const res = getContactAddressAndIndexFromRelationships({
+        contact: { address: [] },
+        timeserie: {
+          relationships: {
+            startPlaceContact: { data: { metadata: { addressId: '123' } } }
+          }
+        },
+        type
+      })
+
+      expect(res).toStrictEqual({ address: undefined, index: -1 })
+    })
+  })
+
+  it('should return the correct address and index', () => {
+    const res = getContactAddressAndIndexFromRelationships({
+      contact: { address: [{ id: '123', street: 'Baker Street' }] },
+      timeserie: {
+        relationships: {
+          startPlaceContact: { data: { metadata: { addressId: '123' } } }
+        }
+      },
+      type
+    })
+
+    expect(res).toStrictEqual({
+      address: { id: '123', street: 'Baker Street' },
+      index: 0
+    })
+  })
+
+  it('should return the correct address and index if there is multiple addresses', () => {
+    const res = getContactAddressAndIndexFromRelationships({
+      contact: {
+        address: [
+          { id: '123', street: 'Baker Street' },
+          { id: '456', street: 'Cooker Street' }
+        ]
+      },
+      timeserie: {
+        relationships: {
+          startPlaceContact: { data: { metadata: { addressId: '456' } } }
+        }
+      },
+      type
+    })
+
+    expect(res).toStrictEqual({
+      address: { id: '456', street: 'Cooker Street' },
+      index: 1
+    })
   })
 })
