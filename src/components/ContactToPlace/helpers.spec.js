@@ -76,7 +76,8 @@ describe('addAddressToContact', () => {
           id: '123',
           formattedAddress: 'StartPlace',
           geo: { geo: ['02', '48'], cozyCategory: 'work' },
-          type: 'Work'
+          type: undefined,
+          label: 'work'
         }
       ]
     })
@@ -103,7 +104,8 @@ describe('addAddressToContact', () => {
           id: '123',
           formattedAddress: 'StartPlace',
           geo: { geo: ['02', '48'], cozyCategory: 'work' },
-          type: 'Work'
+          type: undefined,
+          label: 'work'
         }
       ]
     })
@@ -118,7 +120,7 @@ describe('getPlaceLabelByContact', () => {
       const contact = {
         displayName: 'John Connor',
         me: true,
-        address: [{ id: '123', type: 'Home', geo: { cozyCategory: 'home' } }]
+        address: [{ id: '123', label: 'home', geo: { cozyCategory: 'home' } }]
       }
 
       const timeserie = {
@@ -137,7 +139,7 @@ describe('getPlaceLabelByContact', () => {
       const contact = {
         displayName: 'John Connor',
         me: true,
-        address: [{ id: '123', type: 'Work', geo: { cozyCategory: 'work' } }]
+        address: [{ id: '123', label: 'work', geo: { cozyCategory: 'work' } }]
       }
 
       const timeserie = {
@@ -152,11 +154,44 @@ describe('getPlaceLabelByContact', () => {
       expect(getPlaceLabelByContact({ timeserie, type, t })).toBe('Work')
     })
 
-    it('should return the label', () => {
+    it('should return the custom type for home', () => {
       const contact = {
         displayName: 'John Connor',
         me: true,
-        address: [{ id: '123', type: 'custom' }]
+        address: [
+          {
+            id: '123',
+            type: 'custom',
+            label: 'home',
+            geo: { cozyCategory: 'home' }
+          }
+        ]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceLabelByContact({ timeserie, type, t })).toBe('custom')
+    })
+
+    it('should return the custom type for work', () => {
+      const contact = {
+        displayName: 'John Connor',
+        me: true,
+        address: [
+          {
+            id: '123',
+            type: 'custom',
+            label: 'work',
+            geo: { cozyCategory: 'work' }
+          }
+        ]
       }
 
       const timeserie = {
@@ -195,7 +230,7 @@ describe('getPlaceLabelByContact', () => {
     it('should return `At contact name`', () => {
       const contact = {
         displayName: 'Sarah Connor',
-        address: [{ id: '123', type: 'Home', geo: { cozyCategory: 'home' } }]
+        address: [{ id: '123', label: 'home', geo: { cozyCategory: 'home' } }]
       }
 
       const timeserie = {
@@ -212,10 +247,10 @@ describe('getPlaceLabelByContact', () => {
       )
     })
 
-    it('should return contact name and work', () => {
+    it('should return contact name and `Work`', () => {
       const contact = {
         displayName: 'Sarah Connor',
-        address: [{ id: '123', type: 'Work', geo: { cozyCategory: 'work' } }]
+        address: [{ id: '123', label: 'work', geo: { cozyCategory: 'work' } }]
       }
 
       const timeserie = {
@@ -232,10 +267,44 @@ describe('getPlaceLabelByContact', () => {
       )
     })
 
-    it('should contact name and label', () => {
+    it('should contact name and type for home', () => {
       const contact = {
         displayName: 'Sarah Connor',
-        address: [{ id: '123', type: 'custom' }]
+        address: [
+          {
+            id: '123',
+            type: 'custom',
+            label: 'home',
+            geo: { cozyCategory: 'home' }
+          }
+        ]
+      }
+
+      const timeserie = {
+        startPlaceContact: { data: contact },
+        relationships: {
+          startPlaceContact: {
+            data: { metadata: { addressId: '123' } }
+          }
+        }
+      }
+
+      expect(getPlaceLabelByContact({ timeserie, type, t })).toBe(
+        'Sarah Connor (custom)'
+      )
+    })
+
+    it('should contact name and type for work', () => {
+      const contact = {
+        displayName: 'Sarah Connor',
+        address: [
+          {
+            id: '123',
+            type: 'custom',
+            label: 'work',
+            geo: { cozyCategory: 'work' }
+          }
+        ]
       }
 
       const timeserie = {
