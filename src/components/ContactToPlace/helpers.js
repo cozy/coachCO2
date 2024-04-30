@@ -26,20 +26,28 @@ export const getContactAddressAndIndexFromRelationships = ({
   timeserie,
   type
 }) => {
-  let index
+  const hasAddress = !!contact?.address
+  const hasRelAddress =
+    !!timeserie.relationships[getRelationshipKey(type)]?.data?.metadata
+      ?.addressId
 
-  const address = contact?.address?.find((address, idx) => {
-    if (
-      address.id ===
-      timeserie.relationships[getRelationshipKey(type)]?.data?.metadata
-        ?.addressId
-    ) {
-      index = idx
-      return address
+  if (!hasAddress || !hasRelAddress) {
+    return {
+      address: undefined,
+      index: -1
     }
-  })
+  }
 
-  return { address, index }
+  const index = contact.address.findIndex(
+    address =>
+      address.id ===
+      timeserie.relationships[getRelationshipKey(type)].data.metadata.addressId
+  )
+
+  return {
+    address: index === -1 ? undefined : contact.address[index],
+    index
+  }
 }
 
 export const getCategoryByType = ({ contact, timeserie, type }) => {
