@@ -62,6 +62,10 @@ export const OTHER_PURPOSE = 'OTHER_PURPOSE'
 // list of address categories
 export const HOME_ADDRESS_CATEGORY = 'home'
 export const WORK_ADDRESS_CATEGORY = 'work'
+export const ADDRESS_CATEGORY_TO_LABEL = {
+  home: 'perso',
+  work: 'pro'
+}
 
 /**
  * Transporation CO2 constants, given in kg per km.

@@ -1,4 +1,8 @@
 import React, { forwardRef } from 'react'
+import {
+  isCustomLabel,
+  makeCustomLabel
+} from 'src/components/ContactToPlace/actions/helpers'
 import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 
 import ActionsMenuItem from 'cozy-ui/transpiled/react/ActionsMenu/ActionsMenuItem'
@@ -10,20 +14,14 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 export const customLabel = ({ showCustomLabelModal }) => {
   const CustomLabelActionComponent = forwardRef((props, ref) => {
     const { t } = useI18n()
-    const { label } = useContactToPlace()
-
-    const isCutomLabel = ![
-      t('contactToPlace.work'),
-      t('contactToPlace.home'),
-      undefined
-    ].includes(label)
+    const { label, category } = useContactToPlace()
 
     return (
       <ActionsMenuItem {...props} ref={ref}>
         <ListItemIcon>
-          <Radio checked={isCutomLabel} />
+          <Radio checked={isCustomLabel(label, t)} />
         </ListItemIcon>
-        <ListItemText primary={t('contactToPlace.custom')} />
+        <ListItemText primary={makeCustomLabel({ label, category, t })} />
       </ActionsMenuItem>
     )
   })

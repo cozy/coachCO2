@@ -1,6 +1,7 @@
 import remove from 'lodash/remove'
 import set from 'lodash/set'
 import unset from 'lodash/unset'
+import { isCustomLabel } from 'src/components/ContactToPlace/actions/helpers'
 import { HOME_ADDRESS_CATEGORY } from 'src/constants'
 import { CCO2_SETTINGS_DOCTYPE } from 'src/doctypes'
 import {
@@ -74,19 +75,27 @@ export const getPlaceLabelByContact = ({ timeserie, type, t }) => {
 
   const isMyself = !!contact.me
   const category = getCategoryByType({ timeserie, type, contact })
-  const label = getLabelByType({ timeserie, type, contact })
+  const adressType = getLabelByType({ timeserie, type, contact })
   const displayName = getDisplayName(contact)
   const isHome = category === HOME_ADDRESS_CATEGORY
 
-  if (isHome && isMyself) {
+  if (!isCustomLabel(adressType, t) && isHome && isMyself) {
     return t('contactToPlace.atHome')
   }
 
-  if (!label) {
+  if (!category) {
     return displayName
   }
 
-  return isMyself ? label : `${displayName} (${label})`
+  const homeOrWorkLabel = t(`contactToPlace.${category}`)
+
+  if (isMyself) {
+    return isCustomLabel(adressType, t) ? adressType : homeOrWorkLabel
+  }
+
+  return isCustomLabel(adressType, t)
+    ? `${displayName} (${adressType})`
+    : `${displayName} (${homeOrWorkLabel})`
 }
 
 export const removeRelationship = async ({
@@ -146,7 +155,8 @@ export const addAddressToContact = ({
       ...(contact.address || []),
       {
         id: addressId,
-        type: label,
+        type: isCustomLabel(label, t) ? label : undefined,
+        label: category,
         formattedAddress: getPlaceDisplayName({ timeserie, type, t }),
         geo: {
           geo: getPlaceCoordinates(timeserie, type),
@@ -223,7 +233,12 @@ const updateRelationship = async ({
     type
   })
 
-  set(contact, `address[${index}].type`, label)
+  set(
+    contact,
+    `address[${index}].type`,
+    isCustomLabel(label, t) ? label : undefined
+  )
+  set(contact, `address[${index}].label`, category)
   set(contact, `address[${index}].geo.cozyCategory`, category)
 
   await client.save(contact)
@@ -241,12 +256,12 @@ const updateRelationship = async ({
  * @param {Object} params
  * @param {import('cozy-client/types/CozyClient').default} params.client - The cozy client
  * @param {Object} params.setting - The io.cozy.coachco2.settings document
- * @param {string} params.type - The type of the relationship
+ * @param {'start'|'end'} params.type - The type of the relationship
  * @param {Object} params.timeserie - The timeserie document
  * @param {Object} params.contact - The contact document
  * @param {string} params.label - The label of the relationship
  * @param {boolean} params.isSameContact - Whether the contact is the same as the previous one
- * @param {string} params.category - The category of the relationship
+ * @param {'home'|'work'} params.category - The category of the relationship
  * @param {Function} params.t - The translation function
  */
 export const saveRelationship = async ({
