@@ -1,4 +1,15 @@
+# 0.21.0
+
 # 0.20.0
+
+### ✨ Features
+
+* Change wording for sending logs to support
+* Decrease fetchOpenPathTrips frequency
+
+### 🐛 Bug Fixes
+
+* Associating a contact with an existing address
 
 # 0.19.0
 
