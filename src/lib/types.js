@@ -13,22 +13,22 @@
 
 /**
  * The GeoJSON timeseries doctype.
- *
+ * 
  * See https://github.com/cozy/cozy-doctypes/blob/master/docs/io.cozy.timeseries.md#iocozytimeseriesgeojson
- *
+ * 
  * @typedef {object} TimeseriesGeoJSON
  * @property {Date} startDate - The timeserie start date
  * @property {Date} endDate - The timeserie end date
- * @property {string} source - The source of the timeserie
+ * @property {string} source - The source of the timeserie 
  * @property {Aggregation} aggregation - The aggregation of the timeserie, describing the trip
  * @property {Array<RawGeoJSON>} series - The actual GeoJSON content
  *
- *
- *
+ * 
+ * 
 
 /**
- * The GeoJSON raw content.
- *
+ * The GeoJSON raw content. 
+ * 
  * @typedef {object} RawGeoJSON
  * @property {string} type - Always "FeatureCollection"
  * @property {GeoJSONProperties} properties - Trip properties
@@ -125,7 +125,7 @@
  * @property {Array<number>} geo - The coordinates, [lon, lat]
  * @property {Array<number>} sum - The sum of all the coordinates [lon, lat]
  * @property {number} count - The count of all the coordinates
- * @property {'work'|'home'} cozyCategory - The address category
+ * @property {string} cozyCategory - The address category, e.g. Work
  */
 
 /**

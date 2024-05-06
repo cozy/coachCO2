@@ -89,8 +89,6 @@
     "customLabel": "Custom label",
     "home": "Home",
     "work": "Work",
-    "pro": "Pro",
-    "perso": "Perso",
     "error": "Specify which contact to save the address under",
     "addSuccess": "The addresses have been registered",
     "removeSuccess": "The addresses have been deleted",

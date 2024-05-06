@@ -6,12 +6,7 @@ import {
   work,
   customLabel
 } from 'src/components/ContactToPlace/actions'
-import {
-  isCustomLabel,
-  makeCustomLabel
-} from 'src/components/ContactToPlace/actions/helpers'
 import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
-import { ADDRESS_CATEGORY_TO_LABEL } from 'src/constants'
 
 import ActionsMenu from 'cozy-ui/transpiled/react/ActionsMenu'
 import { makeActions } from 'cozy-ui/transpiled/react/ActionsMenu/Actions'
@@ -29,19 +24,11 @@ const LabelItem = () => {
   const [showLabelMenu, setShowLabelMenu] = useState(false)
   const anchorRef = useRef(null)
   const { t } = useI18n()
-  const { label, category } = useContactToPlace()
+  const { label } = useContactToPlace()
 
   const actions = makeActions([noLabel, home, work, customLabel], {
     showCustomLabelModal: () => setShowCustomLabelModal(true)
   })
-
-  const primaryText = isCustomLabel(label, t)
-    ? makeCustomLabel({ label, category, t })
-    : category
-    ? `${t(`contactToPlace.${category}`)} (${t(
-        `contactToPlace.${ADDRESS_CATEGORY_TO_LABEL[category]}`
-      ).toLowerCase()})`
-    : t('contactToPlace.noLabel')
 
   return (
     <>
@@ -56,7 +43,7 @@ const LabelItem = () => {
         <ListItemIcon>
           <Icon icon={LabelOutlinedIcon} />
         </ListItemIcon>
-        <ListItemText primary={primaryText} />
+        <ListItemText primary={label || t('contactToPlace.noLabel')} />
         <ListItemIcon>
           <Icon icon={BottomIcon} />
         </ListItemIcon>

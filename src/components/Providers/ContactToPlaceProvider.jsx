@@ -24,10 +24,10 @@ export const useContactToPlace = () => {
 }
 
 const ContactToPlaceProvider = ({ children }) => {
-  const [type, setType] = useState() // 'start'|'end'
+  const [type, setType] = useState()
   const [contact, setContact] = useState()
   const [label, setLabel] = useState()
-  const [category, setCategory] = useState() // 'home'|'work'
+  const [category, setCategory] = useState()
   const { timeserie } = useTrip()
 
   const contactId =

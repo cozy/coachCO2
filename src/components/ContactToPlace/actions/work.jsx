@@ -1,5 +1,4 @@
 import React, { forwardRef } from 'react'
-import { isCustomLabel } from 'src/components/ContactToPlace/actions/helpers'
 import { useContactToPlace } from 'src/components/Providers/ContactToPlaceProvider'
 import { WORK_ADDRESS_CATEGORY } from 'src/constants'
 
@@ -12,26 +11,20 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 export const work = () => {
   const WorkActionComponent = forwardRef(({ onClick, ...props }, ref) => {
     const { t } = useI18n()
-    const { label, setLabel, category, setCategory } = useContactToPlace()
+    const { label, setLabel, setCategory } = useContactToPlace()
+
+    const compLabel = t('contactToPlace.work')
 
     return (
       <ActionsMenuItem
         {...props}
         ref={ref}
-        onClick={() => onClick({ setLabel, setCategory })}
+        onClick={() => onClick({ compLabel, setLabel, setCategory })}
       >
         <ListItemIcon>
-          <Radio
-            checked={
-              !isCustomLabel(label, t) && category === WORK_ADDRESS_CATEGORY
-            }
-          />
+          <Radio checked={label === compLabel} />
         </ListItemIcon>
-        <ListItemText
-          primary={`${t('contactToPlace.work')} (${t(
-            'contactToPlace.pro'
-          ).toLowerCase()})`}
-        />
+        <ListItemText primary={compLabel} />
       </ActionsMenuItem>
     )
   })
@@ -40,8 +33,8 @@ export const work = () => {
 
   return {
     name: WORK_ADDRESS_CATEGORY,
-    action: (_, { setLabel, setCategory }) => {
-      setLabel()
+    action: (_, { compLabel, setLabel, setCategory }) => {
+      setLabel(compLabel)
       setCategory(WORK_ADDRESS_CATEGORY)
     },
     Component: WorkActionComponent

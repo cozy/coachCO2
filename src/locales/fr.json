@@ -89,8 +89,6 @@
     "customLabel": "Libellé personnalisé",
     "home": "Domicile",
     "work": "Travail",
-    "pro": "Pro",
-    "perso": "Perso",
     "error": "Préciser sous quel contact enregistrer l'adresse",
     "addSuccess": "Les adresses ont bien été enregistrées",
     "removeSuccess": "Les adresses ont bien été supprimées",
