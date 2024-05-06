@@ -100,7 +100,7 @@
     "fetchOpenPathTrips": {
       "type": "node",
       "file": "services/fetchOpenPathTrips/coachco2.js",
-      "trigger": "@hourly"
+      "trigger": "@daily"
     },
     "fetchOpenPathTripsWebhook": {
       "type": "node",
