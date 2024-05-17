@@ -1,4 +1,10 @@
+# 0.22.0
+
 # 0.21.0
+
+### ✨ Features
+
+* Use `type` and `label` to set start/end point tag
 
 # 0.20.0
 
