@@ -658,28 +658,29 @@ const findRecurringTripsFromTimeserie = async (
 }
 
 const saveTrips = async ({ client, timeseriesToUpdate, t }) => {
-  if (timeseriesToUpdate.length > 0) {
-    logService('info', `${timeseriesToUpdate.length} trips to update`)
-
-    // ATM, necessary because of https://github.com/cozy/cozy-client/issues/493
-    const timeseries = client.hydrateDocuments(
-      GEOJSON_DOCTYPE,
-      timeseriesToUpdate
-    )
-
-    for (const timeserie of timeseries) {
-      set(
-        timeserie,
-        'aggregation.automaticTitle',
-        makeAggregationTitle(timeserie, t)
-      )
-    }
-
-    return client.saveAll(timeseriesToUpdate)
+  if (timeseriesToUpdate.length < 1) {
+    logService('info', 'No trip to update')
+    return []
   }
+  logService('info', `${timeseriesToUpdate.length} trips to update`)
 
-  logService('info', 'No trip to update')
-  return []
+  // ATM, necessary because of https://github.com/cozy/cozy-client/issues/493
+  const timeseries = client.hydrateDocuments(
+    GEOJSON_DOCTYPE,
+    timeseriesToUpdate
+  )
+
+  const savedTimeseries = []
+  for (const timeserie of timeseries) {
+    set(
+      timeserie,
+      'aggregation.automaticTitle',
+      makeAggregationTitle(timeserie, t)
+    )
+    const savedTs = await client.save(timeserie)
+    savedTimeseries.push(savedTs) 
+  }
+  return savedTimeseries
 }
 
 const getQueryDefinition = ({ isAllAccountsSelected, accountId }) => {

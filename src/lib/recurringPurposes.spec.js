@@ -129,7 +129,7 @@ describe('setRecurringPurposes', () => {
 describe('runRecurringPurposesForManualTrip', () => {
   beforeEach(() => {
     jest.resetAllMocks()
-    jest.spyOn(mockClient, 'saveAll').mockImplementation(trips => trips)
+    jest.spyOn(mockClient, 'save').mockImplementation(trips => trips)
   })
   it('should do nothing if the timeserie is not found or miss fields', async () => {
     jest.spyOn(mockClient, 'query').mockResolvedValueOnce({ data: null })
@@ -204,7 +204,7 @@ describe('runRecurringPurposesForManualTrip', () => {
 describe('runRecurringPurposesForNewTrips', () => {
   beforeEach(() => {
     jest.resetAllMocks()
-    jest.spyOn(mockClient, 'saveAll').mockImplementation(trips => trips)
+    jest.spyOn(mockClient, 'save').mockImplementation(trips => trips)
   })
   it('should do nothing if no account is found', async () => {
     jest.spyOn(mockClient, 'query').mockResolvedValueOnce({ data: null })
