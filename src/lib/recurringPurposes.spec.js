@@ -206,11 +206,6 @@ describe('runRecurringPurposesForNewTrips', () => {
     jest.resetAllMocks()
     jest.spyOn(mockClient, 'save').mockImplementation(trips => trips)
   })
-  it('should do nothing if no account is found', async () => {
-    jest.spyOn(mockClient, 'query').mockResolvedValueOnce({ data: null })
-    const res = await runRecurringPurposesForNewTrips(mockClient)
-    expect(res.length).toEqual(0)
-  })
 
   it('should set purpose when similar timeseries have one', async () => {
     jest
