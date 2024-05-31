@@ -16919,8 +16919,6 @@ const buildNewestRecurringTimeseriesQuery = () => ({
   definition: Object(cozy_client__WEBPACK_IMPORTED_MODULE_1__["Q"])(src_doctypes__WEBPACK_IMPORTED_MODULE_0__[/* GEOJSON_DOCTYPE */ "g"]).where({}).partialIndex({
     'aggregation.recurring': true
   }).indexFields(['startDate']).sortBy([{
-    'cozyMetadata.sourceAccount': 'desc'
-  }, {
     startDate: 'desc'
   }]).limitBy(1)
 });
@@ -98253,6 +98251,7 @@ const runRecurringPurposesForNewTrips = async (client, t) => {
   if (timeseries.length > 0) {
     const contactsWithAtLeastOneGeoAddress = await findContactsWithGeo(client);
     logService('info', `Found ${contactsWithAtLeastOneGeoAddress.length} contacts with geo info`);
+    logService('info', `${timeseries.length} timeseries found`);
     for (const timeserie of timeseries) {
       var _newTS, _newTS$aggregation;
       logService('info', `Try to set a recurring purpose to ${timeserie._id}...`);

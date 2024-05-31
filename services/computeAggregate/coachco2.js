@@ -13328,8 +13328,6 @@ const buildNewestRecurringTimeseriesQuery = () => ({
   definition: Object(cozy_client__WEBPACK_IMPORTED_MODULE_1__["Q"])(src_doctypes__WEBPACK_IMPORTED_MODULE_0__[/* GEOJSON_DOCTYPE */ "g"]).where({}).partialIndex({
     'aggregation.recurring': true
   }).indexFields(['startDate']).sortBy([{
-    'cozyMetadata.sourceAccount': 'desc'
-  }, {
     startDate: 'desc'
   }]).limitBy(1)
 });
