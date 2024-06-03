@@ -2,7 +2,7 @@ import React, { useMemo, useContext, useState, useEffect } from 'react'
 import ContactToPlaceDialog from 'src/components/ContactToPlace/ContactToPlaceDialog'
 import {
   getRelationshipByType,
-  getLabelByType,
+  getAddressType,
   getCategoryByType
 } from 'src/components/ContactToPlace/helpers'
 import { useTrip } from 'src/components/Providers/TripProvider'
@@ -61,7 +61,7 @@ const ContactToPlaceProvider = ({ children }) => {
 
   useEffect(() => {
     setContact(fetchedContact)
-    setLabel(getLabelByType({ contact: fetchedContact, timeserie, type }))
+    setLabel(getAddressType({ contact: fetchedContact, timeserie, type })) // FIXME: it works, but the label naming is incorrect
     setCategory(getCategoryByType({ contact: fetchedContact, timeserie, type }))
   }, [type, fetchedContact?._rev, fetchedContact?._id, timeserie?._id]) // eslint-disable-line react-hooks/exhaustive-deps
 
