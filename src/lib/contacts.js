@@ -48,7 +48,6 @@ export const findClosestStartAndEndContactsAddress = (timeserie, contacts) => {
         endCoordinates,
         addressCoordinates
       )
-
       if (startPlaceDistance < minStartDistance) {
         closestStart = {
           distance: startPlaceDistance,

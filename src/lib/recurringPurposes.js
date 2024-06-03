@@ -101,6 +101,8 @@ const updateAddressCoordinates = async ({
       contact,
       addressId
     })
+    logService('info', `Update contact ${contact._id} on address ${addressId}`)
+
     newContact = await client.save(contactToUpdate)
   } catch (err) {
     if (err.status === 409) {
@@ -121,13 +123,7 @@ const updateAddressCoordinates = async ({
 
 const setNewAddressCoordinates = ({ newCoordinates, contact, addressId }) => {
   const newContact = { ...contact }
-  let addressIdx = -1
-  for (let i = 0; newContact.address.length; i++) {
-    if (newContact.address[i].id === addressId) {
-      addressIdx = i
-      break
-    }
-  }
+  const addressIdx = contact.address.findIndex(addr => addr.id === addressId)
   if (addressIdx < 0) {
     logService(
       'warn',
@@ -135,7 +131,6 @@ const setNewAddressCoordinates = ({ newCoordinates, contact, addressId }) => {
     )
     return null
   }
-
   const currCoordinates = newContact.address[addressIdx].geo?.geo
   const currCount = newContact.address[addressIdx].geo?.count || 0
   const currSum = newContact.address[addressIdx].geo?.sum || [0, 0]
@@ -143,10 +138,9 @@ const setNewAddressCoordinates = ({ newCoordinates, contact, addressId }) => {
   const newSumLat = currSum[1] + newCoordinates.lat
 
   if (!currCoordinates) {
-    newContact.address[addressIdx].geo.geo = [
-      newCoordinates.lon,
-      newCoordinates.lat
-    ]
+    newContact.address[addressIdx].geo = {
+      geo: [newCoordinates.lon, newCoordinates.lat]
+    }
   } else {
     // XXX - This is an incremental average of longitudes and latitudes, that does not
     // take into consideration of curvature of the Earth. Hence, this is an approximation.
@@ -361,6 +355,55 @@ const postFilterResults = (results, timeserie, { oldPurpose }) => {
   return similarTimeseries
 }
 
+// Group contacts by id and address id
+export const groupContactsAddress = matchingContactsInfo => {
+  return matchingContactsInfo.reduce((acc, contact) => {
+    const contactId = contact.contact._id
+    const addressId = contact.address.id
+    const key = `${contactId}/${addressId}`
+    if (!acc[key]) {
+      acc[key] = []
+    }
+    acc[key].push(contact)
+    return acc
+  }, {})
+}
+
+export const saveContactsWithNewCoordinates = async ({
+  client,
+  matchingContactsInfo
+}) => {
+  if (!matchingContactsInfo || matchingContactsInfo.length < 1) {
+    logService('info', `No matching address found`)
+    return null
+  }
+  const addressGroups = groupContactsAddress(matchingContactsInfo)
+  logService('info', `${Object.keys(addressGroups).length} address to update`)
+
+  for (const id of Object.keys(addressGroups)) {
+    const addressId = id.split('/')[1]
+    const group = addressGroups[id]
+
+    const sumCoordinates = { lon: 0, lat: 0 }
+    for (const contact of group) {
+      sumCoordinates.lon += contact.newCoordinates.lon
+      sumCoordinates.lat += contact.newCoordinates.lat
+    }
+
+    const count = group.length
+    const avgCoordinates = {
+      lon: sumCoordinates.lon / count,
+      lat: sumCoordinates.lat / count
+    }
+    await updateAddressCoordinates({
+      client,
+      newCoordinates: avgCoordinates,
+      contact: group[0].contact,
+      addressId: addressId
+    })
+  }
+}
+
 /**
  * Find similar recurring timeseries, notably based on their coordinates.
  *
@@ -485,7 +528,7 @@ const findPurposeFromContactAddresses = async (client, timeserie, contacts) => {
   let newTimeserie = { ...timeserie }
   if (!matchingStart && !matchingEnd) {
     logService('info', 'No matching start and end places for this trip')
-    return newTimeserie
+    return { newTimeserie }
   }
 
   if (matchingStart) {
@@ -496,13 +539,6 @@ const findPurposeFromContactAddresses = async (client, timeserie, contacts) => {
       addressId: matchingStart.address.id,
       relType: 'startPlaceContact'
     })
-    // Update contact start address
-    await updateAddressCoordinates({
-      client,
-      newCoordinates: matchingStart.newCoordinates,
-      contact: matchingStart.contact,
-      addressId: matchingStart.address.id
-    })
   }
   if (matchingEnd) {
     logService('info', 'Found a matching end place: add relationship')
@@ -511,13 +547,6 @@ const findPurposeFromContactAddresses = async (client, timeserie, contacts) => {
       contact: matchingEnd.contact,
       addressId: matchingEnd.address.id,
       relType: 'endPlaceContact'
-    })
-    // Update contact end address
-    await updateAddressCoordinates({
-      client,
-      newCoordinates: matchingEnd.newCoordinates,
-      contact: matchingEnd.contact,
-      addressId: matchingEnd.address.id
     })
   }
 
@@ -528,7 +557,11 @@ const findPurposeFromContactAddresses = async (client, timeserie, contacts) => {
     )
     newTimeserie = setAutomaticPurpose(newTimeserie, COMMUTE_PURPOSE)
   }
-  return newTimeserie
+  return {
+    newTimeserie,
+    matchingStart,
+    matchingEnd
+  }
 }
 
 const findRecurringTripsFromTimeserie = async (
@@ -639,6 +672,7 @@ export const runRecurringPurposesForNewTrips = async (client, t) => {
   )
   let nTripsWithAutoPurpose = 0
   const timeseriesToUpdate = []
+  const matchingContactsInfo = []
 
   if (timeseries.length > 0) {
     const contactsWithAtLeastOneGeoAddress = await findContactsWithGeo(client)
@@ -646,6 +680,7 @@ export const runRecurringPurposesForNewTrips = async (client, t) => {
       'info',
       `Found ${contactsWithAtLeastOneGeoAddress.length} contacts with geo info`
     )
+    logService('info', `${timeseries.length} timeseries found`)
 
     for (const timeserie of timeseries) {
       logService(
@@ -654,11 +689,13 @@ export const runRecurringPurposesForNewTrips = async (client, t) => {
       )
       let newTS
       // First, try to find purpose by contact's addresses
-      newTS = await findPurposeFromContactAddresses(
-        client,
-        timeserie,
-        contactsWithAtLeastOneGeoAddress
-      )
+      const { newTimeserie, matchingStart, matchingEnd } =
+        await findPurposeFromContactAddresses(
+          client,
+          timeserie,
+          contactsWithAtLeastOneGeoAddress
+        )
+      newTS = newTimeserie
       const foundPurpose = newTS?.aggregation?.purpose
       if (!foundPurpose) {
         // If no purpose found by addresses, try to find purpose by similar timeseries
@@ -676,6 +713,12 @@ export const runRecurringPurposesForNewTrips = async (client, t) => {
       // Set recurring for trips without purpose, as they might be used for future purposes
       newTS = set(newTS, 'aggregation.recurring', true)
       timeseriesToUpdate.push(newTS)
+      if (matchingStart) {
+        matchingContactsInfo.push(matchingStart)
+      }
+      if (matchingEnd) {
+        matchingContactsInfo.push(matchingEnd)
+      }
     }
   }
 
@@ -683,6 +726,7 @@ export const runRecurringPurposesForNewTrips = async (client, t) => {
     'info',
     `Set ${nTripsWithAutoPurpose} trips with automatic purpose`
   )
+  await saveContactsWithNewCoordinates({ client, matchingContactsInfo })
   return saveTrips({ client, timeseriesToUpdate, t })
 }
 
