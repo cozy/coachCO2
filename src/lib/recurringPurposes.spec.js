@@ -17,7 +17,9 @@ import {
   shouldSetCommutePurpose,
   findSimilarRecurringTimeseries,
   filterTripsBasedOnDistance,
-  setAddressContactRelationShip
+  setAddressContactRelationShip,
+  groupContactsAddress,
+  saveContactsWithNewCoordinates
 } from './recurringPurposes'
 
 const mockClient = createMockClient({})
@@ -538,5 +540,60 @@ describe('setAddressContactRelationShip', () => {
       }
     }
     expect(tsWithRel).toEqual(expected)
+  })
+})
+
+describe('saveContact', () => {
+  let spySave
+  beforeEach(() => {
+    jest.resetAllMocks()
+    spySave = jest.spyOn(mockClient, 'save').mockResolvedValue({})
+  })
+
+  const contactsInfo = [
+    {
+      contact: { _id: 'c1', address: [{ id: 'a1' }] },
+      address: { id: 'a1' },
+      newCoordinates: { lat: 10, lon: 2 }
+    },
+    {
+      contact: { _id: 'c1', address: [{ id: 'a1' }] },
+      address: { id: 'a1' },
+      newCoordinates: { lat: 0, lon: 4 }
+    },
+    {
+      contact: { _id: 'c1', address: [{ id: 'a2' }] },
+      address: { id: 'a2' },
+      newCoordinates: { lat: 5, lon: 5 }
+    },
+    {
+      contact: { _id: 'c2', address: [{ id: 'a3' }] },
+      address: { id: 'a3' },
+      newCoordinates: { lat: 10, lon: 2 }
+    }
+  ]
+  it('should correctly group addresses', () => {
+    const groups = groupContactsAddress(contactsInfo)
+    const keys = Object.keys(groups)
+    expect(keys.length).toEqual(3)
+    expect(keys[0]).toEqual('c1/a1')
+    expect(keys[1]).toEqual('c1/a2')
+    expect(keys[2]).toEqual('c2/a3')
+  })
+
+  it('should correctly save contacts', async () => {
+    await saveContactsWithNewCoordinates({
+      client: mockClient,
+      matchingContactsInfo: contactsInfo
+    })
+    expect(spySave).toHaveBeenCalledTimes(3)
+    expect(spySave).toHaveBeenNthCalledWith(1, {
+      _id: 'c1',
+      address: [{ geo: { count: 1, geo: [3, 5], sum: [3, 5] }, id: 'a1' }]
+    })
+    expect(spySave).toHaveBeenNthCalledWith(2, {
+      _id: 'c1',
+      address: [{ geo: { count: 1, geo: [5, 5], sum: [5, 5] }, id: 'a2' }]
+    })
   })
 })

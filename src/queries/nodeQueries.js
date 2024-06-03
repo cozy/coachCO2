@@ -46,7 +46,7 @@ export const buildNewestRecurringTimeseriesQuery = () => ({
       'aggregation.recurring': true
     })
     .indexFields(['startDate'])
-    .sortBy([{ 'cozyMetadata.sourceAccount': 'desc' }, { startDate: 'desc' }])
+    .sortBy([{ startDate: 'desc' }])
     .limitBy(1)
 })
 
