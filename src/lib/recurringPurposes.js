@@ -8,6 +8,7 @@ import {
   WORK_ADDRESS_CATEGORY
 } from 'src/constants'
 import { CONTACTS_DOCTYPE, GEOJSON_DOCTYPE } from 'src/doctypes'
+import { findMatchingStartAndEnd } from 'src/lib/contacts'
 import {
   getEndPlaceCoordinates,
   getStartPlaceCoordinates,
@@ -60,55 +61,6 @@ const findContactsWithGeo = async client => {
   const queryDef = buildContactsWithGeoCoordinates().definition
   const contacts = await client.queryAll(queryDef)
   return contacts
-}
-
-export const findClosestStartAndEnd = (timeserie, contacts) => {
-  const startCoordinates = getStartPlaceCoordinates(timeserie)
-  const endCoordinates = getEndPlaceCoordinates(timeserie)
-  let closestStart = {},
-    closestEnd = {}
-  let minStartDistance = Number.MAX_SAFE_INTEGER,
-    minEndDistance = Number.MAX_SAFE_INTEGER
-  for (const contact of contacts) {
-    for (const address of contact.address) {
-      if (!address?.geo?.geo) {
-        continue
-      }
-      const addressCoordinates = {
-        lon: address.geo.geo[0],
-        lat: address.geo.geo[1]
-      }
-      const startPlaceDistance = geodesicDistance(
-        startCoordinates,
-        addressCoordinates
-      )
-
-      const endPlaceDistance = geodesicDistance(
-        endCoordinates,
-        addressCoordinates
-      )
-
-      if (startPlaceDistance < minStartDistance) {
-        closestStart = {
-          distance: startPlaceDistance,
-          contact,
-          address,
-          newCoordinates: startCoordinates
-        }
-        minStartDistance = startPlaceDistance
-      }
-      if (endPlaceDistance < minEndDistance) {
-        closestEnd = {
-          distance: endPlaceDistance,
-          contact,
-          address,
-          newCoordinates: endCoordinates
-        }
-        minEndDistance = endPlaceDistance
-      }
-    }
-  }
-  return { closestStart, closestEnd }
 }
 
 export const setAddressContactRelationShip = ({
@@ -223,22 +175,6 @@ const setNewAddressCoordinates = ({ newCoordinates, contact, addressId }) => {
     `Update contact ${contact.displayName} on address ${contact.address[addressIdx].formattedAddress}`
   )
   return newContact
-}
-
-export const findStartAndEnd = (timeserie, contacts) => {
-  const { closestStart, closestEnd } = findClosestStartAndEnd(
-    timeserie,
-    contacts
-  )
-  let matchingStart = null,
-    matchingEnd = null
-  if (closestStart?.distance < COORDINATES_DISTANCE_THRESHOLD_M) {
-    matchingStart = closestStart
-  }
-  if (closestEnd?.distance < COORDINATES_DISTANCE_THRESHOLD_M) {
-    matchingEnd = closestEnd
-  }
-  return { matchingStart, matchingEnd }
 }
 
 export const shouldSetCommutePurpose = (start, end) => {
@@ -542,7 +478,7 @@ export const findPurposeFromSimilarTimeserieAndWaybacks = async (
  * @returns {TimeSerie} The timeserie to update
  */
 const findPurposeFromContactAddresses = async (client, timeserie, contacts) => {
-  const { matchingStart, matchingEnd } = await findStartAndEnd(
+  const { matchingStart, matchingEnd } = findMatchingStartAndEnd(
     timeserie,
     contacts
   )
