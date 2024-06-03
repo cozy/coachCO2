@@ -43,7 +43,6 @@ export const getContactAddressAndIndexFromRelationships = ({
       address.id ===
       timeserie.relationships[getRelationshipKey(type)].data.metadata.addressId
   )
-
   return {
     address: index === -1 ? undefined : contact.address[index],
     index
@@ -58,12 +57,21 @@ export const getCategoryByType = ({ contact, timeserie, type }) => {
   })?.address?.geo?.cozyCategory
 }
 
-export const getLabelByType = ({ contact, timeserie, type }) => {
+export const getAddressLabel = ({ contact, timeserie, type }) => {
   return getContactAddressAndIndexFromRelationships({
     contact,
     timeserie,
     type
-  })?.address?.type
+  })?.address?.label
+}
+
+export const getAddressType = ({ contact, timeserie, type }) => {
+  const contactWithAdd = getContactAddressAndIndexFromRelationships({
+    contact,
+    timeserie,
+    type
+  })
+  return contactWithAdd?.address?.type
 }
 
 export const getRelationshipByType = (timeserie, type) => {
@@ -83,11 +91,11 @@ export const getPlaceLabelByContact = ({ timeserie, type, t }) => {
 
   const isMyself = !!contact.me
   const category = getCategoryByType({ timeserie, type, contact })
-  const adressType = getLabelByType({ timeserie, type, contact })
+  const addressType = getAddressType({ timeserie, type, contact })
   const displayName = getDisplayName(contact)
   const isHome = category === HOME_ADDRESS_CATEGORY
 
-  if (!isCustomLabel(adressType, t) && isHome && isMyself) {
+  if (!isCustomLabel(addressType, t) && isHome && isMyself) {
     return t('contactToPlace.atHome')
   }
 
@@ -98,11 +106,11 @@ export const getPlaceLabelByContact = ({ timeserie, type, t }) => {
   const homeOrWorkLabel = t(`contactToPlace.${category}`)
 
   if (isMyself) {
-    return isCustomLabel(adressType, t) ? adressType : homeOrWorkLabel
+    return isCustomLabel(addressType, t) ? addressType : homeOrWorkLabel
   }
 
-  return isCustomLabel(adressType, t)
-    ? `${displayName} (${adressType})`
+  return isCustomLabel(addressType, t)
+    ? `${displayName} (${addressType})`
     : `${displayName} (${homeOrWorkLabel})`
 }
 

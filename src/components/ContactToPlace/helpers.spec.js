@@ -2,7 +2,7 @@ import get from 'lodash/get'
 import locales from 'src/locales/en.json'
 
 import {
-  getLabelByType,
+  getAddressType,
   addAddressToContact,
   getContactAddressAndIndexFromRelationships,
   getPlaceLabelByContact
@@ -10,9 +10,9 @@ import {
 
 const t = x => get(locales, x)
 
-describe('getLabelByType', () => {
+describe('getAddressType', () => {
   it('shoud return type of matched contact address', () => {
-    const label = getLabelByType({
+    const type = getAddressType({
       contact: { address: [{ id: '123', type: 'Work' }] },
       timeserie: {
         relationships: {
@@ -22,11 +22,11 @@ describe('getLabelByType', () => {
       type: 'start'
     })
 
-    expect(label).toBe('Work')
+    expect(type).toBe('Work')
   })
 
   it('shoud return undefined if no type in matched contact address', () => {
-    const label = getLabelByType({
+    const type = getAddressType({
       contact: { address: [{ id: '123' }] },
       timeserie: {
         relationships: {
@@ -36,11 +36,11 @@ describe('getLabelByType', () => {
       type: 'start'
     })
 
-    expect(label).toBeUndefined()
+    expect(type).toBeUndefined()
   })
 
   it('shoud return undefined if no contact address matches', () => {
-    const label = getLabelByType({
+    const type = getAddressType({
       contact: { address: [{ id: '456' }] },
       timeserie: {
         relationships: {
@@ -50,7 +50,7 @@ describe('getLabelByType', () => {
       type: 'start'
     })
 
-    expect(label).toBeUndefined()
+    expect(type).toBeUndefined()
   })
 })
 
