@@ -1,9 +1,9 @@
-import remove from 'lodash/remove'
 import set from 'lodash/set'
 import unset from 'lodash/unset'
 import { isCustomLabel } from 'src/components/ContactToPlace/actions/helpers'
 import { HOME_ADDRESS_CATEGORY } from 'src/constants'
 import { CCO2_SETTINGS_DOCTYPE } from 'src/doctypes'
+import { findMatchingContactAddressForTimeserie } from 'src/lib/contacts'
 import {
   getPlaceCoordinates,
   getPlaceDisplayName,
@@ -19,6 +19,20 @@ export const getRelationshipKey = type => {
     : type === 'end'
     ? 'endPlaceContact'
     : null
+}
+
+export const getMatchingAddressFromGeo = ({ contact, timeserie, type }) => {
+  const hasAddress = !!contact?.address
+  if (!hasAddress) {
+    return null
+  }
+
+  const matchingAddress = findMatchingContactAddressForTimeserie({
+    contact,
+    timeserie,
+    startOrEnd: type
+  })
+  return matchingAddress
 }
 
 export const getContactAddressAndIndexFromRelationships = ({
@@ -66,12 +80,11 @@ export const getAddressLabel = ({ contact, timeserie, type }) => {
 }
 
 export const getAddressType = ({ contact, timeserie, type }) => {
-  const contactWithAdd = getContactAddressAndIndexFromRelationships({
+  return getContactAddressAndIndexFromRelationships({
     contact,
     timeserie,
     type
-  })
-  return contactWithAdd?.address?.type
+  })?.address?.type
 }
 
 export const getRelationshipByType = (timeserie, type) => {
@@ -121,14 +134,6 @@ export const removeRelationship = async ({
   t,
   contact
 }) => {
-  const { address } = getContactAddressAndIndexFromRelationships({
-    contact,
-    timeserie,
-    type
-  })
-
-  remove(contact.address, val => val.id && val.id === address.id)
-
   await client.save(contact)
 
   const { data: timeserieWithUpdatedRelationships } =
@@ -183,7 +188,46 @@ export const addAddressToContact = ({
   }
 }
 
-const createRelationship = async ({
+const setTimeserieTitleWithRel = ({ timeserie, t }) => {
+  set(
+    timeserie,
+    'aggregation.automaticTitle',
+    makeAggregationTitle(
+      {
+        ...timeserie,
+        // relationships are not included, we need to add them manually
+        startPlaceContact: timeserie.startPlaceContact,
+        endPlaceContact: timeserie.endPlaceContact
+      },
+      t
+    )
+  )
+}
+
+const updateTimeserieWithContactRelationship = async ({
+  client,
+  timeserie,
+  contact,
+  addressId,
+  type,
+  t
+}) => {
+  const { data: timeserieWithUpdatedRelationships } =
+    await getRelationshipByType(timeserie, type).add(contact)
+  set(
+    timeserieWithUpdatedRelationships,
+    `relationships.${getRelationshipKey(type)}.data.metadata`,
+    {
+      addressId: addressId
+    }
+  )
+  const hydratedTs = client.hydrateDocument(timeserieWithUpdatedRelationships)
+  setTimeserieTitleWithRel({ timeserie: hydratedTs, t })
+
+  await client.save(timeserieWithUpdatedRelationships)
+}
+
+const createAddressAndRelationship = async ({
   client,
   contact,
   timeserie,
@@ -192,8 +236,8 @@ const createRelationship = async ({
   category,
   t
 }) => {
+  // --- Update contact with existing address
   const addressId = getRandomUUID()
-
   const contactToSave = addAddressToContact({
     contact,
     addressId,
@@ -203,69 +247,51 @@ const createRelationship = async ({
     t,
     category
   })
+  await client.save(contactToSave)
 
-  const { data: newContact } = await client.save(contactToSave)
-
-  const { data: timeserieWithUpdatedRelationships } =
-    await getRelationshipByType(timeserie, type).add(newContact)
-
-  set(
-    timeserieWithUpdatedRelationships,
-    `relationships.${getRelationshipKey(type)}.data.metadata`,
-    {
-      addressId
-    }
-  )
-
-  set(
-    timeserieWithUpdatedRelationships,
-    'aggregation.automaticTitle',
-    makeAggregationTitle(
-      {
-        ...timeserieWithUpdatedRelationships,
-        // relationships are not included, we need to add them manually
-        startPlaceContact: timeserie.startPlaceContact,
-        endPlaceContact: timeserie.endPlaceContact
-      },
-      t
-    )
-  )
-
-  await client.save(timeserieWithUpdatedRelationships)
+  // --- Update timeserie with address relationship
+  await updateTimeserieWithContactRelationship({
+    client,
+    timeserie,
+    contact,
+    addressId,
+    type,
+    t
+  })
 }
 
-const updateRelationship = async ({
+const updateAddressAndRelationship = async ({
   client,
   contact,
+  address,
   timeserie,
   type,
   label,
   category,
   t
 }) => {
-  const { index } = getContactAddressAndIndexFromRelationships({
-    contact,
-    timeserie,
-    type
-  })
-
+  // --- Update contact with existing address
+  const addressIdx = contact.address.findIndex(
+    address => address.id === address.id
+  )
   set(
     contact,
-    `address[${index}].type`,
+    `address[${addressIdx}].type`,
     isCustomLabel(label, t) ? label : undefined
   )
-  set(contact, `address[${index}].label`, category)
-  set(contact, `address[${index}].geo.cozyCategory`, category)
-
+  set(contact, `address[${addressIdx}].label`, category)
+  set(contact, `address[${addressIdx}].geo.cozyCategory`, category)
   await client.save(contact)
 
-  set(
+  // --- Update timeserie with address relationship
+  await updateTimeserieWithContactRelationship({
+    client,
     timeserie,
-    'aggregation.automaticTitle',
-    makeAggregationTitle(timeserie, t)
-  )
-
-  await client.save(timeserie)
+    contact,
+    addressId: address.id,
+    type,
+    t
+  })
 }
 
 /**
@@ -280,7 +306,7 @@ const updateRelationship = async ({
  * @param {'home'|'work'} params.category - The category of the relationship
  * @param {Function} params.t - The translation function
  */
-export const saveRelationship = async ({
+export const saveAddressAndRelationship = async ({
   client,
   setting,
   type,
@@ -291,25 +317,36 @@ export const saveRelationship = async ({
   category,
   t
 }) => {
-  const { address } = getContactAddressAndIndexFromRelationships({
-    contact,
-    timeserie,
-    type
-  })
+  const relType = getRelationshipKey(type)
+  const hasAddress = !!contact?.address
+  const hasRelAddress =
+    !!timeserie.relationships[relType]?.data?.metadata?.addressId
+
+  let address
+  if (hasAddress && hasRelAddress) {
+    const addressAndIndex = getContactAddressAndIndexFromRelationships({
+      contact,
+      timeserie,
+      type
+    })
+    address = addressAndIndex.address
+  } else if (hasAddress && !hasRelAddress) {
+    address = getMatchingAddressFromGeo({ contact, timeserie, type })
+  }
 
   if (isSameContact && !!address) {
-    updateRelationship({
+    updateAddressAndRelationship({
       client,
       contact,
       timeserie,
+      address,
       type,
       label,
-      isSameContact,
       category,
       t
     })
   } else {
-    createRelationship({
+    createAddressAndRelationship({
       client,
       contact,
       timeserie,

@@ -5,7 +5,8 @@ import {
   getAddressType,
   addAddressToContact,
   getContactAddressAndIndexFromRelationships,
-  getPlaceLabelByContact
+  getPlaceLabelByContact,
+  getMatchingAddressFromGeo
 } from './helpers'
 
 const t = x => get(locales, x)
@@ -355,9 +356,62 @@ describe('getPlaceLabelByContact', () => {
   })
 })
 
+describe('getMatchingAddressFromGeo', () => {
+  const timeserie = {
+    series: [
+      {
+        properties: {
+          start_loc: { coordinates: [10.49494949, 0.49494949] },
+          end_loc: { coordinates: [1.49494949, 48.48484848] }
+        }
+      }
+    ]
+  }
+  it('should find start and end matching address', () => {
+    const contact = {
+      address: [
+        { id: 1, geo: { geo: [1.49494949, 48.48484848] } },
+        { id: 2, geo: { geo: [10.49494949, 0.49494949] } }
+      ]
+    }
+    const startMatch = getMatchingAddressFromGeo({
+      timeserie,
+      contact,
+      type: 'start'
+    })
+    const endMatch = getMatchingAddressFromGeo({
+      timeserie,
+      contact,
+      type: 'end'
+    })
+    expect(startMatch).toMatchObject({ id: 2 })
+    expect(endMatch).toMatchObject({ id: 1 })
+  })
+
+  it('should not match addresses', () => {
+    const contact = {
+      address: [
+        { id: 1, geo: [2, 49] },
+        { id: 2, geo: [9, 1] }
+      ]
+    }
+    const startMatch = getMatchingAddressFromGeo({
+      timeserie,
+      contact,
+      type: 'start'
+    })
+    const endMatch = getMatchingAddressFromGeo({
+      timeserie,
+      contact,
+      type: 'end'
+    })
+    expect(startMatch).toBeNull()
+    expect(endMatch).toBeNull()
+  })
+})
+
 describe('getContactAddressAndIndexFromRelationships', () => {
   const type = 'start'
-
   describe('should return undefined', () => {
     it('if no address in contact', () => {
       const res = getContactAddressAndIndexFromRelationships({

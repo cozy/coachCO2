@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {
-  saveRelationship,
+  saveAddressAndRelationship,
   removeRelationship,
   hasRelationshipByType
 } from 'src/components/ContactToPlace/helpers'
@@ -44,7 +44,7 @@ const ContactToPlaceDialogActions = () => {
     } else {
       onClose()
     }
-    await saveRelationship({
+    await saveAddressAndRelationship({
       client,
       setting: settings[0],
       type,
