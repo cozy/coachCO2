@@ -3,7 +3,7 @@
   "slug": "coachco2",
   "icon": "icon.svg",
   "categories": [],
-  "version": "0.18.0",
+  "version": "0.22.0",
   "licence": "AGPL-3.0",
   "editor": "Cozy Cloud",
   "source": "https://github.com/cozy/coachCO2.git@build",
@@ -122,10 +122,16 @@
     }
   },
   "services": {
+    "computeAggregate": {
+      "type": "node",
+      "file": "services/computeAggregate/coachco2.js",
+      "trigger": "@event io.cozy.timeseries.geojson:CREATED",
+      "debounce": "1m"
+    },
     "fetchOpenPathTrips": {
       "type": "node",
       "file": "services/fetchOpenPathTrips/coachco2.js",
-      "trigger": "@hourly"
+      "trigger": "@daily"
     },
     "fetchOpenPathTripsWebhook": {
       "type": "node",
