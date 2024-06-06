@@ -350,7 +350,11 @@ const postFilterResults = (results, timeserie, { oldPurpose }) => {
     // to only on start and end points, so we add a distance filter to keep
     // similar trips.
     // Note this is far from perfect and should eventually be improved
-    similarTimeseries = filterTripsBasedOnDistance(similarTimeseries)
+    const baseDistance = timeserie.aggregation?.totalDistance || 0
+    similarTimeseries = filterTripsBasedOnDistance(
+      similarTimeseries,
+      baseDistance
+    )
   }
   return similarTimeseries
 }
