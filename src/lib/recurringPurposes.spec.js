@@ -19,7 +19,8 @@ import {
   filterTripsBasedOnDistance,
   setAddressContactRelationShip,
   groupContactsAddress,
-  saveContactsWithNewCoordinates
+  saveContactsWithNewCoordinates,
+  filterTripsBasedOnStartAndEndTime
 } from './recurringPurposes'
 
 const mockClient = createMockClient({})
@@ -502,6 +503,46 @@ describe('filterTripsBasedOnDistance', () => {
       }
     ]
     expect(filterTripsBasedOnDistance(timeseries, 100)).toEqual(timeseries)
+  })
+})
+
+describe('filterTripsBasedOnStartAndEnd', () => {
+  const baseStartDate = new Date('2024-02-01T12:00:00')
+  const baseEndDate = new Date('2024-02-01T13:00:00')
+  it('should filter out trips with a start/end too far', () => {
+    const timeseries = [
+      {
+        startDate: '2024-03-01T11:40:00',
+        endDate: '2024-03-01T13:00:00'
+      },
+      {
+        startDate: '2024-03-01T12:00:00',
+        endDate: '2024-03-01T12:30:00'
+      }
+    ]
+
+    expect(
+      filterTripsBasedOnStartAndEndTime(timeseries, baseStartDate, baseEndDate)
+    ).toEqual([])
+  })
+  it('should keep trips with a start/end close enough', () => {
+    const timeseries = [
+      {
+        startDate: '2024-03-01T12:00:00',
+        endDate: '2024-03-01T13:00:00'
+      },
+      {
+        startDate: '2024-03-01T11:50:00',
+        endDate: '2024-03-01T13:10:00'
+      },
+      {
+        startDate: '2024-03-01T11:50:00',
+        endDate: '2024-03-01T12:50:00'
+      }
+    ]
+    expect(
+      filterTripsBasedOnStartAndEndTime(timeseries, baseStartDate, baseEndDate)
+    ).toEqual(timeseries)
   })
 })
 
