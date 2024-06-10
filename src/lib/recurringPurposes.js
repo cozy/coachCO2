@@ -337,7 +337,11 @@ export const filterTripsBasedOnDistance = (timeseries, baseDistance) => {
  * @returns {Array<TimeSerie>} The filtered timeseries
  */
 const postFilterResults = (results, timeserie, { oldPurpose }) => {
-  let similarTimeseries = results.filter(ts => ts._id !== timeserie._id)
+  let similarTimeseries = results
+    .filter(ts => ts._id !== timeserie._id)
+    .sort((a, b) => {
+      return new Date(b.startDate) - new Date(a.startDate)
+    })
 
   similarTimeseries = !oldPurpose
     ? keepTripsWithRecurringPurposes(similarTimeseries)
