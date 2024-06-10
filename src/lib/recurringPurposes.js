@@ -5,7 +5,8 @@ import {
   HOME_ADDRESS_CATEGORY,
   OTHER_PURPOSE,
   TRIPS_DISTANCE_SIMILARITY_RATIO,
-  WORK_ADDRESS_CATEGORY
+  WORK_ADDRESS_CATEGORY,
+  TRIPS_TIME_SHIFT_SIMILARITY_RATIO
 } from 'src/constants'
 import { CONTACTS_DOCTYPE, GEOJSON_DOCTYPE } from 'src/doctypes'
 import { findMatchingStartAndEnd } from 'src/lib/contacts'
@@ -325,6 +326,44 @@ export const filterTripsBasedOnDistance = (timeseries, baseDistance) => {
     )
   })
 }
+
+const getTimeInSeconds = date => {
+  return date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds()
+}
+
+/**
+ * Filter out timeseries with a too high start and end time difference
+ *
+ * @param {Array<TimeSerie>} timeseries - The timeseries to filter
+ * @param {Date} baseStartDate - The reference start date
+ * @param {Date} baseEndDate - The reference end date
+ * @returns {Array<TimeSerie>} The filtered timeseries
+ */
+export const filterTripsBasedOnStartAndEndTime = (
+  timeseries,
+  baseStartDate,
+  baseEndDate
+) => {
+  const baseStartSeconds = getTimeInSeconds(new Date(baseStartDate))
+  const baseEndSeconds = getTimeInSeconds(new Date(baseEndDate))
+  const duration = Math.abs(baseEndSeconds - baseStartSeconds)
+  const maxDeltaSeconds = duration * TRIPS_TIME_SHIFT_SIMILARITY_RATIO
+
+  return timeseries.filter(ts => {
+    const startDate = new Date(ts.startDate)
+    const endDate = new Date(ts.endDate)
+
+    const startSeconds = getTimeInSeconds(startDate)
+    const endSeconds = getTimeInSeconds(endDate)
+
+    const isStartClose =
+      Math.abs(startSeconds - baseStartSeconds) <= maxDeltaSeconds
+    const isEndClose = Math.abs(endSeconds - baseEndSeconds) <= maxDeltaSeconds
+
+    return isStartClose && isEndClose
+  })
+}
+
 /**
  * Post filter timeseries results
  *
@@ -355,9 +394,16 @@ const postFilterResults = (results, timeserie, { oldPurpose }) => {
     // similar trips.
     // Note this is far from perfect and should eventually be improved
     const baseDistance = timeserie.aggregation?.totalDistance || 0
+    const baseStartDate = new Date(timeserie.startDate)
+    const baseEndDate = new Date(timeserie.endDate)
     similarTimeseries = filterTripsBasedOnDistance(
       similarTimeseries,
       baseDistance
+    )
+    similarTimeseries = filterTripsBasedOnStartAndEndTime(
+      similarTimeseries,
+      baseStartDate,
+      baseEndDate
     )
   }
   return similarTimeseries
