@@ -1,4 +1,28 @@
+# 0.23.0
+
 # 0.22.0
+
+### ✨ Features
+
+* Do not restrict recurring trips on account [085375f](https://github.com/cozy/coachCO2/commit/085375f7be561847af937fe37fd391d5596b6844)
+* Deduplicate contacts update [9606b46](https://github.com/cozy/coachCO2/commit/9606b46d5821d44d512458c0f03415ca23c11ec8)
+* Improve contact list performances [7e60694](https://github.com/cozy/coachCO2/commit/7e606944f87550ab1808edf1f1c9b98e4e7dc1da)
+* Handle dark mode thanks to cozy-ui upgrade [88efac0](https://github.com/cozy/coachCO2/commit/88efac0220b1aabf07b6a3810f177fbaa5a33434)
+* Sort similar timeseries in desc order [8d99012](https://github.com/cozy/coachCO2/commit/8d9901253e918c64b6cad81aa0b37d7c3dbd2c75)
+* Add time similarity for loop trips [5808d77](https://github.com/cozy/coachCO2/commit/5808d77c05da359b1b1bb6937f9bfcbd262abe77)
+* Replace Banner by Alert for CO2EmissionDaccBanner [9664c9b](https://github.com/cozy/coachCO2/commit/9664c9b7a9fae1cefd302007ea843d602abd0153)
+
+### 🐛 Bug Fixes
+
+* Do not save timeseries in bulk [5dd0d81](https://github.com/cozy/coachCO2/commit/5dd0d8112e5712bc02fda7db7d844f5cc10fc369)
+* The custom label was not correctly working [d706253](https://github.com/cozy/coachCO2/commit/d706253e09c64420e6d80d6654bb8cfde255ae62)
+* Manual address matching between contacts and trips [c2f231b](https://github.com/cozy/coachCO2/commit/c2f231b81904722ebda310b4cebe18d79494aef5)
+* Distance-based recurring loop trips [a089231](https://github.com/cozy/coachCO2/commit/a089231f22906f94ae641387ee8626df167fc2c6)
+* Correct contact matching [6e9b9e8](https://github.com/cozy/coachCO2/commit/6e9b9e866dbcf647a5190ab11b926c8020574966)
+
+### 🔧 Tech
+
+* Upgrade cozy-client for cozy-ui upgrade [4f259d6](https://github.com/cozy/coachCO2/commit/4f259d6d668098e41d9246b1cd7ff147a2f4b57f)
 
 # 0.21.0
 
