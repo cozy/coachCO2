@@ -270,9 +270,7 @@ const updateAddressAndRelationship = async ({
   t
 }) => {
   // --- Update contact with existing address
-  const addressIdx = contact.address.findIndex(
-    address => address.id === address.id
-  )
+  const addressIdx = contact.address.findIndex(addr => addr.id === address.id)
   set(
     contact,
     `address[${addressIdx}].type`,
