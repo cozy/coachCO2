@@ -87,7 +87,7 @@
     "cozy-notifications": "^0.15.0",
     "cozy-realtime": "^5.0.0",
     "cozy-sharing": "^15.0.0",
-    "cozy-ui": "^109.1.1",
+    "cozy-ui": "^110.1.0",
     "date-fns": "2.29.3",
     "humanize-duration": "3.27.1",
     "leaflet": "1.9.1",

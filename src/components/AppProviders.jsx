@@ -7,6 +7,7 @@ import {
   FILES_DOCTYPE,
   GEOJSON_DOCTYPE,
   ACCOUNTS_DOCTYPE,
+  SETTINGS_DOCTYPE,
   CCO2_SETTINGS_DOCTYPE
 } from 'src/doctypes'
 import { launchComputeAggregateJob } from 'src/lib/computeAggregateService'
@@ -51,6 +52,7 @@ const AppProviders = ({ client, lang, polyglot, children }) => {
           <RealTimeQueries doctype={FILES_DOCTYPE} />
           <RealTimeQueries doctype={CONTACTS_DOCTYPE} />
           <RealTimeQueries doctype={ACCOUNTS_DOCTYPE} />
+          <RealTimeQueries doctype={SETTINGS_DOCTYPE} />
           <BarProvider>
             <AccountProvider>
               <SelectDatesProvider>
