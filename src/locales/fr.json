@@ -94,7 +94,7 @@
     "error": "Préciser sous quel contact enregistrer l'adresse",
     "addSuccess": "Les adresses ont bien été enregistrées",
     "removeSuccess": "Les adresses ont bien été supprimées",
-    "atHome": "Chez moi",
+    "atHome": "🏠 Chez moi",
     "lat": "lat.",
     "long": "long."
   },

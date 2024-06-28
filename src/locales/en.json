@@ -94,7 +94,7 @@
     "error": "Specify which contact to save the address under",
     "addSuccess": "The addresses have been registered",
     "removeSuccess": "The addresses have been deleted",
-    "atHome": "At home",
+    "atHome": "🏠 At home",
     "lat": "lat.",
     "long": "long."
   },
