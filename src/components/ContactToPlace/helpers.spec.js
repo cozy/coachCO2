@@ -134,7 +134,7 @@ describe('getPlaceLabelByContact', () => {
         }
       }
 
-      expect(getPlaceLabelByContact({ timeserie, type, t })).toBe('At home')
+      expect(getPlaceLabelByContact({ timeserie, type, t })).toBe('🏠 At home')
     })
 
     it('should return `Work`', () => {
