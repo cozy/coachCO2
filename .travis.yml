@@ -17,19 +17,13 @@ env:
     # REGISTRY_TOKEN for yarn cozyPublish script
     # to generate yours : travis encrypt REGISTRY_TOKEN=<your_REGISTRY_TOKEN> -r cozy/coachCO2
     # N.B.: the --org option is needed only for public repositories
-stages:
-  - prebuild
-  - build
 jobs:
   include:
     - name: 'Lint'
-      stage: 'prebuild'
       script: yarn lint
     - name: 'Unit tests'
-      stage: 'prebuild'
       script: yarn test
     - name: 'Build app'
-      stage: 'build'
       script:
         - yarn build
         - yarn bundlemon
