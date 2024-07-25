@@ -1,5 +1,4 @@
 language: node_js
-node_js: 20
 dist: jammy
 cache:
   npm: false
@@ -17,24 +16,13 @@ env:
     # REGISTRY_TOKEN for yarn cozyPublish script
     # to generate yours : travis encrypt REGISTRY_TOKEN=<your_REGISTRY_TOKEN> -r cozy/coachCO2
     # N.B.: the --org option is needed only for public repositories
-stages:
-  - prebuild
-  - build
 jobs:
   include:
     - name: 'Lint'
-      stage: 'prebuild'
       script: yarn lint
-    - name: 'Unit tests node 16'
-      stage: 'prebuild'
-      node_js: 16
-      script: yarn test
-    - name: 'Unit tests node 20'
-      stage: 'prebuild'
-      node_js: 20
+    - name: 'Unit tests'
       script: yarn test
     - name: 'Build app'
-      stage: 'build'
       script:
         - yarn build
         - yarn bundlemon
