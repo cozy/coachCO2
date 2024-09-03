@@ -15,7 +15,6 @@ const config = [
           'cozy-client',
           'cozy-device-helper',
           'cozy-flags',
-          'cozy-harvest-lib',
           'cozy-intent',
           'cozy-keys-lib',
           'cozy-logger',
