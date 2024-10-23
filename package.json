@@ -48,7 +48,7 @@
     "@typescript-eslint/parser": "6.4.1",
     "argparse": "^2.0.1",
     "babel-preset-cozy-app": "^2.1.0",
-    "bundlemon": "1.3.1",
+    "bundlemon": "3.1.0",
     "cozy-ach": "^1.51.0",
     "cozy-jobs-cli": "1.19.2",
     "cozy-scripts": "^8.2.0",
