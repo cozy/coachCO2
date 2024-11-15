@@ -1,5 +1,5 @@
 import L from 'leaflet'
-import styles from 'src/components/Trip/tripmap.styl'
+import styles from 'src/components/Trip/tripmap.module.styl'
 
 export const MAP_PADDING = 16
 

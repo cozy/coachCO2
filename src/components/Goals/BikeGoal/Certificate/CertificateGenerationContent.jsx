@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import BikeGoalChart from 'src/components/Goals/BikeGoal/BikeGoalChart'
-import styles from 'src/components/Goals/BikeGoal/Certificate/CertificateGeneration.styl'
+import styles from 'src/components/Goals/BikeGoal/Certificate/CertificateGeneration.module.styl'
 import { PDFCertificate } from 'src/components/Goals/BikeGoal/Certificate/PDFCertificate/PDFCertificate'
 import { savePdfCertificate } from 'src/components/Goals/BikeGoal/Certificate/helpers'
 import {
