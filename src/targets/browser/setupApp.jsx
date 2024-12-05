@@ -38,7 +38,7 @@ const setupApp = memoize(() => {
   const container = document.querySelector('[role=application]')
   const root = createRoot(container)
   const { lang } = getValues(JSON.parse(container.dataset.cozy))
-  const polyglot = initTranslation(lang, lang => require(`locales/${lang}`))
+  const polyglot = initTranslation(lang, lang => require(`src/locales/${lang}`))
   const client = getClient()
   client.registerPlugin(flag.plugin)
   client.registerPlugin(RealtimePlugin)
