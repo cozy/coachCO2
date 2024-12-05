@@ -1,4 +1,18 @@
+# 0.24.0
+
 # 0.23.0
+
+### ✨ Features
+* feat: Add emoji for home location by @paultranvan in https://github.com/cozy/coachCO2/pull/443
+* feat: Upgrade cozy-ui and add realtime on io.cozy.settings by @JF-Cozy in https://github.com/cozy/coachCO2/pull/442
+* feat: Upgrade packages by @JF-Cozy in https://github.com/cozy/coachCO2/pull/447
+
+### 🔧 Tech
+
+* Remove useless old Alerter by @JF-Cozy in https://github.com/cozy/coachCO2/pull/444
+* Remove node 16 from tests and stages in CI by @zatteo in https://github.com/cozy/coachCO2/pull/445
+* chore: Add CI with Github Actions by @Merkur39 in https://github.com/cozy/coachCO2/pull/448
+* chore: Upgrade bundlemon to 3.1.0 by @Merkur39 in https://github.com/cozy/coachCO2/pull/449
 
 # 0.22.0
 
